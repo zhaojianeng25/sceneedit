@@ -397,6 +397,7 @@
 
             this.refrishFoldeUiPos();
         }
+    
 
         private lastPagePos: Vector2D;
         private lastMousePos: Vector2D;

@@ -18,6 +18,7 @@ var TextEditStart = /** @class */ (function () {
             mainpan3d.canvas.width = document.body.clientWidth;
             mainpan3d.canvas.height = document.body.clientHeight;
             Pan3d.Engine.resetSize(mainpan3d.canvas.width, mainpan3d.canvas.height); //设置canvas大小
+            layout.LayerManager.getInstance().resize();
         }
     };
     TextEditStart.step = function (timestamp) {
@@ -25,8 +26,9 @@ var TextEditStart = /** @class */ (function () {
         TextEditStart.upFrame();
     };
     TextEditStart.upFrame = function () {
+        Pan3d.TimeUtil.update();
         Pan3d.Scene_data.context3D.update();
-        Pan3d.Engine.update();
+        layout.LayerManager.getInstance().update();
     };
     return TextEditStart;
 }());

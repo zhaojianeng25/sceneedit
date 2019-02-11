@@ -11,13 +11,17 @@ class BaseUiStart extends Pan3d.GameStart {
         ModuleList.startup();//启动所有模块
   
         Pan3d.UIData.Scale = 1
- 
+
+        layout.LayerManager.getInstance().initData();
+
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
  
        Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
 
 
         Pan3d.UIData.resize = () => { this.resize() } //更尺寸变化
+
+ 
 
     }
     private resize(): void {

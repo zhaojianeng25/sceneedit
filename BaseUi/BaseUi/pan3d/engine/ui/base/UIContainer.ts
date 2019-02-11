@@ -17,6 +17,7 @@
         protected _middle: number = 0;
         protected _yType: number = 0;
 
+        public perent: any;
 
 
         protected _list: Array<UICompenent> = new Array;

@@ -221,7 +221,9 @@
         //网页模式的WEB请求
         private static isPostWeboffwx(webname: string, postStr: string, $bfun: Function = null) {
             var ajax: XMLHttpRequest = new XMLHttpRequest();
-            var url: string = FileModel.webseverurl + webname
+            var url: string = FileModel.webseverurl + webname;
+
+            // $bfun = null;
 
             let timestamp: string = String(Pan3d.TimeUtil.getTimer());
             let keystr: string = "ABC"

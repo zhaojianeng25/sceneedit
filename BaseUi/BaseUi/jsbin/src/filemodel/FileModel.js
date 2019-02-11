@@ -210,6 +210,7 @@ var filemodel;
             if ($bfun === void 0) { $bfun = null; }
             var ajax = new XMLHttpRequest();
             var url = FileModel.webseverurl + webname;
+            // $bfun = null;
             var timestamp = String(Pan3d.TimeUtil.getTimer());
             var keystr = "ABC";
             var self_sign = hex_md5(postStr + timestamp + keystr);

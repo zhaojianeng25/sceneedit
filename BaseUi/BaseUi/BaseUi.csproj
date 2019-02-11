@@ -27,6 +27,15 @@
   <ItemGroup>
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\BaseUiStart.ts" />
+    <TypeScriptCompile Include="src\layout\LayBaseTab.ts" />
+    <TypeScriptCompile Include="src\layout\LayerManager.ts" />
+    <TypeScriptCompile Include="src\layout\LayoutNode.ts" />
+    <TypeScriptCompile Include="src\layout\LayUICompenent.ts" />
+    <TypeScriptCompile Include="src\layout\LayUIManager.ts" />
+    <TypeScriptCompile Include="src\layout\Panel.ts" />
+    <TypeScriptCompile Include="src\layout\ResponseSprite.ts" />
+    <TypeScriptCompile Include="src\layout\Sprite.ts" />
+    <TypeScriptCompile Include="src\layout\TabPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\BaseFolderWindow.ts" />
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\FolderPanel.ts" />

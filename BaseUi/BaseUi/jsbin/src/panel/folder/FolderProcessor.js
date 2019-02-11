@@ -16,7 +16,7 @@ var folder;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var UIManager = Pan3d.UIManager;
+    var Panel = layout.Panel;
     var FileListPanel = filelist.FileListPanel;
     var BaseFolderWindow = basefolderwin.BaseFolderWindow;
     var OssFolderPanel = ossfolder.OssFolderPanel;
@@ -60,15 +60,15 @@ var folder;
                     if (!this._baseFolderWindow) {
                         this._baseFolderWindow = new BaseFolderWindow();
                     }
-                    UIManager.getInstance().addUIContainer(this._baseFolderWindow);
+                    this.addUIContainer(this._baseFolderWindow);
                     if (!this._folderPanel) {
                         this._folderPanel = new OssFolderPanel();
                     }
-                    UIManager.getInstance().addUIContainer(this._folderPanel);
+                    this.addUIContainer(this._folderPanel);
                     if (!this._fileListPanel) {
                         this._fileListPanel = new FileListPanel();
                     }
-                    UIManager.getInstance().addUIContainer(this._fileListPanel);
+                    this.addUIContainer(this._fileListPanel);
                 }
                 if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
                     var base = _folderEvent.data;
@@ -80,6 +80,23 @@ var folder;
                     this._fileListPanel.refrishPath(String(_folderEvent.data));
                 }
             }
+        };
+        FolderProcessor.prototype.addOtherPanel = function () {
+            layout.LayerManager.getInstance().addPanel(new Panel);
+        };
+        FolderProcessor.prototype.addUIContainer = function (value) {
+            if (!this.folderPanel) {
+                this.folderPanel = new Panel;
+                this.folderPanel.x = 0;
+                this.folderPanel.y = 0;
+                this.folderPanel.width = 450;
+                this.folderPanel.height = 250;
+                layout.LayerManager.getInstance().addPanel(this.folderPanel);
+                // this.addOtherPanel()
+            }
+            this.folderPanel.addUIContainer(value);
+            //   layout.LayerManager.getInstance().mainTab.addUIContainer(value);
+            //  UIManager.getInstance().addUIContainer(value);
         };
         FolderProcessor.prototype.listenModuleEvents = function () {
             return [
