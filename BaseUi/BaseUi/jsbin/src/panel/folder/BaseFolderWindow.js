@@ -25,7 +25,9 @@ var basefolderwin;
         __extends(BaseFolderWindow, _super);
         function BaseFolderWindow() {
             var _this = _super.call(this) || this;
-            _this.left = 300;
+            _this.pageRect = new Rectangle(0, 0, 600, 500);
+            _this.pageRect.x = _this.left;
+            _this.pageRect.y = _this.top;
             _this._bottomRender = new UIRenderComponent;
             _this.addRender(_this._bottomRender);
             _this._topRender = new UIRenderComponent;
@@ -46,9 +48,6 @@ var basefolderwin;
         };
         BaseFolderWindow.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.pageRect = new Rectangle(0, 0, 600, 500);
-            this.pageRect.x = this.left;
-            this.pageRect.y = this.top;
             this.folderMask = new UIMask();
             this.folderMask.level = 3;
             this.addMask(this.folderMask);
@@ -72,6 +71,9 @@ var basefolderwin;
             this.refrishSize();
         };
         BaseFolderWindow.prototype.refrishSize = function () {
+            if (!this.a_win_tittle) {
+                return;
+            }
             this.left = this.pageRect.x;
             this.top = this.pageRect.y;
             this.pageRect.width = Math.max(450, this.pageRect.width);

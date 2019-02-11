@@ -70,6 +70,9 @@ var folder;
                         this._fileListPanel = new FileListPanel();
                     }
                     this.addUIContainer(this._fileListPanel);
+                    if (this.fristRect) {
+                        this._baseFolderWindow.setRect(this.fristRect);
+                    }
                 }
                 if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
                     var base = _folderEvent.data;
@@ -82,6 +85,9 @@ var folder;
                 if (_folderEvent.type == FolderEvent.EDITSCENE_RESET_SIZE) {
                     if (this._baseFolderWindow) {
                         this._baseFolderWindow.setRect(_folderEvent.data);
+                    }
+                    else {
+                        this.fristRect = _folderEvent.data;
                     }
                 }
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {

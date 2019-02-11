@@ -26,7 +26,12 @@
         public static imgBaseDic: any
         public constructor( ) {
             super();
-            this.left = 300;
+      
+            this.pageRect = new Rectangle(0, 0, 600, 500)
+            this.pageRect.x = this.left;
+            this.pageRect.y = this.top;
+
+
             this._bottomRender = new UIRenderComponent;
             this.addRender(this._bottomRender);
  
@@ -59,9 +64,7 @@
       
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
-            this.pageRect = new Rectangle(0, 0, 600, 500)
-            this.pageRect.x = this.left;
-            this.pageRect.y = this.top;
+    
 
             this.folderMask = new UIMask();
 
@@ -110,6 +113,9 @@
         }
         private refrishSize(): void {
 
+            if (!this.a_win_tittle) {
+                return;
+            }
             this.left = this.pageRect.x;
             this.top = this.pageRect.y;
             this.pageRect.width = Math.max(450, this.pageRect.width)

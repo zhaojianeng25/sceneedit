@@ -4,6 +4,7 @@
     import Processor = Pan3d.Processor;
     import BaseProcessor = Pan3d.BaseProcessor;
     import Vector2D = Pan3d.Vector2D;
+    import Rectangle = Pan3d.Rectangle;
     import UIManager = Pan3d.UIManager;
     import UIData = Pan3d.UIData;
     import InteractiveEvent = Pan3d.InteractiveEvent;
@@ -65,6 +66,13 @@
                         this._fileListPanel = new FileListPanel();
                     }
                     this.addUIContainer(this._fileListPanel);
+
+
+                    if (this.fristRect) {
+                        this._baseFolderWindow.setRect(this.fristRect)
+                    }
+              
+                    
                 }
                 if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
                     var base: Pan3d.Rectangle = _folderEvent.data;
@@ -77,10 +85,10 @@
               
                 }
                 if (_folderEvent.type == FolderEvent.EDITSCENE_RESET_SIZE) {
-
-          
                     if (this._baseFolderWindow) {
                         this._baseFolderWindow.setRect(_folderEvent.data)
+                    } else {
+                        this.fristRect = _folderEvent.data
                     }
                 }
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {
@@ -89,6 +97,7 @@
                 }
             }
         }
+        private fristRect: Rectangle
         private folderPanel: layout.Panel;
         private addOtherPanel(): void {
             layout.LayerManager.getInstance().addPanel(new  Panel)
