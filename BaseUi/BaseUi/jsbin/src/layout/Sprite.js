@@ -19,16 +19,19 @@ var layout;
         function Sprite() {
             var _this = _super.call(this) || this;
             _this.rect = new Rectangle(0, 0, 250, 250);
-            _this.winBg = new layout.LayBaseTab();
-            _this.addUIContainer(_this.winBg);
-            _this.changeSize();
+            _this.children = [];
             return _this;
         }
+        Sprite.prototype.addChild = function (value) {
+            value.perent = this;
+            this.children.push(value);
+        };
         Sprite.prototype.update = function () {
-            for (var i = 0; i < this.winBg.renderList.length; i++) {
-                this.winBg.renderList[i].update();
-            }
             _super.prototype.update.call(this);
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].update();
+                console.log();
+            }
         };
         Sprite.prototype.resize = function () {
             _super.prototype.resize.call(this);
@@ -39,6 +42,7 @@ var layout;
             },
             set: function (value) {
                 this.rect.x = value;
+                this.changeSize();
             },
             enumerable: true,
             configurable: true
@@ -49,6 +53,7 @@ var layout;
             },
             set: function (value) {
                 this.rect.y = value;
+                this.changeSize();
             },
             enumerable: true,
             configurable: true
@@ -59,6 +64,7 @@ var layout;
             },
             set: function (value) {
                 this.rect.width = value;
+                this.changeSize();
             },
             enumerable: true,
             configurable: true
@@ -69,12 +75,21 @@ var layout;
             },
             set: function (value) {
                 this.rect.height = value;
+                this.changeSize();
             },
             enumerable: true,
             configurable: true
         });
+        Sprite.prototype.mouseEvetData = function (evt, point) {
+            for (var i = 0; i < this.children.length; i++) {
+                var temp = this.children[i].mouseEvetData(evt, point);
+                if (temp) {
+                    return temp;
+                }
+            }
+            return _super.prototype.mouseEvetData.call(this, evt, point);
+        };
         Sprite.prototype.changeSize = function () {
-            this.winBg.pageRect = this.rect;
         };
         return Sprite;
     }(layout.LayUIManager));

@@ -60,6 +60,9 @@
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
             this.pageRect = new Rectangle(0, 0, 600, 500)
+            this.pageRect.x = this.left;
+            this.pageRect.y = this.top;
+
             this.folderMask = new UIMask();
 
             this.folderMask.level = 3;
@@ -82,6 +85,9 @@
             this.a_scroll_bar = this.addChild(<UICompenent>this._topRender.getComponent("a_scroll_bar"));
             this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
+
+ 
+
             this.refrishSize()
             this.a_scroll_bar.y = this.folderMask.y;
 
@@ -97,8 +103,15 @@
 
         private a_right_bottom: UICompenent;
         private a_rigth_line: UICompenent;
+        public setRect(value: Rectangle): void {
+            this.pageRect = value
+            this.refrishSize()
+
+        }
         private refrishSize(): void {
 
+            this.left = this.pageRect.x;
+            this.top = this.pageRect.y;
             this.pageRect.width = Math.max(450, this.pageRect.width)
             this.pageRect.height = Math.max(100, this.pageRect.height)
 
@@ -135,8 +148,7 @@
             this.resize();
 
             var pageSizeEvet: folder.FolderEvent = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
-            this.pageRect.x = this.left;
-            this.pageRect.y = this.top;
+      
             pageSizeEvet.data = this.pageRect;
             Pan3d.ModuleEventManager.dispatchEvent(pageSizeEvet);
 

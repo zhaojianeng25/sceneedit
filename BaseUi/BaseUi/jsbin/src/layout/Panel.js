@@ -15,9 +15,21 @@ var layout;
 (function (layout) {
     var Panel = /** @class */ (function (_super) {
         __extends(Panel, _super);
-        function Panel() {
-            return _super.call(this) || this;
+        function Panel(has) {
+            if (has === void 0) { has = true; }
+            var _this = _super.call(this) || this;
+            if (has) {
+                _this.winBg = new layout.LayBaseTab();
+                _this.addUIContainer(_this.winBg);
+                _this.changeSize();
+            }
+            return _this;
         }
+        Panel.prototype.changeSize = function () {
+            if (this.winBg) {
+                this.winBg.pageRect = this.rect;
+            }
+        };
         return Panel;
     }(layout.Sprite));
     layout.Panel = Panel;

@@ -17,16 +17,6 @@ var layout;
         };
         LayerManager.prototype.initData = function () {
             this.children = [];
-            // this.addLeftPanel(new Rectangle(500, 200, 200, 200))
-            // this.addLeftPanel(new Rectangle(0, 0, 200, 200))
-        };
-        LayerManager.prototype.addLeftPanel = function (rect) {
-            var temp = new layout.Panel;
-            temp.x = rect.x;
-            temp.y = rect.y;
-            temp.width = rect.width;
-            temp.height = rect.height;
-            this.children.push(temp);
         };
         LayerManager.prototype.addPanel = function ($panel, $isProp) {
             if ($isProp === void 0) { $isProp = false; }
@@ -44,7 +34,7 @@ var layout;
             }
         };
         LayerManager.prototype.mouseEvetData = function (evt, point) {
-            for (var i = 0; i < this.children.length; i++) {
+            for (var i = this.children.length - 1; i >= 0; i--) {
                 var temp = this.children[i].mouseEvetData(evt, point);
                 if (temp) {
                     return true;

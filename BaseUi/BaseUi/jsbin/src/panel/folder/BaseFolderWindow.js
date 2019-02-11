@@ -47,6 +47,8 @@ var basefolderwin;
         BaseFolderWindow.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
             this.pageRect = new Rectangle(0, 0, 600, 500);
+            this.pageRect.x = this.left;
+            this.pageRect.y = this.top;
             this.folderMask = new UIMask();
             this.folderMask.level = 3;
             this.addMask(this.folderMask);
@@ -65,7 +67,13 @@ var basefolderwin;
             this.a_scroll_bar.y = this.folderMask.y;
             this.setUiListVisibleByItem([this.a_scroll_bar], false);
         };
+        BaseFolderWindow.prototype.setRect = function (value) {
+            this.pageRect = value;
+            this.refrishSize();
+        };
         BaseFolderWindow.prototype.refrishSize = function () {
+            this.left = this.pageRect.x;
+            this.top = this.pageRect.y;
             this.pageRect.width = Math.max(450, this.pageRect.width);
             this.pageRect.height = Math.max(100, this.pageRect.height);
             this.a_win_tittle.x = 0;
@@ -90,8 +98,6 @@ var basefolderwin;
             this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
             this.resize();
             var pageSizeEvet = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
-            this.pageRect.x = this.left;
-            this.pageRect.y = this.top;
             pageSizeEvet.data = this.pageRect;
             Pan3d.ModuleEventManager.dispatchEvent(pageSizeEvet);
         };

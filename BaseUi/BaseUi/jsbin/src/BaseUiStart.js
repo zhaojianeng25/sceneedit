@@ -24,6 +24,7 @@ var BaseUiStart = /** @class */ (function (_super) {
         Pan3d.UIData.Scale = 1;
         layout.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
+        Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL));
         Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
         Pan3d.UIData.resize = function () { _this.resize(); }; //更尺寸变化
     };

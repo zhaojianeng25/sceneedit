@@ -21,6 +21,8 @@
         public static SHOW_FOLDER_PANEL: string = "SHOW_FOLDER_PANEL";
 
         public static FILE_LIST_PANEL_CHANG: string = "FILE_LIST_PANEL_CHANG";
+
+        public static EDITSCENE_RESET_SIZE: string = "EDITSCENE_RESET_SIZE";
         public static LIST_DIS_ALL_FILE: string = "LIST_DIS_ALL_FILE";
 
         public data: any
@@ -67,9 +69,19 @@
                 if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
                     var base: Pan3d.Rectangle = _folderEvent.data;
 
-                    this._folderPanel.panelEventChanger(new Pan3d.Rectangle(base.x, base.y, base.width, base.height));
-                    var leftw: number = this._folderPanel.getPageRect().width;
-                    this._fileListPanel.panelEventChanger(new Pan3d.Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
+                    if (this._folderPanel) {
+                        this._folderPanel.panelEventChanger(new Pan3d.Rectangle(base.x, base.y, base.width, base.height));
+                        var leftw: number = this._folderPanel.getPageRect().width;
+                        this._fileListPanel.panelEventChanger(new Pan3d.Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
+                    }
+              
+                }
+                if (_folderEvent.type == FolderEvent.EDITSCENE_RESET_SIZE) {
+
+          
+                    if (this._baseFolderWindow) {
+                        this._baseFolderWindow.setRect(_folderEvent.data)
+                    }
                 }
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {
             
@@ -83,7 +95,7 @@
         }
         private addUIContainer(value: UIConatiner): void {
             if (!this.folderPanel) {
-                this.folderPanel = new Panel
+                this.folderPanel = new Panel(false)
                 this.folderPanel.x = 0
                 this.folderPanel.y = 0
                 this.folderPanel.width = 450
@@ -104,6 +116,7 @@
             return [
                 new FolderEvent(FolderEvent.SHOW_FOLDER_PANEL),
                 new FolderEvent(FolderEvent.FILE_LIST_PANEL_CHANG),
+                new FolderEvent(FolderEvent.EDITSCENE_RESET_SIZE),
                 new FolderEvent(FolderEvent.LIST_DIS_ALL_FILE),
 
             ];

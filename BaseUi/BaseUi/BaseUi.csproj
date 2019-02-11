@@ -36,6 +36,10 @@
     <TypeScriptCompile Include="src\layout\ResponseSprite.ts" />
     <TypeScriptCompile Include="src\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\layout\TabPanel.ts" />
+    <TypeScriptCompile Include="src\panel\editscene\EditSceneLine.ts" />
+    <TypeScriptCompile Include="src\panel\editscene\EditScenePanel.ts" />
+    <TypeScriptCompile Include="src\panel\editscene\EditSceneProcessor.ts" />
+    <TypeScriptCompile Include="src\panel\editscene\EditSceneLineVertical.ts" />
     <TypeScriptCompile Include="src\panel\folder\BaseFolderWindow.ts" />
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\FolderPanel.ts" />

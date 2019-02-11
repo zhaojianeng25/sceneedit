@@ -33,23 +33,8 @@
 
         public initData(): void {
             this.children = [];
-  
-           // this.addLeftPanel(new Rectangle(500, 200, 200, 200))
-           // this.addLeftPanel(new Rectangle(0, 0, 200, 200))
-
         }
-        private addLeftPanel(rect: Rectangle): void {
-
-            var temp: Panel = new Panel;
-            temp.x = rect.x;
-            temp.y = rect.y;
-            temp.width = rect.width;
-            temp.height = rect.height;
-            this.children.push(temp);
-        }
- 
         public addPanel($panel: Panel, $isProp: Boolean = false): void {
-  
             this.children.push($panel);
         }
      
@@ -66,7 +51,7 @@
         }
         public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
         {
-            for (var i: number = 0; i < this.children.length; i++) {
+            for (var i: number = this.children.length-1; i >=0; i--) {
                 var temp: boolean = this.children[i].mouseEvetData(evt, point);
                 if (temp) {
                     return true;

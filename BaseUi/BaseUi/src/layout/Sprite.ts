@@ -1,26 +1,37 @@
 ﻿module layout {
     import Rectangle = Pan3d.Rectangle
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import Vector2D = Pan3d.Vector2D
     export class Sprite extends LayUIManager {
-        private winBg: LayBaseTab;
-        private rect: Rectangle
+
+        public rect: Rectangle;
+        public perent: Sprite;
+        private children: Array<Sprite>;
+ 
         public constructor() {
             super();
-            this.rect = new Rectangle(0,0, 250, 250)
-            this.winBg = new LayBaseTab();
-            this.addUIContainer(this.winBg)
-            this.changeSize()
+            this.rect = new Rectangle(0, 0, 250, 250)
+            this.children=[]
         }
+        public addChild(value: Sprite): void {
+            value.perent = this;
+            this.children.push(value);
+        }
+      
         public update(): void {
-            for (var i: number = 0; i < this.winBg.renderList.length; i++) {
-                   this.winBg.renderList[i].update();
-            }
+          
             super.update();
+            for (var i: number = 0; i < this.children.length; i++) {
+                this.children[i].update();
+                console.log();
+            }
         }
         public resize(): void {
             super.resize()
         }
         public set x(value: number) {
             this.rect.x = value;
+            this.changeSize()
         }
         public get x() {
             return this.rect.x;
@@ -29,6 +40,7 @@
         public set y(value: number) {
      
             this.rect.y = value;
+            this.changeSize()
            
         }
         public get y() {
@@ -37,22 +49,35 @@
         public set width(value: number) {
 
             this.rect.width = value;
-  
+            this.changeSize()
         }
         public get width() {
             return this.rect.width
         }
         public set height(value: number) {
             this.rect.height = value;
+            this.changeSize()
   
         }
         public get height() {
             return this.rect.height;
         }
-        public changeSize(): void {
-            this.winBg.pageRect = this.rect
-        }
 
+        public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
+        {
+            for (var i: number = 0; i < this.children.length; i++) {
+                var temp: boolean = this.children[i].mouseEvetData(evt, point);
+                if (temp) {
+                    return temp;
+                }
+            }
+       
+            return super.mouseEvetData(evt, point)
+        }
+        public changeSize(): void {
+        
+
+        }
     }
 }
 
