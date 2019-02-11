@@ -2,12 +2,8 @@
     public static initCanvas($caves: HTMLCanvasElement): void {
         mainpan3d.canvas = $caves;
         Pan3d.Scene_data.fileRoot = "res/";
-
-
-
-
+ 
         Pan3d.Engine.init($caves);
-
 
         window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
         if (requestAnimationFrame) {
@@ -17,7 +13,7 @@
         TextEditStart.resetSize()
 
 
-        let game = new Arpg2dGameStart();
+        let game = new BaseUiStart();
         game.init();
 
     }

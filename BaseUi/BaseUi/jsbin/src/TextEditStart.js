@@ -10,7 +10,7 @@ var TextEditStart = /** @class */ (function () {
             requestAnimationFrame(TextEditStart.step);
         }
         TextEditStart.resetSize();
-        var game = new Arpg2dGameStart();
+        var game = new BaseUiStart();
         game.init();
     };
     TextEditStart.resetSize = function () {
