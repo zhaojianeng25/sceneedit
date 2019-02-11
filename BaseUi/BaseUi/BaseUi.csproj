@@ -276,7 +276,7 @@
     <TypeScriptCompile Include="src\filemodel\Md5.ts" />
     <TypeScriptCompile Include="src\ModuleList.ts" />
     <TypeScriptCompile Include="src\TextEditStart.ts" />
-    <TypeScriptCompile Include="src\UIPanel.ts" />
+    <TypeScriptCompile Include="src\win\UIPanel.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">
