@@ -110,10 +110,12 @@
             this.a_bg.width = this._pageRect.width
             this.a_bg.height = this._pageRect.height
 
+
+            this._topRender.applyObjData()
      
 
             this.resize();
-
+          
 
         }
 
