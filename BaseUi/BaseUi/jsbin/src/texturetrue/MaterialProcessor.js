@@ -23,6 +23,7 @@ var materialui;
     var MouseType = Pan3d.MouseType;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
+    var Panel = layout.Panel;
     var MaterialEvent = /** @class */ (function (_super) {
         __extends(MaterialEvent, _super);
         function MaterialEvent() {
@@ -184,7 +185,9 @@ var materialui;
         MaterialProcessor.prototype.loadConfigCom = function () {
             var _this = this;
             this.lineContainer = new materialui.MaterialLineContainer();
-            UIManager.getInstance().addUIContainer(this.lineContainer);
+            var $linePanel = new Panel(false);
+            layout.LayerManager.getInstance().addPanel($linePanel);
+            $linePanel.addUIContainer(this.lineContainer);
             this.readMaterialTree();
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
             document.addEventListener(MouseType.MouseDown, function ($evt) { _this.onMouse($evt); });

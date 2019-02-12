@@ -171,8 +171,7 @@ module materialui {
 
                 $m.appendScale(2 / Scene_data.stageWidth * MtlUiData.Scale, -2 / Scene_data.stageHeight * MtlUiData.Scale, 1);
       
-
-       
+ 
 
                 Scene_data.context3D.setVc4fv(this.shader, "posMove", [BaseUiStart.stagePos.x, BaseUiStart.stagePos.y, 0, 0]);
    
@@ -220,6 +219,8 @@ module materialui {
             this.addRender(this._currentLine.lineRender);
     
             this._currentLine.setFromNode($item);
+
+         
   
             Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.onMouseUp, this);
         }

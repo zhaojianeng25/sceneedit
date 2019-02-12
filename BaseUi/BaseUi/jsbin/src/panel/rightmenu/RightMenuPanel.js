@@ -18,9 +18,30 @@ var rightmenu;
     var ColorType = Pan3d.ColorType;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
     var UIPanel = win.UIPanel;
+    var MathAddNodeUI = materialui.MathAddNodeUI;
+    var MathSubNodeUI = materialui.MathSubNodeUI;
+    var MathMulNodeUI = materialui.MathMulNodeUI;
+    var MathDivNodeUI = materialui.MathDivNodeUI;
+    var MathSinNodeUI = materialui.MathSinNodeUI;
+    var MathCosNodeUI = materialui.MathCosNodeUI;
+    var ConstVec3NodeUI = materialui.ConstVec3NodeUI;
+    var ConstVec2NodeUI = materialui.ConstVec2NodeUI;
+    var ConstFloatNodeUI = materialui.ConstFloatNodeUI;
+    var TimeNodeUI = materialui.TimeNodeUI;
+    var NormalNodeUI = materialui.NormalNodeUI;
+    var TextureSampleNodeUI = materialui.TextureSampleNodeUI;
+    var TexCoordNodeUI = materialui.TexCoordNodeUI;
+    var PannerNodeUI = materialui.PannerNodeUI;
+    var TextureCubeNodeUI = materialui.TextureCubeNodeUI;
+    var FresnelNodeUI = materialui.FresnelNodeUI;
+    var Texture3DNodeUI = materialui.Texture3DNodeUI;
+    var MathFunNodeUI = materialui.MathFunNodeUI;
+    var MtlUiData = materialui.MtlUiData;
+    var MaterialCtrl = materialui.MaterialCtrl;
     var MenuListData = /** @class */ (function () {
         function MenuListData($label, $key) {
             if ($key === void 0) { $key = null; }
@@ -222,111 +243,101 @@ var rightmenu;
             this.lastShowsubMenu = $subMenu;
         };
         RightMenuPanel.prototype.butClik = function (evt) {
-            /*
-            var $ui: FrameCompenent = <FrameCompenent>evt.target;
-            var seleceVo: RightMenuVo;
-            for (var j: number = 0; j < this.subMenuUiArr.length; j++) {
+            var $ui = evt.target;
+            var seleceVo;
+            for (var j = 0; j < this.subMenuUiArr.length; j++) {
                 if (this.subMenuUiArr[j].txt == $ui) {
-                    seleceVo = this.subMenuUiArr[j]
+                    seleceVo = this.subMenuUiArr[j];
                 }
             }
-            for (var i: number = 0; i < this.mainMenuUiArr.length; i++) {
+            for (var i = 0; i < this.mainMenuUiArr.length; i++) {
                 if (this.mainMenuUiArr[i].txt == $ui) {
-                    seleceVo = this.mainMenuUiArr[i]
+                    seleceVo = this.mainMenuUiArr[i];
                 }
             }
             if (seleceVo) {
                 switch (seleceVo.data.key) {
                     case "1":
-                        break
+                        break;
                     case "2":
-                        break
+                        break;
                     case "3":
-                        break
+                        break;
                     case "4":
-                        break
+                        break;
                     case "11":
-                        this.onTempNode(new MathAddNodeUI(), evt)
+                        this.onTempNode(new MathAddNodeUI(), evt);
                         break;
                     case "12":
-                        this.onTempNode(new MathSubNodeUI(), evt)
+                        this.onTempNode(new MathSubNodeUI(), evt);
                         break;
                     case "13":
-                        this.onTempNode(new MathMulNodeUI(), evt)
+                        this.onTempNode(new MathMulNodeUI(), evt);
                         break;
                     case "14":
-                        this.onTempNode(new MathDivNodeUI(), evt)
+                        this.onTempNode(new MathDivNodeUI(), evt);
                         break;
                     case "15":
-                        this.onTempNode(new MathSinNodeUI(), evt)
+                        this.onTempNode(new MathSinNodeUI(), evt);
                         break;
                     case "16":
-                        this.onTempNode(new MathCosNodeUI(), evt)
+                        this.onTempNode(new MathCosNodeUI(), evt);
                         break;
                     case "22":
-                        this.onTempNode(new ConstVec3NodeUI(), evt)
+                        this.onTempNode(new ConstVec3NodeUI(), evt);
                         break;
                     case "23":
-                        this.onTempNode(new ConstVec2NodeUI(), evt)
+                        this.onTempNode(new ConstVec2NodeUI(), evt);
                         break;
                     case "24":
-                        this.onTempNode(new ConstFloatNodeUI(), evt)
+                        this.onTempNode(new ConstFloatNodeUI(), evt);
                         break;
                     case "25":
-                        this.onTempNode(new TimeNodeUI(), evt)
+                        this.onTempNode(new TimeNodeUI(), evt);
                         break;
                     case "26":
-                        this.onTempNode(new NormalNodeUI(), evt)
+                        this.onTempNode(new NormalNodeUI(), evt);
                         break;
                     case "31":
-                        var textui: TextureSampleNodeUI = new TextureSampleNodeUI()
-                        this.onTempNode(textui, evt)
+                        var textui = new TextureSampleNodeUI();
+                        this.onTempNode(textui, evt);
                         textui.creatBase("assets/white.jpg");
                         break;
-            
-                 
                     case "32":
-                        this.onTempNode(new TexCoordNodeUI(), evt)
+                        this.onTempNode(new TexCoordNodeUI(), evt);
                         break;
                     case "33":
-                        this.onTempNode(new PannerNodeUI(), evt)
+                        this.onTempNode(new PannerNodeUI(), evt);
                         break;
                     case "34":
-                        var textCubeui: TextureCubeNodeUI = new TextureCubeNodeUI()
-                        this.onTempNode(textCubeui, evt)
+                        var textCubeui = new TextureCubeNodeUI();
+                        this.onTempNode(textCubeui, evt);
                         textCubeui.creatBase("assets/white.jpg");
                         break;
                     case "35":
-                        var text3dui: Texture3DNodeUI = new Texture3DNodeUI()
-                        this.onTempNode(text3dui, evt)
+                        var text3dui = new Texture3DNodeUI();
+                        this.onTempNode(text3dui, evt);
                         text3dui.creatBase("assets/white.jpg");
                         break;
                     case "41":
-                        this.onTempNode(new FresnelNodeUI(), evt)
+                        this.onTempNode(new FresnelNodeUI(), evt);
                         break;
                     case "42":
                         //this.selectInputDae(evt)
-                        filemodel.InputMaterialModel.getInstance().inputFile(evt)
+                        // filemodel.InputMaterialModel.getInstance().inputFile(evt)
                         break;
                     case "43":
-                        this.onTempNode(new MathFunNodeUI(), evt)
+                        this.onTempNode(new MathFunNodeUI(), evt);
                         break;
                     case "44":
-
-  
-
                         Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
                         break;
                     default:
                         break;
                 }
-
-                console.log(seleceVo.data.key)
-
-                ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+                console.log(seleceVo.data.key);
+                ModuleEventManager.dispatchEvent(new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.HIDE_RIGHT_MENU));
             }
-
-            */
         };
         RightMenuPanel.prototype.selectInputDae = function (evt) {
             var _this = this;
@@ -368,13 +379,11 @@ var rightmenu;
 
             */
         };
-        /*
-        private onTempNode($ui: BaseMaterialNodeUI, evt: InteractiveEvent): void {
+        RightMenuPanel.prototype.onTempNode = function ($ui, evt) {
             $ui.left = evt.x / MtlUiData.Scale - 200;
             $ui.top = evt.y / MtlUiData.Scale - 30;
-            MaterialCtrl.getInstance().addNodeUI($ui)
-        }
-        */
+            MaterialCtrl.getInstance().addNodeUI($ui);
+        };
         RightMenuPanel.prototype.drawFrontToFrame = function ($ui, $str, $align) {
             if ($align === void 0) { $align = TextAlign.CENTER; }
             var $toRect = $ui.getSkinCtxRect();

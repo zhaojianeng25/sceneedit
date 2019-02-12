@@ -14,6 +14,8 @@
     import UIConatiner = Pan3d.UIConatiner;
     import Rectangle = Pan3d.Rectangle
     import UIAtlas = Pan3d.UIAtlas;
+
+    import Panel = layout.Panel
     
     export class MaterialEvent extends BaseEvent {
         public static SHOW_MATERIA_PANEL: string = "INIT_MATERIA_PANEL"; //
@@ -199,7 +201,12 @@
         private loadConfigCom(): void {
 
             this.lineContainer = new MaterialLineContainer()
-            UIManager.getInstance().addUIContainer(this.lineContainer);
+ 
+
+            var $linePanel: Panel = new Panel(false)
+            layout.LayerManager.getInstance().addPanel($linePanel)
+            $linePanel.addUIContainer(this.lineContainer);
+
 
             this.readMaterialTree()
 

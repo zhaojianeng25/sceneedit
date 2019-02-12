@@ -65,6 +65,7 @@
         private onMove($e: InteractiveEvent): void {
             this.mousePos = $e
             this.draw();
+     
         }
         public setEndNode($node: ItemMaterialUI): void {
             if ($node.inOut) {
@@ -75,6 +76,7 @@
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.onMove, this);
             this.draw();
             this.setNodeLine();
+     
         }
         public setNodeLine(): void {
             if (this.endNode.inLine) {

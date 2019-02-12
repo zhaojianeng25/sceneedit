@@ -1,6 +1,7 @@
 ﻿module materialui {
     import UIManager = Pan3d.UIManager;
-
+    import UIConatiner = Pan3d.UIConatiner
+    import Panel = layout.Panel
     export class MaterialCtrl {
         private static _instance: MaterialCtrl;
         public static getInstance(): MaterialCtrl {
@@ -32,7 +33,16 @@
             }
 			this.nodeList.push(node);
             this.uiList.push(ui);
-            UIManager.getInstance().addUIContainer(ui);
+            this.addUIContainer(ui)
+        
+        }
+        private nodeUiPanel: Panel
+        private addUIContainer(value: UIConatiner): void {
+            if (!this.nodeUiPanel) {
+                this.nodeUiPanel = new Panel(false)
+                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel)
+            }
+            this.nodeUiPanel.addUIContainer(value)
         }
         public removeUI(ui: BaseMaterialNodeUI): void {
             for (var i: number=0; i < this.uiList.length; i++) {

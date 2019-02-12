@@ -18,6 +18,7 @@ var ModuleList = /** @class */ (function () {
     ModuleList.getModuleList = function () {
         //所有的需要注册的模块  都写在这里
         var $arr = [
+            new materialui.MaterialModule(),
             new folder.FolderModule(),
             new rightmenu.RightMenuModule(),
             new editscene.EditSceneModule(),

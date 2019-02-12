@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var win;
 (function (win) {
+    var UIConatiner = Pan3d.UIConatiner;
     var UIPanelEvent = /** @class */ (function (_super) {
         __extends(UIPanelEvent, _super);
         function UIPanelEvent() {
@@ -43,8 +44,32 @@ var win;
             }
             Pan3d.TimeUtil.addTimeOut(20000000, this._disposeEventFun);
         };
+        UIPanel.prototype.addRender = function ($uiRender) {
+            var index = this.renderList.indexOf($uiRender);
+            if (index != -1) {
+                return;
+            }
+            $uiRender.container = this;
+            $uiRender.sortnum = this.layer;
+            this.renderList.push($uiRender);
+            if (this.hasStage) {
+                this.perent.addUI($uiRender);
+            }
+        };
+        UIPanel.prototype.removeRender = function ($uiRender) {
+            var index = this.renderList.indexOf($uiRender);
+            if (index != -1) {
+                this.renderList.splice(index, 1);
+            }
+            else {
+                return;
+            }
+            if (this.hasStage) {
+                this.perent.removeUI($uiRender);
+            }
+        };
         return UIPanel;
-    }(Pan3d.UIConatiner));
+    }(UIConatiner));
     win.UIPanel = UIPanel;
 })(win || (win = {}));
 //# sourceMappingURL=UIPanel.js.map

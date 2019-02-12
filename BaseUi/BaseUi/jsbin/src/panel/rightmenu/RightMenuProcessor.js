@@ -127,7 +127,7 @@ var rightmenu;
             }
         };
         RightMenuProcessor.prototype.onMouseDown = function ($evt) {
-            ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+            //  ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
         };
         RightMenuProcessor.prototype.listenModuleEvents = function () {
             return [

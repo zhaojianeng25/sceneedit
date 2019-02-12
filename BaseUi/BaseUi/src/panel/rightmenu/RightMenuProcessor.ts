@@ -78,6 +78,7 @@
             ComboBoxMenuPanel.baseUIAtlas.setInfo("ui/rightmenu/rightmenu.txt", "ui/rightmenu/rightmenu.png", () => {
  
             });
+    
 
         }
         private _comboBoxMenuPanel: ComboBoxMenuPanel
@@ -125,7 +126,7 @@
 
         }
         public onMouseDown($evt: InteractiveEvent): void {
-            ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+          //  ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
         
         }
         protected listenModuleEvents(): Array<BaseEvent> {

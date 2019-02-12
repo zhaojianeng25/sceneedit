@@ -11,6 +11,28 @@
     import LabelTextFont = Pan3d.LabelTextFont
     import UIPanel = win.UIPanel
 
+    import MathAddNodeUI = materialui.MathAddNodeUI
+    import MathSubNodeUI = materialui.MathSubNodeUI
+    import MathMulNodeUI = materialui.MathMulNodeUI
+    import MathDivNodeUI = materialui.MathDivNodeUI
+    import MathSinNodeUI = materialui.MathSinNodeUI
+    import MathCosNodeUI = materialui.MathCosNodeUI
+    import ConstVec3NodeUI = materialui.ConstVec3NodeUI
+    import ConstVec2NodeUI = materialui.ConstVec2NodeUI
+    import ConstFloatNodeUI = materialui.ConstFloatNodeUI
+    import TimeNodeUI = materialui.TimeNodeUI
+    import NormalNodeUI = materialui.NormalNodeUI
+    import TextureSampleNodeUI = materialui.TextureSampleNodeUI
+    import TexCoordNodeUI = materialui.TexCoordNodeUI
+    import PannerNodeUI = materialui.PannerNodeUI
+    import TextureCubeNodeUI = materialui.TextureCubeNodeUI
+    import FresnelNodeUI = materialui.FresnelNodeUI
+    import Texture3DNodeUI = materialui.Texture3DNodeUI
+    import BaseMaterialNodeUI = materialui.BaseMaterialNodeUI
+    import MathFunNodeUI = materialui.MathFunNodeUI
+    import MtlUiData = materialui.MtlUiData
+    import MaterialCtrl = materialui.MaterialCtrl
+    
     export class MenuListData {
         public label: string
         public key: string;
@@ -259,7 +281,7 @@
         }
 
         protected butClik(evt: InteractiveEvent): void {
-            /*
+      
             var $ui: FrameCompenent = <FrameCompenent>evt.target;
             var seleceVo: RightMenuVo;
             for (var j: number = 0; j < this.subMenuUiArr.length; j++) {
@@ -272,6 +294,7 @@
                     seleceVo = this.mainMenuUiArr[i]
                 }
             }
+ 
             if (seleceVo) {
                 switch (seleceVo.data.key) {
                     case "1":
@@ -343,7 +366,7 @@
                         break;
                     case "42":
                         //this.selectInputDae(evt)
-                        filemodel.InputMaterialModel.getInstance().inputFile(evt)
+                       // filemodel.InputMaterialModel.getInstance().inputFile(evt)
                         break;
                     case "43":
                         this.onTempNode(new MathFunNodeUI(), evt)
@@ -363,7 +386,7 @@
                 ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
             }
 
-            */
+          
 
         }
         private _inputHtmlSprite: HTMLInputElement
@@ -405,13 +428,13 @@
 
             */
         }
-        /*
+        
         private onTempNode($ui: BaseMaterialNodeUI, evt: InteractiveEvent): void {
             $ui.left = evt.x / MtlUiData.Scale - 200;
             $ui.top = evt.y / MtlUiData.Scale - 30;
             MaterialCtrl.getInstance().addNodeUI($ui)
         }
-        */
+      
 
         private drawFrontToFrame($ui: FrameCompenent, $str: string, $align: string = TextAlign.CENTER): void {
             var $toRect: Rectangle = $ui.getSkinCtxRect()

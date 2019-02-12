@@ -1,6 +1,6 @@
 var materialui;
 (function (materialui) {
-    var UIManager = Pan3d.UIManager;
+    var Panel = layout.Panel;
     var MaterialCtrl = /** @class */ (function () {
         function MaterialCtrl() {
             this.initData();
@@ -28,7 +28,14 @@ var materialui;
             }
             this.nodeList.push(node);
             this.uiList.push(ui);
-            UIManager.getInstance().addUIContainer(ui);
+            this.addUIContainer(ui);
+        };
+        MaterialCtrl.prototype.addUIContainer = function (value) {
+            if (!this.nodeUiPanel) {
+                this.nodeUiPanel = new Panel(false);
+                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel);
+            }
+            this.nodeUiPanel.addUIContainer(value);
         };
         MaterialCtrl.prototype.removeUI = function (ui) {
             for (var i = 0; i < this.uiList.length; i++) {
