@@ -47,8 +47,9 @@
         }
     
         private addUIContainer(value: UIConatiner): void {
-          
             this.nodeUiPanel.addUIContainer(value)
+
+ 
         }
         public removeUI(ui: BaseMaterialNodeUI): void {
             for (var i: number=0; i < this.uiList.length; i++) {

@@ -368,7 +368,6 @@
                 if ($uiConatiner instanceof BaseMaterialNodeUI) {
                     $uiConatiner.left += $txy.x;
                     $uiConatiner.top += $txy.y;
-
                     $uiConatiner.uiScale = MtlUiData.Scale;
                 }
             

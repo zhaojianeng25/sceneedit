@@ -430,11 +430,13 @@
         }
         
         private onTempNode($ui: BaseMaterialNodeUI, evt: InteractiveEvent): void {
-            $ui.left = evt.x / MtlUiData.Scale - 200;
+            $ui.left = evt.x / MtlUiData.Scale - 150;
             $ui.top = evt.y / MtlUiData.Scale - 30;
+            $ui.uiScale = MtlUiData.Scale;
             MaterialCtrl.getInstance().addNodeUI($ui)
+
+            layout.LayerManager.getInstance().resize()
         }
-      
 
         private drawFrontToFrame($ui: FrameCompenent, $str: string, $align: string = TextAlign.CENTER): void {
             var $toRect: Rectangle = $ui.getSkinCtxRect()
