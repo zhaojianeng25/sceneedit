@@ -29,6 +29,7 @@
     <TypeScriptCompile Include="src\BaseUiStart.ts" />
     <TypeScriptCompile Include="src\layout\LayBaseTab.ts" />
     <TypeScriptCompile Include="src\layout\LayerManager.ts" />
+    <TypeScriptCompile Include="src\layout\LayoutbaseBg.ts" />
     <TypeScriptCompile Include="src\layout\LayoutNode.ts" />
     <TypeScriptCompile Include="src\layout\LayUICompenent.ts" />
     <TypeScriptCompile Include="src\layout\LayUIManager.ts" />

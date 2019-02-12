@@ -96,8 +96,14 @@
 
             this.setUiListVisibleByItem([this.a_scroll_bar], false)
 
-   
 
+           
+
+        }
+        public removeMoveEvent(): void {
+            this.a_win_tittle.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
         }
         private a_scroll_bar: UICompenent
         private a_bottom_line: UICompenent

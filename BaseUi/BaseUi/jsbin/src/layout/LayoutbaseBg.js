@@ -19,9 +19,9 @@ var layout;
     var UIConatiner = Pan3d.UIConatiner;
     var UIAtlas = Pan3d.UIAtlas;
     var Scene_data = Pan3d.Scene_data;
-    var LayBaseTab = /** @class */ (function (_super) {
-        __extends(LayBaseTab, _super);
-        function LayBaseTab() {
+    var LayoutbaseBg = /** @class */ (function (_super) {
+        __extends(LayoutbaseBg, _super);
+        function LayoutbaseBg() {
             var _this = _super.call(this) || this;
             _this.left = 0;
             _this._pageRect = new Rectangle(0, 0, 300, 300);
@@ -33,31 +33,27 @@ var layout;
             _this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", function () { _this.loadConfigCom(); });
             return _this;
         }
-        LayBaseTab.prototype.mouseDown = function (evt) {
+        LayoutbaseBg.prototype.mouseDown = function (evt) {
             this.mouseIsDown = true;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
-        LayBaseTab.prototype.stageMouseMove = function (evt) {
+        LayoutbaseBg.prototype.stageMouseMove = function (evt) {
             this.mouseIsDown = false;
         };
-        LayBaseTab.prototype.mouseUp = function (evt) {
+        LayoutbaseBg.prototype.mouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
-        LayBaseTab.prototype.loadConfigCom = function () {
+        LayoutbaseBg.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
             this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender);
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_left_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
-            this.a_bottom_line = this.addChild(this._topRender.getComponent("a_bottom_line"));
-            this.a_right_bottom = this.addChild(this._topRender.getComponent("a_right_bottom"));
             this.loadFinish = true;
             this.refrishSize();
         };
-        LayBaseTab.prototype.butClik = function (evt) {
+        LayoutbaseBg.prototype.butClik = function (evt) {
             console.log(evt.target);
         };
-        Object.defineProperty(LayBaseTab.prototype, "pageRect", {
+        Object.defineProperty(LayoutbaseBg.prototype, "pageRect", {
             get: function () {
                 return this._pageRect;
             },
@@ -70,7 +66,7 @@ var layout;
             enumerable: true,
             configurable: true
         });
-        LayBaseTab.prototype.refrishSize = function () {
+        LayoutbaseBg.prototype.refrishSize = function () {
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
             this._pageRect.width = Math.max(100, this._pageRect.width);
@@ -82,21 +78,10 @@ var layout;
             this.a_bg.y = 0;
             this.a_bg.width = this._pageRect.width;
             this.a_bg.height = this._pageRect.height;
-            this.a_left_line.x = 0;
-            this.a_left_line.y = this.a_win_tittle.height;
-            this.a_left_line.height = this._pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-            this.a_rigth_line.x = this._pageRect.width - this.a_rigth_line.width;
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this._pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-            this.a_bottom_line.x = 0;
-            this.a_bottom_line.y = this._pageRect.height - this.a_bottom_line.height;
-            this.a_bottom_line.width = this._pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.x = this._pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.y = this._pageRect.height - this.a_right_bottom.height;
             this.resize();
         };
-        return LayBaseTab;
+        return LayoutbaseBg;
     }(UIConatiner));
-    layout.LayBaseTab = LayBaseTab;
+    layout.LayoutbaseBg = LayoutbaseBg;
 })(layout || (layout = {}));
-//# sourceMappingURL=LayBaseTab.js.map
+//# sourceMappingURL=LayoutbaseBg.js.map

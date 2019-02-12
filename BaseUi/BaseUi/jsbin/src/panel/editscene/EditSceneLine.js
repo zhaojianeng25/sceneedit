@@ -32,7 +32,7 @@ var editscene;
             _this._topRender = new UIRenderComponent;
             _this.addRender(_this._topRender);
             _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", function () { _this.loadConfigCom(); });
+            _this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         TempLineSprite.prototype.mouseDown = function (evt) {
@@ -47,7 +47,7 @@ var editscene;
         };
         TempLineSprite.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_left_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
+            this.a_left_line = this.addChild(this._topRender.getComponent("a_move_line_b"));
             this.a_left_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadFinish = true;
             this.refrishSize();

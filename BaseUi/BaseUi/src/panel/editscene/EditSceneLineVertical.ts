@@ -41,7 +41,7 @@
             this.addRender(this._topRender);
 
             this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", () => { this.loadConfigCom() });
+            this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", () => { this.loadConfigCom() });
 
         }
 
@@ -66,7 +66,7 @@
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
 
 
-            this.a_left_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
+            this.a_left_line = this.addChild(<UICompenent>this._topRender.getComponent("a_move_line_a"));
             this.a_left_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
             this.loadFinish = true

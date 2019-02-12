@@ -21,7 +21,7 @@
     import Scene_data = Pan3d.Scene_data
 
 
-    export class LayBaseTab extends UIConatiner {
+    export class LayoutbaseBg extends UIConatiner {
 
         public static imgBaseDic: any;
         public constructor() {
@@ -43,7 +43,7 @@
 
         private _bottomRender: UIRenderComponent;
         private _topRender: UIRenderComponent;
- 
+
 
         protected mouseDown(evt: InteractiveEvent): void {
             this.mouseIsDown = true
@@ -60,22 +60,19 @@
         private loadFinish: boolean
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
-          
+
 
             this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-  
-            this.a_left_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
-            this.a_right_bottom = this.addChild(<UICompenent>this._topRender.getComponent("a_right_bottom"));
+
+     
+            this.loadFinish = true
+
+            this.refrishSize()
+
  
 
-            this.loadFinish = true
-    
-            this.refrishSize()
-      
- 
+
 
         }
         protected butClik(evt: InteractiveEvent): void {
@@ -94,10 +91,7 @@
         private _pageRect: Rectangle;
         private a_bg: UICompenent;
         private a_win_tittle: UICompenent;
-        private a_bottom_line: UICompenent
-        private a_right_bottom: UICompenent;
-        private a_rigth_line: UICompenent;
-        private a_left_line: UICompenent
+ 
         private refrishSize(): void {
 
             this.left = this._pageRect.x;
@@ -110,33 +104,19 @@
             this.a_win_tittle.width = this._pageRect.width;
 
 
- 
+
             this.a_bg.x = 0;
             this.a_bg.y = 0
             this.a_bg.width = this._pageRect.width
             this.a_bg.height = this._pageRect.height
 
-            this.a_left_line.x = 0
-            this.a_left_line.y = this.a_win_tittle.height;
-            this.a_left_line.height = this._pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
+     
 
-            this.a_rigth_line.x = this._pageRect.width - this.a_rigth_line.width
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this._pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-
-            this.a_bottom_line.x = 0
-            this.a_bottom_line.y = this._pageRect.height - this.a_bottom_line.height
-            this.a_bottom_line.width = this._pageRect.width - this.a_right_bottom.width;
-
-
-            this.a_right_bottom.x = this._pageRect.width - this.a_right_bottom.width
-            this.a_right_bottom.y = this._pageRect.height - this.a_right_bottom.height
- 
             this.resize();
- 
+
 
         }
- 
+
 
     }
 }

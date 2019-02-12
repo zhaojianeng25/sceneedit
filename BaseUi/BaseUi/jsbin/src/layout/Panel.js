@@ -19,7 +19,7 @@ var layout;
             if (has === void 0) { has = true; }
             var _this = _super.call(this) || this;
             if (has) {
-                _this.winBg = new layout.LayBaseTab();
+                _this.winBg = new layout.LayoutbaseBg();
                 _this.addUIContainer(_this.winBg);
                 _this.changeSize();
             }
