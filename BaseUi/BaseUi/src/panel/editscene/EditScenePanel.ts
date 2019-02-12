@@ -37,8 +37,7 @@
             this.addChild(this.rightMoveLine)
         }
 
-        private leftPanel: Panel
-        private rightPanel: Panel
+
 
         private addRight(): void {
             var temp: Panel = new Panel();
@@ -47,7 +46,7 @@
             temp.width = 450
             temp.height = 500
             this.addChild(temp)
-            this.rightPanel = temp
+            BaseUiStart.rightPanel = temp
 
         }
         private addLeft(): void {
@@ -57,25 +56,25 @@
             temp.width = 450
             temp.height = 500
             this.addChild(temp)
-            this.leftPanel = temp
+            BaseUiStart.leftPanel = temp
 
       
         }
         public resize(): void {
 
-            this.leftPanel.height = this.bottomMoveLine.y
-            this.leftPanel.width = this.leftMoveLine.x;
-            this.rightPanel.height = Scene_data.stageHeight
+            BaseUiStart.leftPanel.height = this.bottomMoveLine.y
+            BaseUiStart.leftPanel.width = this.leftMoveLine.x;
+            BaseUiStart.rightPanel.height = Scene_data.stageHeight
 
-            this.leftMoveLine.x = this.leftPanel.width;
-            this.leftMoveLine.height = this.leftPanel.height;
+            this.leftMoveLine.x = BaseUiStart.leftPanel.width;
+            this.leftMoveLine.height = BaseUiStart.leftPanel.height;
 
             this.rightMoveLine.height = Scene_data.stageHeight
 
-            this.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 10
-            this.rightPanel.x = Scene_data.stageWidth - this.rightPanel.width
+            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 10
+            BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width
 
-            this.bottomMoveLine.width = this.rightPanel.x-10
+            this.bottomMoveLine.width = BaseUiStart.rightPanel.x-10
             this.bottomMoveLine.x = 0
 
 

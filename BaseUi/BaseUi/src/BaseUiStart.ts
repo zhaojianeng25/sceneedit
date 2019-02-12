@@ -1,9 +1,12 @@
 ﻿
  
 class BaseUiStart extends Pan3d.GameStart {
-    public static stagePos: Pan3d.Vector2D
+    public static stagePos: Pan3d.Vector2D;
+    public static altKey: boolean;
+    public static leftPanel: layout. Panel
+    public static rightPanel: layout. Panel
 
-    public static altKey: boolean
+
     public init(): void {
 
         Pan3d.Scene_data.fileRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/upfile/shadertree/"
