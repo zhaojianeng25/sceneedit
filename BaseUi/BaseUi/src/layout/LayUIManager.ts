@@ -19,7 +19,10 @@
         private _uiList: Array<UIRenderComponent>;
         public _containerList: Array<UIConatiner>;
 
- 
+
+        public get uiList():Array<UIRenderComponent> {
+            return this._uiList
+        } 
 
         public constructor() {
 

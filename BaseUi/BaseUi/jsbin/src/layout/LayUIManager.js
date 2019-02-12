@@ -13,6 +13,13 @@ var layout;
             this._uiList = [];
             this._containerList = [];
         }
+        Object.defineProperty(LayUIManager.prototype, "uiList", {
+            get: function () {
+                return this._uiList;
+            },
+            enumerable: true,
+            configurable: true
+        });
         LayUIManager.prototype.addUI = function ($ui) {
             var $id = 0;
             for (var i = this._uiList.length - 1; i >= 0; i--) {

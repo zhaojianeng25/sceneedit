@@ -249,7 +249,10 @@ module materialui {
         protected  onMouseUp(event:MouseEvent):void
         {
       
-            var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D(event.x, event.y))
+           // var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D(event.x, event.y))
+            var $slectUi: UICompenent = MaterialCtrl.getInstance().nodeUiPanel.getObjectsUnderPoint(new Vector2D(event.x, event.y))
+            console.log($slectUi)
+
             var evt: MEvent_Material_Connect = new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG);
             if ($slectUi&&$slectUi.name == "a_point_frame" ) {
                 evt.itemNode = <ItemMaterialUI>$slectUi.data;

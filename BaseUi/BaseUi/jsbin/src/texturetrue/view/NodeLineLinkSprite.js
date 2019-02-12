@@ -23,7 +23,6 @@ var materialui;
     var Matrix3D = Pan3d.Matrix3D;
     var ObjData = Pan3d.ObjData;
     var InteractiveEvent = Pan3d.InteractiveEvent;
-    var UIManager = Pan3d.UIManager;
     var UIRenderComponent = Pan3d.UIRenderComponent;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIPanel = win.UIPanel;
@@ -219,7 +218,9 @@ var materialui;
             return p;
         };
         MaterialLineContainer.prototype.onMouseUp = function (event) {
-            var $slectUi = UIManager.getInstance().getObjectsUnderPoint(new Vector2D(event.x, event.y));
+            // var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D(event.x, event.y))
+            var $slectUi = materialui.MaterialCtrl.getInstance().nodeUiPanel.getObjectsUnderPoint(new Vector2D(event.x, event.y));
+            console.log($slectUi);
             var evt = new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG);
             if ($slectUi && $slectUi.name == "a_point_frame") {
                 evt.itemNode = $slectUi.data;

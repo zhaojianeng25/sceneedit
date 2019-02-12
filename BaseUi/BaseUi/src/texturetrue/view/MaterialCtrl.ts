@@ -36,7 +36,7 @@
             this.addUIContainer(ui)
         
         }
-        private nodeUiPanel: Panel
+        public nodeUiPanel: Panel
         private addUIContainer(value: UIConatiner): void {
             if (!this.nodeUiPanel) {
                 this.nodeUiPanel = new Panel(false)
