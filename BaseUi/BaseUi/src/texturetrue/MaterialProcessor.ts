@@ -361,7 +361,7 @@
         private stageMoveTx($txy: Vector2D): void {
             BaseUiStart.stagePos.x += $txy.x;
             BaseUiStart.stagePos.y += $txy.y;
-
+     
             var $containerList: Array<UIConatiner>= MaterialCtrl.getInstance().nodeUiPanel._containerList
             for (var i: number = 0; i < $containerList.length; i++) {
                 var $uiConatiner: UIConatiner = $containerList[i];
@@ -373,7 +373,8 @@
                 }
             
             }
-            UIManager.getInstance().resize();
+            layout.LayerManager.getInstance().resize()
+ 
         }
     }
 }

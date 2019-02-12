@@ -309,7 +309,7 @@ var materialui;
                     $uiConatiner.uiScale = materialui.MtlUiData.Scale;
                 }
             }
-            UIManager.getInstance().resize();
+            layout.LayerManager.getInstance().resize();
         };
         return MaterialProcessor;
     }(BaseProcessor));
