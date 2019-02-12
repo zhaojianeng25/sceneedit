@@ -97,6 +97,7 @@
 
     export class TextLabelUI extends EventDispatcher{
         private static _dis2DUIContianer: Dis2DUIContianerPanel
+        public static propPanel: layout.Panel;
         public constructor() {
             super();
             if (!TextLabelUI._dis2DUIContianer) {
@@ -104,7 +105,12 @@
                 TextLabelUI._dis2DUIContianer.left = 0;
                 TextLabelUI._dis2DUIContianer.top = 0;
                 TextLabelUI._dis2DUIContianer.layer = 101;
-                UIManager.getInstance().addUIContainer(TextLabelUI._dis2DUIContianer);
+           
+
+                TextLabelUI.propPanel = new layout.Panel;
+                layout.LayerManager.getInstance().addPanel(TextLabelUI.propPanel);
+                TextLabelUI.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
+
                 TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
  
             }

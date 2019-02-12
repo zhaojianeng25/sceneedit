@@ -13,6 +13,8 @@
             this.addRightMoveLine();
             this.addBottomMoveLine();
 
+    
+  
             this.resize()
         }
         private bottomMoveLine: EditSceneLineVertical

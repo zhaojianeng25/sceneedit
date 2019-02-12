@@ -55,7 +55,6 @@ var prop;
     var Matrix3D = Pan3d.Matrix3D;
     var EventDispatcher = Pan3d.EventDispatcher;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
-    var UIManager = Pan3d.UIManager;
     var Rectangle = Pan3d.Rectangle;
     var TimeUtil = Pan3d.TimeUtil;
     var TextAlign = Pan3d.TextAlign;
@@ -125,7 +124,9 @@ var prop;
                 TextLabelUI._dis2DUIContianer.left = 0;
                 TextLabelUI._dis2DUIContianer.top = 0;
                 TextLabelUI._dis2DUIContianer.layer = 101;
-                UIManager.getInstance().addUIContainer(TextLabelUI._dis2DUIContianer);
+                TextLabelUI.propPanel = new layout.Panel;
+                layout.LayerManager.getInstance().addPanel(TextLabelUI.propPanel);
+                TextLabelUI.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
                 TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             }
             _this.textLabelUIMeshVo = _this.getCharNameMeshVo();
