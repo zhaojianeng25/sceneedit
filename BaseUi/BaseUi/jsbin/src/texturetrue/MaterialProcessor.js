@@ -181,17 +181,17 @@ var materialui;
         };
         MaterialProcessor.prototype.openMaterialPanel = function () {
             var _this = this;
-            BaseUiStart.stagePos = new Vector2D();
-            materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
-            materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
-            materialui.MaterialCtrl.getInstance().makeNodeUiPanel();
-        };
-        MaterialProcessor.prototype.loadConfigCom = function () {
-            var _this = this;
-            this.lineContainer = new materialui.MaterialLineContainer();
+            materialui.MaterialCtrl.getInstance().makeNodeUiPanel(); //创建面板层
+            this.lineContainer = new materialui.MaterialLineContainer(); //创建线层
             var $linePanel = new Panel(false);
             layout.LayerManager.getInstance().addPanel($linePanel);
             $linePanel.addUIContainer(this.lineContainer);
+            BaseUiStart.stagePos = new Vector2D();
+            materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
+            materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
+        };
+        MaterialProcessor.prototype.loadConfigCom = function () {
+            var _this = this;
             this.readMaterialTree();
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
             document.addEventListener(MouseType.MouseDown, function ($evt) { _this.onMouse($evt); });

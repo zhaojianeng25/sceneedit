@@ -195,22 +195,24 @@
         }
         private openMaterialPanel(): void
         {
+
+            MaterialCtrl.getInstance().makeNodeUiPanel(); //创建面板层
+            this.lineContainer = new MaterialLineContainer() //创建线层
+            var $linePanel: Panel = new Panel(false)
+            layout.LayerManager.getInstance().addPanel($linePanel)
+            $linePanel.addUIContainer(this.lineContainer);
+
+
             BaseUiStart.stagePos = new Vector2D()
             BaseMaterialNodeUI.baseUIAtlas = new UIAtlas()
             BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
 
-            MaterialCtrl.getInstance().makeNodeUiPanel();
 
         }
         private lineContainer: MaterialLineContainer
         private loadConfigCom(): void {
 
-            this.lineContainer = new MaterialLineContainer()
- 
-
-            var $linePanel: Panel = new Panel(false)
-            layout.LayerManager.getInstance().addPanel($linePanel)
-            $linePanel.addUIContainer(this.lineContainer);
+        
 
 
             this.readMaterialTree()
