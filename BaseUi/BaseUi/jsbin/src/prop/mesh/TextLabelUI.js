@@ -124,9 +124,9 @@ var prop;
                 TextLabelUI._dis2DUIContianer.left = 0;
                 TextLabelUI._dis2DUIContianer.top = 0;
                 TextLabelUI._dis2DUIContianer.layer = 101;
-                TextLabelUI.propPanel = new layout.Panel;
-                layout.LayerManager.getInstance().addPanel(TextLabelUI.propPanel);
-                TextLabelUI.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
+                _this.propPanel = new layout.Panel;
+                layout.LayerManager.getInstance().addPanel(_this.propPanel);
+                _this.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
                 TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             }
             _this.textLabelUIMeshVo = _this.getCharNameMeshVo();

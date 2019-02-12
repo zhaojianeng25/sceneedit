@@ -96,6 +96,7 @@
 
     export class TexturePicUi extends EventDispatcher {
         private static _dis2DUIContianer: Dis2DUIContianerPanel
+        private picPanel: layout.Panel;
         public constructor() {
             super();
             if (!TexturePicUi._dis2DUIContianer) {
@@ -103,7 +104,12 @@
                 TexturePicUi._dis2DUIContianer.left = 0;
                 TexturePicUi._dis2DUIContianer.top = 0;
                 TexturePicUi._dis2DUIContianer.layer = 102;
-                UIManager.getInstance().addUIContainer(TexturePicUi._dis2DUIContianer);
+
+
+                this.picPanel = new layout.Panel;
+                layout.LayerManager.getInstance().addPanel(this.picPanel);
+                this.picPanel.addUIContainer(TexturePicUi._dis2DUIContianer);
+
                 TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
 
             }
