@@ -20,6 +20,7 @@ class ModuleList {
 
  
             new folder.FolderModule(),
+            new rightmenu.RightMenuModule(),
             new editscene.EditSceneModule(),
   
  

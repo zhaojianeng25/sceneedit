@@ -289,6 +289,9 @@
     <TypeScriptCompile Include="pan3d\UnitFunction.ts" />
     <TypeScriptCompile Include="src\filemodel\Md5.ts" />
     <TypeScriptCompile Include="src\ModuleList.ts" />
+    <TypeScriptCompile Include="src\panel\rightmenu\ComboBoxMenuPanel.ts" />
+    <TypeScriptCompile Include="src\panel\rightmenu\RightMenuPanel.ts" />
+    <TypeScriptCompile Include="src\panel\rightmenu\RightMenuProcessor.ts" />
     <TypeScriptCompile Include="src\TextEditStart.ts" />
     <TypeScriptCompile Include="src\win\UIPanel.ts" />
   </ItemGroup>

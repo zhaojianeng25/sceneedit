@@ -11,35 +11,40 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var UIPanelEvent = /** @class */ (function (_super) {
-    __extends(UIPanelEvent, _super);
-    function UIPanelEvent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    UIPanelEvent.DISPOSE_PANEL_EVENT = "dispose_panel_event";
-    return UIPanelEvent;
-}(Pan3d.BaseEvent));
-var UIPanel = /** @class */ (function (_super) {
-    __extends(UIPanel, _super);
-    function UIPanel() {
-        return _super.call(this) || this;
-    }
-    UIPanel.prototype.onAdd = function () {
-        if (this._disposeEventFun) {
-            Pan3d.TimeUtil.removeTimeOut(this._disposeEventFun);
+var win;
+(function (win) {
+    var UIPanelEvent = /** @class */ (function (_super) {
+        __extends(UIPanelEvent, _super);
+        function UIPanelEvent() {
+            return _super !== null && _super.apply(this, arguments) || this;
         }
-    };
-    UIPanel.prototype.onRemove = function () {
-        var _this = this;
-        if (!this._disposeEventFun) {
-            this._disposeEventFun = function () {
-                var evt = new UIPanelEvent(UIPanelEvent.DISPOSE_PANEL_EVENT);
-                evt.panel = _this;
-                Pan3d.ModuleEventManager.dispatchEvent(evt);
-            };
+        UIPanelEvent.DISPOSE_PANEL_EVENT = "dispose_panel_event";
+        return UIPanelEvent;
+    }(Pan3d.BaseEvent));
+    win.UIPanelEvent = UIPanelEvent;
+    var UIPanel = /** @class */ (function (_super) {
+        __extends(UIPanel, _super);
+        function UIPanel() {
+            return _super.call(this) || this;
         }
-        Pan3d.TimeUtil.addTimeOut(20000000, this._disposeEventFun);
-    };
-    return UIPanel;
-}(Pan3d.UIConatiner));
+        UIPanel.prototype.onAdd = function () {
+            if (this._disposeEventFun) {
+                Pan3d.TimeUtil.removeTimeOut(this._disposeEventFun);
+            }
+        };
+        UIPanel.prototype.onRemove = function () {
+            var _this = this;
+            if (!this._disposeEventFun) {
+                this._disposeEventFun = function () {
+                    var evt = new UIPanelEvent(UIPanelEvent.DISPOSE_PANEL_EVENT);
+                    evt.panel = _this;
+                    Pan3d.ModuleEventManager.dispatchEvent(evt);
+                };
+            }
+            Pan3d.TimeUtil.addTimeOut(20000000, this._disposeEventFun);
+        };
+        return UIPanel;
+    }(Pan3d.UIConatiner));
+    win.UIPanel = UIPanel;
+})(win || (win = {}));
 //# sourceMappingURL=UIPanel.js.map
