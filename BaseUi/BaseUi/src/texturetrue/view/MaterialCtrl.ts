@@ -21,12 +21,7 @@
 
            
         }
-        public makeNodeUiPanel(): void {
-            if (!this.nodeUiPanel) {
-                this.nodeUiPanel = new Panel(false)
-                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel)
-            }
-        }
+      
         public nodeUiPanel: Panel
         private  _materialTree: MaterialTree;
         private uiList: Array<BaseMaterialNodeUI>;

@@ -138,8 +138,8 @@
             }
         }
  
-        public  setConnetLine($startItem: ItemMaterialUI, $endItem: ItemMaterialUI):void {
-            this.lineContainer.addConnentLine($startItem, $endItem);
+        public setConnetLine($startItem: ItemMaterialUI, $endItem: ItemMaterialUI): void {
+            MaterialModel.getInstance().lineContainer.addConnentLine($startItem, $endItem);
 
         }
         private  _materialTree: MaterialTree;
@@ -166,14 +166,14 @@
         }
   
         public  removeLine($line:MaterialNodeLineUI):void{
-            this.lineContainer.removeLine($line);
+            MaterialModel.getInstance().lineContainer.removeLine($line);
         }
         public  startDragLine($node:ItemMaterialUI):void{
-            this.lineContainer.startLine($node);
+            MaterialModel.getInstance().lineContainer.startLine($node);
         }
 
         public  stopDragLine($node: ItemMaterialUI): void {
-            this.lineContainer.stopLine($node);
+            MaterialModel.getInstance().lineContainer.stopLine($node);
         }
 
 
@@ -196,11 +196,7 @@
         private openMaterialPanel(): void
         {
 
-            MaterialCtrl.getInstance().makeNodeUiPanel(); //创建面板层
-            this.lineContainer = new MaterialLineContainer() //创建线层
-            var $linePanel: Panel = new Panel(false)
-            layout.LayerManager.getInstance().addPanel($linePanel)
-            $linePanel.addUIContainer(this.lineContainer);
+            MaterialModel.getInstance().makePanle()
 
 
             BaseUiStart.stagePos = new Vector2D()
@@ -214,7 +210,7 @@
         }
        
 
-        private lineContainer: MaterialLineContainer
+     
         private loadConfigCom(): void {
 
         

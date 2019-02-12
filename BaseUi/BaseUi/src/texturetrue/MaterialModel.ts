@@ -1,6 +1,8 @@
 ﻿module materialui {
     import ModuleEventManager = Pan3d.ModuleEventManager;
     import Scene_data = Pan3d.Scene_data;
+    import Panel = layout.Panel;
+    import LayerManager = layout.LayerManager
     export class MaterialModel {
         private static _instance: MaterialModel;
         public static getInstance(): MaterialModel {
@@ -9,6 +11,21 @@
             }
             return this._instance;
         }
+        public makePanle(): void {
+ 
+            MaterialCtrl.getInstance().nodeUiPanel = new Panel(false)
+            LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel)//创建面板层
+
+
+            this.linePanel = new Panel(false);
+            LayerManager.getInstance().addPanel(this.linePanel);
+
+            this.lineContainer = new MaterialLineContainer() //创建线层
+            this.linePanel.addUIContainer(this.lineContainer);
+
+        }
+        private linePanel: Panel
+        public lineContainer: MaterialLineContainer
         private fileid: number
         public selectFileById(value: number): void {
 

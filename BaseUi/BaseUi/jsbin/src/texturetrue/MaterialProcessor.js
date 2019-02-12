@@ -23,7 +23,6 @@ var materialui;
     var MouseType = Pan3d.MouseType;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
-    var Panel = layout.Panel;
     var MaterialEvent = /** @class */ (function (_super) {
         __extends(MaterialEvent, _super);
         function MaterialEvent() {
@@ -139,7 +138,7 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.setConnetLine = function ($startItem, $endItem) {
-            this.lineContainer.addConnentLine($startItem, $endItem);
+            materialui.MaterialModel.getInstance().lineContainer.addConnentLine($startItem, $endItem);
         };
         MaterialProcessor.prototype.saveMateriaPanel = function () {
             this._materialTree = new materialui.MaterialTree();
@@ -157,13 +156,13 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.removeLine = function ($line) {
-            this.lineContainer.removeLine($line);
+            materialui.MaterialModel.getInstance().lineContainer.removeLine($line);
         };
         MaterialProcessor.prototype.startDragLine = function ($node) {
-            this.lineContainer.startLine($node);
+            materialui.MaterialModel.getInstance().lineContainer.startLine($node);
         };
         MaterialProcessor.prototype.stopDragLine = function ($node) {
-            this.lineContainer.stopLine($node);
+            materialui.MaterialModel.getInstance().lineContainer.stopLine($node);
         };
         MaterialProcessor.prototype.listenModuleEvents = function () {
             return [
@@ -181,11 +180,7 @@ var materialui;
         };
         MaterialProcessor.prototype.openMaterialPanel = function () {
             var _this = this;
-            materialui.MaterialCtrl.getInstance().makeNodeUiPanel(); //创建面板层
-            this.lineContainer = new materialui.MaterialLineContainer(); //创建线层
-            var $linePanel = new Panel(false);
-            layout.LayerManager.getInstance().addPanel($linePanel);
-            $linePanel.addUIContainer(this.lineContainer);
+            materialui.MaterialModel.getInstance().makePanle();
             BaseUiStart.stagePos = new Vector2D();
             materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
             materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });

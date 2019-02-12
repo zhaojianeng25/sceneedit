@@ -1,6 +1,5 @@
 var materialui;
 (function (materialui) {
-    var Panel = layout.Panel;
     var MaterialCtrl = /** @class */ (function () {
         function MaterialCtrl() {
             this.initData();
@@ -15,12 +14,6 @@ var materialui;
             this.nodeList = new Array;
             this.uiList = new Array;
             this._materialTree = new materialui.MaterialTree;
-        };
-        MaterialCtrl.prototype.makeNodeUiPanel = function () {
-            if (!this.nodeUiPanel) {
-                this.nodeUiPanel = new Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel);
-            }
         };
         MaterialCtrl.prototype.addNodeUI = function (ui) {
             var node = ui.nodeTree;
