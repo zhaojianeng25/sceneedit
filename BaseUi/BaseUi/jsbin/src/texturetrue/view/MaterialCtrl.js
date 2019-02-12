@@ -16,6 +16,12 @@ var materialui;
             this.uiList = new Array;
             this._materialTree = new materialui.MaterialTree;
         };
+        MaterialCtrl.prototype.makeNodeUiPanel = function () {
+            if (!this.nodeUiPanel) {
+                this.nodeUiPanel = new Panel(false);
+                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel);
+            }
+        };
         MaterialCtrl.prototype.addNodeUI = function (ui) {
             var node = ui.nodeTree;
             if (node.id == -1) {
@@ -31,10 +37,6 @@ var materialui;
             this.addUIContainer(ui);
         };
         MaterialCtrl.prototype.addUIContainer = function (value) {
-            if (!this.nodeUiPanel) {
-                this.nodeUiPanel = new Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel);
-            }
             this.nodeUiPanel.addUIContainer(value);
         };
         MaterialCtrl.prototype.removeUI = function (ui) {

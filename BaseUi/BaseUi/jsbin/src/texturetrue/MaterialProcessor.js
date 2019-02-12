@@ -99,9 +99,10 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.clearAllMaterialUi = function ($materailTree) {
-            var $len = UIManager.getInstance()._containerList.length;
+            var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
+            var $len = $containerList.length;
             for (var i = ($len - 1); i >= 0; i--) {
-                var $temp = UIManager.getInstance()._containerList[i];
+                var $temp = $containerList[i];
                 if ($temp.name) {
                     this.delUI($temp);
                 }
@@ -114,10 +115,11 @@ var materialui;
             this.resetMaterialListUi();
         };
         MaterialProcessor.prototype.resetMaterialListUi = function () {
-            var $len = UIManager.getInstance()._containerList.length;
+            var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
+            var $len = $containerList.length;
             var $rect;
             for (var i = 0; i < $len; i++) {
-                var $ui = UIManager.getInstance()._containerList[i];
+                var $ui = $containerList[i];
                 if ($ui.name) {
                     var temp = new Rectangle($ui.x, $ui.y, $ui.x + $ui.width, $ui.y + $ui.height);
                     if ($rect) {
@@ -146,8 +148,9 @@ var materialui;
             //  filemodel.FileModel.getInstance().upMaterialTreeToWeb(this._materialTree)
         };
         MaterialProcessor.prototype.selectNodeUi = function ($nodeUi) {
-            for (var i = 0; i < UIManager.getInstance()._containerList.length; i++) {
-                var $temp = UIManager.getInstance()._containerList[i];
+            var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
+            for (var i = 0; i < $containerList.length; i++) {
+                var $temp = $containerList[i];
                 if ($temp) {
                     $temp.select = Boolean($nodeUi == $temp);
                 }
@@ -181,6 +184,7 @@ var materialui;
             BaseUiStart.stagePos = new Vector2D();
             materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
             materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
+            materialui.MaterialCtrl.getInstance().makeNodeUiPanel();
         };
         MaterialProcessor.prototype.loadConfigCom = function () {
             var _this = this;
@@ -243,8 +247,9 @@ var materialui;
             UIManager.getInstance().removeUIContainer($ui);
         };
         MaterialProcessor.prototype.getSelUI = function () {
-            for (var i = 0; i < UIManager.getInstance()._containerList.length; i++) {
-                var $temp = UIManager.getInstance()._containerList[i];
+            var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
+            for (var i = 0; i < $containerList.length; i++) {
+                var $temp = $containerList[i];
                 if ($temp && $temp.select) {
                     return $temp;
                 }
@@ -295,8 +300,9 @@ var materialui;
         MaterialProcessor.prototype.stageMoveTx = function ($txy) {
             BaseUiStart.stagePos.x += $txy.x;
             BaseUiStart.stagePos.y += $txy.y;
-            for (var i = 0; i < UIManager.getInstance()._containerList.length; i++) {
-                var $uiConatiner = UIManager.getInstance()._containerList[i];
+            var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
+            for (var i = 0; i < $containerList.length; i++) {
+                var $uiConatiner = $containerList[i];
                 if ($uiConatiner instanceof materialui.BaseMaterialNodeUI) {
                     $uiConatiner.left += $txy.x;
                     $uiConatiner.top += $txy.y;

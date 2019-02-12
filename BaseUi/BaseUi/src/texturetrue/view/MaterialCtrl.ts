@@ -18,7 +18,16 @@
             this.nodeList = new Array;
             this.uiList = new Array;
             this._materialTree = new MaterialTree;
+
+           
         }
+        public makeNodeUiPanel(): void {
+            if (!this.nodeUiPanel) {
+                this.nodeUiPanel = new Panel(false)
+                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel)
+            }
+        }
+        public nodeUiPanel: Panel
         private  _materialTree: MaterialTree;
         private uiList: Array<BaseMaterialNodeUI>;
         public  nodeList: Array<NodeTree>;
@@ -36,12 +45,9 @@
             this.addUIContainer(ui)
         
         }
-        public nodeUiPanel: Panel
+    
         private addUIContainer(value: UIConatiner): void {
-            if (!this.nodeUiPanel) {
-                this.nodeUiPanel = new Panel(false)
-                layout.LayerManager.getInstance().addPanel(this.nodeUiPanel)
-            }
+          
             this.nodeUiPanel.addUIContainer(value)
         }
         public removeUI(ui: BaseMaterialNodeUI): void {

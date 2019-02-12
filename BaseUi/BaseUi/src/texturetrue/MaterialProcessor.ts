@@ -91,9 +91,11 @@
 
         }
         private clearAllMaterialUi($materailTree: MaterialTree): void {
-            var $len: number = UIManager.getInstance()._containerList.length
+            var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
+
+            var $len: number = $containerList.length
             for (var i: number = ($len-1); i >=0; i--) {
-                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>UIManager.getInstance()._containerList[i]
+                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
                 if ($temp.name) {
                     this.delUI($temp);
                 }
@@ -110,12 +112,13 @@
         }
         private resetMaterialListUi(): void {
           
-     
+            var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
 
-            var $len: number = UIManager.getInstance()._containerList.length
+
+            var $len: number = $containerList.length
             var $rect: Rectangle
             for (var i: number = 0; i < $len ;i++) {
-                var $ui: BaseMaterialNodeUI = <BaseMaterialNodeUI>UIManager.getInstance()._containerList[i]
+                var $ui: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
                 if ($ui.name) {
                     var temp: Rectangle = new Rectangle($ui.x, $ui.y, $ui.x + $ui.width, $ui.y + $ui.height)
                     if ($rect) {
@@ -151,9 +154,10 @@
         }
  
         private selectNodeUi($nodeUi: BaseMaterialNodeUI): void {
-       
-            for (var i: number = 0; i < UIManager.getInstance()._containerList.length; i++) {
-                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>UIManager.getInstance()._containerList[i]
+            var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
+
+            for (var i: number = 0; i < $containerList.length; i++) {
+                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
                 if ($temp) {
                     $temp.select = Boolean($nodeUi == $temp);
                 }
@@ -194,7 +198,8 @@
             BaseUiStart.stagePos = new Vector2D()
             BaseMaterialNodeUI.baseUIAtlas = new UIAtlas()
             BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
-    
+
+            MaterialCtrl.getInstance().makeNodeUiPanel();
 
         }
         private lineContainer: MaterialLineContainer
@@ -281,8 +286,9 @@
           
         }
         private getSelUI(): BaseMaterialNodeUI {
-            for (var i: number = 0; i < UIManager.getInstance()._containerList.length; i++) {
-                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>UIManager.getInstance()._containerList[i]
+            var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
+            for (var i: number = 0; i < $containerList.length; i++) {
+                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
                 if ($temp && $temp.select) {
                     return $temp
                 }
@@ -355,9 +361,10 @@
         private stageMoveTx($txy: Vector2D): void {
             BaseUiStart.stagePos.x += $txy.x;
             BaseUiStart.stagePos.y += $txy.y;
-   
-            for (var i: number = 0; i < UIManager.getInstance()._containerList.length; i++) {
-                var $uiConatiner: UIConatiner = UIManager.getInstance()._containerList[i];
+
+            var $containerList: Array<UIConatiner>= MaterialCtrl.getInstance().nodeUiPanel._containerList
+            for (var i: number = 0; i < $containerList.length; i++) {
+                var $uiConatiner: UIConatiner = $containerList[i];
                 if ($uiConatiner instanceof BaseMaterialNodeUI) {
                     $uiConatiner.left += $txy.x;
                     $uiConatiner.top += $txy.y;
