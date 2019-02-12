@@ -210,7 +210,7 @@ var materialui;
             //});
             materialui.MaterialViewBuildUtils.getInstance().addFun = function (ui) { materialui.MaterialCtrl.getInstance().addNodeUI(ui); };
             //  ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
-            //  filemodel.FileModel.getInstance().selectFileById(1)
+            materialui.MaterialModel.getInstance().selectFileById(6);
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
             BaseUiStart.altKey = $evt.altKey;

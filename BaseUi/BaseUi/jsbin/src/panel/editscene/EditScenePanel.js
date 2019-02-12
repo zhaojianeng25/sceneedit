@@ -37,13 +37,13 @@ var editscene;
         };
         EditScenePanel.prototype.addLeftMoveLine = function () {
             this.leftMoveLine = new editscene.EditSceneLine;
-            this.leftMoveLine.x = Scene_data.stageWidth * 0.20;
+            this.leftMoveLine.x = Math.min(Scene_data.stageWidth * 0.20, 250);
             this.leftMoveLine.roundPos = new Vector2D(0.15, 0.45);
             this.addChild(this.leftMoveLine);
         };
         EditScenePanel.prototype.addRightMoveLine = function () {
             this.rightMoveLine = new editscene.EditSceneLine;
-            this.rightMoveLine.x = Scene_data.stageWidth * 0.80;
+            this.rightMoveLine.x = Math.max(Scene_data.stageWidth * 0.80, Scene_data.stageWidth - 250);
             this.rightMoveLine.roundPos = new Vector2D(0.55, 0.85);
             this.addChild(this.rightMoveLine);
         };

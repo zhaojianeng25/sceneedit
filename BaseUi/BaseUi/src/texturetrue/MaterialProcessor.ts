@@ -65,7 +65,7 @@
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
                     this.clearAllMaterialUi($materialEvent.materailTree);
                 }
-
+                 
                 
             }
             if ($event instanceof MEvent_Material_Connect) {
@@ -208,7 +208,12 @@
             BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
 
 
+
+          
+
         }
+       
+
         private lineContainer: MaterialLineContainer
         private loadConfigCom(): void {
 
@@ -241,7 +246,9 @@
             //});
             MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui) };
           //  ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
-          //  filemodel.FileModel.getInstance().selectFileById(1)
+
+
+            MaterialModel.getInstance().selectFileById(6)
         }
        
 

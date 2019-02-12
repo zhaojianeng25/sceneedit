@@ -290,6 +290,7 @@
     <TypeScriptCompile Include="src\panel\rightmenu\RightMenuProcessor.ts" />
     <TypeScriptCompile Include="src\TextEditStart.ts" />
     <TypeScriptCompile Include="src\texturetrue\events\MEvent_Material_Connect.ts" />
+    <TypeScriptCompile Include="src\texturetrue\MaterialModel.ts" />
     <TypeScriptCompile Include="src\texturetrue\MaterialProcessor.ts" />
     <TypeScriptCompile Include="src\texturetrue\materialui\ItemMaterialUI.ts" />
     <TypeScriptCompile Include="src\texturetrue\materialui\NodeTree.ts" />

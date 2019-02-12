@@ -1,8 +1,11 @@
 ﻿module filemodel {
-
+    import Scene_data = Pan3d.Scene_data
     import Engine = Pan3d.Engine
     import MathClass = Pan3d.MathClass
     import ModuleEventManager = Pan3d.ModuleEventManager
+
+ 
+
  
     export class FileVo {
         public name: string
@@ -247,6 +250,8 @@
             }
             ajax.send(postStr);
         }
+
+       
 
     }
 }
