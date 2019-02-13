@@ -23,11 +23,15 @@
             super.update();
             for (var i: number = 0; i < this.children.length; i++) {
                 this.children[i].update();
-                console.log();
+    
             }
         }
         public resize(): void {
             super.resize()
+            for (var i: number = 0; i < this.children.length; i++) {
+                this.children[i].resize();
+
+            }
         }
         public set x(value: number) {
             this.rect.x = value;

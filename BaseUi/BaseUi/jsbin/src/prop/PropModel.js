@@ -1,8 +1,53 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var prop;
 (function (prop) {
+    var Panel = layout.Panel;
+    var PropPanle = /** @class */ (function (_super) {
+        __extends(PropPanle, _super);
+        function PropPanle() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        PropPanle.prototype.changeSize = function () {
+            _super.prototype.changeSize.call(this);
+            this.resize();
+        };
+        PropPanle.prototype.addUIContainer = function ($container) {
+            _super.prototype.addUIContainer.call(this, $container);
+            this.resize();
+        };
+        PropPanle.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.perent) {
+                this.rect = this.perent.rect;
+            }
+            for (var i = 0; i < this._containerList.length; i++) {
+                this._containerList[i].left = this.rect.x;
+                this._containerList[i].top = this.rect.y;
+            }
+        };
+        return PropPanle;
+    }(Panel));
+    prop.PropPanle = PropPanle;
     var PropModel = /** @class */ (function () {
         function PropModel() {
             this._top = 350;
+            this.propPanle = new PropPanle(false);
+            this.propPanle.x = 500;
+            this.propPanle.y = 100;
+            BaseUiStart.rightPanel.addChild(this.propPanle);
+            //layout.LayerManager.getInstance().addPanel(this.propPanle, 200);
         }
         PropModel.getInstance = function () {
             if (!this._instance) {

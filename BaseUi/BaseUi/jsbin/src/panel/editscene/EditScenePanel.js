@@ -89,6 +89,7 @@ var editscene;
             BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
             BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
             BaseUiStart.centenPanel.resize();
+            BaseUiStart.rightPanel.resize();
             _super.prototype.resize.call(this);
             var rect = new Rectangle(0, this.bottomMoveLine.y + 10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y - 15);
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);

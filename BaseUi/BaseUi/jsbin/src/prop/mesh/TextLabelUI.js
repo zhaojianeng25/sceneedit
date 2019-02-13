@@ -121,12 +121,7 @@ var prop;
             _this._y = 0;
             if (!TextLabelUI._dis2DUIContianer) {
                 TextLabelUI._dis2DUIContianer = new Dis2DUIContianerPanel(TextLabelUIDisp2D, new Rectangle(0, 0, 256, 30), 60);
-                TextLabelUI._dis2DUIContianer.left = 0;
-                TextLabelUI._dis2DUIContianer.top = 0;
-                TextLabelUI._dis2DUIContianer.layer = 101;
-                _this.propPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(_this.propPanel, 200);
-                _this.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
+                prop.PropModel.getInstance().propPanle.addUIContainer(TextLabelUI._dis2DUIContianer);
                 TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             }
             _this.textLabelUIMeshVo = _this.getCharNameMeshVo();

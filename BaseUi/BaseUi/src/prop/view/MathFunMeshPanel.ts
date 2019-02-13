@@ -29,12 +29,12 @@
                 this.chatHtmlInput.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
             }
 
-            this.chatHtmlInput.style.left = "10px";
-            this.chatHtmlInput.style.top = this.top+60+ "px";
+            this.chatHtmlInput.style.left = 0 + "px";
+            this.chatHtmlInput.style.top = 0+ "px";
      
 
-            var tw: number =280
-            var th: number = 280;
+            var tw: number =350
+            var th: number = 40;
             var textSize: number = 100
             this.chatHtmlInput.style.fontSize = String(12) + "px";
             this.chatHtmlInput.style.width = String(tw) + "px";
@@ -56,7 +56,7 @@
         protected resize(): void {
             super.resize()
             if (this.chatHtmlInput) {
-                this.chatHtmlInput.style.top = this.top + 60 + "px";
+                this.chatHtmlInput.style.top = 0 + "px";
             }
           
         }

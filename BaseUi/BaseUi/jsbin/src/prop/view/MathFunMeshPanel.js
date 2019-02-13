@@ -49,10 +49,10 @@ var prop;
                 document.body.appendChild(this.chatHtmlInput);
                 this.chatHtmlInput.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
             }
-            this.chatHtmlInput.style.left = "10px";
-            this.chatHtmlInput.style.top = this.top + 60 + "px";
-            var tw = 280;
-            var th = 280;
+            this.chatHtmlInput.style.left = 0 + "px";
+            this.chatHtmlInput.style.top = 0 + "px";
+            var tw = 350;
+            var th = 40;
             var textSize = 100;
             this.chatHtmlInput.style.fontSize = String(12) + "px";
             this.chatHtmlInput.style.width = String(tw) + "px";
@@ -73,7 +73,7 @@ var prop;
         MathFunMeshPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);
             if (this.chatHtmlInput) {
-                this.chatHtmlInput.style.top = this.top + 60 + "px";
+                this.chatHtmlInput.style.top = 0 + "px";
             }
         };
         MathFunMeshPanel.prototype.destory = function () {

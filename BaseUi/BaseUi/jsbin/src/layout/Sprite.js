@@ -30,11 +30,13 @@ var layout;
             _super.prototype.update.call(this);
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i].update();
-                console.log();
             }
         };
         Sprite.prototype.resize = function () {
             _super.prototype.resize.call(this);
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].resize();
+            }
         };
         Object.defineProperty(Sprite.prototype, "x", {
             get: function () {

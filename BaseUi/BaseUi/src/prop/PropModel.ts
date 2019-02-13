@@ -1,5 +1,29 @@
 ﻿module prop {
+    import UIConatiner = Pan3d.UIConatiner
+    import Panel = layout.Panel
+    export class PropPanle extends Panel{
+        public changeSize(): void {
+            super.changeSize();
+            this.resize();
+        }
+        public addUIContainer($container: UIConatiner): void {
+            super.addUIContainer($container)
+            this.resize();
+        }
+        public resize(): void {
+            super.resize();
 
+            if (this.perent) {
+                this.rect = this.perent.rect
+            }
+   
+            for (var i: number = 0; i < this._containerList.length; i++) {
+                this._containerList[i].left = this.rect.x
+                this._containerList[i].top = this.rect.y;
+            }
+        }
+        
+    }
     export class PropModel {
 
         private static _instance: PropModel;
@@ -9,6 +33,17 @@
             }
             return this._instance;
         }
+        public constructor() {
+            this.propPanle = new PropPanle(false);
+            this.propPanle.x = 500
+            this.propPanle.y = 100;
+            BaseUiStart.rightPanel.addChild(this.propPanle)
+
+  
+
+            //layout.LayerManager.getInstance().addPanel(this.propPanle, 200);
+        }
+        public propPanle: PropPanle;
         private metaDataView: MetaDataView;
         private lastNodel: materialui.BaseMaterialNodeUI;
         public hidePanel(): void {

@@ -91,6 +91,7 @@
 
 
             BaseUiStart.centenPanel.resize();
+            BaseUiStart.rightPanel.resize();
 
             super.resize()
 

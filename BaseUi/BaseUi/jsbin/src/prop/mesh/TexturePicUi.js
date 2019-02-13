@@ -127,12 +127,7 @@ var prop;
             _this._y = 0;
             if (!TexturePicUi._dis2DUIContianer) {
                 TexturePicUi._dis2DUIContianer = new Dis2DUIContianerPanel(TexturePicUIDisp2D, new Rectangle(0, 0, 64, 64), 2);
-                TexturePicUi._dis2DUIContianer.left = 0;
-                TexturePicUi._dis2DUIContianer.top = 0;
-                TexturePicUi._dis2DUIContianer.layer = 102;
-                _this.picPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(_this.picPanel, 200);
-                _this.picPanel.addUIContainer(TexturePicUi._dis2DUIContianer);
+                prop.PropModel.getInstance().propPanle.addUIContainer(TexturePicUi._dis2DUIContianer);
                 TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             }
             _this.textLabelUIMeshVo = _this.getCharNameMeshVo();
