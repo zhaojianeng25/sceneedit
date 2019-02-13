@@ -131,7 +131,7 @@ var prop;
                 TexturePicUi._dis2DUIContianer.top = 0;
                 TexturePicUi._dis2DUIContianer.layer = 102;
                 _this.picPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(_this.picPanel);
+                layout.LayerManager.getInstance().addPanel(_this.picPanel, 200);
                 _this.picPanel.addUIContainer(TexturePicUi._dis2DUIContianer);
                 TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             }

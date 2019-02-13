@@ -97,7 +97,7 @@ var folder;
             }
         };
         FolderProcessor.prototype.addOtherPanel = function () {
-            layout.LayerManager.getInstance().addPanel(new Panel);
+            layout.LayerManager.getInstance().addPanel(new Panel, 200);
         };
         FolderProcessor.prototype.addUIContainer = function (value) {
             if (!this.folderPanel) {
@@ -106,7 +106,7 @@ var folder;
                 this.folderPanel.y = 0;
                 this.folderPanel.width = 450;
                 this.folderPanel.height = 250;
-                layout.LayerManager.getInstance().addPanel(this.folderPanel);
+                layout.LayerManager.getInstance().addPanel(this.folderPanel, 200);
                 // this.addOtherPanel()
             }
             this.folderPanel.addUIContainer(value);

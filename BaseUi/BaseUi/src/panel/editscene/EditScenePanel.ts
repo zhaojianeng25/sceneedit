@@ -90,7 +90,11 @@
             BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
 
 
+            BaseUiStart.centenPanel.resize();
+
             super.resize()
+
+
 
             var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y+10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y-15)
  

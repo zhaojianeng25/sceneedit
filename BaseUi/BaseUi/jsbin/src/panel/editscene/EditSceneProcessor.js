@@ -57,7 +57,7 @@ var editscene;
                     this._editScenePanel.y = 300;
                     this._editScenePanel.width = 450;
                     this._editScenePanel.height = 500;
-                    layout.LayerManager.getInstance().addPanel(this._editScenePanel);
+                    layout.LayerManager.getInstance().addPanel(this._editScenePanel, 100);
                 }
                 if ($editSceneEvent.type == EditSceneEvent.LEFT_LINE_MOVE) {
                     this._editScenePanel.resize();

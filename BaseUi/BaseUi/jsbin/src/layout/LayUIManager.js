@@ -6,7 +6,6 @@ var layout;
     var MouseType = Pan3d.MouseType;
     var Vector2D = Pan3d.Vector2D;
     var MathClass = Pan3d.MathClass;
-    var TimeUtil = Pan3d.TimeUtil;
     var LayUIManager = /** @class */ (function () {
         function LayUIManager() {
             this.lastTime = 0;
@@ -62,6 +61,7 @@ var layout;
             }
             var index = this._containerList.indexOf($container);
             $container.hasStage = false;
+            $container.perent = null;
             if (index != -1) {
                 this._containerList.splice(index, 1);
             }
@@ -195,43 +195,18 @@ var layout;
             if (!tf) {
                 for (var i = this._uiList.length - 1; i >= 0; i--) {
                     if (this._uiList[i]) {
-                        if (this._uiList[i].container.interfaceUI == false) { //非主UI
-                            if (this._uiList[i] && this._uiList[i].interactiveEvent(evt)) {
-                                tf = true;
-                                break;
-                            }
+                        if (this._uiList[i] && this._uiList[i].interactiveEvent(evt)) {
+                            tf = true;
+                            break;
                         }
                     }
                 }
             }
-            if (!tf) {
-                for (var i = this._uiList.length - 1; i >= 0; i--) {
-                    if (this._uiList[i]) {
-                        if (this._uiList[i].container.interfaceUI == true) { //是主UI
-                            if (this._uiList[i] && this._uiList[i].interactiveEvent(evt)) {
-                                tf = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (evt.type == InteractiveEvent.Down) {
-                this.lastMousePos = new Vector2D(evt.x, evt.y);
-                var dt = TimeUtil.getTimer() - this.lastTime;
-                if (dt < 200) { //小于200毫秒就只认为是一次按下事件
-                    return true;
-                }
-                this.lastTime = TimeUtil.getTimer();
-            }
-            var $uistageTemp = Scene_data.uiStage.interactiveEvent(evt);
-            if (!tf) {
-                Scene_data.uiBlankStage.interactiveEvent(evt);
-                return $uistageTemp;
-            }
-            else {
-                return true;
-            }
+            return tf;
+            /*
+        
+  
+            */
         };
         return LayUIManager;
     }());

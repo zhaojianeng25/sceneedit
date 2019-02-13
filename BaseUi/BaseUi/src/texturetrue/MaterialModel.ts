@@ -14,11 +14,11 @@
         public makePanle(): void {
  
             MaterialCtrl.getInstance().nodeUiPanel = new Panel(false)
-            LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel)//创建面板层
+            LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel,0)//创建面板层
 
 
             this.linePanel = new Panel(false);
-            LayerManager.getInstance().addPanel(this.linePanel);
+            LayerManager.getInstance().addPanel(this.linePanel,10);
 
             this.lineContainer = new MaterialLineContainer() //创建线层
             this.linePanel.addUIContainer(this.lineContainer);

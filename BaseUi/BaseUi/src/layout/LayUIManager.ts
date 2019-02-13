@@ -67,6 +67,7 @@
                 this.addUI($container.renderList[i]);
             }
             $container.hasStage = true;
+      
 
         }
         public removeAll(): void {
@@ -84,6 +85,7 @@
 
             var index: number = this._containerList.indexOf($container);
             $container.hasStage = false;
+            $container.perent = null
             if (index != -1) {
                 this._containerList.splice(index, 1);
             }
@@ -244,44 +246,19 @@
             if (!tf) {
                 for (var i: number = this._uiList.length - 1; i >= 0; i--) {
                     if (this._uiList[i]) {
-                        if (this._uiList[i].container.interfaceUI == false) { //非主UI
-                            if (this._uiList[i] && this._uiList[i].interactiveEvent(evt)) {
-                                tf = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (!tf) {
-                for (var i: number = this._uiList.length - 1; i >= 0; i--) {
-                    if (this._uiList[i]) {
-                        if (this._uiList[i].container.interfaceUI == true) { //是主UI
-                            if (this._uiList[i] && this._uiList[i].interactiveEvent(evt)) {
-                                tf = true;
-                                break;
-                            }
+                        if (this._uiList[i] && this._uiList[i].interactiveEvent(evt)) {
+                            tf = true;
+                            break;
                         }
                     }
                 }
             }
 
-            if (evt.type == InteractiveEvent.Down) {
-                this.lastMousePos = new Vector2D(evt.x, evt.y);
-                var dt: number = TimeUtil.getTimer() - this.lastTime
-                if (dt < 200) { //小于200毫秒就只认为是一次按下事件
-                    return true
-                }
-                this.lastTime = TimeUtil.getTimer()
-            }
-
-            var $uistageTemp: boolean = Scene_data.uiStage.interactiveEvent(evt);
-            if (!tf) {
-                Scene_data.uiBlankStage.interactiveEvent(evt);
-                return $uistageTemp;
-            } else {
-                return true
-            }
+            return tf
+            /*
+        
+  
+            */
 
 
         }

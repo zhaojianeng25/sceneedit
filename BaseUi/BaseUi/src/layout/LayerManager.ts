@@ -3,6 +3,7 @@
     import Vector2D = Pan3d.Vector2D
     import Rectangle = Pan3d.Rectangle;
     import UIComponent = Pan3d.UICompenent;
+    import Scene_data = Pan3d.Scene_data
 
     export class GameUIInstance {
         public constructor() {
@@ -34,7 +35,7 @@
         public initData(): void {
             this.children = [];
         }
-        public addPanel($panel: Panel, $isProp: Boolean = false): void {
+        public addPanel($panel: Panel, $level: number ): void {
             this.children.push($panel);
         }
      
@@ -52,13 +53,23 @@
         }
         public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
         {
+            var tf: boolean = false;
+
             for (var i: number = this.children.length-1; i >=0; i--) {
                 var temp: boolean = this.children[i].mouseEvetData(evt, point);
-                if (temp) {
-                    return true;
+                if (temp && !tf) {
+                    tf = true
                 }
             }
-            return false
+            var $uistageTemp: boolean = Scene_data.uiStage.interactiveEvent(evt);
+            if (!tf) {
+                Scene_data.uiBlankStage.interactiveEvent(evt);
+                return $uistageTemp;
+            } else {
+                return true
+            }
+
+        
      
         }
     }

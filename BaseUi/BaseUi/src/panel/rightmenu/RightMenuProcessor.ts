@@ -55,7 +55,7 @@
                 if ($materialEvent.type == RightMenuEvent.HIDE_RIGHT_MENU) {
                     if (this._rightMenuPanel) {
            
-                        Scene_data.uiBlankStage.removeEventListener(InteractiveEvent.Down, this.onMouseDown, this);
+                        Scene_data.uiStage.removeEventListener(InteractiveEvent.Down, this.onMouseDown, this);
                         this.removeUIContainer(this._rightMenuPanel)
                     }
                    
@@ -102,7 +102,7 @@
             this._rightMenuPanel.top = posv2d.y / UIData.Scale;
             this.addUIContainer(this._rightMenuPanel);
             this._rightMenuPanel.refrish()
-            Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Down, this.onMouseDown, this);
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Down, this.onMouseDown, this);
         }
         private topMenuPanel: Panel;
         private addUIContainer(value: UIConatiner): void {
@@ -114,7 +114,7 @@
                 this.topMenuPanel.y = 0
                 this.topMenuPanel.width = 450
                 this.topMenuPanel.height = 250
-                layout.LayerManager.getInstance().addPanel(this.topMenuPanel)
+                layout.LayerManager.getInstance().addPanel(this.topMenuPanel,200)
            
             }
             this.topMenuPanel.addUIContainer(value)
@@ -127,9 +127,7 @@
         }
         public onMouseDown($evt: InteractiveEvent): void {
 
-            Pan3d.TimeUtil.addTimeOut(10, () => {
-                ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
-            })
+            ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
    
         
         }

@@ -107,7 +107,7 @@
 
 
                 this.picPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.picPanel);
+                layout.LayerManager.getInstance().addPanel(this.picPanel,200);
                 this.picPanel.addUIContainer(TexturePicUi._dis2DUIContianer);
 
                 TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });

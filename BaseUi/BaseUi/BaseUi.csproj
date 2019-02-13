@@ -39,6 +39,7 @@
     <TypeScriptCompile Include="src\panel\editscene\EditScenePanel.ts" />
     <TypeScriptCompile Include="src\panel\editscene\EditSceneProcessor.ts" />
     <TypeScriptCompile Include="src\panel\editscene\EditSceneLineVertical.ts" />
+    <TypeScriptCompile Include="src\panel\editscene\EditTopMenuPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\BaseFolderWindow.ts" />
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\FolderPanel.ts" />
@@ -318,6 +319,7 @@
     <TypeScriptCompile Include="src\prop\view\Vec3PropMeshPanel.ts" />
     <TypeScriptCompile Include="src\TextEditStart.ts" />
     <TypeScriptCompile Include="src\texturetrue\events\MEvent_Material_Connect.ts" />
+    <TypeScriptCompile Include="src\texturetrue\MaterialCavasPanel.ts" />
     <TypeScriptCompile Include="src\texturetrue\MaterialModel.ts" />
     <TypeScriptCompile Include="src\texturetrue\MaterialProcessor.ts" />
     <TypeScriptCompile Include="src\texturetrue\materialui\ItemMaterialUI.ts" />

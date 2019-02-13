@@ -101,7 +101,7 @@
         private fristRect: Rectangle
         private folderPanel: layout.Panel;
         private addOtherPanel(): void {
-            layout.LayerManager.getInstance().addPanel(new  Panel)
+            layout.LayerManager.getInstance().addPanel(new  Panel,200)
         }
         private addUIContainer(value: UIConatiner): void {
             if (!this.folderPanel) {
@@ -110,7 +110,7 @@
                 this.folderPanel.y = 0
                 this.folderPanel.width = 450
                 this.folderPanel.height=250
-                layout.LayerManager.getInstance().addPanel(this.folderPanel)
+                layout.LayerManager.getInstance().addPanel(this.folderPanel,200)
                // this.addOtherPanel()
             }
              this.folderPanel.addUIContainer(value)

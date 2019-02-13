@@ -125,7 +125,7 @@ var prop;
                 TextLabelUI._dis2DUIContianer.top = 0;
                 TextLabelUI._dis2DUIContianer.layer = 101;
                 _this.propPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(_this.propPanel);
+                layout.LayerManager.getInstance().addPanel(_this.propPanel, 200);
                 _this.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
                 TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             }

@@ -1,5 +1,6 @@
 var layout;
 (function (layout) {
+    var Scene_data = Pan3d.Scene_data;
     var GameUIInstance = /** @class */ (function () {
         function GameUIInstance() {
         }
@@ -18,8 +19,7 @@ var layout;
         LayerManager.prototype.initData = function () {
             this.children = [];
         };
-        LayerManager.prototype.addPanel = function ($panel, $isProp) {
-            if ($isProp === void 0) { $isProp = false; }
+        LayerManager.prototype.addPanel = function ($panel, $level) {
             this.children.push($panel);
         };
         LayerManager.prototype.update = function () {
@@ -34,13 +34,21 @@ var layout;
             }
         };
         LayerManager.prototype.mouseEvetData = function (evt, point) {
+            var tf = false;
             for (var i = this.children.length - 1; i >= 0; i--) {
                 var temp = this.children[i].mouseEvetData(evt, point);
-                if (temp) {
-                    return true;
+                if (temp && !tf) {
+                    tf = true;
                 }
             }
-            return false;
+            var $uistageTemp = Scene_data.uiStage.interactiveEvent(evt);
+            if (!tf) {
+                Scene_data.uiBlankStage.interactiveEvent(evt);
+                return $uistageTemp;
+            }
+            else {
+                return true;
+            }
         };
         return LayerManager;
     }());

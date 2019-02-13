@@ -232,14 +232,15 @@
         }
         private baseMaterialTree: MaterialTree
         private readMaterialTree(): void {
-       
-         
+
             MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui) };
 
             var id: number = Number(getUrlParam("id"));
             if (id > 0) {
                 MaterialModel.getInstance().selectFileById(id);
             }
+            BaseUiStart.centenPanel.addUIContainer(new MaterialCavasPanel())
+
         }
        
 

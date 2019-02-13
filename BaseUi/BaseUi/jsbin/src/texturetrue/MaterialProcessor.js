@@ -201,6 +201,7 @@ var materialui;
             if (id > 0) {
                 materialui.MaterialModel.getInstance().selectFileById(id);
             }
+            BaseUiStart.centenPanel.addUIContainer(new materialui.MaterialCavasPanel());
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
             BaseUiStart.altKey = $evt.altKey;

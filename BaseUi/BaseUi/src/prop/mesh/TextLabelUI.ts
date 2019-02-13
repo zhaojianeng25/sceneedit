@@ -108,7 +108,7 @@
            
 
                 this.propPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.propPanel);
+                layout.LayerManager.getInstance().addPanel(this.propPanel,200);
                 this.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
 
                 TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
