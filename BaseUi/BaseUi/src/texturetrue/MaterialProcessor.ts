@@ -283,7 +283,8 @@
            
             MaterialCtrl.getInstance().removeUI($ui)
             $ui.removeAllNodeLine();
-            UIManager.getInstance().removeUIContainer($ui)
+           
+            MaterialCtrl.getInstance().nodeUiPanel.removeUIContainer($ui)
           
         }
         private getSelUI(): BaseMaterialNodeUI {

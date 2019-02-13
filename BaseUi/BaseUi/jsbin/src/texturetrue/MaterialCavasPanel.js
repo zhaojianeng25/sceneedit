@@ -30,7 +30,7 @@ var materialui;
         }
         MaterialCavasPanel.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_base_bg = this.addEvntBut("a_base_bg", this._topRender);
+            this.a_base_bg = this.addEvntBut("a_base_bg", this._bottomRender);
             this.a_save_but = this.addEvntBut("a_save_but", this._topRender);
             this.a_compile_but = this.addEvntBut("a_compile_but", this._topRender);
             this.uiLoadComplete = true;
@@ -39,6 +39,13 @@ var materialui;
         MaterialCavasPanel.prototype.butClik = function (evt) {
             if (this.perent) {
                 // (<Panel>this.perent).removeUIContainer(this)
+            }
+            switch (evt.target) {
+                case this.a_compile_but:
+                    materialui.MaterialModel.getInstance().selectFileById(6);
+                    break;
+                default:
+                    break;
             }
         };
         MaterialCavasPanel.prototype.resize = function () {

@@ -235,7 +235,7 @@ var materialui;
         MaterialProcessor.prototype.delUI = function ($ui) {
             materialui.MaterialCtrl.getInstance().removeUI($ui);
             $ui.removeAllNodeLine();
-            UIManager.getInstance().removeUIContainer($ui);
+            materialui.MaterialCtrl.getInstance().nodeUiPanel.removeUIContainer($ui);
         };
         MaterialProcessor.prototype.getSelUI = function () {
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
