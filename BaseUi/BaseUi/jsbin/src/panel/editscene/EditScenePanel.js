@@ -21,6 +21,7 @@ var editscene;
         __extends(EditScenePanel, _super);
         function EditScenePanel() {
             var _this = _super.call(this, false) || this;
+            _this.addCenten();
             _this.addRight();
             _this.addLeft();
             _this.addLeftMoveLine();
@@ -46,6 +47,15 @@ var editscene;
             this.rightMoveLine.x = Math.max(Scene_data.stageWidth * 0.80, Scene_data.stageWidth - 250);
             this.rightMoveLine.roundPos = new Vector2D(0.55, 0.85);
             this.addChild(this.rightMoveLine);
+        };
+        EditScenePanel.prototype.addCenten = function () {
+            var temp = new Panel();
+            temp.x = 600;
+            temp.y = 0;
+            temp.width = 450;
+            temp.height = 10;
+            this.addChild(temp);
+            BaseUiStart.centenPanel = temp;
         };
         EditScenePanel.prototype.addRight = function () {
             var temp = new Panel();
@@ -76,6 +86,8 @@ var editscene;
             BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width;
             this.bottomMoveLine.width = BaseUiStart.rightPanel.x - 10;
             this.bottomMoveLine.x = 0;
+            BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
+            BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
             _super.prototype.resize.call(this);
             var rect = new Rectangle(0, this.bottomMoveLine.y + 10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y - 15);
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);

@@ -233,18 +233,13 @@
         private baseMaterialTree: MaterialTree
         private readMaterialTree(): void {
        
-            //var $url: string = "pan/marmoset/uilist/baseTexturedata0.txt";
-            //MaterialTreeManager.getInstance().getMaterial($url, ($materialTree: MaterialTree) => {
-            //    this.baseMaterialTree = $materialTree
-            //    MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui)};
-            //    MaterialViewBuildUtils.getInstance().setData($materialTree.data)
-            //    ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
-            //});
+         
             MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui) };
-          //  ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
 
-
-            MaterialModel.getInstance().selectFileById(6)
+            var id: number = Number(getUrlParam("id"));
+            if (id > 0) {
+                MaterialModel.getInstance().selectFileById(id);
+            }
         }
        
 

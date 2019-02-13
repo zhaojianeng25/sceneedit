@@ -6,6 +6,7 @@
     export class EditScenePanel extends Panel {
         public constructor() {
             super(false);
+            this.addCenten();
             this.addRight()
             this.addLeft();
 
@@ -13,8 +14,6 @@
             this.addRightMoveLine();
             this.addBottomMoveLine();
 
-    
-  
             this.resize()
         }
         private bottomMoveLine: EditSceneLineVertical
@@ -39,7 +38,15 @@
             this.addChild(this.rightMoveLine)
         }
 
-
+        private addCenten(): void {
+            var temp: Panel = new Panel();
+            temp.x = 600
+            temp.y = 0
+            temp.width = 450
+            temp.height = 10
+            this.addChild(temp)
+            BaseUiStart.centenPanel = temp
+        }
 
         private addRight(): void {
             var temp: Panel = new Panel();
@@ -78,6 +85,9 @@
 
             this.bottomMoveLine.width = BaseUiStart.rightPanel.x-10
             this.bottomMoveLine.x = 0
+
+            BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width
+            BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
 
 
             super.resize()

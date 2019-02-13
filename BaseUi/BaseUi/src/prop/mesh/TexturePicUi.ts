@@ -106,7 +106,7 @@
                 TexturePicUi._dis2DUIContianer.layer = 102;
 
 
-                this.picPanel = new layout.Panel;
+                this.picPanel = new layout.Panel(false);
                 layout.LayerManager.getInstance().addPanel(this.picPanel);
                 this.picPanel.addUIContainer(TexturePicUi._dis2DUIContianer);
 

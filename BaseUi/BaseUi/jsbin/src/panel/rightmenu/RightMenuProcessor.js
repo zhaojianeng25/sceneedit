@@ -127,7 +127,9 @@ var rightmenu;
             }
         };
         RightMenuProcessor.prototype.onMouseDown = function ($evt) {
-            //  ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+            Pan3d.TimeUtil.addTimeOut(10, function () {
+                ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+            });
         };
         RightMenuProcessor.prototype.listenModuleEvents = function () {
             return [

@@ -1,11 +1,19 @@
-﻿module layout {
+﻿module editscene {
+    import Panel = layout.Panel;
+    import Rectangle = Pan3d.Rectangle
+    import Vector2D = Pan3d.Vector2D
+    import Scene_data = Pan3d.Scene_data
+ 
     import UICompenent = Pan3d.UICompenent
+    import Sprite = layout.Sprite
+
+ 
     import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
     import ColorType = Pan3d.ColorType
     import InteractiveEvent = Pan3d.InteractiveEvent
     import TextAlign = Pan3d.TextAlign
-    import Rectangle = Pan3d.Rectangle
+ 
     import ModuleEventManager = Pan3d.ModuleEventManager
     import UIManager = Pan3d.UIManager
     import LabelTextFont = Pan3d.LabelTextFont
@@ -17,11 +25,10 @@
     import UiDraw = Pan3d.UiDraw
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
-    import Vector2D = Pan3d.Vector2D
-    import Scene_data = Pan3d.Scene_data
+ 
 
 
-    export class LayoutbaseBg extends UIConatiner {
+    export class TopMenuUiConatiner extends UIConatiner {
 
         public static imgBaseDic: any;
         public constructor() {
@@ -57,20 +64,18 @@
         protected mouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         }
-        private loadFinish: boolean
+        
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
 
 
             this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
 
-     
-            this.loadFinish = true
+            this.uiLoadComplete = true
 
             this.refrishSize()
 
- 
+
 
 
 
@@ -80,7 +85,7 @@
         }
         public set pageRect(value: Rectangle) {
             this._pageRect = value;
-            if (this.loadFinish) {
+            if (this.uiLoadComplete) {
                 this.refrishSize();
             }
         }
@@ -89,15 +94,15 @@
 
         }
         private _pageRect: Rectangle;
-        private a_bg: UICompenent;
-        private a_win_tittle: UICompenent;
  
+        private a_win_tittle: UICompenent;
+
         private refrishSize(): void {
 
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
-         //   this._pageRect.width = Math.max(100, this._pageRect.width)
-         //   this._pageRect.height = Math.max(100, this._pageRect.height)
+            this._pageRect.width = Math.max(100, this._pageRect.width)
+            this._pageRect.height = Math.max(100, this._pageRect.height)
 
             this.a_win_tittle.x = 0;
             this.a_win_tittle.y = 0;
@@ -105,20 +110,45 @@
 
 
 
-            this.a_bg.x = 0;
-            this.a_bg.y = 0
-            this.a_bg.width = this._pageRect.width
-            this.a_bg.height = this._pageRect.height
-
-
             this._topRender.applyObjData()
-     
+
 
             this.resize();
-          
+
 
         }
 
 
     }
+ 
+    export class EditTopMenuPanel extends Sprite {
+        private winBg: TopMenuUiConatiner;
+        public constructor(has: boolean = true) {
+            super();
+            if (has) {
+                this.winBg = new TopMenuUiConatiner();
+                this.addUIContainer(this.winBg)
+                this.changeSize()
+            }
+        }
+        public changeSize(): void {
+            if (this.winBg) {
+                this.winBg.pageRect = this.rect
+
+            }
+
+        }
+        public getObjectsUnderPoint(evt: Vector2D): UICompenent {
+            for (var i: number = this.uiList.length - 1; i >= 0; i--) {
+                if (this.uiList[i]) {
+                    if (this.uiList[i] && this.uiList[i].insetUi(evt)) {
+                        return this.uiList[i].insetUi(evt);
+                    }
+                }
+            }
+            return null
+        }
+
+    }
 }
+

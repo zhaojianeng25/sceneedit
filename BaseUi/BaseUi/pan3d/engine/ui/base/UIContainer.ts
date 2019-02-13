@@ -101,7 +101,7 @@
         public applyLoad(): void {
 
         }
-
+        public uiLoadComplete: boolean
         public applyLoadComplete(): void {
             this._isLoading = false;
             this._completeFun();

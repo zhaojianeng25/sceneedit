@@ -126,7 +126,11 @@
 
         }
         public onMouseDown($evt: InteractiveEvent): void {
-          //  ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+
+            Pan3d.TimeUtil.addTimeOut(10, () => {
+                ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
+            })
+   
         
         }
         protected listenModuleEvents(): Array<BaseEvent> {

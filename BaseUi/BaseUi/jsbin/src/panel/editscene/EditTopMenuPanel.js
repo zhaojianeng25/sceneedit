@@ -11,17 +11,18 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layout;
-(function (layout) {
+var editscene;
+(function (editscene) {
+    var Rectangle = Pan3d.Rectangle;
+    var Scene_data = Pan3d.Scene_data;
+    var Sprite = layout.Sprite;
     var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Rectangle = Pan3d.Rectangle;
     var UIConatiner = Pan3d.UIConatiner;
     var UIAtlas = Pan3d.UIAtlas;
-    var Scene_data = Pan3d.Scene_data;
-    var LayoutbaseBg = /** @class */ (function (_super) {
-        __extends(LayoutbaseBg, _super);
-        function LayoutbaseBg() {
+    var TopMenuUiConatiner = /** @class */ (function (_super) {
+        __extends(TopMenuUiConatiner, _super);
+        function TopMenuUiConatiner() {
             var _this = _super.call(this) || this;
             _this.left = 0;
             _this._pageRect = new Rectangle(0, 0, 300, 300);
@@ -33,56 +34,81 @@ var layout;
             _this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", function () { _this.loadConfigCom(); });
             return _this;
         }
-        LayoutbaseBg.prototype.mouseDown = function (evt) {
+        TopMenuUiConatiner.prototype.mouseDown = function (evt) {
             this.mouseIsDown = true;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
-        LayoutbaseBg.prototype.stageMouseMove = function (evt) {
+        TopMenuUiConatiner.prototype.stageMouseMove = function (evt) {
             this.mouseIsDown = false;
         };
-        LayoutbaseBg.prototype.mouseUp = function (evt) {
+        TopMenuUiConatiner.prototype.mouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
-        LayoutbaseBg.prototype.loadConfigCom = function () {
+        TopMenuUiConatiner.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
             this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender);
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.loadFinish = true;
+            this.uiLoadComplete = true;
             this.refrishSize();
         };
-        LayoutbaseBg.prototype.butClik = function (evt) {
+        TopMenuUiConatiner.prototype.butClik = function (evt) {
             console.log(evt.target);
         };
-        Object.defineProperty(LayoutbaseBg.prototype, "pageRect", {
+        Object.defineProperty(TopMenuUiConatiner.prototype, "pageRect", {
             get: function () {
                 return this._pageRect;
             },
             set: function (value) {
                 this._pageRect = value;
-                if (this.loadFinish) {
+                if (this.uiLoadComplete) {
                     this.refrishSize();
                 }
             },
             enumerable: true,
             configurable: true
         });
-        LayoutbaseBg.prototype.refrishSize = function () {
+        TopMenuUiConatiner.prototype.refrishSize = function () {
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
-            //   this._pageRect.width = Math.max(100, this._pageRect.width)
-            //   this._pageRect.height = Math.max(100, this._pageRect.height)
+            this._pageRect.width = Math.max(100, this._pageRect.width);
+            this._pageRect.height = Math.max(100, this._pageRect.height);
             this.a_win_tittle.x = 0;
             this.a_win_tittle.y = 0;
             this.a_win_tittle.width = this._pageRect.width;
-            this.a_bg.x = 0;
-            this.a_bg.y = 0;
-            this.a_bg.width = this._pageRect.width;
-            this.a_bg.height = this._pageRect.height;
             this._topRender.applyObjData();
             this.resize();
         };
-        return LayoutbaseBg;
+        return TopMenuUiConatiner;
     }(UIConatiner));
-    layout.LayoutbaseBg = LayoutbaseBg;
-})(layout || (layout = {}));
-//# sourceMappingURL=LayoutbaseBg.js.map
+    editscene.TopMenuUiConatiner = TopMenuUiConatiner;
+    var EditTopMenuPanel = /** @class */ (function (_super) {
+        __extends(EditTopMenuPanel, _super);
+        function EditTopMenuPanel(has) {
+            if (has === void 0) { has = true; }
+            var _this = _super.call(this) || this;
+            if (has) {
+                _this.winBg = new TopMenuUiConatiner();
+                _this.addUIContainer(_this.winBg);
+                _this.changeSize();
+            }
+            return _this;
+        }
+        EditTopMenuPanel.prototype.changeSize = function () {
+            if (this.winBg) {
+                this.winBg.pageRect = this.rect;
+            }
+        };
+        EditTopMenuPanel.prototype.getObjectsUnderPoint = function (evt) {
+            for (var i = this.uiList.length - 1; i >= 0; i--) {
+                if (this.uiList[i]) {
+                    if (this.uiList[i] && this.uiList[i].insetUi(evt)) {
+                        return this.uiList[i].insetUi(evt);
+                    }
+                }
+            }
+            return null;
+        };
+        return EditTopMenuPanel;
+    }(Sprite));
+    editscene.EditTopMenuPanel = EditTopMenuPanel;
+})(editscene || (editscene = {}));
+//# sourceMappingURL=EditTopMenuPanel.js.map

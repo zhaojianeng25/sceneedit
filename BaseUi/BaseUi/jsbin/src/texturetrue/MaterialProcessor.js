@@ -196,16 +196,11 @@ var materialui;
             document.addEventListener(MouseType.KeyUp, function ($evt) { _this.onKeyUp($evt); });
         };
         MaterialProcessor.prototype.readMaterialTree = function () {
-            //var $url: string = "pan/marmoset/uilist/baseTexturedata0.txt";
-            //MaterialTreeManager.getInstance().getMaterial($url, ($materialTree: MaterialTree) => {
-            //    this.baseMaterialTree = $materialTree
-            //    MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui)};
-            //    MaterialViewBuildUtils.getInstance().setData($materialTree.data)
-            //    ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
-            //});
             materialui.MaterialViewBuildUtils.getInstance().addFun = function (ui) { materialui.MaterialCtrl.getInstance().addNodeUI(ui); };
-            //  ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
-            materialui.MaterialModel.getInstance().selectFileById(6);
+            var id = Number(getUrlParam("id"));
+            if (id > 0) {
+                materialui.MaterialModel.getInstance().selectFileById(id);
+            }
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
             BaseUiStart.altKey = $evt.altKey;

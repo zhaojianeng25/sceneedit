@@ -107,7 +107,7 @@
                 TextLabelUI._dis2DUIContianer.layer = 101;
            
 
-                this.propPanel = new layout.Panel;
+                this.propPanel = new layout.Panel(false);
                 layout.LayerManager.getInstance().addPanel(this.propPanel);
                 this.propPanel.addUIContainer(TextLabelUI._dis2DUIContianer);
 
