@@ -46,7 +46,10 @@
                 this.popModelShowPanel = new PopModelShowPanel
             }
             if (!this.popModelShowPanel.hasStage) {
-                UIManager.getInstance().addUIContainer(this.popModelShowPanel)
+                // UIManager.getInstance().addUIContainer(this.popModelShowPanel)
+                var temp: layout.Panel = new layout.Panel(false)
+                layout.LayerManager.getInstance().addPanel(temp, 500);
+                temp.addUIContainer(this.popModelShowPanel);
             } 
 
 

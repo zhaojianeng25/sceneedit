@@ -22,6 +22,7 @@ var ModuleList = /** @class */ (function () {
             new folder.FolderModule(),
             new rightmenu.RightMenuModule(),
             new editscene.EditSceneModule(),
+            new popmodel.PopModelShowModule(),
         ];
         return $arr;
     };

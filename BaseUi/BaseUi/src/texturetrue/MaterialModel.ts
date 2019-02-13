@@ -1,6 +1,7 @@
 ﻿module materialui {
     import ModuleEventManager = Pan3d.ModuleEventManager;
     import Scene_data = Pan3d.Scene_data;
+    import LoadManager = Pan3d.LoadManager
     import Panel = layout.Panel;
     import LayerManager = layout.LayerManager
     export class MaterialModel {
@@ -31,7 +32,7 @@
 
             this.fileid = value
             var $texturl: string = "texturelist/" + this.fileid + ".txt"
-            Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + $texturl, Pan3d.LoadManager.BYTE_TYPE,
+            LoadManager.getInstance().load(Scene_data.fileRoot + $texturl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                     $byte.position = 0
@@ -44,12 +45,12 @@
                     $materialEvent.materailTree = $tempMaterial;
                     ModuleEventManager.dispatchEvent($materialEvent);
 
-                    /*
-                    Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/config/" + this.fileid + ".txt", Pan3d.LoadManager.XML_TYPE,
+                
+                    LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/config/" + this.fileid + ".txt", LoadManager.XML_TYPE,
                         ($configStr: string) => {
                             var $config: any = JSON.parse($configStr);
                             if ($config.showType == 0) {
-                                Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/model_" + value + "_objs.txt", Pan3d.LoadManager.XML_TYPE,
+                                LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/model_" + value + "_objs.txt", LoadManager.XML_TYPE,
                                     ($modelxml: string) => {
                                         left.ModelShowModel.getInstance().readTxtToModelBy($modelxml)
                                         ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
@@ -63,7 +64,7 @@
                         });
                  
 
-   */
+ 
 
                 });
 

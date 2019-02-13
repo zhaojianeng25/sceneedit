@@ -70,7 +70,10 @@ var popmodel;
                 this.popModelShowPanel = new popmodel.PopModelShowPanel;
             }
             if (!this.popModelShowPanel.hasStage) {
-                UIManager.getInstance().addUIContainer(this.popModelShowPanel);
+                // UIManager.getInstance().addUIContainer(this.popModelShowPanel)
+                var temp = new layout.Panel(false);
+                layout.LayerManager.getInstance().addPanel(temp, 500);
+                temp.addUIContainer(this.popModelShowPanel);
             }
         };
         PopModelShowProcessor.prototype.listenModuleEvents = function () {

@@ -44,6 +44,9 @@ var materialui;
                 case this.a_compile_but:
                     materialui.MaterialModel.getInstance().selectFileById(6);
                     break;
+                case this.a_save_but:
+                    materialui.MaterialModel.getInstance().selectFileById(5);
+                    break;
                 default:
                     break;
             }
