@@ -19,6 +19,7 @@ var popmodel;
     var UIManager = Pan3d.UIManager;
     var UIConatiner = Pan3d.UIConatiner;
     var MouseType = Pan3d.MouseType;
+    var ByteArray = Pan3d.Pan3dByteArray;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ModelShowModel = left.ModelShowModel;
     var UIAtlas = Pan3d.UIAtlas;
@@ -137,10 +138,12 @@ var popmodel;
             _this.addRender(_this._bottomRender);
             _this.modelPic = new modelShowRender();
             _this.addRender(_this.modelPic);
+            _this._midRender = new UIRenderComponent;
+            _this.addRender(_this._midRender);
             _this._topRender = new UIRenderComponent;
             _this.addRender(_this._topRender);
             _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", function () { _this.loadConfigCom(); });
+            _this._bottomRender.uiAtlas.setInfo("ui/materialmodeshow/materialmodeshow.txt", "ui/materialmodeshow/materialmodeshow.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         PopModelShowPanel.prototype.mouseDown = function (evt) {
@@ -155,17 +158,24 @@ var popmodel;
         };
         PopModelShowPanel.prototype.loadConfigCom = function () {
             var _this = this;
+            this._midRender.uiAtlas = this._bottomRender.uiAtlas;
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
             this.pageRect = new Rectangle(0, 0, 300, 300);
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_tittle = this.addChild(this._topRender.getComponent("a_win_tittle"));
+            this.a_win_tittle = this.addChild(this._midRender.getComponent("a_win_tittle"));
             this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_rigth_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
+            this.a_rigth_line = this.addChild(this._midRender.getComponent("a_rigth_line"));
             this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_bottom_line = this.addChild(this._topRender.getComponent("a_bottom_line"));
+            this.a_bottom_line = this.addChild(this._midRender.getComponent("a_bottom_line"));
             this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_right_bottom = this.addChild(this._topRender.getComponent("a_right_bottom"));
+            this.a_right_bottom = this.addChild(this._midRender.getComponent("a_right_bottom"));
             this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.a_win_label_left = this.addEvntBut("a_win_label_left", this._topRender);
+            this.a_win_label_centen = this.addEvntBut("a_win_label_centen", this._topRender);
+            this.a_win_label_right = this.addEvntBut("a_win_label_right", this._topRender);
+            this.a_but_a = this.addEvntBut("a_but_a", this._topRender);
+            this.a_but_b = this.addEvntBut("a_but_b", this._topRender);
+            this.a_but_c = this.addEvntBut("a_but_c", this._topRender);
             this.initView();
             this.refrishSize();
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
@@ -177,7 +187,7 @@ var popmodel;
             }
         };
         PopModelShowPanel.prototype.initView = function () {
-            this.modelPic.uiAtlas = this._topRender.uiAtlas;
+            this.modelPic.uiAtlas = this._midRender.uiAtlas;
             this.showModelPicUI = this.addChild(this.modelPic.getComponent("a_bg"));
             this.modelPic.setImgUrl("pan/marmoset/uilist/1024.jpg");
             ModelShowModel.getInstance()._bigPic = this.modelPic;
@@ -208,6 +218,101 @@ var popmodel;
             this.showModelPicUI.height = minW;
             this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
             this.showModelPicUI.y = (this.pageRect.height - this.a_win_tittle.height - minW) / 2 + this.a_win_tittle.height;
+            this.a_win_label_left.y = this.pageRect.height - this.a_win_label_left.height;
+            this.a_win_label_left.y = this.a_win_tittle.height - 5;
+            this.a_win_label_centen.y = this.a_win_label_left.y;
+            this.a_win_label_right.y = this.a_win_label_centen.y;
+            this.a_win_label_left.x = 0;
+            this.a_win_label_centen.x = this.a_win_label_left.x + this.a_win_label_left.width;
+            this.a_win_label_right.x = this.pageRect.width - this.a_win_label_right.width;
+            this.a_win_label_centen.width = this.pageRect.width - this.a_win_label_left.width - this.a_win_label_right.width;
+            this.a_but_a.y = this.pageRect.height - 40;
+            this.a_but_b.y = this.pageRect.height - 40;
+            this.a_but_c.y = this.pageRect.height - 40;
+        };
+        PopModelShowPanel.prototype.butClik = function (evt) {
+            switch (evt.target) {
+                case this.a_but_a:
+                    console.log(evt.target);
+                    this.selectInputDae(evt);
+                    break;
+                case this.a_but_b:
+                    break;
+                case this.a_but_c:
+                    break;
+                default:
+                    break;
+            }
+        };
+        PopModelShowPanel.prototype.selectInputDae = function (evt) {
+            var _this = this;
+            this._inputHtmlSprite = document.createElement('input');
+            this._inputHtmlSprite.setAttribute('id', '_ef');
+            this._inputHtmlSprite.setAttribute('type', 'file');
+            this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
+            this._inputHtmlSprite.click();
+            this._inputHtmlSprite.value;
+            this._inputHtmlSprite.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
+        };
+        PopModelShowPanel.prototype.changeFile = function (evt) {
+            var _this = this;
+            for (var i = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
+                var simpleFile = this._inputHtmlSprite.files[i];
+                if (!/image\/\w+/.test(simpleFile.type)) {
+                    var $reader = new FileReader();
+                    if (simpleFile.name.indexOf(".md5mesh") != -1) {
+                        $reader.readAsText(simpleFile);
+                        $reader.onload = function ($temp) {
+                            ModelShowModel.getInstance().webmd5Sprite.addLocalMeshByStr($reader.result);
+                        };
+                        return;
+                    }
+                    if (simpleFile.name.indexOf(".md5anim") != -1) {
+                        $reader.readAsText(simpleFile);
+                        $reader.onload = function ($temp) {
+                            ModelShowModel.getInstance().webmd5Sprite.addLocalAdimByStr($reader.result);
+                            ModelShowModel.getInstance().changeWebModel();
+                        };
+                        return;
+                    }
+                    if (simpleFile.name.indexOf("objs.txt") != -1) {
+                        $reader.readAsText(simpleFile);
+                        $reader.onload = function ($temp) {
+                            ModelShowModel.getInstance().readTxtToModelBy($reader.result);
+                        };
+                    }
+                    else {
+                        // alert("objs.txt结尾对象0" + simpleFile.name);
+                        $reader.readAsArrayBuffer(simpleFile);
+                        $reader.onload = function ($temp) {
+                            if (_this.isRoleFile($reader.result)) {
+                                console.log("是角色", simpleFile.name);
+                                filemodel.RoleChangeModel.getInstance().loadLocalFile($reader.result);
+                                left.SceneRenderToTextrue.getInstance().viweLHnumber = 1000;
+                            }
+                            else {
+                                alert("不确定类型");
+                            }
+                        };
+                    }
+                }
+                else {
+                    alert("请确保文件类型为图像类型");
+                }
+            }
+            this._inputHtmlSprite = null;
+        };
+        PopModelShowPanel.prototype.isRoleFile = function (arrayBuffer) {
+            var $byte = new ByteArray(arrayBuffer);
+            $byte.position = 0;
+            var $version = $byte.readInt();
+            var $url = $byte.readUTF();
+            if ($url.indexOf("role/") != -1) {
+                return true;
+            }
+            else {
+                return false;
+            }
         };
         PopModelShowPanel.prototype.tittleMouseDown = function (evt) {
             this.mouseMoveTaget = evt.target;
@@ -218,6 +323,7 @@ var popmodel;
                     break;
                 case this.showModelPicUI:
                     this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY);
+                    console.log("PopModelShowPanel");
                     break;
                 case this.a_rigth_line:
                 case this.a_bottom_line:

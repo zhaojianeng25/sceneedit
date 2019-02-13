@@ -14,6 +14,7 @@
     import UIRectangle = Pan3d.UIRectangle
     import baseMeshVo = Pan3d.baseMeshVo
     import MouseType = Pan3d.MouseType
+    import ByteArray = Pan3d.Pan3dByteArray
     import UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
 
     import ModelShowModel = left.ModelShowModel
@@ -166,17 +167,22 @@
             this.modelPic = new modelShowRender();
             this.addRender(this.modelPic)
 
+            this._midRender = new UIRenderComponent;
+            this.addRender(this._midRender);
+
             this._topRender = new UIRenderComponent;
             this.addRender(this._topRender);
 
    
 
             this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", () => { this.loadConfigCom() });
+            this._bottomRender.uiAtlas.setInfo("ui/materialmodeshow/materialmodeshow.txt", "ui/materialmodeshow/materialmodeshow.png", () => { this.loadConfigCom() });
 
         }
 
         private _bottomRender: UIRenderComponent;
+   
+        private _midRender: UIRenderComponent;
         private _topRender: UIRenderComponent;
    
 
@@ -196,23 +202,35 @@
         }
         private modelPic: modelShowRender;
         protected loadConfigCom(): void {
+            this._midRender.uiAtlas = this._bottomRender.uiAtlas
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
             this.pageRect = new Rectangle(0, 0, 300, 300)
  
  
 
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_tittle = this.addChild(<UICompenent>this._topRender.getComponent("a_win_tittle"));
+            this.a_win_tittle = this.addChild(<UICompenent>this._midRender.getComponent("a_win_tittle"));
             this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
-            this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
+            this.a_rigth_line = this.addChild(<UICompenent>this._midRender.getComponent("a_rigth_line"));
             this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
-            this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
+            this.a_bottom_line = this.addChild(<UICompenent>this._midRender.getComponent("a_bottom_line"));
             this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
-            this.a_right_bottom = this.addChild(<UICompenent>this._topRender.getComponent("a_right_bottom"));
+            this.a_right_bottom = this.addChild(<UICompenent>this._midRender.getComponent("a_right_bottom"));
             this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+
+            this.a_win_label_left = this.addEvntBut("a_win_label_left", this._topRender);
+            this.a_win_label_centen = this.addEvntBut("a_win_label_centen", this._topRender);
+            this.a_win_label_right = this.addEvntBut("a_win_label_right", this._topRender);
+
+
+            this.a_but_a = this.addEvntBut("a_but_a", this._topRender);
+            this.a_but_b = this.addEvntBut("a_but_b", this._topRender);
+            this.a_but_c = this.addEvntBut("a_but_c", this._topRender);
+
+ 
 
             this.initView();
             this.refrishSize()
@@ -222,6 +240,14 @@
 
 
         }
+        private a_but_a: UICompenent
+        private a_but_b: UICompenent
+        private a_but_c: UICompenent
+
+        private a_win_label_left: UICompenent
+        private a_win_label_centen: UICompenent
+        private a_win_label_right: UICompenent
+
         public onMouseWheel($evt: MouseWheelEvent): void {
             var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi && $slectUi.parent == this) {
@@ -231,7 +257,7 @@
         }
         private showModelPicUI: UICompenent
         private initView(): void {
-            this.modelPic.uiAtlas = this._topRender.uiAtlas
+            this.modelPic.uiAtlas = this._midRender.uiAtlas
             this.showModelPicUI = this.addChild(this.modelPic.getComponent("a_bg"));
  
 
@@ -290,9 +316,113 @@
             this.showModelPicUI.y = (this.pageRect.height - this.a_win_tittle.height - minW) / 2 + this.a_win_tittle.height
 
 
+            this.a_win_label_left.y = this.pageRect.height - this.a_win_label_left.height
+            this.a_win_label_left.y = this.a_win_tittle.height-5
+            this.a_win_label_centen.y = this.a_win_label_left.y
+            this.a_win_label_right.y = this.a_win_label_centen.y
+
+            this.a_win_label_left.x = 0
+            this.a_win_label_centen.x = this.a_win_label_left.x + this.a_win_label_left.width
+
+            this.a_win_label_right.x = this.pageRect.width - this.a_win_label_right.width
+            this.a_win_label_centen.width = this.pageRect.width - this.a_win_label_left.width - this.a_win_label_right.width
+
+            this.a_but_a.y = this.pageRect.height - 40
+            this.a_but_b.y = this.pageRect.height - 40
+            this.a_but_c.y = this.pageRect.height - 40
+
+        
 
         }
+        protected butClik(evt: InteractiveEvent): void {
+            switch (evt.target) {
+                case this.a_but_a:
+                    console.log(evt.target)
+                    this.selectInputDae(evt)
+                    break
+                case this.a_but_b:
+                    break
+                case this.a_but_c:
+                    break
+                default:
+                    break
+            }
+        }
+        private _inputHtmlSprite: HTMLInputElement
+        protected selectInputDae(evt: InteractiveEvent): void {
 
+
+            this._inputHtmlSprite = <HTMLInputElement>document.createElement('input');
+            this._inputHtmlSprite.setAttribute('id', '_ef');
+            this._inputHtmlSprite.setAttribute('type', 'file');
+            this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
+            this._inputHtmlSprite.click();
+            this._inputHtmlSprite.value;
+            this._inputHtmlSprite.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
+
+
+        }
+        private changeFile(evt: any): void {
+            for (var i: number = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
+                var simpleFile: File = <File>this._inputHtmlSprite.files[i];
+                if (!/image\/\w+/.test(simpleFile.type)) {
+                    var $reader: FileReader = new FileReader();
+
+                    if (simpleFile.name.indexOf(".md5mesh") != -1) {
+
+                        $reader.readAsText(simpleFile);
+                        $reader.onload = ($temp: Event) => {
+                            ModelShowModel.getInstance().webmd5Sprite.addLocalMeshByStr(<string>$reader.result)
+                        }
+                        return
+                    }
+                    if (simpleFile.name.indexOf(".md5anim") != -1) {
+
+                        $reader.readAsText(simpleFile);
+                        $reader.onload = ($temp: Event) => {
+                            ModelShowModel.getInstance().webmd5Sprite.addLocalAdimByStr(<string>$reader.result)
+
+                            ModelShowModel.getInstance().changeWebModel();
+                        }
+                        return
+                    }
+                    if (simpleFile.name.indexOf("objs.txt") != -1) {
+                        $reader.readAsText(simpleFile);
+                        $reader.onload = ($temp: Event) => {
+                            ModelShowModel.getInstance().readTxtToModelBy(<string>$reader.result)
+                        }
+                    } else {
+                        // alert("objs.txt结尾对象0" + simpleFile.name);
+                        $reader.readAsArrayBuffer(simpleFile);
+                        $reader.onload = ($temp: Event) => {
+                            if (this.isRoleFile(<ArrayBuffer>$reader.result)) {
+                                console.log("是角色", simpleFile.name)
+                                filemodel.RoleChangeModel.getInstance().loadLocalFile(<ArrayBuffer>$reader.result)
+                                left.SceneRenderToTextrue.getInstance().viweLHnumber = 1000
+                            } else {
+                                alert("不确定类型");
+                            }
+                        }
+
+                    }
+                } else {
+                    alert("请确保文件类型为图像类型");
+                }
+            }
+            this._inputHtmlSprite = null;
+        }
+        private isRoleFile(arrayBuffer: ArrayBuffer): boolean {
+            var $byte: ByteArray = new ByteArray(arrayBuffer);
+            $byte.position = 0
+            var $version: number = $byte.readInt();
+            var $url: string = $byte.readUTF();
+            if ($url.indexOf("role/") != -1) {
+                return true
+            } else {
+                return false
+            }
+
+        }
 
         private lastPagePos: Vector2D;
         private lastMousePos: Vector2D;
@@ -309,6 +439,7 @@
                     break
                 case this.showModelPicUI:
                     this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY)
+                    console.log("PopModelShowPanel")
                     break
 
                     

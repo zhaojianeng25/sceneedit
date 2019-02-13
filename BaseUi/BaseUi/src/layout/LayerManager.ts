@@ -69,11 +69,9 @@
         public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
         {
             var tf: boolean = false;
-
-            for (var i: number = this.children.length-1; i >=0; i--) {
-                var temp: boolean = this.children[i].mouseEvetData(evt, point);
-                if (temp && !tf) {
-                    tf = true
+            for (var i: number = this.children.length - 1; i >= 0; i--) {
+                if (!tf) {
+                    tf = this.children[i].mouseEvetData(evt, point);
                 }
             }
             var $uistageTemp: boolean = Scene_data.uiStage.interactiveEvent(evt);
