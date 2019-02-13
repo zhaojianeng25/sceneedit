@@ -96,14 +96,18 @@
 
             this.setUiListVisibleByItem([this.a_scroll_bar], false)
 
+            this.uiLoadComplete=true
 
            
 
         }
         public removeMoveEvent(): void {
-            this.a_win_tittle.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            if (this.uiLoadComplete) {
+                this.a_win_tittle.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            }
+
         }
         private a_scroll_bar: UICompenent
         private a_bottom_line: UICompenent

@@ -65,11 +65,14 @@ var basefolderwin;
             this.refrishSize();
             this.a_scroll_bar.y = this.folderMask.y;
             this.setUiListVisibleByItem([this.a_scroll_bar], false);
+            this.uiLoadComplete = true;
         };
         BaseFolderWindow.prototype.removeMoveEvent = function () {
-            this.a_win_tittle.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            if (this.uiLoadComplete) {
+                this.a_win_tittle.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            }
         };
         BaseFolderWindow.prototype.setRect = function (value) {
             this.pageRect = value;
