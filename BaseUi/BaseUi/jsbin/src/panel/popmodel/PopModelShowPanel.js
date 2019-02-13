@@ -183,9 +183,6 @@ var popmodel;
             ModelShowModel.getInstance()._bigPic = this.modelPic;
             ModelShowModel.getInstance().addBaseModel();
             this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/model_" + 6 + "_objs.txt", Pan3d.LoadManager.XML_TYPE, function ($modelxml) {
-                ModelShowModel.getInstance().readTxtToModelBy($modelxml);
-            });
         };
         PopModelShowPanel.prototype.refrishSize = function () {
             this.pageRect.width = Math.max(300, this.pageRect.width);

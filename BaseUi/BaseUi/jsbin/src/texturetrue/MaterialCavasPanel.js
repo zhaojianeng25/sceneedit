@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 var materialui;
 (function (materialui) {
     var UIRenderComponent = Pan3d.UIRenderComponent;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIConatiner = Pan3d.UIConatiner;
     var UIAtlas = Pan3d.UIAtlas;
     var MaterialCavasPanel = /** @class */ (function (_super) {
@@ -42,7 +43,7 @@ var materialui;
             }
             switch (evt.target) {
                 case this.a_compile_but:
-                    materialui.MaterialModel.getInstance().selectFileById(6);
+                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break;
                 case this.a_save_but:
                     materialui.MaterialModel.getInstance().selectFileById(5);

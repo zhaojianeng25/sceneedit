@@ -243,10 +243,6 @@
             this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
  
 
-            Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/model_" + 6 + "_objs.txt", Pan3d.LoadManager.XML_TYPE,
-                ($modelxml: string) => {
-                     ModelShowModel.getInstance().readTxtToModelBy($modelxml)
-                });
 
         }
         private a_bottom_line: UICompenent

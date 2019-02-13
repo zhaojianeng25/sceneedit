@@ -2,7 +2,8 @@
     import InteractiveEvent = Pan3d.InteractiveEvent
     import Vector2D = Pan3d.Vector2D
     import Rectangle = Pan3d.Rectangle;
-    import UIComponent = Pan3d.UICompenent;
+ 
+    import UICompenent = Pan3d.UICompenent
     import Scene_data = Pan3d.Scene_data
 
     export class GameUIInstance {
@@ -51,6 +52,20 @@
                 this.children[i].resize()
             }
         }
+        public getObjectsUnderPoint(evt: Vector2D): UICompenent {
+            for (var i: number = this.children.length - 1; i >= 0; i--) {
+                var temp: UICompenent = this.children[i].getObjectsUnderPoint(evt);
+                if (temp  ) {
+
+                    return temp
+                }
+            }
+
+            return null
+
+
+        }
+   
         public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
         {
             var tf: boolean = false;

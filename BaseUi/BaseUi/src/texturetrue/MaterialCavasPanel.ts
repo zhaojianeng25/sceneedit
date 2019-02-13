@@ -68,7 +68,7 @@
  
             switch (evt.target) {
                 case this.a_compile_but:
-                    MaterialModel.getInstance().selectFileById(6);
+                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break
                 case this.a_save_but:
                     MaterialModel.getInstance().selectFileById(5);

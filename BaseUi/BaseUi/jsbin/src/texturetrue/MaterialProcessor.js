@@ -271,9 +271,11 @@ var materialui;
             this._isMidelMouse = false;
         };
         MaterialProcessor.prototype.onMouseWheel = function ($evt) {
-            var $slectUi = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-            if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
-                this.changeScalePanle($evt);
+            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+                if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
+                    this.changeScalePanle($evt);
+                }
             }
         };
         MaterialProcessor.prototype.changeScalePanle = function ($evt) {

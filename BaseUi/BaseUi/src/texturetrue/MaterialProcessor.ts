@@ -331,15 +331,19 @@
         }
         private mouseXY: Vector2D;
         public onMouseWheel($evt: MouseWheelEvent): void {
-
-       
-            var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
- 
-
-            if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
-                this.changeScalePanle($evt)
-            }  
+   
+            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
           
+                var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+
+ 
+                if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
+                    this.changeScalePanle($evt)
+                }
+
+            }
+            
+       
          
         }
         private changeScalePanle($evt: MouseWheelEvent): void {

@@ -33,6 +33,15 @@ var layout;
                 this.children[i].resize();
             }
         };
+        LayerManager.prototype.getObjectsUnderPoint = function (evt) {
+            for (var i = this.children.length - 1; i >= 0; i--) {
+                var temp = this.children[i].getObjectsUnderPoint(evt);
+                if (temp) {
+                    return temp;
+                }
+            }
+            return null;
+        };
         LayerManager.prototype.mouseEvetData = function (evt, point) {
             var tf = false;
             for (var i = this.children.length - 1; i >= 0; i--) {
