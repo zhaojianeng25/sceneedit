@@ -243,11 +243,7 @@
                             } else {
                                 this.clearChildern($vo.folderMeshVo)   //将要关闭
                             }
-                        } else {
-                            if (!$vo.folderMeshVo.ossListFile.isOpen) {
-                            }
-                            $vo.folderMeshVo.ossListFile.isOpen = true
-                        }
+                        }  
                         $vo.folderMeshVo.needDraw = true;
                     }  
                 }
