@@ -30,11 +30,13 @@
         public getName(): string {
             return "MainEditorProcessor";
         }
-        private _editScenePanel: MainEditorPanel
+        private _editScenePanel: MainEditorPanel;
+        public static edItorSceneManager: EdItorSceneManager
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent: MainEditorEvent = <MainEditorEvent>$event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
+       
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new HierarchyListPanel();
                     }
