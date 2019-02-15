@@ -66,6 +66,8 @@ var maineditor;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                // this.parent.uiAtlas.ctx.fillStyle = "#3c3c3c"; // text color
+                // this.parent.uiAtlas.ctx.fillRect(1, 1, $uiRec.pixelWitdh-2, $uiRec.pixelHeight-2);
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.fileNode.name, 12, 35, 5, TextAlign.LEFT);
                 if (this.folderMeshVo.ossListFile.fileNode.children || this.folderMeshVo.ossListFile.fileNode.type == maineditor.HierarchyNodeType.Folder) {
                     if (this.folderMeshVo.ossListFile.isOpen) {
@@ -124,9 +126,12 @@ var maineditor;
         function HierarchyListPanel() {
             var _this = _super.call(this, FolderName, new Rectangle(0, 0, 128, 20), 50) || this;
             _this.folderCellHeight = 20;
+            _this.cellBgItem = [];
             _this.left = 0;
             _this._bottomRender = new UIRenderComponent;
             _this.addRender(_this._bottomRender);
+            _this._cellBgRender = new UIRenderComponent;
+            _this.addRender(_this._cellBgRender);
             _this.removeRender(_this._baseRender);
             _this.addRender(_this._baseRender);
             _this._topRender = new UIRenderComponent;
@@ -134,7 +139,7 @@ var maineditor;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
             _this.loadAssetImg(function () {
                 _this._bottomRender.uiAtlas = new UIAtlas();
-                _this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", function () { _this.loadConfigCom(); });
+                _this._bottomRender.uiAtlas.setInfo("ui/hierarchy/hierarchy.txt", "ui/hierarchy/hierarchy.png", function () { _this.loadConfigCom(); });
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
             });
             return _this;
@@ -194,9 +199,11 @@ var maineditor;
         HierarchyListPanel.prototype.mouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             if (this.mouseIsDown) {
+                var $clikVo;
                 for (var i = 0; i < this._uiItem.length; i++) {
                     var $vo = this._uiItem[i];
                     if ($vo.ui == evt.target) {
+                        $clikVo = $vo;
                         if ((evt.x - this.left) - $vo.ui.x < 20) {
                             $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
                             if ($vo.folderMeshVo.ossListFile.isOpen) {
@@ -213,15 +220,17 @@ var maineditor;
                         $vo.folderMeshVo.needDraw = true;
                     }
                 }
+                if ($clikVo) {
+                    this.hidefileItemBg(this.fileItem);
+                    $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true;
+                }
                 this.refrishFolder();
             }
         };
-        HierarchyListPanel.prototype.resetHideDic = function (arr) {
+        HierarchyListPanel.prototype.hidefileItemBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {
-                arr[i].clear = false;
-                arr[i].pos = new Vector3D();
-                this.showTemp(arr[i]);
-                this.resetHideDic(arr[i].childItem);
+                arr[i].ossListFile.fileNode.treeSelect = false;
+                this.hidefileItemBg(arr[i].childItem);
             }
         };
         HierarchyListPanel.prototype.clearChildern = function ($folderMeshVo) {
@@ -246,10 +255,12 @@ var maineditor;
         HierarchyListPanel.prototype.loadConfigCom = function () {
             var _this = this;
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
+            this._cellBgRender.uiAtlas = this._bottomRender.uiAtlas;
             this.folderMask = new UIMask();
             this.folderMask.level = 1;
             this.addMask(this.folderMask);
             this._baseRender.mask = this.folderMask;
+            this._cellBgRender.mask = this.folderMask;
             this.fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.mouseDown, this);
@@ -282,6 +293,7 @@ var maineditor;
                 $vo.ossListFile.fileNode = new maineditor.HierarchyFileNode();
                 $vo.ossListFile.fileNode.name = $hierarchyFileNode.name;
                 $vo.ossListFile.fileNode.type = $hierarchyFileNode.type;
+                $vo.ossListFile.fileNode.treeSelect = false;
                 $vo.pos = new Vector3D;
                 this.showTemp($vo);
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
@@ -404,6 +416,25 @@ var maineditor;
                 moveTy = 0;
             }
             this.moveAllTy(this.fileItem, moveTy);
+            while (this.cellBgItem.length) {
+                this.removeChild(this.cellBgItem.pop());
+            }
+            this.showSelectBg(this.fileItem);
+        };
+        HierarchyListPanel.prototype.showSelectBg = function (arr) {
+            for (var i = 0; arr && i < arr.length; i++) {
+                if (arr[i].ossListFile.isOpen) {
+                    this.showSelectBg(arr[i].childItem);
+                }
+                if (arr[i].ossListFile.fileNode.treeSelect) {
+                    var ui = this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
+                    ui.goToAndStop(0);
+                    ui.y = arr[i].pos.y;
+                    ui.x = 0;
+                    ui.width = this.pageRect.width;
+                    this.cellBgItem.push(ui);
+                }
+            }
         };
         HierarchyListPanel.prototype.moveAllTy = function (arr, ty) {
             if (ty === void 0) { ty = 0; }

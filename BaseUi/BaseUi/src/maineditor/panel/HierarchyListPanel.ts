@@ -63,11 +63,15 @@
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+ 
 
+               // this.parent.uiAtlas.ctx.fillStyle = "#3c3c3c"; // text color
+               // this.parent.uiAtlas.ctx.fillRect(1, 1, $uiRec.pixelWitdh-2, $uiRec.pixelHeight-2);
+ 
 
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.fileNode.name, 12, 35, 5, TextAlign.LEFT)
 
-
+               
 
                 if (this.folderMeshVo.ossListFile.fileNode.children || this.folderMeshVo.ossListFile.fileNode.type == HierarchyNodeType.Folder) {
                     if (this.folderMeshVo.ossListFile.isOpen) {
@@ -128,21 +132,27 @@
         public constructor() {
             super(FolderName, new Rectangle(0, 0, 128, 20), 50);
             this.left = 0;
+   
 
             this._bottomRender = new UIRenderComponent;
             this.addRender(this._bottomRender);
+
+            this._cellBgRender = new UIRenderComponent;
+            this.addRender(this._cellBgRender);
+
             this.removeRender(this._baseRender);
             this.addRender(this._baseRender);
             this._topRender = new UIRenderComponent;
             this.addRender(this._topRender);
 
-
+   
+            
             this.pageRect = new Rectangle(0, 0, 200, 200)
 
             this.loadAssetImg(() => {
 
                 this._bottomRender.uiAtlas = new UIAtlas();
-                this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", () => { this.loadConfigCom() });
+                this._bottomRender.uiAtlas.setInfo("ui/hierarchy/hierarchy.txt", "ui/hierarchy/hierarchy.png", () => { this.loadConfigCom() });
 
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
 
@@ -187,6 +197,7 @@
 
         private _bottomRender: UIRenderComponent;
         private _topRender: UIRenderComponent;
+        private _cellBgRender: UIRenderComponent;
 
         private folderMask: UIMask
         public update(t: number): void {
@@ -221,53 +232,45 @@
         protected mouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             if (this.mouseIsDown) {
+                var $clikVo: FolderName
                 for (var i: number = 0; i < this._uiItem.length; i++) {
-                    var $vo: FolderName = <FolderName>this._uiItem[i]
+                    var $vo: FolderName = <FolderName>this._uiItem[i];
                     if ($vo.ui == evt.target) {
+                        $clikVo = $vo
                         if ((evt.x - this.left) - $vo.ui.x < 20) {
                             $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
                             if ($vo.folderMeshVo.ossListFile.isOpen) {
-                          
                             } else {
                                 this.clearChildern($vo.folderMeshVo)   //将要关闭
                             }
-                          
                         } else {
                             if (!$vo.folderMeshVo.ossListFile.isOpen) {
-                             
-                            } 
+                            }
                             $vo.folderMeshVo.ossListFile.isOpen = true
-
-                        
                         }
-
                         $vo.folderMeshVo.needDraw = true;
-
-                      
-                    }
+                    }  
+                }
+                if ($clikVo) {
+                    this.hidefileItemBg(this.fileItem);
+                    $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true
                 }
                 this.refrishFolder();
-
             }
-
         }
-        private resetHideDic(arr: Array<FolderMeshVo>): void {
-
+        private hidefileItemBg(arr: Array<FolderMeshVo>): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
-                arr[i].clear = false
-                arr[i].pos = new Vector3D();
-                this.showTemp(arr[i]);
-                this.resetHideDic( arr[i].childItem)
+                arr[i].ossListFile.fileNode.treeSelect = false;
+                this.hidefileItemBg(arr[i].childItem);
             }
-
         }
-        
+      
+ 
         private clearChildern($folderMeshVo: FolderMeshVo): void {
             if ($folderMeshVo.childItem) {
                 for (var i: number = 0; i < $folderMeshVo.childItem.length; i++) {
                     var $vo: FolderMeshVo = $folderMeshVo.childItem[i];
                     $vo.pos.x=-1000
-
                     this.clearChildern($vo)
                 }
             }
@@ -284,12 +287,14 @@
         }
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
-
+            this._cellBgRender.uiAtlas = this._bottomRender.uiAtlas
+            
             this.folderMask = new UIMask();
-
             this.folderMask.level = 1;
             this.addMask(this.folderMask);
-            this._baseRender.mask = this.folderMask
+            this._baseRender.mask = this.folderMask;
+            this._cellBgRender.mask = this.folderMask;
+
 
             this.fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
@@ -325,6 +330,10 @@
             this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_rigth_line,this.a_bg, this.a_win_tittle], this.canMoveTittle)
 
 
+            
+
+ 
+
             this.refrishSize()
 
 
@@ -344,6 +353,7 @@
                 $vo.ossListFile.fileNode = new HierarchyFileNode()
                 $vo.ossListFile.fileNode.name = $hierarchyFileNode.name
                 $vo.ossListFile.fileNode.type = $hierarchyFileNode.type
+                $vo.ossListFile.fileNode.treeSelect = false
                 $vo.pos = new Vector3D
                 this.showTemp($vo);
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
@@ -536,7 +546,30 @@
             }
 
             this.moveAllTy(this.fileItem, moveTy)
+
+            while (this.cellBgItem.length) {
+                this.removeChild(this.cellBgItem.pop());
+            }
+            this.showSelectBg(this.fileItem)
  
+        }
+        private cellBgItem: Array<UICompenent>=[]
+        private showSelectBg(arr: Array<FolderMeshVo>): void {
+        
+            for (var i: number = 0; arr && i < arr.length; i++) {
+                if (arr[i].ossListFile.isOpen) {
+                    this.showSelectBg(arr[i].childItem)
+                }
+                if (arr[i].ossListFile.fileNode.treeSelect) {
+                    var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
+                    ui.goToAndStop(0)
+                    ui.y = arr[i].pos.y;
+                    ui.x = 0
+                    ui.width = this.pageRect.width
+                    this.cellBgItem.push(ui);
+                }
+           
+            }
         }
         private moveAllTy(arr: Array<FolderMeshVo>, ty: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
