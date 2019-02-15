@@ -33,6 +33,10 @@
     <TypeScriptCompile Include="src\layout\LayUIManager.ts" />
     <TypeScriptCompile Include="src\layout\Panel.ts" />
     <TypeScriptCompile Include="src\layout\Sprite.ts" />
+    <TypeScriptCompile Include="src\maineditor\vo\FileNode.ts" />
+    <TypeScriptCompile Include="src\maineditor\vo\HierarchyFileNode.ts" />
+    <TypeScriptCompile Include="src\maineditor\MainEditorProcessor.ts" />
+    <TypeScriptCompile Include="src\maineditor\panel\HierarchyListPanel.ts" />
     <TypeScriptCompile Include="src\md5\Md5Analysis.ts" />
     <TypeScriptCompile Include="src\md5\Md5animAnalysis.ts" />
     <TypeScriptCompile Include="src\md5\Md5MeshSprite.ts" />

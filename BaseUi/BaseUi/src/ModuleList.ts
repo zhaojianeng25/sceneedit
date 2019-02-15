@@ -19,11 +19,11 @@ class ModuleList {
         var $arr: Array<Pan3d.Module> = [
 
             new materialui.MaterialModule(),
-            new folder.FolderModule(),
+          //  new folder.FolderModule(),
             new rightmenu.RightMenuModule(),
             new editscene.EditSceneModule(),
            new maineditor.MainEditorModule(),
-            new popmodel.PopModelShowModule(),
+          //  new popmodel.PopModelShowModule(),
   
  
         ];

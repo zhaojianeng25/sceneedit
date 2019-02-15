@@ -13,6 +13,26 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
+    var HierarchyNodeType = /** @class */ (function () {
+        function HierarchyNodeType() {
+        }
+        HierarchyNodeType.Folder = 0;
+        HierarchyNodeType.Prefab = 1;
+        HierarchyNodeType.Light = 2;
+        HierarchyNodeType.Water = 3;
+        HierarchyNodeType.Grass = 4;
+        HierarchyNodeType.Capture = 5;
+        HierarchyNodeType.Build = 6;
+        HierarchyNodeType.Reflection = 7;
+        HierarchyNodeType.LightProbe = 8;
+        HierarchyNodeType.ParallelLight = 9;
+        HierarchyNodeType.Particle = 11;
+        HierarchyNodeType.Role = 12;
+        HierarchyNodeType.NavMesh = 13;
+        HierarchyNodeType.Ground = 14;
+        return HierarchyNodeType;
+    }());
+    maineditor.HierarchyNodeType = HierarchyNodeType;
     var HierarchyFileNode = /** @class */ (function (_super) {
         __extends(HierarchyFileNode, _super);
         function HierarchyFileNode() {

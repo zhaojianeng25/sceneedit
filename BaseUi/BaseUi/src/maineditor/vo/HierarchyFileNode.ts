@@ -25,6 +25,27 @@
     import TextureManager = Pan3d.TextureManager
     import LoadManager = Pan3d.LoadManager
 
+    export class HierarchyNodeType {
+
+        public static  Folder: number = 0;
+        public static  Prefab: number = 1;
+        public static  Light: number = 2;
+        public static  Water: number = 3;
+        public static  Grass: number = 4;
+        public static  Capture: number = 5;
+        public static  Build: number = 6;
+        public static  Reflection: number = 7;
+        public static  LightProbe: number = 8;
+        public static  ParallelLight: number = 9;
+
+        public static  Particle: number = 11;
+        public static  Role: number = 12;
+        public static  NavMesh: number = 13;
+        public static  Ground: number = 14;
+
+        
+    }
+
     export class HierarchyFileNode extends FileNode {
         public type: number;      //0 文件夹, 1prefab,2light
         public treeSelect: Boolean

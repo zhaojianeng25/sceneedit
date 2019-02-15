@@ -69,16 +69,33 @@
 
 
 
-                if (this.folderMeshVo.ossListFile.isOpen) {
-                    this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanRight"], 2, 5, 10, 10)
-
-                    this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_FolderOpen_dark"], 15, 2, 18, 16)
-                } else {
-                    this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanUp"], 3, 5, 10, 10)
-
-                    this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_FolderClosed_dark"], 15, 2, 18, 16)
+                if (this.folderMeshVo.ossListFile.fileNode.children || this.folderMeshVo.ossListFile.fileNode.type == HierarchyNodeType.Folder) {
+                    if (this.folderMeshVo.ossListFile.isOpen) {
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanRight"], 2, 5, 10, 10)
+                    } else {
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanUp"], 3, 5, 10, 10)
+                    }
                 }
-
+                switch (this.folderMeshVo.ossListFile.fileNode.type) {
+                    case HierarchyNodeType.Prefab:
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["profeb_16"], 15, 2, 13, 16)
+                        break
+                    case HierarchyNodeType.Light:
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_point16"], 15, 2, 13, 16)
+                        break
+                    case HierarchyNodeType.Folder:
+                        if (this.folderMeshVo.ossListFile.isOpen) {
+                            this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_FolderOpen_dark"], 15, 2, 18, 16)
+                        } else {
+                            this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_FolderClosed_dark"], 15, 2, 18, 16)
+                        }
+                        break
+                    default:
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["water_plane16"], 15, 2, 18, 16)
+                        break
+                }
+                //icon_point16
+                //profeb_16
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
 
             }
@@ -139,8 +156,11 @@
             item.push("icon_FolderOpen_dark");
             item.push("icon_PanRight");
             item.push("icon_PanUp");
-
-
+            item.push("profeb_16");
+            item.push("icon_point16");
+            item.push("water_plane16");
+            
+            
             var finishNum: number = 0
             for (var i: number = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], () => {
@@ -315,73 +335,38 @@
   
 
         }
-        private mekeHierarchy(list: Array<any>): void {
-            for (var i: number = 0; i < list.length; i++) {
- 
-                var $vo: FolderMeshVo = this.getHierarchyMeshVo(list[i])
-                $vo.pos = new Vector3D(0, i * 15, 0)
-                this.fileItem.push($vo)
-            }
-            console.log(this.fileItem.length)
-            this.refrishFolder();
-        }
-        public getHierarchyMeshVo(value: any): FolderMeshVo {
-            var $vo: FolderMeshVo = new FolderMeshVo;
-            $vo.ossListFile = new OssListFile;
-            $vo.ossListFile.fileNode = new HierarchyFileNode()
-            $vo.ossListFile.fileNode.name = value.name
-            this.showTemp($vo);
-            return $vo;
-        }
-        private wirteItem(childItem: Array<any>, $pos: Vector3D, $useId: Boolean): Array<any> {
 
-            var $item: Array<any> = new Array
+        private wirteItem(childItem: Array<any>): Array<FolderMeshVo> {
+            var $item: Array<FolderMeshVo> = new Array
             for (var i: number = 0; childItem && i < childItem.length; i++) {
                 var $hierarchyFileNode: HierarchyFileNode = childItem[i] as HierarchyFileNode
-                var $obj: any = new Object;
-                if ($useId) {
-                    $obj.id = $hierarchyFileNode.id
-                }
-                $obj.children = this.wirteItem($hierarchyFileNode.children, $pos, $useId)
-                $obj.name = $hierarchyFileNode.name
-                $obj.type = $hierarchyFileNode.type
-                $obj.treeSelect = $hierarchyFileNode.treeSelect
-                $obj.lock = $hierarchyFileNode.lock
-                $obj.isHide = $hierarchyFileNode.isHide
+                var $vo: FolderMeshVo = new FolderMeshVo;
+                $vo.ossListFile = new OssListFile;
+                $vo.ossListFile.fileNode = new HierarchyFileNode()
+                $vo.ossListFile.fileNode.name = $hierarchyFileNode.name
+                $vo.ossListFile.fileNode.type = $hierarchyFileNode.type
+                $vo.pos = new Vector3D
+                this.showTemp($vo);
+                $vo.childItem = this.wirteItem($hierarchyFileNode.children);
+                $item.push($vo)
             }
-
             if ($item.length) {
                 return $item
             }
             return null
         }
         private readMapFile(): void {
-
             LoadManager.getInstance().load(Scene_data.fileuiRoot + "scene011_map.txt", LoadManager.XML_TYPE,
                 ($data: string) => {
-
-
                     var obj: any = JSON.parse($data);
-               
-                    this.mekeHierarchy(obj.hierarchyList.item);
-                    console.log(obj)
-
-
+                    var kkk: Array<FolderMeshVo> = this.wirteItem(obj.hierarchyList.item)
+                    for (var i: number = 0; i < kkk.length; i++) {
+                        this.fileItem.push(kkk[i])
+                    }
+                    this.refrishFolder();
                 });
 
-            /*
-            filemodel.FolderModel.getFolderArr("upfile/shadertree/", (value: Array<FileVo>) => {
-                for (var i: number = 0; i < value.length; i++) {
-                    if (value[i].isFolder) {
-                        var $vo: FolderMeshVo = this.getCharNameMeshVo(value[i])
-                        $vo.pos = new Vector3D(0, i * 15, 0)
-
-                        this.fileItem.push($vo)
-                    }
-                }
-                this.refrishFolder();
-            })
-            */
+           
         }
         private a_scroll_bar: UICompenent
         private a_bottom_line: UICompenent
