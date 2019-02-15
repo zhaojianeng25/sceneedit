@@ -2,7 +2,8 @@
     import Panel = layout.Panel;
     import Rectangle = Pan3d.Rectangle
     import Vector2D = Pan3d.Vector2D
-    import Scene_data=Pan3d.Scene_data
+    import Scene_data = Pan3d.Scene_data
+    import LoadManager = Pan3d.LoadManager
     export class EditScenePanel extends Panel {
         public constructor() {
             super(false);
@@ -13,9 +14,11 @@
             this.addLeftMoveLine();
             this.addRightMoveLine();
             this.addBottomMoveLine();
-
+           
             this.resize()
+        
         }
+      
         private bottomMoveLine: EditSceneLineVertical
         private addBottomMoveLine(): void {
             this.bottomMoveLine = new EditSceneLineVertical
@@ -98,8 +101,8 @@
 
 
             var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y+10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y-15)
- 
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
+
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         }
         
 

@@ -22,6 +22,7 @@ class ModuleList {
             new folder.FolderModule(),
             new rightmenu.RightMenuModule(),
             new editscene.EditSceneModule(),
+           new maineditor.MainEditorModule(),
             new popmodel.PopModelShowModule(),
   
  

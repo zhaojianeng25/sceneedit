@@ -20,6 +20,7 @@
     export class EditSceneEvent extends BaseEvent {
         public static SHOW_EDITSCENE_PANEL: string = "SHOW_EDITSCENE_PANEL";
         public static LEFT_LINE_MOVE: string = "LEFT_LINE_MOVE";
+        public static EDITE_SCENE_RESIZE: string = "EDITE_SCENE_RESIZE";
  
 
     }

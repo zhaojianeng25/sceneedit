@@ -23,6 +23,7 @@ var editscene;
         }
         EditSceneEvent.SHOW_EDITSCENE_PANEL = "SHOW_EDITSCENE_PANEL";
         EditSceneEvent.LEFT_LINE_MOVE = "LEFT_LINE_MOVE";
+        EditSceneEvent.EDITE_SCENE_RESIZE = "EDITE_SCENE_RESIZE";
         return EditSceneEvent;
     }(BaseEvent));
     editscene.EditSceneEvent = EditSceneEvent;
