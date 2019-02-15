@@ -18,6 +18,7 @@ var layout;
         function Panel(has) {
             if (has === void 0) { has = true; }
             var _this = _super.call(this) || this;
+            _this.layer = 0;
             if (has) {
                 _this.winBg = new layout.LayoutbaseBg();
                 _this.addUIContainer(_this.winBg);

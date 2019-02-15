@@ -36,8 +36,24 @@
         public initData(): void {
             this.children = [];
         }
-        public addPanel($panel: Panel, $level: number ): void {
-            this.children.push($panel);
+        public addPanel($panel: Panel, $level: number): void {
+            $panel.layer = $level;
+            var index: number = this.children.indexOf($panel);
+            if (index == -1) {
+                this.children.push($panel);
+
+                this.children.sort(function (aa: Panel, bb: Panel): number {
+                    return aa.layer - bb.layer;
+                })
+            }
+          
+            
+        }
+        public removePanel($panel: Panel): void {
+            var index: number = this.children.indexOf($panel);
+            if (index != -1) {
+                this.children.splice(index, 1);
+            }
         }
      
         public update(): void {

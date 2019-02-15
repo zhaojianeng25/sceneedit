@@ -4,7 +4,6 @@ var materialui;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var Panel = layout.Panel;
-    var LayerManager = layout.LayerManager;
     var MaterialModel = /** @class */ (function () {
         function MaterialModel() {
         }
@@ -16,11 +15,9 @@ var materialui;
         };
         MaterialModel.prototype.makePanle = function () {
             materialui.MaterialCtrl.getInstance().nodeUiPanel = new Panel(false);
-            LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0); //创建面板层
-            this.linePanel = new Panel(false);
-            LayerManager.getInstance().addPanel(this.linePanel, 10);
+            materialui.MaterialCtrl.getInstance().linePanel = new Panel(false);
             materialui.MaterialCtrl.getInstance().lineContainer = new materialui.MaterialLineContainer(); //创建线层
-            this.linePanel.addUIContainer(materialui.MaterialCtrl.getInstance().lineContainer);
+            materialui.MaterialCtrl.getInstance().linePanel.addUIContainer(materialui.MaterialCtrl.getInstance().lineContainer);
         };
         MaterialModel.prototype.selectFileById = function (value) {
             var _this = this;

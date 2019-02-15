@@ -17,7 +17,6 @@ var maineditor;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
@@ -219,7 +218,7 @@ var maineditor;
                 if ($clikVo) {
                     this.hidefileItemBg(this.fileItem);
                     $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true;
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                    //  ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 }
                 this.refrishFolder();
             }

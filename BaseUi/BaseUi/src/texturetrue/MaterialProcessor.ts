@@ -16,9 +16,12 @@
     import UIAtlas = Pan3d.UIAtlas;
 
     import Panel = layout.Panel
-    
+    import LayerManager = layout.LayerManager
+
     export class MaterialEvent extends BaseEvent {
-        public static SHOW_MATERIA_PANEL: string = "INIT_MATERIA_PANEL"; //
+        public static INIT_MATERIA_PANEL: string = "INIT_MATERIA_PANEL"; //
+        public static SHOW_MATERIA_PANEL: string = "SHOW_MATERIA_PANEL"; //
+        public static HIDE_MATERIA_PANEL: string = "HIDE_MATERIA_PANEL"; //
         public static SAVE_MATERIA_PANEL: string = "SAVE_MATERIA_PANEL"; //
         public static SELECT_MATERIAL_NODE_UI: string = "SELECT_MATERIAL_NODE_UI"; //
         public static COMPILE_MATERIAL: string = "COMPILE_MATERIAL"; //
@@ -42,17 +45,35 @@
         public getName(): string {
             return "MaterialProcessor";
         }
-
+        private materialCavasPanel: MaterialCavasPanel
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof MaterialEvent) {
                 var $materialEvent: MaterialEvent = <MaterialEvent>$event;
+                if ($materialEvent.type == MaterialEvent.INIT_MATERIA_PANEL) {
+            
+
+                    MaterialModel.getInstance().makePanle();
+                    BaseUiStart.stagePos = new Vector2D();
+                    BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
+                    BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
+                    this.materialCavasPanel = new MaterialCavasPanel()
+                }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
-                    this.openMaterialPanel()
+                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 0)
+                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 10);
+                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel)
+                    this.addEvents()
+                }
+                if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
+                    LayerManager.getInstance().removePanel(MaterialCtrl.getInstance().nodeUiPanel)
+                    LayerManager.getInstance().removePanel(MaterialCtrl.getInstance().linePanel);
+                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
+                    this.removeEvents()
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {
                     this.saveMateriaPanel()
                 }
-                
+
                 if ($materialEvent.type == MaterialEvent.SELECT_MATERIAL_NODE_UI) {
                     this.selectNodeUi($materialEvent.nodeUi)
                 }
@@ -65,8 +86,8 @@
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
                     this.clearAllMaterialUi($materialEvent.materailTree);
                 }
-                 
-                
+
+
             }
             if ($event instanceof MEvent_Material_Connect) {
 
@@ -81,26 +102,63 @@
                     this.removeLine($mevent_Material_Connect.line);
                 }
                 if ($mevent_Material_Connect.type == MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_DOUBLUELINE) {
-        
+
                     this.setConnetLine($mevent_Material_Connect.startNode, $mevent_Material_Connect.endNode);
                 }
 
 
             }
-     
+
 
         }
+        private onMouseWheelFun: any;
+        private onMouseFun: any;
+        private onMouseMoveFun: any;
+        private onMouseUpFun: any;
+        private onKeyDownFun: any;
+        private onKeyUpFun: any;
+
+        private addEvents(): void {
+
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
+                this.onMouseFun = ($evt: MouseEvent) => { this.onMouse($evt) };
+                this.onMouseMoveFun = ($evt: MouseEvent) => { this.onMouseMove($evt) };
+                this.onMouseUpFun = ($evt: MouseEvent) => { this.onMouseUp($evt) };
+                this.onKeyDownFun = ($evt: KeyboardEvent) => { this.onKeyDown($evt) };
+                this.onKeyUpFun = ($evt: KeyboardEvent) => { this.onKeyUp($evt) };
+            }
+  
+
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.addEventListener(MouseType.MouseDown, this.onMouseFun );
+            document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun );
+            document.addEventListener(MouseType.MouseUp, this.onMouseUpFun );
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun )
+            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun )
+   
+ 
+        }
+        private removeEvents(): void {
+            document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.removeEventListener(MouseType.MouseDown, this.onMouseFun);
+            document.removeEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.removeEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.removeEventListener(MouseType.KeyDown, this.onKeyDownFun)
+            document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun)
+        }
+
         private clearAllMaterialUi($materailTree: MaterialTree): void {
             var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
 
             var $len: number = $containerList.length
-            for (var i: number = ($len-1); i >=0; i--) {
+            for (var i: number = ($len - 1); i >= 0; i--) {
                 var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
                 if ($temp.name) {
                     this.delUI($temp);
                 }
             }
-           
+
             this.stageMoveTx(new Vector2D(-BaseUiStart.stagePos.x, - BaseUiStart.stagePos.y))
             MtlUiData.Scale = 1;
 
@@ -111,13 +169,13 @@
             this.resetMaterialListUi()
         }
         private resetMaterialListUi(): void {
-          
+
             var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
 
 
             var $len: number = $containerList.length
             var $rect: Rectangle
-            for (var i: number = 0; i < $len ;i++) {
+            for (var i: number = 0; i < $len; i++) {
                 var $ui: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
                 if ($ui.name) {
                     var temp: Rectangle = new Rectangle($ui.x, $ui.y, $ui.x + $ui.width, $ui.y + $ui.height)
@@ -130,26 +188,26 @@
                         $rect = new Rectangle(temp.x, temp.y, temp.width, temp.height)
                     }
                 }
-       
+
             }
             if ($rect) {
                 console.log($rect)
                 console.log(BaseUiStart.stagePos)
             }
         }
- 
-      
-        private  _materialTree: MaterialTree;
+
+
+        private _materialTree: MaterialTree;
         private saveMateriaPanel(): void {
             this._materialTree = new MaterialTree()
-            this._materialTree.data= MaterialCtrl.getInstance().getObj()
+            this._materialTree.data = MaterialCtrl.getInstance().getObj()
             console.log(this._materialTree.data);
 
-          //  filemodel.FileModel.getInstance().upMaterialTreeToWeb(this._materialTree)
+            //  filemodel.FileModel.getInstance().upMaterialTreeToWeb(this._materialTree)
 
 
         }
- 
+
         private selectNodeUi($nodeUi: BaseMaterialNodeUI): void {
             var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
 
@@ -158,76 +216,48 @@
                 if ($temp) {
                     $temp.select = Boolean($nodeUi == $temp);
                 }
-            
+
             }
         }
         public setConnetLine($startItem: ItemMaterialUI, $endItem: ItemMaterialUI): void {
             MaterialCtrl.getInstance().lineContainer.addConnentLine($startItem, $endItem);
         }
-        public  removeLine($line:MaterialNodeLineUI):void{
+        public removeLine($line: MaterialNodeLineUI): void {
             MaterialCtrl.getInstance().lineContainer.removeLine($line);
         }
-        public  startDragLine($node:ItemMaterialUI):void{
+        public startDragLine($node: ItemMaterialUI): void {
             MaterialCtrl.getInstance().lineContainer.startLine($node);
         }
 
-        public  stopDragLine($node: ItemMaterialUI): void {
+        public stopDragLine($node: ItemMaterialUI): void {
             MaterialCtrl.getInstance().lineContainer.stopLine($node);
         }
 
 
-        protected listenModuleEvents(): Array<BaseEvent> {
-            return [
-                new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
-                new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
-                new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
-                new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),
-                new MaterialEvent(MaterialEvent.SCENE_UI_TRUE_MOVE),
-                new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
-                
-                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STARTDRAG),
-                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG),
-                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_REMOVELINE),
-                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_DOUBLUELINE),
 
-            ];
-        }
-        private openMaterialPanel(): void
-        {
-
-            MaterialModel.getInstance().makePanle()
-
-
-            BaseUiStart.stagePos = new Vector2D()
-            BaseMaterialNodeUI.baseUIAtlas = new UIAtlas()
-            BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
+        private openMaterialPanel(): void {
 
 
 
-          
+
+
 
         }
-       
 
-     
+
+
         private loadConfigCom(): void {
 
-        
+
 
 
             this.readMaterialTree()
 
-            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
-            document.addEventListener(MouseType.MouseDown, ($evt: MouseEvent) => { this.onMouse($evt) });
-            document.addEventListener(MouseType.MouseMove, ($evt: MouseEvent) => { this.onMouseMove($evt) });
-            document.addEventListener(MouseType.MouseUp, ($evt: MouseEvent) => { this.onMouseUp($evt) });
 
-            document.addEventListener(MouseType.KeyDown, ($evt: KeyboardEvent) => { this.onKeyDown($evt) })
-            document.addEventListener(MouseType.KeyUp, ($evt: KeyboardEvent) => { this.onKeyUp($evt) })
-           
-   
 
-          
+
+
+
         }
         private baseMaterialTree: MaterialTree
         private readMaterialTree(): void {
@@ -236,7 +266,7 @@
             if (id > 0) {
                 MaterialModel.getInstance().selectFileById(id);
             }
-            BaseUiStart.centenPanel.addUIContainer(new MaterialCavasPanel())
+
         }
 
         public onKeyDown($evt: KeyboardEvent): void {
@@ -246,8 +276,8 @@
                     break
                 case KeyboardType.Delete:
                     var $selectUi: BaseMaterialNodeUI = this.getSelUI();
-                    if ($selectUi ) {
-                        if ( !($selectUi instanceof ResultNodeUI)) {
+                    if ($selectUi) {
+                        if (!($selectUi instanceof ResultNodeUI)) {
                             this.delUI($selectUi);
                         }
                     }
@@ -255,12 +285,12 @@
                 case KeyboardType.S:
                     if ($evt.altKey) {
                         ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
-                   
+
                     }
                     break
                 case KeyboardType.O:
                     //ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
-                 
+
                     break
                 case KeyboardType.Z:
 
@@ -271,15 +301,15 @@
                 default:
                     break
             }
-          
+
         }
         private delUI($ui: BaseMaterialNodeUI): void {
-           
+
             MaterialCtrl.getInstance().removeUI($ui)
             $ui.removeAllNodeLine();
-           
+
             MaterialCtrl.getInstance().nodeUiPanel.removeUIContainer($ui)
-          
+
         }
         private getSelUI(): BaseMaterialNodeUI {
             var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
@@ -291,7 +321,7 @@
             }
             return null;
         }
-   
+
         public onKeyUp($evt: KeyboardEvent): void {
             BaseUiStart.altKey = $evt.altKey
         }
@@ -307,16 +337,16 @@
 
         }
         private onMouseMove($e: MouseEvent): void {
-            if (BaseUiStart.editType == 1) {
-                if (this._isMidelMouse) {
-                    var $txy: Vector2D = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y)
-                    $txy.x /= MtlUiData.Scale;
-                    $txy.y /= MtlUiData.Scale;
+            console.log("材质移动")
+            if (this._isMidelMouse) {
+                var $txy: Vector2D = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y)
+                $txy.x /= MtlUiData.Scale;
+                $txy.y /= MtlUiData.Scale;
 
-                    this.stageMoveTx($txy)
-                    this.mouseXY = new Vector2D($e.x, $e.y);
-                }
+                this.stageMoveTx($txy)
+                this.mouseXY = new Vector2D($e.x, $e.y);
             }
+
         }
         private onMouseUp($e: MouseEvent): void {
             this._isMidelMouse = false
@@ -324,15 +354,15 @@
         private mouseXY: Vector2D;
         public onMouseWheel($evt: MouseWheelEvent): void {
 
-            if (BaseUiStart.editType == 1) {
-                if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                    var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-                    if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
-                        this.changeScalePanle($evt)
-                    }
+
+            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+                if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
+                    this.changeScalePanle($evt)
                 }
             }
-          
+
+
         }
         private changeScalePanle($evt: MouseWheelEvent): void {
 
@@ -350,13 +380,13 @@
             var $se: number = (MtlUiData.Scale - $oldScale);
             this.stageMoveTx(new Vector2D(-tx * $se / MtlUiData.Scale, -ty * $se / MtlUiData.Scale))
         }
-  
-           
+
+
         private stageMoveTx($txy: Vector2D): void {
             BaseUiStart.stagePos.x += $txy.x;
             BaseUiStart.stagePos.y += $txy.y;
-     
-            var $containerList: Array<UIConatiner>= MaterialCtrl.getInstance().nodeUiPanel._containerList
+
+            var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
             for (var i: number = 0; i < $containerList.length; i++) {
                 var $uiConatiner: UIConatiner = $containerList[i];
                 if ($uiConatiner instanceof BaseMaterialNodeUI) {
@@ -364,10 +394,29 @@
                     $uiConatiner.top += $txy.y;
                     $uiConatiner.uiScale = MtlUiData.Scale;
                 }
-            
+
             }
             layout.LayerManager.getInstance().resize()
- 
+
+        }
+        protected listenModuleEvents(): Array<BaseEvent> {
+            return [
+                new MaterialEvent(MaterialEvent.INIT_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.HIDE_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
+                new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),
+                new MaterialEvent(MaterialEvent.SCENE_UI_TRUE_MOVE),
+                new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
+
+
+                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STARTDRAG),
+                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG),
+                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_REMOVELINE),
+                new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_DOUBLUELINE),
+
+            ];
         }
     }
 }

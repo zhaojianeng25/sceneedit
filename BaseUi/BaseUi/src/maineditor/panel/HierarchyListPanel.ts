@@ -251,7 +251,7 @@
                     this.hidefileItemBg(this.fileItem);
                     $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true
 
-                    ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                  //  ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 }
                 this.refrishFolder();
             }

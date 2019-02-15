@@ -20,7 +20,20 @@ var layout;
             this.children = [];
         };
         LayerManager.prototype.addPanel = function ($panel, $level) {
-            this.children.push($panel);
+            $panel.layer = $level;
+            var index = this.children.indexOf($panel);
+            if (index == -1) {
+                this.children.push($panel);
+                this.children.sort(function (aa, bb) {
+                    return aa.layer - bb.layer;
+                });
+            }
+        };
+        LayerManager.prototype.removePanel = function ($panel) {
+            var index = this.children.indexOf($panel);
+            if (index != -1) {
+                this.children.splice(index, 1);
+            }
         };
         LayerManager.prototype.update = function () {
             Pan3d.Scene_data.context3D.setDepthTest(false);

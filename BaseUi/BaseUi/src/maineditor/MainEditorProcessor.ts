@@ -38,20 +38,19 @@
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent: MainEditorEvent = <MainEditorEvent>$event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
-
                     this.maseSceneManager()
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new HierarchyListPanel();
                     }
                     BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
 
-                    ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+               
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
                     if (!this._editScenePanel) {
                         this._editScenePanel = new MainEditorPanel();
                     }
-                    BaseUiStart.editType =0
+                   
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
                     this.addEvents()
                 }
@@ -71,23 +70,25 @@
                 }
             }
         }
+        private onMouseWheelFun: any;
         private addEvents(): void {
-            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
         }
         private removeEvents(): void {
-            document.removeEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
+            document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
         }
         public onMouseWheel($evt: MouseWheelEvent): void {
-            if (BaseUiStart.editType == 0) {
-                if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                    var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-                    if (!$slectUi ) {
-
-                        MainEditorProcessor.edItorSceneManager.cam3D.distance += $evt.wheelDelta/10
-                        console.log(MainEditorProcessor.edItorSceneManager.cam3D.distance)
-                    }
+  
+            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+                if (!$slectUi ) {
+                    MainEditorProcessor.edItorSceneManager.cam3D.distance += $evt.wheelDelta/10
                 }
             }
+         
 
         }
         private maseSceneManager(): void {

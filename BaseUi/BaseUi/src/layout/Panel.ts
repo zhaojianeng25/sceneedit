@@ -5,6 +5,7 @@
 
     export class Panel extends Sprite {
         protected winBg: LayoutbaseBg;
+        public layer=0
         public constructor(has: boolean = true) {
             super();
             if (has) {

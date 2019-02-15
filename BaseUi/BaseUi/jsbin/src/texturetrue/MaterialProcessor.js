@@ -23,12 +23,15 @@ var materialui;
     var MouseType = Pan3d.MouseType;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
+    var LayerManager = layout.LayerManager;
     var MaterialEvent = /** @class */ (function (_super) {
         __extends(MaterialEvent, _super);
         function MaterialEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        MaterialEvent.SHOW_MATERIA_PANEL = "INIT_MATERIA_PANEL"; //
+        MaterialEvent.INIT_MATERIA_PANEL = "INIT_MATERIA_PANEL"; //
+        MaterialEvent.SHOW_MATERIA_PANEL = "SHOW_MATERIA_PANEL"; //
+        MaterialEvent.HIDE_MATERIA_PANEL = "HIDE_MATERIA_PANEL"; //
         MaterialEvent.SAVE_MATERIA_PANEL = "SAVE_MATERIA_PANEL"; //
         MaterialEvent.SELECT_MATERIAL_NODE_UI = "SELECT_MATERIAL_NODE_UI"; //
         MaterialEvent.COMPILE_MATERIAL = "COMPILE_MATERIAL"; //
@@ -60,10 +63,27 @@ var materialui;
             return "MaterialProcessor";
         };
         MaterialProcessor.prototype.receivedModuleEvent = function ($event) {
+            var _this = this;
             if ($event instanceof MaterialEvent) {
                 var $materialEvent = $event;
+                if ($materialEvent.type == MaterialEvent.INIT_MATERIA_PANEL) {
+                    materialui.MaterialModel.getInstance().makePanle();
+                    BaseUiStart.stagePos = new Vector2D();
+                    materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
+                    materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
+                    this.materialCavasPanel = new materialui.MaterialCavasPanel();
+                }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
-                    this.openMaterialPanel();
+                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0);
+                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 10);
+                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
+                    this.addEvents();
+                }
+                if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
+                    LayerManager.getInstance().removePanel(materialui.MaterialCtrl.getInstance().nodeUiPanel);
+                    LayerManager.getInstance().removePanel(materialui.MaterialCtrl.getInstance().linePanel);
+                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
+                    this.removeEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {
                     this.saveMateriaPanel();
@@ -96,6 +116,31 @@ var materialui;
                     this.setConnetLine($mevent_Material_Connect.startNode, $mevent_Material_Connect.endNode);
                 }
             }
+        };
+        MaterialProcessor.prototype.addEvents = function () {
+            var _this = this;
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
+                this.onMouseFun = function ($evt) { _this.onMouse($evt); };
+                this.onMouseMoveFun = function ($evt) { _this.onMouseMove($evt); };
+                this.onMouseUpFun = function ($evt) { _this.onMouseUp($evt); };
+                this.onKeyDownFun = function ($evt) { _this.onKeyDown($evt); };
+                this.onKeyUpFun = function ($evt) { _this.onKeyUp($evt); };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.addEventListener(MouseType.MouseDown, this.onMouseFun);
+            document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.addEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun);
+        };
+        MaterialProcessor.prototype.removeEvents = function () {
+            document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.removeEventListener(MouseType.MouseDown, this.onMouseFun);
+            document.removeEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.removeEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.removeEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun);
         };
         MaterialProcessor.prototype.clearAllMaterialUi = function ($materailTree) {
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
@@ -164,36 +209,10 @@ var materialui;
         MaterialProcessor.prototype.stopDragLine = function ($node) {
             materialui.MaterialCtrl.getInstance().lineContainer.stopLine($node);
         };
-        MaterialProcessor.prototype.listenModuleEvents = function () {
-            return [
-                new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
-                new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
-                new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
-                new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),
-                new MaterialEvent(MaterialEvent.SCENE_UI_TRUE_MOVE),
-                new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
-                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STARTDRAG),
-                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG),
-                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_REMOVELINE),
-                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_DOUBLUELINE),
-            ];
-        };
         MaterialProcessor.prototype.openMaterialPanel = function () {
-            var _this = this;
-            materialui.MaterialModel.getInstance().makePanle();
-            BaseUiStart.stagePos = new Vector2D();
-            materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
-            materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
         };
         MaterialProcessor.prototype.loadConfigCom = function () {
-            var _this = this;
             this.readMaterialTree();
-            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
-            document.addEventListener(MouseType.MouseDown, function ($evt) { _this.onMouse($evt); });
-            document.addEventListener(MouseType.MouseMove, function ($evt) { _this.onMouseMove($evt); });
-            document.addEventListener(MouseType.MouseUp, function ($evt) { _this.onMouseUp($evt); });
-            document.addEventListener(MouseType.KeyDown, function ($evt) { _this.onKeyDown($evt); });
-            document.addEventListener(MouseType.KeyUp, function ($evt) { _this.onKeyUp($evt); });
         };
         MaterialProcessor.prototype.readMaterialTree = function () {
             materialui.MaterialViewBuildUtils.getInstance().addFun = function (ui) { materialui.MaterialCtrl.getInstance().addNodeUI(ui); };
@@ -201,7 +220,6 @@ var materialui;
             if (id > 0) {
                 materialui.MaterialModel.getInstance().selectFileById(id);
             }
-            BaseUiStart.centenPanel.addUIContainer(new materialui.MaterialCavasPanel());
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
             BaseUiStart.altKey = $evt.altKey;
@@ -259,26 +277,23 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseMove = function ($e) {
-            if (BaseUiStart.editType == 1) {
-                if (this._isMidelMouse) {
-                    var $txy = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y);
-                    $txy.x /= materialui.MtlUiData.Scale;
-                    $txy.y /= materialui.MtlUiData.Scale;
-                    this.stageMoveTx($txy);
-                    this.mouseXY = new Vector2D($e.x, $e.y);
-                }
+            console.log("材质移动");
+            if (this._isMidelMouse) {
+                var $txy = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y);
+                $txy.x /= materialui.MtlUiData.Scale;
+                $txy.y /= materialui.MtlUiData.Scale;
+                this.stageMoveTx($txy);
+                this.mouseXY = new Vector2D($e.x, $e.y);
             }
         };
         MaterialProcessor.prototype.onMouseUp = function ($e) {
             this._isMidelMouse = false;
         };
         MaterialProcessor.prototype.onMouseWheel = function ($evt) {
-            if (BaseUiStart.editType == 1) {
-                if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                    var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-                    if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
-                        this.changeScalePanle($evt);
-                    }
+            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+                if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
+                    this.changeScalePanle($evt);
                 }
             }
         };
@@ -307,6 +322,22 @@ var materialui;
                 }
             }
             layout.LayerManager.getInstance().resize();
+        };
+        MaterialProcessor.prototype.listenModuleEvents = function () {
+            return [
+                new MaterialEvent(MaterialEvent.INIT_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.HIDE_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
+                new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
+                new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),
+                new MaterialEvent(MaterialEvent.SCENE_UI_TRUE_MOVE),
+                new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
+                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STARTDRAG),
+                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG),
+                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_REMOVELINE),
+                new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_DOUBLUELINE),
+            ];
         };
         return MaterialProcessor;
     }(BaseProcessor));
