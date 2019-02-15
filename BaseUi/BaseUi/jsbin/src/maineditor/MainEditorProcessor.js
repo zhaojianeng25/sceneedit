@@ -88,11 +88,54 @@ var maineditor;
             var _this = this;
             if (!this.onMouseWheelFun) {
                 this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
+                this.onMouseDownFun = function ($evt) { _this.onMouseDown($evt); };
+                this.onMouseMoveFun = function ($evt) { _this.onMouseMove($evt); };
+                this.onMouseUpFun = function ($evt) { _this.onMouseUp($evt); };
+                this.onKeyDownFun = function ($evt) { _this.onKeyDown($evt); };
+                this.onKeyUpFun = function ($evt) { _this.onKeyUp($evt); };
             }
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.addEventListener(MouseType.MouseDown, this.onMouseDownFun);
+            document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.addEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun);
+            document.addEventListener("contextmenu", function (event) {
+                event.preventDefault();
+            });
         };
         MainEditorProcessor.prototype.removeEvents = function () {
             document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.removeEventListener(MouseType.MouseDown, this.onMouseDownFun);
+            document.removeEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.removeEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.removeEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun);
+        };
+        MainEditorProcessor.prototype.onMouseMove = function ($e) {
+            if ($e.buttons == 4) {
+            }
+        };
+        MainEditorProcessor.prototype.onMouseDown = function ($e) {
+            switch ($e.button) {
+                case 0:
+                    console.log("左键");
+                    break;
+                case 1:
+                    console.log("中键");
+                    break;
+                case 2:
+                    console.log("右键");
+                    break;
+                default:
+                    break;
+            }
+        };
+        MainEditorProcessor.prototype.onMouseUp = function ($e) {
+        };
+        MainEditorProcessor.prototype.onKeyDown = function ($e) {
+        };
+        MainEditorProcessor.prototype.onKeyUp = function ($e) {
         };
         MainEditorProcessor.prototype.onMouseWheel = function ($evt) {
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {

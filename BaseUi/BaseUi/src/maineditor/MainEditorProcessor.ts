@@ -71,15 +71,74 @@
             }
         }
         private onMouseWheelFun: any;
+        private onMouseDownFun: any;
+        private onMouseMoveFun: any;
+        private onMouseUpFun: any;
+        private onKeyDownFun: any;
+        private onKeyUpFun: any;
+
         private addEvents(): void {
+
             if (!this.onMouseWheelFun) {
                 this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
+                this.onMouseDownFun = ($evt: MouseEvent) => { this.onMouseDown($evt) };
+                this.onMouseMoveFun = ($evt: MouseEvent) => { this.onMouseMove($evt) };
+                this.onMouseUpFun = ($evt: MouseEvent) => { this.onMouseUp($evt) };
+                this.onKeyDownFun = ($evt: KeyboardEvent) => { this.onKeyDown($evt) };
+                this.onKeyUpFun = ($evt: KeyboardEvent) => { this.onKeyUp($evt) };
             }
+
+
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.addEventListener(MouseType.MouseDown, this.onMouseDownFun);
+            document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.addEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun)
+            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun)
+
+            document.addEventListener("contextmenu", (event: any) => {
+                event.preventDefault();
+            });
+
+
         }
         private removeEvents(): void {
             document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.removeEventListener(MouseType.MouseDown, this.onMouseDownFun);
+            document.removeEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.removeEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.removeEventListener(MouseType.KeyDown, this.onKeyDownFun)
+            document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun)
         }
+        private onMouseMove($e: MouseEvent): void {
+            if ($e.buttons == 4) {
+               
+            }
+       
+        }
+        private onMouseDown($e: MouseEvent): void {
+   
+            switch ($e.button) {
+                case 0:
+                    console.log("左键")
+                    break
+                case 1:
+                    console.log("中键")
+                    break
+                case 2:
+                    console.log("右键")
+                    break
+                default:
+                    break
+            }
+        }
+        private onMouseUp($e: MouseEvent): void {
+        }
+        private onKeyDown($e: KeyboardEvent): void {
+        }
+        private onKeyUp($e: KeyboardEvent): void {
+        }
+        
         public onMouseWheel($evt: MouseWheelEvent): void {
   
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
