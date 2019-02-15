@@ -387,7 +387,7 @@ var maineditor;
                     this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
                     this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y);
                     this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height);
-                    console.log(this.a_scroll_bar.y);
+                    // console.log(this.a_scroll_bar.y)
                     break;
                 default:
                     console.log("nonono");

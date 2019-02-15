@@ -71,11 +71,6 @@ var left;
             if ($mp === void 0) { $mp = null; }
             var $materialTree = $material;
             Scene_data.context3D.setuniform3f($material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
-            var $uDiffuseCoefficients = new Float32Array([0.14585700631141663, 0.1095229983329773, 0.11986599862575531, 0, 0.0817933976650238, 0.0785657986998558, 0.10676799714565277, 0, -0.012515299953520298, -0.0038914200849831104, -0.0024973100516945124, 0, 0.1110450029373169, 0.04512010142207146, 0.015141899697482586, 0, 0.03221319988369942, 0.014369400218129158, 0.007112869992852211, -0, -0.008236129768192768, -0.005531259812414646, -0.005950029939413071, -0, -0.00837332010269165, -0.0039273700676858425, -0.0023853699676692486, 0, -0.016801999881863594, -0.0022234099451452494, 0.002148869913071394, -0, 0.040785398334264755, 0.01346640009433031, -0.0013942799996584654, 0]);
-            Scene_data.context3D.setVc4fv($material.shader, "uDiffuseCoefficients", $uDiffuseCoefficients);
-            if ($materialTree.cubeTextItem && $materialTree.cubeTextItem.cubeTextWebgl) {
-                Scene_data.context3D.setRenderTextureCube($material.shader.program, "skyBoxCube", $materialTree.cubeTextItem.cubeTextWebgl, $materialTree.texList.length);
-            }
             _super.prototype.setMaterialVc.call(this, $material, $mp);
         };
         MaterialModelSprite.prototype.setMaterialTexture = function ($material, $mp) {

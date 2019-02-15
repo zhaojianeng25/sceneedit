@@ -8,6 +8,7 @@
     import FBO = Pan3d.FBO
     import Engine = Pan3d.Engine
     import TextureRes = Pan3d.TextureRes
+    import Camera3D = Pan3d.Camera3D
 
     export class EdItorSceneManager extends SceneManager {
         constructor() {
@@ -54,15 +55,20 @@
             this.renderContext.clear(this.renderContext.COLOR_BUFFER_BIT | this.renderContext.DEPTH_BUFFER_BIT | this.renderContext.STENCIL_BUFFER_BIT);
         }
         public viweLHnumber: number = 1000
-        public resetViewMatrx3D(): void {
-            Scene_data.viewMatrx3D.identity()
+        public resetViewMatrx3D(v2d: Vector2D): void {
+            Scene_data.viewMatrx3D.identity();
             Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, this.viweLHnumber);
+            if (v2d.x != v2d.y) {
+                Scene_data.viewMatrx3D.appendScale(1, v2d.x / v2d.y, 1);
+            }
+
 
         }
-        public renderToTexture(): void {
+        public renderToTexture(v2d:Vector2D): void {
             if (!this.fbo) {
                 this.fbo = this.getFBO();  
             }
+            this.resetViewMatrx3D(v2d);
             this.updateDepthTexture(this.fbo);
             this.update();
 
@@ -78,7 +84,9 @@
         }
         public textureRes: Pan3d.TextureRes;
         public update(): void {
-            this.resetViewMatrx3D();
+            var lastCam: Camera3D = Scene_data.cam3D
+    
+            Scene_data.cam3D = this.cam3D;
             MathClass.getCamView(Scene_data.cam3D, Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
             Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
@@ -93,6 +101,7 @@
                 this.updateMovieDisplay();
                 Scene_data.context3D.setWriteDepth(false);
             }
+            Scene_data.cam3D = lastCam;
         }
 
     }

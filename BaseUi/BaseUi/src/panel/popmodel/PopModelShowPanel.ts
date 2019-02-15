@@ -341,6 +341,7 @@
                     this.selectInputDae(evt)
                     break
                 case this.a_but_b:
+                    BaseUiStart.editType = 1
                     Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.HIDE_MAIN_EDITOR_PANEL));
                     break
                 case this.a_but_c:

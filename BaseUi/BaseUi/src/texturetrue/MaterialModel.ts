@@ -16,17 +16,15 @@
  
             MaterialCtrl.getInstance().nodeUiPanel = new Panel(false)
             LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel,0)//创建面板层
-
-
             this.linePanel = new Panel(false);
-            LayerManager.getInstance().addPanel(this.linePanel,10);
+            LayerManager.getInstance().addPanel(this.linePanel, 10);
 
-            this.lineContainer = new MaterialLineContainer() //创建线层
-            this.linePanel.addUIContainer(this.lineContainer);
+            MaterialCtrl.getInstance().lineContainer = new MaterialLineContainer() //创建线层
+            this.linePanel.addUIContainer(MaterialCtrl.getInstance().lineContainer);
 
         }
-        private linePanel: Panel
-        public lineContainer: MaterialLineContainer
+        private linePanel: Panel;
+   
         private fileid: number
         public selectFileById(value: number): void {
 

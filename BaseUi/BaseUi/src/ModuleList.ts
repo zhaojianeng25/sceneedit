@@ -22,9 +22,8 @@ class ModuleList {
             new rightmenu.RightMenuModule(), //右菜单
             new editscene.EditSceneModule(), //基本面板
             new maineditor.MainEditorModule(), //场景
-
-          //  new folder.FolderModule(),  //文件夹
-             new popmodel.PopModelShowModule(),  //模型显示小窗口
+            new folder.FolderModule(),  //文件夹
+            new popmodel.PopModelShowModule(),  //模型显示小窗口
 
 
         ];

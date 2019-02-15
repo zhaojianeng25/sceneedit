@@ -198,7 +198,7 @@
             //a_scene_view
             this.initView()
 
-            this.setUiListVisibleByItem([this.a_win_tittle], false);
+          //  this.setUiListVisibleByItem([this.a_win_tittle], false);
 
             this.uiLoadComplete = true
             this.refrishSize()
@@ -210,23 +210,18 @@
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
             TextureManager.getInstance().getTexture("res/shuangdaonv.jpg", ($texture: TextureRes) => {
                 this._sceneViewRender.textureRes = $texture;
-
-             
-                this.maseSceneManager();
+ 
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
 
 
             });
         }
-        private maseSceneManager(): void {
-            MainEditorProcessor.edItorSceneManager = new EdItorSceneManager();
-            Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
-            MainEditorProcessor.edItorSceneManager.addDisplay(new Pan3d.GridLineSprite());
-            MainEditorProcessor.edItorSceneManager.ready = true;
-        }
+  
         private upFrame(t: number): void {
             MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
-            MainEditorProcessor.edItorSceneManager.renderToTexture()
+            var ve2d: Vector2D = new Vector2D(this.a_scene_view.width, this.a_scene_view.height);
+
+            MainEditorProcessor.edItorSceneManager.renderToTexture(ve2d)
         }
         private a_win_tittle: UICompenent;
         protected butClik(evt: InteractiveEvent): void {
@@ -257,11 +252,11 @@
                 this._bottomRender.applyObjData()
                 this._topRender.applyObjData()
 
-                var roundNum: number=10
+                var roundNum: number = 5;
                 this.a_scene_view.x = roundNum;
-                this.a_scene_view.y = roundNum;
+                this.a_scene_view.y = roundNum+25;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
-                this.a_scene_view.height = this.pageRect.height - roundNum * 2;
+                this.a_scene_view.height = this.pageRect.height-25 - roundNum * 2;
 
             }
 

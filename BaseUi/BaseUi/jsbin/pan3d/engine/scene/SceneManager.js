@@ -6,6 +6,7 @@ var Pan3d;
             this._ready = false;
             this.render = true;
             this.test = false;
+            this.cam3D = new Pan3d.Camera3D();
             this._displayList = new Array;
             this._displaySpriteList = new Array;
             this._displayRoleList = new Array;

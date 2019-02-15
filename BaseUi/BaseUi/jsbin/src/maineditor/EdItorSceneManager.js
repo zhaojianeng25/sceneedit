@@ -58,14 +58,18 @@ var maineditor;
             this.renderContext.frontFace(this.renderContext.CW);
             this.renderContext.clear(this.renderContext.COLOR_BUFFER_BIT | this.renderContext.DEPTH_BUFFER_BIT | this.renderContext.STENCIL_BUFFER_BIT);
         };
-        EdItorSceneManager.prototype.resetViewMatrx3D = function () {
+        EdItorSceneManager.prototype.resetViewMatrx3D = function (v2d) {
             Scene_data.viewMatrx3D.identity();
             Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, this.viweLHnumber);
+            if (v2d.x != v2d.y) {
+                Scene_data.viewMatrx3D.appendScale(1, v2d.x / v2d.y, 1);
+            }
         };
-        EdItorSceneManager.prototype.renderToTexture = function () {
+        EdItorSceneManager.prototype.renderToTexture = function (v2d) {
             if (!this.fbo) {
                 this.fbo = this.getFBO();
             }
+            this.resetViewMatrx3D(v2d);
             this.updateDepthTexture(this.fbo);
             this.update();
             var gl = Scene_data.context3D.renderContext;
@@ -78,7 +82,8 @@ var maineditor;
             }
         };
         EdItorSceneManager.prototype.update = function () {
-            this.resetViewMatrx3D();
+            var lastCam = Scene_data.cam3D;
+            Scene_data.cam3D = this.cam3D;
             MathClass.getCamView(Scene_data.cam3D, Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
             Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
@@ -93,6 +98,7 @@ var maineditor;
                 this.updateMovieDisplay();
                 Scene_data.context3D.setWriteDepth(false);
             }
+            Scene_data.cam3D = lastCam;
         };
         return EdItorSceneManager;
     }(SceneManager));

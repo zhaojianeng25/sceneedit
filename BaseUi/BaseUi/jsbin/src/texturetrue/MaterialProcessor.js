@@ -137,9 +137,6 @@ var materialui;
                 console.log(BaseUiStart.stagePos);
             }
         };
-        MaterialProcessor.prototype.setConnetLine = function ($startItem, $endItem) {
-            materialui.MaterialModel.getInstance().lineContainer.addConnentLine($startItem, $endItem);
-        };
         MaterialProcessor.prototype.saveMateriaPanel = function () {
             this._materialTree = new materialui.MaterialTree();
             this._materialTree.data = materialui.MaterialCtrl.getInstance().getObj();
@@ -155,14 +152,17 @@ var materialui;
                 }
             }
         };
+        MaterialProcessor.prototype.setConnetLine = function ($startItem, $endItem) {
+            materialui.MaterialCtrl.getInstance().lineContainer.addConnentLine($startItem, $endItem);
+        };
         MaterialProcessor.prototype.removeLine = function ($line) {
-            materialui.MaterialModel.getInstance().lineContainer.removeLine($line);
+            materialui.MaterialCtrl.getInstance().lineContainer.removeLine($line);
         };
         MaterialProcessor.prototype.startDragLine = function ($node) {
-            materialui.MaterialModel.getInstance().lineContainer.startLine($node);
+            materialui.MaterialCtrl.getInstance().lineContainer.startLine($node);
         };
         MaterialProcessor.prototype.stopDragLine = function ($node) {
-            materialui.MaterialModel.getInstance().lineContainer.stopLine($node);
+            materialui.MaterialCtrl.getInstance().lineContainer.stopLine($node);
         };
         MaterialProcessor.prototype.listenModuleEvents = function () {
             return [
@@ -259,22 +259,26 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseMove = function ($e) {
-            if (this._isMidelMouse) {
-                var $txy = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y);
-                $txy.x /= materialui.MtlUiData.Scale;
-                $txy.y /= materialui.MtlUiData.Scale;
-                this.stageMoveTx($txy);
-                this.mouseXY = new Vector2D($e.x, $e.y);
+            if (BaseUiStart.editType == 1) {
+                if (this._isMidelMouse) {
+                    var $txy = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y);
+                    $txy.x /= materialui.MtlUiData.Scale;
+                    $txy.y /= materialui.MtlUiData.Scale;
+                    this.stageMoveTx($txy);
+                    this.mouseXY = new Vector2D($e.x, $e.y);
+                }
             }
         };
         MaterialProcessor.prototype.onMouseUp = function ($e) {
             this._isMidelMouse = false;
         };
         MaterialProcessor.prototype.onMouseWheel = function ($evt) {
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-                if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
-                    this.changeScalePanle($evt);
+            if (BaseUiStart.editType == 1) {
+                if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                    var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+                    if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
+                        this.changeScalePanle($evt);
+                    }
                 }
             }
         };

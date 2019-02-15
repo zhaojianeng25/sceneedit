@@ -21,7 +21,7 @@
 
            
         }
-      
+        public lineContainer: MaterialLineContainer
         public nodeUiPanel: Panel
         private  _materialTree: MaterialTree;
         private uiList: Array<BaseMaterialNodeUI>;

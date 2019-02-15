@@ -7,6 +7,8 @@ class BaseUiStart extends Pan3d.GameStart {
     public static rightPanel: layout.Panel
     public static centenPanel: layout.Panel
 
+    public static editType: number
+
 
     public init(): void {
 
@@ -15,6 +17,7 @@ class BaseUiStart extends Pan3d.GameStart {
         ModuleList.startup();//启动所有模块
   
         Pan3d.UIData.Scale = 1
+        BaseUiStart.editType=0
 
         layout.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();

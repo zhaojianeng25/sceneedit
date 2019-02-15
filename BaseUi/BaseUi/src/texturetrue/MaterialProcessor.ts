@@ -138,10 +138,7 @@
             }
         }
  
-        public setConnetLine($startItem: ItemMaterialUI, $endItem: ItemMaterialUI): void {
-            MaterialModel.getInstance().lineContainer.addConnentLine($startItem, $endItem);
-
-        }
+      
         private  _materialTree: MaterialTree;
         private saveMateriaPanel(): void {
             this._materialTree = new MaterialTree()
@@ -164,16 +161,18 @@
             
             }
         }
-  
+        public setConnetLine($startItem: ItemMaterialUI, $endItem: ItemMaterialUI): void {
+            MaterialCtrl.getInstance().lineContainer.addConnentLine($startItem, $endItem);
+        }
         public  removeLine($line:MaterialNodeLineUI):void{
-            MaterialModel.getInstance().lineContainer.removeLine($line);
+            MaterialCtrl.getInstance().lineContainer.removeLine($line);
         }
         public  startDragLine($node:ItemMaterialUI):void{
-            MaterialModel.getInstance().lineContainer.startLine($node);
+            MaterialCtrl.getInstance().lineContainer.startLine($node);
         }
 
         public  stopDragLine($node: ItemMaterialUI): void {
-            MaterialModel.getInstance().lineContainer.stopLine($node);
+            MaterialCtrl.getInstance().lineContainer.stopLine($node);
         }
 
 
@@ -232,18 +231,13 @@
         }
         private baseMaterialTree: MaterialTree
         private readMaterialTree(): void {
-
             MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui) };
-
             var id: number = Number(getUrlParam("id"));
             if (id > 0) {
                 MaterialModel.getInstance().selectFileById(id);
             }
             BaseUiStart.centenPanel.addUIContainer(new MaterialCavasPanel())
-
         }
-       
-
 
         public onKeyDown($evt: KeyboardEvent): void {
             BaseUiStart.altKey = $evt.altKey
@@ -313,17 +307,15 @@
 
         }
         private onMouseMove($e: MouseEvent): void {
-            if (this._isMidelMouse) {
-                var $txy: Vector2D = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y)
-                $txy.x/= MtlUiData.Scale;
-                $txy.y /= MtlUiData.Scale;
+            if (BaseUiStart.editType == 1) {
+                if (this._isMidelMouse) {
+                    var $txy: Vector2D = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y)
+                    $txy.x /= MtlUiData.Scale;
+                    $txy.y /= MtlUiData.Scale;
 
-                this.stageMoveTx($txy)
-
-          
-                this.mouseXY = new Vector2D($e.x, $e.y);
-        
-
+                    this.stageMoveTx($txy)
+                    this.mouseXY = new Vector2D($e.x, $e.y);
+                }
             }
         }
         private onMouseUp($e: MouseEvent): void {
@@ -331,20 +323,16 @@
         }
         private mouseXY: Vector2D;
         public onMouseWheel($evt: MouseWheelEvent): void {
-   
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-          
-                var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
 
- 
-                if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
-                    this.changeScalePanle($evt)
+            if (BaseUiStart.editType == 1) {
+                if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                    var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+                    if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
+                        this.changeScalePanle($evt)
+                    }
                 }
-
             }
-            
-       
-         
+          
         }
         private changeScalePanle($evt: MouseWheelEvent): void {
 

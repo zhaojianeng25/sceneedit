@@ -22,6 +22,7 @@ var BaseUiStart = /** @class */ (function (_super) {
         Pan3d.Scene_data.fileuiRoot = "res/";
         ModuleList.startup(); //启动所有模块
         Pan3d.UIData.Scale = 1;
+        BaseUiStart.editType = 0;
         layout.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
         Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL));

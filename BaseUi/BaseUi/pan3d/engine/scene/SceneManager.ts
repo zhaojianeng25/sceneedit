@@ -1,6 +1,7 @@
 ﻿module Pan3d {
     export class SceneManager {
 
+        public cam3D: Camera3D
         public static _instance: any;
         public static getInstance(): SceneManager {
             if (!this._instance) {
@@ -26,6 +27,7 @@
         private _currentUrl: string;
 
         constructor() {
+            this.cam3D = new Camera3D()
             this._displayList = new Array;
             this._displaySpriteList = new Array;
             this._displayRoleList = new Array;

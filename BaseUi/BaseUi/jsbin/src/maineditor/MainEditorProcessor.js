@@ -16,7 +16,10 @@ var maineditor;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var Rectangle = Pan3d.Rectangle;
+    var MouseType = Pan3d.MouseType;
+    var MaterialModelSprite = left.MaterialModelSprite;
     var EditSceneEvent = editscene.EditSceneEvent;
     var MainEditorEvent = /** @class */ (function (_super) {
         __extends(MainEditorEvent, _super);
@@ -55,21 +58,26 @@ var maineditor;
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent = $event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
+                    this.maseSceneManager();
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new maineditor.HierarchyListPanel();
                     }
                     BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                    ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
                     if (!this._editScenePanel) {
                         this._editScenePanel = new maineditor.MainEditorPanel();
                     }
+                    BaseUiStart.editType = 0;
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                    this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
                     if (this._editScenePanel) {
                         BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
                     }
+                    this.removeEvents();
                 }
                 this.changePageRect();
             }
@@ -78,6 +86,36 @@ var maineditor;
                     this.changePageRect();
                 }
             }
+        };
+        MainEditorProcessor.prototype.addEvents = function () {
+            var _this = this;
+            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
+        };
+        MainEditorProcessor.prototype.removeEvents = function () {
+            var _this = this;
+            document.removeEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
+        };
+        MainEditorProcessor.prototype.onMouseWheel = function ($evt) {
+            if (BaseUiStart.editType == 0) {
+                if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                    var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+                    if (!$slectUi) {
+                        MainEditorProcessor.edItorSceneManager.cam3D.distance += $evt.wheelDelta / 10;
+                        console.log(MainEditorProcessor.edItorSceneManager.cam3D.distance);
+                    }
+                }
+            }
+        };
+        MainEditorProcessor.prototype.maseSceneManager = function () {
+            MainEditorProcessor.edItorSceneManager = new maineditor.EdItorSceneManager();
+            Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
+            MainEditorProcessor.edItorSceneManager.addDisplay(new Pan3d.GridLineSprite());
+            MainEditorProcessor.edItorSceneManager.ready = true;
+            this.modelSprite = new MaterialModelSprite();
+            var a = new Pan3d.BaseDiplay3dSprite;
+            MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D();
+            MainEditorProcessor.edItorSceneManager.cam3D.distance = 200;
+            MainEditorProcessor.edItorSceneManager.addDisplay(a);
         };
         MainEditorProcessor.prototype.changePageRect = function () {
             if (this._hierarchyListPanel && BaseUiStart.leftPanel) {

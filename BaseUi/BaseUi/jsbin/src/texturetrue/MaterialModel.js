@@ -19,8 +19,8 @@ var materialui;
             LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0); //创建面板层
             this.linePanel = new Panel(false);
             LayerManager.getInstance().addPanel(this.linePanel, 10);
-            this.lineContainer = new materialui.MaterialLineContainer(); //创建线层
-            this.linePanel.addUIContainer(this.lineContainer);
+            materialui.MaterialCtrl.getInstance().lineContainer = new materialui.MaterialLineContainer(); //创建线层
+            this.linePanel.addUIContainer(materialui.MaterialCtrl.getInstance().lineContainer);
         };
         MaterialModel.prototype.selectFileById = function (value) {
             var _this = this;
