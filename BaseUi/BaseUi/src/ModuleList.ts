@@ -18,13 +18,13 @@ class ModuleList {
 
         var $arr: Array<Pan3d.Module> = [
 
-            new materialui.MaterialModule(),
-            new rightmenu.RightMenuModule(),
-            new editscene.EditSceneModule(),
-            new maineditor.MainEditorModule(),
+            new materialui.MaterialModule(), //材质
+            new rightmenu.RightMenuModule(), //右菜单
+            new editscene.EditSceneModule(), //基本面板
+            new maineditor.MainEditorModule(), //场景
 
-          //  new folder.FolderModule(),
-          //  new popmodel.PopModelShowModule(),
+          //  new folder.FolderModule(),  //文件夹
+             new popmodel.PopModelShowModule(),  //模型显示小窗口
 
 
         ];

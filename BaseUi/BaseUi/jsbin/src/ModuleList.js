@@ -22,6 +22,8 @@ var ModuleList = /** @class */ (function () {
             new rightmenu.RightMenuModule(),
             new editscene.EditSceneModule(),
             new maineditor.MainEditorModule(),
+            //  new folder.FolderModule(),  //文件夹
+            new popmodel.PopModelShowModule(),
         ];
         return $arr;
     };

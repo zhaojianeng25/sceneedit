@@ -4,7 +4,7 @@
     import Vector2D = Pan3d.Vector2D
 
     export class Panel extends Sprite {
-        private winBg: LayoutbaseBg;
+        protected winBg: LayoutbaseBg;
         public constructor(has: boolean = true) {
             super();
             if (has) {

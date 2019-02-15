@@ -13,6 +13,8 @@
 
     export class MainEditorEvent extends BaseEvent {
         public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL"; //显示面板
+        public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL"; //显示面板
+        public static HIDE_MAIN_EDITOR_PANEL: string = "HIDE_MAIN_EDITOR_PANEL"; //显示面板
  
     }
     export class MainEditorModule extends Module {
@@ -28,17 +30,29 @@
         public getName(): string {
             return "MainEditorProcessor";
         }
+        private _editScenePanel: MainEditorPanel
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof MainEditorEvent) {
-                var $leftEvent: MainEditorEvent = <MainEditorEvent>$event;
-                if ($leftEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
+                var $mainEditorEvent: MainEditorEvent = <MainEditorEvent>$event;
+                if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new HierarchyListPanel();
                     }
                     BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
-                    this.changePageRect()
-                 
                 }
+                if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
+                    if (!this._editScenePanel) {
+                        this._editScenePanel = new MainEditorPanel();
+                    }
+                    BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
+                    if (this._editScenePanel) {
+                        BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
+                    }
+                }
+
+                this.changePageRect()
   
             }
             if ($event instanceof EditSceneEvent) {
@@ -52,6 +66,11 @@
                 var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width+10, BaseUiStart.leftPanel.rect.height);
                 this._hierarchyListPanel.panelEventChanger(rect)
             }
+
+            if (this._editScenePanel && BaseUiStart.centenPanel) {
+                var rect: Rectangle = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width -10, BaseUiStart.centenPanel.rect.height-5);
+                this._editScenePanel.panelEventChanger(rect)
+            }
         }
     
  
@@ -61,6 +80,8 @@
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
+                new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
+                new MainEditorEvent(MainEditorEvent.HIDE_MAIN_EDITOR_PANEL),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
 
             ];

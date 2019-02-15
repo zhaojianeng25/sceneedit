@@ -4,6 +4,14 @@
     import Vector2D = Pan3d.Vector2D
     import Scene_data = Pan3d.Scene_data
     import LoadManager = Pan3d.LoadManager
+
+    export class CentenPanel extends Panel {
+        public changeSize(): void {
+            if (this.winBg) {
+                this.winBg.pageRect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50);
+            }
+        }
+    }
     export class EditScenePanel extends Panel {
         public constructor() {
             super(false);
@@ -42,7 +50,7 @@
         }
 
         private addCenten(): void {
-            var temp: Panel = new Panel();
+            var temp: CentenPanel = new CentenPanel();
             temp.x = 600
             temp.y = 0
             temp.width = 450
@@ -89,7 +97,8 @@
             this.bottomMoveLine.width = BaseUiStart.rightPanel.x-10
             this.bottomMoveLine.x = 0
 
-            BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width
+            BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
+            BaseUiStart.centenPanel.height = BaseUiStart.leftPanel.height;
             BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
 
 

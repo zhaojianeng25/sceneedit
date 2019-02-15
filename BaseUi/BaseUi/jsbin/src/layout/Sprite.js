@@ -83,7 +83,7 @@ var layout;
             configurable: true
         });
         Sprite.prototype.mouseEvetData = function (evt, point) {
-            for (var i = 0; i < this.children.length; i++) {
+            for (var i = this.children.length - 1; i >= 0; i--) {
                 var temp = this.children[i].mouseEvetData(evt, point);
                 if (temp) {
                     return temp;

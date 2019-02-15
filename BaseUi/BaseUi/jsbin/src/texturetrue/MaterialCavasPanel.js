@@ -32,8 +32,11 @@ var materialui;
         MaterialCavasPanel.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
             this.a_base_bg = this.addEvntBut("a_base_bg", this._bottomRender);
+            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender);
             this.a_save_but = this.addEvntBut("a_save_but", this._topRender);
             this.a_compile_but = this.addEvntBut("a_compile_but", this._topRender);
+            this.setUiListVisibleByItem([this.a_save_but, this.a_compile_but], true);
+            this.setUiListVisibleByItem([this.a_win_tittle], false);
             this.uiLoadComplete = true;
             this.resize();
         };
@@ -63,6 +66,10 @@ var materialui;
                 this.a_save_but.y = this.a_base_bg.y;
                 this.a_compile_but.x = this.a_save_but.x + 50;
                 this.a_compile_but.y = this.a_base_bg.y;
+                this.a_win_tittle.x = rect.x;
+                this.a_win_tittle.y = 0;
+                this.a_win_tittle.width = rect.width;
+                this._topRender.applyObjData();
             }
             _super.prototype.resize.call(this);
         };

@@ -24,6 +24,8 @@ var maineditor;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         MainEditorEvent.INIT_MAIN_EDITOR_PANEL = "INIT_MAIN_EDITOR_PANEL"; //显示面板
+        MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL"; //显示面板
+        MainEditorEvent.HIDE_MAIN_EDITOR_PANEL = "HIDE_MAIN_EDITOR_PANEL"; //显示面板
         return MainEditorEvent;
     }(BaseEvent));
     maineditor.MainEditorEvent = MainEditorEvent;
@@ -51,14 +53,25 @@ var maineditor;
         };
         MainEditorProcessor.prototype.receivedModuleEvent = function ($event) {
             if ($event instanceof MainEditorEvent) {
-                var $leftEvent = $event;
-                if ($leftEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
+                var $mainEditorEvent = $event;
+                if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new maineditor.HierarchyListPanel();
                     }
                     BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
-                    this.changePageRect();
                 }
+                if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
+                    if (!this._editScenePanel) {
+                        this._editScenePanel = new maineditor.MainEditorPanel();
+                    }
+                    BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
+                    if (this._editScenePanel) {
+                        BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
+                    }
+                }
+                this.changePageRect();
             }
             if ($event instanceof EditSceneEvent) {
                 if ($event.type = EditSceneEvent.EDITE_SCENE_RESIZE) {
@@ -71,10 +84,16 @@ var maineditor;
                 var rect = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width + 10, BaseUiStart.leftPanel.rect.height);
                 this._hierarchyListPanel.panelEventChanger(rect);
             }
+            if (this._editScenePanel && BaseUiStart.centenPanel) {
+                var rect = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width - 10, BaseUiStart.centenPanel.rect.height - 5);
+                this._editScenePanel.panelEventChanger(rect);
+            }
         };
         MainEditorProcessor.prototype.listenModuleEvents = function () {
             return [
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
+                new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
+                new MainEditorEvent(MainEditorEvent.HIDE_MAIN_EDITOR_PANEL),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };

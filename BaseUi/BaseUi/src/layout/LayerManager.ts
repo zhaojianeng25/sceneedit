@@ -42,7 +42,6 @@
      
         public update(): void {
             Pan3d.Scene_data.context3D.setDepthTest(false);
-     
             for (var i: number = 0; i < this.children.length; i++) {
                 this.children[i].update()
             }

@@ -17,6 +17,19 @@ var editscene;
     var Rectangle = Pan3d.Rectangle;
     var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
+    var CentenPanel = /** @class */ (function (_super) {
+        __extends(CentenPanel, _super);
+        function CentenPanel() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        CentenPanel.prototype.changeSize = function () {
+            if (this.winBg) {
+                this.winBg.pageRect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50);
+            }
+        };
+        return CentenPanel;
+    }(Panel));
+    editscene.CentenPanel = CentenPanel;
     var EditScenePanel = /** @class */ (function (_super) {
         __extends(EditScenePanel, _super);
         function EditScenePanel() {
@@ -49,7 +62,7 @@ var editscene;
             this.addChild(this.rightMoveLine);
         };
         EditScenePanel.prototype.addCenten = function () {
-            var temp = new Panel();
+            var temp = new CentenPanel();
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;
@@ -87,6 +100,7 @@ var editscene;
             this.bottomMoveLine.width = BaseUiStart.rightPanel.x - 10;
             this.bottomMoveLine.x = 0;
             BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
+            BaseUiStart.centenPanel.height = BaseUiStart.leftPanel.height;
             BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
             BaseUiStart.centenPanel.resize();
             BaseUiStart.rightPanel.resize();

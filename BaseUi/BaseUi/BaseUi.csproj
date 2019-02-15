@@ -33,6 +33,7 @@
     <TypeScriptCompile Include="src\layout\LayUIManager.ts" />
     <TypeScriptCompile Include="src\layout\Panel.ts" />
     <TypeScriptCompile Include="src\layout\Sprite.ts" />
+    <TypeScriptCompile Include="src\maineditor\panel\MainEditorPanel.ts" />
     <TypeScriptCompile Include="src\maineditor\vo\FileNode.ts" />
     <TypeScriptCompile Include="src\maineditor\vo\HierarchyFileNode.ts" />
     <TypeScriptCompile Include="src\maineditor\MainEditorProcessor.ts" />
