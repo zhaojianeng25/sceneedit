@@ -228,8 +228,7 @@ var maineditor;
             if ($folderMeshVo.childItem) {
                 for (var i = 0; i < $folderMeshVo.childItem.length; i++) {
                     var $vo = $folderMeshVo.childItem[i];
-                    $vo.destory();
-                    console.log("移除", $vo);
+                    $vo.pos.x = -1000;
                     this.clearChildern($vo);
                 }
             }
