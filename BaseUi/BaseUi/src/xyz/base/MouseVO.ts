@@ -7,9 +7,9 @@
         public   last_mouse_x: number = 0;
         public   last_mouse_y: number = 0;
         
-        public   _last_rx: number = 0;
-        public   _last_ry: number = 0;
-        public _last_rz: number = 0;
+        public   oldPosx: number = 0;
+        public   oldPosy: number = 0;
+        public oldPosz: number = 0;
 
         public   old_rotation_x: number = 0;
         public   old_rotation_y: number = 0;
