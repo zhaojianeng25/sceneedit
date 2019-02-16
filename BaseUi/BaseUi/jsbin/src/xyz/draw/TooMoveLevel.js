@@ -30,6 +30,9 @@ var xyz;
             _this._boxC.colorVect = new Vector3D(0, 0, 1);
             return _this;
         }
+        TooMoveLevel.prototype.isHit = function ($e) {
+            console.log(this._boxA);
+        };
         TooMoveLevel.prototype.update = function () {
             var $m;
             var line50 = 20;

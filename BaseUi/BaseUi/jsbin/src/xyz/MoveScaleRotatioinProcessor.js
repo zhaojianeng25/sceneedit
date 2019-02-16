@@ -111,6 +111,7 @@ var xyz;
             return $motherAct;
         };
         MoveScaleRotatioinProcessor.prototype.onMouseMove = function ($e) {
+            this.moveScaleRotationLevel.onMouseMove($e);
             if ($e.altKey) {
                 switch ($e.buttons) {
                     case 4:
@@ -154,7 +155,7 @@ var xyz;
                         MathUtil.MathCam(this.selectScene.cam3D);
                         break;
                     default:
-                        console.log($e.buttons);
+                        //  console.log($e.buttons)
                         break;
                 }
             }

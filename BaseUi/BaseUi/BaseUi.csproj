@@ -408,6 +408,7 @@
     <TypeScriptCompile Include="src\texturetrue\view\TextureSampleNodeUI.ts" />
     <TypeScriptCompile Include="src\win\UIPanel.ts" />
     <TypeScriptCompile Include="src\xyz\base\MouseVO.ts" />
+    <TypeScriptCompile Include="src\xyz\base\TooMathMoveUint.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooLineDisplaySprite.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooObjectHitBox.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooJianTouDisplay3DSprite.ts" />

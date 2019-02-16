@@ -101,10 +101,13 @@
         private baseCamData: Object3D;
         private disMatrix3D: Matrix3D = new Matrix3D
         private onMouseMove($e: MouseEvent): void {
+
+        
+            this.moveScaleRotationLevel.onMouseMove($e);
+
             if ($e.altKey) {
                 switch ($e.buttons) {
                     case 4:
-
                         if (this.baseCamData) {
                             var nx: number = -($e.x - this.mouseInfo.last_mouse_x);
                             var ny: number = -($e.y - this.mouseInfo.last_mouse_y)
@@ -150,7 +153,7 @@
                         MathUtil.MathCam(this.selectScene.cam3D)
                         break;
                     default:
-                        console.log($e.buttons)
+                      //  console.log($e.buttons)
                         break;
                 }
             }

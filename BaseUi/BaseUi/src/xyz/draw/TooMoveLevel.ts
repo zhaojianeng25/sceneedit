@@ -36,8 +36,9 @@
  
 
         }
-
-
+        public isHit($e: MouseEvent): void {
+            console.log(this._boxA)
+        }
         public update(): void {
             var $m: Matrix3D
             var line50: number = 20;;

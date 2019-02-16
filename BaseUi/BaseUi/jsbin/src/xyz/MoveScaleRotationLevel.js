@@ -18,15 +18,27 @@ var xyz;
         __extends(MoveScaleRotationLevel, _super);
         function MoveScaleRotationLevel() {
             var _this = _super.call(this) || this;
-            _this._moveDisplay3DSprite = new xyz.TooMoveLevel;
+            _this._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
+            _this._tooMoveLevel = new xyz.TooMoveLevel;
             return _this;
         }
         MoveScaleRotationLevel.prototype.update = function () {
-            this._moveDisplay3DSprite.update();
+            this._tooMoveLevel.update();
         };
         MoveScaleRotationLevel.prototype.addStage = function () {
             _super.prototype.addStage.call(this);
-            this._moveDisplay3DSprite._scene = this._scene;
+            this._tooMoveLevel._scene = this._scene;
+        };
+        MoveScaleRotationLevel.prototype.onMouseMove = function ($e) {
+            if ($e.buttons == 0) {
+                switch (this._statceType) {
+                    case xyz.TooMathMoveUint.MOVE_XYZ:
+                        this._tooMoveLevel.isHit($e);
+                        break;
+                    default:
+                        break;
+                }
+            }
         };
         return MoveScaleRotationLevel;
     }(Display3D));
