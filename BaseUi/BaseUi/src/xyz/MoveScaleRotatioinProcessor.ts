@@ -10,11 +10,13 @@
     import MouseType = Pan3d.MouseType
     import Matrix3D = Pan3d.Matrix3D
     import MathUtil = Pan3d.MathUtil
+    import Object3D = Pan3d.Object3D
+    import Quaternion = Pan3d.Quaternion
     import UICompenent = Pan3d.UICompenent
 
     export class MoveScaleRotatioinEvent extends BaseEvent {
         public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION"; //显示面板
-  
+
     }
     export class MoveScaleRotatioinModule extends Module {
         public getModuleName(): string {
@@ -42,7 +44,7 @@
                     default:
                         break;
                 }
-              
+
             }
         }
         private mouseInfo: MouseVO = new MouseVO;
@@ -82,24 +84,77 @@
             document.removeEventListener(MouseType.KeyDown, this.onKeyDownFun)
             document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun)
         }
+        private selectVec: Vector3D;
+        private getCamData(tempMatrix3D: Matrix3D): Object3D {
+            var $Minvert: Matrix3D = tempMatrix3D.clone();
+            $Minvert.invert();
+            var $motherAct: Object3D = new Object3D
+            $motherAct.x = -$Minvert.position.x;
+            $motherAct.y = -$Minvert.position.y;
+            $motherAct.z = -$Minvert.position.z;
+            return $motherAct;
+
+        }
+        private A: Matrix3D = new Matrix3D;
+        private B: Matrix3D = new Matrix3D;
+        private C: Matrix3D = new Matrix3D;
+        private baseCamData: Object3D;
+        private disMatrix3D: Matrix3D = new Matrix3D
         private onMouseMove($e: MouseEvent): void {
-            switch ($e.buttons) {
-                case 4:
-                    var $v: Vector3D = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
-                    this.selectScene.cam3D.x = this.mouseInfo._last_rx + (this._middleMoveVe.x - $v.x);
-                    this.selectScene.cam3D.y = this.mouseInfo._last_ry + (this._middleMoveVe.y - $v.y);
-                    this.selectScene.cam3D.z = this.mouseInfo._last_rz + (this._middleMoveVe.z - $v.z);
-                    MathUtil.MathCam(this.selectScene.cam3D)
-                    break;
-                case 2:
-                    this.selectScene.cam3D.rotationX = this.mouseInfo.old_rotation_x - ($e.y - this.mouseInfo.last_mouse_y);
-                    this.selectScene.cam3D.rotationY = this.mouseInfo.old_rotation_y - ($e.x - this.mouseInfo.last_mouse_x);
-                    MathUtil.MathCam(this.selectScene.cam3D)
-                    break;
-                default:
-                    console.log($e.buttons)
-                    break;
+            if ($e.altKey) {
+                switch ($e.buttons) {
+                    case 4:
+
+                        if (this.baseCamData) {
+                            var nx: number = -($e.x - this.mouseInfo.last_mouse_x);
+                            var ny: number = -($e.y - this.mouseInfo.last_mouse_y)
+
+                            var $m: Matrix3D = this.B.clone();
+                            var $Cinvert: Matrix3D = this.C.clone();
+                            $Cinvert.invert();
+                            $m.appendRotation(nx, Vector3D.Y_AXIS)
+                            $m.append(this.C);
+                            $m.appendRotation(ny, Vector3D.X_AXIS)
+                            $m.append($Cinvert);
+                            $m.append(this.disMatrix3D)
+                            var obj: Object3D = this.getCamData($m)
+                            this.selectScene.cam3D.x = -obj.x;
+                            this.selectScene.cam3D.y = -obj.y;
+                            this.selectScene.cam3D.z = -obj.z;
+                            this.selectScene.cam3D.rotationX = this.baseCamData.rotationX + ny;
+                            this.selectScene.cam3D.rotationY = this.baseCamData.rotationY + nx;
+
+                            MathUtil.MathCam(this.selectScene.cam3D)
+
+                            console.log("修改")
+                        }
+
+
+
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                switch ($e.buttons) {
+                    case 4:
+                        var $v: Vector3D = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
+                        this.selectScene.cam3D.x = this.mouseInfo._last_rx + (this._middleMoveVe.x - $v.x);
+                        this.selectScene.cam3D.y = this.mouseInfo._last_ry + (this._middleMoveVe.y - $v.y);
+                        this.selectScene.cam3D.z = this.mouseInfo._last_rz + (this._middleMoveVe.z - $v.z);
+                        MathUtil.MathCam(this.selectScene.cam3D)
+                        break;
+                    case 2:
+                        this.selectScene.cam3D.rotationX = this.mouseInfo.old_rotation_x - ($e.y - this.mouseInfo.last_mouse_y);
+                        this.selectScene.cam3D.rotationY = this.mouseInfo.old_rotation_y - ($e.x - this.mouseInfo.last_mouse_x);
+                        MathUtil.MathCam(this.selectScene.cam3D)
+                        break;
+                    default:
+                        console.log($e.buttons)
+                        break;
+                }
             }
+
         }
 
         private mouseHitInWorld3D($p: Vector2D): Vector3D {
@@ -109,7 +164,7 @@
             var $v: Vector3D = new Vector3D();
             $v.x = $p.x - stageWidth / 2;
             $v.y = stageHeight / 2 - $p.y;
-            $v.z =100 * 2;
+            $v.z = 100 * 2;
             var $m: Matrix3D = new Matrix3D;
             console.log(this.selectScene.cam3D.rotationX)
             $m.appendRotation(- this.selectScene.cam3D.rotationX, Vector3D.X_AXIS);
@@ -121,7 +176,7 @@
         private middleMovetType: boolean //是否按下中键
         private _middleMoveVe: Vector3D
         private onMouseDown($e: MouseEvent): void {
-      
+
             this.middleMovetType = ($e.button == 1);
 
             this.mouseInfo.last_mouse_x = $e.x;
@@ -134,19 +189,41 @@
             this.mouseInfo.old_rotation_x = this.selectScene.cam3D.rotationX;
             this.mouseInfo.old_rotation_y = this.selectScene.cam3D.rotationY;
 
-         
+
 
             switch ($e.button) {
                 case 0:
                     break;
                 case 1:
-                    this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
+                    this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y)); //中键按下的3D坐标
+
+                    this.selectVec = new Vector3D(50, 0, 20); 
+                    this.baseCamData = this.getCamData(this.selectScene.cam3D.cameraMatrix);
+                    this.baseCamData.rotationX = this.selectScene.cam3D.rotationX;
+                    this.baseCamData.rotationY = this.selectScene.cam3D.rotationY;
+
+                    this.A.identity();
+                    this.B.identity();
+                    this.C.identity();
+
+                    this.A = this.selectScene.cam3D.cameraMatrix.clone();
+                    this.B.appendTranslation(-this.selectVec.x, -this.selectVec.y, -this.selectVec.z);
+                    var $q: Quaternion = new Quaternion;
+                    $q.fromMatrix(this.selectScene.cam3D.cameraMatrix);
+                    this.C = $q.toMatrix3D();
+                    this.disMatrix3D = this.A.clone();
+                    var $Binvert: Matrix3D = this.B.clone();
+                    $Binvert.invert();
+                    this.disMatrix3D.prepend($Binvert);
+
+
                     break;
                 default:
                     break;
             }
-           
+
         }
+
         private onMouseUp($e: MouseEvent): void {
         }
         private onKeyDown($e: KeyboardEvent): void {
@@ -163,7 +240,7 @@
                     this.selectScene.cam3D.x = $p.x;
                     this.selectScene.cam3D.y = $p.y;
                     this.selectScene.cam3D.z = $p.z;
- 
+
                     MathUtil.MathCam(this.selectScene.cam3D)
                 }
             }

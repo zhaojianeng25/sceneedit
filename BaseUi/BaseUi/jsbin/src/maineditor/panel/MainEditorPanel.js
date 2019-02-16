@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 var maineditor;
 (function (maineditor) {
     var Rectangle = Pan3d.Rectangle;
-    var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var UIRenderComponent = Pan3d.UIRenderComponent;
@@ -163,13 +162,12 @@ var maineditor;
         };
         MainEditorPanel.prototype.upFrame = function (t) {
             maineditor.MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
-            var ve2d = new Vector2D(this.a_scene_view.width, this.a_scene_view.height);
-            maineditor.MainEditorProcessor.edItorSceneManager.renderToTexture(ve2d);
             var cam3D = maineditor.MainEditorProcessor.edItorSceneManager.cam3D;
             cam3D.cavanRect.x = this.a_scene_view.x;
             cam3D.cavanRect.y = this.a_scene_view.y;
             cam3D.cavanRect.width = this.a_scene_view.width;
             cam3D.cavanRect.height = this.a_scene_view.height;
+            maineditor.MainEditorProcessor.edItorSceneManager.renderToTexture();
         };
         MainEditorPanel.prototype.butClik = function (evt) {
             if (this.perent) {
