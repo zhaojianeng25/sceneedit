@@ -7,6 +7,7 @@ var Pan3d;
             this.render = true;
             this.test = false;
             this.cam3D = new Pan3d.Camera3D();
+            this.focus3D = new Pan3d.Object3D();
             this._displayList = new Array;
             this._displaySpriteList = new Array;
             this._displayRoleList = new Array;
@@ -242,6 +243,7 @@ var Pan3d;
                 return;
             }
             this._displayList.push($display);
+            $display._scene = this;
             $display.addStage();
         };
         SceneManager.prototype.removeDisplay = function ($display) {

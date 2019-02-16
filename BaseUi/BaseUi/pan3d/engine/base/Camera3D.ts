@@ -4,9 +4,11 @@
         private _distance: number = 500;
         public lookAtTarget: Object3D;
         private _astarRect: Rectangle;
+        public cavanRect: Rectangle
         public offset: Vector3D = new Vector3D();
         constructor() {
             super()
+            this.cavanRect = new Rectangle(0, 0, 512, 512);
             this.cameraMatrix = new Matrix3D;
 
         }

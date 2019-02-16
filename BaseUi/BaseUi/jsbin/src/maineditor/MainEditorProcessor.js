@@ -16,9 +16,10 @@ var maineditor;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var Rectangle = Pan3d.Rectangle;
     var MouseType = Pan3d.MouseType;
-    var MaterialModelSprite = left.MaterialModelSprite;
+    var MathClass = Pan3d.MathClass;
     var EditSceneEvent = editscene.EditSceneEvent;
     var MainEditorEvent = /** @class */ (function (_super) {
         __extends(MainEditorEvent, _super);
@@ -68,13 +69,13 @@ var maineditor;
                         this._editScenePanel = new maineditor.MainEditorPanel();
                     }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
-                    this.addEvents();
+                    //this.addEvents()
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
                     if (this._editScenePanel) {
                         BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
                     }
-                    this.removeEvents();
+                    // this.removeEvents()
                 }
                 this.changePageRect();
             }
@@ -150,11 +151,12 @@ var maineditor;
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
             MainEditorProcessor.edItorSceneManager.addDisplay(new Pan3d.GridLineSprite());
             MainEditorProcessor.edItorSceneManager.ready = true;
-            this.modelSprite = new MaterialModelSprite();
-            var a = new Pan3d.BaseDiplay3dSprite;
             MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D();
-            MainEditorProcessor.edItorSceneManager.cam3D.distance = 200;
-            MainEditorProcessor.edItorSceneManager.addDisplay(a);
+            MainEditorProcessor.edItorSceneManager.cam3D.distance = 100;
+            MainEditorProcessor.edItorSceneManager.focus3D.rotationY = 45;
+            MainEditorProcessor.edItorSceneManager.focus3D.rotationX = -45;
+            MathClass.getCamView(MainEditorProcessor.edItorSceneManager.cam3D, MainEditorProcessor.edItorSceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+            ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION), MainEditorProcessor.edItorSceneManager);
         };
         MainEditorProcessor.prototype.changePageRect = function () {
             if (this._hierarchyListPanel && BaseUiStart.leftPanel) {

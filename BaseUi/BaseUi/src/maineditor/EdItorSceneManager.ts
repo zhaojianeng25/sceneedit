@@ -9,6 +9,7 @@
     import Engine = Pan3d.Engine
     import TextureRes = Pan3d.TextureRes
     import Camera3D = Pan3d.Camera3D
+    import Object3D = Pan3d.Object3D
 
     export class EdItorSceneManager extends SceneManager {
         constructor() {
@@ -55,20 +56,20 @@
             this.renderContext.clear(this.renderContext.COLOR_BUFFER_BIT | this.renderContext.DEPTH_BUFFER_BIT | this.renderContext.STENCIL_BUFFER_BIT);
         }
         public viweLHnumber: number = 1000
-        public resetViewMatrx3D(v2d: Vector2D): void {
+        public resetViewMatrx3D( ): void {
             Scene_data.viewMatrx3D.identity();
-            Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, this.viweLHnumber);
-            if (v2d.x != v2d.y) {
-                Scene_data.viewMatrx3D.appendScale(1, v2d.x / v2d.y, 1);
-            }
 
+
+            Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, this.viweLHnumber);
+            Scene_data.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
+   
 
         }
-        public renderToTexture(v2d:Vector2D): void {
+        public renderToTexture( ): void {
             if (!this.fbo) {
                 this.fbo = this.getFBO();  
             }
-            this.resetViewMatrx3D(v2d);
+            this.resetViewMatrx3D( );
             this.updateDepthTexture(this.fbo);
             this.update();
 
@@ -84,10 +85,13 @@
         }
         public textureRes: Pan3d.TextureRes;
         public update(): void {
-            var lastCam: Camera3D = Scene_data.cam3D
-    
+            var lastCam3D: Camera3D = Scene_data.cam3D
+            var lastfocus3D: Object3D = Scene_data.focus3D 
+
+         
             Scene_data.cam3D = this.cam3D;
-            MathClass.getCamView(Scene_data.cam3D, Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+            Scene_data.focus3D = this.focus3D;
+   
             Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
                 this._time = TimeUtil.getTimer();
@@ -101,7 +105,8 @@
                 this.updateMovieDisplay();
                 Scene_data.context3D.setWriteDepth(false);
             }
-            Scene_data.cam3D = lastCam;
+            Scene_data.cam3D = lastCam3D;
+            Scene_data.focus3D = lastfocus3D;
         }
 
     }

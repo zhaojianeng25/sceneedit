@@ -9,9 +9,11 @@
     import Rectangle = Pan3d.Rectangle
     import MouseType = Pan3d.MouseType
     import UICompenent = Pan3d.UICompenent
+    import MathClass = Pan3d.MathClass
     import MaterialModelSprite = left.MaterialModelSprite
     import Panel = layout.Panel
     import EditSceneEvent = editscene.EditSceneEvent
+
 
     export class MainEditorEvent extends BaseEvent {
         public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL"; //显示面板
@@ -52,13 +54,13 @@
                     }
                    
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
-                    this.addEvents()
+                    //this.addEvents()
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
                     if (this._editScenePanel) {
                         BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
                     }
-                    this.removeEvents()
+                   // this.removeEvents()
                 }
 
                 this.changePageRect()
@@ -76,9 +78,7 @@
         private onMouseUpFun: any;
         private onKeyDownFun: any;
         private onKeyUpFun: any;
-
         private addEvents(): void {
-
             if (!this.onMouseWheelFun) {
                 this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
                 this.onMouseDownFun = ($evt: MouseEvent) => { this.onMouseDown($evt) };
@@ -87,8 +87,6 @@
                 this.onKeyDownFun = ($evt: KeyboardEvent) => { this.onKeyDown($evt) };
                 this.onKeyUpFun = ($evt: KeyboardEvent) => { this.onKeyUp($evt) };
             }
-
-
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
             document.addEventListener(MouseType.MouseDown, this.onMouseDownFun);
             document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun);
@@ -156,15 +154,21 @@
             MainEditorProcessor.edItorSceneManager.addDisplay(new Pan3d.GridLineSprite());
             MainEditorProcessor.edItorSceneManager.ready = true;
 
-            this.modelSprite = new MaterialModelSprite();
-            var a: Pan3d.BaseDiplay3dSprite = new Pan3d.BaseDiplay3dSprite
+        
+       
 
-            MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D()
-            MainEditorProcessor.edItorSceneManager.cam3D.distance = 200
-            MainEditorProcessor.edItorSceneManager.addDisplay(a);
+            MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D();
+            MainEditorProcessor.edItorSceneManager.cam3D.distance = 100;
+            MainEditorProcessor.edItorSceneManager.focus3D.rotationY = 45;
+            MainEditorProcessor.edItorSceneManager.focus3D.rotationX = -45;
+
+            MathClass.getCamView(MainEditorProcessor.edItorSceneManager.cam3D, MainEditorProcessor.edItorSceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+
+            ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION), MainEditorProcessor.edItorSceneManager);
+          
      
         }
-        private modelSprite: MaterialModelSprite;
+     
         private changePageRect(): void {
             if (this._hierarchyListPanel && BaseUiStart.leftPanel) {
                 var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width+10, BaseUiStart.leftPanel.rect.height);

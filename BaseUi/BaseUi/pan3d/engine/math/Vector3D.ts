@@ -96,7 +96,7 @@
             return new Vector3D(this.x, this.y, this.z);
         }
 
-        public static distance(v1: Vector3D, v2: Vector3D): number {
+        public static distance(v1: any, v2: any): number {
             var x1: number = v1.x - v2.x;
             var y1: number = v1.y - v2.y;
             var z1: number = v1.z - v2.z;

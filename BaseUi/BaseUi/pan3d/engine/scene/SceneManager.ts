@@ -1,7 +1,8 @@
 ﻿module Pan3d {
     export class SceneManager {
 
-        public cam3D: Camera3D
+        public cam3D: Camera3D;
+        public focus3D: Object3D;
         public static _instance: any;
         public static getInstance(): SceneManager {
             if (!this._instance) {
@@ -10,6 +11,7 @@
             return this._instance;
         }
         public get displayList(): Array<Display3D> {
+        
             return this._displayList;
         }
         protected _displayList: Array<Display3D>;
@@ -28,6 +30,7 @@
 
         constructor() {
             this.cam3D = new Camera3D()
+            this.focus3D = new Object3D()
             this._displayList = new Array;
             this._displaySpriteList = new Array;
             this._displayRoleList = new Array;
@@ -309,6 +312,7 @@
                 return;
             }
             this._displayList.push($display);
+            $display._scene = this
             $display.addStage();
         }
 

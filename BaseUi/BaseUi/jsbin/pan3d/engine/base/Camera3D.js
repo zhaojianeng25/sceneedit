@@ -21,6 +21,7 @@ var Pan3d;
             _this.offset = new Pan3d.Vector3D();
             _this.lastFoucs3D = new Pan3d.Vector3D;
             _this.needChange = true;
+            _this.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512);
             _this.cameraMatrix = new Pan3d.Matrix3D;
             return _this;
         }

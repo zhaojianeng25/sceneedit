@@ -77,7 +77,7 @@ var materialui;
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 10);
                     BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
-                    this.addEvents();
+                    //  this.addEvents()
                 }
                 if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
                     LayerManager.getInstance().removePanel(materialui.MaterialCtrl.getInstance().nodeUiPanel);

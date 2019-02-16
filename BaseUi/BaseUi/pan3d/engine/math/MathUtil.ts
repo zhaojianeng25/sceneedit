@@ -114,6 +114,18 @@
             return matr
 
         }
+        public static MathCam(_Cam: Camera3D): void {
+
+            _Cam.cameraMatrix.identity();
+            _Cam.cameraMatrix.prependRotation(_Cam.rotationX, Vector3D.X_AXIS);
+            _Cam.cameraMatrix.prependRotation(_Cam.rotationY, Vector3D.Y_AXIS);
+            _Cam.cameraMatrix.prependTranslation(-_Cam.x + _Cam.offset.x, -_Cam.y + _Cam.offset.y, -_Cam.z + _Cam.offset.z);
+
+ 
+ 
+
+
+        }
 
     }
 }

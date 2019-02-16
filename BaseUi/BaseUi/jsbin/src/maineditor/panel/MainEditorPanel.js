@@ -165,6 +165,11 @@ var maineditor;
             maineditor.MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
             var ve2d = new Vector2D(this.a_scene_view.width, this.a_scene_view.height);
             maineditor.MainEditorProcessor.edItorSceneManager.renderToTexture(ve2d);
+            var cam3D = maineditor.MainEditorProcessor.edItorSceneManager.cam3D;
+            cam3D.cavanRect.x = this.a_scene_view.x;
+            cam3D.cavanRect.y = this.a_scene_view.y;
+            cam3D.cavanRect.width = this.a_scene_view.width;
+            cam3D.cavanRect.height = this.a_scene_view.height;
         };
         MainEditorPanel.prototype.butClik = function (evt) {
             if (this.perent) {

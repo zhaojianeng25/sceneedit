@@ -222,6 +222,13 @@
             var ve2d: Vector2D = new Vector2D(this.a_scene_view.width, this.a_scene_view.height);
 
             MainEditorProcessor.edItorSceneManager.renderToTexture(ve2d)
+
+            var cam3D: Pan3d.Camera3D = MainEditorProcessor.edItorSceneManager.cam3D
+            cam3D.cavanRect.x = this.a_scene_view.x;
+            cam3D.cavanRect.y = this.a_scene_view.y;
+            cam3D.cavanRect.width = this.a_scene_view.width;
+            cam3D.cavanRect.height = this.a_scene_view.height;
+           
         }
         private a_win_tittle: UICompenent;
         protected butClik(evt: InteractiveEvent): void {

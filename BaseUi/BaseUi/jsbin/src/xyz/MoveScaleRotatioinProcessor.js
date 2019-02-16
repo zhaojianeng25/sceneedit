@@ -1,0 +1,187 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var xyz;
+(function (xyz) {
+    var BaseEvent = Pan3d.BaseEvent;
+    var Vector3D = Pan3d.Vector3D;
+    var Module = Pan3d.Module;
+    var BaseProcessor = Pan3d.BaseProcessor;
+    var MouseType = Pan3d.MouseType;
+    var Matrix3D = Pan3d.Matrix3D;
+    var MathUtil = Pan3d.MathUtil;
+    var MoveScaleRotatioinEvent = /** @class */ (function (_super) {
+        __extends(MoveScaleRotatioinEvent, _super);
+        function MoveScaleRotatioinEvent() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION = "INIT_MOVE_SCALE_ROTATION"; //显示面板
+        return MoveScaleRotatioinEvent;
+    }(BaseEvent));
+    xyz.MoveScaleRotatioinEvent = MoveScaleRotatioinEvent;
+    var MoveScaleRotatioinModule = /** @class */ (function (_super) {
+        __extends(MoveScaleRotatioinModule, _super);
+        function MoveScaleRotatioinModule() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MoveScaleRotatioinModule.prototype.getModuleName = function () {
+            return "MoveScaleRotatioinModule";
+        };
+        MoveScaleRotatioinModule.prototype.listProcessors = function () {
+            return [new MoveScaleRotatioinProcessor()];
+        };
+        return MoveScaleRotatioinModule;
+    }(Module));
+    xyz.MoveScaleRotatioinModule = MoveScaleRotatioinModule;
+    var MoveScaleRotatioinProcessor = /** @class */ (function (_super) {
+        __extends(MoveScaleRotatioinProcessor, _super);
+        function MoveScaleRotatioinProcessor() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.mouseInfo = new xyz.MouseVO;
+            return _this;
+        }
+        MoveScaleRotatioinProcessor.prototype.getName = function () {
+            return "MoveScaleRotatioinProcessor";
+        };
+        MoveScaleRotatioinProcessor.prototype.receivedModuleEvent = function ($event) {
+            if ($event instanceof MoveScaleRotatioinEvent) {
+                switch ($event.type) {
+                    case MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION:
+                        this.moveScaleRotationLevel = new xyz.MoveScaleRotationLevel();
+                        this.selectScene = $event.data;
+                        this.selectScene.addDisplay(this.moveScaleRotationLevel);
+                        this.addEvents();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        MoveScaleRotatioinProcessor.prototype.addEvents = function () {
+            var _this = this;
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
+                this.onMouseDownFun = function ($evt) { _this.onMouseDown($evt); };
+                this.onMouseMoveFun = function ($evt) { _this.onMouseMove($evt); };
+                this.onMouseUpFun = function ($evt) { _this.onMouseUp($evt); };
+                this.onKeyDownFun = function ($evt) { _this.onKeyDown($evt); };
+                this.onKeyUpFun = function ($evt) { _this.onKeyUp($evt); };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.addEventListener(MouseType.MouseDown, this.onMouseDownFun);
+            document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.addEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun);
+            document.addEventListener("contextmenu", function (event) {
+                event.preventDefault();
+            });
+        };
+        MoveScaleRotatioinProcessor.prototype.removeEvents = function () {
+            document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            document.removeEventListener(MouseType.MouseDown, this.onMouseDownFun);
+            document.removeEventListener(MouseType.MouseMove, this.onMouseMoveFun);
+            document.removeEventListener(MouseType.MouseUp, this.onMouseUpFun);
+            document.removeEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun);
+        };
+        MoveScaleRotatioinProcessor.prototype.onMouseMove = function ($e) {
+            switch ($e.buttons) {
+                case 4:
+                    var $v = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
+                    this.selectScene.cam3D.x = this.mouseInfo._last_rx + (this._middleMoveVe.x - $v.x);
+                    this.selectScene.cam3D.y = this.mouseInfo._last_ry + (this._middleMoveVe.y - $v.y);
+                    this.selectScene.cam3D.z = this.mouseInfo._last_rz + (this._middleMoveVe.z - $v.z);
+                    MathUtil.MathCam(this.selectScene.cam3D);
+                    break;
+                case 2:
+                    this.selectScene.cam3D.rotationX = this.mouseInfo.old_rotation_x - ($e.y - this.mouseInfo.last_mouse_y);
+                    this.selectScene.cam3D.rotationY = this.mouseInfo.old_rotation_y - ($e.x - this.mouseInfo.last_mouse_x);
+                    MathUtil.MathCam(this.selectScene.cam3D);
+                    break;
+                default:
+                    console.log($e.buttons);
+                    break;
+            }
+        };
+        MoveScaleRotatioinProcessor.prototype.mouseHitInWorld3D = function ($p) {
+            var stageHeight = this.selectScene.cam3D.cavanRect.width;
+            var stageWidth = this.selectScene.cam3D.cavanRect.height;
+            var $v = new Vector3D();
+            $v.x = $p.x - stageWidth / 2;
+            $v.y = stageHeight / 2 - $p.y;
+            $v.z = 100 * 2;
+            var $m = new Matrix3D;
+            console.log(this.selectScene.cam3D.rotationX);
+            $m.appendRotation(-this.selectScene.cam3D.rotationX, Vector3D.X_AXIS);
+            $m.appendRotation(-this.selectScene.cam3D.rotationY, Vector3D.Y_AXIS);
+            return $m.transformVector($v);
+        };
+        MoveScaleRotatioinProcessor.prototype.onMouseDown = function ($e) {
+            this.middleMovetType = ($e.button == 1);
+            this.mouseInfo.last_mouse_x = $e.x;
+            this.mouseInfo.last_mouse_y = $e.y;
+            this.mouseInfo._last_rx = this.selectScene.cam3D.x;
+            this.mouseInfo._last_ry = this.selectScene.cam3D.y;
+            this.mouseInfo._last_rz = this.selectScene.cam3D.z;
+            this.mouseInfo.old_rotation_x = this.selectScene.cam3D.rotationX;
+            this.mouseInfo.old_rotation_y = this.selectScene.cam3D.rotationY;
+            switch ($e.button) {
+                case 0:
+                    break;
+                case 1:
+                    this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
+                    break;
+                default:
+                    break;
+            }
+        };
+        MoveScaleRotatioinProcessor.prototype.onMouseUp = function ($e) {
+        };
+        MoveScaleRotatioinProcessor.prototype.onKeyDown = function ($e) {
+        };
+        MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
+        };
+        MoveScaleRotatioinProcessor.prototype.onMouseWheel = function ($evt) {
+            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+                var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+                if (!$slectUi) {
+                    var $p = this.getCamForntPos($evt.wheelDelta * 0.1);
+                    this.selectScene.cam3D.x = $p.x;
+                    this.selectScene.cam3D.y = $p.y;
+                    this.selectScene.cam3D.z = $p.z;
+                    MathUtil.MathCam(this.selectScene.cam3D);
+                }
+            }
+        };
+        MoveScaleRotatioinProcessor.prototype.getCamForntPos = function (dis) {
+            var $p = new Vector3D(0, 0, dis);
+            var $m = new Matrix3D;
+            $m.appendRotation(-this.selectScene.cam3D.rotationX, Vector3D.X_AXIS);
+            $m.appendRotation(-this.selectScene.cam3D.rotationY, Vector3D.Y_AXIS);
+            $p = $m.transformVector($p);
+            $p.x = this.selectScene.cam3D.x + $p.x;
+            $p.y = this.selectScene.cam3D.y + $p.y;
+            $p.z = this.selectScene.cam3D.z + $p.z;
+            return $p;
+        };
+        MoveScaleRotatioinProcessor.prototype.listenModuleEvents = function () {
+            return [
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
+            ];
+        };
+        return MoveScaleRotatioinProcessor;
+    }(BaseProcessor));
+    xyz.MoveScaleRotatioinProcessor = MoveScaleRotatioinProcessor;
+})(xyz || (xyz = {}));
+//# sourceMappingURL=MoveScaleRotatioinProcessor.js.map

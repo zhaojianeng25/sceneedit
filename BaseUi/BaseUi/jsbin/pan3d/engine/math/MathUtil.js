@@ -105,6 +105,12 @@ var Pan3d;
             matr.buildLookAtLH(eyePos, lookAt, Pan3d.Vector3D.Y_AXIS);
             return matr;
         };
+        MathUtil.MathCam = function (_Cam) {
+            _Cam.cameraMatrix.identity();
+            _Cam.cameraMatrix.prependRotation(_Cam.rotationX, Pan3d.Vector3D.X_AXIS);
+            _Cam.cameraMatrix.prependRotation(_Cam.rotationY, Pan3d.Vector3D.Y_AXIS);
+            _Cam.cameraMatrix.prependTranslation(-_Cam.x + _Cam.offset.x, -_Cam.y + _Cam.offset.y, -_Cam.z + _Cam.offset.z);
+        };
         return MathUtil;
     }());
     Pan3d.MathUtil = MathUtil;
