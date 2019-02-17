@@ -2,6 +2,7 @@
     export class SceneManager {
 
         public cam3D: Camera3D;
+        public viewMatrx3D: Matrix3D
         public focus3D: Object3D;
         public static _instance: any;
         public static getInstance(): SceneManager {
@@ -31,6 +32,7 @@
         constructor() {
             this.cam3D = new Camera3D()
             this.focus3D = new Object3D()
+            this.viewMatrx3D = new Matrix3D()
             this._displayList = new Array;
             this._displaySpriteList = new Array;
             this._displayRoleList = new Array;

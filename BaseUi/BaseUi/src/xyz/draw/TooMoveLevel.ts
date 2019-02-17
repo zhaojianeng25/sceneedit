@@ -17,11 +17,12 @@
         private _lineA: TooLineTri3DSprite
         private _lineB: TooLineTri3DSprite
         private _lineC: TooLineTri3DSprite
- 
+
+        public parent: MoveScaleRotationLevel;
 
         constructor() {
             super();
-
+            
             this._boxA = new TooJianTouDisplay3DSprite();
             this._boxB = new TooJianTouDisplay3DSprite();
             this._boxC = new TooJianTouDisplay3DSprite();
@@ -36,18 +37,69 @@
  
 
         }
-        public isHit($e: MouseEvent): void {
+        public isHit(mouseVect2d: Vector2D): void {
 
-            var mouseVect2d: Vector2D = new Vector2D($e.x - this._scene.cam3D.cavanRect.x, $e.y - this._scene.cam3D.cavanRect.y)
-
+      
             this.testHitTemp(this._boxA, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(1, 0, 0)]);
             this.testHitTemp(this._boxB, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 1, 0)]);
             this.testHitTemp(this._boxC, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 0, 1)]);
 
         
         }
+        public selectId: number;
+
+     
+
+        public onMouseDown(mouseVect2d: Vector2D): void {
+
+            if (TooMathHitModel.testHitModel(this._boxA, this._scene, mouseVect2d)) {
+                this.selectId = 1;
+            } else if (TooMathHitModel.testHitModel(this._boxB, this._scene, mouseVect2d)) {
+                this.selectId = 2;
+            } else if (TooMathHitModel.testHitModel(this._boxC, this._scene, mouseVect2d)) {
+                this.selectId = 3;
+            }
+        
+        }
+        public onMouseUp(mouseVect2d: Vector2D): void {
+            this.lastMousePosV3d = null;
+            this.selectId = 0;
+        }
+        private lastMousePosV3d: Vector3D;
+        public onMouseMove(mouseVect2d: Vector2D): void {
+            if (this.selectId > 0) {
+                var pos: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
+                if (this.lastMousePosV3d) {
+                    var addPos: Vector3D = pos.subtract(this.lastMousePosV3d);
+                    var toPos: Vector3D = new Vector3D
+                    if (this.parent.xyzMoveData) {
+                        switch (this.selectId) {
+                            case 1:
+                                toPos.x = addPos.x
+                                break
+                            case 2:
+                                toPos.y = addPos.y
+                                break
+                            case 3:
+                                toPos.z = addPos.z
+                                break
+                            default:
+                                break;
+                        }
+                        toPos=  this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos)
+
+                        this.parent.xyzMoveData.x = toPos.x;
+                        this.parent.xyzMoveData.y = toPos.y;
+                        this.parent.xyzMoveData.z = toPos.z;
+                    }
+
+
+                }
+                this.lastMousePosV3d = pos;
+            }
+        }
         private testHitTemp(display3D: any, v2d: Vector2D, vec: Array<Vector3D>): void {
-            var hit: boolean = TooMathHitModel.testHitModel(display3D, this._scene.cam3D, v2d);
+            var hit: boolean = TooMathHitModel.testHitModel(display3D, this._scene, v2d);
             display3D.colorVect = hit ? vec[0]: vec[1];
             
         }
@@ -58,7 +110,14 @@
             this.posMatrix.identity()
             var dis: number = Vector3D.distance(this._scene.cam3D.postion, this._scene.focus3D);
             dis = dis / 70;
+
+
             this.posMatrix.appendScale(dis, dis, dis);
+
+            if (this.parent.xyzMoveData) {
+                this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
+            }
+        
 
             this._boxA.posMatrix = this.posMatrix.clone();
             this._boxA.posMatrix.prependTranslation(line50, 0, 0);

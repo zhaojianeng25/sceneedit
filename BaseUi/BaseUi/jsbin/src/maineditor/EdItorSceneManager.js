@@ -24,7 +24,6 @@ var maineditor;
             var _this = _super.call(this) || this;
             _this.fw = 1024;
             _this.fh = 1024;
-            _this.viweLHnumber = 1000;
             return _this;
         }
         EdItorSceneManager.prototype.getFBO = function () {
@@ -57,16 +56,13 @@ var maineditor;
             this.renderContext.frontFace(this.renderContext.CW);
             this.renderContext.clear(this.renderContext.COLOR_BUFFER_BIT | this.renderContext.DEPTH_BUFFER_BIT | this.renderContext.STENCIL_BUFFER_BIT);
         };
-        EdItorSceneManager.prototype.resetViewMatrx3D = function () {
-            Scene_data.viewMatrx3D.identity();
-            Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, this.viweLHnumber);
-            Scene_data.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
-        };
         EdItorSceneManager.prototype.renderToTexture = function () {
             if (!this.fbo) {
                 this.fbo = this.getFBO();
             }
-            this.resetViewMatrx3D();
+            this.viewMatrx3D.identity();
+            this.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, 2000);
+            this.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
             this.updateDepthTexture(this.fbo);
             this.update();
             var gl = Scene_data.context3D.renderContext;
@@ -81,8 +77,10 @@ var maineditor;
         EdItorSceneManager.prototype.update = function () {
             var lastCam3D = Scene_data.cam3D;
             var lastfocus3D = Scene_data.focus3D;
+            var lastViewMatrx3D = Scene_data.viewMatrx3D.clone();
             Scene_data.cam3D = this.cam3D;
             Scene_data.focus3D = this.focus3D;
+            Scene_data.viewMatrx3D = this.viewMatrx3D;
             Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
                 this._time = TimeUtil.getTimer();
@@ -98,6 +96,7 @@ var maineditor;
             }
             Scene_data.cam3D = lastCam3D;
             Scene_data.focus3D = lastfocus3D;
+            Scene_data.viewMatrx3D = lastViewMatrx3D;
         };
         return EdItorSceneManager;
     }(SceneManager));

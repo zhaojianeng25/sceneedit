@@ -8,6 +8,7 @@ var Pan3d;
             this.test = false;
             this.cam3D = new Pan3d.Camera3D();
             this.focus3D = new Pan3d.Object3D();
+            this.viewMatrx3D = new Pan3d.Matrix3D();
             this._displayList = new Array;
             this._displaySpriteList = new Array;
             this._displayRoleList = new Array;

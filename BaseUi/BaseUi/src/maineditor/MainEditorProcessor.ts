@@ -159,7 +159,7 @@
 
             MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D();
             MainEditorProcessor.edItorSceneManager.cam3D.distance = 100;
-            MainEditorProcessor.edItorSceneManager.focus3D.rotationY = 45;
+            MainEditorProcessor.edItorSceneManager.focus3D.rotationY = 0;
             MainEditorProcessor.edItorSceneManager.focus3D.rotationX = -45;
 
             MathClass.getCamView(MainEditorProcessor.edItorSceneManager.cam3D, MainEditorProcessor.edItorSceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵

@@ -13,9 +13,11 @@
     import Object3D = Pan3d.Object3D
     import Quaternion = Pan3d.Quaternion
     import UICompenent = Pan3d.UICompenent
+    import Display3D = Pan3d.Display3D
 
     export class MoveScaleRotatioinEvent extends BaseEvent {
         public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION"; //显示面板
+        public static MAKE_DTAT_ITEM_TO_CHANGE: string = "MAKE_DTAT_ITEM_TO_CHANGE"; //赋予显示对象
 
     }
     export class MoveScaleRotatioinModule extends Module {
@@ -39,13 +41,28 @@
                         this.moveScaleRotationLevel = new MoveScaleRotationLevel()
                         this.selectScene = $event.data;
                         this.selectScene.addDisplay(this.moveScaleRotationLevel);
-                        this.addEvents()
+                        this.addEvents();
+
+                        Pan3d.ModuleEventManager.dispatchEvent(new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE))
                         break
+                    case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
+                        this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
+                        break;
                     default:
                         break;
                 }
 
             }
+        }
+        private makeBaseData(): TooXyzPosData {
+            var a: Display3D = new Display3D();
+            a.x = 10;
+            a.y = 0;
+            a.z = 10;
+            a.rotationX = 45;
+            a.rotationY = 45;
+           // a.rotationZ = 30;
+            return   TooXyzPosData.getBase([a]);
         }
         private mouseInfo: MouseVO = new MouseVO;
         private selectScene: SceneManager
@@ -129,7 +146,7 @@
 
                             MathUtil.MathCam(this.selectScene.cam3D)
 
-                            console.log("修改")
+                       
                         }
 
 
@@ -180,6 +197,8 @@
         private _middleMoveVe: Vector3D
         private onMouseDown($e: MouseEvent): void {
 
+            this.moveScaleRotationLevel.onMouseDown($e);
+
             this.middleMovetType = ($e.button == 1);
 
             this.mouseInfo.last_mouse_x = $e.x;
@@ -192,13 +211,20 @@
             this.mouseInfo.old_rotation_x = this.selectScene.cam3D.rotationX;
             this.mouseInfo.old_rotation_y = this.selectScene.cam3D.rotationY;
 
+
+
             switch ($e.button) {
                 case 0:
                     break;
                 case 1:
                     this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y)); //中键按下的3D坐标
 
-                    this.selectVec = new Vector3D(0, 0, 0); 
+                    this.selectVec = new Vector3D(0, 0, 0);
+                    if (this.moveScaleRotationLevel.xyzMoveData) {
+                        this.selectVec.x = this.moveScaleRotationLevel.xyzMoveData.x;
+                        this.selectVec.y = this.moveScaleRotationLevel.xyzMoveData.y;
+                        this.selectVec.z = this.moveScaleRotationLevel.xyzMoveData.z;
+                    }
                     this.baseCamData = this.getCamData(this.selectScene.cam3D.cameraMatrix);
                     this.baseCamData.rotationX = this.selectScene.cam3D.rotationX;
                     this.baseCamData.rotationY = this.selectScene.cam3D.rotationY;
@@ -225,6 +251,7 @@
         }
 
         private onMouseUp($e: MouseEvent): void {
+            this.moveScaleRotationLevel.onMouseUp($e);
         }
         private onKeyDown($e: KeyboardEvent): void {
         }
@@ -262,6 +289,7 @@
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE),
             ];
         }
     }

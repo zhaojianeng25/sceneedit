@@ -5,6 +5,7 @@
         public lookAtTarget: Object3D;
         private _astarRect: Rectangle;
         public cavanRect: Rectangle
+        public sceneViewHW: number;
         public offset: Vector3D = new Vector3D();
         constructor() {
             super()

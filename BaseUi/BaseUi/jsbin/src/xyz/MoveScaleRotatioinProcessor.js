@@ -22,12 +22,14 @@ var xyz;
     var MathUtil = Pan3d.MathUtil;
     var Object3D = Pan3d.Object3D;
     var Quaternion = Pan3d.Quaternion;
+    var Display3D = Pan3d.Display3D;
     var MoveScaleRotatioinEvent = /** @class */ (function (_super) {
         __extends(MoveScaleRotatioinEvent, _super);
         function MoveScaleRotatioinEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
         MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION = "INIT_MOVE_SCALE_ROTATION"; //显示面板
+        MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE = "MAKE_DTAT_ITEM_TO_CHANGE"; //赋予显示对象
         return MoveScaleRotatioinEvent;
     }(BaseEvent));
     xyz.MoveScaleRotatioinEvent = MoveScaleRotatioinEvent;
@@ -67,11 +69,25 @@ var xyz;
                         this.selectScene = $event.data;
                         this.selectScene.addDisplay(this.moveScaleRotationLevel);
                         this.addEvents();
+                        Pan3d.ModuleEventManager.dispatchEvent(new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE));
+                        break;
+                    case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
+                        this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
                         break;
                     default:
                         break;
                 }
             }
+        };
+        MoveScaleRotatioinProcessor.prototype.makeBaseData = function () {
+            var a = new Display3D();
+            a.x = 10;
+            a.y = 0;
+            a.z = 10;
+            a.rotationX = 45;
+            a.rotationY = 45;
+            // a.rotationZ = 30;
+            return xyz.TooXyzPosData.getBase([a]);
         };
         MoveScaleRotatioinProcessor.prototype.addEvents = function () {
             var _this = this;
@@ -133,7 +149,6 @@ var xyz;
                             this.selectScene.cam3D.rotationX = this.baseCamData.rotationX + ny;
                             this.selectScene.cam3D.rotationY = this.baseCamData.rotationY + nx;
                             MathUtil.MathCam(this.selectScene.cam3D);
-                            console.log("修改");
                         }
                         break;
                     default:
@@ -173,6 +188,7 @@ var xyz;
             return $m.transformVector($v);
         };
         MoveScaleRotatioinProcessor.prototype.onMouseDown = function ($e) {
+            this.moveScaleRotationLevel.onMouseDown($e);
             this.middleMovetType = ($e.button == 1);
             this.mouseInfo.last_mouse_x = $e.x;
             this.mouseInfo.last_mouse_y = $e.y;
@@ -187,6 +203,11 @@ var xyz;
                 case 1:
                     this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y)); //中键按下的3D坐标
                     this.selectVec = new Vector3D(0, 0, 0);
+                    if (this.moveScaleRotationLevel.xyzMoveData) {
+                        this.selectVec.x = this.moveScaleRotationLevel.xyzMoveData.x;
+                        this.selectVec.y = this.moveScaleRotationLevel.xyzMoveData.y;
+                        this.selectVec.z = this.moveScaleRotationLevel.xyzMoveData.z;
+                    }
                     this.baseCamData = this.getCamData(this.selectScene.cam3D.cameraMatrix);
                     this.baseCamData.rotationX = this.selectScene.cam3D.rotationX;
                     this.baseCamData.rotationY = this.selectScene.cam3D.rotationY;
@@ -208,6 +229,7 @@ var xyz;
             }
         };
         MoveScaleRotatioinProcessor.prototype.onMouseUp = function ($e) {
+            this.moveScaleRotationLevel.onMouseUp($e);
         };
         MoveScaleRotatioinProcessor.prototype.onKeyDown = function ($e) {
         };
@@ -239,6 +261,7 @@ var xyz;
         MoveScaleRotatioinProcessor.prototype.listenModuleEvents = function () {
             return [
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE),
             ];
         };
         return MoveScaleRotatioinProcessor;
