@@ -37,7 +37,19 @@
 
         }
         public isHit($e: MouseEvent): void {
-            console.log(this._boxA)
+
+            var mouseVect2d: Vector2D = new Vector2D($e.x - this._scene.cam3D.cavanRect.x, $e.y - this._scene.cam3D.cavanRect.y)
+
+            this.testHitTemp(this._boxA, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(1, 0, 0)]);
+            this.testHitTemp(this._boxB, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 1, 0)]);
+            this.testHitTemp(this._boxC, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 0, 1)]);
+
+        
+        }
+        private testHitTemp(display3D: any, v2d: Vector2D, vec: Array<Vector3D>): void {
+            var hit: boolean = TooMathHitModel.testHitModel(display3D, this._scene.cam3D, v2d);
+            display3D.colorVect = hit ? vec[0]: vec[1];
+            
         }
         public update(): void {
             var $m: Matrix3D
@@ -73,8 +85,9 @@
 
 
             Scene_data.context3D.cullFaceBack(false);
-            Scene_data.context3D.setWriteDepth(true)
-            Scene_data.context3D.setDepthTest(true)
+            Scene_data.context3D.setWriteDepth(true);
+            Scene_data.context3D.setDepthTest(true);
+
 
             this._boxA.update();
             this._boxB.update();
