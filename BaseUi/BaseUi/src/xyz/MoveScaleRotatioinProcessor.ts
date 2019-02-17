@@ -14,6 +14,7 @@
     import Quaternion = Pan3d.Quaternion
     import UICompenent = Pan3d.UICompenent
     import Display3D = Pan3d.Display3D
+    import KeyboardType = Pan3d.KeyboardType
 
     export class MoveScaleRotatioinEvent extends BaseEvent {
         public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION"; //显示面板
@@ -256,6 +257,18 @@
         private onKeyDown($e: KeyboardEvent): void {
         }
         private onKeyUp($e: KeyboardEvent): void {
+            switch ($e.keyCode) {
+                case KeyboardType.W:
+                    this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_XYZ
+                    break;
+                case KeyboardType.Q:
+                    this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_ROUTATION
+                    break;
+             
+                default:
+                    break
+            }
+
         }
 
         public onMouseWheel($evt: MouseWheelEvent): void {

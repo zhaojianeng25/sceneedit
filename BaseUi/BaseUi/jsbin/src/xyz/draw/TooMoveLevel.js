@@ -13,12 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Display3D = Pan3d.Display3D;
     var Scene_data = Pan3d.Scene_data;
     var TooMoveLevel = /** @class */ (function (_super) {
         __extends(TooMoveLevel, _super);
-        function TooMoveLevel() {
-            var _this = _super.call(this) || this;
+        function TooMoveLevel(value) {
+            var _this = _super.call(this, value) || this;
             _this._boxA = new xyz.TooJianTouDisplay3DSprite();
             _this._boxB = new xyz.TooJianTouDisplay3DSprite();
             _this._boxC = new xyz.TooJianTouDisplay3DSprite();
@@ -79,18 +78,10 @@ var xyz;
                 this.lastMousePosV3d = pos;
             }
         };
-        TooMoveLevel.prototype.testHitTemp = function (display3D, v2d, vec) {
-            var hit = xyz.TooMathHitModel.testHitModel(display3D, this._scene, v2d);
-            display3D.colorVect = hit ? vec[0] : vec[1];
-        };
         TooMoveLevel.prototype.update = function () {
-            var $m;
+            _super.prototype.update.call(this);
             var line50 = 20;
             ;
-            this.posMatrix.identity();
-            var dis = Vector3D.distance(this._scene.cam3D.postion, this._scene.focus3D);
-            dis = dis / 70;
-            this.posMatrix.appendScale(dis, dis, dis);
             if (this.parent.xyzMoveData) {
                 this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
             }
@@ -119,7 +110,7 @@ var xyz;
             this._lineC.update();
         };
         return TooMoveLevel;
-    }(Display3D));
+    }(xyz.TooBaseModelLevel));
     xyz.TooMoveLevel = TooMoveLevel;
 })(xyz || (xyz = {}));
 //# sourceMappingURL=TooMoveLevel.js.map

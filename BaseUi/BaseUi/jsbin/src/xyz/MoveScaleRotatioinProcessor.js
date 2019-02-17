@@ -23,6 +23,7 @@ var xyz;
     var Object3D = Pan3d.Object3D;
     var Quaternion = Pan3d.Quaternion;
     var Display3D = Pan3d.Display3D;
+    var KeyboardType = Pan3d.KeyboardType;
     var MoveScaleRotatioinEvent = /** @class */ (function (_super) {
         __extends(MoveScaleRotatioinEvent, _super);
         function MoveScaleRotatioinEvent() {
@@ -234,6 +235,16 @@ var xyz;
         MoveScaleRotatioinProcessor.prototype.onKeyDown = function ($e) {
         };
         MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
+            switch ($e.keyCode) {
+                case KeyboardType.W:
+                    this.moveScaleRotationLevel._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
+                    break;
+                case KeyboardType.Q:
+                    this.moveScaleRotationLevel._statceType = xyz.TooMathMoveUint.MOVE_ROUTATION;
+                    break;
+                default:
+                    break;
+            }
         };
         MoveScaleRotatioinProcessor.prototype.onMouseWheel = function ($evt) {
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {

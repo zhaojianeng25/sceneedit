@@ -19,12 +19,13 @@ var xyz;
         __extends(MoveScaleRotationLevel, _super);
         function MoveScaleRotationLevel() {
             var _this = _super.call(this) || this;
-            _this._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
-            _this._tooMoveLevel = new xyz.TooMoveLevel;
-            _this._tooMoveLevel.parent = _this;
+            _this._statceType = xyz.TooMathMoveUint.MOVE_ROUTATION;
+            _this._tooMoveLevel = new xyz.TooMoveLevel(_this);
+            _this._tooRotationLevel = new xyz.TooRotationLevel(_this);
             return _this;
         }
         MoveScaleRotationLevel.prototype.update = function () {
+            var focuV3d = new Vector3D;
             if (this._xyzMoveData) {
                 this._xyzMoveData.modeMatrx3D.identity();
                 this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);
@@ -32,12 +33,23 @@ var xyz;
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationY, Vector3D.Y_AXIS);
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationZ, Vector3D.Z_AXIS);
                 this._xyzMoveData.modeMatrx3D.appendTranslation(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z);
+                this.lookLenToFocu = Vector3D.distance(this._scene.cam3D, this._xyzMoveData);
             }
-            this._tooMoveLevel.update();
+            switch (this._statceType) {
+                case xyz.TooMathMoveUint.MOVE_XYZ:
+                    this._tooMoveLevel.update();
+                    break;
+                case xyz.TooMathMoveUint.MOVE_ROUTATION:
+                    this._tooRotationLevel.update();
+                    break;
+                default:
+                    break;
+            }
         };
         MoveScaleRotationLevel.prototype.addStage = function () {
             _super.prototype.addStage.call(this);
             this._tooMoveLevel._scene = this._scene;
+            this._tooRotationLevel._scene = this._scene;
         };
         MoveScaleRotationLevel.prototype.dataUpDate = function () {
         };
@@ -68,6 +80,9 @@ var xyz;
                 switch (this._statceType) {
                     case xyz.TooMathMoveUint.MOVE_XYZ:
                         this._tooMoveLevel.isHit(mouseVect2d);
+                        break;
+                    case xyz.TooMathMoveUint.MOVE_ROUTATION:
+                        this._tooRotationLevel.isHit(mouseVect2d);
                         break;
                     default:
                         break;

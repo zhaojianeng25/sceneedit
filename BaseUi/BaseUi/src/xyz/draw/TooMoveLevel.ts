@@ -10,18 +10,16 @@
     import LineDisplaySprite = Pan3d.LineDisplaySprite
 
 
-    export class TooMoveLevel extends Display3D {
+    export class TooMoveLevel extends TooBaseModelLevel {
         private _boxA: TooJianTouDisplay3DSprite;
         private _boxB: TooJianTouDisplay3DSprite;
         private _boxC: TooJianTouDisplay3DSprite;
         private _lineA: TooLineTri3DSprite
         private _lineB: TooLineTri3DSprite
         private _lineC: TooLineTri3DSprite
-
-        public parent: MoveScaleRotationLevel;
-
-        constructor() {
-            super();
+ 
+        constructor(value: MoveScaleRotationLevel) {
+            super(value);
             
             this._boxA = new TooJianTouDisplay3DSprite();
             this._boxB = new TooJianTouDisplay3DSprite();
@@ -46,7 +44,7 @@
 
         
         }
-        public selectId: number;
+ 
 
      
 
@@ -98,22 +96,12 @@
                 this.lastMousePosV3d = pos;
             }
         }
-        private testHitTemp(display3D: any, v2d: Vector2D, vec: Array<Vector3D>): void {
-            var hit: boolean = TooMathHitModel.testHitModel(display3D, this._scene, v2d);
-            display3D.colorVect = hit ? vec[0]: vec[1];
-            
-        }
+     
         public update(): void {
-            var $m: Matrix3D
+            super.update()
+ 
             var line50: number = 20;;
-
-            this.posMatrix.identity()
-            var dis: number = Vector3D.distance(this._scene.cam3D.postion, this._scene.focus3D);
-            dis = dis / 70;
-
-
-            this.posMatrix.appendScale(dis, dis, dis);
-
+  
             if (this.parent.xyzMoveData) {
                 this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
             }

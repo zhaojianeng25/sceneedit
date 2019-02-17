@@ -411,11 +411,14 @@
     <TypeScriptCompile Include="src\xyz\base\TooMathHitModel.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooMathMoveUint.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooXyzMoveData.ts" />
+    <TypeScriptCompile Include="src\xyz\draw\TooBaseModelLevel.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooLineDisplaySprite.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooObjectHitBox.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooJianTouDisplay3DSprite.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooLineTri3DSprite.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooMoveLevel.ts" />
+    <TypeScriptCompile Include="src\xyz\draw\TooRotationDisplay3DSprite.ts" />
+    <TypeScriptCompile Include="src\xyz\draw\TooRotationLevel.ts" />
     <TypeScriptCompile Include="src\xyz\MoveScaleRotatioinProcessor.ts" />
     <TypeScriptCompile Include="src\xyz\MoveScaleRotationLevel.ts" />
   </ItemGroup>

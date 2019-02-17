@@ -5,15 +5,19 @@
     import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
     export class MoveScaleRotationLevel extends Display3D {
         private _tooMoveLevel: TooMoveLevel;
-        private _statceType: number;
+        private _tooRotationLevel: TooRotationLevel;
+        public _statceType: number;
         public constructor() {
             super();
-            this._statceType = TooMathMoveUint.MOVE_XYZ
-            this._tooMoveLevel = new TooMoveLevel;
-            this._tooMoveLevel.parent = this;
+            this._statceType = TooMathMoveUint.MOVE_ROUTATION
+            this._tooMoveLevel = new TooMoveLevel(this);
+            this._tooRotationLevel = new TooRotationLevel(this);
+       
         }
+        public lookLenToFocu: number
         public update(): void {
 
+            var focuV3d: Vector3D = new Vector3D
             if (this._xyzMoveData) {
                 this._xyzMoveData.modeMatrx3D.identity()
                 this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);
@@ -21,15 +25,31 @@
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationY, Vector3D.Y_AXIS);
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationZ, Vector3D.Z_AXIS);
                 this._xyzMoveData.modeMatrx3D.appendTranslation(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z)
+
+                this.lookLenToFocu = Vector3D.distance(this._scene.cam3D, this._xyzMoveData);
+             
             }
+ 
 
+           
 
-            this._tooMoveLevel.update()
+            switch (this._statceType) {
+                case TooMathMoveUint.MOVE_XYZ:
+                    this._tooMoveLevel.update()
+                    break
+                case TooMathMoveUint.MOVE_ROUTATION:
+                    this._tooRotationLevel.update()
+                    break
+                default:
+                    break
+            }
+       
 
         }
         public addStage(): void {
             super.addStage()
             this._tooMoveLevel._scene = this._scene;
+            this._tooRotationLevel._scene = this._scene;
         }
         public   dataUpDate(): void {
         }
@@ -63,6 +83,9 @@
                 switch (this._statceType) {
                     case TooMathMoveUint.MOVE_XYZ:
                         this._tooMoveLevel.isHit(mouseVect2d)
+                        break
+                    case TooMathMoveUint.MOVE_ROUTATION:
+                        this._tooRotationLevel.isHit(mouseVect2d)
                         break
                     default:
                         break
