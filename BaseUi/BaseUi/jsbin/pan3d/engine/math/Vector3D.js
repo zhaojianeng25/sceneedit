@@ -96,6 +96,53 @@ var Pan3d;
         Vector3D.prototype.toString = function () {
             return "Vector3D(" + String(this.x) + "," + String(this.y) + "," + String(this.z) + "," + String(this.w) + ")";
         };
+        Vector3D.dotMulVector = function (a, b) {
+            return a.x * b.x + a.y * b.y + a.z * b.z;
+        };
+        Vector3D.getNrmByTwoVect = function (v0, v1) {
+            var nrm3d = v1.subtract(v0);
+            nrm3d.normalize();
+            return nrm3d;
+        };
+        Vector3D.calTriNormal = function (v0, v1, v2, isNormallize) {
+            if (isNormallize === void 0) { isNormallize = false; }
+            var p1 = v1.subtract(v0);
+            var p2 = v2.subtract(v1);
+            var nrmVec = p1.cross(p2);
+            if (isNormallize) {
+                nrmVec.normalize();
+            }
+            return nrmVec;
+        };
+        /**
+         *  根据三个点确定的平面球 另外一点在面的垂足
+         * @param targetPoint
+         * @param a
+         * @param b
+         * @param c
+         * @return
+         *
+         */
+        Vector3D.getPointPedalInPlane = function (targetPoint, a, b, c) {
+            var planeNomal = this.calTriNormal(a, b, c, true);
+            var plane = [];
+            plane.push(a, b, c);
+            return this.getProjPosition(planeNomal, targetPoint, plane);
+        };
+        /**
+         * p点在三角形b确定的平面内的投影坐标点
+         * @param bNomal
+         * @param p
+         * @param b
+         * @return
+         *
+         */
+        Vector3D.getProjPosition = function (bNomal, targetPoint, bTriPlane) {
+            var checkPoint = targetPoint;
+            var pedal = (bNomal.x * (bTriPlane[0].x - checkPoint.x) + bNomal.y * (bTriPlane[0].y - checkPoint.y) + bNomal.z * (bTriPlane[0].z - checkPoint.z)) / (bNomal.x * bNomal.x + bNomal.y * bNomal.y + bNomal.z * bNomal.z);
+            var pedalVector3d = new Vector3D(checkPoint.x + pedal * bNomal.x, checkPoint.y + pedal * bNomal.y, checkPoint.z + pedal * bNomal.z);
+            return pedalVector3d;
+        };
         Vector3D.X_AXIS = new Vector3D(1, 0, 0);
         Vector3D.Y_AXIS = new Vector3D(0, 1, 0);
         Vector3D.Z_AXIS = new Vector3D(0, 0, 1);

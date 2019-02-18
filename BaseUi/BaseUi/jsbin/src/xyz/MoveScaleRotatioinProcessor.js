@@ -236,10 +236,10 @@ var xyz;
         };
         MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
             switch ($e.keyCode) {
-                case KeyboardType.W:
+                case KeyboardType.Q:
                     this.moveScaleRotationLevel._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
                     break;
-                case KeyboardType.Q:
+                case KeyboardType.W:
                     this.moveScaleRotationLevel._statceType = xyz.TooMathMoveUint.MOVE_ROUTATION;
                     break;
                 default:

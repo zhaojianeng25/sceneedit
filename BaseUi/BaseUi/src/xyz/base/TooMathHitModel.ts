@@ -58,8 +58,25 @@
 
                 if (TestTriangle.baseTri.checkPointIn(mouseV2)) {
 
-               
-                    return true;
+                    var camPos: Vector3D = new Vector3D(scene.cam3D.x, scene.cam3D.y, scene.cam3D.z)
+                    /*
+                    camPos.x = 1;
+                    camPos.y = 10;
+                    camPos.z = 0.2;
+                    A = new Vector3D(0, 0, 0);
+                    B = new Vector3D(1, 0, 0);
+                    C = new Vector3D(0, 0, 1);
+                    */
+
+                    var planeNomal: Vector3D = Vector3D.calTriNormal(A, B, C, true);
+                    var camNorm: Vector3D = Vector3D.getNrmByTwoVect(Vector3D.getProjPosition(planeNomal, camPos, [A, B, C]), camPos)
+
+                    if (Vector3D.dotMulVector(planeNomal, camNorm) > 0) {
+                        return true;
+                    }
+ 
+                   // console.log("------------------", Vector3D.dotMulVector(new Vector3D(0, -1, 0), new Vector3D(0, -1, 0)))
+                 
                 }
             }
             return false

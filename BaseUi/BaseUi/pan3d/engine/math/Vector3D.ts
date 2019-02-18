@@ -107,5 +107,55 @@
             return "Vector3D(" + String(this.x) + "," + String(this.y) + "," + String(this.z) + "," + String(this.w) + ")";
         }
 
+        public static dotMulVector(a: Vector3D, b: Vector3D): number {
+            return a.x * b.x + a.y * b.y + a.z * b.z;
+        }
+
+        public static getNrmByTwoVect(v0: Vector3D, v1: Vector3D): Vector3D {
+            var nrm3d: Vector3D = v1.subtract(v0)
+            nrm3d.normalize()
+            return nrm3d
+        }
+            
+        public static calTriNormal(v0: Vector3D, v1: Vector3D, v2: Vector3D, isNormallize: boolean = false): Vector3D {
+            var p1: Vector3D = v1.subtract(v0)
+            var p2: Vector3D = v2.subtract(v1)
+            var nrmVec: Vector3D = p1.cross(p2)
+            if (isNormallize) {
+                nrmVec.normalize();
+            }
+            return nrmVec;
+        }
+
+		/**
+		 *  根据三个点确定的平面球 另外一点在面的垂足 
+		 * @param targetPoint
+		 * @param a
+		 * @param b
+		 * @param c
+		 * @return 
+		 * 
+		 */
+        public static   getPointPedalInPlane(targetPoint: Vector3D, a: Vector3D, b: Vector3D, c: Vector3D): Vector3D {
+            var planeNomal: Vector3D = this.calTriNormal(a, b, c, true);
+            var plane: Array<Vector3D> = [];
+            plane.push(a, b, c);
+            return this.getProjPosition(planeNomal, targetPoint, plane);
+        }
+		/**
+		 * p点在三角形b确定的平面内的投影坐标点 
+		 * @param bNomal
+		 * @param p
+		 * @param b
+		 * @return 
+		 * 
+		 */
+        public static getProjPosition(bNomal: Vector3D, targetPoint: Vector3D, bTriPlane: Array<Vector3D>): Vector3D {
+            var checkPoint: Vector3D = targetPoint;
+            var pedal: number = (bNomal.x * (bTriPlane[0].x - checkPoint.x) + bNomal.y * (bTriPlane[0].y - checkPoint.y) + bNomal.z * (bTriPlane[0].z - checkPoint.z)) / (bNomal.x * bNomal.x + bNomal.y * bNomal.y + bNomal.z * bNomal.z);
+            var pedalVector3d: Vector3D = new Vector3D(checkPoint.x + pedal * bNomal.x, checkPoint.y + pedal * bNomal.y, checkPoint.z + pedal * bNomal.z);
+            return pedalVector3d;
+        }
+
     }
 }
