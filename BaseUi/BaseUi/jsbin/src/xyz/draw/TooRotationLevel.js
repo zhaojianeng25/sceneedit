@@ -13,12 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
+    var Matrix3D = Pan3d.Matrix3D;
     var Scene_data = Pan3d.Scene_data;
     var TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite;
     var TooRotationLevel = /** @class */ (function (_super) {
         __extends(TooRotationLevel, _super);
         function TooRotationLevel(value) {
             var _this = _super.call(this, value) || this;
+            _this.skipNum = 0;
             _this._roundA = new TooRotationDisplay3DSprite();
             _this._roundB = new TooRotationDisplay3DSprite();
             _this._roundC = new TooRotationDisplay3DSprite();
@@ -44,36 +46,36 @@ var xyz;
             }
         };
         TooRotationLevel.prototype.onMouseUp = function (mouseVect2d) {
-            this.lastMousePosV3d = null;
             this.selectId = 0;
+            this.skipNum = 0;
         };
         TooRotationLevel.prototype.onMouseMove = function (mouseVect2d) {
             if (this.selectId > 0) {
-                var pos = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
-                if (this.lastMousePosV3d) {
-                    var addPos = pos.subtract(this.lastMousePosV3d);
-                    var toPos = new Vector3D;
-                    if (this.parent.xyzMoveData) {
-                        switch (this.selectId) {
-                            case 1:
-                                toPos.x = addPos.x;
-                                break;
-                            case 2:
-                                toPos.y = addPos.y;
-                                break;
-                            case 3:
-                                toPos.z = addPos.z;
-                                break;
-                            default:
-                                break;
-                        }
-                        toPos = this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos);
-                        this.parent.xyzMoveData.x = toPos.x;
-                        this.parent.xyzMoveData.y = toPos.y;
-                        this.parent.xyzMoveData.z = toPos.z;
-                    }
+                var $m = new Matrix3D;
+                $m.appendRotation(this.parent.xyzMoveData.oldangle_x, Vector3D.X_AXIS);
+                $m.appendRotation(this.parent.xyzMoveData.oldangle_y, Vector3D.Y_AXIS);
+                $m.appendRotation(this.parent.xyzMoveData.oldangle_z, Vector3D.Z_AXIS);
+                var $addM = new Matrix3D;
+                var addRotation = this.skipNum++;
+                switch (this.selectId) {
+                    case 1:
+                        $addM.appendRotation(addRotation, Vector3D.X_AXIS);
+                        break;
+                    case 2:
+                        $addM.appendRotation(addRotation, Vector3D.Y_AXIS);
+                        break;
+                    case 3:
+                        $addM.appendRotation(addRotation, Vector3D.Z_AXIS);
+                        break;
+                    default:
+                        break;
                 }
-                this.lastMousePosV3d = pos;
+                $m.prepend($addM);
+                var dd = $m.toEulerAngles();
+                dd.scaleBy(180 / Math.PI);
+                this.parent.xyzMoveData.rotationX = dd.x;
+                this.parent.xyzMoveData.rotationY = dd.y;
+                this.parent.xyzMoveData.rotationZ = dd.z;
             }
         };
         TooRotationLevel.prototype.update = function () {

@@ -58,9 +58,14 @@
             tempXyz.y = $arr[0].y
             tempXyz.z = $arr[0].z
 
-            tempXyz.rotationX = $arr[0].rotationX
-            tempXyz.rotationY = $arr[0].rotationY
-            tempXyz.rotationZ = $arr[0].rotationZ
+            tempXyz.rotationX = $arr[0].rotationX;
+            tempXyz.rotationY = $arr[0].rotationY;
+            tempXyz.rotationZ = $arr[0].rotationZ;
+
+
+            tempXyz.oldangle_x = tempXyz.rotationX;
+            tempXyz.oldangle_y = tempXyz.rotationY;
+            tempXyz.oldangle_z = tempXyz.rotationZ;
 
 
             return tempXyz

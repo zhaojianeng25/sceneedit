@@ -62,9 +62,7 @@ var xyz;
                 if (this._xyzMoveData == null) {
                     return;
                 }
-                this._xyzMoveData.dataUpDate = this.dataUpDate;
                 this._xyzMoveData.modeMatrx3D = new Matrix3D;
-                this._xyzMoveData.modeMatrx3D.identity();
                 this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationX, Vector3D.X_AXIS);
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationY, Vector3D.Y_AXIS);
@@ -94,6 +92,9 @@ var xyz;
                         case xyz.TooMathMoveUint.MOVE_XYZ:
                             this._tooMoveLevel.onMouseMove(mouseVect2d);
                             break;
+                        case xyz.TooMathMoveUint.MOVE_ROUTATION:
+                            this._tooRotationLevel.onMouseMove(mouseVect2d);
+                            break;
                         default:
                             break;
                     }
@@ -106,18 +107,28 @@ var xyz;
                 case xyz.TooMathMoveUint.MOVE_XYZ:
                     this._tooMoveLevel.onMouseUp(mouseVect2d);
                     break;
+                case xyz.TooMathMoveUint.MOVE_ROUTATION:
+                    this._tooRotationLevel.onMouseUp(mouseVect2d);
+                    break;
                 default:
                     break;
             }
         };
         MoveScaleRotationLevel.prototype.onMouseDown = function ($e) {
+            this._xyzMoveData.oldx = this._xyzMoveData.x;
+            this._xyzMoveData.oldy = this._xyzMoveData.y;
+            this._xyzMoveData.oldz = this._xyzMoveData.z;
+            this._xyzMoveData.oldangle_x = this._xyzMoveData.rotationX;
+            this._xyzMoveData.oldangle_y = this._xyzMoveData.rotationY;
+            this._xyzMoveData.oldangle_z = this._xyzMoveData.rotationZ;
             var mouseVect2d = new Vector2D($e.x - this._scene.cam3D.cavanRect.x, $e.y - this._scene.cam3D.cavanRect.y);
             if ($e.button == 0) {
                 switch (this._statceType) {
                     case xyz.TooMathMoveUint.MOVE_XYZ:
                         this._tooMoveLevel.onMouseDown(mouseVect2d);
-                        //TooMathHitModel.getMouseMoveV3d(this._scene, mouseVect2d);
-                        //TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d,100)
+                        break;
+                    case xyz.TooMathMoveUint.MOVE_ROUTATION:
+                        this._tooRotationLevel.onMouseDown(mouseVect2d);
                         break;
                     default:
                         break;

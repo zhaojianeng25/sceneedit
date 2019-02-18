@@ -52,41 +52,49 @@
                 this.selectId = 3;
             }
 
+      
+ 
+            
+
         }
         public onMouseUp(mouseVect2d: Vector2D): void {
-            this.lastMousePosV3d = null;
+ 
             this.selectId = 0;
+            this.skipNum=0
         }
-        private lastMousePosV3d: Vector3D;
+
+  
+
+        private skipNum: number=0
         public onMouseMove(mouseVect2d: Vector2D): void {
             if (this.selectId > 0) {
-                var pos: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
-                if (this.lastMousePosV3d) {
-                    var addPos: Vector3D = pos.subtract(this.lastMousePosV3d);
-                    var toPos: Vector3D = new Vector3D
-                    if (this.parent.xyzMoveData) {
-                        switch (this.selectId) {
-                            case 1:
-                                toPos.x = addPos.x
-                                break
-                            case 2:
-                                toPos.y = addPos.y
-                                break
-                            case 3:
-                                toPos.z = addPos.z
-                                break
-                            default:
-                                break;
-                        }
-                        toPos = this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos)
-                        this.parent.xyzMoveData.x = toPos.x;
-                        this.parent.xyzMoveData.y = toPos.y;
-                        this.parent.xyzMoveData.z = toPos.z;
-                    }
+                var $m: Matrix3D = new Matrix3D;
+                $m.appendRotation(this.parent.xyzMoveData.oldangle_x, Vector3D.X_AXIS)
+                $m.appendRotation(this.parent.xyzMoveData.oldangle_y, Vector3D.Y_AXIS)
+                $m.appendRotation(this.parent.xyzMoveData.oldangle_z, Vector3D.Z_AXIS)
 
-
+                var $addM: Matrix3D = new Matrix3D
+                var addRotation: number = this.skipNum++;
+                switch (this.selectId) {
+                    case 1:
+                        $addM.appendRotation(addRotation, Vector3D.X_AXIS)
+                        break
+                    case 2:
+                        $addM.appendRotation(addRotation, Vector3D.Y_AXIS)
+                        break
+                    case 3:
+                        $addM.appendRotation(addRotation, Vector3D.Z_AXIS)
+                        break;
+                    default:
+                        break
                 }
-                this.lastMousePosV3d = pos;
+                $m.prepend($addM)
+ 
+                var dd: Vector3D = $m.toEulerAngles();
+                dd.scaleBy(180 / Math.PI)
+                this.parent.xyzMoveData.rotationX = dd.x;
+                this.parent.xyzMoveData.rotationY = dd.y;
+                this.parent.xyzMoveData.rotationZ = dd.z;
             }
         }
 

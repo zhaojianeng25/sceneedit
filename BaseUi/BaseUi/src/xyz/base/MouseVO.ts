@@ -12,7 +12,8 @@
         public oldPosz: number = 0;
 
         public   old_rotation_x: number = 0;
-        public   old_rotation_y: number = 0;
+        public old_rotation_y: number = 0;
+ 
   
     }
 }

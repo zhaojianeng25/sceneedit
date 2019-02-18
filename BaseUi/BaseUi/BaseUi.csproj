@@ -411,6 +411,7 @@
     <TypeScriptCompile Include="src\xyz\base\TooMathHitModel.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooMathMoveUint.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooXyzMoveData.ts" />
+    <TypeScriptCompile Include="src\xyz\base\TooXyzRotationMath.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooBaseModelLevel.ts" />
     <TypeScriptCompile Include="src\xyz\draw\TooLineDisplaySprite.ts" />
     <TypeScriptCompile Include="src\xyz\base\TooObjectHitBox.ts" />

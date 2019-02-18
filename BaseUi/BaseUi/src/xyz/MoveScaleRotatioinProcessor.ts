@@ -213,6 +213,10 @@
             this.mouseInfo.old_rotation_y = this.selectScene.cam3D.rotationY;
 
 
+  
+
+
+
 
             switch ($e.button) {
                 case 0:
@@ -258,10 +262,10 @@
         }
         private onKeyUp($e: KeyboardEvent): void {
             switch ($e.keyCode) {
-                case KeyboardType.Q:
+                case KeyboardType.W:
                     this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_XYZ
                     break;
-                case KeyboardType.W:
+                case KeyboardType.E:
                     this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_ROUTATION
                     break;
              
