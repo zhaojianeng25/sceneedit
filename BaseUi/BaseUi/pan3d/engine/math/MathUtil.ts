@@ -59,7 +59,13 @@
             b.y = ((-p.y / p.w) + 1) * (fovh / 2)
             return b;
         }
-
+        //计算2D 点到直线的距离
+        public static pointToLine2dDis(point1: Vector2D, point2: Vector2D, out: Vector2D): number {
+            var A: number = (point1.y - point2.y) / Math.sqrt(Math.pow((point1.y - point2.y), 2) + Math.pow((point1.x - point2.x), 2));
+            var B: number = (point2.x - point1.x) / Math.sqrt(Math.pow((point1.y - point2.y), 2) + Math.pow((point1.x - point2.x), 2));
+            var C: number = (point1.x * point2.y - point2.x * point1.y) / Math.sqrt(Math.pow((point1.y - point2.y), 2) + Math.pow((point1.x - point2.x), 2));
+            return Math.abs(A * out.x + B * out.y + C) / Math.sqrt(Math.pow(A, 2) + Math.pow(B, 2));
+        }
         public static argbToHex(a: number, r: number, g: number, b: number): number {
             // 转换颜色
             var color: number = a << 24 | r << 16 | g << 8 | b;

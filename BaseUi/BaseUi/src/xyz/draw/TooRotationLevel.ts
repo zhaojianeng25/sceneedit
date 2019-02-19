@@ -7,6 +7,7 @@
     import TextureRes = Pan3d.TextureRes;
     import Matrix3D = Pan3d.Matrix3D
     import Scene_data = Pan3d.Scene_data;
+    import MathUtil = Pan3d.MathUtil
     import LineDisplaySprite = Pan3d.LineDisplaySprite
     import TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite
 
@@ -43,7 +44,7 @@
         }
 
         public onMouseDown(mouseVect2d: Vector2D): void {
-
+            console.log("mouseVect2d", mouseVect2d)
             if (TooMathHitModel.testHitModel(this._roundA, this._scene, mouseVect2d)) {
                 this.selectId = 1;
             } else if (TooMathHitModel.testHitModel(this._roundB, this._scene, mouseVect2d)) {
@@ -51,52 +52,93 @@
             } else if (TooMathHitModel.testHitModel(this._roundC, this._scene, mouseVect2d)) {
                 this.selectId = 3;
             }
-
-      
- 
-            
-
-        }
-        public onMouseUp(mouseVect2d: Vector2D): void {
- 
-            this.selectId = 0;
-            this.skipNum=0
-        }
-
-  
-
-        private skipNum: number=0
-        public onMouseMove(mouseVect2d: Vector2D): void {
-            if (this.selectId > 0) {
-                var $m: Matrix3D = new Matrix3D;
-                $m.appendRotation(this.parent.xyzMoveData.oldangle_x, Vector3D.X_AXIS)
-                $m.appendRotation(this.parent.xyzMoveData.oldangle_y, Vector3D.Y_AXIS)
-                $m.appendRotation(this.parent.xyzMoveData.oldangle_z, Vector3D.Z_AXIS)
-
-                var $addM: Matrix3D = new Matrix3D
-                var addRotation: number = this.skipNum++;
+            if (this.selectId) {
+                var a: Vector3D, b: Vector3D, c: Vector3D
                 switch (this.selectId) {
                     case 1:
-                        $addM.appendRotation(addRotation, Vector3D.X_AXIS)
+                        a = new Vector3D(0, -100, +50)
+                        b = new Vector3D(0, -100, -50)
+                        c = new Vector3D(0, 100, +50)
                         break
                     case 2:
-                        $addM.appendRotation(addRotation, Vector3D.Y_AXIS)
+                        a = new Vector3D(-100, 0, +50)
+                        b = new Vector3D(-100, 0, -50)
+                        c = new Vector3D(+100, 0, +50)
                         break
                     case 3:
-                        $addM.appendRotation(addRotation, Vector3D.Z_AXIS)
+                        a = new Vector3D(-100, +50, 0)
+                        b = new Vector3D(-100, -50, 0)
+                        c = new Vector3D(+100, +50, 0)
                         break;
                     default:
                         break
                 }
-                $m.prepend($addM)
+                console.log("旋转轴", this.selectId)
+                this.showYaix(a,b,c)
+            }
+           
+        }
+        private showYaix(a: Vector3D, b: Vector3D, c: Vector3D): void {
+            var scene: Pan3d.SceneManager = this._scene
+            var mat: Matrix3D = scene.cam3D.cameraMatrix.clone();
+            var viewMatrx3D: Matrix3D = scene.viewMatrx3D.clone();
+            mat.append(viewMatrx3D);
+
+            var _xyzMoveData: TooXyzPosData = this.parent.xyzMoveData;
+            a = _xyzMoveData.modeMatrx3D.transformVector(a)
+            b = _xyzMoveData.modeMatrx3D.transformVector(b)
+            c = _xyzMoveData.modeMatrx3D.transformVector(c)
+
+            var $triNrm: Vector3D = Vector3D.calTriNormal(a, b, c, true);//获取平面法线
+
+            var centen2d: Vector2D = TooMathHitModel.math3DWorldtoDisplay2DPos(_xyzMoveData.modeMatrx3D.position, mat, scene.cam3D.cavanRect) 
+            var outPos2d: Vector2D = TooMathHitModel.math3DWorldtoDisplay2DPos($triNrm.add(_xyzMoveData.modeMatrx3D.position), mat, scene.cam3D.cavanRect)
+
+   
+
+            this._linePosinA = centen2d;
+            this._linePosinB = outPos2d;
+
+    
+        }
+        
+        private _linePosinA: Vector2D
+        private _linePosinB: Vector2D
+        public onMouseUp(mouseVect2d: Vector2D): void {
  
-                var dd: Vector3D = $m.toEulerAngles();
-                dd.scaleBy(180 / Math.PI)
-                this.parent.xyzMoveData.rotationX = dd.x;
-                this.parent.xyzMoveData.rotationY = dd.y;
-                this.parent.xyzMoveData.rotationZ = dd.z;
+            this.selectId = 0;
+            this.lastDis = null
+ 
+        }
+        private lastDis: number
+ 
+        public onMouseMove(mouseVect2d: Vector2D): void {
+            if (this.selectId > 0) {
+                var dis: number = MathUtil.pointToLine2dDis(this._linePosinA, this._linePosinB, mouseVect2d);
+                if (!isNaN(this.lastDis)) {
+                    var addRotation: number = dis - this.lastDis
+                    var _xyzMoveData: TooXyzPosData = this.parent.xyzMoveData;
+                    switch (this.selectId) {
+                        case 1:
+                            _xyzMoveData.rotationX += addRotation;
+                            break
+                        case 2:
+                            _xyzMoveData.rotationY += addRotation;
+                            break
+                        case 3:
+                            _xyzMoveData.rotationZ += addRotation;
+                            break;
+                        default:
+                            break
+                    }
+                }
+                this.lastDis = dis
             }
         }
+       
+
+
+ 
 
         public update(): void {
             super.update()
@@ -125,8 +167,8 @@
 
 
             this._roundA.update();
-            this._roundB.update();
-            this._roundC.update();
+             this._roundB.update();
+             this._roundC.update();
  
 
 

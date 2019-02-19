@@ -55,6 +55,13 @@ var Pan3d;
             b.y = ((-p.y / p.w) + 1) * (fovh / 2);
             return b;
         };
+        //计算2D 点到直线的距离
+        MathUtil.pointToLine2dDis = function (point1, point2, out) {
+            var A = (point1.y - point2.y) / Math.sqrt(Math.pow((point1.y - point2.y), 2) + Math.pow((point1.x - point2.x), 2));
+            var B = (point2.x - point1.x) / Math.sqrt(Math.pow((point1.y - point2.y), 2) + Math.pow((point1.x - point2.x), 2));
+            var C = (point1.x * point2.y - point2.x * point1.y) / Math.sqrt(Math.pow((point1.y - point2.y), 2) + Math.pow((point1.x - point2.x), 2));
+            return Math.abs(A * out.x + B * out.y + C) / Math.sqrt(Math.pow(A, 2) + Math.pow(B, 2));
+        };
         MathUtil.argbToHex = function (a, r, g, b) {
             // 转换颜色
             var color = a << 24 | r << 16 | g << 8 | b;

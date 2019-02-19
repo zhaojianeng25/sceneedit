@@ -120,11 +120,14 @@
 
         public updateMatrix(): void {
             this.posMatrix.identity();
-            this.posMatrix.appendScale(this._scaleX, this._scaleY, this._scaleZ);
+           // this.posMatrix.appendScale(this._scaleX, this._scaleY, this._scaleZ);
+   
             this.posMatrix.appendRotation(this._rotationX, Vector3D.X_AXIS)
             this.posMatrix.appendRotation(this._rotationY, Vector3D.Y_AXIS)
             this.posMatrix.appendRotation(this._rotationZ, Vector3D.Z_AXIS)
-            this.posMatrix.appendTranslation(this._x, this._y, this._z);
+
+
+           // this.posMatrix.appendTranslation(this._x, this._y, this._z);
         }
 
         public updateRotationMatrix(): void {

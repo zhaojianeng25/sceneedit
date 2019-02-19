@@ -13,14 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Matrix3D = Pan3d.Matrix3D;
     var Scene_data = Pan3d.Scene_data;
+    var MathUtil = Pan3d.MathUtil;
     var TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite;
     var TooRotationLevel = /** @class */ (function (_super) {
         __extends(TooRotationLevel, _super);
         function TooRotationLevel(value) {
             var _this = _super.call(this, value) || this;
-            _this.skipNum = 0;
             _this._roundA = new TooRotationDisplay3DSprite();
             _this._roundB = new TooRotationDisplay3DSprite();
             _this._roundC = new TooRotationDisplay3DSprite();
@@ -35,6 +34,7 @@ var xyz;
             this.testHitTemp(this._roundC, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 0, 1)]);
         };
         TooRotationLevel.prototype.onMouseDown = function (mouseVect2d) {
+            console.log("mouseVect2d", mouseVect2d);
             if (xyz.TooMathHitModel.testHitModel(this._roundA, this._scene, mouseVect2d)) {
                 this.selectId = 1;
             }
@@ -44,38 +44,71 @@ var xyz;
             else if (xyz.TooMathHitModel.testHitModel(this._roundC, this._scene, mouseVect2d)) {
                 this.selectId = 3;
             }
-        };
-        TooRotationLevel.prototype.onMouseUp = function (mouseVect2d) {
-            this.selectId = 0;
-            this.skipNum = 0;
-        };
-        TooRotationLevel.prototype.onMouseMove = function (mouseVect2d) {
-            if (this.selectId > 0) {
-                var $m = new Matrix3D;
-                $m.appendRotation(this.parent.xyzMoveData.oldangle_x, Vector3D.X_AXIS);
-                $m.appendRotation(this.parent.xyzMoveData.oldangle_y, Vector3D.Y_AXIS);
-                $m.appendRotation(this.parent.xyzMoveData.oldangle_z, Vector3D.Z_AXIS);
-                var $addM = new Matrix3D;
-                var addRotation = this.skipNum++;
+            if (this.selectId) {
+                var a, b, c;
                 switch (this.selectId) {
                     case 1:
-                        $addM.appendRotation(addRotation, Vector3D.X_AXIS);
+                        a = new Vector3D(0, -100, +50);
+                        b = new Vector3D(0, -100, -50);
+                        c = new Vector3D(0, 100, +50);
                         break;
                     case 2:
-                        $addM.appendRotation(addRotation, Vector3D.Y_AXIS);
+                        a = new Vector3D(-100, 0, +50);
+                        b = new Vector3D(-100, 0, -50);
+                        c = new Vector3D(+100, 0, +50);
                         break;
                     case 3:
-                        $addM.appendRotation(addRotation, Vector3D.Z_AXIS);
+                        a = new Vector3D(-100, +50, 0);
+                        b = new Vector3D(-100, -50, 0);
+                        c = new Vector3D(+100, +50, 0);
                         break;
                     default:
                         break;
                 }
-                $m.prepend($addM);
-                var dd = $m.toEulerAngles();
-                dd.scaleBy(180 / Math.PI);
-                this.parent.xyzMoveData.rotationX = dd.x;
-                this.parent.xyzMoveData.rotationY = dd.y;
-                this.parent.xyzMoveData.rotationZ = dd.z;
+                console.log("旋转轴", this.selectId);
+                this.showYaix(a, b, c);
+            }
+        };
+        TooRotationLevel.prototype.showYaix = function (a, b, c) {
+            var scene = this._scene;
+            var mat = scene.cam3D.cameraMatrix.clone();
+            var viewMatrx3D = scene.viewMatrx3D.clone();
+            mat.append(viewMatrx3D);
+            var _xyzMoveData = this.parent.xyzMoveData;
+            a = _xyzMoveData.modeMatrx3D.transformVector(a);
+            b = _xyzMoveData.modeMatrx3D.transformVector(b);
+            c = _xyzMoveData.modeMatrx3D.transformVector(c);
+            var $triNrm = Vector3D.calTriNormal(a, b, c, true); //获取平面法线
+            var centen2d = xyz.TooMathHitModel.math3DWorldtoDisplay2DPos(_xyzMoveData.modeMatrx3D.position, mat, scene.cam3D.cavanRect);
+            var outPos2d = xyz.TooMathHitModel.math3DWorldtoDisplay2DPos($triNrm.add(_xyzMoveData.modeMatrx3D.position), mat, scene.cam3D.cavanRect);
+            this._linePosinA = centen2d;
+            this._linePosinB = outPos2d;
+        };
+        TooRotationLevel.prototype.onMouseUp = function (mouseVect2d) {
+            this.selectId = 0;
+            this.lastDis = null;
+        };
+        TooRotationLevel.prototype.onMouseMove = function (mouseVect2d) {
+            if (this.selectId > 0) {
+                var dis = MathUtil.pointToLine2dDis(this._linePosinA, this._linePosinB, mouseVect2d);
+                if (!isNaN(this.lastDis)) {
+                    var addRotation = dis - this.lastDis;
+                    var _xyzMoveData = this.parent.xyzMoveData;
+                    switch (this.selectId) {
+                        case 1:
+                            _xyzMoveData.rotationX += addRotation;
+                            break;
+                        case 2:
+                            _xyzMoveData.rotationY += addRotation;
+                            break;
+                        case 3:
+                            _xyzMoveData.rotationZ += addRotation;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                this.lastDis = dis;
             }
         };
         TooRotationLevel.prototype.update = function () {

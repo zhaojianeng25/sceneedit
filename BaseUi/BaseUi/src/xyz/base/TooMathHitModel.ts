@@ -94,7 +94,7 @@
             camv3d=  camv3d.add(nrmV3d)
             return camv3d
         }
-        private static math3DWorldtoDisplay2DPos($pos: Vector3D, mat: Matrix3D, rect: Rectangle): Vector2D {
+        public static math3DWorldtoDisplay2DPos($pos: Vector3D, mat: Matrix3D, rect: Rectangle): Vector2D {
             var p: Vector3D = mat.transformVector($pos);
             var b: Vector2D = new Vector2D;
             b.x = ((p.x / p.w) + 1) * (rect.width / 2)

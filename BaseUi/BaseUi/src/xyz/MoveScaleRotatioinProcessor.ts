@@ -57,11 +57,11 @@
         }
         private makeBaseData(): TooXyzPosData {
             var a: Display3D = new Display3D();
-            a.x = 50;
+            a.x = 0;
             a.y = 0;
-            a.z = 10;
-            a.rotationX = 45;
-            a.rotationY = 45;
+            a.z = 0;
+            a.rotationX = 0;
+            a.rotationY = 0;
            // a.rotationZ = 30;
             return   TooXyzPosData.getBase([a]);
         }
