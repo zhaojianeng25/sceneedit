@@ -66,44 +66,57 @@
         private lastMousePosV3d: Vector3D;
         public onMouseMove(mouseVect2d: Vector2D): void {
             if (this.selectId > 0) {
-                var pos: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
+                var pos: Vector3D = this.getMouseHitPos(mouseVect2d)
                 if (this.lastMousePosV3d) {
-                    var addPos: Vector3D = pos.subtract(this.lastMousePosV3d);
-                    console.log("位移",addPos)
-                    var toPos: Vector3D = new Vector3D
-                    if (this.parent.xyzMoveData) {
-                        switch (this.selectId) {
-                            case 1:
-                                toPos.x = addPos.x
-                                break
-                            case 2:
-                                toPos.y = addPos.y
-                                break
-                            case 3:
-                                toPos.z = addPos.z
-                                break
-                            default:
-                                break;
-                        }
-                        // toPos=  this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos)
 
-                        console.log(toPos)
-
-
-                        var $m: Matrix3D = this.parent.xyzMoveData.modeMatrx3D.clone()
-                        $m.prependTranslation(toPos.x, toPos.y, toPos.z)
-                        var pos: Vector3D = $m.position
-
-                        this.parent.xyzMoveData.x = pos.x
-                        this.parent.xyzMoveData.y = pos.y
-                        this.parent.xyzMoveData.z = pos.z
+                    var addPos: Vector3D = new Vector3D()
+                    switch (this.selectId) {
+                        case 1:
+                            addPos.x = pos.x - this.lastMousePosV3d.x;
+                            break
+                        case 2:
+                            addPos.y = pos.y - this.lastMousePosV3d.y;
+                            break
+                        case 3:
+                            addPos.z = pos.z - this.lastMousePosV3d.z;
+                            break
+                        default:
+                            break
                     }
-
-
+                    this.parent.xyzMoveData.x += addPos.x;
+                    this.parent.xyzMoveData.y += addPos.y;
+                    this.parent.xyzMoveData.z += addPos.z;
                 }
                 this.lastMousePosV3d = pos;
             }
         }
+        private getMouseHitPos(mouseVect2d: Vector2D): Vector3D {
+            var pos: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
+
+            var A: Vector3D = new Vector3D(0, 0, 0)
+            var B: Vector3D;
+            var C: Vector3D;
+
+            switch (this.selectId) {
+                case 1:
+                    B = new Vector3D(1, 0, 0);
+                    C = new Vector3D(0, 0,1);
+                    break
+                case 2:
+                    B = new Vector3D(0, 1, 0);
+                    C = new Vector3D(0, 0, 1);
+                    break
+                case 3:
+                    B = new Vector3D(0, 0, 1);
+                    C = new Vector3D(1, 0, 0);
+                    break
+                default:
+                    break
+            }
+            return Vector3D.getPointPedalInPlane(pos, A, B, C)
+
+        }
+
      
         public update(): void {
             super.update()
