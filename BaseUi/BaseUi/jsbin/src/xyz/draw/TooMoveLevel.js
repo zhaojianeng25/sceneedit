@@ -54,6 +54,7 @@ var xyz;
                 var pos = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
                 if (this.lastMousePosV3d) {
                     var addPos = pos.subtract(this.lastMousePosV3d);
+                    console.log("位移", addPos);
                     var toPos = new Vector3D;
                     if (this.parent.xyzMoveData) {
                         switch (this.selectId) {
@@ -69,10 +70,14 @@ var xyz;
                             default:
                                 break;
                         }
-                        toPos = this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos);
-                        this.parent.xyzMoveData.x = toPos.x;
-                        this.parent.xyzMoveData.y = toPos.y;
-                        this.parent.xyzMoveData.z = toPos.z;
+                        // toPos=  this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos)
+                        console.log(toPos);
+                        var $m = this.parent.xyzMoveData.modeMatrx3D.clone();
+                        $m.prependTranslation(toPos.x, toPos.y, toPos.z);
+                        var pos = $m.position;
+                        this.parent.xyzMoveData.x = pos.x;
+                        this.parent.xyzMoveData.y = pos.y;
+                        this.parent.xyzMoveData.z = pos.z;
                     }
                 }
                 this.lastMousePosV3d = pos;

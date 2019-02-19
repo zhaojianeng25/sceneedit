@@ -82,7 +82,7 @@ var xyz;
         };
         MoveScaleRotatioinProcessor.prototype.makeBaseData = function () {
             var a = new Display3D();
-            a.x = 10;
+            a.x = 50;
             a.y = 0;
             a.z = 10;
             a.rotationX = 45;

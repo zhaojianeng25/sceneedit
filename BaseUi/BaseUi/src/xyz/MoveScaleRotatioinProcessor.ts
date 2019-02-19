@@ -57,7 +57,7 @@
         }
         private makeBaseData(): TooXyzPosData {
             var a: Display3D = new Display3D();
-            a.x = 10;
+            a.x = 50;
             a.y = 0;
             a.z = 10;
             a.rotationX = 45;

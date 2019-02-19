@@ -69,6 +69,7 @@
                 var pos: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
                 if (this.lastMousePosV3d) {
                     var addPos: Vector3D = pos.subtract(this.lastMousePosV3d);
+                    console.log("位移",addPos)
                     var toPos: Vector3D = new Vector3D
                     if (this.parent.xyzMoveData) {
                         switch (this.selectId) {
@@ -84,11 +85,18 @@
                             default:
                                 break;
                         }
-                        toPos=  this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos)
+                        // toPos=  this.parent.xyzMoveData.modeMatrx3D.transformVector(toPos)
 
-                        this.parent.xyzMoveData.x = toPos.x;
-                        this.parent.xyzMoveData.y = toPos.y;
-                        this.parent.xyzMoveData.z = toPos.z;
+                        console.log(toPos)
+
+
+                        var $m: Matrix3D = this.parent.xyzMoveData.modeMatrx3D.clone()
+                        $m.prependTranslation(toPos.x, toPos.y, toPos.z)
+                        var pos: Vector3D = $m.position
+
+                        this.parent.xyzMoveData.x = pos.x
+                        this.parent.xyzMoveData.y = pos.y
+                        this.parent.xyzMoveData.z = pos.z
                     }
 
 
