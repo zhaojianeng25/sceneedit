@@ -60,7 +60,7 @@
             a.x = 0;
             a.y = 0;
             a.z = 0;
-            a.rotationX = 45;
+            a.rotationX = 0;
             a.rotationY = 0;
             a.rotationZ = 0;
             return   TooXyzPosData.getBase([a]);

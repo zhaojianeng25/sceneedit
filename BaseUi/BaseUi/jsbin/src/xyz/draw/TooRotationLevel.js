@@ -15,7 +15,6 @@ var xyz;
 (function (xyz) {
     var Matrix3D = Pan3d.Matrix3D;
     var Scene_data = Pan3d.Scene_data;
-    var MathUtil = Pan3d.MathUtil;
     var TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite;
     var TooRotationLevel = /** @class */ (function (_super) {
         __extends(TooRotationLevel, _super);
@@ -68,6 +67,7 @@ var xyz;
                 }
                 console.log("旋转轴", this.selectId);
                 this.showYaix(a, b, c);
+                this.lastDis = this.testInfo(this._linePosinA, this._linePosinB, mouseVect2d);
             }
         };
         TooRotationLevel.prototype.showYaix = function (a, b, c) {
@@ -88,10 +88,24 @@ var xyz;
         TooRotationLevel.prototype.onMouseUp = function (mouseVect2d) {
             this.selectId = 0;
             this.lastDis = null;
+            console.log("结束");
+        };
+        TooRotationLevel.prototype.testInfo = function (A, B, C) {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(-1, 1);
+            var c = new Vector2D(10, 10);
+            a = A;
+            b = B;
+            c = C;
+            var r = Math.atan2(b.y - a.y, b.x - a.x);
+            var m = new Matrix3D();
+            m.appendRotation(90 - (r * 180 / Math.PI), Vector3D.Z_AXIS);
+            var d = m.transformVector(new Vector3D(c.x, c.y, 0));
+            return d.x;
         };
         TooRotationLevel.prototype.onMouseMove = function (mouseVect2d) {
             if (this.selectId > 0) {
-                var dis = MathUtil.pointToLine2dDis(this._linePosinA, this._linePosinB, mouseVect2d);
+                var dis = this.testInfo(this._linePosinA, this._linePosinB, mouseVect2d);
                 if (!isNaN(this.lastDis)) {
                     var addRotation = dis - this.lastDis;
                     var _xyzMoveData = this.parent.xyzMoveData;
@@ -105,7 +119,7 @@ var xyz;
                             $addM.appendRotation(addRotation, Vector3D.X_AXIS);
                             break;
                         case 2:
-                            $addM.appendRotation(addRotation, Vector3D.Y_AXIS);
+                            $addM.appendRotation(-addRotation, Vector3D.Y_AXIS);
                             break;
                         case 3:
                             $addM.appendRotation(addRotation, Vector3D.Z_AXIS);
@@ -119,6 +133,9 @@ var xyz;
                     _xyzMoveData.rotationX = outVec3d.x;
                     _xyzMoveData.rotationY = outVec3d.y;
                     _xyzMoveData.rotationZ = outVec3d.z;
+                }
+                else {
+                    console.log("开始");
                 }
                 this.lastDis = dis;
             }
