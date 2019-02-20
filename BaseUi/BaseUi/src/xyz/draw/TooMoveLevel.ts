@@ -57,19 +57,65 @@
             } else if (TooMathHitModel.testHitModel(this._boxC, this._scene, mouseVect2d)) {
                 this.selectId = 3;
             }
+            if (this.selectId > 0) {
+                var A: Vector3D = new Vector3D(0, 0, 0)
+                var B: Vector3D;
+                var C: Vector3D;
+
+                switch (this.selectId) {
+                    case 1:
+                        B = new Vector3D(100, 0, 0);
+                        C = new Vector3D(0, 0, 100);
+                        break
+                    case 2:
+                        B = new Vector3D(100, 0, 0);
+                        C = new Vector3D(0, 100, 0);
+                        break
+                    case 3:
+                        B = new Vector3D(0, 0, 100);
+                        C = new Vector3D(0, 100, 0);
+                        break
+                    default:
+                        break
+                }
+                A = this.parent.xyzMoveData.modeMatrx3D.transformVector(A);
+                B = this.parent.xyzMoveData.modeMatrx3D.transformVector(B);
+                C = this.parent.xyzMoveData.modeMatrx3D.transformVector(C);
+                this.pointItem = [A, B, C];
+
+                this.lastMatrix3d = this.parent.xyzMoveData.modeMatrx3D.clone()
+                this.lastMousePosV3d = this.getMouseHitPanelPos(mouseVect2d)
+            }
         
         }
+        private lastMatrix3d: Matrix3D
+        private pointItem: Array<Vector3D>
         public onMouseUp(mouseVect2d: Vector2D): void {
             this.lastMousePosV3d = null;
             this.selectId = 0;
         }
+        private getMouseHitPanelPos(mouseVect2d: Vector2D): Vector3D {
+            var clik3dVect: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
+            var cam3d: Vector3D = new Vector3D(this._scene.cam3D.x, this._scene.cam3D.y, this._scene.cam3D.z)
+            var pos: Vector3D = Pan3d.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
+
+            var $m: Matrix3D = this.lastMatrix3d.clone()
+            $m.invert()
+            pos = $m.transformVector(pos)
+
+            return pos
+        }
         private lastMousePosV3d: Vector3D;
         public onMouseMove(mouseVect2d: Vector2D): void {
             if (this.selectId > 0) {
-                var pos: Vector3D = this.getMouseHitPos(mouseVect2d)
+
+ 
                 if (this.lastMousePosV3d) {
+                    var clik3dVect: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
+                    var pos: Vector3D= this.getMouseHitPanelPos(mouseVect2d)
 
                     var addPos: Vector3D = new Vector3D()
+ 
 
                     switch (this.selectId) {
                         case 1:
@@ -77,20 +123,23 @@
                             break
                         case 2:
                             addPos.y = pos.y - this.lastMousePosV3d.y
-                            break
+                           break
                         case 3:
                             addPos.z = pos.z - this.lastMousePosV3d.z
                             break
                         default:
                             break
                     }
-                    addPos= this.parent.xyzMoveData.modeMatrx3D.transformVector(addPos)
-                    this.parent.xyzMoveData.x = addPos.x;
-                    this.parent.xyzMoveData.y = addPos.y;
-                    this.parent.xyzMoveData.z = addPos.z;
+                    var $m: Matrix3D = this.lastMatrix3d.clone()
+                    $m.prependTranslation(addPos.x, addPos.y, addPos.z)
+                    var pos: Vector3D = $m.position
+                    this.parent.xyzMoveData.x = pos.x
+                    this.parent.xyzMoveData.y = pos.y
+                    this.parent.xyzMoveData.z = pos.z
+  
  
                 }
-                this.lastMousePosV3d = pos;
+              
             }
         }
         private getMouseHitPos(mouseVect2d: Vector2D): Vector3D {

@@ -87,6 +87,7 @@ var Pan3d;
             if (planePoint.length < 3)
                 return null;
             var nomal = new Pan3d.Vector3D(0, 2000, 0);
+            nomal = Pan3d.Vector3D.calTriNormal(planePoint[0], planePoint[1], planePoint[2]);
             return this.getLineAndPlaneIntersectPoint(linePoint_a, linePoint_b, planePoint[0], nomal);
         };
         /**

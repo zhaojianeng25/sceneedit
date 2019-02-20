@@ -92,6 +92,7 @@
         public static getLinePlaneInterectPointByTri(linePoint_a: Vector3D, linePoint_b: Vector3D, planePoint: Array<Vector3D>): Vector3D {
             if (planePoint.length < 3) return null;
             var nomal: Vector3D = new Vector3D(0, 2000, 0)
+            nomal=Vector3D.calTriNormal(planePoint[0], planePoint[1], planePoint[2])
             return this.getLineAndPlaneIntersectPoint(linePoint_a, linePoint_b, planePoint[0], nomal);
         }
         /**

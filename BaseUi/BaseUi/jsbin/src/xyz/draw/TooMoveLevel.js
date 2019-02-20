@@ -44,15 +44,52 @@ var xyz;
             else if (xyz.TooMathHitModel.testHitModel(this._boxC, this._scene, mouseVect2d)) {
                 this.selectId = 3;
             }
+            if (this.selectId > 0) {
+                var A = new Vector3D(0, 0, 0);
+                var B;
+                var C;
+                switch (this.selectId) {
+                    case 1:
+                        B = new Vector3D(100, 0, 0);
+                        C = new Vector3D(0, 0, 100);
+                        break;
+                    case 2:
+                        B = new Vector3D(100, 0, 0);
+                        C = new Vector3D(0, 100, 0);
+                        break;
+                    case 3:
+                        B = new Vector3D(0, 0, 100);
+                        C = new Vector3D(0, 100, 0);
+                        break;
+                    default:
+                        break;
+                }
+                A = this.parent.xyzMoveData.modeMatrx3D.transformVector(A);
+                B = this.parent.xyzMoveData.modeMatrx3D.transformVector(B);
+                C = this.parent.xyzMoveData.modeMatrx3D.transformVector(C);
+                this.pointItem = [A, B, C];
+                this.lastMatrix3d = this.parent.xyzMoveData.modeMatrx3D.clone();
+                this.lastMousePosV3d = this.getMouseHitPanelPos(mouseVect2d);
+            }
         };
         TooMoveLevel.prototype.onMouseUp = function (mouseVect2d) {
             this.lastMousePosV3d = null;
             this.selectId = 0;
         };
+        TooMoveLevel.prototype.getMouseHitPanelPos = function (mouseVect2d) {
+            var clik3dVect = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
+            var cam3d = new Vector3D(this._scene.cam3D.x, this._scene.cam3D.y, this._scene.cam3D.z);
+            var pos = Pan3d.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
+            var $m = this.lastMatrix3d.clone();
+            $m.invert();
+            pos = $m.transformVector(pos);
+            return pos;
+        };
         TooMoveLevel.prototype.onMouseMove = function (mouseVect2d) {
             if (this.selectId > 0) {
-                var pos = this.getMouseHitPos(mouseVect2d);
                 if (this.lastMousePosV3d) {
+                    var clik3dVect = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
+                    var pos = this.getMouseHitPanelPos(mouseVect2d);
                     var addPos = new Vector3D();
                     switch (this.selectId) {
                         case 1:
@@ -67,12 +104,13 @@ var xyz;
                         default:
                             break;
                     }
-                    addPos = this.parent.xyzMoveData.modeMatrx3D.transformVector(addPos);
-                    this.parent.xyzMoveData.x = addPos.x;
-                    this.parent.xyzMoveData.y = addPos.y;
-                    this.parent.xyzMoveData.z = addPos.z;
+                    var $m = this.lastMatrix3d.clone();
+                    $m.prependTranslation(addPos.x, addPos.y, addPos.z);
+                    var pos = $m.position;
+                    this.parent.xyzMoveData.x = pos.x;
+                    this.parent.xyzMoveData.y = pos.y;
+                    this.parent.xyzMoveData.z = pos.z;
                 }
-                this.lastMousePosV3d = pos;
             }
         };
         TooMoveLevel.prototype.getMouseHitPos = function (mouseVect2d) {
