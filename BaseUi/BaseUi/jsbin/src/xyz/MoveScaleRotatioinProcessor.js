@@ -85,9 +85,9 @@ var xyz;
             a.x = 0;
             a.y = 0;
             a.z = 0;
-            a.rotationX = 0;
+            a.rotationX = 45;
             a.rotationY = 0;
-            // a.rotationZ = 30;
+            a.rotationZ = 0;
             return xyz.TooXyzPosData.getBase([a]);
         };
         MoveScaleRotatioinProcessor.prototype.addEvents = function () {

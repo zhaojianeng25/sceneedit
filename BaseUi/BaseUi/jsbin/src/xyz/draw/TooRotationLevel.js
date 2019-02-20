@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
+    var Matrix3D = Pan3d.Matrix3D;
     var Scene_data = Pan3d.Scene_data;
     var MathUtil = Pan3d.MathUtil;
     var TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite;
@@ -94,19 +95,30 @@ var xyz;
                 if (!isNaN(this.lastDis)) {
                     var addRotation = dis - this.lastDis;
                     var _xyzMoveData = this.parent.xyzMoveData;
+                    var $m = new Matrix3D;
+                    $m.appendRotation(_xyzMoveData.rotationX, Vector3D.X_AXIS);
+                    $m.appendRotation(_xyzMoveData.rotationY, Vector3D.Y_AXIS);
+                    $m.appendRotation(_xyzMoveData.rotationZ, Vector3D.Z_AXIS);
+                    var $addM = new Matrix3D();
                     switch (this.selectId) {
                         case 1:
-                            _xyzMoveData.rotationX += addRotation;
+                            $addM.appendRotation(addRotation, Vector3D.X_AXIS);
                             break;
                         case 2:
-                            _xyzMoveData.rotationY += addRotation;
+                            $addM.appendRotation(addRotation, Vector3D.Y_AXIS);
                             break;
                         case 3:
-                            _xyzMoveData.rotationZ += addRotation;
+                            $addM.appendRotation(addRotation, Vector3D.Z_AXIS);
                             break;
                         default:
                             break;
                     }
+                    $m.prepend($addM);
+                    var outVec3d = $m.toEulerAngles();
+                    outVec3d.scaleBy(180 / Math.PI);
+                    _xyzMoveData.rotationX = outVec3d.x;
+                    _xyzMoveData.rotationY = outVec3d.y;
+                    _xyzMoveData.rotationZ = outVec3d.z;
                 }
                 this.lastDis = dis;
             }

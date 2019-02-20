@@ -26,6 +26,8 @@
                 this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationZ, Vector3D.Z_AXIS);
                 this._xyzMoveData.modeMatrx3D.appendTranslation(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z)
 
+                //console.log(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z)
+
                 this.lookLenToFocu = Vector3D.distance(this._scene.cam3D, this._xyzMoveData);
              
             }

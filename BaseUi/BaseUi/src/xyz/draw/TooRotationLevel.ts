@@ -116,21 +116,38 @@
             if (this.selectId > 0) {
                 var dis: number = MathUtil.pointToLine2dDis(this._linePosinA, this._linePosinB, mouseVect2d);
                 if (!isNaN(this.lastDis)) {
+                
                     var addRotation: number = dis - this.lastDis
                     var _xyzMoveData: TooXyzPosData = this.parent.xyzMoveData;
+
+                    var $m: Matrix3D = new Matrix3D;
+                    $m.appendRotation(_xyzMoveData.rotationX, Vector3D.X_AXIS)
+                    $m.appendRotation(_xyzMoveData.rotationY, Vector3D.Y_AXIS)
+                    $m.appendRotation(_xyzMoveData.rotationZ, Vector3D.Z_AXIS)
+
+                    var $addM: Matrix3D = new Matrix3D()
                     switch (this.selectId) {
                         case 1:
-                            _xyzMoveData.rotationX += addRotation;
+                            $addM.appendRotation(addRotation, Vector3D.X_AXIS)
                             break
                         case 2:
-                            _xyzMoveData.rotationY += addRotation;
+                            $addM.appendRotation(addRotation, Vector3D.Y_AXIS)
                             break
                         case 3:
-                            _xyzMoveData.rotationZ += addRotation;
+                            $addM.appendRotation(addRotation, Vector3D.Z_AXIS)
                             break;
                         default:
                             break
                     }
+                    $m.prepend($addM)
+
+                    var outVec3d: Vector3D = $m.toEulerAngles();
+                    outVec3d.scaleBy(180 / Math.PI)
+                    _xyzMoveData.rotationX = outVec3d.x
+                    _xyzMoveData.rotationY = outVec3d.y
+                    _xyzMoveData.rotationZ = outVec3d.z
+                  
+
                 }
                 this.lastDis = dis
             }

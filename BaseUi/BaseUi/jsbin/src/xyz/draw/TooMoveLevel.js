@@ -67,9 +67,10 @@ var xyz;
                         default:
                             break;
                     }
-                    this.parent.xyzMoveData.x += addPos.x;
-                    this.parent.xyzMoveData.y += addPos.y;
-                    this.parent.xyzMoveData.z += addPos.z;
+                    addPos = this.parent.xyzMoveData.modeMatrx3D.transformVector(addPos);
+                    this.parent.xyzMoveData.x = addPos.x;
+                    this.parent.xyzMoveData.y = addPos.y;
+                    this.parent.xyzMoveData.z = addPos.z;
                 }
                 this.lastMousePosV3d = pos;
             }

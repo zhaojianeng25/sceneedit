@@ -70,22 +70,25 @@
                 if (this.lastMousePosV3d) {
 
                     var addPos: Vector3D = new Vector3D()
+
                     switch (this.selectId) {
                         case 1:
-                            addPos.x = pos.x - this.lastMousePosV3d.x;
+                            addPos.x = pos.x - this.lastMousePosV3d.x
                             break
                         case 2:
-                            addPos.y = pos.y - this.lastMousePosV3d.y;
+                            addPos.y = pos.y - this.lastMousePosV3d.y
                             break
                         case 3:
-                            addPos.z = pos.z - this.lastMousePosV3d.z;
+                            addPos.z = pos.z - this.lastMousePosV3d.z
                             break
                         default:
                             break
                     }
-                    this.parent.xyzMoveData.x += addPos.x;
-                    this.parent.xyzMoveData.y += addPos.y;
-                    this.parent.xyzMoveData.z += addPos.z;
+                    addPos= this.parent.xyzMoveData.modeMatrx3D.transformVector(addPos)
+                    this.parent.xyzMoveData.x = addPos.x;
+                    this.parent.xyzMoveData.y = addPos.y;
+                    this.parent.xyzMoveData.z = addPos.z;
+ 
                 }
                 this.lastMousePosV3d = pos;
             }
