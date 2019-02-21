@@ -71,27 +71,32 @@ var filelist;
             var _this = this;
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
+                console.log("绘制一下");
+                var $color = "[9c9c9c]";
+                if (this.fileListMeshVo.fileXmlVo.data.select) {
+                    $color = "[ffffff]";
+                }
                 var fileVo = this.fileListMeshVo.fileXmlVo.data;
                 switch (fileVo.suffix) {
                     case "jpg":
                     case "png":
                         LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
-                            _this.drawFileIconName($img, fileVo.name);
+                            _this.drawFileIconName($img, fileVo.name, $color);
                         });
                         break;
                     case "prefab":
-                        this.drawFileIconName(FileListPanel.imgBaseDic["profeb_64x"], fileVo.name);
+                        this.drawFileIconName(FileListPanel.imgBaseDic["profeb_64x"], fileVo.name, $color);
                         break;
                     case "material":
-                        this.drawFileIconName(FileListPanel.imgBaseDic["marterial_64x"], fileVo.name);
+                        this.drawFileIconName(FileListPanel.imgBaseDic["marterial_64x"], fileVo.name, $color);
                         break;
                     default:
-                        this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name);
+                        this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color);
                         break;
                 }
             }
         };
-        FileListName.prototype.drawFileIconName = function ($img, name) {
+        FileListName.prototype.drawFileIconName = function ($img, name, $color) {
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -101,11 +106,11 @@ var filelist;
             console.log("$textMetrics.width", $textMetrics.width);
             if ($textMetrics.width > 70) {
                 var inset = Math.floor(outStr.length * (1 / 3));
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + outStr.substr(0, inset), 12, 0 - 6, 50, TextAlign.CENTER);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + outStr.substring(inset, outStr.length), 12, 0 - 6, 65, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 12, 0 - 6, 50, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 12, 0 - 6, 65, TextAlign.CENTER);
             }
             else {
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + outStr, 12, 0 - 6, 55, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr, 12, 0 - 6, 55, TextAlign.CENTER);
             }
             TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
         };
@@ -177,32 +182,67 @@ var filelist;
         };
         FileListPanel.prototype.mouseDown = function (evt) {
             this.mouseIsDown = true;
+            this.mouseDownTm = Pan3d.TimeUtil.getTimer();
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
         FileListPanel.prototype.stageMouseMove = function (evt) {
             this.mouseIsDown = false;
         };
+        FileListPanel.prototype.duboclik = function (evt) {
+            console.log("双击");
+            var vo = this.getItemVoByUi(evt.target);
+            if (vo) {
+                if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
+                    this.refrishPath(vo.fileListMeshVo.fileXmlVo.data.path);
+                }
+                else {
+                    var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                    fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
+                        case "material":
+                            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                            break;
+                        default:
+                            console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);
+                            break;
+                    }
+                }
+            }
+        };
         FileListPanel.prototype.mouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             if (this.mouseIsDown) {
-                var vo = this.getItemVoByUi(evt.target);
-                if (vo) {
-                    if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
-                        this.refrishPath(vo.fileListMeshVo.fileXmlVo.data.path);
+                if (this.lastDonwInfo && this.lastDonwInfo.target == evt.target) {
+                    if (this.lastDonwInfo.tm + 500 > Pan3d.TimeUtil.getTimer()) {
+                        if (Pan3d.TimeUtil.getTimer() > this.mouseDownTm + 100) {
+                            this.lastDonwInfo.tm = Pan3d.TimeUtil.getTimer();
+                        }
+                        else {
+                            this.duboclik(evt);
+                        }
+                        return;
                     }
                     else {
-                        var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
-                        fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
-                        switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
-                            case "material":
-                                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.HIDE_MAIN_EDITOR_PANEL));
-                                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
-                                break;
-                            default:
-                                console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);
-                                break;
-                        }
+                        this.lastDonwInfo.tm = Pan3d.TimeUtil.getTimer();
                     }
+                }
+                else {
+                    this.lastDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+                }
+            }
+            this.selectFileIcon(evt);
+        };
+        FileListPanel.prototype.selectFileIcon = function (evt) {
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.ui == evt.target) {
+                        $vo.fileListMeshVo.fileXmlVo.data.select = true;
+                    }
+                    else {
+                        $vo.fileListMeshVo.fileXmlVo.data.select = false;
+                    }
+                    $vo.fileListMeshVo.needDraw = true;
                 }
             }
         };

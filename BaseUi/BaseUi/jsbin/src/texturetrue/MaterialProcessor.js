@@ -31,7 +31,6 @@ var materialui;
         }
         MaterialEvent.INIT_MATERIA_PANEL = "INIT_MATERIA_PANEL"; //
         MaterialEvent.SHOW_MATERIA_PANEL = "SHOW_MATERIA_PANEL"; //
-        MaterialEvent.HIDE_MATERIA_PANEL = "HIDE_MATERIA_PANEL"; //
         MaterialEvent.SAVE_MATERIA_PANEL = "SAVE_MATERIA_PANEL"; //
         MaterialEvent.SELECT_MATERIAL_NODE_UI = "SELECT_MATERIAL_NODE_UI"; //
         MaterialEvent.COMPILE_MATERIAL = "COMPILE_MATERIAL"; //
@@ -77,18 +76,15 @@ var materialui;
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 10);
                     BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
-                    console.log("准备读取材质", $materialEvent.data);
+                    ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
                     if ($materialEvent.data) {
-                        Pan3d.ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
-                        materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
+                        if (this.lastMaterialUrl != $materialEvent.data) { //是上一个材质，就不加载
+                            ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
+                            materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
+                            this.lastMaterialUrl = $materialEvent.data;
+                        }
                     }
                     this.addEvents();
-                }
-                if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
-                    LayerManager.getInstance().removePanel(materialui.MaterialCtrl.getInstance().nodeUiPanel);
-                    LayerManager.getInstance().removePanel(materialui.MaterialCtrl.getInstance().linePanel);
-                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
-                    this.removeEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {
                     this.saveMateriaPanel();
@@ -122,6 +118,18 @@ var materialui;
                 }
             }
         };
+        Object.defineProperty(MaterialProcessor.prototype, "isCanToDo", {
+            get: function () {
+                if (this.materialCavasPanel.hasStage) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         MaterialProcessor.prototype.addEvents = function () {
             var _this = this;
             if (!this.onMouseWheelFun) {
@@ -224,6 +232,9 @@ var materialui;
             var id = Number(getUrlParam("id"));
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
+            }
             BaseUiStart.altKey = $evt.altKey;
             switch ($evt.keyCode) {
                 case KeyboardType.C:
@@ -271,6 +282,9 @@ var materialui;
             BaseUiStart.altKey = $evt.altKey;
         };
         MaterialProcessor.prototype.onMouse = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             if ($e.type == MouseType.MouseDown) {
                 if ($e.button == 1) {
                     this._isMidelMouse = true;
@@ -279,6 +293,9 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseMove = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             if (this._isMidelMouse) {
                 var $txy = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y);
                 $txy.x /= materialui.MtlUiData.Scale;
@@ -288,9 +305,15 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseUp = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             this._isMidelMouse = false;
         };
         MaterialProcessor.prototype.onMouseWheel = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
+            }
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
@@ -328,7 +351,6 @@ var materialui;
             return [
                 new MaterialEvent(MaterialEvent.INIT_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
-                new MaterialEvent(MaterialEvent.HIDE_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
                 new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),

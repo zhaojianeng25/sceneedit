@@ -3,13 +3,31 @@
     import Rectangle = Pan3d.Rectangle
     import Vector2D = Pan3d.Vector2D
     import Scene_data = Pan3d.Scene_data
+    import UIConatiner = Pan3d.UIConatiner
     import LoadManager = Pan3d.LoadManager
+
+    import LayoutbaseBg = layout.LayoutbaseBg
 
     export class CentenPanel extends Panel {
         public changeSize(): void {
             if (this.winBg) {
                 this.winBg.pageRect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50);
             }
+        }
+        public addUIContainer($container: UIConatiner): void {
+ 
+            //特殊处理，删除非底层背景
+            for (var i: number = this._containerList.length - 1; i > 0; i--) {
+                if (!(this._containerList[i] instanceof LayoutbaseBg)) {
+                    this.removeUIContainer(this._containerList[i]);
+                }
+            }
+            super.addUIContainer($container)
+            console.log("添加", this._containerList.length)
+        }
+        public removeUIContainer($container: UIConatiner): void {
+            super.removeUIContainer($container)
+            console.log("删除", this._containerList.length)
         }
     }
     export class EditScenePanel extends Panel {

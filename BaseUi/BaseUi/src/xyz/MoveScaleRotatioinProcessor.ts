@@ -19,6 +19,7 @@
     export class MoveScaleRotatioinEvent extends BaseEvent {
         public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION"; //显示面板
         public static MAKE_DTAT_ITEM_TO_CHANGE: string = "MAKE_DTAT_ITEM_TO_CHANGE"; //赋予显示对象
+        public static CLEAR_XYZ_MOVE_DATA: string = "CLEAR_XYZ_MOVE_DATA"; //赋予显示对象
 
     }
     export class MoveScaleRotatioinModule extends Module {
@@ -44,10 +45,13 @@
                         this.selectScene.addDisplay(this.moveScaleRotationLevel);
                         this.addEvents();
 
-                        Pan3d.ModuleEventManager.dispatchEvent(new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE))
+             
                         break
                     case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
                         this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
+                        break;
+                    case MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA:
+                        this.moveScaleRotationLevel.xyzMoveData = null;
                         break;
                     default:
                         break;
@@ -113,16 +117,19 @@
             return $motherAct;
 
         }
+        private get isCanToDo(): boolean { //false为可以操作
+            return Boolean(this.moveScaleRotationLevel.xyzMoveData);
+        }
         private A: Matrix3D = new Matrix3D;
         private B: Matrix3D = new Matrix3D;
         private C: Matrix3D = new Matrix3D;
         private baseCamData: Object3D;
         private disMatrix3D: Matrix3D = new Matrix3D
         private onMouseMove($e: MouseEvent): void {
-
-        
+            if (!this.isCanToDo) {
+                return
+            }
             this.moveScaleRotationLevel.onMouseMove($e);
-
             if ($e.altKey) {
                 switch ($e.buttons) {
                     case 4:
@@ -197,6 +204,9 @@
         private middleMovetType: boolean //是否按下中键
         private _middleMoveVe: Vector3D
         private onMouseDown($e: MouseEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
 
             this.moveScaleRotationLevel.onMouseDown($e);
 
@@ -211,19 +221,13 @@
 
             this.mouseInfo.old_rotation_x = this.selectScene.cam3D.rotationX;
             this.mouseInfo.old_rotation_y = this.selectScene.cam3D.rotationY;
-
-
-  
-
-
-
+ 
 
             switch ($e.button) {
                 case 0:
                     break;
                 case 1:
                     this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y)); //中键按下的3D坐标
-
                     this.selectVec = new Vector3D(0, 0, 0);
                     if (this.moveScaleRotationLevel.xyzMoveData) {
                         this.selectVec.x = this.moveScaleRotationLevel.xyzMoveData.x;
@@ -256,11 +260,20 @@
         }
 
         private onMouseUp($e: MouseEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
             this.moveScaleRotationLevel.onMouseUp($e);
         }
         private onKeyDown($e: KeyboardEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
         }
         private onKeyUp($e: KeyboardEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
             switch ($e.keyCode) {
                 case KeyboardType.W:
                     this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_XYZ
@@ -276,6 +289,9 @@
         }
 
         public onMouseWheel($evt: MouseWheelEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
 
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
@@ -307,6 +323,7 @@
             return [
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE),
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA),
             ];
         }
     }

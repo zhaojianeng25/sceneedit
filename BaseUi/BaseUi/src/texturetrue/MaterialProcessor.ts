@@ -21,7 +21,7 @@
     export class MaterialEvent extends BaseEvent {
         public static INIT_MATERIA_PANEL: string = "INIT_MATERIA_PANEL"; //
         public static SHOW_MATERIA_PANEL: string = "SHOW_MATERIA_PANEL"; //
-        public static HIDE_MATERIA_PANEL: string = "HIDE_MATERIA_PANEL"; //
+ 
         public static SAVE_MATERIA_PANEL: string = "SAVE_MATERIA_PANEL"; //
         public static SELECT_MATERIAL_NODE_UI: string = "SELECT_MATERIAL_NODE_UI"; //
         public static COMPILE_MATERIAL: string = "COMPILE_MATERIAL"; //
@@ -45,7 +45,8 @@
         public getName(): string {
             return "MaterialProcessor";
         }
-        private materialCavasPanel: MaterialCavasPanel
+        private materialCavasPanel: MaterialCavasPanel;
+        private lastMaterialUrl: string
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof MaterialEvent) {
                 var $materialEvent: MaterialEvent = <MaterialEvent>$event;
@@ -63,21 +64,21 @@
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 10);
                     BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel)
 
-                    console.log("准备读取材质", $materialEvent.data);
+                    ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
                     if ($materialEvent.data) {
-                        Pan3d.ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));  
-                        MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
+                        if (this.lastMaterialUrl != $materialEvent.data) { //是上一个材质，就不加载
+
+                            ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
+                            MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
+                            this.lastMaterialUrl = $materialEvent.data
+                        }
+                       
                     }
 
                     this.addEvents()
                
                 }
-                if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
-                    LayerManager.getInstance().removePanel(MaterialCtrl.getInstance().nodeUiPanel)
-                    LayerManager.getInstance().removePanel(MaterialCtrl.getInstance().linePanel);
-                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
-                    this.removeEvents()
-                }
+                
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {
                     this.saveMateriaPanel()
                 }
@@ -125,6 +126,16 @@
         private onMouseUpFun: any;
         private onKeyDownFun: any;
         private onKeyUpFun: any;
+
+        private get isCanToDo(): boolean { //false为可以操作
+            if (this.materialCavasPanel.hasStage) {
+                return true;
+            } else {
+                return false;
+            }
+            
+         
+        }
 
         private addEvents(): void {
 
@@ -245,37 +256,25 @@
 
         private openMaterialPanel(): void {
 
-
-
-
-
-
         }
 
 
 
         private loadConfigCom(): void {
 
-
-
-
             this.readMaterialTree()
-
-
-
-
-
 
         }
         private baseMaterialTree: MaterialTree
         private readMaterialTree(): void {
             MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui) };
             var id: number = Number(getUrlParam("id"));
-          
-
         }
 
         public onKeyDown($evt: KeyboardEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
             BaseUiStart.altKey = $evt.altKey
             switch ($evt.keyCode) {
                 case KeyboardType.C:
@@ -333,6 +332,9 @@
         }
         private _isMidelMouse: boolean
         private onMouse($e: MouseEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
             if ($e.type == MouseType.MouseDown) {
                 if ($e.button == 1) {
                     this._isMidelMouse = true
@@ -343,7 +345,9 @@
 
         }
         private onMouseMove($e: MouseEvent): void {
- 
+            if (!this.isCanToDo) {
+                return
+            }
             if (this._isMidelMouse) {
                 var $txy: Vector2D = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y)
                 $txy.x /= MtlUiData.Scale;
@@ -355,11 +359,16 @@
 
         }
         private onMouseUp($e: MouseEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
             this._isMidelMouse = false
         }
         private mouseXY: Vector2D;
         public onMouseWheel($evt: MouseWheelEvent): void {
-
+            if (!this.isCanToDo) {
+                return
+            }
 
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
@@ -409,7 +418,7 @@
             return [
                 new MaterialEvent(MaterialEvent.INIT_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
-                new MaterialEvent(MaterialEvent.HIDE_MATERIA_PANEL),
+           
                 new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
                 new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),

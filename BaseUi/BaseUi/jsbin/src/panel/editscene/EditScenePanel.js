@@ -17,6 +17,7 @@ var editscene;
     var Rectangle = Pan3d.Rectangle;
     var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
+    var LayoutbaseBg = layout.LayoutbaseBg;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
         function CentenPanel() {
@@ -26,6 +27,20 @@ var editscene;
             if (this.winBg) {
                 this.winBg.pageRect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50);
             }
+        };
+        CentenPanel.prototype.addUIContainer = function ($container) {
+            //特殊处理，删除非底层背景
+            for (var i = this._containerList.length - 1; i > 0; i--) {
+                if (!(this._containerList[i] instanceof LayoutbaseBg)) {
+                    this.removeUIContainer(this._containerList[i]);
+                }
+            }
+            _super.prototype.addUIContainer.call(this, $container);
+            console.log("添加", this._containerList.length);
+        };
+        CentenPanel.prototype.removeUIContainer = function ($container) {
+            _super.prototype.removeUIContainer.call(this, $container);
+            console.log("删除", this._containerList.length);
         };
         return CentenPanel;
     }(Panel));

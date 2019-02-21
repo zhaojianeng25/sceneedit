@@ -28,7 +28,6 @@ var maineditor;
         }
         MainEditorEvent.INIT_MAIN_EDITOR_PANEL = "INIT_MAIN_EDITOR_PANEL"; //显示面板
         MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL"; //显示面板
-        MainEditorEvent.HIDE_MAIN_EDITOR_PANEL = "HIDE_MAIN_EDITOR_PANEL"; //显示面板
         return MainEditorEvent;
     }(BaseEvent));
     maineditor.MainEditorEvent = MainEditorEvent;
@@ -69,13 +68,6 @@ var maineditor;
                         this._editScenePanel = new maineditor.MainEditorPanel();
                     }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
-                    //this.addEvents()
-                }
-                if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
-                    if (this._editScenePanel) {
-                        BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
-                    }
-                    // this.removeEvents()
                 }
                 this.changePageRect();
             }
@@ -114,23 +106,8 @@ var maineditor;
             document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun);
         };
         MainEditorProcessor.prototype.onMouseMove = function ($e) {
-            if ($e.buttons == 4) {
-            }
         };
         MainEditorProcessor.prototype.onMouseDown = function ($e) {
-            switch ($e.button) {
-                case 0:
-                    console.log("左键");
-                    break;
-                case 1:
-                    console.log("中键");
-                    break;
-                case 2:
-                    console.log("右键");
-                    break;
-                default:
-                    break;
-            }
         };
         MainEditorProcessor.prototype.onMouseUp = function ($e) {
         };
@@ -138,12 +115,21 @@ var maineditor;
         };
         MainEditorProcessor.prototype.onKeyUp = function ($e) {
         };
-        MainEditorProcessor.prototype.onMouseWheel = function ($evt) {
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-                if (!$slectUi) {
-                    MainEditorProcessor.edItorSceneManager.cam3D.distance += $evt.wheelDelta / 10;
+        Object.defineProperty(MainEditorProcessor.prototype, "isCanToDo", {
+            get: function () {
+                if (this._editScenePanel.hasStage) {
+                    return true;
                 }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MainEditorProcessor.prototype.onMouseWheel = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
             }
         };
         MainEditorProcessor.prototype.maseSceneManager = function () {
@@ -172,7 +158,6 @@ var maineditor;
             return [
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
-                new MainEditorEvent(MainEditorEvent.HIDE_MAIN_EDITOR_PANEL),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };

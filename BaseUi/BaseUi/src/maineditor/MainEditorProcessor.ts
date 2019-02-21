@@ -18,7 +18,7 @@
     export class MainEditorEvent extends BaseEvent {
         public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL"; //显示面板
         public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL"; //显示面板
-        public static HIDE_MAIN_EDITOR_PANEL: string = "HIDE_MAIN_EDITOR_PANEL"; //显示面板
+  
  
     }
     export class MainEditorModule extends Module {
@@ -52,16 +52,10 @@
                     if (!this._editScenePanel) {
                         this._editScenePanel = new MainEditorPanel();
                     }
-                   
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
-                    //this.addEvents()
+            
                 }
-                if ($mainEditorEvent.type == MainEditorEvent.HIDE_MAIN_EDITOR_PANEL) {
-                    if (this._editScenePanel) {
-                        BaseUiStart.centenPanel.removeUIContainer(this._editScenePanel);
-                    }
-                   // this.removeEvents()
-                }
+           
 
                 this.changePageRect()
   
@@ -109,26 +103,12 @@
             document.removeEventListener(MouseType.KeyUp, this.onKeyUpFun)
         }
         private onMouseMove($e: MouseEvent): void {
-            if ($e.buttons == 4) {
-               
-            }
+           
        
         }
         private onMouseDown($e: MouseEvent): void {
    
-            switch ($e.button) {
-                case 0:
-                    console.log("左键")
-                    break
-                case 1:
-                    console.log("中键")
-                    break
-                case 2:
-                    console.log("右键")
-                    break
-                default:
-                    break
-            }
+         
         }
         private onMouseUp($e: MouseEvent): void {
         }
@@ -136,17 +116,19 @@
         }
         private onKeyUp($e: KeyboardEvent): void {
         }
-        
-        public onMouseWheel($evt: MouseWheelEvent): void {
-  
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-                if (!$slectUi ) {
-                    MainEditorProcessor.edItorSceneManager.cam3D.distance += $evt.wheelDelta/10
-                }
+        private get isCanToDo(): boolean { //不能操作
+            if (this._editScenePanel.hasStage) {
+                return true;
+            } else {
+                return false;
             }
-         
 
+        }
+        public onMouseWheel($evt: MouseWheelEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
+       
         }
         private maseSceneManager(): void {
             MainEditorProcessor.edItorSceneManager = new EdItorSceneManager();
@@ -181,15 +163,13 @@
             }
         }
     
- 
-     
-    
+
         private _hierarchyListPanel: HierarchyListPanel
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
-                new MainEditorEvent(MainEditorEvent.HIDE_MAIN_EDITOR_PANEL),
+ 
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
 
             ];

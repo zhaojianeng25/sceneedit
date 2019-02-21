@@ -225,7 +225,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.showEditorPanel = function () {
             Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
-            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.HIDE_MATERIA_PANEL));
+            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE));
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {

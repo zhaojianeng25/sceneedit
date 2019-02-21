@@ -31,6 +31,7 @@ var xyz;
         }
         MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION = "INIT_MOVE_SCALE_ROTATION"; //显示面板
         MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE = "MAKE_DTAT_ITEM_TO_CHANGE"; //赋予显示对象
+        MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA = "CLEAR_XYZ_MOVE_DATA"; //赋予显示对象
         return MoveScaleRotatioinEvent;
     }(BaseEvent));
     xyz.MoveScaleRotatioinEvent = MoveScaleRotatioinEvent;
@@ -70,10 +71,12 @@ var xyz;
                         this.selectScene = $event.data;
                         this.selectScene.addDisplay(this.moveScaleRotationLevel);
                         this.addEvents();
-                        Pan3d.ModuleEventManager.dispatchEvent(new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE));
                         break;
                     case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
                         this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
+                        break;
+                    case MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA:
+                        this.moveScaleRotationLevel.xyzMoveData = null;
                         break;
                     default:
                         break;
@@ -127,7 +130,17 @@ var xyz;
             $motherAct.z = -$Minvert.position.z;
             return $motherAct;
         };
+        Object.defineProperty(MoveScaleRotatioinProcessor.prototype, "isCanToDo", {
+            get: function () {
+                return Boolean(this.moveScaleRotationLevel.xyzMoveData);
+            },
+            enumerable: true,
+            configurable: true
+        });
         MoveScaleRotatioinProcessor.prototype.onMouseMove = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             this.moveScaleRotationLevel.onMouseMove($e);
             if ($e.altKey) {
                 switch ($e.buttons) {
@@ -189,6 +202,9 @@ var xyz;
             return $m.transformVector($v);
         };
         MoveScaleRotatioinProcessor.prototype.onMouseDown = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             this.moveScaleRotationLevel.onMouseDown($e);
             this.middleMovetType = ($e.button == 1);
             this.mouseInfo.last_mouse_x = $e.x;
@@ -230,11 +246,20 @@ var xyz;
             }
         };
         MoveScaleRotatioinProcessor.prototype.onMouseUp = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             this.moveScaleRotationLevel.onMouseUp($e);
         };
         MoveScaleRotatioinProcessor.prototype.onKeyDown = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
         };
         MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
+            if (!this.isCanToDo) {
+                return;
+            }
             switch ($e.keyCode) {
                 case KeyboardType.W:
                     this.moveScaleRotationLevel._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
@@ -247,6 +272,9 @@ var xyz;
             }
         };
         MoveScaleRotatioinProcessor.prototype.onMouseWheel = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
+            }
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi) {
@@ -273,6 +301,7 @@ var xyz;
             return [
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE),
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA),
             ];
         };
         return MoveScaleRotatioinProcessor;

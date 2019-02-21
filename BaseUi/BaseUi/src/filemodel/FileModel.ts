@@ -12,6 +12,8 @@
         public path: string
         public suffix: string
         public isFolder: boolean
+        public select: boolean
+
 
 
         public meshStr(str: string): void {
