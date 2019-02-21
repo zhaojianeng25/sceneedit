@@ -49,7 +49,6 @@ var materialui;
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break;
                 case this.a_save_but:
-                    materialui.MaterialModel.getInstance().selectFileById(5);
                     break;
                 default:
                     break;

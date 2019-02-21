@@ -75,9 +75,15 @@ var filelist;
                 switch (fileVo.suffix) {
                     case "jpg":
                     case "png":
-                        LoadManager.getInstance().load(Scene_data.fileRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
+                        LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
                             _this.drawFileIconName($img, fileVo.name);
                         });
+                        break;
+                    case "prefab":
+                        this.drawFileIconName(FileListPanel.imgBaseDic["profeb_64x"], fileVo.name);
+                        break;
+                    case "material":
+                        this.drawFileIconName(FileListPanel.imgBaseDic["marterial_64x"], fileVo.name);
                         break;
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name);
@@ -89,8 +95,18 @@ var filelist;
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-            this.parent.uiAtlas.ctx.drawImage($img, 7, 0, 50, 50);
-            LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + name, 12, 0, 50, TextAlign.CENTER);
+            this.parent.uiAtlas.ctx.drawImage($img, 12.5, 5, 45, 45);
+            var outStr = name.split(".")[0];
+            var $textMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+            console.log("$textMetrics.width", $textMetrics.width);
+            if ($textMetrics.width > 70) {
+                var inset = Math.floor(outStr.length * (1 / 3));
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + outStr.substr(0, inset), 12, 0 - 6, 50, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + outStr.substring(inset, outStr.length), 12, 0 - 6, 65, TextAlign.CENTER);
+            }
+            else {
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + outStr, 12, 0 - 6, 55, TextAlign.CENTER);
+            }
             TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
         };
         FileListName.prototype.update = function () {
@@ -116,7 +132,7 @@ var filelist;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
-            var _this = _super.call(this, FileListName, new Rectangle(0, 0, 64, 64), 50) || this;
+            var _this = _super.call(this, FileListName, new Rectangle(0, 0, 80, 80), 50) || this;
             _this._bottomRender = new UIRenderComponent;
             _this.addRender(_this._bottomRender);
             _this.removeRender(_this._baseRender);
@@ -134,10 +150,9 @@ var filelist;
         FileListPanel.prototype.loadAssetImg = function (bfun) {
             FileListPanel.imgBaseDic = {};
             var item = [];
-            item.push("icon_FolderClosed_dark");
-            item.push("icon_FolderOpen_dark");
-            item.push("icon_PanRight");
             item.push("icon_Folder_64x");
+            item.push("profeb_64x");
+            item.push("marterial_64x");
             var finishNum = 0;
             for (var i = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], function () {
@@ -154,8 +169,8 @@ var filelist;
             tempImg.onload = function () {
                 bfun();
             };
-            tempImg.url = Scene_data.fileuiRoot + "ui/folder/pic/" + name + ".png";
-            tempImg.src = Scene_data.fileuiRoot + "ui/folder/pic/" + name + ".png";
+            tempImg.url = Scene_data.fileuiRoot + "ui/icon/" + name + ".png";
+            tempImg.src = Scene_data.fileuiRoot + "ui/icon/" + name + ".png";
         };
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
@@ -171,9 +186,23 @@ var filelist;
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             if (this.mouseIsDown) {
                 var vo = this.getItemVoByUi(evt.target);
-                if (vo && vo.fileListMeshVo.fileXmlVo.data.isFolder) {
-                    console.log(vo.fileListMeshVo.fileXmlVo.data.path);
-                    this.refrishPath(vo.fileListMeshVo.fileXmlVo.data.path);
+                if (vo) {
+                    if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
+                        this.refrishPath(vo.fileListMeshVo.fileXmlVo.data.path);
+                    }
+                    else {
+                        var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                        fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                        switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
+                            case "material":
+                                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.HIDE_MAIN_EDITOR_PANEL));
+                                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                                break;
+                            default:
+                                console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);
+                                break;
+                        }
+                    }
                 }
             }
         };
@@ -235,7 +264,8 @@ var filelist;
             this.a_path_tittle_txt = this.addChild(this._topRender.getComponent("a_path_tittle_txt"));
             this.refrishSize();
             this.a_scroll_bar.y = this.folderMask.y;
-            this.refrishPath("upfile/shadertree/");
+            var rootDic = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            this.refrishPath(rootDic);
         };
         FileListPanel.prototype.panelEventChanger = function (value) {
             if (this.pageRect) {

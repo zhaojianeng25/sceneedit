@@ -77,7 +77,11 @@ var materialui;
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 10);
                     BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
-                    //  this.addEvents()
+                    console.log("准备读取材质", $materialEvent.data);
+                    if ($materialEvent.data) {
+                        materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
+                    }
+                    this.addEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
                     LayerManager.getInstance().removePanel(materialui.MaterialCtrl.getInstance().nodeUiPanel);
@@ -217,9 +221,6 @@ var materialui;
         MaterialProcessor.prototype.readMaterialTree = function () {
             materialui.MaterialViewBuildUtils.getInstance().addFun = function (ui) { materialui.MaterialCtrl.getInstance().addNodeUI(ui); };
             var id = Number(getUrlParam("id"));
-            if (id > 0) {
-                materialui.MaterialModel.getInstance().selectFileById(id);
-            }
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
             BaseUiStart.altKey = $evt.altKey;
@@ -277,7 +278,6 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseMove = function ($e) {
-            console.log("材质移动");
             if (this._isMidelMouse) {
                 var $txy = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y);
                 $txy.x /= materialui.MtlUiData.Scale;

@@ -335,8 +335,11 @@
 
 
   
-
-            filemodel.FolderModel.getFolderArr("upfile/shadertree/", (value: Array<FileVo>) => {
+            //"upfile/shadertree/"
+            //
+            //Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+            var rootDic: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            filemodel.FolderModel.getFolderArr(rootDic, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
                     if (value[i].isFolder) {
                         var $vo: FolderMeshVo = this.getCharNameMeshVo(value[i])

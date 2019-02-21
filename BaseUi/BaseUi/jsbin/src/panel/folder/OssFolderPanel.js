@@ -275,7 +275,11 @@ var ossfolder;
             this.a_scroll_bar.y = this.folderMask.y;
             this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_bg, this.a_win_tittle], this.canMoveTittle);
             this.refrishSize();
-            filemodel.FolderModel.getFolderArr("upfile/shadertree/", function (value) {
+            //"upfile/shadertree/"
+            //
+            //Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+            var rootDic = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            filemodel.FolderModel.getFolderArr(rootDic, function (value) {
                 for (var i = 0; i < value.length; i++) {
                     if (value[i].isFolder) {
                         var $vo = _this.getCharNameMeshVo(value[i]);

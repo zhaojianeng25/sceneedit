@@ -22,13 +22,28 @@
 
         
         }
-   
-   
-        private fileid: number
+
+        public selectMaterialUrl(url: string): void {
+            LoadManager.getInstance().load(Scene_data.fileRoot + url, LoadManager.BYTE_TYPE,
+                ($dtstr: ArrayBuffer) => {
+                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
+                    $byte.position = 0
+                    var $temp: any = JSON.parse($byte.readUTF());
+                    var $tempMaterial: MaterialTree = new MaterialTree
+                    $tempMaterial = new MaterialTree;
+                    $tempMaterial.url = url
+                    $tempMaterial.setData({ data: $temp.data });
+                    var $materialEvent: MaterialEvent = new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE)
+                    $materialEvent.materailTree = $tempMaterial;
+                    ModuleEventManager.dispatchEvent($materialEvent);
+
+                });
+        }
+ 
         public selectFileById(value: number): void {
 
-            this.fileid = value
-            var $texturl: string = "texturelist/" + this.fileid + ".txt"
+           
+            var $texturl: string = "texturelist/" + value + ".txt"
             LoadManager.getInstance().load(Scene_data.fileRoot + $texturl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
@@ -42,7 +57,7 @@
                     $materialEvent.materailTree = $tempMaterial;
                     ModuleEventManager.dispatchEvent($materialEvent);
 
-                
+                /*
                     LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/config/" + this.fileid + ".txt", LoadManager.XML_TYPE,
                         ($configStr: string) => {
                             var $config: any = JSON.parse($configStr);
@@ -60,7 +75,7 @@
                             }
                         });
                  
-
+                    */
  
 
                 });

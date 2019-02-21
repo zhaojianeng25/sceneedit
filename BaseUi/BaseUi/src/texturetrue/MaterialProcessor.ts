@@ -62,7 +62,14 @@
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 0)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 10);
                     BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel)
-                  //  this.addEvents()
+
+                    console.log("准备读取材质", $materialEvent.data);
+                    if ($materialEvent.data) {
+                        MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
+                    }
+
+                    this.addEvents()
+               
                 }
                 if ($materialEvent.type == MaterialEvent.HIDE_MATERIA_PANEL) {
                     LayerManager.getInstance().removePanel(MaterialCtrl.getInstance().nodeUiPanel)
@@ -263,9 +270,7 @@
         private readMaterialTree(): void {
             MaterialViewBuildUtils.getInstance().addFun = (ui: BaseMaterialNodeUI) => { MaterialCtrl.getInstance().addNodeUI(ui) };
             var id: number = Number(getUrlParam("id"));
-            if (id > 0) {
-                MaterialModel.getInstance().selectFileById(id);
-            }
+          
 
         }
 
@@ -337,7 +342,7 @@
 
         }
         private onMouseMove($e: MouseEvent): void {
-            console.log("材质移动")
+ 
             if (this._isMidelMouse) {
                 var $txy: Vector2D = new Vector2D($e.x - this.mouseXY.x, $e.y - this.mouseXY.y)
                 $txy.x /= MtlUiData.Scale;
