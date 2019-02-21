@@ -218,10 +218,14 @@ var maineditor;
                 if ($clikVo) {
                     this.hidefileItemBg(this.fileItem);
                     $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true;
-                    //  ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                    this.showEditorPanel();
                 }
                 this.refrishFolder();
             }
+        };
+        HierarchyListPanel.prototype.showEditorPanel = function () {
+            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.HIDE_MATERIA_PANEL));
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {

@@ -44,8 +44,7 @@
                     left.ModelShowModel.getInstance().readTxtToModelBy($modelxml)
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                 });
-                 
-                 
+
 
         }
  

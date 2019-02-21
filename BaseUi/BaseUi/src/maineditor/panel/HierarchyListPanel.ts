@@ -250,11 +250,14 @@
                 if ($clikVo) {
                     this.hidefileItemBg(this.fileItem);
                     $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true
-
-                  //  ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                    this.showEditorPanel();
                 }
                 this.refrishFolder();
             }
+        }
+        private showEditorPanel(): void {
+            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.HIDE_MATERIA_PANEL));
         }
         private hidefileItemBg(arr: Array<FolderMeshVo>): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
