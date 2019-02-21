@@ -79,6 +79,7 @@ var materialui;
                     BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
                     console.log("准备读取材质", $materialEvent.data);
                     if ($materialEvent.data) {
+                        Pan3d.ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
                         materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
                     }
                     this.addEvents();

@@ -4,6 +4,8 @@
     import Processor = Pan3d.Processor;
     import BaseProcessor = Pan3d.BaseProcessor;
     import UIManager = Pan3d.UIManager;
+    import LoadManager = Pan3d.LoadManager;
+    import Scene_data = Pan3d.Scene_data
     import ModuleEventManager = Pan3d.ModuleEventManager;
 
     export class PopModelShowEvent extends BaseEvent {
@@ -29,11 +31,22 @@
 
                 if ($leftEvent.type == PopModelShowEvent.SHOW_POP_MODEL_PANEL) {
                     this.showLeftPanel();
+                    this.readBaseModel();
                 }
                 if ($leftEvent.type == PopModelShowEvent.HIDE_POP_MODEL_PANEL) {
                     this.hideLeftPanel();
                 }
             }
+        }
+        private readBaseModel(): void {
+            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE,
+                ($modelxml: string) => {
+                    left.ModelShowModel.getInstance().readTxtToModelBy($modelxml)
+                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+                });
+                 
+                 
+
         }
  
         private hideLeftPanel(): void {
