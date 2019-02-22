@@ -29,9 +29,10 @@ var xyz;
         function MoveScaleRotatioinEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION = "INIT_MOVE_SCALE_ROTATION"; //显示面板
-        MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE = "MAKE_DTAT_ITEM_TO_CHANGE"; //赋予显示对象
-        MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA = "CLEAR_XYZ_MOVE_DATA"; //赋予显示对象
+        MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION = "INIT_MOVE_SCALE_ROTATION";
+        MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ = "INIT_UICONTAINER_TO_XYZ"; //设置Panel
+        MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE = "MAKE_DTAT_ITEM_TO_CHANGE";
+        MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA = "CLEAR_XYZ_MOVE_DATA";
         return MoveScaleRotatioinEvent;
     }(BaseEvent));
     xyz.MoveScaleRotatioinEvent = MoveScaleRotatioinEvent;
@@ -71,6 +72,10 @@ var xyz;
                         this.selectScene = $event.data;
                         this.selectScene.addDisplay(this.moveScaleRotationLevel);
                         this.addEvents();
+                        break;
+                    case MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ:
+                        console.log($event.data);
+                        this.uiContainer = $event.data;
                         break;
                     case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
                         this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
@@ -132,7 +137,12 @@ var xyz;
         };
         Object.defineProperty(MoveScaleRotatioinProcessor.prototype, "isCanToDo", {
             get: function () {
-                return Boolean(this.moveScaleRotationLevel.xyzMoveData);
+                if (this.uiContainer && this.uiContainer.hasStage) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             },
             enumerable: true,
             configurable: true
@@ -300,6 +310,7 @@ var xyz;
         MoveScaleRotatioinProcessor.prototype.listenModuleEvents = function () {
             return [
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ),
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE),
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA),
             ];

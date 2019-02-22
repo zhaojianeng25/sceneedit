@@ -116,6 +116,9 @@ var xyz;
             }
         };
         MoveScaleRotationLevel.prototype.onMouseDown = function ($e) {
+            if (!this._xyzMoveData) {
+                return;
+            }
             this._xyzMoveData.oldx = this._xyzMoveData.x;
             this._xyzMoveData.oldy = this._xyzMoveData.y;
             this._xyzMoveData.oldz = this._xyzMoveData.z;

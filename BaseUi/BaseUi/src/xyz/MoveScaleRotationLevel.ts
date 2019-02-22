@@ -2,8 +2,10 @@
     import Display3D = Pan3d.Display3D
     import Matrix3D = Pan3d.Matrix3D
     import MathUtil = Pan3d.MathUtil
-    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    import UIConatiner = Pan3d.UIConatiner;
     export class MoveScaleRotationLevel extends Display3D {
+      
         private _tooMoveLevel: TooMoveLevel;
         private _tooRotationLevel: TooRotationLevel;
         public _statceType: number;
@@ -119,6 +121,10 @@
             }
         }
         public onMouseDown($e: MouseEvent): void {
+            if (!this._xyzMoveData) {
+                return
+            }
+
             this._xyzMoveData.oldx = this._xyzMoveData.x
             this._xyzMoveData.oldy = this._xyzMoveData.y
             this._xyzMoveData.oldz = this._xyzMoveData.z

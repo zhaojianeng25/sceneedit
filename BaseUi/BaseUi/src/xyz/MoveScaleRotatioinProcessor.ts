@@ -13,13 +13,15 @@
     import Object3D = Pan3d.Object3D
     import Quaternion = Pan3d.Quaternion
     import UICompenent = Pan3d.UICompenent
+    import UIConatiner = Pan3d.UIConatiner
     import Display3D = Pan3d.Display3D
     import KeyboardType = Pan3d.KeyboardType
 
     export class MoveScaleRotatioinEvent extends BaseEvent {
-        public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION"; //显示面板
-        public static MAKE_DTAT_ITEM_TO_CHANGE: string = "MAKE_DTAT_ITEM_TO_CHANGE"; //赋予显示对象
-        public static CLEAR_XYZ_MOVE_DATA: string = "CLEAR_XYZ_MOVE_DATA"; //赋予显示对象
+        public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION";  
+        public static INIT_UICONTAINER_TO_XYZ: string = "INIT_UICONTAINER_TO_XYZ";  //设置Panel
+        public static MAKE_DTAT_ITEM_TO_CHANGE: string = "MAKE_DTAT_ITEM_TO_CHANGE";  
+        public static CLEAR_XYZ_MOVE_DATA: string = "CLEAR_XYZ_MOVE_DATA";  
 
     }
     export class MoveScaleRotatioinModule extends Module {
@@ -35,6 +37,7 @@
         public getName(): string {
             return "MoveScaleRotatioinProcessor";
         }
+        public uiContainer: UIConatiner
         private moveScaleRotationLevel: MoveScaleRotationLevel
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof MoveScaleRotatioinEvent) {
@@ -47,6 +50,10 @@
 
              
                         break
+                    case MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ:
+                        console.log($event.data)
+                        this.uiContainer = $event.data
+                        break;
                     case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
                         this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
                         break;
@@ -118,7 +125,13 @@
 
         }
         private get isCanToDo(): boolean { //false为可以操作
-            return Boolean(this.moveScaleRotationLevel.xyzMoveData);
+
+            if (this.uiContainer && this.uiContainer.hasStage) {
+                return true;
+            } else {
+                return false;
+            }
+          
         }
         private A: Matrix3D = new Matrix3D;
         private B: Matrix3D = new Matrix3D;
@@ -322,6 +335,7 @@
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION),
+                new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ),
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE),
                 new MoveScaleRotatioinEvent(MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA),
             ];

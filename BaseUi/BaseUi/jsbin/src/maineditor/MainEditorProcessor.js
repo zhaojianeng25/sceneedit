@@ -68,6 +68,7 @@ var maineditor;
                         this._editScenePanel = new maineditor.MainEditorPanel();
                     }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                    Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel);
                 }
                 this.changePageRect();
             }

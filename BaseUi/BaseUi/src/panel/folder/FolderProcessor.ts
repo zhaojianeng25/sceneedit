@@ -54,18 +54,28 @@
                 var _folderEvent: FolderEvent = <FolderEvent>$event;
                 if (_folderEvent.type == FolderEvent.SHOW_FOLDER_PANEL) {
 
+
+
+
                     if (!this._baseFolderWindow) {
                         this._baseFolderWindow = new BaseFolderWindow()
                     }
                     this.addUIContainer(this._baseFolderWindow);
+
                     if (!this._folderPanel) {
                         this._folderPanel = new OssFolderPanel();
                     }
                     this.addUIContainer(this._folderPanel);
+
+
+                
                     if (!this._fileListPanel) {
                         this._fileListPanel = new FileListPanel();
                     }
                     this.addUIContainer(this._fileListPanel);
+
+
+
 
 
                     if (this.fristRect) {
