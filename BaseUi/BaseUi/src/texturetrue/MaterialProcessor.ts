@@ -126,6 +126,7 @@
         private onMouseUpFun: any;
         private onKeyDownFun: any;
         private onKeyUpFun: any;
+        private onRightMenuFun: any;
 
         private get isCanToDo(): boolean { //false为可以操作
             if (this.materialCavasPanel.hasStage) {
@@ -146,6 +147,7 @@
                 this.onMouseUpFun = ($evt: MouseEvent) => { this.onMouseUp($evt) };
                 this.onKeyDownFun = ($evt: KeyboardEvent) => { this.onKeyDown($evt) };
                 this.onKeyUpFun = ($evt: KeyboardEvent) => { this.onKeyUp($evt) };
+                this.onRightMenuFun = ($evt: MouseEvent) => { this.onRightMenu($evt) };
             }
   
 
@@ -154,9 +156,17 @@
             document.addEventListener(MouseType.MouseMove, this.onMouseMoveFun );
             document.addEventListener(MouseType.MouseUp, this.onMouseUpFun );
             document.addEventListener(MouseType.KeyDown, this.onKeyDownFun )
-            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun )
+            document.addEventListener(MouseType.KeyUp, this.onKeyUpFun)
+            document.addEventListener("contextmenu", this.onRightMenu)
    
  
+        }
+        public onRightMenu($evt: MouseEvent): void {
+           
+            $evt.preventDefault();
+            var $rightMenuEvet: rightmenu.RightMenuEvent = new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.SHOW_RIGHT_MENU);
+            $rightMenuEvet.posv2d = new Vector2D($evt.clientX, $evt.clientY);
+            ModuleEventManager.dispatchEvent($rightMenuEvet);
         }
         private removeEvents(): void {
             document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);

@@ -139,6 +139,7 @@ var materialui;
                 this.onMouseUpFun = function ($evt) { _this.onMouseUp($evt); };
                 this.onKeyDownFun = function ($evt) { _this.onKeyDown($evt); };
                 this.onKeyUpFun = function ($evt) { _this.onKeyUp($evt); };
+                this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
             document.addEventListener(MouseType.MouseDown, this.onMouseFun);
@@ -146,6 +147,13 @@ var materialui;
             document.addEventListener(MouseType.MouseUp, this.onMouseUpFun);
             document.addEventListener(MouseType.KeyDown, this.onKeyDownFun);
             document.addEventListener(MouseType.KeyUp, this.onKeyUpFun);
+            document.addEventListener("contextmenu", this.onRightMenu);
+        };
+        MaterialProcessor.prototype.onRightMenu = function ($evt) {
+            $evt.preventDefault();
+            var $rightMenuEvet = new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.SHOW_RIGHT_MENU);
+            $rightMenuEvet.posv2d = new Vector2D($evt.clientX, $evt.clientY);
+            ModuleEventManager.dispatchEvent($rightMenuEvet);
         };
         MaterialProcessor.prototype.removeEvents = function () {
             document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);

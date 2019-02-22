@@ -68,9 +68,6 @@
             this.txt.goToAndStop($frameId);
             this.bottomRender = $bottomRender
             this.drawFrontToFrame(ColorType.Black000000 + $data.label, "#6c6c6c")
-
-         
-
             this.txt.addEventListener(InteractiveEvent.Move, this.butMove, this);
 
         }

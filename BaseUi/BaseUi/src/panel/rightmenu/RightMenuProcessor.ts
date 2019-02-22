@@ -47,7 +47,8 @@
             if ($event instanceof RightMenuEvent) {
                 var $materialEvent: RightMenuEvent = <RightMenuEvent>$event;
                 if ($materialEvent.type == RightMenuEvent.INIT_RIGHT_MENU) {
-                    this.addEvents();
+                    ComboBoxMenuPanel.baseUIAtlas = new UIAtlas()
+                    ComboBoxMenuPanel.baseUIAtlas.setInfo("ui/rightmenu/rightmenu.txt", "ui/rightmenu/rightmenu.png", () => { });
                 }
                 if ($materialEvent.type == RightMenuEvent.SHOW_RIGHT_MENU) {
                     this.showMenuPanel($materialEvent.posv2d)
@@ -66,6 +67,7 @@
             }
         }
         private addEvents(): void {
+            /*
             document.addEventListener("contextmenu", (event: any) => {
                 event.preventDefault();
                 var $rightMenuEvet: RightMenuEvent = new RightMenuEvent(RightMenuEvent.SHOW_RIGHT_MENU);
@@ -73,12 +75,9 @@
                 ModuleEventManager.dispatchEvent($rightMenuEvet);
 
             });
+            */
 
-            ComboBoxMenuPanel.baseUIAtlas = new UIAtlas()
-            ComboBoxMenuPanel.baseUIAtlas.setInfo("ui/rightmenu/rightmenu.txt", "ui/rightmenu/rightmenu.png", () => {
- 
-            });
-    
+        
 
         }
         private _comboBoxMenuPanel: ComboBoxMenuPanel

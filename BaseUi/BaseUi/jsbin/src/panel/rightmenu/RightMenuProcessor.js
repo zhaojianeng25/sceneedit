@@ -16,7 +16,6 @@ var rightmenu;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var Vector2D = Pan3d.Vector2D;
     var UIManager = Pan3d.UIManager;
     var UIData = Pan3d.UIData;
     var InteractiveEvent = Pan3d.InteractiveEvent;
@@ -62,7 +61,8 @@ var rightmenu;
             if ($event instanceof RightMenuEvent) {
                 var $materialEvent = $event;
                 if ($materialEvent.type == RightMenuEvent.INIT_RIGHT_MENU) {
-                    this.addEvents();
+                    rightmenu.ComboBoxMenuPanel.baseUIAtlas = new UIAtlas();
+                    rightmenu.ComboBoxMenuPanel.baseUIAtlas.setInfo("ui/rightmenu/rightmenu.txt", "ui/rightmenu/rightmenu.png", function () { });
                 }
                 if ($materialEvent.type == RightMenuEvent.SHOW_RIGHT_MENU) {
                     this.showMenuPanel($materialEvent.posv2d);
@@ -79,15 +79,15 @@ var rightmenu;
             }
         };
         RightMenuProcessor.prototype.addEvents = function () {
-            document.addEventListener("contextmenu", function (event) {
+            /*
+            document.addEventListener("contextmenu", (event: any) => {
                 event.preventDefault();
-                var $rightMenuEvet = new RightMenuEvent(RightMenuEvent.SHOW_RIGHT_MENU);
-                $rightMenuEvet.posv2d = new Vector2D(event.clientX, event.clientY);
+                var $rightMenuEvet: RightMenuEvent = new RightMenuEvent(RightMenuEvent.SHOW_RIGHT_MENU);
+                $rightMenuEvet.posv2d = new Vector2D(event.clientX, event.clientY)
                 ModuleEventManager.dispatchEvent($rightMenuEvet);
+
             });
-            rightmenu.ComboBoxMenuPanel.baseUIAtlas = new UIAtlas();
-            rightmenu.ComboBoxMenuPanel.baseUIAtlas.setInfo("ui/rightmenu/rightmenu.txt", "ui/rightmenu/rightmenu.png", function () {
-            });
+            */
         };
         RightMenuProcessor.prototype.showComboBoxMenuPanel = function (evt) {
             if (!this._comboBoxMenuPanel) {
