@@ -110,13 +110,8 @@ var rightmenu;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Down, this.onMouseDown, this);
         };
         RightMenuProcessor.prototype.addUIContainer = function (value) {
-            //  UIManager.getInstance().addUIContainer(value);
             if (!this.topMenuPanel) {
                 this.topMenuPanel = new Panel(false);
-                this.topMenuPanel.x = 0;
-                this.topMenuPanel.y = 0;
-                this.topMenuPanel.width = 450;
-                this.topMenuPanel.height = 250;
                 layout.LayerManager.getInstance().addPanel(this.topMenuPanel, 200);
             }
             this.topMenuPanel.addUIContainer(value);

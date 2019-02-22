@@ -55,7 +55,6 @@
                 }
                 if ($materialEvent.type == RightMenuEvent.HIDE_RIGHT_MENU) {
                     if (this._rightMenuPanel) {
-           
                         Scene_data.uiStage.removeEventListener(InteractiveEvent.Down, this.onMouseDown, this);
                         this.removeUIContainer(this._rightMenuPanel)
                     }
@@ -105,14 +104,9 @@
         }
         private topMenuPanel: Panel;
         private addUIContainer(value: UIConatiner): void {
-          //  UIManager.getInstance().addUIContainer(value);
-
+     
             if (!this.topMenuPanel) {
                 this.topMenuPanel = new Panel(false)
-                this.topMenuPanel.x = 0
-                this.topMenuPanel.y = 0
-                this.topMenuPanel.width = 450
-                this.topMenuPanel.height = 250
                 layout.LayerManager.getInstance().addPanel(this.topMenuPanel,200)
            
             }
@@ -122,13 +116,9 @@
             if (this.topMenuPanel) {
                 this.topMenuPanel.removeUIContainer(value)
             }
-
         }
         public onMouseDown($evt: InteractiveEvent): void {
-
             ModuleEventManager.dispatchEvent(new RightMenuEvent(RightMenuEvent.HIDE_RIGHT_MENU));
-   
-        
         }
         protected listenModuleEvents(): Array<BaseEvent> {
             return [

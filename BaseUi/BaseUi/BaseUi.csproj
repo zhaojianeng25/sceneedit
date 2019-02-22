@@ -300,6 +300,7 @@
     <TypeScriptCompile Include="pan3d\UnitFunction.ts" />
     <TypeScriptCompile Include="src\filemodel\Md5.ts" />
     <TypeScriptCompile Include="src\ModuleList.ts" />
+    <TypeScriptCompile Include="src\panel\menutwo\MenuTwoPanel.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\modelshow\BuildMaterialShader.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\modelshow\LocalMd5MoveSprite.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\modelshow\MaterialModelSprite.ts" />
@@ -311,6 +312,7 @@
     <TypeScriptCompile Include="src\panel\popmodel\PopModelShowProcessor.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\RoleChangeModel.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\TBNUtils.ts" />
+    <TypeScriptCompile Include="src\panel\menutwo\MenuTwoProcessor.ts" />
     <TypeScriptCompile Include="src\panel\rightmenu\ComboBoxMenuPanel.ts" />
     <TypeScriptCompile Include="src\panel\rightmenu\RightMenuPanel.ts" />
     <TypeScriptCompile Include="src\panel\rightmenu\RightMenuProcessor.ts" />
