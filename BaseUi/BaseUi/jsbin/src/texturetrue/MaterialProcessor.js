@@ -151,9 +151,14 @@ var materialui;
         };
         MaterialProcessor.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();
-            var $rightMenuEvet = new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.SHOW_RIGHT_MENU);
+            materialui.MaterialModel.getInstance().mekeMaterialRightMenu($evt);
+            /*
+
+            var $rightMenuEvet: rightmenu.RightMenuEvent = new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.SHOW_RIGHT_MENU);
             $rightMenuEvet.posv2d = new Vector2D($evt.clientX, $evt.clientY);
             ModuleEventManager.dispatchEvent($rightMenuEvet);
+
+            */
         };
         MaterialProcessor.prototype.removeEvents = function () {
             document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);

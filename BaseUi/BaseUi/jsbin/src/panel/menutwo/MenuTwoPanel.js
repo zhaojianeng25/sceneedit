@@ -127,7 +127,7 @@ var menutwo;
         MenuTwoPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
             if (temp && temp.data) {
-                this.bfun(temp.data);
+                this.bfun(temp.data, evt);
                 this.clearAll();
             }
         };

@@ -145,7 +145,7 @@
         protected onMouseUp(evt: InteractiveEvent): void {
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
             if (temp && temp.data) {
-                this.bfun(temp.data)
+                this.bfun(temp.data, evt)
                 this.clearAll();
             }
         }

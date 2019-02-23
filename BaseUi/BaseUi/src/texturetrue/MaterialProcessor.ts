@@ -164,9 +164,15 @@
         public onRightMenu($evt: MouseEvent): void {
            
             $evt.preventDefault();
+
+            MaterialModel.getInstance().mekeMaterialRightMenu($evt);
+            /*
+
             var $rightMenuEvet: rightmenu.RightMenuEvent = new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.SHOW_RIGHT_MENU);
             $rightMenuEvet.posv2d = new Vector2D($evt.clientX, $evt.clientY);
             ModuleEventManager.dispatchEvent($rightMenuEvet);
+
+            */
         }
         private removeEvents(): void {
             document.removeEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
