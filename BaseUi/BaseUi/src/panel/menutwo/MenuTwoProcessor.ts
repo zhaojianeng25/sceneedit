@@ -38,20 +38,24 @@
                
                 if ($materialEvent.type == MenuTwoEvent.SHOW_RIGHT_MENU) {
                     console.log("有键菜单")
+
+                    this.showMenuPanel($materialEvent.data);
                 }
             
               
             }
         }
-    
-        private showMenuPanel(posv2d: Vector2D): void {
+ 
+        private showMenuPanel(value: any): void {
             if (!this._MenuTwoPanel) {
                 this._MenuTwoPanel = new MenuTwoPanel()
             }
+            var posv2d: Vector2D = value.mouse;
             this._MenuTwoPanel.left = posv2d.x / UIData.Scale;
             this._MenuTwoPanel.top = posv2d.y / UIData.Scale;
             this.addUIContainer(this._MenuTwoPanel);
-            this._MenuTwoPanel.refrish()
+            this._MenuTwoPanel.initMenuData(value)
+            this._MenuTwoPanel.showMainUi()
             Scene_data.uiStage.addEventListener(InteractiveEvent.Down, this.onMouseDown, this);
         }
         private topMenuPanel: Panel;

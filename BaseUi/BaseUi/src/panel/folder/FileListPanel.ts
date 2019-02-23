@@ -23,8 +23,9 @@
     import LoadManager = Pan3d.LoadManager
     import TextureManager = Pan3d.TextureManager
     import FileVo = filemodel.FileVo
+    import MenuListData = menutwo.MenuListData
 
-
+ 
     export class SampleFileVo {
         public id: number
 
@@ -378,7 +379,89 @@
             var rootDic: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
             this.refrishPath(rootDic);
 
+            if (!this.onRightMenuFun) {
+                this.onRightMenuFun = ($evt: MouseEvent) => { this.onRightMenu($evt) };
+            }
+            document.addEventListener("contextmenu", this.onRightMenuFun)
+
         }
+        private onRightMenuFun: any
+        public onRightMenu($evt: MouseEvent): void {
+            $evt.preventDefault();
+            var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
+            var temp: any = {};
+            temp.mouse = new Vector2D($evt.clientX, $evt.clientY)
+            temp.menuXmlItem = this.getMenuXml();
+            temp.info = {};
+            temp.info.bfun = (value: any) => { this.menuBfun(value) }
+ 
+  
+            ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
+          
+        }
+        private menuBfun(value: any): void {
+
+            console.log("菜单的返回", value)
+        }
+       
+        private getMenuXml(): Array<MenuListData> {
+
+            var menuTextItem: Array<MenuListData> = new Array();
+            menuTextItem.push(this.getMathListData());
+            menuTextItem.push(this.getV2CListData());
+            menuTextItem.push(this.getTextureListData());
+            menuTextItem.push(this.getOtherListData());
+            return menuTextItem;
+
+         
+        }
+        private getMathListData(): MenuListData {
+            var $vo: MenuListData = new MenuListData("Math", "1")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("ADD", "11"));
+            $vo.subMenu.push(new MenuListData("SUB", "12"));
+            $vo.subMenu.push(new MenuListData("MUL", "13"));
+            $vo.subMenu.push(new MenuListData("DIV", "14"));
+            $vo.subMenu.push(new MenuListData("SIN", "15"));
+            $vo.subMenu.push(new MenuListData("COS", "16"));
+   
+            return $vo;
+
+        }
+        private getV2CListData(): MenuListData {
+            var $vo: MenuListData = new MenuListData("常数", "2")
+            $vo.subMenu = new Array;
+            //     $vo.subMenu.push(new MenuListData("vec4", "21"));
+            $vo.subMenu.push(new MenuListData("vec3", "22"));
+            $vo.subMenu.push(new MenuListData("vec2", "23"));
+            $vo.subMenu.push(new MenuListData("float", "24"));
+            $vo.subMenu.push(new MenuListData("Time", "25"));
+            $vo.subMenu.push(new MenuListData("Normal", "26"));
+            return $vo;
+        }
+        private getTextureListData(): MenuListData {
+            var $vo: MenuListData = new MenuListData("纹理", "3")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("纹理贴图", "31"));
+            $vo.subMenu.push(new MenuListData("纹理坐标", "32"));
+            $vo.subMenu.push(new MenuListData("纹理滚动", "33"));
+            $vo.subMenu.push(new MenuListData("Cube纹理", "34"));
+            $vo.subMenu.push(new MenuListData("3D贴图", "35"));
+
+            return $vo;
+        }
+        private getOtherListData(): MenuListData {
+            var $vo: MenuListData = new MenuListData("其它", "4")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("菲捏尔", "41"));
+            $vo.subMenu.push(new MenuListData("導入材質", "42"));
+            $vo.subMenu.push(new MenuListData("函数", "43"));
+            $vo.subMenu.push(new MenuListData("文件列表", "44"));
+            return $vo;
+        }
+
+
+        
         private a_path_tittle_txt: UICompenent
         public panelEventChanger(value: Pan3d.Rectangle): void {
             if (this.pageRect) {

@@ -180,6 +180,22 @@ var Pan3d;
             }
             this.playLost();
         };
+        Dis2DUIContianerPanel.prototype.getVoByData = function (value) {
+            for (var i = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data == value) {
+                    return this._uiItem[i];
+                }
+            }
+        };
+        Dis2DUIContianerPanel.prototype.getVoByUi = function ($ui) {
+            for (var i = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data) {
+                    if (this._uiItem[i].ui == $ui) {
+                        return this._uiItem[i];
+                    }
+                }
+            }
+        };
         Dis2DUIContianerPanel.prototype.clearAll = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
                 if (this._uiItem[i].data) {

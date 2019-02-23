@@ -20,6 +20,7 @@ class ModuleList {
 
             new materialui.MaterialModule(), //材质
             new rightmenu.RightMenuModule(), //右菜单
+            new menutwo.MenuTwoModule(), //右菜单
             new editscene.EditSceneModule(), //基本面板
             new maineditor.MainEditorModule(), //场景
             new folder.FolderModule(),  //文件夹

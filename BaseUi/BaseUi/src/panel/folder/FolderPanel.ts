@@ -346,7 +346,10 @@
 
             this.loadeFileXml()
 
+
         }
+     
+
         private a_scroll_bar: UICompenent
         private a_bottom_line: UICompenent
 

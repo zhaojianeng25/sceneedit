@@ -56,17 +56,20 @@ var menutwo;
                 var $materialEvent = $event;
                 if ($materialEvent.type == MenuTwoEvent.SHOW_RIGHT_MENU) {
                     console.log("有键菜单");
+                    this.showMenuPanel($materialEvent.data);
                 }
             }
         };
-        MenuTwoProcessor.prototype.showMenuPanel = function (posv2d) {
+        MenuTwoProcessor.prototype.showMenuPanel = function (value) {
             if (!this._MenuTwoPanel) {
                 this._MenuTwoPanel = new menutwo.MenuTwoPanel();
             }
+            var posv2d = value.mouse;
             this._MenuTwoPanel.left = posv2d.x / UIData.Scale;
             this._MenuTwoPanel.top = posv2d.y / UIData.Scale;
             this.addUIContainer(this._MenuTwoPanel);
-            this._MenuTwoPanel.refrish();
+            this._MenuTwoPanel.initMenuData(value);
+            this._MenuTwoPanel.showMainUi();
             Scene_data.uiStage.addEventListener(InteractiveEvent.Down, this.onMouseDown, this);
         };
         MenuTwoProcessor.prototype.addUIContainer = function (value) {

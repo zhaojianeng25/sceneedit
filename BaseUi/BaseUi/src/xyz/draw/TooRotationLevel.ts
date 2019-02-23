@@ -109,8 +109,7 @@
  
             this.selectId = 0;
             this.lastDis = null
-
-            console.log("结束")
+ 
  
         }
         private lastDis: number

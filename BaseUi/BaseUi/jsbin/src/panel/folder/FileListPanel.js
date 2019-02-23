@@ -18,6 +18,7 @@ var filelist;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
@@ -29,6 +30,7 @@ var filelist;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var TextureManager = Pan3d.TextureManager;
+    var MenuListData = menutwo.MenuListData;
     var SampleFileVo = /** @class */ (function () {
         function SampleFileVo() {
         }
@@ -280,6 +282,7 @@ var filelist;
             return null;
         };
         FileListPanel.prototype.loadConfigCom = function () {
+            var _this = this;
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
             this.folderMask = new UIMask();
             this.folderMask.level = 1;
@@ -306,6 +309,73 @@ var filelist;
             this.a_scroll_bar.y = this.folderMask.y;
             var rootDic = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
             this.refrishPath(rootDic);
+            if (!this.onRightMenuFun) {
+                this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
+            }
+            document.addEventListener("contextmenu", this.onRightMenuFun);
+        };
+        FileListPanel.prototype.onRightMenu = function ($evt) {
+            var _this = this;
+            $evt.preventDefault();
+            var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
+            var temp = {};
+            temp.mouse = new Vector2D($evt.clientX, $evt.clientY);
+            temp.menuXmlItem = this.getMenuXml();
+            temp.info = {};
+            temp.info.bfun = function (value) { _this.menuBfun(value); };
+            ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
+        };
+        FileListPanel.prototype.menuBfun = function (value) {
+            console.log("菜单的返回", value);
+        };
+        FileListPanel.prototype.getMenuXml = function () {
+            var menuTextItem = new Array();
+            menuTextItem.push(this.getMathListData());
+            menuTextItem.push(this.getV2CListData());
+            menuTextItem.push(this.getTextureListData());
+            menuTextItem.push(this.getOtherListData());
+            return menuTextItem;
+        };
+        FileListPanel.prototype.getMathListData = function () {
+            var $vo = new MenuListData("Math", "1");
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("ADD", "11"));
+            $vo.subMenu.push(new MenuListData("SUB", "12"));
+            $vo.subMenu.push(new MenuListData("MUL", "13"));
+            $vo.subMenu.push(new MenuListData("DIV", "14"));
+            $vo.subMenu.push(new MenuListData("SIN", "15"));
+            $vo.subMenu.push(new MenuListData("COS", "16"));
+            return $vo;
+        };
+        FileListPanel.prototype.getV2CListData = function () {
+            var $vo = new MenuListData("常数", "2");
+            $vo.subMenu = new Array;
+            //     $vo.subMenu.push(new MenuListData("vec4", "21"));
+            $vo.subMenu.push(new MenuListData("vec3", "22"));
+            $vo.subMenu.push(new MenuListData("vec2", "23"));
+            $vo.subMenu.push(new MenuListData("float", "24"));
+            $vo.subMenu.push(new MenuListData("Time", "25"));
+            $vo.subMenu.push(new MenuListData("Normal", "26"));
+            return $vo;
+        };
+        FileListPanel.prototype.getTextureListData = function () {
+            var $vo = new MenuListData("纹理", "3");
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("纹理贴图", "31"));
+            $vo.subMenu.push(new MenuListData("纹理坐标", "32"));
+            $vo.subMenu.push(new MenuListData("纹理滚动", "33"));
+            $vo.subMenu.push(new MenuListData("Cube纹理", "34"));
+            $vo.subMenu.push(new MenuListData("3D贴图", "35"));
+            return $vo;
+        };
+        FileListPanel.prototype.getOtherListData = function () {
+            var $vo = new MenuListData("其它", "4");
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("菲捏尔", "41"));
+            $vo.subMenu.push(new MenuListData("導入材質", "42"));
+            $vo.subMenu.push(new MenuListData("函数", "43"));
+            $vo.subMenu.push(new MenuListData("文件列表", "44"));
+            return $vo;
         };
         FileListPanel.prototype.panelEventChanger = function (value) {
             if (this.pageRect) {

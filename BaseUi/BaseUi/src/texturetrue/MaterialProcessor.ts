@@ -157,7 +157,7 @@
             document.addEventListener(MouseType.MouseUp, this.onMouseUpFun );
             document.addEventListener(MouseType.KeyDown, this.onKeyDownFun )
             document.addEventListener(MouseType.KeyUp, this.onKeyUpFun)
-            document.addEventListener("contextmenu", this.onRightMenu)
+            document.addEventListener("contextmenu", this.onRightMenuFun)
    
  
         }

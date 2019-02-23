@@ -192,6 +192,22 @@ module Pan3d {
             }
             this.playLost()
         }
+        public getVoByData(value: any): Disp2DBaseText {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data == value) {
+                     return this._uiItem[i]
+                }
+            }
+        }
+        public getVoByUi($ui: UICompenent): Disp2DBaseText {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data) {
+                    if (this._uiItem[i].ui == $ui) {
+                        return this._uiItem[i]
+                    }
+                }
+            }
+        }
         public clearAll(): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
                 if (this._uiItem[i].data) {

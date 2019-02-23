@@ -88,7 +88,6 @@ var xyz;
         TooRotationLevel.prototype.onMouseUp = function (mouseVect2d) {
             this.selectId = 0;
             this.lastDis = null;
-            console.log("结束");
         };
         TooRotationLevel.prototype.testInfo = function (A, B, C) {
             var a = new Vector2D(0, 0);
