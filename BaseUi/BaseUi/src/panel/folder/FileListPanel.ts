@@ -388,16 +388,46 @@
         private onRightMenuFun: any
         public onRightMenu($evt: MouseEvent): void {
             $evt.preventDefault();
+            var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+            if ($slectUi) {
+                if ($slectUi.parent as FileListPanel) {
+             
+
+                    var vo: FileListName = this.getItemVoByUi($slectUi);
+                    if (vo) {
+                        this.makeFileFloadMenu($evt)
+                    } else {
+                        console.log("是空位置")
+                        this.makeFileListMenu($evt)
+                    }
+
+                  
+                }
+            }
+          
+        }
+        private makeFileFloadMenu($evt: MouseEvent): void {
+            var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
+            var temp: any = {};
+            temp.mouse = new Vector2D($evt.clientX, $evt.clientY)
+
+            var menuA: Array<MenuListData> = new Array();
+            menuA.push(new MenuListData("删除文件", "1"));
+            menuA.push(new MenuListData("重命名", "2"));
+
+            temp.menuXmlItem = menuA;
+            temp.info = {};
+            temp.info.bfun = (value: any) => { this.menuBfun(value) }
+            ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
+        }
+        private makeFileListMenu($evt: MouseEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
             var temp: any = {};
             temp.mouse = new Vector2D($evt.clientX, $evt.clientY)
             temp.menuXmlItem = this.getMenuXml();
             temp.info = {};
             temp.info.bfun = (value: any) => { this.menuBfun(value) }
- 
-  
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
-          
         }
         private menuBfun(value: any): void {
 
@@ -407,59 +437,18 @@
         private getMenuXml(): Array<MenuListData> {
 
             var menuTextItem: Array<MenuListData> = new Array();
-            menuTextItem.push(this.getMathListData());
-            menuTextItem.push(this.getV2CListData());
-            menuTextItem.push(this.getTextureListData());
-            menuTextItem.push(this.getOtherListData());
+            menuTextItem.push(new MenuListData("上传文件", "1"));
+            menuTextItem.push(new MenuListData("创建文件夹", "2"));
+            menuTextItem.push(new MenuListData("创建Texture", "3"));
+            menuTextItem.push(new MenuListData("创建Profab", "4"));
+            menuTextItem.push(new MenuListData("刷新", "5"));
+ 
+
             return menuTextItem;
 
          
         }
-        private getMathListData(): MenuListData {
-            var $vo: MenuListData = new MenuListData("Math", "1")
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("ADD", "11"));
-            $vo.subMenu.push(new MenuListData("SUB", "12"));
-            $vo.subMenu.push(new MenuListData("MUL", "13"));
-            $vo.subMenu.push(new MenuListData("DIV", "14"));
-            $vo.subMenu.push(new MenuListData("SIN", "15"));
-            $vo.subMenu.push(new MenuListData("COS", "16"));
-   
-            return $vo;
-
-        }
-        private getV2CListData(): MenuListData {
-            var $vo: MenuListData = new MenuListData("常数", "2")
-            $vo.subMenu = new Array;
-            //     $vo.subMenu.push(new MenuListData("vec4", "21"));
-            $vo.subMenu.push(new MenuListData("vec3", "22"));
-            $vo.subMenu.push(new MenuListData("vec2", "23"));
-            $vo.subMenu.push(new MenuListData("float", "24"));
-            $vo.subMenu.push(new MenuListData("Time", "25"));
-            $vo.subMenu.push(new MenuListData("Normal", "26"));
-            return $vo;
-        }
-        private getTextureListData(): MenuListData {
-            var $vo: MenuListData = new MenuListData("纹理", "3")
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("纹理贴图", "31"));
-            $vo.subMenu.push(new MenuListData("纹理坐标", "32"));
-            $vo.subMenu.push(new MenuListData("纹理滚动", "33"));
-            $vo.subMenu.push(new MenuListData("Cube纹理", "34"));
-            $vo.subMenu.push(new MenuListData("3D贴图", "35"));
-
-            return $vo;
-        }
-        private getOtherListData(): MenuListData {
-            var $vo: MenuListData = new MenuListData("其它", "4")
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("菲捏尔", "41"));
-            $vo.subMenu.push(new MenuListData("導入材質", "42"));
-            $vo.subMenu.push(new MenuListData("函数", "43"));
-            $vo.subMenu.push(new MenuListData("文件列表", "44"));
-            return $vo;
-        }
-
+       
 
         
         private a_path_tittle_txt: UICompenent

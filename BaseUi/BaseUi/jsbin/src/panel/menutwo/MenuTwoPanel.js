@@ -46,7 +46,7 @@ var menutwo;
                 var colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                 this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                 this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 15, 5, TextAlign.LEFT);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 5, 5, TextAlign.LEFT);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
         };
@@ -75,21 +75,25 @@ var menutwo;
         };
         MenuTwoPanel.prototype.showMainUi = function () {
             this.clearAll();
+            Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem, 0);
+        };
+        MenuTwoPanel.prototype.onStageMouseUp = function (evt) {
+            this.clearAll();
         };
         MenuTwoPanel.prototype.showTempMenu = function ($data, i, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);
             temp.ui.x = $data.level * 70;
             temp.ui.y = i * 20 + ty;
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
-            temp.ui.addEventListener(InteractiveEvent.Up, this.onMouseUp, this);
+            temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
             return temp;
         };
         //清理单元内的内容并需要将对象移出显示队例
         MenuTwoPanel.prototype.clearTemp = function ($data) {
             var temp = this.getVoByData($data);
             temp.ui.removeEventListener(InteractiveEvent.Move, this.butMove, this);
-            temp.ui.removeEventListener(InteractiveEvent.Up, this.onMouseUp, this);
+            temp.ui.removeEventListener(InteractiveEvent.Down, this.onMouseUp, this);
             _super.prototype.clearTemp.call(this, $data);
         };
         MenuTwoPanel.prototype.setColorByLevel = function (value) {
@@ -124,6 +128,7 @@ var menutwo;
             var temp = this.getVoByUi(evt.target);
             if (temp && temp.data) {
                 this.bfun(temp.data);
+                this.clearAll();
             }
         };
         MenuTwoPanel.prototype.showSon = function (subMenu, ty) {

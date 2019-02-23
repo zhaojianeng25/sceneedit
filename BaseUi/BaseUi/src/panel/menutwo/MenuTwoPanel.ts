@@ -48,7 +48,7 @@
 
                 this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                 this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 15, 5, TextAlign.LEFT)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 5, 5, TextAlign.LEFT)
 
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
@@ -87,21 +87,25 @@
         private skipNum: number=0
         public showMainUi(): void {
             this.clearAll();
+            Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem,0);
+        }
+        private onStageMouseUp(evt: InteractiveEvent): void {
+            this.clearAll();
         }
         public showTempMenu($data: MenuListData, i: number, ty: number): LabelTxtVo {
             let temp: LabelTxtVo = super.showTemp($data) as LabelTxtVo;
             temp.ui.x = $data.level * 70;
             temp.ui.y = i * 20 + ty;
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
-            temp.ui.addEventListener(InteractiveEvent.Up, this.onMouseUp, this);
+            temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
             return temp
         }
         //清理单元内的内容并需要将对象移出显示队例
         public clearTemp($data: any): void {
             var temp: LabelTxtVo = this.getVoByData($data);
             temp.ui.removeEventListener(InteractiveEvent.Move, this.butMove, this);
-            temp.ui.removeEventListener(InteractiveEvent.Up, this.onMouseUp, this);
+            temp.ui.removeEventListener(InteractiveEvent.Down, this.onMouseUp, this);
             super.clearTemp($data);
         }
         private setColorByLevel(value: number): void {
@@ -142,6 +146,7 @@
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
             if (temp && temp.data) {
                 this.bfun(temp.data)
+                this.clearAll();
             }
         }
         private showSon(subMenu: Array<MenuListData>, ty: number): void {
