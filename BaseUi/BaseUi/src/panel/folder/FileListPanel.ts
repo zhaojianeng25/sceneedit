@@ -70,7 +70,7 @@
         public makeData(): void {
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
-                console.log("绘制一下")
+             
                 var $color: string = "[9c9c9c]"
                 if (this.fileListMeshVo.fileXmlVo.data.select) {
                     $color = "[ffffff]";
@@ -110,8 +110,7 @@
             var outStr: string = name.split(".")[0];
 
             var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
-
-            console.log("$textMetrics.width", $textMetrics.width)
+ 
 
             if ($textMetrics.width > 70) {
                 var inset: number = Math.floor(outStr.length * (1 / 3))
@@ -299,7 +298,9 @@
                 vo.destory()
             }
         }
+        private rootFilePath: string;
         public refrishPath(pathstr: string): void {
+            this.rootFilePath = pathstr
             this.a_path_tittle_txt.x = 10
             LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll()
@@ -412,44 +413,94 @@
             temp.mouse = new Vector2D($evt.clientX, $evt.clientY)
 
             var menuA: Array<MenuListData> = new Array();
-            menuA.push(new MenuListData("删除文件", "1"));
-            menuA.push(new MenuListData("重命名", "2"));
+            menuA.push(new MenuListData("删除文件", "21"));
+            menuA.push(new MenuListData("重命名", "22"));
 
             temp.menuXmlItem = menuA;
             temp.info = {};
-            temp.info.bfun = (value: any) => { this.menuBfun(value) }
+            temp.info.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
         }
         private makeFileListMenu($evt: MouseEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
             var temp: any = {};
             temp.mouse = new Vector2D($evt.clientX, $evt.clientY)
-            temp.menuXmlItem = this.getMenuXml();
+
+            var menuB: Array<MenuListData> = new Array();
+            menuB.push(new MenuListData("上传文件", "1"));
+            menuB.push(new MenuListData("创建文件夹", "2"));
+            menuB.push(new MenuListData("创建Texture", "3"));
+            menuB.push(new MenuListData("创建Profab", "4"));
+            menuB.push(new MenuListData("刷新", "5"));
+
+
+            temp.menuXmlItem = menuB
+
             temp.info = {};
-            temp.info.bfun = (value: any) => { this.menuBfun(value) }
+            temp.info.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
         }
-        private menuBfun(value: any): void {
+        private menuBfun(value: any, evt: InteractiveEvent): void {
 
-            console.log("菜单的返回", value)
+        
+            switch (value.key) {
+                case "1":
+                    this.upTempFileToOss()
+                    break
+                case "21":
+                    this.deleFile()
+                    break
+                default:
+                    console.log("没处理对象",value.key)
+                    break
+            }
         }
-       
-        private getMenuXml(): Array<MenuListData> {
 
-            var menuTextItem: Array<MenuListData> = new Array();
-            menuTextItem.push(new MenuListData("上传文件", "1"));
-            menuTextItem.push(new MenuListData("创建文件夹", "2"));
-            menuTextItem.push(new MenuListData("创建Texture", "3"));
-            menuTextItem.push(new MenuListData("创建Profab", "4"));
-            menuTextItem.push(new MenuListData("刷新", "5"));
- 
+        public deleFile(): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var $vo: FileListName = <FileListName>this._uiItem[i]
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.fileListMeshVo.fileXmlVo.data.select) {
 
-            return menuTextItem;
+                        filemodel.FileModel.getInstance().deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
+                            console.log("删除成功")
 
-         
+                            this.refrishPath(this.rootFilePath)
+                        })
+                    }
+                }
+
+            }
         }
-       
+     
+        private _inputHtmlSprite: HTMLInputElement
+        protected upTempFileToOss(): void {
+            this._inputHtmlSprite = <HTMLInputElement>document.createElement('input');
+            this._inputHtmlSprite.setAttribute('id', '_ef');
+            this._inputHtmlSprite.setAttribute('type', 'file');
+            this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
+            this._inputHtmlSprite.click();
+            this._inputHtmlSprite.value;
+            this._inputHtmlSprite.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
 
+
+        }
+        private changeFile(evt: any): void {
+            for (var i: number = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
+                var simpleFile: File = <File>this._inputHtmlSprite.files[i];
+                console.log(simpleFile)
+                console.log(this.rootFilePath)
+                var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+                console.log(pathurl + simpleFile.name);
+
+                filemodel.FileModel.getInstance().upOssFile(simpleFile, pathurl + simpleFile.name, () => {
+                    console.log("文件上传成功");
+
+                    this.refrishPath(this.rootFilePath)
+                })
+            }
+            this._inputHtmlSprite = null;
+        }
         
         private a_path_tittle_txt: UICompenent
         public panelEventChanger(value: Pan3d.Rectangle): void {

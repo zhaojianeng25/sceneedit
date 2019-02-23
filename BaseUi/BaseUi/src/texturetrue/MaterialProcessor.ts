@@ -128,7 +128,7 @@
         private onKeyUpFun: any;
         private onRightMenuFun: any;
 
-        private get isCanToDo(): boolean { //false为可以操作
+        private get hasStage(): boolean { //false为可以操作
             if (this.materialCavasPanel.hasStage) {
                 return true;
             } else {
@@ -164,6 +164,17 @@
         public onRightMenu($evt: MouseEvent): void {
            
             $evt.preventDefault();
+
+          
+
+            if (!this.hasStage) {
+                return
+            }
+
+            if (!BaseUiStart.centenPanel.rect.isHitByPoint($evt.x, $evt.y)) {
+                return;
+            }
+
 
             MaterialModel.getInstance().mekeMaterialRightMenu($evt);
             /*
@@ -288,7 +299,7 @@
         }
 
         public onKeyDown($evt: KeyboardEvent): void {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return
             }
             BaseUiStart.altKey = $evt.altKey
@@ -348,7 +359,7 @@
         }
         private _isMidelMouse: boolean
         private onMouse($e: MouseEvent): void {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return
             }
             if ($e.type == MouseType.MouseDown) {
@@ -361,7 +372,7 @@
 
         }
         private onMouseMove($e: MouseEvent): void {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return
             }
             if (this._isMidelMouse) {
@@ -375,14 +386,14 @@
 
         }
         private onMouseUp($e: MouseEvent): void {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return
             }
             this._isMidelMouse = false
         }
         private mouseXY: Vector2D;
         public onMouseWheel($evt: MouseWheelEvent): void {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return
             }
 

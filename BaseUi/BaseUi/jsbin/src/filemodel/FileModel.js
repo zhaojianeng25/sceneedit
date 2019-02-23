@@ -61,7 +61,7 @@ var filemodel;
                     fileVo.meshStr(value.prefixes[i]);
                     fileArr.push(fileVo);
                 }
-                for (var j = 0; j < value.objects.length; j++) {
+                for (var j = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo = FileVo.meshObj(value.objects[j]);
                     if (fileVo) {
                         fileArr.push(fileVo);
@@ -99,32 +99,6 @@ var filemodel;
                     });
                 }
             }
-        };
-        FolderModel.getBase = function () {
-            FileModel.webseverurl = "https://api.h5key.com/api/";
-            FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
-                if (res.data.info) {
-                    var client = new OSS.Wrapper({
-                        accessKeyId: res.data.info.AccessKeyId,
-                        accessKeySecret: res.data.info.AccessKeySecret,
-                        stsToken: res.data.info.SecurityToken,
-                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                        bucket: "webpan"
-                    });
-                    //获取oss文件列表
-                    var nextMarker = "";
-                    client.list({
-                        'delimiter': '/',
-                        'prefix': "",
-                        'max-keys': 1000,
-                        'marker': nextMarker,
-                    }).then(function (result) {
-                        console.log(result);
-                    }).catch(function (err) {
-                        console.log(err);
-                    });
-                }
-            });
         };
         return FolderModel;
     }());
@@ -181,15 +155,32 @@ var filemodel;
         };
         FileModel.prototype.uploadFile = function ($file, $filename, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
-            var client = new OSS.Wrapper({
+            if (!FolderModel.ossWrapper) {
+                this.makeOSSWrapper();
+            }
+            FolderModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
+                console.log(result);
+                $bfun && $bfun();
+            }).catch(function (err) {
+                console.log(err);
+            });
+        };
+        FileModel.prototype.makeOSSWrapper = function () {
+            FolderModel.ossWrapper = new OSS.Wrapper({
                 accessKeyId: this.info.AccessKeyId,
                 accessKeySecret: this.info.AccessKeySecret,
                 stsToken: this.info.SecurityToken,
                 endpoint: "https://oss-cn-shanghai.aliyuncs.com",
                 bucket: "webpan"
             });
-            var storeAs = "upfile/" + $filename;
-            client.multipartUpload(storeAs, $file).then(function (result) {
+        };
+        FileModel.prototype.deleFile = function ($filename, $bfun) {
+            if ($bfun === void 0) { $bfun = null; }
+            if (!FolderModel.ossWrapper) {
+                this.makeOSSWrapper();
+            }
+            console.log(FolderModel.ossWrapper);
+            FolderModel.ossWrapper.delete($filename).then(function (result) {
                 console.log(result);
                 $bfun && $bfun();
             }).catch(function (err) {

@@ -73,7 +73,6 @@ var filelist;
             var _this = this;
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
-                console.log("绘制一下");
                 var $color = "[9c9c9c]";
                 if (this.fileListMeshVo.fileXmlVo.data.select) {
                     $color = "[ffffff]";
@@ -105,7 +104,6 @@ var filelist;
             this.parent.uiAtlas.ctx.drawImage($img, 12.5, 5, 45, 45);
             var outStr = name.split(".")[0];
             var $textMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
-            console.log("$textMetrics.width", $textMetrics.width);
             if ($textMetrics.width > 70) {
                 var inset = Math.floor(outStr.length * (1 / 3));
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 12, 0 - 6, 50, TextAlign.CENTER);
@@ -257,6 +255,7 @@ var filelist;
         };
         FileListPanel.prototype.refrishPath = function (pathstr) {
             var _this = this;
+            this.rootFilePath = pathstr;
             this.a_path_tittle_txt.x = 10;
             LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT);
             this.clearListAll();
@@ -336,11 +335,11 @@ var filelist;
             var temp = {};
             temp.mouse = new Vector2D($evt.clientX, $evt.clientY);
             var menuA = new Array();
-            menuA.push(new MenuListData("删除文件", "1"));
-            menuA.push(new MenuListData("重命名", "2"));
+            menuA.push(new MenuListData("删除文件", "21"));
+            menuA.push(new MenuListData("重命名", "22"));
             temp.menuXmlItem = menuA;
             temp.info = {};
-            temp.info.bfun = function (value) { _this.menuBfun(value); };
+            temp.info.bfun = function (value, evt) { _this.menuBfun(value, evt); };
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
         };
         FileListPanel.prototype.makeFileListMenu = function ($evt) {
@@ -348,22 +347,68 @@ var filelist;
             var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
             var temp = {};
             temp.mouse = new Vector2D($evt.clientX, $evt.clientY);
-            temp.menuXmlItem = this.getMenuXml();
+            var menuB = new Array();
+            menuB.push(new MenuListData("上传文件", "1"));
+            menuB.push(new MenuListData("创建文件夹", "2"));
+            menuB.push(new MenuListData("创建Texture", "3"));
+            menuB.push(new MenuListData("创建Profab", "4"));
+            menuB.push(new MenuListData("刷新", "5"));
+            temp.menuXmlItem = menuB;
             temp.info = {};
-            temp.info.bfun = function (value) { _this.menuBfun(value); };
+            temp.info.bfun = function (value, evt) { _this.menuBfun(value, evt); };
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
         };
-        FileListPanel.prototype.menuBfun = function (value) {
-            console.log("菜单的返回", value);
+        FileListPanel.prototype.menuBfun = function (value, evt) {
+            switch (value.key) {
+                case "1":
+                    this.upTempFileToOss();
+                    break;
+                case "21":
+                    this.deleFile();
+                    break;
+                default:
+                    console.log("没处理对象", value.key);
+                    break;
+            }
         };
-        FileListPanel.prototype.getMenuXml = function () {
-            var menuTextItem = new Array();
-            menuTextItem.push(new MenuListData("上传文件", "1"));
-            menuTextItem.push(new MenuListData("创建文件夹", "2"));
-            menuTextItem.push(new MenuListData("创建Texture", "3"));
-            menuTextItem.push(new MenuListData("创建Profab", "4"));
-            menuTextItem.push(new MenuListData("刷新", "5"));
-            return menuTextItem;
+        FileListPanel.prototype.deleFile = function () {
+            var _this = this;
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.fileListMeshVo.fileXmlVo.data.select) {
+                        filemodel.FileModel.getInstance().deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
+                            console.log("删除成功");
+                            _this.refrishPath(_this.rootFilePath);
+                        });
+                    }
+                }
+            }
+        };
+        FileListPanel.prototype.upTempFileToOss = function () {
+            var _this = this;
+            this._inputHtmlSprite = document.createElement('input');
+            this._inputHtmlSprite.setAttribute('id', '_ef');
+            this._inputHtmlSprite.setAttribute('type', 'file');
+            this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
+            this._inputHtmlSprite.click();
+            this._inputHtmlSprite.value;
+            this._inputHtmlSprite.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
+        };
+        FileListPanel.prototype.changeFile = function (evt) {
+            var _this = this;
+            for (var i = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
+                var simpleFile = this._inputHtmlSprite.files[i];
+                console.log(simpleFile);
+                console.log(this.rootFilePath);
+                var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+                console.log(pathurl + simpleFile.name);
+                filemodel.FileModel.getInstance().upOssFile(simpleFile, pathurl + simpleFile.name, function () {
+                    console.log("文件上传成功");
+                    _this.refrishPath(_this.rootFilePath);
+                });
+            }
+            this._inputHtmlSprite = null;
         };
         FileListPanel.prototype.panelEventChanger = function (value) {
             if (this.pageRect) {

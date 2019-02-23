@@ -118,7 +118,7 @@ var materialui;
                 }
             }
         };
-        Object.defineProperty(MaterialProcessor.prototype, "isCanToDo", {
+        Object.defineProperty(MaterialProcessor.prototype, "hasStage", {
             get: function () {
                 if (this.materialCavasPanel.hasStage) {
                     return true;
@@ -151,6 +151,12 @@ var materialui;
         };
         MaterialProcessor.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();
+            if (!this.hasStage) {
+                return;
+            }
+            if (!BaseUiStart.centenPanel.rect.isHitByPoint($evt.x, $evt.y)) {
+                return;
+            }
             materialui.MaterialModel.getInstance().mekeMaterialRightMenu($evt);
             /*
 
@@ -245,7 +251,7 @@ var materialui;
             var id = Number(getUrlParam("id"));
         };
         MaterialProcessor.prototype.onKeyDown = function ($evt) {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return;
             }
             BaseUiStart.altKey = $evt.altKey;
@@ -295,7 +301,7 @@ var materialui;
             BaseUiStart.altKey = $evt.altKey;
         };
         MaterialProcessor.prototype.onMouse = function ($e) {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return;
             }
             if ($e.type == MouseType.MouseDown) {
@@ -306,7 +312,7 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseMove = function ($e) {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return;
             }
             if (this._isMidelMouse) {
@@ -318,13 +324,13 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.onMouseUp = function ($e) {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return;
             }
             this._isMidelMouse = false;
         };
         MaterialProcessor.prototype.onMouseWheel = function ($evt) {
-            if (!this.isCanToDo) {
+            if (!this.hasStage) {
                 return;
             }
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {

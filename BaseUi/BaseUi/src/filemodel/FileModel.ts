@@ -41,7 +41,7 @@
 
     export class FolderModel {
         private static waitItem: Array<any>;
-        private static ossWrapper: any;
+        public static ossWrapper: OSS.Wrapper;
         private static oneByOne(): void {
             if (this.waitItem.length > 0) {
                 var $dir: string = this.waitItem[0].a;//目录
@@ -70,18 +70,20 @@
 
             this.getDisList($dir, (value) => {
                 var fileArr: Array<FileVo> = []
+             
                 for (var i: number = 0; value.prefixes && i < value.prefixes.length; i++) {
                     var fileVo: FileVo = new FileVo();
                     fileVo.meshStr(value.prefixes[i])
                     fileArr.push(fileVo)
                 }
-                for (var j: number = 0; j < value.objects.length; j++) {
+                for (var j: number = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo: FileVo = FileVo.meshObj(value.objects[j])
                     if (fileVo) {
                         fileArr.push(fileVo);
                     }
 
                 }
+
 
                 bfun(fileArr);
             })
@@ -113,32 +115,8 @@
                 }
             }
         }
-        public static getBase(): void {
-            FileModel.webseverurl = "https://api.h5key.com/api/";
-            FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
-                if (res.data.info) {
-                    var client: any = new OSS.Wrapper({
-                        accessKeyId: res.data.info.AccessKeyId,
-                        accessKeySecret: res.data.info.AccessKeySecret,
-                        stsToken: res.data.info.SecurityToken,
-                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                        bucket: "webpan"
-                    });
-                    //获取oss文件列表
-                    var nextMarker = "";
-                    client.list({
-                        'delimiter': '/',
-                        'prefix': "",
-                        'max-keys': 1000,
-                        'marker': nextMarker,
-                    }).then(function (result) {
-                        console.log(result)
-                    }).catch(function (err) {
-                        console.log(err);
-                    });
-                }
-            })
-        }
+       
+   
 
     }
     export class FileModel {
@@ -194,23 +172,45 @@
         }
     
         private uploadFile($file: File, $filename: string, $bfun: Function = null): void {
-            var client = new OSS.Wrapper({
-                accessKeyId: this.info.AccessKeyId,
-                accessKeySecret: this.info.AccessKeySecret,
-                stsToken: this.info.SecurityToken,
-                endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                bucket: "webpan"
-            });
-            var storeAs = "upfile/" + $filename;
 
-
-            client.multipartUpload(storeAs, $file).then(function (result) {
+            if (!FolderModel.ossWrapper) {
+                this.makeOSSWrapper()
+            }
+         
+            FolderModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
                 console.log(result);
                 $bfun && $bfun()
             }).catch(function (err) {
                 console.log(err);
             });
         }
+        private makeOSSWrapper() {
+            FolderModel.ossWrapper = new OSS.Wrapper({
+                accessKeyId: this.info.AccessKeyId,
+                accessKeySecret: this.info.AccessKeySecret,
+                stsToken: this.info.SecurityToken,
+                endpoint: "https://oss-cn-shanghai.aliyuncs.com",
+                bucket: "webpan"
+            });
+        }
+        public deleFile($filename: string, $bfun: Function = null): void {
+
+            if (!FolderModel.ossWrapper) {
+                this.makeOSSWrapper()
+            }
+            console.log(FolderModel.ossWrapper)
+
+
+            FolderModel.ossWrapper.delete($filename).then(function (result) {
+                console.log(result);
+                $bfun && $bfun()
+            }).catch(function (err) {
+                console.log(err);
+            });
+
+          
+        }
+
         public static WEB_SEVER_EVENT_AND_BACK(webname: string, postStr: string, $bfun: Function = null): void {
             webname = webname.replace(/\s+/g, "");
             var $obj: any = new Object();

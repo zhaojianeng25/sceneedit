@@ -22,12 +22,14 @@ declare function playRecord(sid: string);
 
 declare namespace OSS {
 
-    export class Wapper {
-
-    }
+   
     export class Wrapper {
         constructor(data?: any);
-        multipartUpload: any
+        multipartUpload: any;
+        list: any;
+        delete: any
+        deleteMulti: any
+
     }
 
 
