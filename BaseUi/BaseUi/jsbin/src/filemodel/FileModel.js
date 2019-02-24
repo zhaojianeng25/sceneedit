@@ -18,7 +18,6 @@ var filemodel;
                 vo.name = $arr[$arr.length - 1];
                 vo.path = str.replace("upfile/shadertree/", "");
                 vo.suffix = vo.name.split(".")[1];
-                //  console.log(vo.name, vo.path)
                 return vo;
             }
             return null;
@@ -77,28 +76,34 @@ var filemodel;
             }
             this.waitItem.push({ a: $dir, b: bfun });
             if (this.waitItem.length == 1) {
-                if (this.ossWrapper) {
-                    this.oneByOne();
-                }
-                else {
-                    FileModel.webseverurl = "https://api.h5key.com/api/";
-                    FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
-                        if (res.data && res.data.info) {
-                            _this.ossWrapper = new OSS.Wrapper({
-                                accessKeyId: res.data.info.AccessKeyId,
-                                accessKeySecret: res.data.info.AccessKeySecret,
-                                stsToken: res.data.info.SecurityToken,
-                                endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                                bucket: "webpan"
-                            });
-                            _this.oneByOne();
-                        }
-                        else {
-                            console.log(res);
-                        }
+                if (!this.ossWrapper) {
+                    this.makeOssWrapper(function () {
+                        _this.oneByOne();
                     });
                 }
+                else {
+                    this.oneByOne();
+                }
             }
+        };
+        FolderModel.makeOssWrapper = function (bfun) {
+            var _this = this;
+            FileModel.webseverurl = "https://api.h5key.com/api/";
+            FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
+                if (res.data && res.data.info) {
+                    _this.ossWrapper = new OSS.Wrapper({
+                        accessKeyId: res.data.info.AccessKeyId,
+                        accessKeySecret: res.data.info.AccessKeySecret,
+                        stsToken: res.data.info.SecurityToken,
+                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
+                        bucket: "webpan"
+                    });
+                    bfun();
+                }
+                else {
+                    console.log(res);
+                }
+            });
         };
         return FolderModel;
     }());
@@ -133,7 +138,6 @@ var filemodel;
                         }
                     });
                 }
-                console.log("ccav");
             }
         };
         FileModel.prototype.oneByOne = function () {
