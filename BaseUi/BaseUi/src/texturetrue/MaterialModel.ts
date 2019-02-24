@@ -4,6 +4,7 @@
     import LoadManager = Pan3d.LoadManager
     import InteractiveEvent = Pan3d.InteractiveEvent
     import Panel = layout.Panel;
+    import TextureManager = Pan3d.TextureManager
     import LayerManager = layout.LayerManager
     import MenuListData = menutwo.MenuListData
 
@@ -205,6 +206,60 @@
             MaterialCtrl.getInstance().addNodeUI($ui)
 
             layout.LayerManager.getInstance().resize()
+        }
+
+        private dataURLtoFile(dataurl: string, filename: string): File {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
+        public upMaterialTreeToWeb($temp: MaterialTree, $url: string) {
+ 
+                for (var i: number = 0; $temp.data && i < $temp.data.length; i++) {
+                    var $vo: any = $temp.data[i];
+                    if ($vo.type == materialui.NodeTree.TEX || $vo.type == materialui.NodeTree.TEX3D || $vo.type == materialui.NodeTree.TEXCUBE) {
+                        var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + $vo.data.url)
+                        if ($img) { //新加的图
+                            console.log("图片列表",$img)
+                            /*
+                            var $upfile: File = this.dataURLtoFile($img.src, $vo.data.url);
+                            var $newUrl: string = "ccc.jpg"
+                            filemodel.FileModel.getInstance().upOssFile($upfile, "shadertree/" + $newUrl, () => {
+                                console.log("文件上传成功");
+                            })
+                            $vo.data.url = $newUrl;
+                            */
+                        } else {
+
+                        }
+                    }
+                }
+                var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+                $byte.writeUTF(JSON.stringify({ data: $temp.data }))
+               var $file: File = new File([$byte.buffer], "ossfile.txt");
+
+
+     
+
+
+            var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
+            var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            console.log(pathUrl)
+            filemodel.FileModel.getInstance().uploadFile($file, pathurl, () => {
+                console.log("材质上传成功");
+            })
+            //    this.upOssFile($file, "shadertree/texturelist/" + this.fileid + ".txt", () => {
+            //        console.log("文件上传成功");
+            //})
+
+
+
+         
+              
+
         }
         public selectFileById(value: number): void {
 

@@ -249,7 +249,7 @@
             this._materialTree.data = MaterialCtrl.getInstance().getObj()
             console.log(this._materialTree.data);
 
-            //  filemodel.FileModel.getInstance().upMaterialTreeToWeb(this._materialTree)
+            MaterialModel.getInstance().upMaterialTreeToWeb(this._materialTree, this.lastMaterialUrl)
 
 
         }

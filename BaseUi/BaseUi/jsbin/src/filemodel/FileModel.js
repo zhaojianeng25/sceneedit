@@ -162,6 +162,7 @@ var filemodel;
             if (!FolderModel.ossWrapper) {
                 this.makeOSSWrapper();
             }
+            console.log("上传文件==>", $filename);
             FolderModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
                 console.log(result);
                 $bfun && $bfun();

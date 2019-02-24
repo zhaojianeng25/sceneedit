@@ -218,7 +218,7 @@ var materialui;
             this._materialTree = new materialui.MaterialTree();
             this._materialTree.data = materialui.MaterialCtrl.getInstance().getObj();
             console.log(this._materialTree.data);
-            //  filemodel.FileModel.getInstance().upMaterialTreeToWeb(this._materialTree)
+            materialui.MaterialModel.getInstance().upMaterialTreeToWeb(this._materialTree, this.lastMaterialUrl);
         };
         MaterialProcessor.prototype.selectNodeUi = function ($nodeUi) {
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;

@@ -90,6 +90,9 @@
                     case "material":
                         this.drawFileIconName(FileListPanel.imgBaseDic["marterial_64x"], fileVo.name, $color)
                         break
+                    case "txt":
+                        this.drawFileIconName(FileListPanel.imgBaseDic["txt_64x"], fileVo.name, $color)
+                        break
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color)
                         break
@@ -180,7 +183,8 @@
             item.push("icon_Folder_64x");
             item.push("profeb_64x");
             item.push("marterial_64x");
-
+            item.push("txt_64x");
+            
 
 
             var finishNum: number = 0

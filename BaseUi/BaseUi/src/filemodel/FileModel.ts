@@ -172,19 +172,21 @@
             image.src = canvas.toDataURL("image/png");
             return image;
         }
-    
-        private uploadFile($file: File, $filename: string, $bfun: Function = null): void {
 
+        public uploadFile($file: File, $filename: string, $bfun: Function = null): void {
             if (!FolderModel.ossWrapper) {
-                this.makeOSSWrapper()
+                this.makeOSSWrapper();
             }
-         
+            console.log("上传文件==>", $filename)
+
+             
             FolderModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
                 console.log(result);
                 $bfun && $bfun()
             }).catch(function (err) {
                 console.log(err);
             });
+          
         }
         private makeOSSWrapper() {
             FolderModel.ossWrapper = new OSS.Wrapper({
