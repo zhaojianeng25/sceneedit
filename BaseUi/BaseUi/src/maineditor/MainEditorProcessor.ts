@@ -55,7 +55,9 @@
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
 
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel)
-            
+
+
+                    this.addTestWindPanel()
                 }
            
 
@@ -67,6 +69,13 @@
                     this.changePageRect()
                 }
             }
+        }
+        private addTestWindPanel(): void {
+            var temp: layout.Panel = new layout.Panel(false)
+            layout.LayerManager.getInstance().addPanel(temp, 500);
+
+            var winPanel: base.BaseWindow = new base.BaseWindow()
+            temp.addUIContainer(winPanel);
         }
         private onMouseWheelFun: any;
         private onMouseDownFun: any;

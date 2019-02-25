@@ -69,6 +69,7 @@ var maineditor;
                     }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel);
+                    this.addTestWindPanel();
                 }
                 this.changePageRect();
             }
@@ -77,6 +78,12 @@ var maineditor;
                     this.changePageRect();
                 }
             }
+        };
+        MainEditorProcessor.prototype.addTestWindPanel = function () {
+            var temp = new layout.Panel(false);
+            layout.LayerManager.getInstance().addPanel(temp, 500);
+            var winPanel = new base.BaseWindow();
+            temp.addUIContainer(winPanel);
         };
         MainEditorProcessor.prototype.addEvents = function () {
             var _this = this;
