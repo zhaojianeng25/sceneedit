@@ -23,11 +23,19 @@
 
     export class BaseWindow extends UIConatiner {
 
-        public static imgBaseDic: any
-        public constructor() {
+
+        private useMoseMove: boolean
+
+        public constructor($rect: Rectangle = null, $move: boolean = true) {
             super();
 
-            this.pageRect = new Rectangle(100, 100, 500, 500);
+            if ($rect) {
+                this.pageRect = $rect;
+            } else {
+                this.pageRect = new Rectangle(100, 100, 500, 500);
+            }
+            this.useMoseMove = $move
+          
    
 
 
@@ -77,29 +85,21 @@
 
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
             this.a_tittle_bg = this.addChild(<UICompenent>this._topRender.getComponent("a_tittle_bg"));
-            this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
             this.a_left_line = this.addChild(<UICompenent>this._topRender.getComponent("a_left_line"));
-
-            
-
-
             this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            
             this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-
             this.a_scroll_bar_bg = this.addChild(<UICompenent>this._midRender.getComponent("a_scroll_bar_bg"));
             this.a_scroll_bar = this.addChild(<UICompenent>this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
+            if (this.useMoseMove) {
+                this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            }
+            this.a_scroll_bar.y = this.a_tittle_bg.height
 
-            this.a_scroll_bar.y = this.folderMask.y;
-
-            this.setUiListVisibleByItem([this.a_scroll_bar], false)
-
+    
             this.uiLoadComplete = true
 
             this.refrishSize();
@@ -166,7 +166,7 @@
 
                 this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
 
-                this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width
+                this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width+2
                 this.a_scroll_bar_bg.y = this.a_rigth_line.y;
                 this.a_scroll_bar_bg.height = this.a_left_line.height
 
@@ -183,6 +183,7 @@
         private mouseMoveTaget: UICompenent
         private pageRect: Rectangle
         protected tittleMouseDown(evt: InteractiveEvent): void {
+           
             this.mouseMoveTaget = evt.target
 
             this.lastMousePos = new Vector2D(evt.x, evt.y)

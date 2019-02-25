@@ -23,9 +23,17 @@ var base;
     var Scene_data = Pan3d.Scene_data;
     var BaseWindow = /** @class */ (function (_super) {
         __extends(BaseWindow, _super);
-        function BaseWindow() {
+        function BaseWindow($rect, $move) {
+            if ($rect === void 0) { $rect = null; }
+            if ($move === void 0) { $move = true; }
             var _this = _super.call(this) || this;
-            _this.pageRect = new Rectangle(100, 100, 500, 500);
+            if ($rect) {
+                _this.pageRect = $rect;
+            }
+            else {
+                _this.pageRect = new Rectangle(100, 100, 500, 500);
+            }
+            _this.useMoseMove = $move;
             _this._bottomRender = new UIRenderComponent;
             _this.addRender(_this._bottomRender);
             _this._midRender = new UIRenderComponent;
@@ -54,17 +62,18 @@ var base;
             this.addMask(this.folderMask);
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
             this.a_tittle_bg = this.addChild(this._topRender.getComponent("a_tittle_bg"));
-            this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.a_left_line = this.addChild(this._topRender.getComponent("a_left_line"));
             this.a_rigth_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.a_bottom_line = this.addChild(this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.a_scroll_bar_bg = this.addChild(this._midRender.getComponent("a_scroll_bar_bg"));
             this.a_scroll_bar = this.addChild(this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_scroll_bar.y = this.folderMask.y;
-            this.setUiListVisibleByItem([this.a_scroll_bar], false);
+            if (this.useMoseMove) {
+                this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            }
+            this.a_scroll_bar.y = this.a_tittle_bg.height;
             this.uiLoadComplete = true;
             this.refrishSize();
         };
@@ -106,7 +115,7 @@ var base;
                 this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height;
                 this.a_bottom_line.width = this.a_bg.width;
                 this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
-                this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width;
+                this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width + 2;
                 this.a_scroll_bar_bg.y = this.a_rigth_line.y;
                 this.a_scroll_bar_bg.height = this.a_left_line.height;
                 this.resize();

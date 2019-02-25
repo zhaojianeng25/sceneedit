@@ -279,7 +279,6 @@ var maineditor;
             this.a_scroll_bar = this.addChild(this._topRender.getComponent("a_scroll_bar"));
             this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.a_scroll_bar.y = this.folderMask.y;
-            //  this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_bg, this.a_win_tittle], this.canMoveTittle)
             this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_rigth_line, this.a_bg, this.a_win_tittle], this.canMoveTittle);
             this.refrishSize();
             this.readMapFile();
@@ -345,26 +344,6 @@ var maineditor;
             this.refrishFolder();
         };
         HierarchyListPanel.prototype.tittleMouseDown = function (evt) {
-            this.mouseMoveTaget = evt.target;
-            this.lastMousePos = new Vector2D(evt.x, evt.y);
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.lastPagePos = new Vector2D(this.left, this.top);
-                    break;
-                case this.a_rigth_line:
-                case this.a_bottom_line:
-                case this.a_right_bottom:
-                    this.lastPagePos = new Vector2D(this.pageRect.width, this.pageRect.height);
-                    break;
-                case this.a_scroll_bar:
-                    this.lastPagePos = new Vector2D(0, this.a_scroll_bar.y);
-                    break;
-                default:
-                    console.log("nonono");
-                    break;
-            }
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
         };
         HierarchyListPanel.prototype.tittleMouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
