@@ -35,9 +35,6 @@
                 this.pageRect = new Rectangle(100, 100, 500, 500);
             }
             this.useMoseMove = $move
-          
-   
-
 
             this._bottomRender = new UIRenderComponent;
             this.addRender(this._bottomRender);

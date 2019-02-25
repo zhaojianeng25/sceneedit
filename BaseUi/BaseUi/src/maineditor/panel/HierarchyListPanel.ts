@@ -125,10 +125,11 @@
             }
         }
     }
-
+ 
     export class HierarchyListPanel extends Dis2DUIContianerPanel {
 
-        public static imgBaseDic: any
+        public static imgBaseDic: any;
+        private baseWindow: base.BaseWindow
         public constructor() {
             super(FolderName, new Rectangle(0, 0, 128, 20), 50);
             this.left = 0;
@@ -145,10 +146,11 @@
 
             this._topRender = new UIRenderComponent;
             this.addRender(this._topRender);
-
-
+ 
 
             this.pageRect = new Rectangle(0, 0, 200, 200)
+
+            
 
             this.loadAssetImg(() => {
 

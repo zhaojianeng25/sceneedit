@@ -57,7 +57,7 @@
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel)
 
 
-                    this.addTestWindPanel()
+                   // this.addTestWindPanel()
                 }
            
 
