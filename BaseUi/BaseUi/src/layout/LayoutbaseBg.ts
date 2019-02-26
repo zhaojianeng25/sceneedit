@@ -23,11 +23,10 @@
 
     export class LayoutbaseBg extends UIConatiner {
 
-        public static imgBaseDic: any;
+ 
         public constructor() {
             super();
-
-            this.left = 0;
+ 
             this._pageRect = new Rectangle(0, 0, 300, 300)
 
             this._bottomRender = new UIRenderComponent;
@@ -44,43 +43,21 @@
         private _bottomRender: UIRenderComponent;
         private _topRender: UIRenderComponent;
 
-
-        protected mouseDown(evt: InteractiveEvent): void {
-            this.mouseIsDown = true
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        }
-        private mouseIsDown: boolean
-        protected stageMouseMove(evt: InteractiveEvent): void {
-            this.mouseIsDown = false
-
-        }
-        protected mouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        }
-        private loadFinish: boolean
+ 
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
-
-
+ 
             this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
             this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-
-     
-            this.loadFinish = true
-
-            this.refrishSize()
-
  
-
-
-
+            this.uiLoadComplete = true
+            this.refrishSize()
+ 
         }
-        protected butClik(evt: InteractiveEvent): void {
-            console.log(evt.target)
-        }
+     
         public set pageRect(value: Rectangle) {
             this._pageRect = value;
-            if (this.loadFinish) {
+            if (this.uiLoadComplete) {
                 this.refrishSize();
             }
         }
@@ -96,9 +73,7 @@
 
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
-         //   this._pageRect.width = Math.max(100, this._pageRect.width)
-         //   this._pageRect.height = Math.max(100, this._pageRect.height)
-
+   
             this.a_win_tittle.x = 0;
             this.a_win_tittle.y = 0;
             this.a_win_tittle.width = this._pageRect.width;

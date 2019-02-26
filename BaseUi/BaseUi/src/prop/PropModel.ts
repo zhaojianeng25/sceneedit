@@ -34,7 +34,7 @@
             return this._instance;
         }
         public constructor() {
-            this.propPanle = new PropPanle(false);
+            this.propPanle = new PropPanle(true);
             this.propPanle.x = 500
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle)

@@ -78,7 +78,7 @@
         }
 
         private addRight(): void {
-            var temp: Panel = new Panel();
+            var temp: Panel = new Panel(true);
             temp.x = 600
             temp.y = 0
             temp.width = 450

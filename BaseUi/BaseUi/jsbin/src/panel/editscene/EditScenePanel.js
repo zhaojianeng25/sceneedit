@@ -86,7 +86,7 @@ var editscene;
             BaseUiStart.centenPanel = temp;
         };
         EditScenePanel.prototype.addRight = function () {
-            var temp = new Panel();
+            var temp = new Panel(true);
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;
