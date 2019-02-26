@@ -18,6 +18,7 @@
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
     import Vector2D = Pan3d.Vector2D
+    import TextureManager = Pan3d.TextureManager
     import Scene_data = Pan3d.Scene_data
 
 
@@ -36,24 +37,24 @@
             }
             this.useMoseMove = $move
 
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
+            this._bRender = new UIRenderComponent;
+            this.addRender(this._bRender);
 
-            this._midRender = new UIRenderComponent;
-            this.addRender(this._midRender);
+            this._mRender = new UIRenderComponent;
+            this.addRender(this._mRender);
 
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
+            this._tRender = new UIRenderComponent;
+            this.addRender(this._tRender);
 
-            this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
+            this._bRender.uiAtlas = new UIAtlas();
+            this._bRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
 
         }
 
-        private _bottomRender: UIRenderComponent;
-        private _midRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-        private folderMask: UIMask
+        private _bRender: UIRenderComponent;
+        private _mRender: UIRenderComponent;
+        private _tRender: UIRenderComponent;
+        private _uiMask: UIMask
 
         protected mouseDown(evt: InteractiveEvent): void {
             this.mouseIsDown = true
@@ -71,22 +72,22 @@
         }
 
         protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-            this._midRender.uiAtlas = this._bottomRender.uiAtlas
+            this._tRender.uiAtlas = this._bRender.uiAtlas
+            this._mRender.uiAtlas = this._bRender.uiAtlas
             
 
-            this.folderMask = new UIMask();
-            this.folderMask.level = 5;
-            this.addMask(this.folderMask);
+            this._uiMask = new UIMask();
+            this._uiMask.level = 5;
+            this.addMask(this._uiMask);
 
 
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_tittle_bg = this.addChild(<UICompenent>this._topRender.getComponent("a_tittle_bg"));
-            this.a_left_line = this.addChild(<UICompenent>this._topRender.getComponent("a_left_line"));
-            this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
-            this.a_scroll_bar_bg = this.addChild(<UICompenent>this._midRender.getComponent("a_scroll_bar_bg"));
-            this.a_scroll_bar = this.addChild(<UICompenent>this._topRender.getComponent("a_scroll_bar"));
+            this.a_bg = this.addEvntBut("a_bg", this._bRender);
+            this.a_tittle_bg = this.addChild(<UICompenent>this._tRender.getComponent("a_tittle_bg"));
+            this.a_left_line = this.addChild(<UICompenent>this._tRender.getComponent("a_left_line"));
+            this.a_rigth_line = this.addChild(<UICompenent>this._tRender.getComponent("a_rigth_line"));
+            this.a_bottom_line = this.addChild(<UICompenent>this._tRender.getComponent("a_bottom_line"));
+            this.a_scroll_bar_bg = this.addChild(<UICompenent>this._mRender.getComponent("a_scroll_bar_bg"));
+            this.a_scroll_bar = this.addChild(<UICompenent>this._tRender.getComponent("a_scroll_bar"));
 
             if (this.useMoseMove) {
                 this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -139,10 +140,10 @@
                 this.a_tittle_bg.y = 0;
                 this.a_tittle_bg.width = this.pageRect.width;
  
-                this.folderMask.y = this.a_tittle_bg.height;
-                this.folderMask.x = 0
-                this.folderMask.width = this.pageRect.width - this.a_rigth_line.width
-                this.folderMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height
+                this._uiMask.y = this.a_tittle_bg.height;
+                this._uiMask.x = 0
+                this._uiMask.width = this.pageRect.width - this.a_rigth_line.width
+                this._uiMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height
 
                 this.a_bg.x = 0;
                 this.a_bg.y = 0
@@ -161,7 +162,7 @@
                 this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height
                 this.a_bottom_line.width = this.a_bg.width
 
-                this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
+                this.a_scroll_bar.x = this._uiMask.x + this._uiMask.width - this.a_scroll_bar.width;
 
                 this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width+2
                 this.a_scroll_bar_bg.y = this.a_rigth_line.y;
@@ -236,8 +237,8 @@
                 case this.a_scroll_bar:
 
                     this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y)
-                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height)
+                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this._uiMask.y)
+                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this._uiMask.y + this._uiMask.height - this.a_scroll_bar.height)
 
                     //  console.log(this.a_scroll_bar.y)
 
@@ -253,4 +254,196 @@
 
  
     }
+
+    export class Dis2dBaseWindow extends base.BaseWindow {
+        protected _baseRender: UIRenderComponent;
+        public constructor($classVo: any, $rect: Rectangle, $num: number) {
+            super();
+            this.width = UIData.designWidth;
+            this.height = UIData.designHeight;
+            this.creatBaseRender()
+            this.addRender(this._baseRender);
+            this.mathSize($rect, $num)
+            this.initData($classVo, $rect, $num)
+        }
+        protected creatBaseRender(): void {
+            this._baseRender = new UIRenderComponent;
+
+        }
+        //显示单元类, 尺寸，数量
+        private initData($classVo: any, $rect: Rectangle, $num: number): void {
+            this._voNum = Math.floor($num)
+            this._voRect = $rect;
+
+
+            var kkwA: number = Math.pow(2, Math.ceil(Math.log($rect.x * $rect.width) / Math.log(2)))
+            var kkhB: number = Math.pow(2, Math.ceil(Math.log($rect.x * $rect.width) / Math.log(2)))
+
+
+
+            this._textureRect = new Rectangle(0, 0, kkwA, kkhB);
+
+            this._baseRender.uiAtlas = new UIAtlas();
+            var $uiAtlas: UIAtlas = this._baseRender.uiAtlas;
+            $uiAtlas.configData = new Array();
+            $uiAtlas.ctx = UIManager.getInstance().getContext2D(this._textureRect.width, this._textureRect.height, false);
+            $uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
+            this.makeBaseUi($classVo);
+            ;
+        }
+        private mathSize($rect: Rectangle, $num: number): void {
+            $rect.x = 0
+            $rect.y = 0
+
+            while ($rect.x * $rect.y < $num) {
+                if ($rect.x * $rect.width > $rect.y * $rect.height) {
+                    $rect.y++
+                } else {
+                    $rect.x++
+                }
+
+            }
+
+
+        }
+
+        private _textureRect: Rectangle;//纹理尺寸
+        private _voNum: number;//最大同屏数量
+        private _voRect: Rectangle;//单元尺寸
+        protected _uiItem: Array<Disp2DBaseText>;
+        protected _lostItem: Array<Pan3d.baseMeshVo>;//没有上传成功的
+
+        //根据数量创建单元格UICompenent 并存在数组中，待需要时应用
+        private makeBaseUi($classVo: any): void {
+            var $uiAtlas: UIAtlas = this._baseRender.uiAtlas;
+            this._uiItem = new Array();
+            this._lostItem = new Array();
+
+            for (var i: number = 0; i < this._voRect.x; i++) {
+                for (var j: number = 0; j < this._voRect.y; j++) {
+
+                    var $disp2DBaseText: Disp2DBaseText = new $classVo()
+                    this._uiItem.push($disp2DBaseText);
+                    $disp2DBaseText.parent = this._baseRender;
+                    $disp2DBaseText.voRect = this._voRect;
+                    $disp2DBaseText.textureStr = "id_" + i + "_" + j;
+                    $uiAtlas.configData.push($uiAtlas.getObject($disp2DBaseText.textureStr, i * this._voRect.width, j * this._voRect.height, this._voRect.width, this._voRect.height, this._textureRect.width, this._textureRect.height));
+                    $disp2DBaseText.ui = <UICompenent>this._baseRender.creatBaseComponent($disp2DBaseText.textureStr);
+                }
+
+
+            }
+        }
+        //找到可用的单元 找到后赋值并添加ui到显示队列
+        public showTemp($data: any): Disp2DBaseText {
+            this.clearLostItem();
+            var empty: Disp2DBaseText;
+            //找到上一个数据和现在是一样的对象.避免重复更新纹理
+            for (var j: number = 0; j < this._uiItem.length; j++) {
+                if (this._uiItem[j].data == null && this._uiItem[j].isEqualLastKey($data)) {
+                    empty = this._uiItem[j];
+                    break
+                }
+            }
+            if (!empty) {
+                for (var i: number = 0; i < this._uiItem.length; i++) {
+                    if (this._uiItem[i].data == null) {
+                        empty = this._uiItem[i];
+                        break
+                    }
+                }
+            }
+            if (empty) {
+                empty.data = $data;
+                this.addChild(empty.ui);
+            } else {
+                this._lostItem.push($data)
+            }
+            return empty
+        }
+        private clearLostItem(): void {
+            for (var i: number = (this._lostItem.length - 1); i > 0; i--) {
+                if (this._lostItem[i].clear) {
+                    this._lostItem.splice(i, 1);
+                }
+            }
+        }
+        public playLost(): void {
+            if (this._lostItem.length) {
+                this.showTemp(this._lostItem.pop())
+            }
+
+        }
+        public clearOneTemp(): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (!this._uiItem[i].data) {
+                    return;
+                }
+            }
+            this._lostItem.length = 0;
+            this.clearTemp(this._uiItem[0].data);
+
+
+        }
+        //清理单元内的内容并需要将对象移出显示队例
+        public clearTemp($data: any): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data == $data) {
+                    this._uiItem[i].data = null
+                    this.removeChild(this._uiItem[i].ui);
+                    break
+                }
+            }
+            this.playLost()
+        }
+        public getVoByData(value: any): Disp2DBaseText {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data == value) {
+                    return this._uiItem[i]
+                }
+            }
+        }
+        public getVoByUi($ui: UICompenent): Disp2DBaseText {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data) {
+                    if (this._uiItem[i].ui == $ui) {
+                        return this._uiItem[i]
+                    }
+                }
+            }
+        }
+        public clearAll(): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data) {
+                    this.clearTemp(this._uiItem[i].data)
+                }
+            }
+        }
+        private updateFun: Function;
+        public update(t: number): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data) {
+                    this._uiItem[i].update();
+                }
+            }
+            /*
+            if (this.getUiItemLen() <( this._uiItem.length-1)) {
+                this.playLost()
+            }
+            */
+
+        }
+        public getUiItemLen(): number {
+            var $num: number = 0;
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].data) {
+                    $num++;
+                }
+            }
+            return $num;
+        }
+
+    }
+ 
+
 }
