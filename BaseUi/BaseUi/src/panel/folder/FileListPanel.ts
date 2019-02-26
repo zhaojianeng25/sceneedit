@@ -151,32 +151,25 @@
         }
     }
 
-    export class FileListPanel extends Dis2DUIContianerPanel {
+    export class FileListPanel extends base.Dis2dBaseWindow {
 
         public static imgBaseDic: any
         public constructor() {
             super(FileListName, new Rectangle(0, 0, 80, 80), 50);
-
-
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-            this.removeRender(this._baseRender);
-            this.addRender(this._baseRender);
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
-
-            this.pageRect = new Rectangle(0, 0, 500, 350)
-
-            this.loadAssetImg(() => {
-
-                this._bottomRender.uiAtlas = new UIAtlas();
-                this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", () => { this.loadConfigCom() });
-
-                Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
-
-            })
-
+      
+    
+ 
         }
+        protected loadConfigCom(): void {
+            super.loadConfigCom();
+            this._baseRender.mask = this._uiMask
+            this.setUiListVisibleByItem([this.a_bg,this.a_left_line, this.a_tittle_bg, this.a_rigth_line, this.a_bottom_line], false)
+            this.loadAssetImg(() => {
+                this.makeItemUiList()
+                Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
+            })
+        }
+
         private loadAssetImg(bfun: Function): void {
             FileListPanel.imgBaseDic = {};
             var item: Array<string> = [];
@@ -211,32 +204,25 @@
 
         }
 
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-
-        private folderMask: UIMask
+       
         public update(t: number): void {
             super.update(t);
 
         }
-        private lastDonwInfo: any;
+        private lastfileDonwInfo: any;
         private mouseDownTm: number
-        protected mouseDown(evt: InteractiveEvent): void {
-            this.mouseIsDown = true
+        protected fileMouseDown(evt: InteractiveEvent): void {
+            this.filemouseIsDown = true
             this.mouseDownTm = Pan3d.TimeUtil.getTimer()
-           
-
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         }
-        private mouseIsDown: boolean
+        private filemouseIsDown: boolean
         protected stageMouseMove(evt: InteractiveEvent): void {
-            this.mouseIsDown = false
+            this.filemouseIsDown = false
 
         }
-        private duboclik(evt: InteractiveEvent): void {
-            console.log("双击")
-
-
+        private fileDuboclik(evt: InteractiveEvent): void {
+  
             var vo: FileListName = this.getItemVoByUi(evt.target)
             if (vo) {
                 if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
@@ -257,22 +243,22 @@
                 }
             }
         }
-        protected mouseUp(evt: InteractiveEvent): void {
+        protected fileMouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            if (this.mouseIsDown) {
-                if (this.lastDonwInfo && this.lastDonwInfo.target == evt.target) {
-                    if (this.lastDonwInfo.tm + 500 > Pan3d.TimeUtil.getTimer()) {
+            if (this.filemouseIsDown) {
+                if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
+                    if (this.lastfileDonwInfo.tm + 500 > Pan3d.TimeUtil.getTimer()) {
                         if (Pan3d.TimeUtil.getTimer() > this.mouseDownTm + 100) {
-                            this.lastDonwInfo.tm = Pan3d.TimeUtil.getTimer()
+                            this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer()
                         } else {
-                            this.duboclik(evt)
+                            this.fileDuboclik(evt)
                         }
                         return
                     } else {
-                        this.lastDonwInfo.tm = Pan3d.TimeUtil.getTimer()
+                        this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer()
                     }
                 } else {
-                    this.lastDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+                    this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
                 }
             }
             this.selectFileIcon(evt)
@@ -305,8 +291,8 @@
         private rootFilePath: string;
         public refrishPath(pathstr: string): void {
             this.rootFilePath = pathstr
-            this.a_path_tittle_txt.x = 10
-            LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
+            //this.a_path_tittle_txt.x = 10
+            //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll()
             filemodel.FolderModel.getFolderArr(pathstr, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
@@ -334,53 +320,15 @@
             }
             return null
         }
-        protected loadConfigCom(): void {
-
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-
-            this.folderMask = new UIMask();
-
-            this.folderMask.level = 1;
-            this.addMask(this.folderMask);
-            this._baseRender.mask = this.folderMask
-
-
+        private makeItemUiList(): void {
+ 
             this.fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.mouseDown, this);
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.mouseUp, this);
-
-
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.fileMouseDown, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.fileMouseUp, this);
             }
+          
 
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-
-
-
-
-            this.a_win_tittle = this.addChild(<UICompenent>this._topRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_right_bottom = this.addChild(<UICompenent>this._topRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_scroll_bar = this.addChild(<UICompenent>this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-
-
-            this.a_path_tittle_txt = this.addChild(<UICompenent>this._topRender.getComponent("a_path_tittle_txt"));
-
-
-
-            this.refrishSize();
-            this.a_scroll_bar.y = this.folderMask.y;
             var rootDic: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
             this.refrishPath(rootDic);
 
@@ -506,193 +454,32 @@
             this._inputHtmlSprite = null;
         }
         
-        private a_path_tittle_txt: UICompenent
+    
         public panelEventChanger(value: Pan3d.Rectangle): void {
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = value.width;
-                this.left = value.x
-                this.top = value.y;
-                this.refrishSize();
-            }
-        }
+            this.left = value.x
+            this.top = value.y;
 
-        private a_scroll_bar: UICompenent
-        private a_bottom_line: UICompenent
-
-
-
-        private a_right_bottom: UICompenent;
-        private a_rigth_line: UICompenent;
-        private refrishSize(): void {
-
-            if (!this._topRender.uiAtlas) {
-                return
-            }
-
-            this.pageRect.width = Math.max(200, this.pageRect.width)
-            this.pageRect.height = Math.max(100, this.pageRect.height)
-
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-
-
-
-            this.folderMask.y = this.a_win_tittle.height;
-            this.folderMask.x = 0
-            this.folderMask.width = this.pageRect.width - this.a_rigth_line.width
-            this.folderMask.height = this.pageRect.height - this.a_win_tittle.height - this.a_bottom_line.height
-
-            this.a_bg.x = 0;
-            this.a_bg.y = 0
-            this.a_bg.width = this.pageRect.width
-            this.a_bg.height = this.pageRect.height
-
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-
-            this.a_bottom_line.x = 0
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-
-
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height
-
-            this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
-
+            this.pageRect.x = value.x;
+            this.pageRect.y = value.y;
+            this.pageRect.width = value.width;
+            this.pageRect.height = value.height;
 
             this.resetSampleFilePos()
             this.resize();
-
-            this.setUiListVisibleByItem([this.a_right_bottom, this.a_bottom_line, this.a_bg, this.a_rigth_line, this.a_win_tittle], this.canMoveTittle)
-
-
         }
+ 
+    
         private resetSampleFilePos(): void {
-            var w: number = Math.round(this.pageRect.width / 100);
-
-            var contentH: number = Math.round(this.fileItem.length / w) * 70;
-            var moveTy: number = 0
-            if (contentH > this.folderMask.height) {
-                this.setUiListVisibleByItem([this.a_scroll_bar], true);
-                this.a_scroll_bar.height = (this.folderMask.height / contentH) * this.folderMask.height;
-
-
-                this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.height + this.folderMask.y - this.a_scroll_bar.height);
-
-
-
-                var nnn: number = (this.a_scroll_bar.y - this.folderMask.y) / (this.folderMask.height - this.a_scroll_bar.height);
-
-
-                moveTy = (this.folderMask.height - contentH) * nnn
-
-            } else {
-                this.setUiListVisibleByItem([this.a_scroll_bar], false);
-                moveTy = 0
-
-            }
-
-            for (var i: number = 0; i < this.fileItem.length; i++) {
+            var w: number = Math.round((this.pageRect.width-50)  / 100);
+            var moveTy: number = 20
+            for (var i: number = 0; this.fileItem&& i < this.fileItem.length; i++) {
                 var vo: FileListMeshVo = this.fileItem[i];
                 vo.pos.x = i % w * 100;
-                vo.pos.y = Math.floor(i / w) * 70 + this.folderMask.y + moveTy
-
+                vo.pos.y = Math.floor(i / w) * 70 + moveTy
             }
         }
-
-        private lastPagePos: Vector2D;
-        private lastMousePos: Vector2D;
-        private mouseMoveTaget: UICompenent
-        private pageRect: Rectangle
-        private canMoveTittle: boolean
-        protected tittleMouseDown(evt: InteractiveEvent): void {
-
-            this.mouseMoveTaget = evt.target
-
-            this.lastMousePos = new Vector2D(evt.x, evt.y)
-
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.lastPagePos = new Vector2D(this.left, this.top)
-                    break
-
-                case this.a_rigth_line:
-                case this.a_bottom_line:
-                case this.a_right_bottom:
-                    this.lastPagePos = new Vector2D(this.pageRect.width, this.pageRect.height)
-                    break
-                case this.a_scroll_bar:
-                    this.lastPagePos = new Vector2D(0, this.a_scroll_bar.y)
-                    break
-
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-
-
-
-
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected tittleMouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected mouseOnTittleMove(evt: InteractiveEvent): void {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-
-                    break
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-
-                    break
-
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-
-                case this.a_scroll_bar:
-
-                    this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y)
-                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height)
-
-                    //  console.log(this.a_scroll_bar.y)
-
-                    break
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-            this.refrishSize()
-
-        }
-        private a_bg: UICompenent;
-        private a_win_tittle: UICompenent;
-
 
         private fileItem: Array<FileListMeshVo>
-        private refrishFile(): void {
-
-
-
-        }
-
         public getCharNameMeshVo(value: SampleFileVo): FileListMeshVo {
             var $vo: FileListMeshVo = new FileListMeshVo;
             $vo.fileXmlVo = value;

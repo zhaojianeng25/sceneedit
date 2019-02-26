@@ -103,33 +103,25 @@
         }
     }
 
-    export class OssFolderPanel extends Dis2DUIContianerPanel {
+    export class OssFolderPanel extends base.Dis2dBaseWindow {
 
         public static imgBaseDic: any
         public constructor() {
             super(FolderName, new Rectangle(0, 0, 128, 20), 50);
-            this.left = 300;
-
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-            this.removeRender(this._baseRender);
-            this.addRender(this._baseRender);
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
-
-
+            this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
-
-            this.loadAssetImg(() => {
-
-                this._bottomRender.uiAtlas = new UIAtlas();
-                this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", () => { this.loadConfigCom() });
-
-                Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
-
-            })
-
         }
+        protected loadConfigCom(): void {
+            super.loadConfigCom();
+
+            this._baseRender.mask = this._uiMask
+            this.setUiListVisibleByItem([this.a_tittle_bg, this.a_bg, this.a_bottom_line], false)
+            this.loadAssetImg(() => {
+                this.makeItemUiList()
+                Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
+            })
+        }
+
         private loadAssetImg(bfun: Function): void {
             OssFolderPanel.imgBaseDic = {};
             var item: Array<string> = [];
@@ -163,42 +155,41 @@
 
         }
 
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-
-        private folderMask: UIMask
+     
         public update(t: number): void {
             super.update(t);
 
         }
+
+        private percentNum: number = 0.2;
         private perentRect: Rectangle
         public panelEventChanger(value: Rectangle): void {
-            this.perentRect = value;
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = Math.min(this.pageRect.width, value.width - 200)
-                this.left = value.x;
-                this.top = value.y;
-                this.refrishSize();
-            }
+
+            this.perentRect = value
+            this.left = value.x;
+            this.top = value.y;
+
+            this.pageRect.x = value.x;
+            this.pageRect.y = value.y;
+            this.pageRect.width = value.width * this.percentNum;
+            this.pageRect.height = value.height;
+
+            this.resize();
         }
         public getPageRect(): Rectangle {
-            return this.pageRect
+            return this.pageRect;
         }
-
-
-        protected mouseDown(evt: InteractiveEvent): void {
-            this.mouseIsDown = true
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+        protected mouseOnTittleMove(evt: InteractiveEvent): void {
+            super.mouseOnTittleMove(evt);
+ 
+ 
+            this.percentNum = Math.min(0.8, Math.max(0.2, this.pageRect.width / this.perentRect.width))
+ 
+       
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG), this.perentRect);
         }
-        private mouseIsDown: boolean
-        protected stageMouseMove(evt: InteractiveEvent): void {
-            this.mouseIsDown = false
-
-        }
-        protected mouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            if (this.mouseIsDown) {
+        protected itemMouseUp(evt: InteractiveEvent): void {
+  
                 for (var i: number = 0; i < this._uiItem.length; i++) {
                     var $vo: FolderName = <FolderName>this._uiItem[i]
                     if ($vo.ui == evt.target) {
@@ -226,7 +217,7 @@
                 }
                 this.refrishFolder();
 
-            }
+            
 
         }
         private resetHideDic(arr: Array<FolderMeshVo>): void {
@@ -280,60 +271,11 @@
                 }
             }
         }
-        public onMouseWheel($evt: MouseWheelEvent): void {
-            var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-            if ($slectUi && $slectUi.parent == this) {
-                if (this.a_scroll_bar.parent) {
-                    this.a_scroll_bar.y   -= $evt.wheelDelta/10
-                    this.resize();
-                    this.refrishFolder();
-                } 
-            }
-        }
-        protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-
-            this.folderMask = new UIMask();
-
-            this.folderMask.level = 1;
-            this.addMask(this.folderMask);
-            this._baseRender.mask = this.folderMask
-
+        private makeItemUiList(): void {
             this.fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.mouseDown, this);
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.mouseUp, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
-            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
- 
-
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-
-
-
-
-            this.a_win_tittle = this.addChild(<UICompenent>this._topRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_right_bottom = this.addChild(<UICompenent>this._topRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_scroll_bar = this.addChild(<UICompenent>this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_scroll_bar.y = this.folderMask.y;
-
-            this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_bg, this.a_win_tittle], this.canMoveTittle)
-
-            this.refrishSize()
-
-
   
             //"upfile/shadertree/"
             //
@@ -352,151 +294,6 @@
             })
 
         }
-        private a_scroll_bar: UICompenent
-        private a_bottom_line: UICompenent
-
-
-
-        private a_right_bottom: UICompenent;
-        private a_rigth_line: UICompenent;
-        private refrishSize(): void {
-
-            if (!this._topRender.uiAtlas) {
-                return
-            }
-
-            this.pageRect.width = Math.max(100, this.pageRect.width)
-            this.pageRect.height = Math.max(100, this.pageRect.height)
-
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-
-
-
-            this.folderMask.y = this.a_win_tittle.height;
-            this.folderMask.x = 0
-            this.folderMask.width = this.pageRect.width - this.a_rigth_line.width
-            this.folderMask.height = this.pageRect.height - this.a_win_tittle.height - this.a_bottom_line.height
-
-            this.a_bg.x = 0;
-            this.a_bg.y = 0
-            this.a_bg.width = this.pageRect.width
-            this.a_bg.height = this.pageRect.height
-
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-
-            this.a_bottom_line.x = 0
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-
-
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height
-
-            this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
-
-            this.resize();
-            this.refrishFolder();
-     
-        }
-
-        private lastPagePos: Vector2D;
-        private lastMousePos: Vector2D;
-        private mouseMoveTaget: UICompenent
-        private pageRect: Rectangle
-        private canMoveTittle: boolean
-        protected tittleMouseDown(evt: InteractiveEvent): void {
-
-            this.mouseMoveTaget = evt.target
-
-            this.lastMousePos = new Vector2D(evt.x, evt.y)
-
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.lastPagePos = new Vector2D(this.left, this.top)
-                    break
-
-                case this.a_rigth_line:
-                case this.a_bottom_line:
-                case this.a_right_bottom:
-                    this.lastPagePos = new Vector2D(this.pageRect.width, this.pageRect.height)
-                    break
-                case this.a_scroll_bar:
-                    this.lastPagePos = new Vector2D(0, this.a_scroll_bar.y)
-                    break
-
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-
-
-
-
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected tittleMouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected mouseOnTittleMove(evt: InteractiveEvent): void {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    
-
-
-                    break
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-
-                    break
-
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-
-                case this.a_scroll_bar:
-
-                    this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y)
-                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height)
-
-                    // console.log(this.a_scroll_bar.y)
-
-                    break
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-         
-                this.pageRect.width = Math.min(this.pageRect.width, this.perentRect.width-200)
-          
-
-            this.refrishSize()
-
-         
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG), this.perentRect);
-        
-        }
-        private a_bg: UICompenent;
-        private a_win_tittle: UICompenent;
-
- 
-
-       
- 
         private fileItem: Array<FolderMeshVo>;
         public getCharNameMeshVo(value: FileVo): FolderMeshVo {
             var $vo: FolderMeshVo = new FolderMeshVo;
@@ -508,26 +305,8 @@
         private folderCellHeight: number = 20
         private refrishFolder(): void {
             OssFolderPanel.listTy = 25;
-            this.disChiendren(this.fileItem);
-
-
-            var contentH: number = OssFolderPanel.listTy  
-
-
+            this.disChiendren(this.fileItem,10);
             var moveTy: number = 0
-            if (contentH > this.folderMask.height) {
-                this.setUiListVisibleByItem([this.a_scroll_bar], true);
-                this.a_scroll_bar.height = (this.folderMask.height / contentH) * this.folderMask.height;
-                this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.height + this.folderMask.y - this.a_scroll_bar.height);
-                this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y );
-
-                var nnn: number = (this.a_scroll_bar.y - this.folderMask.y) / (this.folderMask.height - this.a_scroll_bar.height);
-                moveTy = (this.folderMask.height - contentH) * nnn
-            } else {
-                this.setUiListVisibleByItem([this.a_scroll_bar], false);
-                moveTy = 0
-            }
-
             this.moveAllTy(this.fileItem, moveTy)
  
         }
@@ -552,13 +331,5 @@
             }
    
         }
-    
-
-
-
-
-
-
-
     }
 }

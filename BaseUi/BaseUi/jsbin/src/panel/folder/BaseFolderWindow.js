@@ -108,7 +108,7 @@ var basefolderwin;
             this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
             this.resize();
             var pageSizeEvet = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
-            pageSizeEvet.data = this.pageRect;
+            pageSizeEvet.data = new Rectangle(this.pageRect.x, this.pageRect.y, this.pageRect.width, this.pageRect.height - 10);
             Pan3d.ModuleEventManager.dispatchEvent(pageSizeEvet);
         };
         BaseFolderWindow.prototype.tittleMouseDown = function (evt) {

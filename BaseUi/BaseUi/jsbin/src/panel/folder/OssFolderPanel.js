@@ -13,18 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var ossfolder;
 (function (ossfolder) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
-    var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var UIMask = Pan3d.UIMask;
-    var UIAtlas = Pan3d.UIAtlas;
-    var MouseType = Pan3d.MouseType;
-    var Vector2D = Pan3d.Vector2D;
     var Vector3D = Pan3d.Vector3D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
@@ -101,22 +95,22 @@ var ossfolder;
         __extends(OssFolderPanel, _super);
         function OssFolderPanel() {
             var _this = _super.call(this, FolderName, new Rectangle(0, 0, 128, 20), 50) || this;
+            _this.percentNum = 0.2;
             _this.folderCellHeight = 20;
-            _this.left = 300;
-            _this._bottomRender = new UIRenderComponent;
-            _this.addRender(_this._bottomRender);
-            _this.removeRender(_this._baseRender);
-            _this.addRender(_this._baseRender);
-            _this._topRender = new UIRenderComponent;
-            _this.addRender(_this._topRender);
+            _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
-            _this.loadAssetImg(function () {
-                _this._bottomRender.uiAtlas = new UIAtlas();
-                _this._bottomRender.uiAtlas.setInfo("ui/folder/folder.txt", "ui/folder/folder.png", function () { _this.loadConfigCom(); });
-                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
-            });
             return _this;
         }
+        OssFolderPanel.prototype.loadConfigCom = function () {
+            var _this = this;
+            _super.prototype.loadConfigCom.call(this);
+            this._baseRender.mask = this._uiMask;
+            this.setUiListVisibleByItem([this.a_tittle_bg, this.a_bg, this.a_bottom_line], false);
+            this.loadAssetImg(function () {
+                _this.makeItemUiList();
+                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+            });
+        };
         OssFolderPanel.prototype.loadAssetImg = function (bfun) {
             OssFolderPanel.imgBaseDic = {};
             var item = [];
@@ -148,51 +142,46 @@ var ossfolder;
         };
         OssFolderPanel.prototype.panelEventChanger = function (value) {
             this.perentRect = value;
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = Math.min(this.pageRect.width, value.width - 200);
-                this.left = value.x;
-                this.top = value.y;
-                this.refrishSize();
-            }
+            this.left = value.x;
+            this.top = value.y;
+            this.pageRect.x = value.x;
+            this.pageRect.y = value.y;
+            this.pageRect.width = value.width * this.percentNum;
+            this.pageRect.height = value.height;
+            this.resize();
         };
         OssFolderPanel.prototype.getPageRect = function () {
             return this.pageRect;
         };
-        OssFolderPanel.prototype.mouseDown = function (evt) {
-            this.mouseIsDown = true;
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+        OssFolderPanel.prototype.mouseOnTittleMove = function (evt) {
+            _super.prototype.mouseOnTittleMove.call(this, evt);
+            this.percentNum = Math.min(0.8, Math.max(0.2, this.pageRect.width / this.perentRect.width));
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG), this.perentRect);
         };
-        OssFolderPanel.prototype.stageMouseMove = function (evt) {
-            this.mouseIsDown = false;
-        };
-        OssFolderPanel.prototype.mouseUp = function (evt) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            if (this.mouseIsDown) {
-                for (var i = 0; i < this._uiItem.length; i++) {
-                    var $vo = this._uiItem[i];
-                    if ($vo.ui == evt.target) {
-                        if ((evt.x - this.left) - $vo.ui.x < 20) {
-                            $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
-                            if ($vo.folderMeshVo.ossListFile.isOpen) {
-                                this.pushChidrenDic($vo);
-                            }
-                            else {
-                                this.clearChildern($vo.folderMeshVo); //将要关闭
-                            }
+        OssFolderPanel.prototype.itemMouseUp = function (evt) {
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.ui == evt.target) {
+                    if ((evt.x - this.left) - $vo.ui.x < 20) {
+                        $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
+                        if ($vo.folderMeshVo.ossListFile.isOpen) {
+                            this.pushChidrenDic($vo);
                         }
                         else {
-                            if (!$vo.folderMeshVo.ossListFile.isOpen) {
-                                this.pushChidrenDic($vo);
-                            }
-                            $vo.folderMeshVo.ossListFile.isOpen = true;
-                            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), $vo.folderMeshVo.ossListFile.baseFile.path);
+                            this.clearChildern($vo.folderMeshVo); //将要关闭
                         }
-                        $vo.folderMeshVo.needDraw = true;
                     }
+                    else {
+                        if (!$vo.folderMeshVo.ossListFile.isOpen) {
+                            this.pushChidrenDic($vo);
+                        }
+                        $vo.folderMeshVo.ossListFile.isOpen = true;
+                        Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), $vo.folderMeshVo.ossListFile.baseFile.path);
+                    }
+                    $vo.folderMeshVo.needDraw = true;
                 }
-                this.refrishFolder();
             }
+            this.refrishFolder();
         };
         OssFolderPanel.prototype.resetHideDic = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {
@@ -238,43 +227,12 @@ var ossfolder;
                 }
             }
         };
-        OssFolderPanel.prototype.onMouseWheel = function ($evt) {
-            var $slectUi = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-            if ($slectUi && $slectUi.parent == this) {
-                if (this.a_scroll_bar.parent) {
-                    this.a_scroll_bar.y -= $evt.wheelDelta / 10;
-                    this.resize();
-                    this.refrishFolder();
-                }
-            }
-        };
-        OssFolderPanel.prototype.loadConfigCom = function () {
+        OssFolderPanel.prototype.makeItemUiList = function () {
             var _this = this;
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.folderMask = new UIMask();
-            this.folderMask.level = 1;
-            this.addMask(this.folderMask);
-            this._baseRender.mask = this.folderMask;
             this.fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.mouseDown, this);
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.mouseUp, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
-            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_tittle = this.addChild(this._topRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_rigth_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_bottom_line = this.addChild(this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_right_bottom = this.addChild(this._topRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_scroll_bar = this.addChild(this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_scroll_bar.y = this.folderMask.y;
-            this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_bg, this.a_win_tittle], this.canMoveTittle);
-            this.refrishSize();
             //"upfile/shadertree/"
             //
             //Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
@@ -290,91 +248,6 @@ var ossfolder;
                 _this.refrishFolder();
             });
         };
-        OssFolderPanel.prototype.refrishSize = function () {
-            if (!this._topRender.uiAtlas) {
-                return;
-            }
-            this.pageRect.width = Math.max(100, this.pageRect.width);
-            this.pageRect.height = Math.max(100, this.pageRect.height);
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-            this.folderMask.y = this.a_win_tittle.height;
-            this.folderMask.x = 0;
-            this.folderMask.width = this.pageRect.width - this.a_rigth_line.width;
-            this.folderMask.height = this.pageRect.height - this.a_win_tittle.height - this.a_bottom_line.height;
-            this.a_bg.x = 0;
-            this.a_bg.y = 0;
-            this.a_bg.width = this.pageRect.width;
-            this.a_bg.height = this.pageRect.height;
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width;
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-            this.a_bottom_line.x = 0;
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height;
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height;
-            this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
-            this.resize();
-            this.refrishFolder();
-        };
-        OssFolderPanel.prototype.tittleMouseDown = function (evt) {
-            this.mouseMoveTaget = evt.target;
-            this.lastMousePos = new Vector2D(evt.x, evt.y);
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.lastPagePos = new Vector2D(this.left, this.top);
-                    break;
-                case this.a_rigth_line:
-                case this.a_bottom_line:
-                case this.a_right_bottom:
-                    this.lastPagePos = new Vector2D(this.pageRect.width, this.pageRect.height);
-                    break;
-                case this.a_scroll_bar:
-                    this.lastPagePos = new Vector2D(0, this.a_scroll_bar.y);
-                    break;
-                default:
-                    console.log("nonono");
-                    break;
-            }
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        };
-        OssFolderPanel.prototype.tittleMouseUp = function (evt) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        };
-        OssFolderPanel.prototype.mouseOnTittleMove = function (evt) {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    break;
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_scroll_bar:
-                    this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y);
-                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height);
-                    // console.log(this.a_scroll_bar.y)
-                    break;
-                default:
-                    console.log("nonono");
-                    break;
-            }
-            this.pageRect.width = Math.min(this.pageRect.width, this.perentRect.width - 200);
-            this.refrishSize();
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG), this.perentRect);
-        };
         OssFolderPanel.prototype.getCharNameMeshVo = function (value) {
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
@@ -384,21 +257,8 @@ var ossfolder;
         };
         OssFolderPanel.prototype.refrishFolder = function () {
             OssFolderPanel.listTy = 25;
-            this.disChiendren(this.fileItem);
-            var contentH = OssFolderPanel.listTy;
+            this.disChiendren(this.fileItem, 10);
             var moveTy = 0;
-            if (contentH > this.folderMask.height) {
-                this.setUiListVisibleByItem([this.a_scroll_bar], true);
-                this.a_scroll_bar.height = (this.folderMask.height / contentH) * this.folderMask.height;
-                this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.height + this.folderMask.y - this.a_scroll_bar.height);
-                this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y);
-                var nnn = (this.a_scroll_bar.y - this.folderMask.y) / (this.folderMask.height - this.a_scroll_bar.height);
-                moveTy = (this.folderMask.height - contentH) * nnn;
-            }
-            else {
-                this.setUiListVisibleByItem([this.a_scroll_bar], false);
-                moveTy = 0;
-            }
             this.moveAllTy(this.fileItem, moveTy);
         };
         OssFolderPanel.prototype.moveAllTy = function (arr, ty) {
@@ -422,7 +282,7 @@ var ossfolder;
             }
         };
         return OssFolderPanel;
-    }(Dis2DUIContianerPanel));
+    }(base.Dis2dBaseWindow));
     ossfolder.OssFolderPanel = OssFolderPanel;
 })(ossfolder || (ossfolder = {}));
 //# sourceMappingURL=OssFolderPanel.js.map

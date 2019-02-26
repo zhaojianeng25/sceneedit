@@ -164,8 +164,8 @@
             this.resize();
 
             var pageSizeEvet: folder.FolderEvent = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
-      
-            pageSizeEvet.data = this.pageRect;
+
+            pageSizeEvet.data = new Rectangle(this.pageRect.x, this.pageRect.y, this.pageRect.width, this.pageRect.height-10);
             Pan3d.ModuleEventManager.dispatchEvent(pageSizeEvet);
 
 

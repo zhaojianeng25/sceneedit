@@ -111,13 +111,13 @@
             }
 
         }
-        private a_bg: UICompenent;
-        private a_tittle_bg: UICompenent;
-        private a_rigth_line: UICompenent;
-        private a_left_line: UICompenent
-        private a_bottom_line: UICompenent
+        protected a_bg: UICompenent;
+        protected a_tittle_bg: UICompenent;
+        protected a_rigth_line: UICompenent;
+        protected a_left_line: UICompenent
+        protected a_bottom_line: UICompenent
         protected a_scroll_bar: UICompenent
-        private a_scroll_bar_bg: UICompenent
+        protected a_scroll_bar_bg: UICompenent
         protected contentHeight: number
 
 
