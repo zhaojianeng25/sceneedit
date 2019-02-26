@@ -55,7 +55,6 @@
     <TypeScriptCompile Include="src\panel\editscene\EditTopMenuPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\BaseFolderWindow.ts" />
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
-    <TypeScriptCompile Include="src\panel\folder\FolderPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\FolderProcessor.ts" />
     <TypeScriptCompile Include="src\panel\folder\OssFolderPanel.ts" />
     <TypeScriptCompile Include="src\filemodel\FileModel.ts" />

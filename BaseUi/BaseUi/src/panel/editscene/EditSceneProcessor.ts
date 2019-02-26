@@ -12,7 +12,7 @@
     import UIConatiner = Pan3d.UIConatiner
     import Panel=layout.Panel
     import FileListPanel = filelist.FileListPanel
-    import BaseFolderWindow = basefolderwin.BaseFolderWindow
+ 
     import OssFolderPanel = ossfolder.OssFolderPanel;
 
 
