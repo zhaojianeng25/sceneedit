@@ -174,8 +174,8 @@
 
 
             this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/editor/editor.txt", "ui/editor/editor.png", () => { this.loadConfigCom() });
-
+        
+            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
         }
 
         private _bottomRender: UIRenderComponent;
@@ -187,11 +187,11 @@
          
 
 
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
+            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender)
             this.a_win_tittle.x = 0
             this.a_win_tittle.y = 0
 
-            this.a_win_bg = this.addEvntBut("a_win_bg", this._bottomRender)
+            this.a_win_bg = this.addEvntBut("a_bg", this._bottomRender)
             this.a_win_bg.x = 0
             this.a_win_bg.y = 25
 
@@ -219,8 +219,6 @@
   
         private upFrame(t: number): void {
             MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
-   
-
             var cam3D: Pan3d.Camera3D = MainEditorProcessor.edItorSceneManager.cam3D
             cam3D.cavanRect.x = this.a_scene_view.x + this.left;
             cam3D.cavanRect.y = this.a_scene_view.y + this.top;

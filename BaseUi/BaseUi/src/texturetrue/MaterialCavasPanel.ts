@@ -34,6 +34,16 @@
  
          
         }
+        protected loadConfigCom(): void {
+            super.loadConfigCom()
+            this.setUiListVisibleByItem([this.a_bg], false)
+            this.setUiListVisibleByItem([this.a_left_line], false)
+            this.setUiListVisibleByItem([this.a_rigth_line], false)
+          //  this.setUiListVisibleByItem([this.a_bottom_line], false)
+            this.setUiListVisibleByItem([this.a_scroll_bar], false)
+            this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
+            this.setUiListVisibleByItem([this.a_tittle_bg], false)
+        }
   
        
  

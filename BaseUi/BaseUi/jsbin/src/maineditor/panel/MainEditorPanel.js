@@ -134,15 +134,15 @@ var maineditor;
             _this._sceneViewRender = new modelShowRender();
             _this.addRender(_this._sceneViewRender);
             _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/editor/editor.txt", "ui/editor/editor.png", function () { _this.loadConfigCom(); });
+            _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         MainEditorPanel.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender);
+            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender);
             this.a_win_tittle.x = 0;
             this.a_win_tittle.y = 0;
-            this.a_win_bg = this.addEvntBut("a_win_bg", this._bottomRender);
+            this.a_win_bg = this.addEvntBut("a_bg", this._bottomRender);
             this.a_win_bg.x = 0;
             this.a_win_bg.y = 25;
             //a_scene_view
