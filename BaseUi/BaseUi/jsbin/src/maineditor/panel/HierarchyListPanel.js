@@ -13,16 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
-    var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var UIMask = Pan3d.UIMask;
-    var UIAtlas = Pan3d.UIAtlas;
     var MouseType = Pan3d.MouseType;
     var Vector2D = Pan3d.Vector2D;
     var Vector3D = Pan3d.Vector3D;
@@ -125,25 +121,20 @@ var maineditor;
         __extends(HierarchyListPanel, _super);
         function HierarchyListPanel() {
             var _this = _super.call(this, FolderName, new Rectangle(0, 0, 128, 20), 50) || this;
-            _this.folderCellHeight = 20;
+            _this.moveListTy = 0;
             _this.cellBgItem = [];
             _this.left = 0;
-            _this._bottomRender = new UIRenderComponent;
-            _this.addRender(_this._bottomRender);
-            _this._cellBgRender = new UIRenderComponent;
-            _this.addRender(_this._cellBgRender);
-            _this.removeRender(_this._baseRender);
-            _this.addRender(_this._baseRender);
-            _this._topRender = new UIRenderComponent;
-            _this.addRender(_this._topRender);
             _this.pageRect = new Rectangle(0, 0, 200, 200);
-            _this.loadAssetImg(function () {
-                _this._bottomRender.uiAtlas = new UIAtlas();
-                _this._bottomRender.uiAtlas.setInfo("ui/hierarchy/hierarchy.txt", "ui/hierarchy/hierarchy.png", function () { _this.loadConfigCom(); });
-                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
-            });
             return _this;
         }
+        HierarchyListPanel.prototype.loadConfigCom = function () {
+            var _this = this;
+            _super.prototype.loadConfigCom.call(this);
+            this.loadAssetImg(function () {
+                _this.makeItemUiList();
+                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+            });
+        };
         HierarchyListPanel.prototype.loadAssetImg = function (bfun) {
             HierarchyListPanel.imgBaseDic = {};
             var item = [];
@@ -183,45 +174,33 @@ var maineditor;
                 this.pageRect.width = value.width;
                 this.left = value.x;
                 this.top = value.y;
-                this.refrishSize();
+                this.resize();
             }
         };
-        HierarchyListPanel.prototype.getPageRect = function () {
-            return this.pageRect;
-        };
-        HierarchyListPanel.prototype.mouseDown = function (evt) {
-            this.mouseIsDown = true;
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        };
-        HierarchyListPanel.prototype.stageMouseMove = function (evt) {
-            this.mouseIsDown = false;
-        };
-        HierarchyListPanel.prototype.mouseUp = function (evt) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            if (this.mouseIsDown) {
-                var $clikVo;
-                for (var i = 0; i < this._uiItem.length; i++) {
-                    var $vo = this._uiItem[i];
-                    if ($vo.ui == evt.target) {
-                        $clikVo = $vo;
-                        if ((evt.x - this.left) - $vo.ui.x < 20) {
-                            $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
-                            if ($vo.folderMeshVo.ossListFile.isOpen) {
-                            }
-                            else {
-                                this.clearChildern($vo.folderMeshVo); //将要关闭
-                            }
+        HierarchyListPanel.prototype.itemMouseUp = function (evt) {
+            var $clikVo;
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.ui == evt.target) {
+                    $clikVo = $vo;
+                    if ((evt.x - this.left) - $vo.ui.x < 20) {
+                        $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
+                        if ($vo.folderMeshVo.ossListFile.isOpen) {
                         }
-                        $vo.folderMeshVo.needDraw = true;
+                        else {
+                            this.clearChildern($vo.folderMeshVo); //将要关闭
+                        }
                     }
+                    $vo.folderMeshVo.needDraw = true;
                 }
-                if ($clikVo) {
-                    this.hidefileItemBg(this.fileItem);
-                    $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true;
-                    this.showEditorPanel();
-                }
-                this.refrishFolder();
             }
+            if ($clikVo) {
+                this.hidefileItemBg(this.fileItem);
+                $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true;
+                this.showEditorPanel();
+            }
+            this.refrishFolder();
+            this.resize();
         };
         HierarchyListPanel.prototype.showEditorPanel = function () {
             Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
@@ -242,45 +221,19 @@ var maineditor;
                 }
             }
         };
-        HierarchyListPanel.prototype.onMouseWheel = function ($evt) {
+        HierarchyListPanel.prototype.onPanellMouseWheel = function ($evt) {
             var $slectUi = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi && $slectUi.parent == this) {
-                if (this.a_scroll_bar.parent) {
-                    this.a_scroll_bar.y -= $evt.wheelDelta / 10;
-                    this.resize();
-                    this.refrishFolder();
-                }
             }
         };
-        HierarchyListPanel.prototype.loadConfigCom = function () {
+        HierarchyListPanel.prototype.makeItemUiList = function () {
             var _this = this;
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this._cellBgRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.folderMask = new UIMask();
-            this.folderMask.level = 1;
-            this.addMask(this.folderMask);
-            this._baseRender.mask = this.folderMask;
-            this._cellBgRender.mask = this.folderMask;
+            this._baseRender.mask = this._uiMask;
             this.fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.mouseDown, this);
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.mouseUp, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
-            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_tittle = this.addChild(this._topRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_rigth_line = this.addChild(this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_bottom_line = this.addChild(this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_right_bottom = this.addChild(this._topRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_scroll_bar = this.addChild(this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_scroll_bar.y = this.folderMask.y;
-            this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_rigth_line, this.a_bg, this.a_win_tittle], this.canMoveTittle);
-            this.refrishSize();
+            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
             this.readMapFile();
         };
         HierarchyListPanel.prototype.wirteItem = function (childItem) {
@@ -311,94 +264,34 @@ var maineditor;
                 for (var i = 0; i < kkk.length; i++) {
                     _this.fileItem.push(kkk[i]);
                 }
+                _this.isCompelet = true;
                 _this.refrishFolder();
+                _this.resize();
             });
         };
-        HierarchyListPanel.prototype.refrishSize = function () {
-            if (!this._topRender.uiAtlas) {
-                return;
-            }
-            this.pageRect.width = Math.max(100, this.pageRect.width);
-            this.pageRect.height = Math.max(100, this.pageRect.height);
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-            this.folderMask.y = this.a_win_tittle.height;
-            this.folderMask.x = 0;
-            this.folderMask.width = this.pageRect.width - this.a_rigth_line.width;
-            this.folderMask.height = this.pageRect.height - this.a_win_tittle.height - this.a_bottom_line.height;
-            this.a_bg.x = 0;
-            this.a_bg.y = 0;
-            this.a_bg.width = this.pageRect.width;
-            this.a_bg.height = this.pageRect.height;
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width;
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-            this.a_bottom_line.x = 0;
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height;
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height;
-            this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
-            this.resize();
+        HierarchyListPanel.prototype.changeScrollBar = function () {
+            var th = this._uiMask.height - this.a_scroll_bar.height;
+            var ty = this.a_scroll_bar.y - this._uiMask.y;
+            this.moveListTy = -(this.contentHeight - this._uiMask.height) * (ty / th);
             this.refrishFolder();
         };
-        HierarchyListPanel.prototype.tittleMouseDown = function (evt) {
-        };
-        HierarchyListPanel.prototype.tittleMouseUp = function (evt) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        };
-        HierarchyListPanel.prototype.mouseOnTittleMove = function (evt) {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    break;
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_scroll_bar:
-                    this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y);
-                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height);
-                    // console.log(this.a_scroll_bar.y)
-                    break;
-                default:
-                    console.log("nonono");
-                    break;
+        HierarchyListPanel.prototype.resize = function () {
+            if (this.isCompelet) {
+                this.contentHeight = this.getItemDisNum(this.fileItem) * 20;
             }
-            this.refrishSize();
+            _super.prototype.resize.call(this);
         };
         HierarchyListPanel.prototype.refrishFolder = function () {
-            HierarchyListPanel.listTy = 25;
-            this.disChiendren(this.fileItem);
-            var contentH = HierarchyListPanel.listTy;
-            var moveTy = 0;
-            if (contentH > this.folderMask.height) {
-                this.setUiListVisibleByItem([this.a_scroll_bar], true);
-                this.a_scroll_bar.height = (this.folderMask.height / contentH) * this.folderMask.height;
-                this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.height + this.folderMask.y - this.a_scroll_bar.height);
-                this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y);
-                var nnn = (this.a_scroll_bar.y - this.folderMask.y) / (this.folderMask.height - this.a_scroll_bar.height);
-                moveTy = (this.folderMask.height - contentH) * nnn;
+            if (this.isCompelet) {
+                HierarchyListPanel.listTy = this.moveListTy + this._uiMask.y;
+                this.disChiendren(this.fileItem, 10);
+                var moveTy = 0;
+                this.moveAllTy(this.fileItem, moveTy);
+                while (this.cellBgItem.length) {
+                    this.removeChild(this.cellBgItem.pop());
+                }
+                this.showSelectBg(this.fileItem);
             }
-            else {
-                this.setUiListVisibleByItem([this.a_scroll_bar], false);
-                moveTy = 0;
-            }
-            this.moveAllTy(this.fileItem, moveTy);
-            while (this.cellBgItem.length) {
-                this.removeChild(this.cellBgItem.pop());
-            }
-            this.showSelectBg(this.fileItem);
         };
         HierarchyListPanel.prototype.showSelectBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {
@@ -406,12 +299,12 @@ var maineditor;
                     this.showSelectBg(arr[i].childItem);
                 }
                 if (arr[i].ossListFile.fileNode.treeSelect) {
-                    var ui = this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
-                    ui.goToAndStop(0);
-                    ui.y = arr[i].pos.y;
-                    ui.x = 0;
-                    ui.width = this.pageRect.width;
-                    this.cellBgItem.push(ui);
+                    //var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
+                    //ui.goToAndStop(0)
+                    //ui.y = arr[i].pos.y;
+                    //ui.x = 0
+                    //ui.width = this.pageRect.width
+                    //this.cellBgItem.push(ui);
                 }
             }
         };
@@ -423,6 +316,17 @@ var maineditor;
                     this.moveAllTy(arr[i].childItem, ty);
                 }
             }
+        };
+        //获取显示数量
+        HierarchyListPanel.prototype.getItemDisNum = function (arr) {
+            var num = 0;
+            for (var i = 0; arr && i < arr.length; i++) {
+                num++;
+                if (arr[i].ossListFile.isOpen) {
+                    num += this.getItemDisNum(arr[i].childItem);
+                }
+            }
+            return num;
         };
         HierarchyListPanel.prototype.disChiendren = function (arr, tx) {
             if (tx === void 0) { tx = 0; }
@@ -436,7 +340,7 @@ var maineditor;
             }
         };
         return HierarchyListPanel;
-    }(Dis2DUIContianerPanel));
+    }(base.Dis2dBaseWindow));
     maineditor.HierarchyListPanel = HierarchyListPanel;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=HierarchyListPanel.js.map

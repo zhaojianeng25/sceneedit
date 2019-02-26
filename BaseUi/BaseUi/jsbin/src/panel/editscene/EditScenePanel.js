@@ -95,7 +95,7 @@ var editscene;
             BaseUiStart.rightPanel = temp;
         };
         EditScenePanel.prototype.addLeft = function () {
-            var temp = new Panel();
+            var temp = new Panel(false);
             temp.x = 0;
             temp.y = 0;
             temp.width = 450;

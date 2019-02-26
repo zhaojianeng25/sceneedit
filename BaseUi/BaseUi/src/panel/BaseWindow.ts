@@ -35,6 +35,7 @@
             } else {
                 this.pageRect = new Rectangle(100, 100, 500, 500);
             }
+            this.contentHeight=0
             this.useMoseMove = $move
 
             this._bRender = new UIRenderComponent;
@@ -54,7 +55,7 @@
         private _bRender: UIRenderComponent;
         private _mRender: UIRenderComponent;
         private _tRender: UIRenderComponent;
-        private _uiMask: UIMask
+        protected _uiMask: UIMask
 
         protected mouseDown(evt: InteractiveEvent): void {
             this.mouseIsDown = true
@@ -63,12 +64,9 @@
         private mouseIsDown: boolean
         protected stageMouseMove(evt: InteractiveEvent): void {
             this.mouseIsDown = false
-
         }
         protected mouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-
-
         }
 
         protected loadConfigCom(): void {
@@ -100,10 +98,11 @@
     
             this.uiLoadComplete = true
 
-            this.refrishSize();
+            this.resize()
 
 
         }
+        
         public removeMoveEvent(): void {
             if (this.uiLoadComplete) {
                 this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -117,18 +116,19 @@
         private a_rigth_line: UICompenent;
         private a_left_line: UICompenent
         private a_bottom_line: UICompenent
-        private a_scroll_bar: UICompenent
+        protected a_scroll_bar: UICompenent
         private a_scroll_bar_bg: UICompenent
+        protected contentHeight: number
 
 
  
         public setRect(value: Rectangle): void {
             this.pageRect = value
-            this.refrishSize()
+            this.resize()
 
         }
-        private refrishSize(): void {
-
+     
+        public resize(): void {
             if (this.uiLoadComplete) {
 
                 this.left = this.pageRect.x;
@@ -139,7 +139,7 @@
                 this.a_tittle_bg.x = 0;
                 this.a_tittle_bg.y = 0;
                 this.a_tittle_bg.width = this.pageRect.width;
- 
+
                 this._uiMask.y = this.a_tittle_bg.height;
                 this._uiMask.x = 0
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width
@@ -152,7 +152,7 @@
 
                 this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width
                 this.a_rigth_line.y = this.a_tittle_bg.height;
-                this.a_rigth_line.height = this.pageRect.height - this.a_tittle_bg.height  
+                this.a_rigth_line.height = this.pageRect.height - this.a_tittle_bg.height
 
                 this.a_left_line.x = 0;
                 this.a_left_line.y = this.a_rigth_line.y;
@@ -164,22 +164,30 @@
 
                 this.a_scroll_bar.x = this._uiMask.x + this._uiMask.width - this.a_scroll_bar.width;
 
-                this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width+2
+                this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width + 2
                 this.a_scroll_bar_bg.y = this.a_rigth_line.y;
                 this.a_scroll_bar_bg.height = this.a_left_line.height
 
-                this.resize();
+
+               
+                this.setUiListVisibleByItem([this.a_scroll_bar], this.contentHeight > this._uiMask.height)
+
+                if (this.contentHeight > this._uiMask.height) {
+                    this.a_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight)
+                    this.a_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.a_scroll_bar.height, this.a_scroll_bar.y)
+                }
+
+               
 
             }
-
-
+            super.resize()
         }
 
 
         private lastPagePos: Vector2D;
         private lastMousePos: Vector2D;
         private mouseMoveTaget: UICompenent
-        private pageRect: Rectangle
+        protected pageRect: Rectangle
         protected tittleMouseDown(evt: InteractiveEvent): void {
            
             this.mouseMoveTaget = evt.target
@@ -241,6 +249,7 @@
                     this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this._uiMask.y + this._uiMask.height - this.a_scroll_bar.height)
 
                     //  console.log(this.a_scroll_bar.y)
+                    this.changeScrollBar()
 
                     break
                 default:
@@ -248,8 +257,10 @@
                     break
 
             }
-            this.refrishSize()
+            this.resize()
 
+        }
+        protected changeScrollBar(): void {
         }
 
  

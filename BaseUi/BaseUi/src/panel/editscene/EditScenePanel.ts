@@ -88,7 +88,7 @@
 
         }
         private addLeft(): void {
-            var temp: Panel = new Panel();
+            var temp: Panel = new Panel(false);
             temp.x = 0
             temp.y = 0
             temp.width = 450

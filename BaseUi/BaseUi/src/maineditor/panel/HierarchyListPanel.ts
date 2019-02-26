@@ -64,7 +64,6 @@
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
-
                 // this.parent.uiAtlas.ctx.fillStyle = "#3c3c3c"; // text color
                 // this.parent.uiAtlas.ctx.fillRect(1, 1, $uiRec.pixelWitdh-2, $uiRec.pixelHeight-2);
 
@@ -125,42 +124,21 @@
             }
         }
     }
- 
-    export class HierarchyListPanel extends Dis2DUIContianerPanel {
+
+    export class HierarchyListPanel extends base.Dis2dBaseWindow {
 
         public static imgBaseDic: any;
-        private baseWindow: base.BaseWindow
         public constructor() {
             super(FolderName, new Rectangle(0, 0, 128, 20), 50);
             this.left = 0;
-
-
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-
-            this._cellBgRender = new UIRenderComponent;
-            this.addRender(this._cellBgRender);
-
-            this.removeRender(this._baseRender);
-            this.addRender(this._baseRender);
-
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
- 
-
             this.pageRect = new Rectangle(0, 0, 200, 200)
-
-            
-
+        }
+        protected loadConfigCom(): void {
+            super.loadConfigCom();
             this.loadAssetImg(() => {
-
-                this._bottomRender.uiAtlas = new UIAtlas();
-                this._bottomRender.uiAtlas.setInfo("ui/hierarchy/hierarchy.txt", "ui/hierarchy/hierarchy.png", () => { this.loadConfigCom() });
-
+                this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
-
             })
-
         }
         private loadAssetImg(bfun: Function): void {
             HierarchyListPanel.imgBaseDic = {};
@@ -172,8 +150,6 @@
             item.push("profeb_16");
             item.push("icon_point16");
             item.push("water_plane16");
-
-
             var finishNum: number = 0
             for (var i: number = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], () => {
@@ -181,13 +157,10 @@
                     if (finishNum >= item.length) {
                         bfun();
                     }
-
                 });
             }
         }
-
         private loadTempOne(name: string, bfun: Function): void {
-
             var tempImg = makeImage()
             HierarchyListPanel.imgBaseDic[name] = tempImg;
             tempImg.onload = () => {
@@ -197,12 +170,6 @@
             tempImg.src = Scene_data.fileuiRoot + "ui/folder/pic/" + name + ".png"
 
         }
-
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-        private _cellBgRender: UIRenderComponent;
-
-        private folderMask: UIMask
         public update(t: number): void {
             super.update(t);
 
@@ -215,54 +182,40 @@
                 this.pageRect.width = value.width;
                 this.left = value.x;
                 this.top = value.y;
-                this.refrishSize();
+                this.resize();
             }
         }
-        public getPageRect(): Rectangle {
-            return this.pageRect
-        }
 
 
-        protected mouseDown(evt: InteractiveEvent): void {
-            this.mouseIsDown = true
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        }
-        private mouseIsDown: boolean
-        protected stageMouseMove(evt: InteractiveEvent): void {
-            this.mouseIsDown = false
+        protected itemMouseUp(evt: InteractiveEvent): void {
 
-        }
-        protected mouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            if (this.mouseIsDown) {
-                var $clikVo: FolderName
-                for (var i: number = 0; i < this._uiItem.length; i++) {
-                    var $vo: FolderName = <FolderName>this._uiItem[i];
-                    if ($vo.ui == evt.target) {
-                        $clikVo = $vo
-                        if ((evt.x - this.left) - $vo.ui.x < 20) {
-                            $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
-                            if ($vo.folderMeshVo.ossListFile.isOpen) {
-                            } else {
-                                this.clearChildern($vo.folderMeshVo)   //将要关闭
-                            }
+            var $clikVo: FolderName
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var $vo: FolderName = <FolderName>this._uiItem[i];
+                if ($vo.ui == evt.target) {
+                    $clikVo = $vo
+                    if ((evt.x - this.left) - $vo.ui.x < 20) {
+                        $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
+                        if ($vo.folderMeshVo.ossListFile.isOpen) {
+                        } else {
+                            this.clearChildern($vo.folderMeshVo)   //将要关闭
                         }
-                        $vo.folderMeshVo.needDraw = true;
                     }
+                    $vo.folderMeshVo.needDraw = true;
                 }
-                if ($clikVo) {
-                    this.hidefileItemBg(this.fileItem);
-                    $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true
-                    this.showEditorPanel();
-                }
-                this.refrishFolder();
             }
+            if ($clikVo) {
+                this.hidefileItemBg(this.fileItem);
+                $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true
+                this.showEditorPanel();
+            }
+            this.refrishFolder();
+            this.resize()
+
         }
         private showEditorPanel(): void {
             Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE))
-
-
         }
         private hidefileItemBg(arr: Array<FolderMeshVo>): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
@@ -270,8 +223,6 @@
                 this.hidefileItemBg(arr[i].childItem);
             }
         }
-
-
         private clearChildern($folderMeshVo: FolderMeshVo): void {
             if ($folderMeshVo.childItem) {
                 for (var i: number = 0; i < $folderMeshVo.childItem.length; i++) {
@@ -281,73 +232,22 @@
                 }
             }
         }
-        public onMouseWheel($evt: MouseWheelEvent): void {
+        public onPanellMouseWheel($evt: MouseWheelEvent): void {
             var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi && $slectUi.parent == this) {
-                if (this.a_scroll_bar.parent) {
-                    this.a_scroll_bar.y -= $evt.wheelDelta / 10
-                    this.resize();
-                    this.refrishFolder();
-                }
+
             }
         }
-        protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-            this._cellBgRender.uiAtlas = this._bottomRender.uiAtlas
+        private isCompelet: boolean
+        protected makeItemUiList(): void {
 
-            this.folderMask = new UIMask();
-            this.folderMask.level = 1;
-            this.addMask(this.folderMask);
-            this._baseRender.mask = this.folderMask;
-            this._cellBgRender.mask = this.folderMask;
-
-
+            this._baseRender.mask = this._uiMask
             this.fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.mouseDown, this);
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.mouseUp, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
-            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
-
-
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-
-
-
-
-            this.a_win_tittle = this.addChild(<UICompenent>this._topRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_rigth_line = this.addChild(<UICompenent>this._topRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_bottom_line = this.addChild(<UICompenent>this._topRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_right_bottom = this.addChild(<UICompenent>this._topRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_scroll_bar = this.addChild(<UICompenent>this._topRender.getComponent("a_scroll_bar"));
-            this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_scroll_bar.y = this.folderMask.y;
-
-
-            this.setUiListVisibleByItem([this.a_bottom_line, this.a_right_bottom, this.a_rigth_line, this.a_bg, this.a_win_tittle], this.canMoveTittle)
-
-
-
-
-
-
-            this.refrishSize()
-
-
+            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
             this.readMapFile()
-
-
-
-
         }
 
         private wirteItem(childItem: Array<any>): Array<FolderMeshVo> {
@@ -378,156 +278,50 @@
                     for (var i: number = 0; i < kkk.length; i++) {
                         this.fileItem.push(kkk[i])
                     }
+                    this.isCompelet = true;
+
+         
                     this.refrishFolder();
+                    this.resize()
                 });
+        }
 
+        protected changeScrollBar(): void {
+            var th: number = this._uiMask.height - this.a_scroll_bar.height
+            var ty: number = this.a_scroll_bar.y - this._uiMask.y;
+        
+            this.moveListTy=-  (this.contentHeight - this._uiMask.height) * (ty / th)
+
+            this.refrishFolder()
 
         }
-        private a_scroll_bar: UICompenent
-        private a_bottom_line: UICompenent
 
-
-
-        private a_right_bottom: UICompenent;
-        private a_rigth_line: UICompenent;
-        private refrishSize(): void {
-
-            if (!this._topRender.uiAtlas) {
-                return
+        public resize(): void {
+            if (this.isCompelet) {
+                this.contentHeight = this.getItemDisNum(this.fileItem) * 20;
             }
-
-            this.pageRect.width = Math.max(100, this.pageRect.width)
-            this.pageRect.height = Math.max(100, this.pageRect.height)
-
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-
-
-
-            this.folderMask.y = this.a_win_tittle.height;
-            this.folderMask.x = 0
-            this.folderMask.width = this.pageRect.width - this.a_rigth_line.width
-            this.folderMask.height = this.pageRect.height - this.a_win_tittle.height - this.a_bottom_line.height
-
-            this.a_bg.x = 0;
-            this.a_bg.y = 0
-            this.a_bg.width = this.pageRect.width
-            this.a_bg.height = this.pageRect.height
-
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-
-            this.a_bottom_line.x = 0
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-
-
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height
-
-            this.a_scroll_bar.x = this.folderMask.x + this.folderMask.width - this.a_scroll_bar.width;
-
-            this.resize();
-            this.refrishFolder();
-
+            super.resize()
+             
+         
+ 
         }
-
-        private lastPagePos: Vector2D;
-        private lastMousePos: Vector2D;
-        private mouseMoveTaget: UICompenent
-        private pageRect: Rectangle
-        private canMoveTittle: boolean
-        protected tittleMouseDown(evt: InteractiveEvent): void {
-
-        }
-        protected tittleMouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected mouseOnTittleMove(evt: InteractiveEvent): void {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-
-
-
-                    break
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-
-                    break
-
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-
-                case this.a_scroll_bar:
-
-                    this.a_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y)
-                    this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.y + this.folderMask.height - this.a_scroll_bar.height)
-
-                    // console.log(this.a_scroll_bar.y)
-
-                    break
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-
-
-
-            this.refrishSize()
-
-
-
-        }
-        private a_bg: UICompenent;
-        private a_win_tittle: UICompenent;
-
-
-
-
-
+       
+     
         private fileItem: Array<FolderMeshVo>;
 
-        private folderCellHeight: number = 20
+        private moveListTy: number = 0;
         private refrishFolder(): void {
-            HierarchyListPanel.listTy = 25;
-            this.disChiendren(this.fileItem);
-
-
-            var contentH: number = HierarchyListPanel.listTy
-
-
-            var moveTy: number = 0
-            if (contentH > this.folderMask.height) {
-                this.setUiListVisibleByItem([this.a_scroll_bar], true);
-                this.a_scroll_bar.height = (this.folderMask.height / contentH) * this.folderMask.height;
-                this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this.folderMask.height + this.folderMask.y - this.a_scroll_bar.height);
-                this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this.folderMask.y);
-
-                var nnn: number = (this.a_scroll_bar.y - this.folderMask.y) / (this.folderMask.height - this.a_scroll_bar.height);
-                moveTy = (this.folderMask.height - contentH) * nnn
-            } else {
-                this.setUiListVisibleByItem([this.a_scroll_bar], false);
-                moveTy = 0
+            if (this.isCompelet) {
+                HierarchyListPanel.listTy = this.moveListTy + this._uiMask.y;
+                this.disChiendren(this.fileItem,10);
+                var moveTy: number = 0
+                this.moveAllTy(this.fileItem, moveTy)
+                while (this.cellBgItem.length) {
+                    this.removeChild(this.cellBgItem.pop());
+                }
+                this.showSelectBg(this.fileItem)
             }
-
-            this.moveAllTy(this.fileItem, moveTy)
-
-            while (this.cellBgItem.length) {
-                this.removeChild(this.cellBgItem.pop());
-            }
-            this.showSelectBg(this.fileItem)
+      
 
         }
         private cellBgItem: Array<UICompenent> = []
@@ -538,12 +332,12 @@
                     this.showSelectBg(arr[i].childItem)
                 }
                 if (arr[i].ossListFile.fileNode.treeSelect) {
-                    var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
-                    ui.goToAndStop(0)
-                    ui.y = arr[i].pos.y;
-                    ui.x = 0
-                    ui.width = this.pageRect.width
-                    this.cellBgItem.push(ui);
+                    //var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
+                    //ui.goToAndStop(0)
+                    //ui.y = arr[i].pos.y;
+                    //ui.x = 0
+                    //ui.width = this.pageRect.width
+                    //this.cellBgItem.push(ui);
                 }
 
             }
@@ -556,6 +350,17 @@
                 }
             }
 
+        }
+        //获取显示数量
+        private getItemDisNum(arr: Array<FolderMeshVo>): number {
+            var num: number=0
+            for (var i: number = 0; arr && i < arr.length; i++) {
+                num++
+                if (arr[i].ossListFile.isOpen) {
+                    num+=   this.getItemDisNum(arr[i].childItem)
+                }
+            }
+            return num
         }
         private static listTy: number
         private disChiendren(arr: Array<FolderMeshVo>, tx: number = 0): void {
@@ -570,12 +375,7 @@
 
         }
 
-
-
-
-
-
-
+ 
 
     }
 }

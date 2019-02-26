@@ -36,6 +36,7 @@ var base;
             else {
                 _this.pageRect = new Rectangle(100, 100, 500, 500);
             }
+            _this.contentHeight = 0;
             _this.useMoseMove = $move;
             _this._bRender = new UIRenderComponent;
             _this.addRender(_this._bRender);
@@ -78,7 +79,7 @@ var base;
             }
             this.a_scroll_bar.y = this.a_tittle_bg.height;
             this.uiLoadComplete = true;
-            this.refrishSize();
+            this.resize();
         };
         BaseWindow.prototype.removeMoveEvent = function () {
             if (this.uiLoadComplete) {
@@ -89,9 +90,9 @@ var base;
         };
         BaseWindow.prototype.setRect = function (value) {
             this.pageRect = value;
-            this.refrishSize();
+            this.resize();
         };
-        BaseWindow.prototype.refrishSize = function () {
+        BaseWindow.prototype.resize = function () {
             if (this.uiLoadComplete) {
                 this.left = this.pageRect.x;
                 this.top = this.pageRect.y;
@@ -121,8 +122,13 @@ var base;
                 this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width + 2;
                 this.a_scroll_bar_bg.y = this.a_rigth_line.y;
                 this.a_scroll_bar_bg.height = this.a_left_line.height;
-                this.resize();
+                this.setUiListVisibleByItem([this.a_scroll_bar], this.contentHeight > this._uiMask.height);
+                if (this.contentHeight > this._uiMask.height) {
+                    this.a_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight);
+                    this.a_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.a_scroll_bar.height, this.a_scroll_bar.y);
+                }
             }
+            _super.prototype.resize.call(this);
         };
         BaseWindow.prototype.tittleMouseDown = function (evt) {
             this.mouseMoveTaget = evt.target;
@@ -168,12 +174,15 @@ var base;
                     this.a_scroll_bar.y = Math.max(this.a_scroll_bar.y, this._uiMask.y);
                     this.a_scroll_bar.y = Math.min(this.a_scroll_bar.y, this._uiMask.y + this._uiMask.height - this.a_scroll_bar.height);
                     //  console.log(this.a_scroll_bar.y)
+                    this.changeScrollBar();
                     break;
                 default:
                     console.log("nonono");
                     break;
             }
-            this.refrishSize();
+            this.resize();
+        };
+        BaseWindow.prototype.changeScrollBar = function () {
         };
         return BaseWindow;
     }(UIConatiner));
