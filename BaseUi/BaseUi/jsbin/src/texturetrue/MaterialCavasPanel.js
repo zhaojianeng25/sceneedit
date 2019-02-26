@@ -13,67 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var UIConatiner = Pan3d.UIConatiner;
-    var UIAtlas = Pan3d.UIAtlas;
+    //ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
     var MaterialCavasPanel = /** @class */ (function (_super) {
         __extends(MaterialCavasPanel, _super);
         function MaterialCavasPanel() {
-            var _this = _super.call(this) || this;
-            _this._bottomRender = new UIRenderComponent;
-            _this.addRender(_this._bottomRender);
-            _this._topRender = new UIRenderComponent;
-            _this.addRender(_this._topRender);
-            _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/materialmenu/materialmenu.txt", "ui/materialmenu/materialmenu.png", function () { _this.loadConfigCom(); });
-            return _this;
+            return _super.call(this) || this;
         }
-        MaterialCavasPanel.prototype.loadConfigCom = function () {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_base_bg = this.addEvntBut("a_base_bg", this._bottomRender);
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender);
-            this.a_save_but = this.addEvntBut("a_save_but", this._topRender);
-            this.a_compile_but = this.addEvntBut("a_compile_but", this._topRender);
-            this.setUiListVisibleByItem([this.a_save_but, this.a_compile_but], true);
-            this.setUiListVisibleByItem([this.a_win_tittle], false);
-            this.uiLoadComplete = true;
-            this.resize();
-        };
-        MaterialCavasPanel.prototype.butClik = function (evt) {
-            if (this.perent) {
-                // (<Panel>this.perent).removeUIContainer(this)
-            }
-            switch (evt.target) {
-                case this.a_compile_but:
-                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
-                    break;
-                case this.a_save_but:
-                    break;
-                default:
-                    break;
-            }
-        };
-        MaterialCavasPanel.prototype.resize = function () {
-            if (this.perent && this.uiLoadComplete) {
-                var rect = this.perent.rect;
-                this.a_base_bg.x = rect.x;
-                this.a_base_bg.width = rect.width;
-                this.a_base_bg.y = 25;
-                this.a_base_bg.height = 30;
-                this.a_save_but.x = rect.x + rect.width - 100;
-                this.a_save_but.y = this.a_base_bg.y;
-                this.a_compile_but.x = this.a_save_but.x + 50;
-                this.a_compile_but.y = this.a_base_bg.y;
-                this.a_win_tittle.x = rect.x;
-                this.a_win_tittle.y = 0;
-                this.a_win_tittle.width = rect.width;
-                this._topRender.applyObjData();
-            }
-            _super.prototype.resize.call(this);
-        };
         return MaterialCavasPanel;
-    }(UIConatiner));
+    }(base.BaseWindow));
     materialui.MaterialCavasPanel = MaterialCavasPanel;
 })(materialui || (materialui = {}));
 //# sourceMappingURL=MaterialCavasPanel.js.map

@@ -57,6 +57,7 @@
                     BaseUiStart.stagePos = new Vector2D();
                     BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
+
                     this.materialCavasPanel = new MaterialCavasPanel()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {

@@ -11,11 +11,10 @@
     export class CentenPanel extends Panel {
         public changeSize(): void {
             if (this.winBg) {
-                this.winBg.pageRect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50);
+                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50))
             }
         }
         public addUIContainer($container: UIConatiner): void {
- 
             //特殊处理，删除非底层背景
             for (var i: number = this._containerList.length - 1; i > 0; i--) {
                 if (!(this._containerList[i] instanceof LayoutbaseBg)) {
@@ -68,7 +67,7 @@
         }
 
         private addCenten(): void {
-            var temp: CentenPanel = new CentenPanel();
+            var temp: CentenPanel = new CentenPanel(true);
             temp.x = 600
             temp.y = 0
             temp.width = 450

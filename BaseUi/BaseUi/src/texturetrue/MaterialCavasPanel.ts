@@ -26,84 +26,19 @@
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
     import Panel = layout.Panel
- 
-    export class MaterialCavasPanel extends UIConatiner {
+    //ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+    export class MaterialCavasPanel extends base.BaseWindow {
  
         public constructor() {
             super();
  
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
-
-            this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/materialmenu/materialmenu.txt", "ui/materialmenu/materialmenu.png", () => { this.loadConfigCom() });
-
+         
         }
   
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
+       
  
-        protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-            this.a_base_bg = this.addEvntBut("a_base_bg", this._bottomRender)
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
-            this.a_save_but = this.addEvntBut("a_save_but", this._topRender)
-            this.a_compile_but = this.addEvntBut("a_compile_but", this._topRender)
-
-            this.setUiListVisibleByItem([this.a_save_but, this.a_compile_but], true);
-
-            this.setUiListVisibleByItem([this.a_win_tittle], false);
     
-            this.uiLoadComplete = true;
-            this.resize()
-
-        }
-        private a_win_tittle: UICompenent
-        private a_save_but: UICompenent
-        private a_compile_but: UICompenent
-        protected butClik(evt: InteractiveEvent): void {
-            if (this.perent) {
-               // (<Panel>this.perent).removeUIContainer(this)
-            }
- 
-            switch (evt.target) {
-                case this.a_compile_but:
-                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
-                    break
-                case this.a_save_but:
-         
-                    break
-                default:
-                    break;
-            }
-
-        }
-        public resize(): void {
-            if (this.perent && this.uiLoadComplete) {
-                var rect: Rectangle = (<Panel>this.perent).rect
-                this.a_base_bg.x = rect.x  
-                this.a_base_bg.width = rect.width  
-                this.a_base_bg.y = 25;
-                this.a_base_bg.height=30
-
-                this.a_save_but.x = rect.x + rect.width-100
-                this.a_save_but.y = this.a_base_bg.y
-                this.a_compile_but.x = this.a_save_but.x+50
-                this.a_compile_but.y = this.a_base_bg.y
-
-                this.a_win_tittle.x = rect.x
-                this.a_win_tittle.y = 0
-                this.a_win_tittle.width = rect.width;
-
-                this._topRender.applyObjData();
-            }
-            super.resize();
-        }
- 
-        private a_base_bg: UICompenent;
+  
  
 
     }

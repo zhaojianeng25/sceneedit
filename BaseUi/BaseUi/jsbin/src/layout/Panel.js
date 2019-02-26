@@ -28,7 +28,7 @@ var layout;
         }
         Panel.prototype.changeSize = function () {
             if (this.winBg) {
-                this.winBg.pageRect = this.rect;
+                this.winBg.setRect(this.rect);
             }
         };
         Panel.prototype.getObjectsUnderPoint = function (evt) {

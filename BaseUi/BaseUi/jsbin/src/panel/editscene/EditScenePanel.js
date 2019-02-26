@@ -25,7 +25,7 @@ var editscene;
         }
         CentenPanel.prototype.changeSize = function () {
             if (this.winBg) {
-                this.winBg.pageRect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50);
+                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50));
             }
         };
         CentenPanel.prototype.addUIContainer = function ($container) {
@@ -77,7 +77,7 @@ var editscene;
             this.addChild(this.rightMoveLine);
         };
         EditScenePanel.prototype.addCenten = function () {
-            var temp = new CentenPanel();
+            var temp = new CentenPanel(true);
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;

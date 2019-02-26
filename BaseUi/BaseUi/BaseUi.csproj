@@ -45,7 +45,7 @@
     <TypeScriptCompile Include="src\md5\Md5MoveSprite.ts" />
     <TypeScriptCompile Include="src\md5\MeshImportSort.ts" />
     <TypeScriptCompile Include="src\md5\MeshToObjUtils.ts" />
-    <TypeScriptCompile Include="src\panel\BaseWindow.ts" />
+    <TypeScriptCompile Include="src\win\BaseWindow.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorPanel.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorProcessor.ts" />
     <TypeScriptCompile Include="src\panel\editscene\EditSceneLine.ts" />

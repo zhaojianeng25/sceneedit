@@ -21,79 +21,13 @@
     import Scene_data = Pan3d.Scene_data
 
 
-    export class LayoutbaseBg extends UIConatiner {
-
- 
-        public constructor() {
-            super();
- 
-            this._pageRect = new Rectangle(0, 0, 300, 300)
-
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
-
-            this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", () => { this.loadConfigCom() });
-
-        }
-
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-
- 
+    export class LayoutbaseBg extends base.BaseWindow {
+  
         protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
- 
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
- 
-            this.uiLoadComplete = true
-            this.refrishSize()
- 
+            super.loadConfigCom();
+            this.setUiListVisibleByItem([this.a_scroll_bar, this.a_scroll_bar_bg], false)
         }
-     
-        public set pageRect(value: Rectangle) {
-            this._pageRect = value;
-            if (this.uiLoadComplete) {
-                this.refrishSize();
-            }
-        }
-        public get pageRect() {
-            return this._pageRect;
-
-        }
-        private _pageRect: Rectangle;
-        private a_bg: UICompenent;
-        private a_win_tittle: UICompenent;
- 
-        private refrishSize(): void {
-
-            this.left = this._pageRect.x;
-            this.top = this._pageRect.y;
-   
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this._pageRect.width;
-
-
-
-            this.a_bg.x = 0;
-            this.a_bg.y = 0
-            this.a_bg.width = this._pageRect.width
-            this.a_bg.height = this._pageRect.height
-
-
-            this._topRender.applyObjData()
-     
-
-            this.resize();
-          
-
-        }
-
+       
 
     }
 }

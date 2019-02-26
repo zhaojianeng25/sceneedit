@@ -16,7 +16,7 @@
         }
         public changeSize(): void {
             if (this.winBg) {
-                this.winBg.pageRect = this.rect
+                this.winBg.setRect (this.rect)
 
             }
    
