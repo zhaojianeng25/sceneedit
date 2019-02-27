@@ -9,11 +9,19 @@
     import LayoutbaseBg = layout.LayoutbaseBg
 
     export class CentenPanel extends Panel {
-        public changeSize(): void {
+        public constructor(has: boolean = true) {
+            super(has);
             if (this.winBg) {
-                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50))
+                //只保留远离的Tittle
+                this.winBg.setHideUi(["a_bg", "a_rigth_line", "a_left_line","a_bottom_line"])
             }
         }
+        public changeSize(): void {
+            if (this.winBg) {
+                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 300))
+            }
+        }
+    
         public addUIContainer($container: UIConatiner): void {
             //特殊处理，删除非底层背景
             for (var i: number = this._containerList.length - 1; i > 0; i--) {
@@ -21,8 +29,13 @@
                     this.removeUIContainer(this._containerList[i]);
                 }
             }
-            super.addUIContainer($container)
-            console.log("添加", this._containerList.length)
+            if ($container) {
+                super.addUIContainer($container)
+                console.log("添加", this._containerList.length)
+            } else {
+                console.log("清理主UI")
+            }
+          
         }
         public removeUIContainer($container: UIConatiner): void {
             super.removeUIContainer($container)

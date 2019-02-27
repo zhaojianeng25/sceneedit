@@ -97,7 +97,7 @@
 
     
             this.uiLoadComplete = true
-
+            this.setHideUi()
             this.resize()
 
 
@@ -125,7 +125,20 @@
         public setRect(value: Rectangle): void {
             this.pageRect = value
             this.resize()
-
+  
+        }
+        private hideUiItem: Array<string>
+        public setHideUi(value: Array<string> = null): void {
+            if (value) {
+                this.hideUiItem = value
+            }
+            if (this.uiLoadComplete) {
+                for (var i: number = 0; this.hideUiItem&&i < this.hideUiItem.length; i++) {
+                    var uiName: string = this.hideUiItem[i];
+                    this.setUiListVisibleByItem([this[uiName]], false);
+                }
+            }
+          
         }
      
         public resize(): void {
@@ -176,6 +189,8 @@
                     this.a_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight)
                     this.a_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.a_scroll_bar.height, this.a_scroll_bar.y)
                 }
+
+          
 
                
 

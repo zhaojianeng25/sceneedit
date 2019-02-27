@@ -79,6 +79,7 @@ var base;
             }
             this.a_scroll_bar.y = this.a_tittle_bg.height;
             this.uiLoadComplete = true;
+            this.setHideUi();
             this.resize();
         };
         BaseWindow.prototype.removeMoveEvent = function () {
@@ -91,6 +92,18 @@ var base;
         BaseWindow.prototype.setRect = function (value) {
             this.pageRect = value;
             this.resize();
+        };
+        BaseWindow.prototype.setHideUi = function (value) {
+            if (value === void 0) { value = null; }
+            if (value) {
+                this.hideUiItem = value;
+            }
+            if (this.uiLoadComplete) {
+                for (var i = 0; this.hideUiItem && i < this.hideUiItem.length; i++) {
+                    var uiName = this.hideUiItem[i];
+                    this.setUiListVisibleByItem([this[uiName]], false);
+                }
+            }
         };
         BaseWindow.prototype.resize = function () {
             if (this.uiLoadComplete) {

@@ -20,12 +20,18 @@ var editscene;
     var LayoutbaseBg = layout.LayoutbaseBg;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
-        function CentenPanel() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function CentenPanel(has) {
+            if (has === void 0) { has = true; }
+            var _this = _super.call(this, has) || this;
+            if (_this.winBg) {
+                //只保留远离的Tittle
+                _this.winBg.setHideUi(["a_bg", "a_rigth_line", "a_left_line", "a_bottom_line"]);
+            }
+            return _this;
         }
         CentenPanel.prototype.changeSize = function () {
             if (this.winBg) {
-                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 50));
+                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 300));
             }
         };
         CentenPanel.prototype.addUIContainer = function ($container) {
@@ -35,8 +41,13 @@ var editscene;
                     this.removeUIContainer(this._containerList[i]);
                 }
             }
-            _super.prototype.addUIContainer.call(this, $container);
-            console.log("添加", this._containerList.length);
+            if ($container) {
+                _super.prototype.addUIContainer.call(this, $container);
+                console.log("添加", this._containerList.length);
+            }
+            else {
+                console.log("清理主UI");
+            }
         };
         CentenPanel.prototype.removeUIContainer = function ($container) {
             _super.prototype.removeUIContainer.call(this, $container);
