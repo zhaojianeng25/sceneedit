@@ -154,203 +154,67 @@
     }
 
 
-    export class PopModelShowPanel extends UIConatiner {
+    export class PopModelShowPanel extends base.BaseWindow {
 
-        public static imgBaseDic: any
+ 
         public constructor() {
             super();
-            this.left = 400;
-            this.top = 300;
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-
+ 
             this.modelPic = new modelShowRender();
             this.addRender(this.modelPic)
-
-            this._midRender = new UIRenderComponent;
-            this.addRender(this._midRender);
-
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
-
-   
-
-            this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/materialmodeshow/materialmodeshow.txt", "ui/materialmodeshow/materialmodeshow.png", () => { this.loadConfigCom() });
-
-        }
-
-        private _bottomRender: UIRenderComponent;
-   
-        private _midRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-   
-
-        protected mouseDown(evt: InteractiveEvent): void {
-            this.mouseIsDown = true
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        }
-        private mouseIsDown: boolean
-        protected stageMouseMove(evt: InteractiveEvent): void {
-            this.mouseIsDown = false
-
-        }
-        protected mouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-
-
-        }
-        private modelPic: modelShowRender;
-        protected loadConfigCom(): void {
-            this._midRender.uiAtlas = this._bottomRender.uiAtlas
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-            this.pageRect = new Rectangle(0, 0, 300, 300)
- 
- 
-
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_tittle = this.addChild(<UICompenent>this._midRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_rigth_line = this.addChild(<UICompenent>this._midRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_bottom_line = this.addChild(<UICompenent>this._midRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_right_bottom = this.addChild(<UICompenent>this._midRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.a_win_label_left = this.addEvntBut("a_win_label_left", this._topRender);
-            this.a_win_label_centen = this.addEvntBut("a_win_label_centen", this._topRender);
-            this.a_win_label_right = this.addEvntBut("a_win_label_right", this._topRender);
-
-
-            this.a_but_a = this.addEvntBut("a_but_a", this._topRender);
-            this.a_but_b = this.addEvntBut("a_but_b", this._topRender);
-            this.a_but_c = this.addEvntBut("a_but_c", this._topRender);
-
- 
-
             this.initView();
-            this.refrishSize()
-
-
-            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
-
-
         }
-        private a_but_a: UICompenent
-        private a_but_b: UICompenent
-        private a_but_c: UICompenent
+        protected loadConfigCom(): void {
+            super.loadConfigCom();
 
-        private a_win_label_left: UICompenent
-        private a_win_label_centen: UICompenent
-        private a_win_label_right: UICompenent
-
-        public onMouseWheel($evt: MouseWheelEvent): void {
-            var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-            if ($slectUi && $slectUi.parent == this) {
-                Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
+            this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
+        }
+  
+        private modelPic: modelShowRender;
+ 
+        //public onMouseWheel($evt: MouseWheelEvent): void {
+        //    var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+        //    if ($slectUi && $slectUi.parent == this) {
+        //        Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
                 
-            }
-        }
+        //    }
+        //}
+
         private showModelPicUI: UICompenent
         private initView(): void {
-            this.modelPic.uiAtlas = this._midRender.uiAtlas
-            this.showModelPicUI = this.addChild(this.modelPic.getComponent("a_bg"));
- 
-
+   
+            var ui: UICompenent = new UICompenent()
+            ui.width = 150;
+            ui.height = 150;
+            ui.x = 0;
+            ui.y = 0;
+            ui.name = "renderui";
+            ui.uiRender = this.modelPic;
+            this.addChild(ui);
+            this.showModelPicUI = ui;
             this.modelPic.setImgUrl("pan/marmoset/uilist/1024.jpg");
             ModelShowModel.getInstance()._bigPic = this.modelPic;
- 
             ModelShowModel.getInstance().addBaseModel()
+
+          //  this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
  
-            this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
- 
+     
+
 
 
         }
-        private a_bottom_line: UICompenent
-
-
-
-        private a_right_bottom: UICompenent;
-        private a_rigth_line: UICompenent;
-        private refrishSize(): void {
-
-            this.pageRect.width = Math.max(300, this.pageRect.width)
-            this.pageRect.height = Math.max(300, this.pageRect.height)
-
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-
-
-            
-            this.a_bg.x = 0;
-            this.a_bg.y = 0
-            this.a_bg.width = this.pageRect.width
-            this.a_bg.height = this.pageRect.height
-
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-
-            this.a_bottom_line.x = 0
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-
-
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height
- 
-            this.resize();
-
-
-            var minW: number = Math.min(this.pageRect.width, this.pageRect.height - this.a_win_tittle.height)
-            this.showModelPicUI.width = minW;
-            this.showModelPicUI.height = minW;
-
-            this.showModelPicUI.x = (this.pageRect.width - minW) / 2
-            this.showModelPicUI.y = (this.pageRect.height - this.a_win_tittle.height - minW) / 2 + this.a_win_tittle.height
-
-
-            this.a_win_label_left.y = this.pageRect.height - this.a_win_label_left.height
-            this.a_win_label_left.y = this.a_win_tittle.height-5
-            this.a_win_label_centen.y = this.a_win_label_left.y
-            this.a_win_label_right.y = this.a_win_label_centen.y
-
-            this.a_win_label_left.x = 0
-            this.a_win_label_centen.x = this.a_win_label_left.x + this.a_win_label_left.width
-
-            this.a_win_label_right.x = this.pageRect.width - this.a_win_label_right.width
-            this.a_win_label_centen.width = this.pageRect.width - this.a_win_label_left.width - this.a_win_label_right.width
-
-            this.a_but_a.y = this.pageRect.height - 40
-            this.a_but_b.y = this.pageRect.height - 40
-            this.a_but_c.y = this.pageRect.height - 40
-
-        
-
-        }
-        protected butClik(evt: InteractiveEvent): void {
-            switch (evt.target) {
-                case this.a_but_a:
-                    console.log(evt.target)
-                    this.selectInputDae(evt)
-                    break
-                case this.a_but_b:
-                 
-              
-                    break
-                case this.a_but_c:
-                 
-                    break
-                default:
-                    break
+        public resize(): void {
+            super.resize()
+            if (this.uiLoadComplete) {
+                var minW: number = Math.min(this.pageRect.width-20, this.pageRect.height - this.a_tittle_bg.height-20)
+                this.showModelPicUI.width = minW;
+                this.showModelPicUI.height = minW;
+                this.showModelPicUI.x = (this.pageRect.width - minW) / 2
+                this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height
             }
         }
+   
+ 
         private _inputHtmlSprite: HTMLInputElement
         protected selectInputDae(evt: InteractiveEvent): void {
 
@@ -427,87 +291,6 @@
 
         }
 
-        private lastPagePos: Vector2D;
-        private lastMousePos: Vector2D;
-        private mouseMoveTaget: UICompenent
-        private pageRect: Rectangle
-        protected tittleMouseDown(evt: InteractiveEvent): void {
-            this.mouseMoveTaget = evt.target
-
-            this.lastMousePos = new Vector2D(evt.x, evt.y)
-
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.lastPagePos = new Vector2D(this.left, this.top)
-                    break
-                case this.showModelPicUI:
-                    this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY)
-                    console.log("PopModelShowPanel")
-                    break
-
-                    
-                case this.a_rigth_line:
-                case this.a_bottom_line:
-                case this.a_right_bottom:
-                    this.lastPagePos = new Vector2D(this.pageRect.width, this.pageRect.height)
-                    break
-        
-
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-
-
-
-
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected tittleMouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        }
-        protected mouseOnTittleMove(evt: InteractiveEvent): void {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    this.pageRect.x = this.left;
-                    this.pageRect.y = this.top;
-                    break
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-
-                    break
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-
-                    break
-
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
-                    break
-
-                case this.showModelPicUI:
-               
-                    Scene_data.focus3D.rotationX = this.lastPagePos.x - (evt.y - this.lastMousePos.y)
-                    Scene_data.focus3D.rotationY = this.lastPagePos.y - (evt.x - this.lastMousePos.x)
-          
-                    break
-           
-                default:
-                    console.log("nonono")
-                    break
-
-            }
-            this.refrishSize()
-
-        }
-        private a_bg: UICompenent;
-        private a_win_tittle: UICompenent;
 
 
 

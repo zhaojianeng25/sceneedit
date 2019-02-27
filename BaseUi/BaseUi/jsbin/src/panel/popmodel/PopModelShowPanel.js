@@ -13,21 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var popmodel;
 (function (popmodel) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Rectangle = Pan3d.Rectangle;
-    var UIManager = Pan3d.UIManager;
-    var UIConatiner = Pan3d.UIConatiner;
-    var MouseType = Pan3d.MouseType;
+    var UICompenent = Pan3d.UICompenent;
     var ByteArray = Pan3d.Pan3dByteArray;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ModelShowModel = left.ModelShowModel;
-    var UIAtlas = Pan3d.UIAtlas;
     var ObjData = Pan3d.ObjData;
     var Shader3D = Pan3d.Shader3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var Scene_data = Pan3d.Scene_data;
-    var Vector2D = Pan3d.Vector2D;
     var BloomUiShader = /** @class */ (function (_super) {
         __extends(BloomUiShader, _super);
         function BloomUiShader() {
@@ -132,116 +125,38 @@ var popmodel;
         __extends(PopModelShowPanel, _super);
         function PopModelShowPanel() {
             var _this = _super.call(this) || this;
-            _this.left = 400;
-            _this.top = 300;
-            _this._bottomRender = new UIRenderComponent;
-            _this.addRender(_this._bottomRender);
             _this.modelPic = new modelShowRender();
             _this.addRender(_this.modelPic);
-            _this._midRender = new UIRenderComponent;
-            _this.addRender(_this._midRender);
-            _this._topRender = new UIRenderComponent;
-            _this.addRender(_this._topRender);
-            _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/materialmodeshow/materialmodeshow.txt", "ui/materialmodeshow/materialmodeshow.png", function () { _this.loadConfigCom(); });
+            _this.initView();
             return _this;
         }
-        PopModelShowPanel.prototype.mouseDown = function (evt) {
-            this.mouseIsDown = true;
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        };
-        PopModelShowPanel.prototype.stageMouseMove = function (evt) {
-            this.mouseIsDown = false;
-        };
-        PopModelShowPanel.prototype.mouseUp = function (evt) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        };
         PopModelShowPanel.prototype.loadConfigCom = function () {
-            var _this = this;
-            this._midRender.uiAtlas = this._bottomRender.uiAtlas;
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.pageRect = new Rectangle(0, 0, 300, 300);
-            this.a_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_tittle = this.addChild(this._midRender.getComponent("a_win_tittle"));
-            this.a_win_tittle.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_rigth_line = this.addChild(this._midRender.getComponent("a_rigth_line"));
-            this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_bottom_line = this.addChild(this._midRender.getComponent("a_bottom_line"));
-            this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_right_bottom = this.addChild(this._midRender.getComponent("a_right_bottom"));
-            this.a_right_bottom.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_win_label_left = this.addEvntBut("a_win_label_left", this._topRender);
-            this.a_win_label_centen = this.addEvntBut("a_win_label_centen", this._topRender);
-            this.a_win_label_right = this.addEvntBut("a_win_label_right", this._topRender);
-            this.a_but_a = this.addEvntBut("a_but_a", this._topRender);
-            this.a_but_b = this.addEvntBut("a_but_b", this._topRender);
-            this.a_but_c = this.addEvntBut("a_but_c", this._topRender);
-            this.initView();
-            this.refrishSize();
-            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
-        };
-        PopModelShowPanel.prototype.onMouseWheel = function ($evt) {
-            var $slectUi = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-            if ($slectUi && $slectUi.parent == this) {
-                Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
-            }
+            _super.prototype.loadConfigCom.call(this);
+            this.setUiListVisibleByItem([this.a_scroll_bar_bg], false);
         };
         PopModelShowPanel.prototype.initView = function () {
-            this.modelPic.uiAtlas = this._midRender.uiAtlas;
-            this.showModelPicUI = this.addChild(this.modelPic.getComponent("a_bg"));
+            var ui = new UICompenent();
+            ui.width = 150;
+            ui.height = 150;
+            ui.x = 0;
+            ui.y = 0;
+            ui.name = "renderui";
+            ui.uiRender = this.modelPic;
+            this.addChild(ui);
+            this.showModelPicUI = ui;
             this.modelPic.setImgUrl("pan/marmoset/uilist/1024.jpg");
             ModelShowModel.getInstance()._bigPic = this.modelPic;
             ModelShowModel.getInstance().addBaseModel();
-            this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            //  this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
         };
-        PopModelShowPanel.prototype.refrishSize = function () {
-            this.pageRect.width = Math.max(300, this.pageRect.width);
-            this.pageRect.height = Math.max(300, this.pageRect.height);
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this.pageRect.width;
-            this.a_bg.x = 0;
-            this.a_bg.y = 0;
-            this.a_bg.width = this.pageRect.width;
-            this.a_bg.height = this.pageRect.height;
-            this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width;
-            this.a_rigth_line.y = this.a_win_tittle.height;
-            this.a_rigth_line.height = this.pageRect.height - this.a_win_tittle.height - this.a_right_bottom.height;
-            this.a_bottom_line.x = 0;
-            this.a_bottom_line.y = this.pageRect.height - this.a_bottom_line.height;
-            this.a_bottom_line.width = this.pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.x = this.pageRect.width - this.a_right_bottom.width;
-            this.a_right_bottom.y = this.pageRect.height - this.a_right_bottom.height;
-            this.resize();
-            var minW = Math.min(this.pageRect.width, this.pageRect.height - this.a_win_tittle.height);
-            this.showModelPicUI.width = minW;
-            this.showModelPicUI.height = minW;
-            this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
-            this.showModelPicUI.y = (this.pageRect.height - this.a_win_tittle.height - minW) / 2 + this.a_win_tittle.height;
-            this.a_win_label_left.y = this.pageRect.height - this.a_win_label_left.height;
-            this.a_win_label_left.y = this.a_win_tittle.height - 5;
-            this.a_win_label_centen.y = this.a_win_label_left.y;
-            this.a_win_label_right.y = this.a_win_label_centen.y;
-            this.a_win_label_left.x = 0;
-            this.a_win_label_centen.x = this.a_win_label_left.x + this.a_win_label_left.width;
-            this.a_win_label_right.x = this.pageRect.width - this.a_win_label_right.width;
-            this.a_win_label_centen.width = this.pageRect.width - this.a_win_label_left.width - this.a_win_label_right.width;
-            this.a_but_a.y = this.pageRect.height - 40;
-            this.a_but_b.y = this.pageRect.height - 40;
-            this.a_but_c.y = this.pageRect.height - 40;
-        };
-        PopModelShowPanel.prototype.butClik = function (evt) {
-            switch (evt.target) {
-                case this.a_but_a:
-                    console.log(evt.target);
-                    this.selectInputDae(evt);
-                    break;
-                case this.a_but_b:
-                    break;
-                case this.a_but_c:
-                    break;
-                default:
-                    break;
+        PopModelShowPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete) {
+                var minW = Math.min(this.pageRect.width - 20, this.pageRect.height - this.a_tittle_bg.height - 20);
+                this.showModelPicUI.width = minW;
+                this.showModelPicUI.height = minW;
+                this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
+                this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height;
             }
         };
         PopModelShowPanel.prototype.selectInputDae = function (evt) {
@@ -314,63 +229,8 @@ var popmodel;
                 return false;
             }
         };
-        PopModelShowPanel.prototype.tittleMouseDown = function (evt) {
-            this.mouseMoveTaget = evt.target;
-            this.lastMousePos = new Vector2D(evt.x, evt.y);
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.lastPagePos = new Vector2D(this.left, this.top);
-                    break;
-                case this.showModelPicUI:
-                    this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY);
-                    console.log("PopModelShowPanel");
-                    break;
-                case this.a_rigth_line:
-                case this.a_bottom_line:
-                case this.a_right_bottom:
-                    this.lastPagePos = new Vector2D(this.pageRect.width, this.pageRect.height);
-                    break;
-                default:
-                    console.log("nonono");
-                    break;
-            }
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        };
-        PopModelShowPanel.prototype.tittleMouseUp = function (evt) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
-        };
-        PopModelShowPanel.prototype.mouseOnTittleMove = function (evt) {
-            switch (this.mouseMoveTaget) {
-                case this.a_win_tittle:
-                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    this.pageRect.x = this.left;
-                    this.pageRect.y = this.top;
-                    break;
-                case this.a_rigth_line:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    break;
-                case this.a_bottom_line:
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.a_right_bottom:
-                    this.pageRect.width = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
-                    this.pageRect.height = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
-                    break;
-                case this.showModelPicUI:
-                    Scene_data.focus3D.rotationX = this.lastPagePos.x - (evt.y - this.lastMousePos.y);
-                    Scene_data.focus3D.rotationY = this.lastPagePos.y - (evt.x - this.lastMousePos.x);
-                    break;
-                default:
-                    console.log("nonono");
-                    break;
-            }
-            this.refrishSize();
-        };
         return PopModelShowPanel;
-    }(UIConatiner));
+    }(base.BaseWindow));
     popmodel.PopModelShowPanel = PopModelShowPanel;
 })(popmodel || (popmodel = {}));
 //# sourceMappingURL=PopModelShowPanel.js.map
