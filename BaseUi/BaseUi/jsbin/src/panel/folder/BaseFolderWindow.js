@@ -26,6 +26,12 @@ var basefolderwin;
             this.top = value.y;
             this.refrishSize();
         };
+        BaseFolderWindow.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete) {
+                this.setUiListVisibleByItem([this.a_scroll_bar_bg], false);
+            }
+        };
         BaseFolderWindow.prototype.refrishSize = function () {
             var pageSizeEvet = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
             pageSizeEvet.data = new Rectangle(this.pageRect.x, this.pageRect.y, this.pageRect.width, this.pageRect.height - 10);

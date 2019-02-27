@@ -123,7 +123,7 @@ var base;
                 this.a_bg.width = this.pageRect.width;
                 this.a_bg.height = this.pageRect.height;
                 this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width;
-                this.a_rigth_line.y = this.a_tittle_bg.height;
+                this.a_rigth_line.y = this.a_tittle_bg.height - 1;
                 this.a_rigth_line.height = this.pageRect.height - this.a_tittle_bg.height;
                 this.a_left_line.x = 0;
                 this.a_left_line.y = this.a_rigth_line.y;

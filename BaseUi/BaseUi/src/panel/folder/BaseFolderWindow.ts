@@ -35,6 +35,13 @@
             this.top = value.y;
             this.refrishSize()
         }
+ 
+        public resize(): void {
+            super.resize()
+            if (this.uiLoadComplete) {
+                this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
+            }
+        }
 
         private refrishSize(): void {
             var pageSizeEvet: folder.FolderEvent = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);

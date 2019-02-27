@@ -203,6 +203,10 @@
             tempImg.src = Scene_data.fileuiRoot + "ui/icon/" + name + ".png"
 
         }
+        public resize(): void {
+            super.resize()
+     
+        }
 
        
         public update(t: number): void {
@@ -476,6 +480,19 @@
                 var vo: FileListMeshVo = this.fileItem[i];
                 vo.pos.x = i % w * 100;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy
+            }
+
+            if (this.uiLoadComplete && this.fileItem) {
+          
+
+                console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy))
+
+                var isVisible: boolean = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy)
+                console.log(isVisible)
+
+                this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible)
+
+
             }
         }
 

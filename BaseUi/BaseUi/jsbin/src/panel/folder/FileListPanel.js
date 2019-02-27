@@ -173,6 +173,9 @@ var filelist;
             tempImg.url = Scene_data.fileuiRoot + "ui/icon/" + name + ".png";
             tempImg.src = Scene_data.fileuiRoot + "ui/icon/" + name + ".png";
         };
+        FileListPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+        };
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
@@ -403,6 +406,12 @@ var filelist;
                 var vo = this.fileItem[i];
                 vo.pos.x = i % w * 100;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy;
+            }
+            if (this.uiLoadComplete && this.fileItem) {
+                console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy));
+                var isVisible = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy);
+                console.log(isVisible);
+                this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible);
             }
         };
         FileListPanel.prototype.getCharNameMeshVo = function (value) {
