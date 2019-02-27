@@ -135,6 +135,7 @@
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();
+            this.setUiListVisibleByItem([this.a_bottom_line], false)
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });

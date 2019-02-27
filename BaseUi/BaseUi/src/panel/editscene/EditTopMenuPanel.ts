@@ -44,7 +44,7 @@
             this.addRender(this._topRender);
 
             this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", () => { this.loadConfigCom() });
+            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
 
         }
 
@@ -69,7 +69,7 @@
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
 
 
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender)
+            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender)
 
             this.uiLoadComplete = true
 

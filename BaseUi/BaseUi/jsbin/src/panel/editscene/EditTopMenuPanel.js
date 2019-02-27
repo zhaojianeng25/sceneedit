@@ -30,7 +30,7 @@ var editscene;
             _this._topRender = new UIRenderComponent;
             _this.addRender(_this._topRender);
             _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", function () { _this.loadConfigCom(); });
+            _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         EditTopMenuPanel.prototype.mouseDown = function (evt) {
@@ -45,7 +45,7 @@ var editscene;
         };
         EditTopMenuPanel.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_win_tittle = this.addEvntBut("a_win_tittle", this._topRender);
+            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender);
             this.uiLoadComplete = true;
             this.refrishSize();
         };

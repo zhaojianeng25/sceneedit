@@ -41,13 +41,10 @@
             var index: number = this.children.indexOf($panel);
             if (index == -1) {
                 this.children.push($panel);
-
                 this.children.sort(function (aa: Panel, bb: Panel): number {
                     return aa.layer - bb.layer;
                 })
             }
-          
-            
         }
         public removePanel($panel: Panel): void {
             var index: number = this.children.indexOf($panel);

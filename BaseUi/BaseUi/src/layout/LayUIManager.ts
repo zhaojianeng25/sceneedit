@@ -132,7 +132,7 @@
         public update(): void {
             for (var i: number = 0; i < this._uiList.length; i++) {
                 if (this._uiList[i].container.layer >= 0 && this._uiList[i].sortnum != -1) {
-                    this._uiList[i].update();
+                     this._uiList[i].update();
                 }
             }
         }

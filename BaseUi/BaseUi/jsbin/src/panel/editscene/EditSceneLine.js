@@ -32,7 +32,7 @@ var editscene;
             _this._topRender = new UIRenderComponent;
             _this.addRender(_this._topRender);
             _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", function () { _this.loadConfigCom(); });
+            _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         TempLineSprite.prototype.mouseDown = function (evt) {
@@ -47,8 +47,8 @@ var editscene;
         };
         TempLineSprite.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_left_line = this.addChild(this._topRender.getComponent("a_move_line_b"));
-            this.a_left_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.tureUpLine = this.addChild(this._topRender.getComponent("a_round_line"));
+            this.tureUpLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadFinish = true;
             this.refrishSize();
         };
@@ -56,7 +56,7 @@ var editscene;
             this.mouseMoveTaget = evt.target;
             this.lastMousePos = new Vector2D(evt.x, evt.y);
             switch (this.mouseMoveTaget) {
-                case this.a_left_line:
+                case this.tureUpLine:
                     this.lastPagePos = new Vector2D(this._pageRect.x, this._pageRect.y);
                     break;
                 default:
@@ -72,7 +72,7 @@ var editscene;
         };
         TempLineSprite.prototype.mouseOnTittleMove = function (evt) {
             switch (this.mouseMoveTaget) {
-                case this.a_left_line:
+                case this.tureUpLine:
                     this._pageRect.x = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
                     break;
                 default:
@@ -104,9 +104,10 @@ var editscene;
         TempLineSprite.prototype.refrishSize = function () {
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
-            this.a_left_line.x = 0;
-            this.a_left_line.y = 0;
-            this.a_left_line.height = this._pageRect.height;
+            this.tureUpLine.x = 0;
+            this.tureUpLine.y = 0;
+            this.tureUpLine.height = this._pageRect.height;
+            this.tureUpLine.width = 10;
             this.resize();
         };
         return TempLineSprite;

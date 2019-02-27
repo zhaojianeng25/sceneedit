@@ -168,6 +168,7 @@
             super.loadConfigCom();
 
             this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
+ 
         }
   
         private modelPic: modelShowRender;
@@ -196,11 +197,40 @@
             ModelShowModel.getInstance()._bigPic = this.modelPic;
             ModelShowModel.getInstance().addBaseModel()
 
-          //  this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
  
-     
+            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
+         
+ 
+        }
+        public onMouseWheel($evt: MouseWheelEvent): void {
+            console.log(this.pageRect.isHitByPoint($evt.x, $evt.y) , this.hasStage)
 
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y) && this.hasStage) {
+                Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
+           
+            }
+        }
+  
+        protected tittleMouseDown(evt: InteractiveEvent): void {
+            if (this.showModelPicUI == evt.target) {
+                this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY)
+            }
+            super.tittleMouseDown(evt)
+        }
+        protected mouseOnTittleMove(evt: InteractiveEvent): void {
+ 
+            switch (this.mouseMoveTaget) {
+                case this.showModelPicUI:
+                    Scene_data.focus3D.rotationX = this.lastPagePos.x - (evt.y - this.lastMousePos.y)
+                    Scene_data.focus3D.rotationY = this.lastPagePos.y - (evt.x - this.lastMousePos.x)
+                    break
+             
+                default:
+                    super.mouseOnTittleMove(evt)
+                    break
 
+            }
 
         }
         public resize(): void {

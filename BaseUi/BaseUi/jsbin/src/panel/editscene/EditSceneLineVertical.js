@@ -32,7 +32,7 @@ var editscene;
             _this._topRender = new UIRenderComponent;
             _this.addRender(_this._topRender);
             _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", function () { _this.loadConfigCom(); });
+            _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         VerticalLineSprite.prototype.mouseDown = function (evt) {
@@ -47,8 +47,8 @@ var editscene;
         };
         VerticalLineSprite.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_left_line = this.addChild(this._topRender.getComponent("a_move_line_a"));
-            this.a_left_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.tureLeftright = this.addChild(this._topRender.getComponent("a_round_line"));
+            this.tureLeftright.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadFinish = true;
             this.refrishSize();
         };
@@ -56,7 +56,7 @@ var editscene;
             this.mouseMoveTaget = evt.target;
             this.lastMousePos = new Vector2D(evt.x, evt.y);
             switch (this.mouseMoveTaget) {
-                case this.a_left_line:
+                case this.tureLeftright:
                     this.lastPagePos = new Vector2D(this._pageRect.x, this._pageRect.y);
                     break;
                 default:
@@ -72,7 +72,7 @@ var editscene;
         };
         VerticalLineSprite.prototype.mouseOnTittleMove = function (evt) {
             switch (this.mouseMoveTaget) {
-                case this.a_left_line:
+                case this.tureLeftright:
                     this._pageRect.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
                     break;
                 default:
@@ -104,9 +104,10 @@ var editscene;
         VerticalLineSprite.prototype.refrishSize = function () {
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
-            this.a_left_line.x = 0;
-            this.a_left_line.y = 0;
-            this.a_left_line.width = this._pageRect.width;
+            this.tureLeftright.x = 0;
+            this.tureLeftright.y = 0;
+            this.tureLeftright.width = this._pageRect.width;
+            this.tureLeftright.height = 10;
             this.resize();
         };
         return VerticalLineSprite;

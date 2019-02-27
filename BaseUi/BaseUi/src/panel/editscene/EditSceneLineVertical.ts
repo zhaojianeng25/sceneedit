@@ -41,7 +41,7 @@
             this.addRender(this._topRender);
 
             this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/basewin/basewin.txt", "ui/basewin/basewin.png", () => { this.loadConfigCom() });
+            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
 
         }
 
@@ -66,8 +66,8 @@
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
 
 
-            this.a_left_line = this.addChild(<UICompenent>this._topRender.getComponent("a_move_line_a"));
-            this.a_left_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.tureLeftright = this.addChild(<UICompenent>this._topRender.getComponent("a_round_line"));
+            this.tureLeftright.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
             this.loadFinish = true
 
@@ -85,7 +85,7 @@
             this.lastMousePos = new Vector2D(evt.x, evt.y)
 
             switch (this.mouseMoveTaget) {
-                case this.a_left_line:
+                case this.tureLeftright:
                     this.lastPagePos = new Vector2D(this._pageRect.x, this._pageRect.y)
                     break
                 default:
@@ -103,7 +103,7 @@
 
         protected mouseOnTittleMove(evt: InteractiveEvent): void {
             switch (this.mouseMoveTaget) {
-                case this.a_left_line:
+                case this.tureLeftright:
                     this._pageRect.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
                     break
                 default:
@@ -136,16 +136,17 @@
         }
         private _pageRect: Rectangle;
 
-        private a_left_line: UICompenent
+        private tureLeftright: UICompenent
         private refrishSize(): void {
 
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
  
 
-            this.a_left_line.x = 0;
-            this.a_left_line.y = 0;
-            this.a_left_line.width = this._pageRect.width
+            this.tureLeftright.x = 0;
+            this.tureLeftright.y = 0;
+            this.tureLeftright.width = this._pageRect.width
+            this.tureLeftright.height=10
 
             this.resize();
 

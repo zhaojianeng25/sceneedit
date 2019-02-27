@@ -257,7 +257,7 @@
                 this._bottomRender.applyObjData()
                 this._topRender.applyObjData()
 
-                var roundNum: number = 5;
+                var roundNum: number = 0;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum+25;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;

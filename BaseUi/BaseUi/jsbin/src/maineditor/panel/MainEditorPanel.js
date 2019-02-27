@@ -192,7 +192,7 @@ var maineditor;
                 this.a_win_tittle.width = this.pageRect.width;
                 this._bottomRender.applyObjData();
                 this._topRender.applyObjData();
-                var roundNum = 5;
+                var roundNum = 0;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum + 25;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;

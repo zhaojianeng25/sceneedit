@@ -14,6 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 var popmodel;
 (function (popmodel) {
     var UICompenent = Pan3d.UICompenent;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var MouseType = Pan3d.MouseType;
     var ByteArray = Pan3d.Pan3dByteArray;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ModelShowModel = left.ModelShowModel;
@@ -21,6 +23,7 @@ var popmodel;
     var Shader3D = Pan3d.Shader3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var Scene_data = Pan3d.Scene_data;
+    var Vector2D = Pan3d.Vector2D;
     var BloomUiShader = /** @class */ (function (_super) {
         __extends(BloomUiShader, _super);
         function BloomUiShader() {
@@ -135,6 +138,7 @@ var popmodel;
             this.setUiListVisibleByItem([this.a_scroll_bar_bg], false);
         };
         PopModelShowPanel.prototype.initView = function () {
+            var _this = this;
             var ui = new UICompenent();
             ui.width = 150;
             ui.height = 150;
@@ -147,7 +151,31 @@ var popmodel;
             this.modelPic.setImgUrl("pan/marmoset/uilist/1024.jpg");
             ModelShowModel.getInstance()._bigPic = this.modelPic;
             ModelShowModel.getInstance().addBaseModel();
-            //  this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
+        };
+        PopModelShowPanel.prototype.onMouseWheel = function ($evt) {
+            console.log(this.pageRect.isHitByPoint($evt.x, $evt.y), this.hasStage);
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y) && this.hasStage) {
+                Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
+            }
+        };
+        PopModelShowPanel.prototype.tittleMouseDown = function (evt) {
+            if (this.showModelPicUI == evt.target) {
+                this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY);
+            }
+            _super.prototype.tittleMouseDown.call(this, evt);
+        };
+        PopModelShowPanel.prototype.mouseOnTittleMove = function (evt) {
+            switch (this.mouseMoveTaget) {
+                case this.showModelPicUI:
+                    Scene_data.focus3D.rotationX = this.lastPagePos.x - (evt.y - this.lastMousePos.y);
+                    Scene_data.focus3D.rotationY = this.lastPagePos.y - (evt.x - this.lastMousePos.x);
+                    break;
+                default:
+                    _super.prototype.mouseOnTittleMove.call(this, evt);
+                    break;
+            }
         };
         PopModelShowPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);

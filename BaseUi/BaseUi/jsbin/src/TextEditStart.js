@@ -28,6 +28,9 @@ var TextEditStart = /** @class */ (function () {
     TextEditStart.upFrame = function () {
         Pan3d.TimeUtil.update();
         Pan3d.Scene_data.context3D.update();
+        var gl = Pan3d.Scene_data.context3D.renderContext;
+        gl.clearColor(83 / 255, 83 / 255, 83 / 255, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
         layout.LayerManager.getInstance().update();
     };
     return TextEditStart;

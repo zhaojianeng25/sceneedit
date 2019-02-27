@@ -130,6 +130,7 @@ var maineditor;
         HierarchyListPanel.prototype.loadConfigCom = function () {
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
+            this.setUiListVisibleByItem([this.a_bottom_line], false);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });

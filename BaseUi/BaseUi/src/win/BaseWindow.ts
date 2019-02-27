@@ -199,9 +199,9 @@
         }
 
 
-        private lastPagePos: Vector2D;
-        private lastMousePos: Vector2D;
-        private mouseMoveTaget: UICompenent
+        protected lastPagePos: Vector2D;
+        protected lastMousePos: Vector2D;
+        protected mouseMoveTaget: UICompenent
         protected pageRect: Rectangle
         protected tittleMouseDown(evt: InteractiveEvent): void {
            
