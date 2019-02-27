@@ -1,7 +1,7 @@
 ﻿module prop {
     import UIConatiner = Pan3d.UIConatiner
-    import Panel = layout.Panel
-    export class PropPanle extends Panel{
+ 
+    export class PropPanle extends layout.Sprite{
         public changeSize(): void {
             super.changeSize();
             this.resize();
@@ -12,17 +12,14 @@
         }
         public resize(): void {
             super.resize();
-
             if (this.perent) {
                 this.rect = this.perent.rect
             }
-   
             for (var i: number = 0; i < this._containerList.length; i++) {
                 this._containerList[i].left = this.rect.x
                 this._containerList[i].top = this.rect.y;
             }
         }
-        
     }
     export class PropModel {
 
@@ -34,7 +31,7 @@
             return this._instance;
         }
         public constructor() {
-            this.propPanle = new PropPanle(true);
+            this.propPanle = new PropPanle();
             this.propPanle.x = 500
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle)

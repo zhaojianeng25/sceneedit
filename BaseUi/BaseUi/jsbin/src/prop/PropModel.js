@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Panel = layout.Panel;
     var PropPanle = /** @class */ (function (_super) {
         __extends(PropPanle, _super);
         function PropPanle() {
@@ -38,12 +37,12 @@ var prop;
             }
         };
         return PropPanle;
-    }(Panel));
+    }(layout.Sprite));
     prop.PropPanle = PropPanle;
     var PropModel = /** @class */ (function () {
         function PropModel() {
             this._top = 350;
-            this.propPanle = new PropPanle(true);
+            this.propPanle = new PropPanle();
             this.propPanle.x = 500;
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle);
