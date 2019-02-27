@@ -256,8 +256,6 @@ var materialui;
             }
             BaseUiStart.altKey = $evt.altKey;
             switch ($evt.keyCode) {
-                case KeyboardType.C:
-                    break;
                 case KeyboardType.Delete:
                     var $selectUi = this.getSelUI();
                     if ($selectUi) {
@@ -269,6 +267,12 @@ var materialui;
                 case KeyboardType.S:
                     if ($evt.altKey) {
                         ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
+                    }
+                    break;
+                case KeyboardType.C:
+                    if ($evt.altKey) {
+                        console.log("编译");
+                        ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.COMPILE_MATERIAL));
                     }
                     break;
                 case KeyboardType.O:
