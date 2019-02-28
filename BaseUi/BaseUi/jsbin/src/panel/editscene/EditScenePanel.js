@@ -25,7 +25,17 @@ var editscene;
             var _this = _super.call(this, has) || this;
             if (_this.winBg) {
                 //只保留远离的Tittle
-                _this.winBg.setHideUi(["a_bg", "a_rigth_line", "a_left_line", "a_bottom_line"]);
+                _this.winBg.setHideUi([
+                    "a_bg",
+                    "a_rigth_line",
+                    "a_left_line",
+                    "a_bottom_line",
+                    "b_bottom_left",
+                    "b_bottom_line_left",
+                    "b_bottom_mid",
+                    "b_bottom_line_right",
+                    "b_bottom_right"
+                ]);
             }
             return _this;
         }
@@ -131,7 +141,7 @@ var editscene;
             BaseUiStart.centenPanel.resize();
             BaseUiStart.rightPanel.resize();
             _super.prototype.resize.call(this);
-            var rect = new Rectangle(0, this.bottomMoveLine.y + 10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y - 15);
+            var rect = new Rectangle(0, this.bottomMoveLine.y + 10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y - 10);
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
             Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         };

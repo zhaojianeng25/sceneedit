@@ -68,24 +68,43 @@
         protected mouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         }
-
+        protected b_bottom_left: UICompenent
+        protected b_bottom_mid: UICompenent
+        protected b_bottom_right: UICompenent
+        protected b_bottom_line_left: UICompenent
+        protected b_bottom_line_right: UICompenent
+        private static maskLevel: number=10
         protected loadConfigCom(): void {
             this._tRender.uiAtlas = this._bRender.uiAtlas
             this._mRender.uiAtlas = this._bRender.uiAtlas
             
 
             this._uiMask = new UIMask();
-            this._uiMask.level = 5;
+            this._uiMask.level = BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
 
 
-            this.a_bg = this.addEvntBut("a_bg", this._bRender);
-            this.a_tittle_bg = this.addChild(<UICompenent>this._tRender.getComponent("a_tittle_bg"));
+            this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
+            this.a_tittle_bg = this.addChild(<UICompenent>this._tRender.getComponent("b_tittle_bg"));
             this.a_left_line = this.addChild(<UICompenent>this._tRender.getComponent("a_left_line"));
             this.a_rigth_line = this.addChild(<UICompenent>this._tRender.getComponent("a_rigth_line"));
             this.a_bottom_line = this.addChild(<UICompenent>this._tRender.getComponent("a_bottom_line"));
             this.a_scroll_bar_bg = this.addChild(<UICompenent>this._mRender.getComponent("a_scroll_bar_bg"));
             this.a_scroll_bar = this.addChild(<UICompenent>this._tRender.getComponent("a_scroll_bar"));
+
+
+            this.b_bottom_left = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_left"));
+            this.b_bottom_mid = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_mid"));
+            this.b_bottom_right = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_right"));
+            this.b_bottom_line_left = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_line"));
+            this.b_bottom_line_right = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_line"));
+
+
+            this.setUiListVisibleByItem([this.a_left_line], false)
+            this.setUiListVisibleByItem([this.a_rigth_line], false)
+            this.setUiListVisibleByItem([this.a_bottom_line], false)
+  
+ 
 
             if (this.useMoseMove) {
                 this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -129,8 +148,9 @@
         }
         private hideUiItem: Array<string>
         public setHideUi(value: Array<string> = null): void {
+ 
             if (value) {
-                this.hideUiItem = value
+                this.hideUiItem = value;
             }
             if (this.uiLoadComplete) {
                 for (var i: number = 0; this.hideUiItem&&i < this.hideUiItem.length; i++) {
@@ -149,9 +169,9 @@
                 this.pageRect.width = Math.max(100, this.pageRect.width)
                 this.pageRect.height = Math.max(100, this.pageRect.height)
 
-                this.a_tittle_bg.x = 0;
-                this.a_tittle_bg.y = 0;
-                this.a_tittle_bg.width = this.pageRect.width;
+                this.a_tittle_bg.x = 2;
+                this.a_tittle_bg.y = 2;
+                this.a_tittle_bg.width = this.pageRect.width-4;
 
                 this._uiMask.y = this.a_tittle_bg.height;
                 this._uiMask.x = 0
@@ -191,9 +211,27 @@
                     this.a_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.a_scroll_bar.height, this.a_scroll_bar.y)
                 }
 
-          
+                this.b_bottom_left.x = 0;
+                this.b_bottom_left.y = this.pageRect.height - this.b_bottom_left.height;
 
-               
+                this.b_bottom_mid.y = this.b_bottom_left.y;
+                this.b_bottom_mid.x = this.pageRect.width/2 - this.b_bottom_mid.width / 2;
+
+                this.b_bottom_right.y = this.b_bottom_left.y
+                this.b_bottom_right.x = this.pageRect.width - this.b_bottom_right.width;
+
+                this.b_bottom_line_left.y = this.b_bottom_left.y
+                this.b_bottom_line_left.x = this.b_bottom_left.x + this.b_bottom_left.width;
+                this.b_bottom_line_left.width = this.b_bottom_mid.x - this.b_bottom_left.width;
+
+                this.b_bottom_line_right.y = this.b_bottom_left.y
+              
+                this.b_bottom_line_right.x = this.b_bottom_mid.x + this.b_bottom_mid.width;
+                this.b_bottom_line_right.width = this.b_bottom_right.x - this.b_bottom_mid.width - this.b_bottom_mid.x;
+
+                this._bRender.applyObjData();
+                this._mRender.applyObjData();
+                this._tRender.applyObjData();
 
             }
             super.resize()

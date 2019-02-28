@@ -54,9 +54,6 @@
                 var _folderEvent: FolderEvent = <FolderEvent>$event;
                 if (_folderEvent.type == FolderEvent.SHOW_FOLDER_PANEL) {
 
-
-
-
                     if (!this._baseFolderWindow) {
                         this._baseFolderWindow = new BaseFolderWindow()
                     }
@@ -85,12 +82,13 @@
                     
                 }
                 if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
-                    var base: Pan3d.Rectangle = _folderEvent.data;
+                    var base: Rectangle = _folderEvent.data;
+    
 
                     if (this._folderPanel) {
-                        this._folderPanel.panelEventChanger(new Pan3d.Rectangle(base.x, base.y, base.width, base.height));
+                        this._folderPanel.panelEventChanger(new Rectangle(base.x, base.y, base.width, base.height));
                         var leftw: number = this._folderPanel.getPageRect().width;
-                        this._fileListPanel.panelEventChanger(new Pan3d.Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
+                        this._fileListPanel.panelEventChanger(new Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
                     }
               
                 }

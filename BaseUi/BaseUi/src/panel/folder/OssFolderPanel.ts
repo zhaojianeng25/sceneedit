@@ -115,7 +115,22 @@
             super.loadConfigCom();
 
             this._baseRender.mask = this._uiMask
-            this.setUiListVisibleByItem([this.a_tittle_bg, this.a_bg, this.a_bottom_line], false)
+     
+            var item: Array<UICompenent> = [
+         
+
+                this.a_bg,
+                this.a_bottom_line,
+                //this.a_scroll_bar_bg,
+                this.a_tittle_bg,
+                
+                this.a_bg,
+                this.a_bottom_line,
+            ]
+            this.setUiListVisibleByItem(item, false)
+           // this.setUiListVisibleByItem([this.a_rigth_line], true)
+            //this.setUiListVisibleByItem([this.a_bg], true)
+            this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });

@@ -66,9 +66,9 @@
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
 
 
-            this.tureLeftright = this.addChild(<UICompenent>this._topRender.getComponent("a_round_line"));
+            this.tureLeftright = this.addChild(<UICompenent>this._topRender.getComponent("a_tittle_bg"));
             this.tureLeftright.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
+    
             this.loadFinish = true
 
             this.refrishSize()
@@ -146,7 +146,7 @@
             this.tureLeftright.x = 0;
             this.tureLeftright.y = 0;
             this.tureLeftright.width = this._pageRect.width
-            this.tureLeftright.height=10
+            this.tureLeftright.height=20
 
             this.resize();
 

@@ -35,17 +35,33 @@
             this.top = value.y;
             this.refrishSize()
         }
- 
+        protected loadConfigCom(): void {
+            super.loadConfigCom();
+            var item: Array<UICompenent> = [
+                this.b_bottom_left,
+                this.b_bottom_mid,
+                this.b_bottom_right,
+                this.b_bottom_line_left,
+                this.b_bottom_line_right,
+                this.a_bottom_line,
+                this.a_tittle_bg,
+                this.a_scroll_bar_bg,
+            ]
+            this.setUiListVisibleByItem(item, false)
+           // this.setUiListVisibleByItem([this.a_tittle_bg], false)
+            this.setUiListVisibleByItem([this.a_bg], false)
+
+            this.a_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+        }
         public resize(): void {
             super.resize()
-            if (this.uiLoadComplete) {
-                this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
-            }
+          
         }
 
         private refrishSize(): void {
             var pageSizeEvet: folder.FolderEvent = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
-            pageSizeEvet.data = new Rectangle(this.pageRect.x, this.pageRect.y, this.pageRect.width, this.pageRect.height-10);
+            pageSizeEvet.data = new Rectangle(this.pageRect.x, this.pageRect.y, this.pageRect.width, this.pageRect.height-0);
             Pan3d.ModuleEventManager.dispatchEvent(pageSizeEvet);
  
         }

@@ -13,7 +13,20 @@
             super(has);
             if (this.winBg) {
                 //只保留远离的Tittle
-                this.winBg.setHideUi(["a_bg", "a_rigth_line", "a_left_line","a_bottom_line"])
+ 
+
+                this.winBg.setHideUi([
+                    "a_bg",
+                    "a_rigth_line",
+                    "a_left_line",
+                    "a_bottom_line",
+                    "b_bottom_left",
+                    "b_bottom_line_left",
+                    "b_bottom_mid",
+                    "b_bottom_line_right",
+                    "b_bottom_right"
+                ])
+     
             }
         }
         public changeSize(): void {
@@ -139,7 +152,7 @@
 
 
 
-            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y+10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y-15)
+            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y+10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y-10)
 
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         }

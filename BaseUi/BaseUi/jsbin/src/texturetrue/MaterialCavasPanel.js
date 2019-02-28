@@ -21,13 +21,19 @@ var materialui;
         }
         MaterialCavasPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.a_bg], false);
-            this.setUiListVisibleByItem([this.a_left_line], false);
-            this.setUiListVisibleByItem([this.a_rigth_line], false);
-            this.setUiListVisibleByItem([this.a_bottom_line], false);
-            this.setUiListVisibleByItem([this.a_scroll_bar], false);
-            this.setUiListVisibleByItem([this.a_scroll_bar_bg], false);
-            this.setUiListVisibleByItem([this.a_tittle_bg], false);
+            var item = [
+                this.b_bottom_left,
+                this.b_bottom_mid,
+                this.b_bottom_right,
+                this.b_bottom_line_left,
+                this.b_bottom_line_right,
+                this.a_bottom_line,
+                this.a_scroll_bar_bg,
+                this.a_tittle_bg,
+                this.a_bg,
+                this.a_bottom_line,
+            ];
+            this.setUiListVisibleByItem(item, false);
         };
         return MaterialCavasPanel;
     }(base.BaseWindow));

@@ -164,7 +164,7 @@
      
         private changePageRect(): void {
             if (this._hierarchyListPanel && BaseUiStart.leftPanel) {
-                var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width+10, BaseUiStart.leftPanel.rect.height);
+                var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width+10, BaseUiStart.leftPanel.rect.height+5);
                 this._hierarchyListPanel.panelEventChanger(rect)
             }
 

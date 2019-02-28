@@ -37,7 +37,7 @@ var layout;
         };
         LayerManager.prototype.update = function () {
             Pan3d.Scene_data.context3D.setDepthTest(false);
-            for (var i = 0; i < this.children.length; i++) {
+            for (var i = 0; this.children && i < this.children.length; i++) {
                 this.children[i].update();
             }
         };

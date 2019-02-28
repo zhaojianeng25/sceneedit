@@ -24,6 +24,11 @@ var BaseUiStart = /** @class */ (function (_super) {
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
         ModuleList.startup(); //启动所有模块
         Pan3d.UIData.Scale = 1;
+        var uiAtlas = new Pan3d.UIAtlas();
+        uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
+    };
+    BaseUiStart.prototype.loadConfigCom = function () {
+        var _this = this;
         layout.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
         Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL)); //布局 
@@ -33,11 +38,6 @@ var BaseUiStart = /** @class */ (function (_super) {
         Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL)); //显示文件夹
         Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL)); //显示场景编辑
         Pan3d.UIData.resize = function () { _this.resize(); }; //更尺寸变化
-        /*
-        Pan3d.LoadManager.getInstance().load("https://webpan.oss-cn-shanghai.aliyuncs.com/baseedit/obj.pefab", Pan3d.LoadManager.XML_TYPE, ($byte: string) => {
-            console.log($byte)
-        });
-        */
     };
     BaseUiStart.prototype.resize = function () {
         Pan3d.UIData.Scale = 1;

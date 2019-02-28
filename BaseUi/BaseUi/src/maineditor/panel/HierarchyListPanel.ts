@@ -135,7 +135,20 @@
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();
-            this.setUiListVisibleByItem([this.a_bottom_line], false)
+
+            var item: Array<UICompenent> = [
+                this.b_bottom_left,
+                this.b_bottom_mid,
+                this.b_bottom_right,
+                this.b_bottom_line_left,
+                this.b_bottom_line_right,
+                this.a_bottom_line,
+            ]
+            this.setUiListVisibleByItem(item, false)
+
+           
+
+
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
@@ -262,6 +275,7 @@
                 $vo.ossListFile.fileNode.type = $hierarchyFileNode.type
                 $vo.ossListFile.fileNode.treeSelect = false
                 $vo.pos = new Vector3D
+                $vo.pos.y=-1000
                 this.showTemp($vo);
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
                 $item.push($vo)

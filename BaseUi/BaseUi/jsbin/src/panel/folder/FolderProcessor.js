@@ -16,6 +16,7 @@ var folder;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
+    var Rectangle = Pan3d.Rectangle;
     var Panel = layout.Panel;
     var FileListPanel = filelist.FileListPanel;
     var BaseFolderWindow = basefolderwin.BaseFolderWindow;
@@ -77,9 +78,9 @@ var folder;
                 if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
                     var base = _folderEvent.data;
                     if (this._folderPanel) {
-                        this._folderPanel.panelEventChanger(new Pan3d.Rectangle(base.x, base.y, base.width, base.height));
+                        this._folderPanel.panelEventChanger(new Rectangle(base.x, base.y, base.width, base.height));
                         var leftw = this._folderPanel.getPageRect().width;
-                        this._fileListPanel.panelEventChanger(new Pan3d.Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
+                        this._fileListPanel.panelEventChanger(new Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
                     }
                 }
                 if (_folderEvent.type == FolderEvent.EDITSCENE_RESET_SIZE) {
