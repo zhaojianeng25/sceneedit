@@ -87,6 +87,15 @@
 
             }
         }
+        public showPefabMesh(value: MetaDataView): void {
+            if (this.metaDataView) {
+                this.metaDataView.destory()
+                this.metaDataView = null;
+                this.lastNodel = null;
+            }
+            this.metaDataView = value;
+            this.metaDataView.refreshViewValue()
+        }
         private showSciencePropPanel(): void {
             if (this.metaDataView) {
                 this.metaDataView.destory()

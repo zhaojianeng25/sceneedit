@@ -22,6 +22,11 @@ var filemodel;
             }
             return null;
         };
+        FileVo.PREFAB = "prefab";
+        FileVo.MATERIAL = "material";
+        FileVo.JPG = "jpg";
+        FileVo.PNG = "png";
+        FileVo.TXT = "txt";
         return FileVo;
     }());
     filemodel.FileVo = FileVo;

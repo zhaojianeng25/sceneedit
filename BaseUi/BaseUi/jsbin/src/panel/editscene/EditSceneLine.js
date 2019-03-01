@@ -47,7 +47,7 @@ var editscene;
         };
         TempLineSprite.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.tureUpLine = this.addChild(this._topRender.getComponent("a_left_line"));
+            this.tureUpLine = this.addChild(this._topRender.getComponent("b_move_line_a"));
             this.tureUpLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadFinish = true;
             this.refrishSize();

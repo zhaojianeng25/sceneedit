@@ -13,6 +13,11 @@
         public suffix: string
         public isFolder: boolean
         public select: boolean
+        public static PREFAB: string = "prefab";
+        public static MATERIAL: string = "material";
+        public static JPG: string = "jpg";
+        public static PNG: string = "png";
+        public static TXT: string = "txt";
 
 
 

@@ -105,6 +105,15 @@ var prop;
                 this.metaDataView.top = this._top;
             }
         };
+        PropModel.prototype.showPefabMesh = function (value) {
+            if (this.metaDataView) {
+                this.metaDataView.destory();
+                this.metaDataView = null;
+                this.lastNodel = null;
+            }
+            this.metaDataView = value;
+            this.metaDataView.refreshViewValue();
+        };
         PropModel.prototype.showSciencePropPanel = function () {
             if (this.metaDataView) {
                 this.metaDataView.destory();

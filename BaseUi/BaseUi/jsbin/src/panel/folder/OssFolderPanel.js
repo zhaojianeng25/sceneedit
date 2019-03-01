@@ -107,16 +107,13 @@ var ossfolder;
             this._baseRender.mask = this._uiMask;
             var item = [
                 this.a_bg,
-                this.a_bottom_line,
-                //this.a_scroll_bar_bg,
                 this.a_tittle_bg,
-                this.a_bg,
-                this.a_bottom_line,
+                this.b_bottom_right,
             ];
             this.setUiListVisibleByItem(item, false);
-            // this.setUiListVisibleByItem([this.a_rigth_line], true)
-            //this.setUiListVisibleByItem([this.a_bg], true)
+            this.a_tittle_bg.height = 2;
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.resize();
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
@@ -267,7 +264,7 @@ var ossfolder;
             return $vo;
         };
         OssFolderPanel.prototype.refrishFolder = function () {
-            OssFolderPanel.listTy = 25;
+            OssFolderPanel.listTy = this.a_tittle_bg.height;
             this.disChiendren(this.fileItem, 10);
             var moveTy = 0;
             this.moveAllTy(this.fileItem, moveTy);

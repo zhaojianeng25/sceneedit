@@ -85,7 +85,7 @@ var base;
                 this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             }
-            this.a_scroll_bar.y = this.a_tittle_bg.height;
+            this.a_scroll_bar.y = this.a_tittle_bg.height + 2;
             this.uiLoadComplete = true;
             this.setHideUi();
             this.resize();
@@ -122,7 +122,7 @@ var base;
                 this.a_tittle_bg.x = 2;
                 this.a_tittle_bg.y = 2;
                 this.a_tittle_bg.width = this.pageRect.width - 4;
-                this._uiMask.y = this.a_tittle_bg.height;
+                this._uiMask.y = this.a_tittle_bg.height + 2;
                 this._uiMask.x = 0;
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width;
                 this._uiMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height;
@@ -141,12 +141,15 @@ var base;
                 this.a_bottom_line.width = this.a_bg.width;
                 this.a_scroll_bar.x = this._uiMask.x + this._uiMask.width - this.a_scroll_bar.width;
                 this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width + 2;
-                this.a_scroll_bar_bg.y = this.a_rigth_line.y;
+                this.a_scroll_bar_bg.y = this.a_tittle_bg.height;
                 this.a_scroll_bar_bg.height = this.a_left_line.height;
                 this.setUiListVisibleByItem([this.a_scroll_bar], this.contentHeight > this._uiMask.height);
                 if (this.contentHeight > this._uiMask.height) {
                     this.a_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight);
                     this.a_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.a_scroll_bar.height, this.a_scroll_bar.y);
+                }
+                else {
+                    //  this.a_scroll_bar.y = this.a_tittle_bg.height;
                 }
                 this.b_bottom_left.x = 0;
                 this.b_bottom_left.y = this.pageRect.height - this.b_bottom_left.height;

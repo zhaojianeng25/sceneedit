@@ -25,6 +25,7 @@ var filelist;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var TextureManager = Pan3d.TextureManager;
+    var FileVo = filemodel.FileVo;
     var MenuListData = menutwo.MenuListData;
     var SampleFileVo = /** @class */ (function () {
         function SampleFileVo() {
@@ -74,19 +75,19 @@ var filelist;
                 }
                 var fileVo = this.fileListMeshVo.fileXmlVo.data;
                 switch (fileVo.suffix) {
-                    case "jpg":
-                    case "png":
+                    case FileVo.JPG:
+                    case FileVo.PNG:
                         LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
                             _this.drawFileIconName($img, fileVo.name, $color);
                         });
                         break;
-                    case "prefab":
+                    case FileVo.PREFAB:
                         this.drawFileIconName(FileListPanel.imgBaseDic["profeb_64x"], fileVo.name, $color);
                         break;
-                    case "material":
+                    case FileVo.MATERIAL:
                         this.drawFileIconName(FileListPanel.imgBaseDic["marterial_64x"], fileVo.name, $color);
                         break;
-                    case "txt":
+                    case FileVo.TXT:
                         this.drawFileIconName(FileListPanel.imgBaseDic["txt_64x"], fileVo.name, $color);
                         break;
                     default:
@@ -142,18 +143,13 @@ var filelist;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
             var item = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
                 this.a_scroll_bar_bg,
                 this.a_tittle_bg,
                 this.a_bg,
-                this.a_bottom_line,
+                this.b_bottom_left,
             ];
             this.setUiListVisibleByItem(item, false);
+            this.resize();
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
@@ -188,6 +184,10 @@ var filelist;
         };
         FileListPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);
+            if (this.uiLoadComplete) {
+                this.b_bottom_line_left.x = 0;
+                this.b_bottom_line_left.width = this.b_bottom_mid.x;
+            }
         };
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
@@ -210,8 +210,11 @@ var filelist;
                     var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
-                        case "material":
+                        case FileVo.MATERIAL:
                             Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                            break;
+                        case FileVo.PREFAB:
+                            prop.PropModel.getInstance().showPefabMesh(new filelist.PrefabMeshView);
                             break;
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);
@@ -343,7 +346,7 @@ var filelist;
             menuB.push(new MenuListData("上传文件", "1"));
             menuB.push(new MenuListData("创建文件夹", "2"));
             menuB.push(new MenuListData("创建Texture", "3"));
-            menuB.push(new MenuListData("创建Profab", "4"));
+            menuB.push(new MenuListData("创建prefab", "4"));
             menuB.push(new MenuListData("刷新", "5"));
             temp.menuXmlItem = menuB;
             temp.info = {};
@@ -355,6 +358,9 @@ var filelist;
                 case "1":
                     this.upTempFileToOss();
                     break;
+                case "4":
+                    this.creatPefab();
+                    break;
                 case "21":
                     this.deleFile();
                     break;
@@ -362,6 +368,23 @@ var filelist;
                     console.log("没处理对象", value.key);
                     break;
             }
+        };
+        FileListPanel.prototype.creatPefab = function () {
+            var _this = this;
+            console.log("ccav");
+            var $byte = new Pan3d.Pan3dByteArray();
+            var tempObj = {};
+            tempObj.name = "temp.prefab";
+            tempObj.textureurl = "ccsss.txt";
+            tempObj.objsurl = "ccsss.objs";
+            $byte.writeUTF(JSON.stringify(tempObj));
+            var $file = new File([$byte.buffer], "新建.prefab");
+            var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            console.log(pathurl + $file.name);
+            filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, function () {
+                console.log("文件上传成功");
+                _this.refrishPath(_this.rootFilePath);
+            });
         };
         FileListPanel.prototype.deleFile = function () {
             var _this = this;

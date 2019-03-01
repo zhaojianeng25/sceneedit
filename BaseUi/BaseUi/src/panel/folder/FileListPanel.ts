@@ -22,7 +22,9 @@
     import Scene_data = Pan3d.Scene_data
     import LoadManager = Pan3d.LoadManager
     import TextureManager = Pan3d.TextureManager
-    import FileVo = filemodel.FileVo
+    import FileVo = filemodel.FileVo;
+    import FileModel = filemodel.FileModel;
+ 
     import MenuListData = menutwo.MenuListData
 
  
@@ -77,20 +79,20 @@
                 }
                 var fileVo: FileVo = this.fileListMeshVo.fileXmlVo.data;
                 switch (fileVo.suffix) {
-                    case "jpg":
-                    case "png":
+                    case FileVo.JPG:
+                    case FileVo.PNG:
                         LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE,
                             ($img: any) => {
                                 this.drawFileIconName($img, fileVo.name, $color)
                             });
                         break
-                    case "prefab":
+                    case FileVo.PREFAB:
                         this.drawFileIconName(FileListPanel.imgBaseDic["profeb_64x"], fileVo.name, $color)
                         break
-                    case "material":
+                    case FileVo.MATERIAL:
                         this.drawFileIconName(FileListPanel.imgBaseDic["marterial_64x"], fileVo.name, $color)
                         break
-                    case "txt":
+                    case FileVo.TXT:
                         this.drawFileIconName(FileListPanel.imgBaseDic["txt_64x"], fileVo.name, $color)
                         break
                     default:
@@ -258,10 +260,16 @@
                     var fileUrl: string = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
-                        case "material":
-
+                        case FileVo.MATERIAL:
+                  
                             Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                             break
+                        case FileVo.PREFAB:
+
+                      
+                            prop.PropModel.getInstance().showPefabMesh(new PrefabMeshView);
+                            break;
+
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path)
                             break;
@@ -409,7 +417,7 @@
             menuB.push(new MenuListData("上传文件", "1"));
             menuB.push(new MenuListData("创建文件夹", "2"));
             menuB.push(new MenuListData("创建Texture", "3"));
-            menuB.push(new MenuListData("创建Profab", "4"));
+            menuB.push(new MenuListData("创建prefab", "4"));
             menuB.push(new MenuListData("刷新", "5"));
 
 
@@ -426,6 +434,9 @@
                 case "1":
                     this.upTempFileToOss()
                     break
+                case "4":
+                    this.creatPefab()
+                    break
                 case "21":
                     this.deleFile()
                     break
@@ -434,7 +445,34 @@
                     break
             }
         }
+        private creatPefab(): void {
 
+            console.log("ccav")
+
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+
+            var tempObj: any = {}
+            tempObj.name = "temp.prefab";
+            tempObj.textureurl = "ccsss.txt"
+            tempObj.objsurl = "ccsss.objs"
+
+
+            $byte.writeUTF(JSON.stringify(tempObj))
+            var $file: File = new File([$byte.buffer], "新建.prefab");
+
+
+            var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            console.log(pathurl + $file.name);
+
+            filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, () => {
+                console.log("文件上传成功");
+
+                this.refrishPath(this.rootFilePath)
+            })
+
+
+            
+        }
         public deleFile(): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
                 var $vo: FileListName = <FileListName>this._uiItem[i]

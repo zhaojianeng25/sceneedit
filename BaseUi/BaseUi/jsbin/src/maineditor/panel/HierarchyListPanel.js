@@ -139,6 +139,7 @@ var maineditor;
                 this.a_bottom_line,
             ];
             this.setUiListVisibleByItem(item, false);
+            this.resize();
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
