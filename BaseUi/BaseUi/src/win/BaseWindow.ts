@@ -52,9 +52,9 @@
 
         }
 
-        private _bRender: UIRenderComponent;
-        private _mRender: UIRenderComponent;
-        private _tRender: UIRenderComponent;
+        protected _bRender: UIRenderComponent;
+        protected _mRender: UIRenderComponent;
+        protected _tRender: UIRenderComponent;
         protected _uiMask: UIMask
 
         protected mouseDown(evt: InteractiveEvent): void {
@@ -85,6 +85,8 @@
 
 
             this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
+            
+
             this.a_tittle_bg = this.addChild(<UICompenent>this._tRender.getComponent("b_tittle_bg"));
             this.a_left_line = this.addChild(<UICompenent>this._tRender.getComponent("a_left_line"));
             this.a_rigth_line = this.addChild(<UICompenent>this._tRender.getComponent("a_rigth_line"));

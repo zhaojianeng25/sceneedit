@@ -45,11 +45,11 @@
                 this.b_bottom_line_right,
                 this.a_bottom_line,
                 this.a_tittle_bg,
+                this.a_bg,
                 this.a_scroll_bar_bg,
             ]
             this.setUiListVisibleByItem(item, false)
-           // this.setUiListVisibleByItem([this.a_tittle_bg], false)
-            this.setUiListVisibleByItem([this.a_bg], false)
+            this.a_bg = this.addEvntBut("a_bg", this._bRender); //重加一个没有边线的背景
 
             this.a_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
