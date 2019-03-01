@@ -117,20 +117,22 @@
             this._baseRender.mask = this._uiMask
      
             var item: Array<UICompenent> = [
-         
-
                 this.a_bg,
-                this.a_bottom_line,
-                //this.a_scroll_bar_bg,
                 this.a_tittle_bg,
-                
-                this.a_bg,
-                this.a_bottom_line,
+ 
+         
+                this.b_bottom_right,
+               
+ 
+     
             ]
             this.setUiListVisibleByItem(item, false)
-           // this.setUiListVisibleByItem([this.a_rigth_line], true)
-            //this.setUiListVisibleByItem([this.a_bg], true)
+
+            this.a_tittle_bg.height=2
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+
+            this.resize();
+
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
@@ -319,7 +321,7 @@
         }
         private folderCellHeight: number = 20
         private refrishFolder(): void {
-            OssFolderPanel.listTy = 25;
+            OssFolderPanel.listTy = this.a_tittle_bg.height;
             this.disChiendren(this.fileItem,10);
             var moveTy: number = 0
             this.moveAllTy(this.fileItem, moveTy)

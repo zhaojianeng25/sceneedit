@@ -145,9 +145,9 @@
                 this.a_bottom_line,
             ]
             this.setUiListVisibleByItem(item, false)
+ 
 
-           
-
+            this.resize();
 
             this.loadAssetImg(() => {
                 this.makeItemUiList()
@@ -164,6 +164,7 @@
             item.push("profeb_16");
             item.push("icon_point16");
             item.push("water_plane16");
+            
             var finishNum: number = 0
             for (var i: number = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], () => {

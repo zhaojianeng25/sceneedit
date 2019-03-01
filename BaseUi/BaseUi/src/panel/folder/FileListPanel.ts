@@ -164,20 +164,21 @@
             super.loadConfigCom();
             this._baseRender.mask = this._uiMask
             var item: Array<UICompenent> = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
                 this.a_scroll_bar_bg,
                 this.a_tittle_bg,
                 this.a_bg,
-                this.a_bottom_line,
+                 this.b_bottom_left,
+              //  this.b_bottom_mid,
+                //this.b_bottom_right,
+               //  this.b_bottom_line_left,
+                //this.b_bottom_line_right,
+     
+              
             ]
             this.setUiListVisibleByItem(item, false)
          
- 
+
+            this.resize()
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
 
@@ -222,6 +223,11 @@
         }
         public resize(): void {
             super.resize()
+            if (this.uiLoadComplete) {
+                this.b_bottom_line_left.x =0 ;
+                this.b_bottom_line_left.width = this.b_bottom_mid.x;
+            }
+       
      
         }
 

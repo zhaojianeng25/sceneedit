@@ -152,7 +152,7 @@
 
 
 
-            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y+10, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y-10)
+            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 15, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y -15)
 
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         }
