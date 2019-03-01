@@ -14,16 +14,10 @@
         protected initView(): void {
             this.addEvets()
         }
-        private addEvets(): void {
-            var $ui: UICompenent = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
-        }
-        public destory(): void {
-            var $ui: UICompenent = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
-            super.destory()
-        }
+  
+    
         private drawOutColor(): void {
+            /*
             var $vcolor: Vector3D = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
             this.textLabelUIMeshVo.needDraw = false;
             var $UIAtlas: UIAtlas = this.textLabelUIMeshVo.textLabelUIDisp2D.parent.uiAtlas
@@ -39,6 +33,8 @@
             }
             ctx.putImageData($imgData, 0, 0)
             TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
+
+            */
         }
         private _vec3d: Vector3D;
         public get vec3d(): Vector3D {

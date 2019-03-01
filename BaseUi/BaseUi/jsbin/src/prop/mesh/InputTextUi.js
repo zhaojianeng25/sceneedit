@@ -16,28 +16,19 @@ var prop;
     var Vector2D = Pan3d.Vector2D;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Scene_data = Pan3d.Scene_data;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var TextAlign = Pan3d.TextAlign;
     var InputTextUi = /** @class */ (function (_super) {
         __extends(InputTextUi, _super);
         function InputTextUi() {
             return _super.call(this) || this;
         }
         InputTextUi.prototype.initView = function () {
-            this.textLabelUIMeshVo.name = "3.599";
             this.addEvets();
-        };
-        InputTextUi.prototype.addEvets = function () {
-            var $ui = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
-        };
-        InputTextUi.prototype.destory = function () {
-            var $ui = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
-            _super.prototype.destory.call(this);
         };
         Object.defineProperty(InputTextUi.prototype, "text", {
             set: function (value) {
-                this.textLabelUIMeshVo.name = value;
-                // console.log("valuevaluevalue", value)
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
             },
             enumerable: true,
             configurable: true

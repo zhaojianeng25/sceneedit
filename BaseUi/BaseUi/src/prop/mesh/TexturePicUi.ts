@@ -11,6 +11,10 @@
     import Matrix3D = Pan3d.Matrix3D;
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     import Rectangle = Pan3d.Rectangle;
+    import UIAtlas = Pan3d.UIAtlas
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import LoadManager = Pan3d.LoadManager
+    import UIConatiner = Pan3d.UIConatiner
     import Scene_data = Pan3d.Scene_data;
 
 
@@ -31,14 +35,18 @@
             $ctx.clearRect(0, 0, rec.pixelWitdh, rec.pixelHeight)
             $ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, rec.pixelWitdh, rec.pixelHeight)
             TextureManager.getInstance().updateTexture(this.textLabelUIDisp2D.parent.uiAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
+
+            console.log(this.ui)
         }
         public destory(): void {
             this.pos = null;
             this._url = null;
             this.needDraw = null;
             this.clear = true
+       
         }
         public textLabelUIDisp2D: TexturePicUIDisp2D
+        public ui: UICompenent
     }
     export class TexturePicUIDisp2D extends Disp2DBaseText {
         private labelNameMeshVo: TexturePicIMeshVo
@@ -55,6 +63,8 @@
                         this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
                         this.parent.uiAtlas.ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
                         TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, rec.pixelX, rec.pixelY, this.parent.uiAtlas.ctx);
+
+             
                     } else {
                         this.parent.uiAtlas.upDataPicToTexture(this.labelNameMeshVo.url, this.textureStr);
                     }
@@ -62,70 +72,48 @@
                     this.parent.uiAtlas.clearCtxTextureBySkilname(this.textureStr)
                 }
                 this.labelNameMeshVo.needDraw = false;
-            }
-        }
-        private tempMatrix: Matrix3D = new Matrix3D;
-        public update(): void {
-            if (this.labelNameMeshVo) {
-                if (this.labelNameMeshVo.needDraw) {
-                    this.makeData();
-                }
-                if (this.labelNameMeshVo.pos) {
-                    if (this.labelNameMeshVo.visible) {
-                        if (this.needUpData(this.labelNameMeshVo.pos) || this.labelNameMeshVo.visibleChange) {
-
-                            this.ui.x = this.labelNameMeshVo.pos.x;
-                            this.ui.y = this.labelNameMeshVo.pos.y;
-
-                            this.oldPos.x = this.labelNameMeshVo.pos.x;
-                            this.oldPos.y = this.labelNameMeshVo.pos.y;
-                            this.labelNameMeshVo.visibleChange = false;
-                        }
-                    } else {
-                        this.ui.x = 10000
-                    }
-                }
-                if (this.labelNameMeshVo.clear) {
-                    this.ui.parent.removeChild(this.ui);
-                    this._data = null;
-                }
-            }
-        }
-    }
-
-
-    export class TexturePicUi extends EventDispatcher {
-        private static _dis2DUIContianer: Dis2DUIContianerPanel
  
+            }
+        }
+   
+      
+    }
+    export class TextureContext extends UIConatiner {
+        private _bRender: UIRenderComponent;
+
+        private tempUiName: string = "tempui";
+        public ui: UICompenent
+        public constructor( ) {
+            super();
+            this._bRender = new UIRenderComponent();
+            this.addRender(this._bRender);
+            this._bRender.uiAtlas = new UIAtlas();
+            var $uiAtlas: UIAtlas = this._bRender.uiAtlas
+            $uiAtlas.configData = [];
+            $uiAtlas.configData.push($uiAtlas.getObject(this.tempUiName, 0, 0, 128, 128, 128, 128));
+
+            this.ui = <UICompenent>this._bRender.creatBaseComponent(this.tempUiName);
+            this.ui.width = 64;
+            this.ui.height = 64;
+            this.addChild(this.ui)
+
+            this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(128, 128, false);
+            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
+          //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
+ 
+        }
+ 
+      
+    }
+  
+    export class TexturePicUi extends BaseMeshUi {
         public constructor() {
             super();
-            if (!TexturePicUi._dis2DUIContianer) {
-                TexturePicUi._dis2DUIContianer = new Dis2DUIContianerPanel(TexturePicUIDisp2D, new Rectangle(0, 0, 64, 64), 2);
-            
-
-                PropModel.getInstance().propPanle.addUIContainer(TexturePicUi._dis2DUIContianer);
-
-                TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
-
-            }
-            this.textLabelUIMeshVo = this.getCharNameMeshVo();
-
             this.initView();
             this.resize();
         }
-        public destory(): void {
-            this.textLabelUIMeshVo.clear = true
-
-            var $ui: UICompenent = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
-        }
         protected initView(): void {
-            this.textLabelUIMeshVo.url = "";
             this.addEvets()
-        }
-        private addEvets(): void {
-            var $ui: UICompenent = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
         }
         private $dulbelClikTm: number = 0;
         private _inputHtmlSprite: HTMLInputElement
@@ -155,43 +143,30 @@
             }
             this._inputHtmlSprite = null;
         }
-        private resize(): void {
-            this.textLabelUIMeshVo.pos.x = this._x;
-            this.textLabelUIMeshVo.pos.y = this._y;
-        }
-        private upFrame(t: number): void {
-            TexturePicUi._dis2DUIContianer.update(t);
-        }
+   
+ 
         public get url(): string {
-            return this.textLabelUIMeshVo.url;
+            return this._url
         }
+        private _url: string
         public set url(value: string) {
-            this.textLabelUIMeshVo.url = value;
-        }
-        protected textLabelUIMeshVo: TexturePicIMeshVo
-        public getCharNameMeshVo(value: string = "测试名"): TexturePicIMeshVo {
-            var $vo: TexturePicIMeshVo = new TexturePicIMeshVo;
-            $vo.pos = new Vector3D(0, 50, 0);
-            $vo.textLabelUIDisp2D = <TexturePicUIDisp2D>TexturePicUi._dis2DUIContianer.showTemp($vo);
-            return $vo;
-        }
-        private _x: number = 0
-        private _y: number = 0;
-        public set x(value: number) {
-            this._x = value;
-            this.resize()
-        }
-        public get x(): number {
-            return this._x
-        }
+            this._url = value
+            var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + this._url)
+            var $uiRender: UIRenderComponent = this.textureContext.ui.uiRender
+            if ($img) {
+                var rec: UIRectangle = $uiRender.uiAtlas.getRec(this.textureContext.ui.skinName);
+                $uiRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+                $uiRender.uiAtlas.ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
+                TextureManager.getInstance().updateTexture($uiRender.uiAtlas.texture, rec.pixelX, rec.pixelY, $uiRender.uiAtlas.ctx);
+            } else {
+                this.textureContext.ui.uiRender.uiAtlas.upDataPicToTexture(this._url, this.textureContext.ui.skinName);
+            }
 
-        public set y(value: number) {
-            this._y = value;
-            this.resize()
+    
         }
-        public get y(): number {
-            return this._y
-        }
+ 
+    
+         
 
     }
 } 

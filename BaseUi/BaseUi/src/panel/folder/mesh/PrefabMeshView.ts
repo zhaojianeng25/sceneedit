@@ -10,6 +10,7 @@
             var ary: Array<any> =
                 [
                     { Type: ReflectionData.Texturue2DUI, Label: "纹理:", FunKey: "picurl", target: this, Category: "属性" },
+                    { Type: ReflectionData.Texturue2DUI, Label: "动态:", FunKey: "otherurl", target: this, Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunDirect", target: this, Step: 0.1 },
                     { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0.1 },
       
@@ -17,9 +18,17 @@
             return ary;
         }
         public set picurl(value: string) {
+            console.log("value", value)
+
+            this.refreshViewValue()
         }
         public get picurl(): string {
             return "b.jpg";
+        }
+        public set otherurl(value: string) {
+        }
+        public get otherurl(): string {
+            return "c.png";
         }
 
         public set data(value: any) {

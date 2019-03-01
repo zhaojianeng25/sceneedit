@@ -266,8 +266,9 @@
                             break
                         case FileVo.PREFAB:
 
-                      
-                            prop.PropModel.getInstance().showPefabMesh(new PrefabMeshView);
+                            var tempview: PrefabMeshView = new PrefabMeshView
+                            tempview.data = {}
+                            prop.PropModel.getInstance().showPefabMesh(tempview);
                             break;
 
                         default:

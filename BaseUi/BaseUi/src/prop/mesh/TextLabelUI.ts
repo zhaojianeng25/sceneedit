@@ -36,6 +36,7 @@
     import Rectangle = Pan3d.Rectangle;
     import TimeUtil = Pan3d.TimeUtil;
     import TextAlign = Pan3d.TextAlign;
+    import UICompenent = Pan3d.UICompenent
 
     export class TextLabelUIDisp2D extends Disp2DBaseText {
         private labelNameMeshVo: TextLabelUIMeshVo
@@ -93,61 +94,31 @@
             }
         }
     }
-
-
-    export class TextLabelUI extends EventDispatcher{
-        private static _dis2DUIContianer: Dis2DUIContianerPanel
-       
+    export class BaseMeshUi extends EventDispatcher {
+        protected textureContext: TextureContext
+        public ui: UICompenent
         public constructor() {
             super();
-            if (!TextLabelUI._dis2DUIContianer) {
-                TextLabelUI._dis2DUIContianer = new Dis2DUIContianerPanel(TextLabelUIDisp2D, new Rectangle(0, 0, 256, 30), 60);
-
-             
-                PropModel.getInstance().propPanle.addUIContainer(TextLabelUI._dis2DUIContianer);
-            
-                TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
- 
-            }
-            this.textLabelUIMeshVo = this.getCharNameMeshVo();
-
-            this.initView();
-            this.resize();
+            this.textureContext = new TextureContext
+            PropModel.getInstance().propPanle.addUIContainer(this.textureContext);
+            this.ui = this.textureContext.ui
         }
         public destory(): void {
-            this.textLabelUIMeshVo.clear=true
+            PropModel.getInstance().propPanle.removeUIContainer(this.textureContext);
         }
-        protected initView(): void
-        {
-            this.textLabelUIMeshVo.name = "Vec3:";
-            this.textLabelUIMeshVo.labelWidth = 30;
+        protected addEvets(): void {
+            var $ui: UICompenent = this.ui
+            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
         }
-        private resize(): void
-        {
-            this.textLabelUIMeshVo.pos.x = this._x;
-            this.textLabelUIMeshVo.pos.y = this._y;
+        protected butClik(evt: InteractiveEvent): void {
+
         }
-        private upFrame(t: number): void {
-            TextLabelUI._dis2DUIContianer.update(t);
+        protected resize(): void {
+            this.ui.x = this._x
+            this.ui.y = this._y
         }
-        public get label(): string {
-            return "";
-        }
-        public set label(value: string) {
-            this.textLabelUIMeshVo.name = value;
-       
-        }
-    
-        protected textLabelUIMeshVo: TextLabelUIMeshVo
-        public getCharNameMeshVo(value: string = "测试名"): TextLabelUIMeshVo {
-            var $vo: TextLabelUIMeshVo = new TextLabelUIMeshVo;
-            $vo.name = value
-            $vo.pos = new Vector3D(0, 50, 0);
-            $vo.textLabelUIDisp2D = <TextLabelUIDisp2D>TextLabelUI._dis2DUIContianer.showTemp($vo);
-            return $vo;
-        }
-        private _x: number=0
-        private _y: number=0;
+        private _x: number = 0
+        private _y: number = 0;
         public set x(value: number) {
             this._x = value;
             this.resize()
@@ -163,6 +134,29 @@
         public get y(): number {
             return this._y
         }
+    }
+
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    export class TextLabelUI extends BaseMeshUi{
+        public constructor() {
+            super();
+            this.initView();
+            this.resize();
+        }
+        protected initView(): void
+        {
+         
+        }
+        public get label(): string {
+            return "";
+        }
+        public set label(value: string) {
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
+       
+        }
+ 
+    
+      
 
     }
 } 

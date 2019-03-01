@@ -14,30 +14,23 @@ var __extends = (this && this.__extends) || (function () {
 var prop;
 (function (prop) {
     var InteractiveEvent = Pan3d.InteractiveEvent;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var TextAlign = Pan3d.TextAlign;
     var ComboBoxUi = /** @class */ (function (_super) {
         __extends(ComboBoxUi, _super);
         function ComboBoxUi() {
             return _super.call(this) || this;
         }
         ComboBoxUi.prototype.initView = function () {
-            this.textLabelUIMeshVo.name = "是否";
-            this.addEvets();
-        };
-        ComboBoxUi.prototype.addEvets = function () {
-            if (!Boolean(this.textLabelUIMeshVo.textLabelUIDisp2D)) {
-                console.log("有错");
-            }
-            var $ui = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
         };
         ComboBoxUi.prototype.destory = function () {
-            var $ui = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
+            var $ui = this.ui;
             $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
             _super.prototype.destory.call(this);
         };
         Object.defineProperty(ComboBoxUi.prototype, "text", {
             set: function (value) {
-                this.textLabelUIMeshVo.name = value;
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
             },
             enumerable: true,
             configurable: true

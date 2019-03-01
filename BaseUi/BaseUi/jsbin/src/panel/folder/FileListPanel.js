@@ -214,7 +214,9 @@ var filelist;
                             Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                             break;
                         case FileVo.PREFAB:
-                            prop.PropModel.getInstance().showPefabMesh(new filelist.PrefabMeshView);
+                            var tempview = new filelist.PrefabMeshView;
+                            tempview.data = {};
+                            prop.PropModel.getInstance().showPefabMesh(tempview);
                             break;
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);

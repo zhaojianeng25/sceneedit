@@ -1,6 +1,8 @@
 ﻿module prop {
     import UICompenent = Pan3d.UICompenent;
     import InteractiveEvent = Pan3d.InteractiveEvent;
+    import LabelTextFont = Pan3d.LabelTextFont
+    import TextAlign = Pan3d.TextAlign
 
     export class ComboBoxUi extends TextLabelUI {
 
@@ -9,24 +11,17 @@
             super();
         }
         protected initView(): void {
-            this.textLabelUIMeshVo.name = "是否";
-            this.addEvets()
+      
+           
         }
-        private addEvets(): void {
-            if (!Boolean(this.textLabelUIMeshVo.textLabelUIDisp2D)) {
-                console.log("有错")
-            }
-
-            var $ui: UICompenent = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
-        }
+     
         public destory(): void {
-            var $ui: UICompenent = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
+            var $ui: UICompenent = this. ui;
             $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
             super.destory()
         }
         public set text(value: string) {
-            this.textLabelUIMeshVo.name = value;
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
         }
         protected butClik(evt: InteractiveEvent): void {
             this.dispatchEvent(evt);

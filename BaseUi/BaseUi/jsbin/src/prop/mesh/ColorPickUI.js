@@ -14,9 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 var prop;
 (function (prop) {
     var Vector3D = Pan3d.Vector3D;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var UIManager = Pan3d.UIManager;
-    var TextureManager = Pan3d.TextureManager;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var ColorPickUI = /** @class */ (function (_super) {
         __extends(ColorPickUI, _super);
@@ -26,31 +23,25 @@ var prop;
         ColorPickUI.prototype.initView = function () {
             this.addEvets();
         };
-        ColorPickUI.prototype.addEvets = function () {
-            var $ui = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
-        };
-        ColorPickUI.prototype.destory = function () {
-            var $ui = this.textLabelUIMeshVo.textLabelUIDisp2D.ui;
-            $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
-            _super.prototype.destory.call(this);
-        };
         ColorPickUI.prototype.drawOutColor = function () {
-            var $vcolor = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
+            /*
+            var $vcolor: Vector3D = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
             this.textLabelUIMeshVo.needDraw = false;
-            var $UIAtlas = this.textLabelUIMeshVo.textLabelUIDisp2D.parent.uiAtlas;
-            var $textureStr = this.textLabelUIMeshVo.textLabelUIDisp2D.ui.skinName;
-            var rec = $UIAtlas.getRec($textureStr);
-            var ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
-            var $imgData = ctx.getImageData(0, 0, rec.pixelWitdh, rec.pixelHeight);
-            for (var i = 0; i < $imgData.data.length / 4; i++) {
+            var $UIAtlas: UIAtlas = this.textLabelUIMeshVo.textLabelUIDisp2D.parent.uiAtlas
+            var $textureStr: string = this.textLabelUIMeshVo.textLabelUIDisp2D.ui.skinName
+            var rec: UIRectangle = $UIAtlas.getRec($textureStr);
+            var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var $imgData: ImageData = ctx.getImageData(0, 0, rec.pixelWitdh, rec.pixelHeight);
+            for (var i: number = 0; i < $imgData.data.length / 4; i++) {
                 $imgData.data[i * 4 + 0] = $vcolor.x;
                 $imgData.data[i * 4 + 1] = $vcolor.y;
                 $imgData.data[i * 4 + 2] = $vcolor.z;
                 $imgData.data[i * 4 + 3] = 255;
             }
-            ctx.putImageData($imgData, 0, 0);
+            ctx.putImageData($imgData, 0, 0)
             TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
+
+            */
         };
         Object.defineProperty(ColorPickUI.prototype, "vec3d", {
             get: function () {

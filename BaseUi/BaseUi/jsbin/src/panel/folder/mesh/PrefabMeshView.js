@@ -24,6 +24,7 @@ var filelist;
         PrefabMeshView.prototype.getView = function () {
             var ary = [
                 { Type: ReflectionData.Texturue2DUI, Label: "纹理:", FunKey: "picurl", target: this, Category: "属性" },
+                { Type: ReflectionData.Texturue2DUI, Label: "动态:", FunKey: "otherurl", target: this, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunDirect", target: this, Step: 0.1 },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0.1 },
             ];
@@ -32,6 +33,17 @@ var filelist;
         Object.defineProperty(PrefabMeshView.prototype, "picurl", {
             get: function () {
                 return "b.jpg";
+            },
+            set: function (value) {
+                console.log("value", value);
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PrefabMeshView.prototype, "otherurl", {
+            get: function () {
+                return "c.png";
             },
             set: function (value) {
             },

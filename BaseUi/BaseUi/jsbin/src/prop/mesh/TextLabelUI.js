@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Vector3D = Pan3d.Vector3D;
     var TextLabelUIMeshVo = /** @class */ (function (_super) {
         __extends(TextLabelUIMeshVo, _super);
         function TextLabelUIMeshVo() {
@@ -54,9 +53,7 @@ var prop;
     var LabelTextFont = Pan3d.LabelTextFont;
     var Matrix3D = Pan3d.Matrix3D;
     var EventDispatcher = Pan3d.EventDispatcher;
-    var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var Rectangle = Pan3d.Rectangle;
-    var TimeUtil = Pan3d.TimeUtil;
     var TextAlign = Pan3d.TextAlign;
     var TextLabelUIDisp2D = /** @class */ (function (_super) {
         __extends(TextLabelUIDisp2D, _super);
@@ -113,55 +110,31 @@ var prop;
         return TextLabelUIDisp2D;
     }(Disp2DBaseText));
     prop.TextLabelUIDisp2D = TextLabelUIDisp2D;
-    var TextLabelUI = /** @class */ (function (_super) {
-        __extends(TextLabelUI, _super);
-        function TextLabelUI() {
+    var BaseMeshUi = /** @class */ (function (_super) {
+        __extends(BaseMeshUi, _super);
+        function BaseMeshUi() {
             var _this = _super.call(this) || this;
             _this._x = 0;
             _this._y = 0;
-            if (!TextLabelUI._dis2DUIContianer) {
-                TextLabelUI._dis2DUIContianer = new Dis2DUIContianerPanel(TextLabelUIDisp2D, new Rectangle(0, 0, 256, 30), 60);
-                prop.PropModel.getInstance().propPanle.addUIContainer(TextLabelUI._dis2DUIContianer);
-                TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
-            }
-            _this.textLabelUIMeshVo = _this.getCharNameMeshVo();
-            _this.initView();
-            _this.resize();
+            _this.textureContext = new prop.TextureContext;
+            prop.PropModel.getInstance().propPanle.addUIContainer(_this.textureContext);
+            _this.ui = _this.textureContext.ui;
             return _this;
         }
-        TextLabelUI.prototype.destory = function () {
-            this.textLabelUIMeshVo.clear = true;
+        BaseMeshUi.prototype.destory = function () {
+            prop.PropModel.getInstance().propPanle.removeUIContainer(this.textureContext);
         };
-        TextLabelUI.prototype.initView = function () {
-            this.textLabelUIMeshVo.name = "Vec3:";
-            this.textLabelUIMeshVo.labelWidth = 30;
+        BaseMeshUi.prototype.addEvets = function () {
+            var $ui = this.ui;
+            $ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
         };
-        TextLabelUI.prototype.resize = function () {
-            this.textLabelUIMeshVo.pos.x = this._x;
-            this.textLabelUIMeshVo.pos.y = this._y;
+        BaseMeshUi.prototype.butClik = function (evt) {
         };
-        TextLabelUI.prototype.upFrame = function (t) {
-            TextLabelUI._dis2DUIContianer.update(t);
+        BaseMeshUi.prototype.resize = function () {
+            this.ui.x = this._x;
+            this.ui.y = this._y;
         };
-        Object.defineProperty(TextLabelUI.prototype, "label", {
-            get: function () {
-                return "";
-            },
-            set: function (value) {
-                this.textLabelUIMeshVo.name = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        TextLabelUI.prototype.getCharNameMeshVo = function (value) {
-            if (value === void 0) { value = "测试名"; }
-            var $vo = new TextLabelUIMeshVo;
-            $vo.name = value;
-            $vo.pos = new Vector3D(0, 50, 0);
-            $vo.textLabelUIDisp2D = TextLabelUI._dis2DUIContianer.showTemp($vo);
-            return $vo;
-        };
-        Object.defineProperty(TextLabelUI.prototype, "x", {
+        Object.defineProperty(BaseMeshUi.prototype, "x", {
             get: function () {
                 return this._x;
             },
@@ -172,7 +145,7 @@ var prop;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TextLabelUI.prototype, "y", {
+        Object.defineProperty(BaseMeshUi.prototype, "y", {
             get: function () {
                 return this._y;
             },
@@ -183,8 +156,32 @@ var prop;
             enumerable: true,
             configurable: true
         });
-        return TextLabelUI;
+        return BaseMeshUi;
     }(EventDispatcher));
+    prop.BaseMeshUi = BaseMeshUi;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TextLabelUI = /** @class */ (function (_super) {
+        __extends(TextLabelUI, _super);
+        function TextLabelUI() {
+            var _this = _super.call(this) || this;
+            _this.initView();
+            _this.resize();
+            return _this;
+        }
+        TextLabelUI.prototype.initView = function () {
+        };
+        Object.defineProperty(TextLabelUI.prototype, "label", {
+            get: function () {
+                return "";
+            },
+            set: function (value) {
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return TextLabelUI;
+    }(BaseMeshUi));
     prop.TextLabelUI = TextLabelUI;
 })(prop || (prop = {}));
 //# sourceMappingURL=TextLabelUI.js.map
