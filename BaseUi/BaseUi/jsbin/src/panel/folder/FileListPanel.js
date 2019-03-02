@@ -379,7 +379,7 @@ var filelist;
             var $byte = new Pan3d.Pan3dByteArray();
             var tempObj = {};
             tempObj.name = "temp.prefab";
-            tempObj.textureurl = "ccsss.txt";
+            tempObj.textureurl = "texture/color.texture";
             tempObj.objsurl = "ccsss.objs";
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "新建.prefab");

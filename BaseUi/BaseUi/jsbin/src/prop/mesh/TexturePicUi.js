@@ -125,9 +125,10 @@ var prop;
             this.addEvets();
         };
         TexturePicUi.prototype.butClik = function (evt) {
+            //console.log(TimeUtil.getTimer(), this.$dulbelClikTm)
             var _this = this;
-            console.log(TimeUtil.getTimer(), this.$dulbelClikTm);
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
+                console.log(this.suffix);
                 this._inputHtmlSprite = document.createElement('input');
                 this._inputHtmlSprite.setAttribute('id', '_ef');
                 this._inputHtmlSprite.setAttribute('type', 'file');
@@ -138,15 +139,30 @@ var prop;
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000;
         };
+        TexturePicUi.prototype.testSuffix = function (value) {
+            var tempItem = this.suffix.split("|");
+            for (var i = 0; i < tempItem.length; i++) {
+                if (value.indexOf(tempItem[i]) != -1) {
+                    return true;
+                }
+            }
+            return false;
+        };
         TexturePicUi.prototype.changeFile = function (evt) {
             for (var i = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
                 var simpleFile = this._inputHtmlSprite.files[i];
-                if (!/image\/\w+/.test(simpleFile.type)) {
-                    alert("请确保文件类型为图像类型");
+                //if (!/image\/\w+/.test(simpleFile.type)) {
+                //    alert("请确保文件类型为图像类型");
+                //}
+                console.log(this.testSuffix(simpleFile.name));
+                if (this.testSuffix(simpleFile.name)) {
+                    var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
+                    $reflectionEvet.data = simpleFile;
+                    this.dispatchEvent($reflectionEvet);
                 }
-                var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
-                $reflectionEvet.data = simpleFile;
-                this.dispatchEvent($reflectionEvet);
+                else {
+                    alert("请确保文件类型 " + this.suffix);
+                }
             }
             this._inputHtmlSprite = null;
         };
@@ -156,7 +172,11 @@ var prop;
             },
             set: function (value) {
                 this._url = value;
-                var $img = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + this._url);
+                var picUrl = this._url;
+                if (value.indexOf(".texture") != -1) {
+                    picUrl = "icon/marterial_64x.png";
+                }
+                var $img = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl);
                 var $uiRender = this.textureContext.ui.uiRender;
                 if ($img) {
                     var rec = $uiRender.uiAtlas.getRec(this.textureContext.ui.skinName);
@@ -165,7 +185,7 @@ var prop;
                     TextureManager.getInstance().updateTexture($uiRender.uiAtlas.texture, rec.pixelX, rec.pixelY, $uiRender.uiAtlas.ctx);
                 }
                 else {
-                    this.textureContext.ui.uiRender.uiAtlas.upDataPicToTexture(this._url, this.textureContext.ui.skinName);
+                    this.textureContext.ui.uiRender.uiAtlas.upDataPicToTexture(picUrl, this.textureContext.ui.skinName);
                 }
             },
             enumerable: true,

@@ -102,6 +102,17 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Texturue2DUI.prototype, "suffix", {
+            get: function () {
+                return this._suffix;
+            },
+            set: function (value) {
+                this._suffix = value;
+                this.texturePicUi.suffix = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Texturue2DUI;
     }(prop.BaseReflComponent));
     prop.Texturue2DUI = Texturue2DUI;

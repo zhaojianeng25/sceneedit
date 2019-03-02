@@ -92,6 +92,7 @@
         public getTexturue2DUI($obj: Object): Texturue2DUI {
             var $texturue2DUI: Texturue2DUI = new Texturue2DUI()
             $texturue2DUI.label = $obj[ReflectionData.Key_Label];
+            $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
             $texturue2DUI.target = this
             return $texturue2DUI;

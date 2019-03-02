@@ -10,6 +10,7 @@ var prop;
         ReflectionData.Key_Data = "Data";
         ReflectionData.Key_Label = "Label";
         ReflectionData.Key_Category = "Category";
+        ReflectionData.Key_Suffix = "Suffix";
         ReflectionData.Key_Step = "Step";
         ReflectionData.Key_MaxNum = "MaxNum";
         ReflectionData.Key_MinNum = "MinNum";

@@ -89,6 +89,16 @@
             this._label = value
             this.textLabelUI.label = value;
         }
+        private _suffix: string
+        public get suffix(): string {
+            return this._suffix;
+        }
+        public set suffix(value: string) {
+            this._suffix = value
+            this.texturePicUi.suffix = value
+ 
+        }
+        
     }
 
 }

@@ -86,6 +86,7 @@ var prop;
         MetaDataView.prototype.getTexturue2DUI = function ($obj) {
             var $texturue2DUI = new prop.Texturue2DUI();
             $texturue2DUI.label = $obj[prop.ReflectionData.Key_Label];
+            $texturue2DUI.suffix = $obj[prop.ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
             $texturue2DUI.target = this;
             return $texturue2DUI;

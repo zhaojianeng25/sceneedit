@@ -117,9 +117,12 @@
         }
         private $dulbelClikTm: number = 0;
         private _inputHtmlSprite: HTMLInputElement
+        public suffix: string
         protected butClik(evt: InteractiveEvent): void {
-            console.log(TimeUtil.getTimer() , this.$dulbelClikTm)
+            //console.log(TimeUtil.getTimer(), this.$dulbelClikTm)
+        
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
+                console.log(this.suffix)
                 this._inputHtmlSprite = <HTMLInputElement>document.createElement('input');
                 this._inputHtmlSprite.setAttribute('id', '_ef');
                 this._inputHtmlSprite.setAttribute('type', 'file');
@@ -131,15 +134,30 @@
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000
          
         }
+        private testSuffix(value: string): boolean {
+            var tempItem: Array<string> = this.suffix.split("|")
+            for (var i: number = 0; i < tempItem.length; i++) {
+                if (value.indexOf(tempItem[i])!=-1) {
+                    return true
+                }
+            }
+            return false
+        }
         private changeFile(evt: any): void {
             for (var i: number = 0; i < this._inputHtmlSprite.files.length&&i<1; i++) {
                 var simpleFile = this._inputHtmlSprite.files[i]
-                if (!/image\/\w+/.test(simpleFile.type)) {
-                    alert("请确保文件类型为图像类型");
+       
+                //if (!/image\/\w+/.test(simpleFile.type)) {
+                //    alert("请确保文件类型为图像类型");
+                //}
+                console.log(this.testSuffix(simpleFile.name))
+                if (this.testSuffix(simpleFile.name)) {
+                    var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
+                    $reflectionEvet.data = simpleFile
+                    this.dispatchEvent($reflectionEvet);
+                } else {
+                    alert("请确保文件类型 " + this.suffix);
                 }
-                var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
-                $reflectionEvet.data = simpleFile
-                this.dispatchEvent($reflectionEvet);
             }
             this._inputHtmlSprite = null;
         }
@@ -150,8 +168,12 @@
         }
         private _url: string
         public set url(value: string) {
-            this._url = value
-            var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + this._url)
+            this._url = value;
+            var picUrl: string = this._url
+            if (value.indexOf(".texture") != -1) {
+                picUrl = "icon/marterial_64x.png"
+            }  
+            var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl)
             var $uiRender: UIRenderComponent = this.textureContext.ui.uiRender
             if ($img) {
                 var rec: UIRectangle = $uiRender.uiAtlas.getRec(this.textureContext.ui.skinName);
@@ -159,7 +181,7 @@
                 $uiRender.uiAtlas.ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
                 TextureManager.getInstance().updateTexture($uiRender.uiAtlas.texture, rec.pixelX, rec.pixelY, $uiRender.uiAtlas.ctx);
             } else {
-                this.textureContext.ui.uiRender.uiAtlas.upDataPicToTexture(this._url, this.textureContext.ui.skinName);
+                this.textureContext.ui.uiRender.uiAtlas.upDataPicToTexture(picUrl, this.textureContext.ui.skinName);
             }
 
     

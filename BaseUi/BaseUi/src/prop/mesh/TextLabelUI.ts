@@ -1,5 +1,15 @@
 ﻿module prop {
     import Vector3D = Pan3d.Vector3D
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import LabelTextFont = Pan3d.LabelTextFont;
+    import Matrix3D = Pan3d.Matrix3D;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+    import UIManager = Pan3d.UIManager;
+    import Rectangle = Pan3d.Rectangle;
+    import TimeUtil = Pan3d.TimeUtil;
+    import TextAlign = Pan3d.TextAlign;
+    import UICompenent = Pan3d.UICompenent
     class TextLabelUIMeshVo extends Pan3d.baseMeshVo {
         private _name: string;
         public needDraw: boolean;
@@ -27,16 +37,7 @@
         }
         public textLabelUIDisp2D:TextLabelUIDisp2D
     }
-    import Disp2DBaseText = Pan3d.Disp2DBaseText;
-    import LabelTextFont = Pan3d.LabelTextFont;
-    import Matrix3D = Pan3d.Matrix3D;
-    import EventDispatcher = Pan3d.EventDispatcher;
-    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
-    import UIManager = Pan3d.UIManager;
-    import Rectangle = Pan3d.Rectangle;
-    import TimeUtil = Pan3d.TimeUtil;
-    import TextAlign = Pan3d.TextAlign;
-    import UICompenent = Pan3d.UICompenent
+ 
 
     export class TextLabelUIDisp2D extends Disp2DBaseText {
         private labelNameMeshVo: TextLabelUIMeshVo

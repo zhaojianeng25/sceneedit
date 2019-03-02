@@ -9,6 +9,7 @@
         public static Key_Data: string = "Data";
         public static Key_Label: string = "Label";
         public static Key_Category: string = "Category";
+        public static Key_Suffix: string = "Suffix";
         public static Key_Step: string = "Step";
         public static Key_MaxNum: string = "MaxNum";
         public static Key_MinNum: string = "MinNum";

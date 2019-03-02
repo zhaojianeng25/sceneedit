@@ -459,7 +459,7 @@
 
             var tempObj: any = {}
             tempObj.name = "temp.prefab";
-            tempObj.textureurl = "ccsss.txt"
+            tempObj.textureurl = "texture/color.texture"
             tempObj.objsurl = "ccsss.objs"
 
 

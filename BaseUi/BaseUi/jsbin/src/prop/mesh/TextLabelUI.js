@@ -13,6 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Disp2DBaseText = Pan3d.Disp2DBaseText;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var Matrix3D = Pan3d.Matrix3D;
+    var EventDispatcher = Pan3d.EventDispatcher;
+    var Rectangle = Pan3d.Rectangle;
+    var TextAlign = Pan3d.TextAlign;
     var TextLabelUIMeshVo = /** @class */ (function (_super) {
         __extends(TextLabelUIMeshVo, _super);
         function TextLabelUIMeshVo() {
@@ -49,12 +55,6 @@ var prop;
         };
         return TextLabelUIMeshVo;
     }(Pan3d.baseMeshVo));
-    var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var LabelTextFont = Pan3d.LabelTextFont;
-    var Matrix3D = Pan3d.Matrix3D;
-    var EventDispatcher = Pan3d.EventDispatcher;
-    var Rectangle = Pan3d.Rectangle;
-    var TextAlign = Pan3d.TextAlign;
     var TextLabelUIDisp2D = /** @class */ (function (_super) {
         __extends(TextLabelUIDisp2D, _super);
         function TextLabelUIDisp2D() {
