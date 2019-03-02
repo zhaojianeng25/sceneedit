@@ -6,6 +6,7 @@
 
 
     export class PrefabMeshView extends MetaDataView {
+        private prefabMeshData: PrefabMeshData
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
@@ -18,21 +19,22 @@
             return ary;
         }
         public set picurl(value: string) {
-            console.log("value", value)
-
+            this.prefabMeshData.pic1 = value
             this.refreshViewValue()
         }
         public get picurl(): string {
-            return "b.jpg";
+            return this.prefabMeshData.pic1
         }
         public set otherurl(value: string) {
+            this.prefabMeshData.pic2 = value
         }
         public get otherurl(): string {
-            return "c.png";
+            return this.prefabMeshData.pic2 
         }
 
         public set data(value: any) {
             this._data = value;
+            this.prefabMeshData = this._data
             this.refreshViewValue()
         }
         public get data(): any {

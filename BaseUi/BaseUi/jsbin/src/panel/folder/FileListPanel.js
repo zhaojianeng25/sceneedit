@@ -215,7 +215,7 @@ var filelist;
                             break;
                         case FileVo.PREFAB:
                             var tempview = new filelist.PrefabMeshView;
-                            tempview.data = {};
+                            tempview.data = new filelist.PrefabMeshData();
                             prop.PropModel.getInstance().showPefabMesh(tempview);
                             break;
                         default:
