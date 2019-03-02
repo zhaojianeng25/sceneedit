@@ -23,8 +23,9 @@ var filelist;
         }
         PrefabMeshView.prototype.getView = function () {
             var ary = [
-                { Type: ReflectionData.Texturue2DUI, Label: "纹理:", FunKey: "textureurl", target: this, Suffix: "material", Category: "属性" },
-                { Type: ReflectionData.Texturue2DUI, Label: "动态:", FunKey: "otherurl", target: this, Category: "属性" },
+                { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "textureurl", target: this, Suffix: "material", Category: "属性" },
+                { Type: ReflectionData.Texturue2DUI, Label: "图片:", FunKey: "picurl", target: this, Suffix: "jpg|png", Category: "属性" },
+                { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunDirect", target: this, Step: 0.1 },
             ];
             return ary;
@@ -40,12 +41,21 @@ var filelist;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(PrefabMeshView.prototype, "otherurl", {
+        Object.defineProperty(PrefabMeshView.prototype, "objsurl", {
             get: function () {
-                return this.prefabStaticMesh.pic2;
+                return this.prefabStaticMesh.objsurl;
             },
             set: function (value) {
-                this.prefabStaticMesh.pic2 = value;
+                this.prefabStaticMesh.objsurl = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PrefabMeshView.prototype, "picurl", {
+            get: function () {
+                return "c.png";
+            },
+            set: function (value) {
             },
             enumerable: true,
             configurable: true

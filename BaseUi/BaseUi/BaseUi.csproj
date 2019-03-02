@@ -50,6 +50,7 @@
     <TypeScriptCompile Include="src\pack\Prefab.ts" />
     <TypeScriptCompile Include="src\pack\PrefabStaticMesh.ts" />
     <TypeScriptCompile Include="src\panel\folder\mesh\PrefabMeshView.ts" />
+    <TypeScriptCompile Include="src\prop\base\Material2DUI.ts" />
     <TypeScriptCompile Include="src\win\BaseWindow.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorPanel.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorProcessor.ts" />

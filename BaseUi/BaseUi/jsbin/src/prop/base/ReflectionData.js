@@ -30,6 +30,7 @@ var prop;
         ReflectionData.Vec2 = "Vec2";
         ReflectionData.Btn = "Btn";
         ReflectionData.Texturue2DUI = "Texturue2DUI";
+        ReflectionData.MaterialPicUi = "MaterialPicUi";
         ReflectionData.AgalFunUI = "AgalFunUI";
         ReflectionData.Vec3Color = "Vec3Color";
         ReflectionData.UserView = "userView";

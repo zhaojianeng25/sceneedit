@@ -459,7 +459,7 @@
 
             var tempObj: any = {}
             tempObj.name = "temp.prefab";
-            tempObj.textureurl = "texture/color.texture"
+            tempObj.textureurl = "texture/color.material"
             tempObj.objsurl = "ccsss.objs"
 
 
@@ -552,10 +552,10 @@
             if (this.uiLoadComplete && this.fileItem) {
           
 
-                console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy))
+               // console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy))
 
                 var isVisible: boolean = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy)
-                console.log(isVisible)
+             //   console.log(isVisible)
 
                 this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible)
 

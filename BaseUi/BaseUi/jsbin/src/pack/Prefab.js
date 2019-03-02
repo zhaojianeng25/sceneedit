@@ -17,10 +17,7 @@ var pack;
     var Prefab = /** @class */ (function (_super) {
         __extends(Prefab, _super);
         function Prefab() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.pic1 = "b.jpg";
-            _this.pic2 = "c.png";
-            return _this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         Prefab.prototype.getName = function () {
             return "prefab";

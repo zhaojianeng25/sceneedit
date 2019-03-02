@@ -32,20 +32,26 @@
         private _inputHtmlSprite: HTMLInputElement
         public suffix: string
         protected butClik(evt: InteractiveEvent): void {
-            //console.log(TimeUtil.getTimer(), this.$dulbelClikTm)
+ 
         
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
-                console.log(this.suffix)
-                this._inputHtmlSprite = <HTMLInputElement>document.createElement('input');
-                this._inputHtmlSprite.setAttribute('id', '_ef');
-                this._inputHtmlSprite.setAttribute('type', 'file');
-                this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
-                this._inputHtmlSprite.click();
-                this._inputHtmlSprite.value;
-                this._inputHtmlSprite.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
+               // this.doubleClick()
+
+                var fileUrl: string = this._url
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000
          
+        }
+        protected doubleClick(): void {
+            this._inputHtmlSprite = <HTMLInputElement>document.createElement('input');
+            this._inputHtmlSprite.setAttribute('id', '_ef');
+            this._inputHtmlSprite.setAttribute('type', 'file');
+            this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
+            this._inputHtmlSprite.click();
+            this._inputHtmlSprite.value;
+            this._inputHtmlSprite.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
         }
         private testSuffix(value: string): boolean {
             var tempItem: Array<string> = this.suffix.split("|")
@@ -79,12 +85,15 @@
         public get url(): string {
             return this._url
         }
-        private _url: string
+        protected _url: string
         public set url(value: string) {
             this._url = value;
             var picUrl: string = this._url
-            if (value.indexOf(".texture") != -1) {
+            if (this._url.indexOf(".material") != -1) {
                 picUrl = "icon/marterial_64x.png"
+            }  
+            if (this._url.indexOf(".objs") != -1) {
+                picUrl = "icon/objs_64x.png"
             }  
             var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl)
             var $uiRender: UIRenderComponent = this.textureContext.ui.uiRender

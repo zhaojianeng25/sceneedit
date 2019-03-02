@@ -32,19 +32,22 @@ var prop;
             this.addEvets();
         };
         TexturePicUi.prototype.butClik = function (evt) {
-            //console.log(TimeUtil.getTimer(), this.$dulbelClikTm)
-            var _this = this;
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
-                console.log(this.suffix);
-                this._inputHtmlSprite = document.createElement('input');
-                this._inputHtmlSprite.setAttribute('id', '_ef');
-                this._inputHtmlSprite.setAttribute('type', 'file');
-                this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
-                this._inputHtmlSprite.click();
-                this._inputHtmlSprite.value;
-                this._inputHtmlSprite.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
+                // this.doubleClick()
+                var fileUrl = this._url;
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000;
+        };
+        TexturePicUi.prototype.doubleClick = function () {
+            var _this = this;
+            this._inputHtmlSprite = document.createElement('input');
+            this._inputHtmlSprite.setAttribute('id', '_ef');
+            this._inputHtmlSprite.setAttribute('type', 'file');
+            this._inputHtmlSprite.setAttribute("style", 'visibility:hidden');
+            this._inputHtmlSprite.click();
+            this._inputHtmlSprite.value;
+            this._inputHtmlSprite.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
         };
         TexturePicUi.prototype.testSuffix = function (value) {
             var tempItem = this.suffix.split("|");
@@ -80,8 +83,11 @@ var prop;
             set: function (value) {
                 this._url = value;
                 var picUrl = this._url;
-                if (value.indexOf(".texture") != -1) {
+                if (this._url.indexOf(".material") != -1) {
                     picUrl = "icon/marterial_64x.png";
+                }
+                if (this._url.indexOf(".objs") != -1) {
+                    picUrl = "icon/objs_64x.png";
                 }
                 var $img = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl);
                 var $uiRender = this.textureContext.ui.uiRender;

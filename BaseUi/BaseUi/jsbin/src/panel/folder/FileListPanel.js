@@ -379,7 +379,7 @@ var filelist;
             var $byte = new Pan3d.Pan3dByteArray();
             var tempObj = {};
             tempObj.name = "temp.prefab";
-            tempObj.textureurl = "texture/color.texture";
+            tempObj.textureurl = "texture/color.material";
             tempObj.objsurl = "ccsss.objs";
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "新建.prefab");
@@ -448,9 +448,9 @@ var filelist;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy;
             }
             if (this.uiLoadComplete && this.fileItem) {
-                console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy));
+                // console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy))
                 var isVisible = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy);
-                console.log(isVisible);
+                //   console.log(isVisible)
                 this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible);
             }
         };

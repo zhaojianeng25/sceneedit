@@ -21,7 +21,7 @@
             super.destory()
         }
         public set text(value: string) {
-            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
         }
         protected butClik(evt: InteractiveEvent): void {
             this.dispatchEvent(evt);

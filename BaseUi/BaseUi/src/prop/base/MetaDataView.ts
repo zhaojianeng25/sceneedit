@@ -64,6 +64,10 @@
             if (type == ReflectionData.Texturue2DUI) {
                 return this.getTexturue2DUI(obj);
             }
+            if (type == ReflectionData.MaterialPicUi) {
+                return this.getMaterialPicUi(obj);
+            }
+            
             if (type == ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
@@ -93,6 +97,13 @@
             var $texturue2DUI: Texturue2DUI = new Texturue2DUI()
             $texturue2DUI.label = $obj[ReflectionData.Key_Label];
             $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
+            $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
+            $texturue2DUI.target = this
+            return $texturue2DUI;
+        }
+        public getMaterialPicUi($obj: Object): Material2DUI {
+            var $texturue2DUI: Material2DUI = new Material2DUI()
+            $texturue2DUI.label = $obj[ReflectionData.Key_Label];
             $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
             $texturue2DUI.target = this
             return $texturue2DUI;

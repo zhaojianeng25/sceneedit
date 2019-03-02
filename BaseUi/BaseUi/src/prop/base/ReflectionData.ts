@@ -33,6 +33,9 @@
         public static Vec2: string = "Vec2";
         public static Btn: string = "Btn";
         public static Texturue2DUI: string = "Texturue2DUI";
+        public static MaterialPicUi: string = "MaterialPicUi";
+
+        
         public static AgalFunUI: string = "AgalFunUI";
         public static Vec3Color: string = "Vec3Color";
         public static UserView: string = "userView";
