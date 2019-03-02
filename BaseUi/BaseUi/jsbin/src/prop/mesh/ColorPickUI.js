@@ -14,16 +14,34 @@ var __extends = (this && this.__extends) || (function () {
 var prop;
 (function (prop) {
     var Vector3D = Pan3d.Vector3D;
+    var UIManager = Pan3d.UIManager;
+    var TextureManager = Pan3d.TextureManager;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var ColorPickUI = /** @class */ (function (_super) {
         __extends(ColorPickUI, _super);
-        function ColorPickUI() {
-            return _super.call(this) || this;
+        function ColorPickUI(w, h) {
+            if (w === void 0) { w = 64; }
+            if (h === void 0) { h = 64; }
+            return _super.call(this, w, h) || this;
         }
         ColorPickUI.prototype.initView = function () {
             this.addEvets();
         };
         ColorPickUI.prototype.drawOutColor = function () {
+            var $vcolor = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
+            var $UIAtlas = this.ui.uiRender.uiAtlas;
+            var $textureStr = this.ui.skinName;
+            var rec = $UIAtlas.getRec($textureStr);
+            var ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var $imgData = ctx.getImageData(0, 0, rec.pixelWitdh, rec.pixelHeight);
+            for (var i = 0; i < $imgData.data.length / 4; i++) {
+                $imgData.data[i * 4 + 0] = $vcolor.x;
+                $imgData.data[i * 4 + 1] = $vcolor.y;
+                $imgData.data[i * 4 + 2] = $vcolor.z;
+                $imgData.data[i * 4 + 3] = 255;
+            }
+            ctx.putImageData($imgData, 0, 0);
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
             /*
             var $vcolor: Vector3D = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
             this.textLabelUIMeshVo.needDraw = false;

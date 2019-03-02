@@ -8,8 +8,8 @@
     import TextureManager = Pan3d.TextureManager;
     import ModuleEventManager = Pan3d.ModuleEventManager;
     export class ColorPickUI extends TextLabelUI {
-        public constructor() {
-            super();
+        public constructor(w: number = 64, h: number = 64) {
+            super(w, h);
         }
         protected initView(): void {
             this.addEvets()
@@ -17,6 +17,22 @@
   
     
         private drawOutColor(): void {
+            var $vcolor: Vector3D = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
+
+            var $UIAtlas: UIAtlas = this.ui.uiRender.uiAtlas
+            var $textureStr: string = this.ui.skinName
+            var rec: UIRectangle = $UIAtlas.getRec($textureStr);
+            var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var $imgData: ImageData = ctx.getImageData(0, 0, rec.pixelWitdh, rec.pixelHeight);
+            for (var i: number = 0; i < $imgData.data.length / 4; i++) {
+                $imgData.data[i * 4 + 0] = $vcolor.x;
+                $imgData.data[i * 4 + 1] = $vcolor.y;
+                $imgData.data[i * 4 + 2] = $vcolor.z;
+                $imgData.data[i * 4 + 3] = 255;
+            }
+            ctx.putImageData($imgData, 0, 0)
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
+
             /*
             var $vcolor: Vector3D = new Vector3D(this._vec3d.x * 255, this._vec3d.y * 255, this._vec3d.z * 255);
             this.textLabelUIMeshVo.needDraw = false;

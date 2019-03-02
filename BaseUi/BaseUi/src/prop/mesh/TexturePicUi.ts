@@ -17,98 +17,11 @@
     import UIConatiner = Pan3d.UIConatiner
     import Scene_data = Pan3d.Scene_data;
 
-
-
-    class TexturePicIMeshVo extends Pan3d.baseMeshVo {
-        private _url: string;
-        public needDraw: boolean;
-        public set url(value: string) {
-            this._url = value;
-            this.needDraw = true;
-        }
-        public get url(): string {
-            return this._url;
-        }
-        public set imagepic(img: any) {
-            var rec: UIRectangle = this.textLabelUIDisp2D.parent.uiAtlas.getRec(this.textLabelUIDisp2D.ui.skinName);
-            var $ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
-            $ctx.clearRect(0, 0, rec.pixelWitdh, rec.pixelHeight)
-            $ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, rec.pixelWitdh, rec.pixelHeight)
-            TextureManager.getInstance().updateTexture(this.textLabelUIDisp2D.parent.uiAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
-
-            console.log(this.ui)
-        }
-        public destory(): void {
-            this.pos = null;
-            this._url = null;
-            this.needDraw = null;
-            this.clear = true
-       
-        }
-        public textLabelUIDisp2D: TexturePicUIDisp2D
-        public ui: UICompenent
-    }
-    export class TexturePicUIDisp2D extends Disp2DBaseText {
-        private labelNameMeshVo: TexturePicIMeshVo
-        public makeData(): void {
-            if (this._data) {
-                this.labelNameMeshVo = <TexturePicIMeshVo>this.data;
-                this.ui.width = 64;
-                this.ui.height = 64
-                this.lastKey = this.labelNameMeshVo.url
-                if (this.labelNameMeshVo.url) {
-                    var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + this.labelNameMeshVo.url)
-                    if ($img) {
-                        var rec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
-                        this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
-                        this.parent.uiAtlas.ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
-                        TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, rec.pixelX, rec.pixelY, this.parent.uiAtlas.ctx);
-
-             
-                    } else {
-                        this.parent.uiAtlas.upDataPicToTexture(this.labelNameMeshVo.url, this.textureStr);
-                    }
-                } else {
-                    this.parent.uiAtlas.clearCtxTextureBySkilname(this.textureStr)
-                }
-                this.labelNameMeshVo.needDraw = false;
- 
-            }
-        }
-   
-      
-    }
-    export class TextureContext extends UIConatiner {
-        private _bRender: UIRenderComponent;
-
-        private tempUiName: string = "tempui";
-        public ui: UICompenent
-        public constructor( ) {
-            super();
-            this._bRender = new UIRenderComponent();
-            this.addRender(this._bRender);
-            this._bRender.uiAtlas = new UIAtlas();
-            var $uiAtlas: UIAtlas = this._bRender.uiAtlas
-            $uiAtlas.configData = [];
-            $uiAtlas.configData.push($uiAtlas.getObject(this.tempUiName, 0, 0, 128, 128, 128, 128));
-
-            this.ui = <UICompenent>this._bRender.creatBaseComponent(this.tempUiName);
-            this.ui.width = 64;
-            this.ui.height = 64;
-            this.addChild(this.ui)
-
-            this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(128, 128, false);
-            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
-          //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
- 
-        }
- 
-      
-    }
+    
   
     export class TexturePicUi extends BaseMeshUi {
-        public constructor() {
-            super();
+        public constructor(w: number = 64, h: number = 64) {
+            super(w, h);
             this.initView();
             this.resize();
         }

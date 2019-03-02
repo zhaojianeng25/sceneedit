@@ -16,106 +16,13 @@ var prop;
     var TextureManager = Pan3d.TextureManager;
     var TimeUtil = Pan3d.TimeUtil;
     var UIManager = Pan3d.UIManager;
-    var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var UIAtlas = Pan3d.UIAtlas;
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var UIConatiner = Pan3d.UIConatiner;
     var Scene_data = Pan3d.Scene_data;
-    var TexturePicIMeshVo = /** @class */ (function (_super) {
-        __extends(TexturePicIMeshVo, _super);
-        function TexturePicIMeshVo() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Object.defineProperty(TexturePicIMeshVo.prototype, "url", {
-            get: function () {
-                return this._url;
-            },
-            set: function (value) {
-                this._url = value;
-                this.needDraw = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TexturePicIMeshVo.prototype, "imagepic", {
-            set: function (img) {
-                var rec = this.textLabelUIDisp2D.parent.uiAtlas.getRec(this.textLabelUIDisp2D.ui.skinName);
-                var $ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
-                $ctx.clearRect(0, 0, rec.pixelWitdh, rec.pixelHeight);
-                $ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, rec.pixelWitdh, rec.pixelHeight);
-                TextureManager.getInstance().updateTexture(this.textLabelUIDisp2D.parent.uiAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
-                console.log(this.ui);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        TexturePicIMeshVo.prototype.destory = function () {
-            this.pos = null;
-            this._url = null;
-            this.needDraw = null;
-            this.clear = true;
-        };
-        return TexturePicIMeshVo;
-    }(Pan3d.baseMeshVo));
-    var TexturePicUIDisp2D = /** @class */ (function (_super) {
-        __extends(TexturePicUIDisp2D, _super);
-        function TexturePicUIDisp2D() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        TexturePicUIDisp2D.prototype.makeData = function () {
-            if (this._data) {
-                this.labelNameMeshVo = this.data;
-                this.ui.width = 64;
-                this.ui.height = 64;
-                this.lastKey = this.labelNameMeshVo.url;
-                if (this.labelNameMeshVo.url) {
-                    var $img = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + this.labelNameMeshVo.url);
-                    if ($img) {
-                        var rec = this.parent.uiAtlas.getRec(this.textureStr);
-                        this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
-                        this.parent.uiAtlas.ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
-                        TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, rec.pixelX, rec.pixelY, this.parent.uiAtlas.ctx);
-                    }
-                    else {
-                        this.parent.uiAtlas.upDataPicToTexture(this.labelNameMeshVo.url, this.textureStr);
-                    }
-                }
-                else {
-                    this.parent.uiAtlas.clearCtxTextureBySkilname(this.textureStr);
-                }
-                this.labelNameMeshVo.needDraw = false;
-            }
-        };
-        return TexturePicUIDisp2D;
-    }(Disp2DBaseText));
-    prop.TexturePicUIDisp2D = TexturePicUIDisp2D;
-    var TextureContext = /** @class */ (function (_super) {
-        __extends(TextureContext, _super);
-        function TextureContext() {
-            var _this = _super.call(this) || this;
-            _this.tempUiName = "tempui";
-            _this._bRender = new UIRenderComponent();
-            _this.addRender(_this._bRender);
-            _this._bRender.uiAtlas = new UIAtlas();
-            var $uiAtlas = _this._bRender.uiAtlas;
-            $uiAtlas.configData = [];
-            $uiAtlas.configData.push($uiAtlas.getObject(_this.tempUiName, 0, 0, 128, 128, 128, 128));
-            _this.ui = _this._bRender.creatBaseComponent(_this.tempUiName);
-            _this.ui.width = 64;
-            _this.ui.height = 64;
-            _this.addChild(_this.ui);
-            _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(128, 128, false);
-            _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx);
-            return _this;
-            //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
-        }
-        return TextureContext;
-    }(UIConatiner));
-    prop.TextureContext = TextureContext;
     var TexturePicUi = /** @class */ (function (_super) {
         __extends(TexturePicUi, _super);
-        function TexturePicUi() {
-            var _this = _super.call(this) || this;
+        function TexturePicUi(w, h) {
+            if (w === void 0) { w = 64; }
+            if (h === void 0) { h = 64; }
+            var _this = _super.call(this, w, h) || this;
             _this.$dulbelClikTm = 0;
             _this.initView();
             _this.resize();

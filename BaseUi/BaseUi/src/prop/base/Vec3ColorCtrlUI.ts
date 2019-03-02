@@ -18,9 +18,9 @@
         private _v3d: Vector3D;
         protected initView(): void {
             this.textLabelUI = new TextLabelUI();
-            this.textX = new TextLabelUI();
-            this.textY = new TextLabelUI();
-            this.textZ = new TextLabelUI();
+            this.textX = new TextLabelUI(32,16);
+            this.textY = new TextLabelUI(32, 16);
+            this.textZ = new TextLabelUI(32, 16);
             this.textX.label = "X:";
             this.textY.label = "Y:";
             this.textZ.label = "Z:";
@@ -34,7 +34,7 @@
             this.inputTextUiZ = new InputTextUi();
             this.inputTextUiZ.text = "255";
 
-            this.colorPickUI = new ColorPickUI();
+            this.colorPickUI = new ColorPickUI(32,32);
 
             this.inputTextUiX.addEventListener(ReflectionEvet.CHANGE_DATA, this.inputTextUiXchange, this)
             this.colorPickUI.addEventListener(ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this)

@@ -11,8 +11,8 @@
         private _label: string
 
         protected initView(): void {
-            this.textLabelUI = new TextLabelUI();
-            this.textureUrlText = new TextLabelUI()
+            this.textLabelUI = new TextLabelUI(64, 16)
+            this.textureUrlText = new TextLabelUI(128,16)
             this.texturePicUi = new TexturePicUi()
      
             this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.onChangePicurl, this)

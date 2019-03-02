@@ -20,9 +20,9 @@ var prop;
         }
         Vec3ColorCtrlUI.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI();
-            this.textX = new prop.TextLabelUI();
-            this.textY = new prop.TextLabelUI();
-            this.textZ = new prop.TextLabelUI();
+            this.textX = new prop.TextLabelUI(32, 16);
+            this.textY = new prop.TextLabelUI(32, 16);
+            this.textZ = new prop.TextLabelUI(32, 16);
             this.textX.label = "X:";
             this.textY.label = "Y:";
             this.textZ.label = "Z:";
@@ -32,7 +32,7 @@ var prop;
             this.inputTextUiY.text = "0";
             this.inputTextUiZ = new prop.InputTextUi();
             this.inputTextUiZ.text = "255";
-            this.colorPickUI = new prop.ColorPickUI();
+            this.colorPickUI = new prop.ColorPickUI(32, 32);
             this.inputTextUiX.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiXchange, this);
             this.colorPickUI.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this);
             this.height = 50;

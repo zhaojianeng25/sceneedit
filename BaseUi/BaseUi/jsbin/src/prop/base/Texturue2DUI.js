@@ -21,8 +21,8 @@ var prop;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Texturue2DUI.prototype.initView = function () {
-            this.textLabelUI = new prop.TextLabelUI();
-            this.textureUrlText = new prop.TextLabelUI();
+            this.textLabelUI = new prop.TextLabelUI(64, 16);
+            this.textureUrlText = new prop.TextLabelUI(128, 16);
             this.texturePicUi = new prop.TexturePicUi();
             this.texturePicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.onChangePicurl, this);
             this.height = 100;

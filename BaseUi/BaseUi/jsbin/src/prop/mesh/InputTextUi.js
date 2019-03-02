@@ -28,7 +28,7 @@ var prop;
         };
         Object.defineProperty(InputTextUi.prototype, "text", {
             set: function (value) {
-                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
             },
             enumerable: true,
             configurable: true

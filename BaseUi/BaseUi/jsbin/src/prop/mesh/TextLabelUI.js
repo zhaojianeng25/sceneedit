@@ -13,110 +13,46 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Disp2DBaseText = Pan3d.Disp2DBaseText;
     var LabelTextFont = Pan3d.LabelTextFont;
-    var Matrix3D = Pan3d.Matrix3D;
     var EventDispatcher = Pan3d.EventDispatcher;
-    var Rectangle = Pan3d.Rectangle;
+    var UIManager = Pan3d.UIManager;
     var TextAlign = Pan3d.TextAlign;
-    var TextLabelUIMeshVo = /** @class */ (function (_super) {
-        __extends(TextLabelUIMeshVo, _super);
-        function TextLabelUIMeshVo() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Object.defineProperty(TextLabelUIMeshVo.prototype, "name", {
-            get: function () {
-                return this._name;
-            },
-            set: function (value) {
-                this._name = value;
-                this.needDraw = true;
-                this.labelWidth = 128;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TextLabelUIMeshVo.prototype, "labelWidth", {
-            get: function () {
-                return this._labelWidth;
-            },
-            set: function (value) {
-                this._labelWidth = value;
-                this.needDraw = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        TextLabelUIMeshVo.prototype.destory = function () {
-            this.pos = null;
-            this._name = null;
-            this.needDraw = null;
-            this.clear = true;
-        };
-        return TextLabelUIMeshVo;
-    }(Pan3d.baseMeshVo));
-    var TextLabelUIDisp2D = /** @class */ (function (_super) {
-        __extends(TextLabelUIDisp2D, _super);
-        function TextLabelUIDisp2D() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.tempMatrix = new Matrix3D;
+    var UIRenderComponent = Pan3d.UIRenderComponent;
+    var UIConatiner = Pan3d.UIConatiner;
+    var UIAtlas = Pan3d.UIAtlas;
+    var TextureManager = Pan3d.TextureManager;
+    var TextureContext = /** @class */ (function (_super) {
+        __extends(TextureContext, _super);
+        function TextureContext(w, h) {
+            var _this = _super.call(this) || this;
+            _this.tempUiName = "tempui";
+            _this._bRender = new UIRenderComponent();
+            _this.addRender(_this._bRender);
+            _this._bRender.uiAtlas = new UIAtlas();
+            var $uiAtlas = _this._bRender.uiAtlas;
+            $uiAtlas.configData = [];
+            $uiAtlas.configData.push($uiAtlas.getObject(_this.tempUiName, 0, 0, w, h, w, h));
+            _this.ui = _this._bRender.creatBaseComponent(_this.tempUiName);
+            _this.ui.width = w;
+            _this.ui.height = h;
+            _this.addChild(_this.ui);
+            _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(w, h, false);
+            _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx);
             return _this;
+            //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
         }
-        TextLabelUIDisp2D.prototype.makeData = function () {
-            if (this._data) {
-                this.labelNameMeshVo = this.data;
-                if (this.lastKey != this.labelNameMeshVo.name) {
-                    var bw = 256 * 0.5;
-                    var bh = 30 * 0.5;
-                    this.ui.width = bw;
-                    this.ui.height = bh;
-                    if (!TextLabelUIDisp2D.baseUitr) {
-                        TextLabelUIDisp2D.baseUitr = new Rectangle(0, 0, this.ui.tr.width, this.ui.tr.height);
-                    }
-                    var xScale = this.labelNameMeshVo.labelWidth / bw;
-                    this.ui.width = bw * xScale;
-                    this.ui.tr.width = TextLabelUIDisp2D.baseUitr.width * xScale;
-                    this.lastKey = this.labelNameMeshVo.name;
-                    LabelTextFont.writeSingleLabel(this.parent.uiAtlas, this.textureStr, this.labelNameMeshVo.name, 30, TextAlign.LEFT, "#ffffff", "#27262e");
-                }
-                this.labelNameMeshVo.needDraw = false;
-            }
-        };
-        TextLabelUIDisp2D.prototype.update = function () {
-            if (this.labelNameMeshVo) {
-                if (this.labelNameMeshVo.needDraw) {
-                    this.makeData();
-                }
-                if (this.labelNameMeshVo.pos) {
-                    if (this.labelNameMeshVo.visible) {
-                        if (this.needUpData(this.labelNameMeshVo.pos) || this.labelNameMeshVo.visibleChange) {
-                            this.ui.x = this.labelNameMeshVo.pos.x;
-                            this.ui.y = this.labelNameMeshVo.pos.y;
-                            this.oldPos.x = this.labelNameMeshVo.pos.x;
-                            this.oldPos.y = this.labelNameMeshVo.pos.y;
-                            this.labelNameMeshVo.visibleChange = false;
-                        }
-                    }
-                    else {
-                        this.ui.x = 10000;
-                    }
-                }
-                if (this.labelNameMeshVo.clear) {
-                    this.ui.parent.removeChild(this.ui);
-                    this._data = null;
-                }
-            }
-        };
-        return TextLabelUIDisp2D;
-    }(Disp2DBaseText));
-    prop.TextLabelUIDisp2D = TextLabelUIDisp2D;
+        return TextureContext;
+    }(UIConatiner));
+    prop.TextureContext = TextureContext;
     var BaseMeshUi = /** @class */ (function (_super) {
         __extends(BaseMeshUi, _super);
-        function BaseMeshUi() {
+        function BaseMeshUi(w, h) {
+            if (w === void 0) { w = 64; }
+            if (h === void 0) { h = 64; }
             var _this = _super.call(this) || this;
             _this._x = 0;
             _this._y = 0;
-            _this.textureContext = new prop.TextureContext;
+            _this.textureContext = new TextureContext(w, h);
             prop.PropModel.getInstance().propPanle.addUIContainer(_this.textureContext);
             _this.ui = _this.textureContext.ui;
             return _this;
@@ -162,8 +98,10 @@ var prop;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextLabelUI = /** @class */ (function (_super) {
         __extends(TextLabelUI, _super);
-        function TextLabelUI() {
-            var _this = _super.call(this) || this;
+        function TextLabelUI(w, h) {
+            if (w === void 0) { w = 64; }
+            if (h === void 0) { h = 64; }
+            var _this = _super.call(this, w, h) || this;
             _this.initView();
             _this.resize();
             return _this;
@@ -175,7 +113,7 @@ var prop;
                 return "";
             },
             set: function (value) {
-                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
             },
             enumerable: true,
             configurable: true

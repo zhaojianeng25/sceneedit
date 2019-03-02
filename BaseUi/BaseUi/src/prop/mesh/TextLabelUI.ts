@@ -10,97 +10,47 @@
     import TimeUtil = Pan3d.TimeUtil;
     import TextAlign = Pan3d.TextAlign;
     import UICompenent = Pan3d.UICompenent
-    class TextLabelUIMeshVo extends Pan3d.baseMeshVo {
-        private _name: string;
-        public needDraw: boolean;
-        private _labelWidth: number
-        public set name(value: string) {
-            this._name = value;
-            this.needDraw = true;
-            this.labelWidth = 128;
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import UIConatiner = Pan3d.UIConatiner
+    import UIAtlas = Pan3d.UIAtlas
+    import TextureManager = Pan3d.TextureManager
+
+     
+
+    export class TextureContext extends UIConatiner {
+        private _bRender: UIRenderComponent;
+
+        private tempUiName: string = "tempui";
+        public ui: UICompenent
+        public constructor(w: number , h: number ) {
+            super();
+            this._bRender = new UIRenderComponent();
+            this.addRender(this._bRender);
+            this._bRender.uiAtlas = new UIAtlas();
+            var $uiAtlas: UIAtlas = this._bRender.uiAtlas
+            $uiAtlas.configData = [];
+            $uiAtlas.configData.push($uiAtlas.getObject(this.tempUiName, 0, 0, w, h, w, h));
+
+            this.ui = <UICompenent>this._bRender.creatBaseComponent(this.tempUiName);
+            this.ui.width = w;
+            this.ui.height = h;
+            this.addChild(this.ui)
+
+            this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(w, h, false);
+            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
+            //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
+
         }
-        public get name(): string {
-            return this._name;
-        }
-        public set labelWidth(value: number) {
-            this._labelWidth = value;
-            this.needDraw = true;
-        }
-        public get labelWidth(): number {
-            return this._labelWidth;
-        }
-        public destory(): void {
-            this.pos = null;
-            this._name = null;
-            this.needDraw = null;
-            this.clear = true
-        }
-        public textLabelUIDisp2D:TextLabelUIDisp2D
+
+
     }
- 
-
-    export class TextLabelUIDisp2D extends Disp2DBaseText {
-        private labelNameMeshVo: TextLabelUIMeshVo
-        private static baseUitr: Rectangle
-        public makeData(): void {
-            if (this._data) {
-                this.labelNameMeshVo = <TextLabelUIMeshVo>this.data;
-                if (this.lastKey != this.labelNameMeshVo.name) {
-
-                    var bw: number = 256 * 0.5;
-                    var bh: number = 30 * 0.5;
-                    this.ui.width = bw;
-                    this.ui.height = bh;
-
-                    if (!TextLabelUIDisp2D.baseUitr) {
-                        TextLabelUIDisp2D.baseUitr = new Rectangle(0, 0, this.ui.tr.width, this.ui.tr.height)
-                    }
-                    var xScale: number = this.labelNameMeshVo.labelWidth / bw;
-
-                    this.ui.width = bw * xScale;
-                    this.ui.tr.width = TextLabelUIDisp2D.baseUitr.width * xScale;
-
-
-                    this.lastKey = this.labelNameMeshVo.name
-                    LabelTextFont.writeSingleLabel(this.parent.uiAtlas, this.textureStr, this.labelNameMeshVo.name, 30, TextAlign.LEFT, "#ffffff", "#27262e");
-                }
-                this.labelNameMeshVo.needDraw = false;
-            }
-        }
-        private tempMatrix: Matrix3D = new Matrix3D;
-        public update(): void {
-            if (this.labelNameMeshVo) {
-                if (this.labelNameMeshVo.needDraw) {
-                    this.makeData();
-                }
-                if (this.labelNameMeshVo.pos) {
-                    if (this.labelNameMeshVo.visible) {
-                        if (this.needUpData(this.labelNameMeshVo.pos) || this.labelNameMeshVo.visibleChange) {
-                      
-                            this.ui.x = this.labelNameMeshVo.pos.x;
-                            this.ui.y = this.labelNameMeshVo.pos.y;
-
-                            this.oldPos.x = this.labelNameMeshVo.pos.x;
-                            this.oldPos.y = this.labelNameMeshVo.pos.y;
-                            this.labelNameMeshVo.visibleChange = false;
-                        }
-                    } else {
-                        this.ui.x = 10000
-                    }
-                }
-                if (this.labelNameMeshVo.clear) {
-                    this.ui.parent.removeChild(this.ui);
-                    this._data = null;
-                }
-            }
-        }
-    }
+   
     export class BaseMeshUi extends EventDispatcher {
         protected textureContext: TextureContext
         public ui: UICompenent
-        public constructor() {
+        public constructor(w: number = 64, h: number=64) {
             super();
-            this.textureContext = new TextureContext
+            this.textureContext = new TextureContext(w,h)
             PropModel.getInstance().propPanle.addUIContainer(this.textureContext);
             this.ui = this.textureContext.ui
         }
@@ -117,6 +67,7 @@
         protected resize(): void {
             this.ui.x = this._x
             this.ui.y = this._y
+       
         }
         private _x: number = 0
         private _y: number = 0;
@@ -139,25 +90,20 @@
 
     import InteractiveEvent = Pan3d.InteractiveEvent
     export class TextLabelUI extends BaseMeshUi{
-        public constructor() {
-            super();
+        public constructor(w: number = 64, h: number = 64) {
+            super(w, h);
             this.initView();
             this.resize();
         }
         protected initView(): void
         {
-         
         }
         public get label(): string {
             return "";
         }
         public set label(value: string) {
-            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 30, TextAlign.LEFT, "#ffffff", "#27262e");
-       
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
         }
- 
-    
-      
 
     }
 } 
