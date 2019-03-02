@@ -266,9 +266,13 @@
                             break
                         case FileVo.PREFAB:
 
-                            var tempview: PrefabMeshView = new PrefabMeshView
-                            tempview.data = new PrefabMeshData()
-                            prop.PropModel.getInstance().showPefabMesh(tempview);
+                       
+
+                            filemodel.PrefabManager.getInstance().getPrefabByUrl(fileUrl,(value: pack.PrefabStaticMesh)=> {
+                                var tempview: PrefabMeshView = new PrefabMeshView
+                                tempview.data = value;
+                                prop.PropModel.getInstance().showPefabMesh(tempview);
+                            })
                             break;
 
                         default:
@@ -279,6 +283,7 @@
                 }
             }
         }
+ 
         protected fileMouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             if (this.filemouseIsDown) {

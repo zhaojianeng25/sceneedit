@@ -27,6 +27,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\BaseUiStart.ts" />
+    <TypeScriptCompile Include="src\filemodel\PrefabManager.ts" />
     <TypeScriptCompile Include="src\layout\LayBaseTab.ts" />
     <TypeScriptCompile Include="src\layout\LayerManager.ts" />
     <TypeScriptCompile Include="src\layout\LayoutbaseBg.ts" />
@@ -45,6 +46,9 @@
     <TypeScriptCompile Include="src\md5\Md5MoveSprite.ts" />
     <TypeScriptCompile Include="src\md5\MeshImportSort.ts" />
     <TypeScriptCompile Include="src\md5\MeshToObjUtils.ts" />
+    <TypeScriptCompile Include="src\pack\ITile.ts" />
+    <TypeScriptCompile Include="src\pack\Prefab.ts" />
+    <TypeScriptCompile Include="src\pack\PrefabStaticMesh.ts" />
     <TypeScriptCompile Include="src\panel\folder\mesh\PrefabMeshView.ts" />
     <TypeScriptCompile Include="src\win\BaseWindow.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorPanel.ts" />

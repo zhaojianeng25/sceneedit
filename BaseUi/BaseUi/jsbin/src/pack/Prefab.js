@@ -1,0 +1,32 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var pack;
+(function (pack) {
+    var EventDispatcher = Pan3d.EventDispatcher;
+    var Prefab = /** @class */ (function (_super) {
+        __extends(Prefab, _super);
+        function Prefab() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.pic1 = "b.jpg";
+            _this.pic2 = "c.png";
+            return _this;
+        }
+        Prefab.prototype.getName = function () {
+            return "prefab";
+        };
+        return Prefab;
+    }(EventDispatcher));
+    pack.Prefab = Prefab;
+})(pack || (pack = {}));
+//# sourceMappingURL=Prefab.js.map

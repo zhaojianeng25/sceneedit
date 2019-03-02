@@ -32,10 +32,10 @@ var filelist;
         };
         Object.defineProperty(PrefabMeshView.prototype, "picurl", {
             get: function () {
-                return this.prefabMeshData.pic1;
+                return this.prefabStaticMesh.pic1;
             },
             set: function (value) {
-                this.prefabMeshData.pic1 = value;
+                this.prefabStaticMesh.pic1 = value;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -43,10 +43,10 @@ var filelist;
         });
         Object.defineProperty(PrefabMeshView.prototype, "otherurl", {
             get: function () {
-                return this.prefabMeshData.pic2;
+                return this.prefabStaticMesh.pic2;
             },
             set: function (value) {
-                this.prefabMeshData.pic2 = value;
+                this.prefabStaticMesh.pic2 = value;
             },
             enumerable: true,
             configurable: true
@@ -57,7 +57,8 @@ var filelist;
             },
             set: function (value) {
                 this._data = value;
-                this.prefabMeshData = this._data;
+                this.prefabStaticMesh = this._data;
+                console.log(this.prefabStaticMesh);
                 this.refreshViewValue();
             },
             enumerable: true,

@@ -2,6 +2,8 @@ D:\github\sceneEdit\BaseUi\BaseUi\jsbin\pan3d\engine\utils\Base64.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\pan3d\engine\utils\Base64.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\BaseUiStart.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\BaseUiStart.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\filemodel\PrefabManager.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\filemodel\PrefabManager.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\layout\LayBaseTab.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\layout\LayBaseTab.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\layout\LayerManager.js
@@ -38,6 +40,12 @@ D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\md5\MeshImportSort.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\md5\MeshImportSort.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\md5\MeshToObjUtils.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\md5\MeshToObjUtils.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\pack\ITile.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\pack\ITile.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\pack\Prefab.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\pack\Prefab.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\pack\PrefabStaticMesh.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\pack\PrefabStaticMesh.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\PrefabMeshView.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\PrefabMeshView.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\win\BaseWindow.js

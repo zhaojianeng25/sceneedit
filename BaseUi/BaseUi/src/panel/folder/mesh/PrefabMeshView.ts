@@ -1,12 +1,13 @@
 ﻿module filelist {
     import Scene_data = Pan3d.Scene_data;
     import Vector3D = Pan3d.Vector3D;
+    import PrefabStaticMesh = pack.PrefabStaticMesh
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
 
 
     export class PrefabMeshView extends MetaDataView {
-        private prefabMeshData: PrefabMeshData
+        private prefabStaticMesh: PrefabStaticMesh
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
@@ -19,22 +20,23 @@
             return ary;
         }
         public set picurl(value: string) {
-            this.prefabMeshData.pic1 = value
+            this.prefabStaticMesh.pic1 = value
             this.refreshViewValue()
         }
         public get picurl(): string {
-            return this.prefabMeshData.pic1
+            return this.prefabStaticMesh.pic1
         }
         public set otherurl(value: string) {
-            this.prefabMeshData.pic2 = value
+            this.prefabStaticMesh.pic2 = value
         }
         public get otherurl(): string {
-            return this.prefabMeshData.pic2 
+            return this.prefabStaticMesh.pic2 
         }
 
         public set data(value: any) {
             this._data = value;
-            this.prefabMeshData = this._data
+            this.prefabStaticMesh = this._data
+            console.log(this.prefabStaticMesh)
             this.refreshViewValue()
         }
         public get data(): any {
