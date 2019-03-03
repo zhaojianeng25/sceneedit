@@ -5,7 +5,7 @@
         private textLabelUI: TextLabelUI;
         private textFunNameUI: TextLabelUI;
 
-        private _label: string
+ 
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI();

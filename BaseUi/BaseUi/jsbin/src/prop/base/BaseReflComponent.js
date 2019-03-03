@@ -11,6 +11,16 @@ var prop;
             this.height = 100;
             this.initView();
         }
+        Object.defineProperty(BaseReflComponent.prototype, "label", {
+            get: function () {
+                return this._label;
+            },
+            set: function (value) {
+                this._label = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(BaseReflComponent.prototype, "data", {
             get: function () {
                 return this._data;

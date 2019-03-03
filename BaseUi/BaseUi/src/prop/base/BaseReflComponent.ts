@@ -27,7 +27,14 @@
 
             this.initView();
         }
-
+        protected _label: string
+        public get label(): string {
+            return this._label;
+        }
+        public set label(value: string) {
+            this._label = value
+        
+        }
         public set data(value: any) {
             this._data = value;
         }

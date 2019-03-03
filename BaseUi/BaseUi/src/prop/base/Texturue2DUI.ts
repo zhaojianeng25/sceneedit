@@ -8,7 +8,7 @@
         protected texturePicUi: TexturePicUi
      
 
-        private _label: string
+     
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI(64, 16)

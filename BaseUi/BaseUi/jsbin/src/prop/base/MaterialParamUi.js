@@ -40,39 +40,30 @@ var prop;
             var $changFun = function (value) { _this.changeDataEvtFun(value); };
             for (var i = 0; i < $materialTree.data.length; i++) {
                 if ($materialTree.data[i].data.isDynamic) {
-                    var tempTaget = this.getParamTaget($materialTree.data[i].data.paramName);
+                    var tempBaseReflComponent;
                     if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
-                        var tempTexturue2DUI = new prop.Texturue2DUI();
-                        if (tempTaget) {
-                            tempTexturue2DUI.target = tempTaget;
-                        }
-                        else {
-                            tempTexturue2DUI.target = $materialTree.data[i].data;
-                        }
-                        tempTexturue2DUI.label = $materialTree.data[i].data.paramName;
-                        tempTexturue2DUI.FunKey = "url";
-                        this.uiItem.push(tempTexturue2DUI);
+                        tempBaseReflComponent = new prop.Texturue2DUI();
+                        tempBaseReflComponent.FunKey = "url";
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
-                        var tempVec3ColorCtrlUI = new prop.Vec3ColorCtrlUI();
-                        tempVec3ColorCtrlUI.target = $materialTree.data[i].data;
-                        tempVec3ColorCtrlUI.label = $materialTree.data[i].data.paramName;
-                        tempVec3ColorCtrlUI.FunKey = "constValue";
-                        tempVec3ColorCtrlUI.changFun = $changFun;
-                        this.uiItem.push(tempVec3ColorCtrlUI);
+                        tempBaseReflComponent = new prop.Vec3ColorCtrlUI();
+                        tempBaseReflComponent.FunKey = "constValue";
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
-                        var tempTextCtrlInput = new prop.TextCtrlInput();
+                        tempBaseReflComponent = new prop.TextCtrlInput();
+                        tempBaseReflComponent.FunKey = "constValue";
+                    }
+                    if (tempBaseReflComponent) {
+                        var tempTaget = this.getParamTaget($materialTree.data[i].data.paramName);
                         if (tempTaget) {
-                            tempTextCtrlInput.target = tempTaget;
+                            tempBaseReflComponent.target = tempTaget;
                         }
                         else {
-                            tempTextCtrlInput.target = $materialTree.data[i].data;
+                            tempBaseReflComponent.target = $materialTree.data[i].data;
                         }
-                        tempTextCtrlInput.label = $materialTree.data[i].data.paramName;
-                        tempTextCtrlInput.FunKey = "constValue";
-                        tempTextCtrlInput.changFun = $changFun;
-                        this.uiItem.push(tempTextCtrlInput);
+                        tempBaseReflComponent.label = $materialTree.data[i].data.paramName;
+                        tempBaseReflComponent.changFun = $changFun;
+                        this.uiItem.push(tempBaseReflComponent);
                     }
                 }
             }

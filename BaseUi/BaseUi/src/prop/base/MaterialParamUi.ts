@@ -5,7 +5,7 @@
     export class MaterialParamUi extends BaseReflComponent {
 
  
-        private _label: string
+   
 
         private uiItem: Array<BaseReflComponent>
 
@@ -37,38 +37,33 @@
  
             for (var i: number = 0; i < $materialTree.data.length; i++) {
                 if ($materialTree.data[i].data.isDynamic) {
-                    var tempTaget: any = this.getParamTaget($materialTree.data[i].data.paramName)
+                    var tempBaseReflComponent: BaseReflComponent 
                     if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
-                        var tempTexturue2DUI: Texturue2DUI = new Texturue2DUI();
-                        if (tempTaget) {
-                            tempTexturue2DUI.target = tempTaget;
-                        } else {
-                            tempTexturue2DUI.target = $materialTree.data[i].data;
-                        }
-                        tempTexturue2DUI.label = $materialTree.data[i].data.paramName;
-                        tempTexturue2DUI.FunKey = "url";
-                        this.uiItem.push(tempTexturue2DUI);
+                        tempBaseReflComponent = new Texturue2DUI();
+                        tempBaseReflComponent.FunKey = "url";
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
-                        var tempVec3ColorCtrlUI: Vec3ColorCtrlUI = new Vec3ColorCtrlUI();
-                        tempVec3ColorCtrlUI.target = $materialTree.data[i].data;
-                        tempVec3ColorCtrlUI.label = $materialTree.data[i].data.paramName;
-                        tempVec3ColorCtrlUI.FunKey = "constValue";
-                        tempVec3ColorCtrlUI.changFun = $changFun
-                        this.uiItem.push(tempVec3ColorCtrlUI);
+                        tempBaseReflComponent= new Vec3ColorCtrlUI();
+                        tempBaseReflComponent.FunKey = "constValue";
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
-                        var tempTextCtrlInput: TextCtrlInput = new TextCtrlInput();
-                        if (tempTaget) {
-                            tempTextCtrlInput.target = tempTaget;
-                        } else {
-                            tempTextCtrlInput.target = $materialTree.data[i].data;
-                        }
-                        tempTextCtrlInput.label = $materialTree.data[i].data.paramName;
-                        tempTextCtrlInput.FunKey = "constValue";
-                        tempTextCtrlInput.changFun = $changFun
-                        this.uiItem.push(tempTextCtrlInput);
+                        tempBaseReflComponent = new TextCtrlInput();
+                        tempBaseReflComponent.FunKey = "constValue";
+                        
                     }
+                    if (tempBaseReflComponent) {
+                        var tempTaget: any = this.getParamTaget($materialTree.data[i].data.paramName)
+                        if (tempTaget) {
+                            tempBaseReflComponent.target = tempTaget;
+                        } else {
+                            tempBaseReflComponent.target = $materialTree.data[i].data;
+                        }
+                        tempBaseReflComponent.label = $materialTree.data[i].data.paramName;
+                        tempBaseReflComponent.changFun = $changFun
+                        this.uiItem.push(tempBaseReflComponent);
+                    }
+               
+                  
                 }
             }
             this.refreshViewValue()

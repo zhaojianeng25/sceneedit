@@ -13,7 +13,7 @@
 
         private colorPickUI: ColorPickUI
 
-        private _label: string
+ 
 
         private _v3d: Vector3D;
         protected initView(): void {

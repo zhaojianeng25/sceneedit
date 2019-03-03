@@ -9,7 +9,7 @@
         private textLabelUI: TextLabelUI;
         private comboBoxUi: ComboBoxUi;
 
-        private _label: string
+  
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI();
