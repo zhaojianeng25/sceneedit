@@ -2,7 +2,7 @@ var prop;
 (function (prop) {
     var MetaDataView = /** @class */ (function () {
         function MetaDataView() {
-            this._top = 350;
+            this._top = 100;
             this.creat(this.getView());
         }
         Object.defineProperty(MetaDataView.prototype, "top", {
@@ -121,6 +121,7 @@ var prop;
             for (var i = 0; i < this.ui.length; i++) {
                 this.ui[i].refreshViewValue();
             }
+            this.resize();
         };
         MetaDataView.prototype.destory = function () {
             while (this.ui.length) {

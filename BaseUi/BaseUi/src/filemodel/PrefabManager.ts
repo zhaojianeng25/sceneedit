@@ -4,6 +4,8 @@
     import Pan3dByteArray = Pan3d.Pan3dByteArray
     import PrefabStaticMesh = pack.PrefabStaticMesh
 
+  
+
     export class PrefabManager {
 
         private static _instance: PrefabManager;
@@ -20,11 +22,32 @@
                 for (var key in $obj) {
                     $prefab[key] = $obj[key];
                 }
-                bfun($prefab)
+
+                this.loadTextTureByUrl($prefab.textureurl, (materialTree: materialui.MaterialTree) => {
+                    $prefab.material = materialTree
+                    bfun($prefab)
+                })
+               
+
+
+          
             });
 
-  
-
+ 
+        }
+        private loadTextTureByUrl(value: string, bfun: Function): void {
+            LoadManager.getInstance().load(Scene_data.fileRoot + value, LoadManager.BYTE_TYPE,
+                ($dtstr: ArrayBuffer) => {
+                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
+                    $byte.position = 0
+                    var $temp: any = JSON.parse($byte.readUTF());
+                    var $tempMaterial: materialui.MaterialTree = new materialui.MaterialTree
+                    $tempMaterial = new materialui.MaterialTree;
+                    $tempMaterial.url = value
+                    $tempMaterial.setData({ data: $temp.data });
+           
+                    bfun($tempMaterial)
+                });
         }
     }
 }

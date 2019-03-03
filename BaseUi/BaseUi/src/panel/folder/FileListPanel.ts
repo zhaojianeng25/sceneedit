@@ -459,12 +459,12 @@
 
             var tempObj: any = {}
             tempObj.name = "temp.prefab";
-            tempObj.textureurl = "texture/color.material"
+            tempObj.textureurl = "texture/5.material"
             tempObj.objsurl = "ccsss.objs"
 
 
             $byte.writeUTF(JSON.stringify(tempObj))
-            var $file: File = new File([$byte.buffer], "新建.prefab");
+            var $file: File = new File([$byte.buffer], "其他.prefab");
 
 
             var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");

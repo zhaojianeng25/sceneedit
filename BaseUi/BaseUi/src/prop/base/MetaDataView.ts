@@ -3,7 +3,7 @@
     export class MetaDataView {
 
         protected _data: any;
-        protected _top: number=350
+        protected _top: number=100
         public set top(value: number) {
             this._top = value;
             this.resize()
@@ -27,6 +27,7 @@
         public set data(value: any) {
             this._data = value;
             this.refreshViewValue()
+  
         }
         public get data(): any {
             return this._data
@@ -128,6 +129,7 @@
             for (var i: number = 0; i < this.ui.length; i++) {
                 this.ui[i].refreshViewValue()
             }
+            this.resize();
         }
         public destory(): void
         {

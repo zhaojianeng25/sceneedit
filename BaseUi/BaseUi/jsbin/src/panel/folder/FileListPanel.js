@@ -379,10 +379,10 @@ var filelist;
             var $byte = new Pan3d.Pan3dByteArray();
             var tempObj = {};
             tempObj.name = "temp.prefab";
-            tempObj.textureurl = "texture/color.material";
+            tempObj.textureurl = "texture/5.material";
             tempObj.objsurl = "ccsss.objs";
             $byte.writeUTF(JSON.stringify(tempObj));
-            var $file = new File([$byte.buffer], "新建.prefab");
+            var $file = new File([$byte.buffer], "其他.prefab");
             var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathurl + $file.name);
             filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, function () {

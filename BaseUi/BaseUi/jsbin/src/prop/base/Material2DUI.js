@@ -20,7 +20,14 @@ var prop;
         }
         Material2DUI.prototype.initView = function () {
             _super.prototype.initView.call(this);
-            this.height = 200;
+            this.height = 300;
+        };
+        Material2DUI.prototype.destory = function () {
+            _super.prototype.destory.call(this);
+            if (this._materialTreeMc) {
+                this._materialTreeMc.destory();
+                this._materialTreeMc = null;
+            }
         };
         Object.defineProperty(Material2DUI.prototype, "data", {
             set: function (value) {
@@ -31,8 +38,27 @@ var prop;
             configurable: true
         });
         Material2DUI.prototype.refreshViewValue = function () {
-            _super.prototype.refreshViewValue.call(this);
-            console.log("材质对象");
+            this.textureTree = this.target[this.FunKey];
+            if (this.textureTree) {
+                console.log(this.textureTree.data);
+                this.texturePicUi.url = this.textureTree.url;
+                var $arr = this.textureTree.url.split("/");
+                this.textureUrlText.label = $arr[$arr.length - 1];
+                this.showMaterialParamUi();
+            }
+            else {
+                this.texturePicUi.url = "icon/base.jpg";
+                this.textureUrlText.label = "无材质";
+            }
+        };
+        Material2DUI.prototype.showMaterialParamUi = function () {
+            if (!this._materialTreeMc) {
+                this._materialTreeMc = new prop.MaterialParamUi;
+            }
+            this.textureTree = this.target[this.FunKey];
+            this._materialTreeMc.setData(this.textureTree, this.target);
+            this._materialTreeMc.y = this._y + 100;
+            this.height = 100 + this._materialTreeMc.height;
         };
         return Material2DUI;
     }(prop.Texturue2DUI));

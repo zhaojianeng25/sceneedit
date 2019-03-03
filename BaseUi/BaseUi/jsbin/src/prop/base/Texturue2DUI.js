@@ -72,8 +72,8 @@ var prop;
             set: function (value) {
                 this._x = value;
                 this.textLabelUI.x = this._x + 0;
-                this.texturePicUi.x = this._x + 40;
-                this.textureUrlText.x = this._x + 40;
+                this.texturePicUi.x = this._x + 60;
+                this.textureUrlText.x = this._x + 60;
             },
             enumerable: true,
             configurable: true

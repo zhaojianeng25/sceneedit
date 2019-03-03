@@ -1,6 +1,7 @@
 ﻿module filelist {
     import Scene_data = Pan3d.Scene_data;
     import Vector3D = Pan3d.Vector3D;
+    import Material = Pan3d.Material
     import PrefabStaticMesh = pack.PrefabStaticMesh
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
@@ -11,19 +12,18 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "textureurl", target: this, Suffix:"material", Category: "属性" },
-                    { Type: ReflectionData.Texturue2DUI, Label: "图片:", FunKey: "picurl", target: this, Suffix: "jpg|png", Category: "属性" },
+                    { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", target: this, Suffix:"material", Category: "属性" },
                     { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunDirect", target: this, Step: 0.1 },
                 ];
             return ary;
         }
-        public set textureurl(value: string) {
-            this.prefabStaticMesh.textureurl = value
+        public set texture(value: Material) {
+            this.prefabStaticMesh.material = value
             this.refreshViewValue()
         }
-        public get textureurl(): string {
-            return this.prefabStaticMesh.textureurl
+        public get texture(): Material {
+            return this.prefabStaticMesh.material
         }
         public set objsurl(value: string) {
             this.prefabStaticMesh.objsurl = value

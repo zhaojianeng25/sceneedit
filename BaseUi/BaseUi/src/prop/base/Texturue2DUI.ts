@@ -3,9 +3,9 @@
     import Scene_data = Pan3d.Scene_data
     export class Texturue2DUI extends BaseReflComponent {
 
-        private textLabelUI: TextLabelUI;
-        private textureUrlText: TextLabelUI;
-        private texturePicUi: TexturePicUi
+        protected textLabelUI: TextLabelUI;
+        protected textureUrlText: TextLabelUI;
+        protected texturePicUi: TexturePicUi
      
 
         private _label: string
@@ -65,8 +65,8 @@
         public set x(value: number) {
             this._x = value;
             this.textLabelUI.x = this._x + 0;
-            this.texturePicUi.x = this._x + 40;
-            this.textureUrlText.x=this._x+40
+            this.texturePicUi.x = this._x + 60;
+            this.textureUrlText.x=this._x+60
 
         }
         public get x(): number {
