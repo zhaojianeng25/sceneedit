@@ -99,6 +99,7 @@ var materialui;
             this.drawTitleToFrame("材质");
         };
         BaseMaterialNodeUI.prototype.drawTitleToFrame = function ($str) {
+            this.tittleStr = $str;
             this.drawTextToName(this.a_panel_title_frame, $str);
             this.resetBgSize();
         };
@@ -244,6 +245,8 @@ var materialui;
             enumerable: true,
             configurable: true
         });
+        BaseMaterialNodeUI.prototype.showDynamic = function () {
+        };
         BaseMaterialNodeUI.titleFrameId = 0;
         return BaseMaterialNodeUI;
     }(UIPanel));

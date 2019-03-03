@@ -274,6 +274,28 @@ var materialui;
                         console.log("编译");
                         ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.COMPILE_MATERIAL));
                     }
+                    else {
+                        var $selectUi = this.getSelUI();
+                        if ($selectUi) {
+                            $selectUi.nodeTree.paramName = this.getCanUseParamName();
+                            switch ($selectUi.nodeTree.type) {
+                                case materialui.NodeTree.TEX:
+                                case materialui.NodeTree.TEX3D:
+                                case materialui.NodeTree.TEXCUBE:
+                                case materialui.NodeTree.VEC3:
+                                case materialui.NodeTree.VEC2:
+                                case materialui.NodeTree.FLOAT:
+                                    if ($selectUi.nodeTree.type) {
+                                        $selectUi.nodeTree.isDynamic = !$selectUi.nodeTree.isDynamic;
+                                        $selectUi.showDynamic();
+                                    }
+                                    break;
+                                default:
+                                    console.log("不可以设置为动态");
+                                    break;
+                            }
+                        }
+                    }
                     break;
                 case KeyboardType.O:
                     //ModuleEventManager.dispatchEvent(new left.LeftEvent(left.LeftEvent.SHOW_LEFT_PANEL));
@@ -290,6 +312,17 @@ var materialui;
             materialui.MaterialCtrl.getInstance().removeUI($ui);
             $ui.removeAllNodeLine();
             materialui.MaterialCtrl.getInstance().nodeUiPanel.removeUIContainer($ui);
+        };
+        MaterialProcessor.prototype.getCanUseParamName = function () {
+            var tempItem = [];
+            var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
+            for (var i = 0; i < $containerList.length; i++) {
+                var $temp = $containerList[i];
+                if ($temp && $temp.nodeTree.isDynamic) {
+                    tempItem.push($temp.nodeTree.paramName);
+                }
+            }
+            return "param" + tempItem.length;
         };
         MaterialProcessor.prototype.getSelUI = function () {
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;

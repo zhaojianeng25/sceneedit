@@ -324,6 +324,29 @@
                     if ($evt.altKey) {
                         console.log("编译")
                         ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.COMPILE_MATERIAL));
+                    } else {
+                        var $selectUi: BaseMaterialNodeUI = this.getSelUI();
+                        if ($selectUi) {
+                            $selectUi.nodeTree.paramName = this.getCanUseParamName()
+                            switch ($selectUi.nodeTree.type) {
+                                case NodeTree.TEX:
+                                case NodeTree.TEX3D:
+                                case NodeTree.TEXCUBE:
+                                case NodeTree.VEC3:
+                                case NodeTree.VEC2:
+                                case NodeTree.FLOAT:
+                                    if ($selectUi.nodeTree.type) {
+                                        $selectUi.nodeTree.isDynamic = !$selectUi.nodeTree.isDynamic;
+                                        $selectUi.showDynamic();
+                                    }
+                                    break
+                                default:
+                                    console.log("不可以设置为动态")
+                                    break
+                            }
+
+                     
+                        }
                     }
                     break
                 case KeyboardType.O:
@@ -349,6 +372,19 @@
             MaterialCtrl.getInstance().nodeUiPanel.removeUIContainer($ui)
 
         }
+        private getCanUseParamName(): string
+        {
+            var tempItem: Array<string>=[]
+            var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
+            for (var i: number = 0; i < $containerList.length; i++) {
+                var $temp: BaseMaterialNodeUI = <BaseMaterialNodeUI>$containerList[i]
+                if ($temp && $temp.nodeTree.isDynamic) {
+                    tempItem.push($temp.nodeTree.paramName)
+                }
+            }
+            return "param" + tempItem.length;
+        }
+
         private getSelUI(): BaseMaterialNodeUI {
             var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
             for (var i: number = 0; i < $containerList.length; i++) {

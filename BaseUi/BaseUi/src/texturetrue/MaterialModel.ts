@@ -205,6 +205,8 @@
             $ui.uiScale = MtlUiData.Scale;
             MaterialCtrl.getInstance().addNodeUI($ui)
 
+   
+
             layout.LayerManager.getInstance().resize()
         }
 

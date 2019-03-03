@@ -32,7 +32,7 @@
         public  nodeTree:NodeTree;
    
         protected gap: number = 20;
-        public name: string
+        public name: string;
         public static baseUIAtlas: UIAtlas;
 
         public constructor() {
@@ -140,8 +140,12 @@
             this.drawTitleToFrame("材质")
     
         }
+  
+        private tittleStr: string;
         protected drawTitleToFrame($str:string): void
         {
+            this.tittleStr = $str
+
             this.drawTextToName(this.a_panel_title_frame, $str);
 
             this.resetBgSize()
@@ -321,6 +325,11 @@
             }
          
         }
+        public showDynamic(): void {
+       
+       
+        }
+
 
     }
 }  

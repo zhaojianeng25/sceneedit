@@ -25,12 +25,14 @@ var prop;
         MaterialParamUi.prototype.setData = function ($materialTree, $prefabStaticMesh) {
             this.destory();
             for (var i = 0; i < $materialTree.data.length; i++) {
-                if ($materialTree.data[i].type == "tex") {
-                    var temp = new prop.Texturue2DUI();
-                    temp.target = $materialTree.data[i].data;
-                    temp.label = $materialTree.data[i].data.name;
-                    temp.FunKey = "url";
-                    this.uiItem.push(temp);
+                if ($materialTree.data[i].data.isDynamic) {
+                    if ($materialTree.data[i].type == "tex") {
+                        var temp = new prop.Texturue2DUI();
+                        temp.target = $materialTree.data[i].data;
+                        temp.label = $materialTree.data[i].data.name;
+                        temp.FunKey = "url";
+                        this.uiItem.push(temp);
+                    }
                 }
             }
             this.refreshViewValue();
