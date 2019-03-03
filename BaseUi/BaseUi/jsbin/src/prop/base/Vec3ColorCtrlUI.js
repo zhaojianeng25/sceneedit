@@ -60,11 +60,13 @@ var prop;
         });
         Vec3ColorCtrlUI.prototype.inputTextUiXchange = function ($evt) {
             this.target[this.FunKey] = this._v3d;
+            this.changFun && this.changFun(this);
             this.refreshViewValue();
         };
         Vec3ColorCtrlUI.prototype.colorPickUIchange = function ($evt) {
             var $vec = ($evt.data);
             this.target[this.FunKey] = $vec;
+            this.changFun && this.changFun(this);
             this.refreshViewValue();
         };
         Vec3ColorCtrlUI.prototype.refreshViewValue = function () {

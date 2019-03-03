@@ -61,12 +61,14 @@
         private inputTextUiXchange($evt: ReflectionEvet): void {
   
             this.target[this.FunKey] = this._v3d;
+            this.changFun && this.changFun(this);
             this.refreshViewValue();
 
         }
         private colorPickUIchange($evt: ReflectionEvet): void {
             var $vec: Vector3D = <Vector3D>($evt.data);
             this.target[this.FunKey] = $vec
+            this.changFun && this.changFun(this);
             this.refreshViewValue();
         }
         public refreshViewValue(): void {

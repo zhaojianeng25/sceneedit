@@ -23,7 +23,10 @@ var prop;
             this.uiItem = [];
         };
         MaterialParamUi.prototype.setData = function ($materialTree, $prefabStaticMesh) {
+            var _this = this;
             this.destory();
+            this.prefabStaticMesh = $prefabStaticMesh;
+            var $changFun = function (value) { _this.changeDataEvtFun(value); };
             for (var i = 0; i < $materialTree.data.length; i++) {
                 if ($materialTree.data[i].data.isDynamic) {
                     if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
@@ -38,6 +41,7 @@ var prop;
                         tempVec3ColorCtrlUI.target = $materialTree.data[i].data;
                         tempVec3ColorCtrlUI.label = $materialTree.data[i].data.paramName;
                         tempVec3ColorCtrlUI.FunKey = "constValue";
+                        tempVec3ColorCtrlUI.changFun = $changFun;
                         this.uiItem.push(tempVec3ColorCtrlUI);
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
@@ -45,11 +49,21 @@ var prop;
                         tempTextCtrlInput.target = $materialTree.data[i].data;
                         tempTextCtrlInput.label = $materialTree.data[i].data.paramName;
                         tempTextCtrlInput.FunKey = "constValue";
+                        tempTextCtrlInput.changFun = $changFun;
                         this.uiItem.push(tempTextCtrlInput);
                     }
                 }
             }
             this.refreshViewValue();
+        };
+        MaterialParamUi.prototype.changeDataEvtFun = function (temp) {
+            var infoArr = [];
+            for (var i = 0; i < this.uiItem.length; i++) {
+                if (this.uiItem[i].target.isDynamic) {
+                    infoArr.push(this.uiItem[i].target);
+                }
+            }
+            this.prefabStaticMesh.materialInfoArr = infoArr;
         };
         MaterialParamUi.prototype.refreshViewValue = function () {
             for (var i = 0; i < this.uiItem.length; i++) {

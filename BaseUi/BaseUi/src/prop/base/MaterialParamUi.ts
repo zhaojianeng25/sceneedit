@@ -15,8 +15,12 @@
         }
 
 
-        public setData($materialTree: materialui.MaterialTree, $prefabStaticMesh: Object): void {
+        private prefabStaticMesh: any;
+        public setData($materialTree: materialui.MaterialTree, $prefabStaticMesh: any): void {
             this.destory();
+            this.prefabStaticMesh =  $prefabStaticMesh  ; 
+
+            var $changFun: Function = (value: any) => {  this.changeDataEvtFun(value) }
  
             for (var i: number = 0; i < $materialTree.data.length; i++) {
                 if ($materialTree.data[i].data.isDynamic) {
@@ -32,6 +36,7 @@
                         tempVec3ColorCtrlUI.target = $materialTree.data[i].data;
                         tempVec3ColorCtrlUI.label = $materialTree.data[i].data.paramName;
                         tempVec3ColorCtrlUI.FunKey = "constValue";
+                        tempVec3ColorCtrlUI.changFun = $changFun
                         this.uiItem.push(tempVec3ColorCtrlUI);
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
@@ -39,12 +44,26 @@
                         tempTextCtrlInput.target = $materialTree.data[i].data;
                         tempTextCtrlInput.label = $materialTree.data[i].data.paramName;
                         tempTextCtrlInput.FunKey = "constValue";
+                        tempTextCtrlInput.changFun = $changFun
                         this.uiItem.push(tempTextCtrlInput);
                     }
                 }
             }
             this.refreshViewValue()
       
+        }
+        private changeDataEvtFun(temp: BaseReflComponent): void {
+ 
+            var infoArr: Array<any> = [];
+            for (var i: number = 0; i < this.uiItem.length; i++) {
+                if (this.uiItem[i].target.isDynamic) {
+                    infoArr.push(this.uiItem[i].target)
+                }
+    
+            }
+            this.prefabStaticMesh.materialInfoArr = infoArr
+ 
+       
         }
  
 

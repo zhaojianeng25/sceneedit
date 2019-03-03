@@ -56,7 +56,7 @@ var prop;
                 this._materialTreeMc = new prop.MaterialParamUi;
             }
             this.textureTree = this.target[this.FunKey];
-            this._materialTreeMc.setData(this.textureTree, this.target);
+            this._materialTreeMc.setData(this.textureTree, this.target.prefabStaticMesh);
             this._materialTreeMc.y = this._y + 100;
             this.height = 100 + this._materialTreeMc.height;
         };

@@ -46,7 +46,7 @@
                 this.  _materialTreeMc = new MaterialParamUi
             }
             this.textureTree = this.target[this.FunKey]
-            this._materialTreeMc.setData(this.textureTree, this.target)
+            this._materialTreeMc.setData(this.textureTree, this.target.prefabStaticMesh)
             this._materialTreeMc.y = this._y + 100
 
 

@@ -16,6 +16,7 @@
         //public setFun: Function;
         public target: any;
         public FunKey: string;
+        public changFun: Function;
         public KeyStep: number=1;
 
     

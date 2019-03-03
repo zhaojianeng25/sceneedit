@@ -42,7 +42,7 @@
         public set data(value: any) {
             this._data = value;
             this.prefabStaticMesh = this._data
-            console.log(this.prefabStaticMesh)
+        
             this.refreshViewValue()
         }
         public get data(): any {
@@ -67,6 +67,35 @@
         }
         public set ambientColor(value: Vector3D) {
      
+        }
+        public saveToSever(): void {
+
+
+            if (!this.prefabStaticMesh.materialInfoArr) {
+                return
+            }
+            console.log("保存", this.prefabStaticMesh);
+
+
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+
+
+            var $fileName: string = "newfiletxt.prefab";
+            var $obj: any = JSON.stringify(this.prefabStaticMesh);
+            console.log($obj)
+
+            $byte.writeUTF($obj)
+            var $file: File = new File([$byte.buffer], $fileName);
+            var pathurl: string  = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, () => {
+                console.log("更新材质完成", pathurl + $file.name);
+ 
+            })
+
+            //materialInfoArr: undefined
+            //name: "temp.prefab"
+            //objsurl: "ccsss.objs"
+            //textureurl: "texture/5.material"
         }
 
 

@@ -18,6 +18,16 @@ var pack;
         function PrefabStaticMesh() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        Object.defineProperty(PrefabStaticMesh.prototype, "materialInfoArr", {
+            get: function () {
+                return this._materialInfoArr;
+            },
+            set: function (value) {
+                this._materialInfoArr = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return PrefabStaticMesh;
     }(pack.Prefab));
     pack.PrefabStaticMesh = PrefabStaticMesh;

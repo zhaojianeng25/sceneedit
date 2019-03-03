@@ -28,7 +28,7 @@
            
 
             this.target[this.FunKey] = this.target[this.FunKey] + this.KeyStep * Number($evt.data);
-
+            this.changFun && this.changFun(this);
             this.refreshViewValue();
                
           

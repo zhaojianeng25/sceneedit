@@ -40,6 +40,7 @@ var prop;
         });
         TextCtrlInput.prototype.onChangeInput = function ($evt) {
             this.target[this.FunKey] = this.target[this.FunKey] + this.KeyStep * Number($evt.data);
+            this.changFun && this.changFun(this);
             this.refreshViewValue();
         };
         TextCtrlInput.prototype.refreshViewValue = function () {

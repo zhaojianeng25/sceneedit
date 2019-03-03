@@ -23,6 +23,7 @@ var filemodel;
                 }
                 _this.loadTextTureByUrl($prefab.textureurl, function (materialTree) {
                     $prefab.material = materialTree;
+                    console.log("对象", $prefab);
                     bfun($prefab);
                 });
             });

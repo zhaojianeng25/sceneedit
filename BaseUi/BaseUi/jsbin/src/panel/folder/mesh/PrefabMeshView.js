@@ -66,7 +66,6 @@ var filelist;
             set: function (value) {
                 this._data = value;
                 this.prefabStaticMesh = this._data;
-                console.log(this.prefabStaticMesh);
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -99,6 +98,26 @@ var filelist;
             enumerable: true,
             configurable: true
         });
+        PrefabMeshView.prototype.saveToSever = function () {
+            if (!this.prefabStaticMesh.materialInfoArr) {
+                return;
+            }
+            console.log("保存", this.prefabStaticMesh);
+            var $byte = new Pan3d.Pan3dByteArray();
+            var $fileName = "newfiletxt.prefab";
+            var $obj = JSON.stringify(this.prefabStaticMesh);
+            console.log($obj);
+            $byte.writeUTF($obj);
+            var $file = new File([$byte.buffer], $fileName);
+            var pathurl = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, function () {
+                console.log("更新材质完成", pathurl + $file.name);
+            });
+            //materialInfoArr: undefined
+            //name: "temp.prefab"
+            //objsurl: "ccsss.objs"
+            //textureurl: "texture/5.material"
+        };
         return PrefabMeshView;
     }(MetaDataView));
     filelist.PrefabMeshView = PrefabMeshView;

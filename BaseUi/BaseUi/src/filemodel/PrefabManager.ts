@@ -15,6 +15,10 @@
             }
             return this._instance;
         }
+        public constructor() {
+ 
+        }
+
         public getPrefabByUrl($url: String, bfun: Function): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, ($byte: any) => {
                 var $obj: any = JSON.parse(new Pan3dByteArray($byte).readUTF())
@@ -25,6 +29,8 @@
 
                 this.loadTextTureByUrl($prefab.textureurl, (materialTree: materialui.MaterialTree) => {
                     $prefab.material = materialTree
+
+                    console.log("对象", $prefab)
                     bfun($prefab)
                 })
                
@@ -35,19 +41,23 @@
 
  
         }
+  
         private loadTextTureByUrl(value: string, bfun: Function): void {
-            LoadManager.getInstance().load(Scene_data.fileRoot + value, LoadManager.BYTE_TYPE,
-                ($dtstr: ArrayBuffer) => {
-                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
-                    $byte.position = 0
-                    var $temp: any = JSON.parse($byte.readUTF());
-                    var $tempMaterial: materialui.MaterialTree = new materialui.MaterialTree
-                    $tempMaterial = new materialui.MaterialTree;
-                    $tempMaterial.url = value
-                    $tempMaterial.setData({ data: $temp.data });
-           
-                    bfun($tempMaterial)
-                });
+    
+                LoadManager.getInstance().load(Scene_data.fileRoot + value, LoadManager.BYTE_TYPE,
+                    ($dtstr: ArrayBuffer) => {
+                        var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
+                        $byte.position = 0
+                        var $temp: any = JSON.parse($byte.readUTF());
+                        var $tempMaterial: materialui.MaterialTree = new materialui.MaterialTree
+                        $tempMaterial = new materialui.MaterialTree;
+                        $tempMaterial.url = value;
+                        $tempMaterial.setData({ data: $temp.data });
+         
+                        bfun($tempMaterial);
+                    });
+         
+            
         }
     }
 }
