@@ -18,7 +18,7 @@
         }
         public set data(value: any) {
             this._data = value;
-            console.log("data", value)
+          //  console.log("data", value)
 
         }
         public refreshViewValue(): void {
@@ -27,7 +27,7 @@
             this.textureTree = this.target[this.FunKey]
             if (this.textureTree) {
 
-                console.log(this.textureTree.data)
+               // console.log(this.textureTree.data)
 
                 this.texturePicUi.url = this.textureTree.url
                 var $arr: Array<string> = this.textureTree.url.split("/");

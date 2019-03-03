@@ -32,7 +32,7 @@ var prop;
         Object.defineProperty(Material2DUI.prototype, "data", {
             set: function (value) {
                 this._data = value;
-                console.log("data", value);
+                //  console.log("data", value)
             },
             enumerable: true,
             configurable: true
@@ -40,7 +40,7 @@ var prop;
         Material2DUI.prototype.refreshViewValue = function () {
             this.textureTree = this.target[this.FunKey];
             if (this.textureTree) {
-                console.log(this.textureTree.data);
+                // console.log(this.textureTree.data)
                 this.texturePicUi.url = this.textureTree.url;
                 var $arr = this.textureTree.url.split("/");
                 this.textureUrlText.label = $arr[$arr.length - 1];

@@ -82,7 +82,7 @@
 
             var $fileName: string = "newfiletxt.prefab";
             var $obj: any = JSON.stringify(this.prefabStaticMesh);
-            console.log($obj)
+     
 
             $byte.writeUTF($obj)
             var $file: File = new File([$byte.buffer], $fileName);

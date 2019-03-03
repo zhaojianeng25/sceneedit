@@ -16,17 +16,35 @@
 
 
         private prefabStaticMesh: any;
+
+        private getParamTaget(paramName: any): any {
+            for (var i: number = 0; this.prefabStaticMesh.materialInfoArr && i < this.prefabStaticMesh.materialInfoArr.length; i++) {
+                if (this.prefabStaticMesh.materialInfoArr[i].paramName == paramName) {
+                    return this.prefabStaticMesh.materialInfoArr[i]
+                }
+            }
+
+            return null
+        }
         public setData($materialTree: materialui.MaterialTree, $prefabStaticMesh: any): void {
             this.destory();
-            this.prefabStaticMesh =  $prefabStaticMesh  ; 
+            this.prefabStaticMesh = $prefabStaticMesh; 
+            if (this.prefabStaticMesh.materialInfoArr) {
+                console.log(this.prefabStaticMesh.materialInfoArr)
+            }
 
             var $changFun: Function = (value: any) => {  this.changeDataEvtFun(value) }
  
             for (var i: number = 0; i < $materialTree.data.length; i++) {
                 if ($materialTree.data[i].data.isDynamic) {
+                    var tempTaget: any = this.getParamTaget($materialTree.data[i].data.paramName)
                     if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
-                        var tempTexturue2DUI: Texturue2DUI= new Texturue2DUI();
-                        tempTexturue2DUI.target = $materialTree.data[i].data;
+                        var tempTexturue2DUI: Texturue2DUI = new Texturue2DUI();
+                        if (tempTaget) {
+                            tempTexturue2DUI.target = tempTaget;
+                        } else {
+                            tempTexturue2DUI.target = $materialTree.data[i].data;
+                        }
                         tempTexturue2DUI.label = $materialTree.data[i].data.paramName;
                         tempTexturue2DUI.FunKey = "url";
                         this.uiItem.push(tempTexturue2DUI);
@@ -41,7 +59,11 @@
                     }
                     if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
                         var tempTextCtrlInput: TextCtrlInput = new TextCtrlInput();
-                        tempTextCtrlInput.target = $materialTree.data[i].data;
+                        if (tempTaget) {
+                            tempTextCtrlInput.target = tempTaget;
+                        } else {
+                            tempTextCtrlInput.target = $materialTree.data[i].data;
+                        }
                         tempTextCtrlInput.label = $materialTree.data[i].data.paramName;
                         tempTextCtrlInput.FunKey = "constValue";
                         tempTextCtrlInput.changFun = $changFun

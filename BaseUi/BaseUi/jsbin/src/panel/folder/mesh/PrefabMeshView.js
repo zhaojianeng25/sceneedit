@@ -106,7 +106,6 @@ var filelist;
             var $byte = new Pan3d.Pan3dByteArray();
             var $fileName = "newfiletxt.prefab";
             var $obj = JSON.stringify(this.prefabStaticMesh);
-            console.log($obj);
             $byte.writeUTF($obj);
             var $file = new File([$byte.buffer], $fileName);
             var pathurl = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
