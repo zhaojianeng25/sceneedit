@@ -16,7 +16,6 @@ var colorview;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var UIManager = Pan3d.UIManager;
     var ColorEvent = /** @class */ (function (_super) {
         __extends(ColorEvent, _super);
         function ColorEvent() {
@@ -62,18 +61,23 @@ var colorview;
         };
         ColorProcessor.prototype.hideColorPanel = function () {
             if (this.colorPanel) {
-                UIManager.getInstance().removeUIContainer(this.colorPanel);
+                this.colorWinPanel.removeUIContainer(this.colorPanel);
+                this.colorPanel = null;
             }
         };
         ColorProcessor.prototype.showColorPanel = function ($v3d, $bfun) {
             var _this = this;
+            if (!this.colorWinPanel) {
+                this.colorWinPanel = new layout.Panel(false);
+                layout.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
+            }
             if (!this.colorPanel) {
                 this.colorPanel = new colorview.ColorPanel;
+                this.colorPanel.load(function () {
+                    _this.colorPanel.initColor($v3d, $bfun);
+                });
             }
-            this.colorPanel.load(function () {
-                UIManager.getInstance().addUIContainer(_this.colorPanel);
-                _this.colorPanel.initColor($v3d, $bfun);
-            });
+            this.colorWinPanel.addUIContainer(this.colorPanel);
         };
         ColorProcessor.prototype.listenModuleEvents = function () {
             return [

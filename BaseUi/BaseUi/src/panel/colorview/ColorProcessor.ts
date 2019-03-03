@@ -40,18 +40,27 @@
 
         private hideColorPanel(): void {
             if (this.colorPanel) {
-                UIManager.getInstance().removeUIContainer(this.colorPanel)
+                this.colorWinPanel.removeUIContainer(this.colorPanel);
+                this.colorPanel = null;
             }
         }
+ 
         private showColorPanel($v3d: Vector3D, $bfun: Function): void {
+
+            if (!this.colorWinPanel) {
+                this.colorWinPanel = new layout.Panel(false)
+                layout.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
+            }
             if (!this.colorPanel) {
                 this.colorPanel = new ColorPanel;
+                this.colorPanel.load(() => {
+                    this.colorPanel.initColor($v3d, $bfun);
+                })
             }
-            this.colorPanel.load(() => {
-                UIManager.getInstance().addUIContainer(this.colorPanel)
-                this.colorPanel.initColor($v3d, $bfun);
-            })
+            this.colorWinPanel.addUIContainer(this.colorPanel);
         }
+        private colorWinPanel: layout.Panel
+ 
         private colorPanel: ColorPanel
         protected listenModuleEvents(): Array<BaseEvent> {
             return [

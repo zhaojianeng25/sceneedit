@@ -1,6 +1,7 @@
 ﻿module prop {
     import TextureManager = Pan3d.TextureManager
     import Scene_data = Pan3d.Scene_data
+  
     export class MaterialParamUi extends BaseReflComponent {
 
  
@@ -18,25 +19,34 @@
             this.destory();
  
             for (var i: number = 0; i < $materialTree.data.length; i++) {
-                if ($materialTree.data[i].data.isDynamic ) {
-                    if ($materialTree.data[i].type == "tex") {
-                        var temp = new Texturue2DUI();
-                        temp.target = $materialTree.data[i].data;
-                        temp.label = $materialTree.data[i].data.name
-                        temp.FunKey = "url";
-                        this.uiItem.push(temp);
+                if ($materialTree.data[i].data.isDynamic) {
+                    if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
+                        var tempTexturue2DUI: Texturue2DUI= new Texturue2DUI();
+                        tempTexturue2DUI.target = $materialTree.data[i].data;
+                        tempTexturue2DUI.label = $materialTree.data[i].data.paramName;
+                        tempTexturue2DUI.FunKey = "url";
+                        this.uiItem.push(tempTexturue2DUI);
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
+                        var tempVec3ColorCtrlUI: Vec3ColorCtrlUI = new Vec3ColorCtrlUI();
+                        tempVec3ColorCtrlUI.target = $materialTree.data[i].data;
+                        tempVec3ColorCtrlUI.label = $materialTree.data[i].data.paramName;
+                        tempVec3ColorCtrlUI.FunKey = "constValue";
+                        this.uiItem.push(tempVec3ColorCtrlUI);
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
+                        var tempTextCtrlInput: TextCtrlInput = new TextCtrlInput();
+                        tempTextCtrlInput.target = $materialTree.data[i].data;
+                        tempTextCtrlInput.label = $materialTree.data[i].data.paramName;
+                        tempTextCtrlInput.FunKey = "constValue";
+                        this.uiItem.push(tempTextCtrlInput);
                     }
                 }
             }
             this.refreshViewValue()
       
         }
-        public get paramInfo() {
-            return "c.png"
-        }
-        public set paramInfo(value: any) {
-       
-        }
+ 
 
         public refreshViewValue(): void {
             for (var i: number = 0; i < this.uiItem.length; i++) {
@@ -75,21 +85,29 @@
             this._y = value;
 
             var ty: number = 10
-            this.height = 60;
+            this.height = 50;
             for (var i: number = 0; i < this.uiItem.length; i++) {
                 this.uiItem[i].y = this.y + ty
   
-                if (this.uiItem[i] instanceof Texturue2DUI) {
-                    ty += 30
-                    this.uiItem[i].x = 10
-                }
-                if (this.uiItem[i] instanceof Texturue2DUI) {
-                    ty += 70
+                if (this.uiItem[i] instanceof Vec3ColorCtrlUI) {
+                    ty += 50
                     this.uiItem[i].x = 50
-                    this.height += 70
+                    this.height += 50
                 }
-            }
+                if (this.uiItem[i] instanceof TextCtrlInput) {
+                    ty += 50
+                    this.uiItem[i].x = 50
+                    this.height += 50
+                }
+                if (this.uiItem[i] instanceof Texturue2DUI) {
+                    ty += 100
+                    this.uiItem[i].x = 50
+                    this.height += 100
+                }
 
+                
+            }
+            this.height += 50
 
         }
         public get y(): number {

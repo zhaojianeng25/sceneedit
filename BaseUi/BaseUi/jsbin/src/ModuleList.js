@@ -20,6 +20,7 @@ var ModuleList = /** @class */ (function () {
         var $arr = [
             new materialui.MaterialModule(),
             new rightmenu.RightMenuModule(),
+            new colorview.ColorModule(),
             new menutwo.MenuTwoModule(),
             new editscene.EditSceneModule(),
             new maineditor.MainEditorModule(),
