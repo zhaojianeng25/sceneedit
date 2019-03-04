@@ -217,8 +217,19 @@ var materialui;
         MaterialProcessor.prototype.saveMateriaPanel = function () {
             this._materialTree = new materialui.MaterialTree();
             this._materialTree.data = materialui.MaterialCtrl.getInstance().getObj();
-            console.log(this._materialTree.data);
-            materialui.MaterialModel.getInstance().upMaterialTreeToWeb(this._materialTree, this.lastMaterialUrl);
+            console.log(this.baseMaterialTree);
+            if (this.baseMaterialTree.shaderStr) {
+                materialui.MaterialModel.getInstance().upMaterialTreeToWeb(this._materialTree, this.getMakeProgemePrame(), this.lastMaterialUrl);
+            }
+            else {
+                alert("选编译才能保存上传");
+            }
+        };
+        MaterialProcessor.prototype.getMakeProgemePrame = function () {
+            var obj = {};
+            obj.useNormal = this.baseMaterialTree.useNormal;
+            obj.shaderStr = this.baseMaterialTree.shaderStr;
+            return obj;
         };
         MaterialProcessor.prototype.selectNodeUi = function ($nodeUi) {
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;

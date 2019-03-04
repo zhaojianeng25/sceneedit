@@ -6,7 +6,8 @@
     import ConstItem = Pan3d.ConstItem
     export class MaterialTree extends Material {
         private _data: any;
-     
+
+
         private _compileData: any;
         private _url: string;
 
@@ -40,6 +41,8 @@
         public materialBaseData: MaterialBaseData;
         public fcNum: number;
         public fcIDAry: Array<number> = new Array;//[]
+
+ 
       
         public get data(): any {
             return this._data;

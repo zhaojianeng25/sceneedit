@@ -37,6 +37,7 @@
                     $tempMaterial = new MaterialTree;
                     $tempMaterial.url = url
                     $tempMaterial.setData({ data: $temp.data });
+ 
                     var $materialEvent: MaterialEvent = new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE)
                     $materialEvent.materailTree = $tempMaterial;
                     ModuleEventManager.dispatchEvent($materialEvent);
@@ -218,7 +219,7 @@
             }
             return new File([u8arr], filename, { type: mime });
         }
-        public upMaterialTreeToWeb($temp: MaterialTree, $url: string) {
+        public upMaterialTreeToWeb($temp: MaterialTree, $info: any, $url: string) {
  
                 for (var i: number = 0; $temp.data && i < $temp.data.length; i++) {
                     var $vo: any = $temp.data[i];
@@ -239,9 +240,9 @@
                         }
                     }
                 }
-                var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-                $byte.writeUTF(JSON.stringify({ data: $temp.data }))
-               var $file: File = new File([$byte.buffer], "ossfile.txt");
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+            $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }))
+            var $file: File = new File([$byte.buffer], "ossfile.txt");
 
 
      

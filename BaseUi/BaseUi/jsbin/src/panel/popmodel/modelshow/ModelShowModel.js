@@ -72,7 +72,6 @@ var left;
             console.log($roleShader.fragment);
             console.log("----------roleShader------------");
             var $temp = $treeMater.clone();
-            $temp.shader = $roleShader;
             $temp.program = $roleShader.program;
             this.selectShowDisp.material = $temp;
         };

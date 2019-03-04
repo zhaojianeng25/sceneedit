@@ -192,7 +192,7 @@ var materialui;
             }
             return new File([u8arr], filename, { type: mime });
         };
-        MaterialModel.prototype.upMaterialTreeToWeb = function ($temp, $url) {
+        MaterialModel.prototype.upMaterialTreeToWeb = function ($temp, $info, $url) {
             for (var i = 0; $temp.data && i < $temp.data.length; i++) {
                 var $vo = $temp.data[i];
                 if ($vo.type == materialui.NodeTree.TEX || $vo.type == materialui.NodeTree.TEX3D || $vo.type == materialui.NodeTree.TEXCUBE) {
@@ -213,7 +213,7 @@ var materialui;
                 }
             }
             var $byte = new Pan3d.Pan3dByteArray();
-            $byte.writeUTF(JSON.stringify({ data: $temp.data }));
+            $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }));
             var $file = new File([$byte.buffer], "ossfile.txt");
             var pathUrl = Pan3d.Scene_data.fileRoot + $url;
             var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");

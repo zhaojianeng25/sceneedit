@@ -246,13 +246,26 @@
 
         private _materialTree: MaterialTree;
         private saveMateriaPanel(): void {
+           
             this._materialTree = new MaterialTree()
             this._materialTree.data = MaterialCtrl.getInstance().getObj()
-            console.log(this._materialTree.data);
+         
+            console.log(this.baseMaterialTree);
 
-            MaterialModel.getInstance().upMaterialTreeToWeb(this._materialTree, this.lastMaterialUrl)
+            if (this.baseMaterialTree.shaderStr) {
+                MaterialModel.getInstance().upMaterialTreeToWeb(this._materialTree, this.getMakeProgemePrame(), this.lastMaterialUrl)
+            } else {
+                alert("选编译才能保存上传")
+            }
+ 
 
+        }
+        private getMakeProgemePrame(): any { //获取着色器参数
+            var obj: any = {};
+            obj.useNormal = this.baseMaterialTree.useNormal
+            obj.shaderStr = this.baseMaterialTree.shaderStr
 
+            return obj
         }
 
         private selectNodeUi($nodeUi: BaseMaterialNodeUI): void {

@@ -278,6 +278,11 @@
                 $vo.pos = new Vector3D
                 $vo.pos.y=-1000
                 this.showTemp($vo);
+                if ($hierarchyFileNode.type == HierarchyNodeType.Prefab) {
+                    this.makeModel()
+                }
+    
+
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
                 $item.push($vo)
             }
@@ -285,6 +290,50 @@
                 return $item
             }
             return null
+        }
+        private makeModel(): void {
+            filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {
+                var prefab: pack.PrefabStaticMesh = value;
+                console.log(prefab)
+                var dis: left.MaterialModelSprite = new left.MaterialModelSprite();
+
+                MainEditorProcessor.edItorSceneManager.addDisplay(dis);
+
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE,
+                    ($modelxml: string) => {
+                        dis.readTxtToModel($modelxml);
+                    });
+
+                LoadManager.getInstance().load(Scene_data.fileRoot + "texture/color.material", LoadManager.BYTE_TYPE,
+                    ($dtstr: ArrayBuffer) => {
+                        var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
+                        $byte.position = 0
+                        var $temp: any = JSON.parse($byte.readUTF());
+                   
+                        var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
+                        $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
+                        $buildShader.vertex = $buildShader.getVertexShaderString();
+                        $buildShader.fragment = $temp.shaderStr;
+                        $buildShader.encode();
+
+
+                        var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
+
+                        $materialTree.shader = $buildShader;
+                        $materialTree.program = $buildShader.program;
+                        console.log("----------vertex------------");
+                        console.log($buildShader.vertex);
+                        console.log("----------fragment------------");
+                        console.log($buildShader.fragment);
+                        console.log("----------buildShader------------");
+
+                      //  dis.material = $materialTree;
+                     
+
+                    });
+
+            })
+
         }
         private readMapFile(): void {
             LoadManager.getInstance().load(Scene_data.fileuiRoot + "scene011_map.txt", LoadManager.XML_TYPE,

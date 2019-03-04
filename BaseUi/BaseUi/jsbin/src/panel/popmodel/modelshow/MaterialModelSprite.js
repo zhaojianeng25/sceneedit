@@ -120,6 +120,9 @@ var left;
             $objdata.indexBuffer = Scene_data.context3D.uploadIndexBuff3D($objdata.indexs);
             this.objData = $objdata;
         };
+        MaterialModelSprite.prototype.update = function () {
+            _super.prototype.update.call(this);
+        };
         return MaterialModelSprite;
     }(Display3DSprite));
     left.MaterialModelSprite = MaterialModelSprite;

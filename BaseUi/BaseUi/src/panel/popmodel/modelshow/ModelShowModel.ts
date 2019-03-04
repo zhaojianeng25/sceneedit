@@ -102,7 +102,8 @@
             console.log("----------roleShader------------");
 
             var $temp: materialui.MaterialTree = $treeMater.clone()
-            $temp.shader = $roleShader;
+ 
+       
             $temp.program = $roleShader.program;
  
            ( <MaterialRoleSprite> this.selectShowDisp).material = $temp

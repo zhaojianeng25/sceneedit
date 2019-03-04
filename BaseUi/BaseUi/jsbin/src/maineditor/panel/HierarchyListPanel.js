@@ -259,6 +259,9 @@ var maineditor;
                 $vo.pos = new Vector3D;
                 $vo.pos.y = -1000;
                 this.showTemp($vo);
+                if ($hierarchyFileNode.type == maineditor.HierarchyNodeType.Prefab) {
+                    this.makeModel();
+                }
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
                 $item.push($vo);
             }
@@ -266,6 +269,36 @@ var maineditor;
                 return $item;
             }
             return null;
+        };
+        HierarchyListPanel.prototype.makeModel = function () {
+            filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
+                var prefab = value;
+                console.log(prefab);
+                var dis = new left.MaterialModelSprite();
+                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+                    dis.readTxtToModel($modelxml);
+                });
+                LoadManager.getInstance().load(Scene_data.fileRoot + "texture/color.material", LoadManager.BYTE_TYPE, function ($dtstr) {
+                    var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                    $byte.position = 0;
+                    var $temp = JSON.parse($byte.readUTF());
+                    var $buildShader = new left.BuildMaterialShader();
+                    $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
+                    $buildShader.vertex = $buildShader.getVertexShaderString();
+                    $buildShader.fragment = $temp.shaderStr;
+                    $buildShader.encode();
+                    var $materialTree = new materialui.MaterialTree();
+                    $materialTree.shader = $buildShader;
+                    $materialTree.program = $buildShader.program;
+                    console.log("----------vertex------------");
+                    console.log($buildShader.vertex);
+                    console.log("----------fragment------------");
+                    console.log($buildShader.fragment);
+                    console.log("----------buildShader------------");
+                    //  dis.material = $materialTree;
+                });
+            });
         };
         HierarchyListPanel.prototype.readMapFile = function () {
             var _this = this;
