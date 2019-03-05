@@ -286,7 +286,7 @@ var maineditor;
                 console.log(prefab);
                 var dis = new ModelSprite();
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                     dis.readTxtToModel($modelxml);
                 });
                 LoadManager.getInstance().load(Scene_data.fileRoot + "texture/color.material", LoadManager.BYTE_TYPE, function ($dtstr) {

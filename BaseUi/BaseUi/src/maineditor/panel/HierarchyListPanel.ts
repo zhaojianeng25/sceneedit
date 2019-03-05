@@ -329,7 +329,7 @@
 
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
 
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE,
                     ($modelxml: string) => {
                         dis.readTxtToModel($modelxml);
                     });
@@ -346,10 +346,7 @@
                         $buildShader.vertex = $buildShader.getVertexShaderString();
                         $buildShader.fragment = $temp.info.shaderStr;
                         $buildShader.encode();
-
-                
-                     
-
+ 
 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
                         $materialTree.texList = this.makeTextList($temp.info.texList);
