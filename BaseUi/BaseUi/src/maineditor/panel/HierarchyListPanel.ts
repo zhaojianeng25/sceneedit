@@ -36,30 +36,27 @@
     import TexItem = Pan3d.TexItem
     import MaterialBaseParam = Pan3d.MaterialBaseParam
     import ObjData = Pan3d.ObjData
+    import TextureRes = Pan3d.TextureRes
 
     import SampleFileVo = filelist.SampleFileVo
 
 
 
     export class ModelSprite extends left.MaterialModelSprite {
+        public constructor() {
+            super();
+            this.loadTexture()
+        }
+        private loadTexture(): void {
+            var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(128, 128, false);
+            $ctx.fillStyle = "rgb(255,255,255)";
+            $ctx.fillRect(0, 0, 128, 128);
+            this._uvTextureRes = TextureManager.getInstance().getCanvasTexture($ctx)
+        }
+        public _uvTextureRes: TextureRes
         public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
-            var texVec: Array<TexItem> = $material.texList;
-            for (var i: number = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-                if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-            }
-            if ($mp) {
-                for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
-                        Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name,
-                            $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
-                    }
-                }
-            }
+            Scene_data.context3D.setRenderTextureCube($material.program, "fc0", this._uvTextureRes.texture, 0);
+               
         }
 
     }

@@ -25,30 +25,22 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
-    var TexItem = Pan3d.TexItem;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super.call(this) || this;
+            _this.loadTexture();
+            return _this;
         }
+        ModelSprite.prototype.loadTexture = function () {
+            var $ctx = UIManager.getInstance().getContext2D(128, 128, false);
+            $ctx.fillStyle = "rgb(255,255,255)";
+            $ctx.fillRect(0, 0, 128, 128);
+            this._uvTextureRes = TextureManager.getInstance().getCanvasTexture($ctx);
+        };
         ModelSprite.prototype.setMaterialTexture = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
-            var texVec = $material.texList;
-            for (var i = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-                if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-            }
-            if ($mp) {
-                for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
-                        Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name, $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
-                    }
-                }
-            }
+            Scene_data.context3D.setRenderTextureCube($material.program, "fc0", this._uvTextureRes.texture, 0);
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
