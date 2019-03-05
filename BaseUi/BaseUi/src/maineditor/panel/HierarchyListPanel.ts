@@ -40,6 +40,7 @@
     import Matrix3D = Pan3d.Matrix3D
     import ProgrmaManager = Pan3d.ProgrmaManager
     import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
+    import ConstItem = Pan3d.ConstItem
 
 
     import SampleFileVo = filelist.SampleFileVo
@@ -52,6 +53,11 @@
         public constructor() {
             super();
   
+        }
+        public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
+            super.setMaterialVc($material, $mp)
+            Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1,0,1,1]));
+
         }
       
  
@@ -329,7 +335,7 @@
 
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
 
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE,
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
                     ($modelxml: string) => {
                         dis.readTxtToModel($modelxml);
                     });
@@ -350,6 +356,7 @@
 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
                         $materialTree.texList = this.makeTextList($temp.info.texList);
+                        $materialTree.constList = this.makeConstList($temp.info.constList);
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
                         console.log("----------vertex------------");
@@ -365,6 +372,16 @@
 
             })
 
+        }
+        private makeConstList(item: Array<any>): Array<ConstItem> {
+            var constList: Array<ConstItem> = []
+            for (var i: number = 0; i < item.length; i++) {
+                var temp: ConstItem = new ConstItem()
+
+
+                constList.push(temp)
+            }
+            return constList
         }
         private makeTextList(item: Array<any>): Array<TexItem> {
             var texList: Array<TexItem> = new Array;

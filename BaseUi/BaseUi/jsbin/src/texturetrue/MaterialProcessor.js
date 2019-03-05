@@ -229,6 +229,7 @@ var materialui;
             var obj = {};
             obj.useNormal = this.baseMaterialTree.useNormal;
             obj.texList = this.baseMaterialTree.texList;
+            obj.constList = this.baseMaterialTree.constList;
             obj.shaderStr = this.baseMaterialTree.shaderStr;
             return obj;
         };
