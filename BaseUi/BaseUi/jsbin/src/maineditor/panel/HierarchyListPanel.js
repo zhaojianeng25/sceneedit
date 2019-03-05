@@ -25,11 +25,16 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var BaseDiplay3dShader = Pan3d.BaseDiplay3dShader;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
             var _this = _super.call(this) || this;
             _this.loadTexture();
+            ProgrmaManager.getInstance().registe(BaseDiplay3dShader.BaseDiplay3dShader, new BaseDiplay3dShader);
+            _this.shader = ProgrmaManager.getInstance().getProgram(BaseDiplay3dShader.BaseDiplay3dShader);
+            _this.program = _this.shader.program;
             return _this;
         }
         ModelSprite.prototype.loadTexture = function () {
@@ -40,7 +45,29 @@ var maineditor;
         };
         ModelSprite.prototype.setMaterialTexture = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
-            Scene_data.context3D.setRenderTextureCube($material.program, "fc0", this._uvTextureRes.texture, 0);
+            Scene_data.context3D.setRenderTexture($material.shader, "fs0", this._uvTextureRes.texture, 0);
+        };
+        ModelSprite.prototype.update = function () {
+            if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
+                Scene_data.context3D.setProgram(this.program);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+                Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
+                Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
+                Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+                Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
+            }
+        };
+        ModelSprite.prototype.updateMaterial = function () {
+            if (!this.material || !this.objData) {
+                return;
+            }
+            Scene_data.context3D.setProgram(this.material.program);
+            Scene_data.context3D.setVcMatrix4fv(this.material.shader, "posMatrix3D", this.posMatrix.m);
+            this.setMaterialTexture(this.material, this.materialParam);
+            this.setMaterialVa();
+            Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
@@ -306,7 +333,7 @@ var maineditor;
                     var $buildShader = new left.BuildMaterialShader();
                     $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
                     $buildShader.vertex = $buildShader.getVertexShaderString();
-                    $buildShader.fragment = $temp.shaderStr;
+                    $buildShader.fragment = $temp.info.shaderStr;
                     $buildShader.encode();
                     var $materialTree = new materialui.MaterialTree();
                     $materialTree.shader = $buildShader;
