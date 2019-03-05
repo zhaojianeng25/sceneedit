@@ -25,50 +25,12 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var BaseDiplay3dShader = Pan3d.BaseDiplay3dShader;
+    var TexItem = Pan3d.TexItem;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
-            var _this = _super.call(this) || this;
-            _this.loadTexture();
-            ProgrmaManager.getInstance().registe(BaseDiplay3dShader.BaseDiplay3dShader, new BaseDiplay3dShader);
-            _this.shader = ProgrmaManager.getInstance().getProgram(BaseDiplay3dShader.BaseDiplay3dShader);
-            _this.program = _this.shader.program;
-            return _this;
+            return _super.call(this) || this;
         }
-        ModelSprite.prototype.loadTexture = function () {
-            var $ctx = UIManager.getInstance().getContext2D(128, 128, false);
-            $ctx.fillStyle = "rgb(255,255,255)";
-            $ctx.fillRect(0, 0, 128, 128);
-            this._uvTextureRes = TextureManager.getInstance().getCanvasTexture($ctx);
-        };
-        ModelSprite.prototype.setMaterialTexture = function ($material, $mp) {
-            if ($mp === void 0) { $mp = null; }
-            Scene_data.context3D.setRenderTexture($material.shader, "fs0", this._uvTextureRes.texture, 0);
-        };
-        ModelSprite.prototype.update = function () {
-            if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
-                Scene_data.context3D.setProgram(this.program);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-                Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-                Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-                Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-                Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-            }
-        };
-        ModelSprite.prototype.updateMaterial = function () {
-            if (!this.material || !this.objData) {
-                return;
-            }
-            Scene_data.context3D.setProgram(this.material.program);
-            Scene_data.context3D.setVcMatrix4fv(this.material.shader, "posMatrix3D", this.posMatrix.m);
-            this.setMaterialTexture(this.material, this.materialParam);
-            this.setMaterialVa();
-            Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-        };
         return ModelSprite;
     }(left.MaterialModelSprite));
     maineditor.ModelSprite = ModelSprite;
@@ -318,12 +280,13 @@ var maineditor;
             return null;
         };
         HierarchyListPanel.prototype.makeModel = function () {
+            var _this = this;
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
                 var prefab = value;
                 console.log(prefab);
                 var dis = new ModelSprite();
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                     dis.readTxtToModel($modelxml);
                 });
                 LoadManager.getInstance().load(Scene_data.fileRoot + "texture/color.material", LoadManager.BYTE_TYPE, function ($dtstr) {
@@ -336,6 +299,7 @@ var maineditor;
                     $buildShader.fragment = $temp.info.shaderStr;
                     $buildShader.encode();
                     var $materialTree = new materialui.MaterialTree();
+                    $materialTree.texList = _this.makeTextList($temp.info.texList);
                     $materialTree.shader = $buildShader;
                     $materialTree.program = $buildShader.program;
                     console.log("----------vertex------------");
@@ -346,6 +310,26 @@ var maineditor;
                     dis.material = $materialTree;
                 });
             });
+        };
+        HierarchyListPanel.prototype.makeTextList = function (item) {
+            var texList = new Array;
+            for (var i = 0; i < item.length; i++) {
+                var texItem = new TexItem;
+                texItem.id = item[i].id;
+                texItem.url = item[i].url;
+                texItem.name = item[i].name;
+                texItem.isDynamic = item[i].isDynamic;
+                texItem.paramName = item[i].paramName;
+                texItem.isMain = item[i].isMain;
+                texItem.type = item[i].type;
+                if (texItem.type == undefined) {
+                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, function ($texture) {
+                        texItem.textureRes = $texture;
+                    });
+                }
+                texList.push(texItem);
+            }
+            return texList;
         };
         HierarchyListPanel.prototype.readMapFile = function () {
             var _this = this;

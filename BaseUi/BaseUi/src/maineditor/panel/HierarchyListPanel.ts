@@ -37,69 +37,24 @@
     import MaterialBaseParam = Pan3d.MaterialBaseParam
     import ObjData = Pan3d.ObjData
     import TextureRes = Pan3d.TextureRes
+    import Matrix3D = Pan3d.Matrix3D
     import ProgrmaManager = Pan3d.ProgrmaManager
     import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
 
 
     import SampleFileVo = filelist.SampleFileVo
 
+    
+
 
 
     export class ModelSprite extends left.MaterialModelSprite {
         public constructor() {
             super();
-            this.loadTexture()
-            ProgrmaManager.getInstance().registe(BaseDiplay3dShader.BaseDiplay3dShader, new BaseDiplay3dShader);
-            this.shader = ProgrmaManager.getInstance().getProgram(BaseDiplay3dShader.BaseDiplay3dShader);
-            this.program = this.shader.program;
-        }
-        private loadTexture(): void {
-            var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(128, 128, false);
-            $ctx.fillStyle = "rgb(255,255,255)";
-            $ctx.fillRect(0, 0, 128, 128);
-            this._uvTextureRes = TextureManager.getInstance().getCanvasTexture($ctx)
-        }
-        public _uvTextureRes: TextureRes
-        public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
-            Scene_data.context3D.setRenderTexture($material.shader, "fs0", this._uvTextureRes.texture, 0);
- 
-    
-        }
-        public update(): void {
-            if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
-                Scene_data.context3D.setProgram(this.program);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-
-                Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-                Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-
-                Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-
-                Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-
-            }
-
-
-        }
-        public updateMaterial(): void {
-            if (!this.material || !this.objData) {
-                return;
-            }
-         
- 
-            Scene_data.context3D.setProgram(this.material.program);
   
-            Scene_data.context3D.setVcMatrix4fv(this.material.shader, "posMatrix3D", this.posMatrix.m);
- 
-            this.setMaterialTexture(this.material, this.materialParam);
- 
-            this.setMaterialVa();
-
-            Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
         }
-
+      
+ 
     }
 
     export class OssListFile {
@@ -374,7 +329,7 @@
 
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
 
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE,
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
                     ($modelxml: string) => {
                         dis.readTxtToModel($modelxml);
                     });
@@ -384,6 +339,7 @@
                         var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                         $byte.position = 0
                         var $temp: any = JSON.parse($byte.readUTF());
+            
                    
                         var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
                         $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
@@ -391,9 +347,12 @@
                         $buildShader.fragment = $temp.info.shaderStr;
                         $buildShader.encode();
 
+                
+                     
+
 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
-
+                        $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
                         console.log("----------vertex------------");
@@ -409,6 +368,28 @@
 
             })
 
+        }
+        private makeTextList(item: Array<any>): Array<TexItem> {
+            var texList: Array<TexItem> = new Array;
+            for (var i: number = 0; i < item.length; i++) {
+                var texItem: TexItem = new TexItem;
+                texItem.id = item[i].id;
+                texItem.url = item[i].url;
+                texItem.name = item[i].name;
+                texItem.isDynamic = item[i].isDynamic;
+                texItem.paramName = item[i].paramName;
+                texItem.isMain = item[i].isMain;
+                texItem.type = item[i].type;
+
+                if (texItem.type == undefined) {
+                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, ($texture: TextureRes) => {
+                        texItem.textureRes = $texture;
+                    });
+                }
+                texList.push(texItem);
+
+            }
+            return texList
         }
         private readMapFile(): void {
             LoadManager.getInstance().load(Scene_data.fileuiRoot + "scene011_map.txt", LoadManager.XML_TYPE,

@@ -88,6 +88,8 @@
             Scene_data.cam3D = this.cam3D;
             Scene_data.focus3D = this.focus3D;
             Scene_data.viewMatrx3D = this.viewMatrx3D;
+            MathClass.updateVp()
+ 
    
             Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
