@@ -25,7 +25,44 @@
     import TextureManager = Pan3d.TextureManager
     import LoadManager = Pan3d.LoadManager
 
+    import Display3DSprite = Pan3d.Display3DSprite
+ 
+    import Shader3D = Pan3d.Shader3D
+    import GroupDataManager = Pan3d.GroupDataManager
+    import Material = Pan3d.Material
+    import GroupRes = Pan3d.GroupRes
+    import GroupItem = Pan3d.GroupItem
+    import BaseRes = Pan3d.BaseRes
+    import TexItem = Pan3d.TexItem
+    import MaterialBaseParam = Pan3d.MaterialBaseParam
+    import ObjData = Pan3d.ObjData
+
     import SampleFileVo = filelist.SampleFileVo
+
+
+
+    export class ModelSprite extends left.MaterialModelSprite {
+        public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
+            var texVec: Array<TexItem> = $material.texList;
+            for (var i: number = 0; i < texVec.length; i++) {
+                if (texVec[i].type == TexItem.CUBEMAP) {
+                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                }
+                if (texVec[i].texture) {
+                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                }
+            }
+            if ($mp) {
+                for (i = 0; i < $mp.dynamicTexList.length; i++) {
+                    if ($mp.dynamicTexList[i].target) {
+                        Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name,
+                            $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
+                    }
+                }
+            }
+        }
+
+    }
 
     export class OssListFile {
         public isOpen: boolean;
@@ -295,7 +332,7 @@
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {
                 var prefab: pack.PrefabStaticMesh = value;
                 console.log(prefab)
-                var dis: left.MaterialModelSprite = new left.MaterialModelSprite();
+                var dis:ModelSprite = new ModelSprite();
 
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
 
@@ -327,7 +364,7 @@
                         console.log($buildShader.fragment);
                         console.log("----------buildShader------------");
 
-                      //  dis.material = $materialTree;
+                        dis.material = $materialTree;
                      
 
                     });

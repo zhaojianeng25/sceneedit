@@ -25,6 +25,34 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
+    var TexItem = Pan3d.TexItem;
+    var ModelSprite = /** @class */ (function (_super) {
+        __extends(ModelSprite, _super);
+        function ModelSprite() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        ModelSprite.prototype.setMaterialTexture = function ($material, $mp) {
+            if ($mp === void 0) { $mp = null; }
+            var texVec = $material.texList;
+            for (var i = 0; i < texVec.length; i++) {
+                if (texVec[i].type == TexItem.CUBEMAP) {
+                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                }
+                if (texVec[i].texture) {
+                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                }
+            }
+            if ($mp) {
+                for (i = 0; i < $mp.dynamicTexList.length; i++) {
+                    if ($mp.dynamicTexList[i].target) {
+                        Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name, $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
+                    }
+                }
+            }
+        };
+        return ModelSprite;
+    }(left.MaterialModelSprite));
+    maineditor.ModelSprite = ModelSprite;
     var OssListFile = /** @class */ (function () {
         function OssListFile() {
         }
@@ -274,7 +302,7 @@ var maineditor;
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
                 var prefab = value;
                 console.log(prefab);
-                var dis = new left.MaterialModelSprite();
+                var dis = new ModelSprite();
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
                 LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                     dis.readTxtToModel($modelxml);
@@ -296,7 +324,7 @@ var maineditor;
                     console.log("----------fragment------------");
                     console.log($buildShader.fragment);
                     console.log("----------buildShader------------");
-                    //  dis.material = $materialTree;
+                    dis.material = $materialTree;
                 });
             });
         };
