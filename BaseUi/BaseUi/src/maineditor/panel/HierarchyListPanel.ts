@@ -57,7 +57,7 @@
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             super.setMaterialVc($material, $mp)
             Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
-            console.log($material.constList)
+        
 
         }
       

@@ -36,7 +36,6 @@ var maineditor;
             if ($mp === void 0) { $mp = null; }
             _super.prototype.setMaterialVc.call(this, $material, $mp);
             Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
-            console.log($material.constList);
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
