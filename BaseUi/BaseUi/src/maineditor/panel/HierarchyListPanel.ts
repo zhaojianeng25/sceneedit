@@ -36,32 +36,32 @@
     import TexItem = Pan3d.TexItem
     import MaterialBaseParam = Pan3d.MaterialBaseParam
     import ObjData = Pan3d.ObjData
+    import TextureRes = Pan3d.TextureRes
+    import Matrix3D = Pan3d.Matrix3D
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
+    import ConstItem = Pan3d.ConstItem
+
 
     import SampleFileVo = filelist.SampleFileVo
+
+    
 
 
 
     export class ModelSprite extends left.MaterialModelSprite {
-        public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
-            var texVec: Array<TexItem> = $material.texList;
-            for (var i: number = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-                if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-            }
-            if ($mp) {
-                for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
-                        Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name,
-                            $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
-                    }
-                }
-            }
+        public constructor() {
+            super();
+  
         }
+        public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
+            super.setMaterialVc($material, $mp)
+            Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
+            console.log($material.constList)
 
+        }
+      
+ 
     }
 
     export class OssListFile {
@@ -336,7 +336,7 @@
 
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
 
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE,
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
                     ($modelxml: string) => {
                         dis.readTxtToModel($modelxml);
                     });
@@ -346,16 +346,18 @@
                         var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                         $byte.position = 0
                         var $temp: any = JSON.parse($byte.readUTF());
+            
                    
                         var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
                         $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
                         $buildShader.vertex = $buildShader.getVertexShaderString();
-                        $buildShader.fragment = $temp.shaderStr;
+                        $buildShader.fragment = $temp.info.shaderStr;
                         $buildShader.encode();
-
+ 
 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
-
+                        $materialTree.texList = this.makeTextList($temp.info.texList);
+                        $materialTree.constList = this.makeConstList($temp.info.constList);
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
                         console.log("----------vertex------------");
@@ -371,6 +373,38 @@
 
             })
 
+        }
+        private makeConstList(item: Array<any>): Array<ConstItem> {
+            var constList: Array<ConstItem> = []
+            for (var i: number = 0; i < item.length; i++) {
+                var temp: ConstItem = new ConstItem()
+
+
+                constList.push(temp)
+            }
+            return constList
+        }
+        private makeTextList(item: Array<any>): Array<TexItem> {
+            var texList: Array<TexItem> = new Array;
+            for (var i: number = 0; i < item.length; i++) {
+                var texItem: TexItem = new TexItem;
+                texItem.id = item[i].id;
+                texItem.url = item[i].url;
+                texItem.name = item[i].name;
+                texItem.isDynamic = item[i].isDynamic;
+                texItem.paramName = item[i].paramName;
+                texItem.isMain = item[i].isMain;
+                texItem.type = item[i].type;
+
+                if (texItem.type == undefined) {
+                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, ($texture: TextureRes) => {
+                        texItem.textureRes = $texture;
+                    });
+                }
+                texList.push(texItem);
+
+            }
+            return texList
         }
         private readMapFile(): void {
             LoadManager.getInstance().load(Scene_data.fileuiRoot + "scene011_map.txt", LoadManager.XML_TYPE,

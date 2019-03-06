@@ -26,29 +26,17 @@ var maineditor;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
     var TexItem = Pan3d.TexItem;
+    var ConstItem = Pan3d.ConstItem;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            return _super.call(this) || this;
         }
-        ModelSprite.prototype.setMaterialTexture = function ($material, $mp) {
+        ModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
-            var texVec = $material.texList;
-            for (var i = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-                if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
-            }
-            if ($mp) {
-                for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
-                        Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name, $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
-                    }
-                }
-            }
+            _super.prototype.setMaterialVc.call(this, $material, $mp);
+            Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
+            console.log($material.constList);
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
@@ -299,12 +287,13 @@ var maineditor;
             return null;
         };
         HierarchyListPanel.prototype.makeModel = function () {
+            var _this = this;
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
                 var prefab = value;
                 console.log(prefab);
                 var dis = new ModelSprite();
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                     dis.readTxtToModel($modelxml);
                 });
                 LoadManager.getInstance().load(Scene_data.fileRoot + "texture/color.material", LoadManager.BYTE_TYPE, function ($dtstr) {
@@ -314,9 +303,11 @@ var maineditor;
                     var $buildShader = new left.BuildMaterialShader();
                     $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
                     $buildShader.vertex = $buildShader.getVertexShaderString();
-                    $buildShader.fragment = $temp.shaderStr;
+                    $buildShader.fragment = $temp.info.shaderStr;
                     $buildShader.encode();
                     var $materialTree = new materialui.MaterialTree();
+                    $materialTree.texList = _this.makeTextList($temp.info.texList);
+                    $materialTree.constList = _this.makeConstList($temp.info.constList);
                     $materialTree.shader = $buildShader;
                     $materialTree.program = $buildShader.program;
                     console.log("----------vertex------------");
@@ -327,6 +318,34 @@ var maineditor;
                     dis.material = $materialTree;
                 });
             });
+        };
+        HierarchyListPanel.prototype.makeConstList = function (item) {
+            var constList = [];
+            for (var i = 0; i < item.length; i++) {
+                var temp = new ConstItem();
+                constList.push(temp);
+            }
+            return constList;
+        };
+        HierarchyListPanel.prototype.makeTextList = function (item) {
+            var texList = new Array;
+            for (var i = 0; i < item.length; i++) {
+                var texItem = new TexItem;
+                texItem.id = item[i].id;
+                texItem.url = item[i].url;
+                texItem.name = item[i].name;
+                texItem.isDynamic = item[i].isDynamic;
+                texItem.paramName = item[i].paramName;
+                texItem.isMain = item[i].isMain;
+                texItem.type = item[i].type;
+                if (texItem.type == undefined) {
+                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, function ($texture) {
+                        texItem.textureRes = $texture;
+                    });
+                }
+                texList.push(texItem);
+            }
+            return texList;
         };
         HierarchyListPanel.prototype.readMapFile = function () {
             var _this = this;

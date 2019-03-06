@@ -228,6 +228,8 @@ var materialui;
         MaterialProcessor.prototype.getMakeProgemePrame = function () {
             var obj = {};
             obj.useNormal = this.baseMaterialTree.useNormal;
+            obj.texList = this.baseMaterialTree.texList;
+            obj.constList = this.baseMaterialTree.constList;
             obj.shaderStr = this.baseMaterialTree.shaderStr;
             return obj;
         };

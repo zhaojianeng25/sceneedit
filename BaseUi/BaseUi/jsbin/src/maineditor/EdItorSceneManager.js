@@ -16,6 +16,7 @@ var maineditor;
     var SceneManager = Pan3d.SceneManager;
     var Scene_data = Pan3d.Scene_data;
     var TimeUtil = Pan3d.TimeUtil;
+    var MathClass = Pan3d.MathClass;
     var FBO = Pan3d.FBO;
     var Engine = Pan3d.Engine;
     var EdItorSceneManager = /** @class */ (function (_super) {
@@ -81,6 +82,7 @@ var maineditor;
             Scene_data.cam3D = this.cam3D;
             Scene_data.focus3D = this.focus3D;
             Scene_data.viewMatrx3D = this.viewMatrx3D;
+            MathClass.updateVp();
             Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
                 this._time = TimeUtil.getTimer();

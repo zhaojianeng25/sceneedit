@@ -263,8 +263,10 @@
         private getMakeProgemePrame(): any { //获取着色器参数
             var obj: any = {};
             obj.useNormal = this.baseMaterialTree.useNormal
+            obj.texList = this.baseMaterialTree.texList
+            obj.constList = this.baseMaterialTree.constList
             obj.shaderStr = this.baseMaterialTree.shaderStr
-
+            
             return obj
         }
 
