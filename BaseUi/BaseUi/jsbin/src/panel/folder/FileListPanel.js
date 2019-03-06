@@ -213,6 +213,21 @@ var filelist;
                         case FileVo.MATERIAL:
                             Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                             break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        };
+        FileListPanel.prototype.selectFileClik = function (evt) {
+            var vo = this.getItemVoByUi(evt.target);
+            if (vo) {
+                if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
+                }
+                else {
+                    var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                    fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
                             filemodel.PrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempview = new filelist.PrefabMeshView;
@@ -263,6 +278,7 @@ var filelist;
                     $vo.fileListMeshVo.needDraw = true;
                 }
             }
+            this.selectFileClik(evt);
         };
         //移除不显示的对象
         FileListPanel.prototype.clearListAll = function () {

@@ -264,11 +264,29 @@
                   
                             Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                             break
+                   
+
+                        default:
+                 
+                            break;
+                    }
+
+                }
+            }
+        }
+        private selectFileClik(evt: InteractiveEvent): void {
+
+            var vo: FileListName = this.getItemVoByUi(evt.target)
+            if (vo) {
+                if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
+ 
+                } else {
+                    var fileUrl: string = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                    fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
-
-                       
-
-                            filemodel.PrefabManager.getInstance().getPrefabByUrl(fileUrl,(value: pack.PrefabStaticMesh)=> {
+  
+                            filemodel.PrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
                                 var tempview: PrefabMeshView = new PrefabMeshView
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
@@ -286,6 +304,7 @@
  
         protected fileMouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+      
             if (this.filemouseIsDown) {
                 if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
                     if (this.lastfileDonwInfo.tm + 500 > Pan3d.TimeUtil.getTimer()) {
@@ -320,7 +339,7 @@
                
             }
           
-
+            this.selectFileClik(evt)
         }
         //移除不显示的对象
         private clearListAll(): void {

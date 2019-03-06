@@ -35,7 +35,7 @@ var maineditor;
         ModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             _super.prototype.setMaterialVc.call(this, $material, $mp);
-            Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
+            // Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
@@ -307,6 +307,8 @@ var maineditor;
                     var $materialTree = new materialui.MaterialTree();
                     $materialTree.texList = _this.makeTextList($temp.info.texList);
                     $materialTree.constList = _this.makeConstList($temp.info.constList);
+                    $materialTree.fcData = _this.makeFc($materialTree.constList);
+                    $materialTree.fcNum = $materialTree.constList.length;
                     $materialTree.shader = $buildShader;
                     $materialTree.program = $buildShader.program;
                     console.log("----------vertex------------");
@@ -322,9 +324,21 @@ var maineditor;
             var constList = [];
             for (var i = 0; i < item.length; i++) {
                 var temp = new ConstItem();
+                temp.name = "fc" + i;
+                temp.offset = i;
+                temp.value = item[i].value;
+                temp.vecNum = item[i].vecNum;
+                temp.id = i;
                 constList.push(temp);
             }
             return constList;
+        };
+        HierarchyListPanel.prototype.makeFc = function (constVec) {
+            var fcData = new Float32Array(constVec.length * 4);
+            for (var i = 0; i < constVec.length; i++) {
+                constVec[i].creat(fcData);
+            }
+            return fcData;
         };
         HierarchyListPanel.prototype.makeTextList = function (item) {
             var texList = new Array;

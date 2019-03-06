@@ -56,7 +56,7 @@
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             super.setMaterialVc($material, $mp)
-            Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
+           // Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
         
 
         }
@@ -358,6 +358,9 @@
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
                         $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.constList = this.makeConstList($temp.info.constList);
+                        $materialTree.fcData = this.makeFc($materialTree.constList);
+                        $materialTree.fcNum = $materialTree.constList.length;
+                        
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
                         console.log("----------vertex------------");
@@ -378,11 +381,23 @@
             var constList: Array<ConstItem> = []
             for (var i: number = 0; i < item.length; i++) {
                 var temp: ConstItem = new ConstItem()
-
-
+                temp.name = "fc" + i;
+                temp.offset = i;
+                temp.value = item[i].value;
+                temp.vecNum = item[i].vecNum;
+                temp.id = i;
                 constList.push(temp)
             }
             return constList
+        }
+       
+        private makeFc(constVec: Array<ConstItem>): Float32Array {
+            var fcData: Float32Array = new Float32Array(constVec.length * 4);
+            for (var i: number = 0; i < constVec.length; i++) {
+                constVec[i].creat(fcData);
+            }
+            return fcData
+
         }
         private makeTextList(item: Array<any>): Array<TexItem> {
             var texList: Array<TexItem> = new Array;
