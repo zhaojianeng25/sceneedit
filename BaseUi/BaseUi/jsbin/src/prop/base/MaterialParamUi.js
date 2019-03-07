@@ -135,7 +135,7 @@ var prop;
                         this.height += 100;
                     }
                 }
-                this.height += 50;
+                this.height += 10;
             },
             enumerable: true,
             configurable: true

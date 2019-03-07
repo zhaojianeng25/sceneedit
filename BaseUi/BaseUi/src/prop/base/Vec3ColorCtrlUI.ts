@@ -34,9 +34,12 @@
             this.inputTextUiZ = new InputTextUi();
             this.inputTextUiZ.text = "255";
 
-            this.colorPickUI = new ColorPickUI(32,32);
+            this.colorPickUI = new ColorPickUI(16,16);
 
             this.inputTextUiX.addEventListener(ReflectionEvet.CHANGE_DATA, this.inputTextUiXchange, this)
+            this.inputTextUiY.addEventListener(ReflectionEvet.CHANGE_DATA, this.inputTextUiYchange, this)
+            this.inputTextUiZ.addEventListener(ReflectionEvet.CHANGE_DATA, this.inputTextUiZchange, this)
+
             this.colorPickUI.addEventListener(ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this)
             this.height = 50
         }
@@ -58,12 +61,25 @@
         public get data(): any {
             return this._data
         }
+        private getSpeedNum(value: number): number {
+            return value*0.01
+        }
         private inputTextUiXchange($evt: ReflectionEvet): void {
-  
+            this._v3d.x += this.getSpeedNum($evt.data);
+            this.changeV3d()
+        }
+        private inputTextUiYchange($evt: ReflectionEvet): void {
+            this._v3d.y += this.getSpeedNum($evt.data);
+            this.changeV3d()
+        }
+        private inputTextUiZchange($evt: ReflectionEvet): void {
+            this._v3d.z += this.getSpeedNum($evt.data);
+            this.changeV3d()
+        }
+        private changeV3d(): void {
             this.target[this.FunKey] = this._v3d;
             this.changFun && this.changFun(this);
             this.refreshViewValue();
-
         }
         private colorPickUIchange($evt: ReflectionEvet): void {
             var $vec: Vector3D = <Vector3D>($evt.data);

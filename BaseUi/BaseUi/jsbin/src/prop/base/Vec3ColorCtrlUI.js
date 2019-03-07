@@ -32,8 +32,10 @@ var prop;
             this.inputTextUiY.text = "0";
             this.inputTextUiZ = new prop.InputTextUi();
             this.inputTextUiZ.text = "255";
-            this.colorPickUI = new prop.ColorPickUI(32, 32);
+            this.colorPickUI = new prop.ColorPickUI(16, 16);
             this.inputTextUiX.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiXchange, this);
+            this.inputTextUiY.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiYchange, this);
+            this.inputTextUiZ.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiZchange, this);
             this.colorPickUI.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this);
             this.height = 50;
         };
@@ -58,7 +60,22 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        Vec3ColorCtrlUI.prototype.getSpeedNum = function (value) {
+            return value * 0.01;
+        };
         Vec3ColorCtrlUI.prototype.inputTextUiXchange = function ($evt) {
+            this._v3d.x += this.getSpeedNum($evt.data);
+            this.changeV3d();
+        };
+        Vec3ColorCtrlUI.prototype.inputTextUiYchange = function ($evt) {
+            this._v3d.y += this.getSpeedNum($evt.data);
+            this.changeV3d();
+        };
+        Vec3ColorCtrlUI.prototype.inputTextUiZchange = function ($evt) {
+            this._v3d.z += this.getSpeedNum($evt.data);
+            this.changeV3d();
+        };
+        Vec3ColorCtrlUI.prototype.changeV3d = function () {
             this.target[this.FunKey] = this._v3d;
             this.changFun && this.changFun(this);
             this.refreshViewValue();

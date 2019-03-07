@@ -34,6 +34,7 @@ var prop;
             configurable: true
         });
         InputTextUi.prototype.butClik = function (evt) {
+            console.log("clik");
             this.addStageMoveEvets(evt);
         };
         InputTextUi.prototype.addStageMoveEvets = function ($e) {

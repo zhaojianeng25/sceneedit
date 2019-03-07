@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var filelist;
 (function (filelist) {
-    var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
     var PrefabMeshView = /** @class */ (function (_super) {
@@ -25,7 +24,7 @@ var filelist;
             var ary = [
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", target: this, Suffix: "material", Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "属性" },
-                { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunDirect", target: this, Step: 0.1 },
+                { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunColor", target: this, Step: 0.1 },
             ];
             return ary;
         };
@@ -71,29 +70,12 @@ var filelist;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(PrefabMeshView.prototype, "sunDirect", {
-            get: function () {
-                return new Vector3D();
-            },
-            set: function (value) {
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(PrefabMeshView.prototype, "sunColor", {
             get: function () {
-                return new Vector3D();
+                return this.prefabStaticMesh.sunColor;
             },
             set: function (value) {
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PrefabMeshView.prototype, "ambientColor", {
-            get: function () {
-                return new Vector3D();
-            },
-            set: function (value) {
+                this.prefabStaticMesh.sunColor = value;
             },
             enumerable: true,
             configurable: true

@@ -16,7 +16,9 @@ var pack;
     var PrefabStaticMesh = /** @class */ (function (_super) {
         __extends(PrefabStaticMesh, _super);
         function PrefabStaticMesh() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super.call(this) || this;
+            _this.sunColor = new Vector3D(2, 3, 4, 1);
+            return _this;
         }
         Object.defineProperty(PrefabStaticMesh.prototype, "materialInfoArr", {
             get: function () {

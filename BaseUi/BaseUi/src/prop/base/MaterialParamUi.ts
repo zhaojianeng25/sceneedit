@@ -143,7 +143,7 @@
 
                 
             }
-            this.height += 50
+            this.height += 10
 
         }
         public get y(): number {

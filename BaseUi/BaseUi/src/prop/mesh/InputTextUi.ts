@@ -23,7 +23,7 @@
             LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
         }
         protected butClik(evt: InteractiveEvent): void {
-
+            console.log("clik")
     
             this.addStageMoveEvets(evt)
         }
