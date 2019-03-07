@@ -56,7 +56,7 @@
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             super.setMaterialVc($material, $mp)
-           // Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
+        //  Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
         
 
         }
@@ -358,8 +358,11 @@
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
                         $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.constList = this.makeConstList($temp.info.constList);
-                        $materialTree.fcData = this.makeFc($materialTree.constList);
-                        $materialTree.fcNum = $materialTree.constList.length;
+
+                        $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
+                        $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
+              
+                      
                         
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
@@ -390,11 +393,14 @@
             }
             return constList
         }
-       
-        private makeFc(constVec: Array<ConstItem>): Float32Array {
-            var fcData: Float32Array = new Float32Array(constVec.length * 4);
-            for (var i: number = 0; i < constVec.length; i++) {
-                constVec[i].creat(fcData);
+
+        private makeFc(constVec: Array<ConstItem>, infofcData: Array<string>): Float32Array {
+            var fcData: Float32Array = new Float32Array(infofcData.length);
+            for (var i: number = 0; i < infofcData.length; i++) {
+                fcData[i] = Number(infofcData[i])
+            }
+            for (var k: number = 0; k < constVec.length; k++) {
+                constVec[k].creat(fcData);
             }
             return fcData
 

@@ -35,7 +35,7 @@ var maineditor;
         ModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             _super.prototype.setMaterialVc.call(this, $material, $mp);
-            // Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
+            //  Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
@@ -307,8 +307,8 @@ var maineditor;
                     var $materialTree = new materialui.MaterialTree();
                     $materialTree.texList = _this.makeTextList($temp.info.texList);
                     $materialTree.constList = _this.makeConstList($temp.info.constList);
-                    $materialTree.fcData = _this.makeFc($materialTree.constList);
-                    $materialTree.fcNum = $materialTree.constList.length;
+                    $materialTree.fcData = _this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
+                    $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
                     $materialTree.shader = $buildShader;
                     $materialTree.program = $buildShader.program;
                     console.log("----------vertex------------");
@@ -333,10 +333,13 @@ var maineditor;
             }
             return constList;
         };
-        HierarchyListPanel.prototype.makeFc = function (constVec) {
-            var fcData = new Float32Array(constVec.length * 4);
-            for (var i = 0; i < constVec.length; i++) {
-                constVec[i].creat(fcData);
+        HierarchyListPanel.prototype.makeFc = function (constVec, infofcData) {
+            var fcData = new Float32Array(infofcData.length);
+            for (var i = 0; i < infofcData.length; i++) {
+                fcData[i] = Number(infofcData[i]);
+            }
+            for (var k = 0; k < constVec.length; k++) {
+                constVec[k].creat(fcData);
             }
             return fcData;
         };
