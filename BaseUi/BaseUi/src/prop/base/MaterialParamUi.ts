@@ -1,101 +1,77 @@
 ﻿module prop {
     import TextureManager = Pan3d.TextureManager
     import Scene_data = Pan3d.Scene_data
-  
+
     export class MaterialParamUi extends BaseReflComponent {
 
- 
-   
+
+
 
         private uiItem: Array<BaseReflComponent>
 
         protected initView(): void {
             this.height = 100
-            this.uiItem = [ ]
+            this.uiItem = []
         }
 
 
-        private prefabStaticMesh: any;
-
-        private getParamTaget(paramName: any): any {
-            for (var i: number = 0; this.prefabStaticMesh.materialInfoArr && i < this.prefabStaticMesh.materialInfoArr.length; i++) {
-                if (this.prefabStaticMesh.materialInfoArr[i].paramName == paramName) {
-                    return this.prefabStaticMesh.materialInfoArr[i]
-                }
-            }
-
-            return null
-        }
-        public setData($materialTree: materialui.MaterialTree, $prefabStaticMesh: any): void {
-            this.destory();
-            this.prefabStaticMesh = $prefabStaticMesh; 
-            if (this.prefabStaticMesh.materialInfoArr) {
-                console.log(this.prefabStaticMesh.materialInfoArr)
-            }
-
-            var $changFun: Function = (value: any) => {  this.changeDataEvtFun(value) }
  
-            for (var i: number = 0; i < $materialTree.data.length; i++) {
-                if ($materialTree.data[i].data.isDynamic) {
-                    var tempBaseReflComponent: BaseReflComponent 
-                    if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
-                        tempBaseReflComponent = new Texturue2DUI();
-                        tempBaseReflComponent.FunKey = "url";
-                    }
-                    if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
-                        tempBaseReflComponent= new Vec3ColorCtrlUI();
-                        tempBaseReflComponent.FunKey = "constValue";
-                    }
-                    if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
-                        tempBaseReflComponent = new TextCtrlInput();
-                        tempBaseReflComponent.FunKey = "constValue";
-                        
-                    }
-                    if (tempBaseReflComponent) {
-                        var tempTaget: any = this.getParamTaget($materialTree.data[i].data.paramName)
-                        if (tempTaget) {
-                            tempBaseReflComponent.target = tempTaget;
-                        } else {
-                            tempBaseReflComponent.target = $materialTree.data[i].data;
-                        }
-                        tempBaseReflComponent.label = $materialTree.data[i].data.paramName;
-                        tempBaseReflComponent.changFun = $changFun
-                        this.uiItem.push(tempBaseReflComponent);
-                    }
-               
-                  
+        public setData( item: Array<any>): void {
+            this.destory();
+        
+            var $changFun: Function = (value: any) => { this.changeDataEvtFun(value) }
+
+            for (var i: number = 0; i < item.length; i++) {
+          
+                var tempBaseReflComponent: BaseReflComponent
+                if (item[i].type == materialui.NodeTree.TEX) {
+                    tempBaseReflComponent = new Texturue2DUI();
                 }
+                if (item[i].type == materialui.NodeTree.VEC3) {
+                    tempBaseReflComponent = new Vec3ColorCtrlUI();
+                }
+                if (item[i].type == materialui.NodeTree.FLOAT) {
+                    tempBaseReflComponent = new TextCtrlInput();
+                }
+                if (tempBaseReflComponent) {
+                    tempBaseReflComponent.FunKey = "data";
+                    tempBaseReflComponent.target = item[i];
+                    tempBaseReflComponent.label = item[i].paramName;
+                    tempBaseReflComponent.changFun = $changFun
+                    this.uiItem.push(tempBaseReflComponent);
+                }
+
+
+                
             }
             this.refreshViewValue()
-      
+
         }
         private changeDataEvtFun(temp: BaseReflComponent): void {
  
             var infoArr: Array<any> = [];
             for (var i: number = 0; i < this.uiItem.length; i++) {
-                if (this.uiItem[i].target.isDynamic) {
-                    infoArr.push(this.uiItem[i].target)
-                }
-    
+                 infoArr.push(this.uiItem[i].target)
             }
-            this.prefabStaticMesh.materialInfoArr = infoArr
  
-       
+            this.changFun(infoArr)
+
+
         }
- 
+
 
         public refreshViewValue(): void {
             for (var i: number = 0; i < this.uiItem.length; i++) {
                 this.uiItem[i].refreshViewValue()
             }
         }
-  
+
         public destory(): void {
             for (var i: number = 0; i < this.uiItem.length; i++) {
                 this.uiItem[i].destory()
             }
-            this.uiItem=[]
- 
+            this.uiItem = []
+
 
         }
         public set data(value: any) {
@@ -106,10 +82,10 @@
             return this._data
         }
 
-     
+
         public set x(value: number) {
             this._x = value;
-   
+
 
 
         }
@@ -124,7 +100,7 @@
             this.height = 50;
             for (var i: number = 0; i < this.uiItem.length; i++) {
                 this.uiItem[i].y = this.y + ty
-  
+
                 if (this.uiItem[i] instanceof Vec3ColorCtrlUI) {
                     ty += 50
                     this.uiItem[i].x = 50
@@ -141,7 +117,7 @@
                     this.height += 100
                 }
 
-                
+
             }
             this.height += 10
 
@@ -154,9 +130,9 @@
         }
         public set label(value: string) {
             this._label = value
- 
+
         }
-    
+
 
     }
 

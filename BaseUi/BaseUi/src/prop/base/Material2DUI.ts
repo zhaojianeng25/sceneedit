@@ -41,19 +41,56 @@
  
         }
         private _materialTreeMc: MaterialParamUi
-        private   showMaterialParamUi(): void {
+        public paramChange(item: Array<any>): void {
+            this.changFun(item)
+        }
+        private showMaterialParamUi(): void {
             if (!this._materialTreeMc) {
-                this.  _materialTreeMc = new MaterialParamUi
+                this._materialTreeMc = new MaterialParamUi
+                this._materialTreeMc.changFun = (value: Array<any>) => { this.paramChange(value) }
             }
             this.textureTree = this.target[this.FunKey]
-            this._materialTreeMc.setData(this.textureTree, this.target.prefabStaticMesh)
+
+            this._materialTreeMc.setData(this.makeTempInfo(this.textureTree))
             this._materialTreeMc.y = this._y + 100
-
-
-
+ 
             this.height = 100 + this._materialTreeMc.height
            
            
+        }
+   
+        private makeTempInfo($materialTree: materialui.MaterialTree): Array<any> {
+
+            var item: Array<any>=[]
+            for (var i: number = 0; i < $materialTree.data.length; i++) {
+                if ($materialTree.data[i].data.isDynamic) {
+                    var temp: any
+                    if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.url
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.constValue
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.constValue
+                    }
+                    if (temp) {
+                        temp.type = $materialTree.data[i].type;
+                        temp.paramName = $materialTree.data[i].data.paramName;
+                        var tempValue: any = this.target.getParamItem(temp.paramName);//如果有对象替换纹理中的
+                        if (tempValue) {
+                            temp.data = tempValue;
+                        }
+
+                        item.push(temp)
+                    }
+                }
+            }
+
+            return item
         }
     
     }

@@ -20,16 +20,6 @@ var pack;
             _this.sunColor = new Vector3D(2, 3, 4, 1);
             return _this;
         }
-        Object.defineProperty(PrefabStaticMesh.prototype, "materialInfoArr", {
-            get: function () {
-                return this._materialInfoArr;
-            },
-            set: function (value) {
-                this._materialInfoArr = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return PrefabStaticMesh;
     }(pack.Prefab));
     pack.PrefabStaticMesh = PrefabStaticMesh;

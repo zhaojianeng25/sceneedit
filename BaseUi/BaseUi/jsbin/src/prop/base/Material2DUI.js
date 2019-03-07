@@ -51,14 +51,49 @@ var prop;
                 this.textureUrlText.label = "无材质";
             }
         };
+        Material2DUI.prototype.paramChange = function (item) {
+            this.changFun(item);
+        };
         Material2DUI.prototype.showMaterialParamUi = function () {
+            var _this = this;
             if (!this._materialTreeMc) {
                 this._materialTreeMc = new prop.MaterialParamUi;
+                this._materialTreeMc.changFun = function (value) { _this.paramChange(value); };
             }
             this.textureTree = this.target[this.FunKey];
-            this._materialTreeMc.setData(this.textureTree, this.target.prefabStaticMesh);
+            this._materialTreeMc.setData(this.makeTempInfo(this.textureTree));
             this._materialTreeMc.y = this._y + 100;
             this.height = 100 + this._materialTreeMc.height;
+        };
+        Material2DUI.prototype.makeTempInfo = function ($materialTree) {
+            var item = [];
+            for (var i = 0; i < $materialTree.data.length; i++) {
+                if ($materialTree.data[i].data.isDynamic) {
+                    var temp;
+                    if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.url;
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.constValue;
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.constValue;
+                    }
+                    if (temp) {
+                        temp.type = $materialTree.data[i].type;
+                        temp.paramName = $materialTree.data[i].data.paramName;
+                        var tempValue = this.target.getParamItem(temp.paramName); //如果有对象替换纹理中的
+                        if (tempValue) {
+                            temp.data = tempValue;
+                        }
+                        item.push(temp);
+                    }
+                }
+            }
+            return item;
         };
         return Material2DUI;
     }(prop.Texturue2DUI));
