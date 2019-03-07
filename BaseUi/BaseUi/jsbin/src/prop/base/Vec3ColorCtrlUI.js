@@ -103,14 +103,14 @@ var prop;
             },
             set: function (value) {
                 this._x = value;
-                this.textLabelUI.x = this._x - 15;
+                this.textLabelUI.x = this._x - 20;
                 this.textX.x = this._x + 55;
                 this.textY.x = this._x + 125;
                 this.textZ.x = this._x + 195;
                 this.inputTextUiX.x = this._x + 85;
                 this.inputTextUiY.x = this._x + 155;
                 this.inputTextUiZ.x = this._x + 225;
-                this.colorPickUI.x = this._x + 50;
+                this.colorPickUI.x = this._x + 35;
             },
             enumerable: true,
             configurable: true
@@ -128,7 +128,7 @@ var prop;
                 this.inputTextUiX.y = this._y;
                 this.inputTextUiY.y = this._y;
                 this.inputTextUiZ.y = this._y;
-                this.colorPickUI.y = this._y + 25;
+                this.colorPickUI.y = this._y - 2;
             },
             enumerable: true,
             configurable: true
