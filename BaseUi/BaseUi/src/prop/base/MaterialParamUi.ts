@@ -25,7 +25,10 @@
           
                 var tempBaseReflComponent: BaseReflComponent
                 if (item[i].type == materialui.NodeTree.TEX) {
-                    tempBaseReflComponent = new Texturue2DUI();
+                    var texturue2DUI: Texturue2DUI = new Texturue2DUI;
+                    texturue2DUI.suffix = "jpg|png";
+                    tempBaseReflComponent = texturue2DUI;
+
                 }
                 if (item[i].type == materialui.NodeTree.VEC3) {
                     tempBaseReflComponent = new Vec3ColorCtrlUI();
@@ -39,6 +42,7 @@
                     tempBaseReflComponent.label = item[i].paramName;
                     tempBaseReflComponent.changFun = $changFun
                     this.uiItem.push(tempBaseReflComponent);
+      
                 }
 
 
@@ -48,15 +52,11 @@
 
         }
         private changeDataEvtFun(temp: BaseReflComponent): void {
- 
             var infoArr: Array<any> = [];
             for (var i: number = 0; i < this.uiItem.length; i++) {
                  infoArr.push(this.uiItem[i].target)
             }
- 
             this.changFun(infoArr)
-
-
         }
 
 

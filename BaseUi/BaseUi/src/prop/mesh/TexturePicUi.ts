@@ -35,10 +35,14 @@
  
         
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
-               // this.doubleClick()
 
-                var fileUrl: string = this._url
-                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                if (this._url.indexOf(".material") != -1) {
+                    var fileUrl: string = this._url
+                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                } else {
+                    console.log("选文件")
+                    this.doubleClick()
+                }
 
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000

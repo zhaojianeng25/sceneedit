@@ -57,8 +57,9 @@
 
         public set data(value: any) {
             this._data = value;
+          // 
             this.prefabStaticMesh = this._data
-        
+            this.prefabStaticMesh.needSave = false
             this.refreshViewValue()
         }
         public get data(): any {
