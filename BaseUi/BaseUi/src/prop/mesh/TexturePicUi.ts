@@ -28,6 +28,18 @@
         protected initView(): void {
             this.addEvets()
         }
+        protected addEvets(): void {
+            super.addEvets();
+            var $ui: UICompenent = this.ui
+            $ui.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
+            $ui.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+        }
+        private dragDrop(evt: any): void {
+            console.log("------")
+        }
+        private dragEnter(evt: any): void {
+            console.log("执行拖动")
+        }
         private $dulbelClikTm: number = 0;
         private _inputHtmlSprite: HTMLInputElement
         public suffix: string

@@ -2,6 +2,7 @@
     import Rectangle = Pan3d.Rectangle
     import InteractiveEvent = Pan3d.InteractiveEvent
     import Vector2D = Pan3d.Vector2D
+    import UICompenent = Pan3d.UICompenent
     export class Sprite extends LayUIManager {
 
         public rect: Rectangle;
@@ -66,7 +67,24 @@
         public get height() {
             return this.rect.height;
         }
+        public getObjectsUnderPoint(evt: Vector2D): UICompenent {
 
+            for (var i: number = this.children.length - 1; i >= 0; i--) {
+                var temp: UICompenent = this.children[i].getObjectsUnderPoint(evt);
+                if (temp) {
+                    return temp;
+                }
+            }
+
+            for (var j: number = this.uiList.length - 1; j >= 0; j--) {
+                if (this.uiList[j]) {
+                    if (this.uiList[j] && this.uiList[j].insetUi(evt)) {
+                        return this.uiList[j].insetUi(evt);
+                    }
+                }
+            }
+            return null
+        }
         public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
         {
             for (var i: number = this.children.length-1; i>=0; i--) {

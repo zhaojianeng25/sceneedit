@@ -22,6 +22,10 @@
     import Scene_data = Pan3d.Scene_data
     import LoadManager = Pan3d.LoadManager
     import TextureManager = Pan3d.TextureManager
+
+    import DragSource = drag.DragSource;
+    import DragManager = drag.DragManager;
+
     import FileVo = filemodel.FileVo;
     import FileModel = filemodel.FileModel;
  
@@ -244,6 +248,23 @@
             this.filemouseIsDown = true
             this.mouseDownTm = Pan3d.TimeUtil.getTimer()
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+
+            this.makeDragData(evt);
+        }
+        private makeDragData(evt: InteractiveEvent): void {
+            var dsragSource: DragSource = new DragSource();
+            var event: MouseEvent = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y })
+
+
+
+            var node: any = {}
+            node.name = "file"
+            node.path = "urlpath"
+            node.url = "urlpath.jpg"
+            dsragSource.addData(node, "fileNode");
+            DragManager.doDrag(this, dsragSource, event);
+
+
         }
         private filemouseIsDown: boolean
         protected stageMouseMove(evt: InteractiveEvent): void {
@@ -300,7 +321,10 @@
 
                 }
             }
+
+
         }
+
  
         protected fileMouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
@@ -340,7 +364,9 @@
             }
           
             this.selectFileClik(evt)
+           
         }
+       
         //移除不显示的对象
         private clearListAll(): void {
             while (this.fileItem.length) {

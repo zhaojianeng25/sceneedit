@@ -31,11 +31,28 @@ var prop;
         TexturePicUi.prototype.initView = function () {
             this.addEvets();
         };
+        TexturePicUi.prototype.addEvets = function () {
+            _super.prototype.addEvets.call(this);
+            var $ui = this.ui;
+            $ui.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
+            $ui.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+        };
+        TexturePicUi.prototype.dragDrop = function (evt) {
+            console.log("------");
+        };
+        TexturePicUi.prototype.dragEnter = function (evt) {
+            console.log("执行拖动");
+        };
         TexturePicUi.prototype.butClik = function (evt) {
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
-                // this.doubleClick()
-                var fileUrl = this._url;
-                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                if (this._url.indexOf(".material") != -1) {
+                    var fileUrl = this._url;
+                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                }
+                else {
+                    console.log("选文件");
+                    this.doubleClick();
+                }
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000;
         };

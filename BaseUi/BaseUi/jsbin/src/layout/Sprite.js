@@ -82,6 +82,22 @@ var layout;
             enumerable: true,
             configurable: true
         });
+        Sprite.prototype.getObjectsUnderPoint = function (evt) {
+            for (var i = this.children.length - 1; i >= 0; i--) {
+                var temp = this.children[i].getObjectsUnderPoint(evt);
+                if (temp) {
+                    return temp;
+                }
+            }
+            for (var j = this.uiList.length - 1; j >= 0; j--) {
+                if (this.uiList[j]) {
+                    if (this.uiList[j] && this.uiList[j].insetUi(evt)) {
+                        return this.uiList[j].insetUi(evt);
+                    }
+                }
+            }
+            return null;
+        };
         Sprite.prototype.mouseEvetData = function (evt, point) {
             for (var i = this.children.length - 1; i >= 0; i--) {
                 var temp = this.children[i].mouseEvetData(evt, point);

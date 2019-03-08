@@ -31,8 +31,8 @@
             return this._instance;
         }
 
-        private children: Array<Panel>;
-
+        public children: Array<Panel>;
+     
         public initData(): void {
             this.children = [];
         }

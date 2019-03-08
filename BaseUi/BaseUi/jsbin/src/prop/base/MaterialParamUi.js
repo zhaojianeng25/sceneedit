@@ -29,7 +29,9 @@ var prop;
             for (var i = 0; i < item.length; i++) {
                 var tempBaseReflComponent;
                 if (item[i].type == materialui.NodeTree.TEX) {
-                    tempBaseReflComponent = new prop.Texturue2DUI();
+                    var texturue2DUI = new prop.Texturue2DUI;
+                    texturue2DUI.suffix = "jpg|png";
+                    tempBaseReflComponent = texturue2DUI;
                 }
                 if (item[i].type == materialui.NodeTree.VEC3) {
                     tempBaseReflComponent = new prop.Vec3ColorCtrlUI();

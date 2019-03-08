@@ -27,6 +27,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\BaseUiStart.ts" />
+    <TypeScriptCompile Include="src\drag\DragManager.ts" />
+    <TypeScriptCompile Include="src\drag\DragProcessor.ts" />
+    <TypeScriptCompile Include="src\drag\DragPanel.ts" />
+    <TypeScriptCompile Include="src\drag\DragSource.ts" />
     <TypeScriptCompile Include="src\filemodel\PrefabManager.ts" />
     <TypeScriptCompile Include="src\layout\LayBaseTab.ts" />
     <TypeScriptCompile Include="src\layout\LayerManager.ts" />

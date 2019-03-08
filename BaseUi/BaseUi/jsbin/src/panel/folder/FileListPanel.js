@@ -25,6 +25,8 @@ var filelist;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var TextureManager = Pan3d.TextureManager;
+    var DragSource = drag.DragSource;
+    var DragManager = drag.DragManager;
     var FileVo = filemodel.FileVo;
     var MenuListData = menutwo.MenuListData;
     var SampleFileVo = /** @class */ (function () {
@@ -196,6 +198,17 @@ var filelist;
             this.filemouseIsDown = true;
             this.mouseDownTm = Pan3d.TimeUtil.getTimer();
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+            this.makeDragData(evt);
+        };
+        FileListPanel.prototype.makeDragData = function (evt) {
+            var dsragSource = new DragSource();
+            var event = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y });
+            var node = {};
+            node.name = "file";
+            node.path = "urlpath";
+            node.url = "urlpath.jpg";
+            dsragSource.addData(node, "fileNode");
+            DragManager.doDrag(this, dsragSource, event);
         };
         FileListPanel.prototype.stageMouseMove = function (evt) {
             this.filemouseIsDown = false;

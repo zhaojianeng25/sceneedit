@@ -77,7 +77,9 @@ var filelist;
             },
             set: function (value) {
                 this._data = value;
+                // 
                 this.prefabStaticMesh = this._data;
+                this.prefabStaticMesh.needSave = false;
                 this.refreshViewValue();
             },
             enumerable: true,

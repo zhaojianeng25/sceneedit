@@ -31,16 +31,6 @@ var layout;
                 this.winBg.setRect(this.rect);
             }
         };
-        Panel.prototype.getObjectsUnderPoint = function (evt) {
-            for (var i = this.uiList.length - 1; i >= 0; i--) {
-                if (this.uiList[i]) {
-                    if (this.uiList[i] && this.uiList[i].insetUi(evt)) {
-                        return this.uiList[i].insetUi(evt);
-                    }
-                }
-            }
-            return null;
-        };
         return Panel;
     }(layout.Sprite));
     layout.Panel = Panel;
