@@ -286,15 +286,24 @@ var maineditor;
         HierarchyListPanel.prototype.makeModel = function () {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
                 var prefab = value;
-                console.log(prefab);
                 var dis = new ModelSprite();
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE, function ($modelxml) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
                     dis.readTxtToModel($modelxml);
                 });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
                     dis.material = $materialTree;
                 });
+                /*
+                       LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE,
+                            ($modelxml: string) => {
+                                dis.readTxtToModel($modelxml);
+                            });
+                        filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree ) => {
+                            dis.material = $materialTree;
+                        })
+        
+                        */
             });
         };
         HierarchyListPanel.prototype.readMapFile = function () {

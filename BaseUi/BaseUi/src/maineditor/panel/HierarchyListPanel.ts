@@ -331,17 +331,33 @@
         private makeModel(): void {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {
                 var prefab: pack.PrefabStaticMesh = value;
-                console.log(prefab)
-                var dis:ModelSprite = new ModelSprite();
+
+                var dis: ModelSprite = new ModelSprite();
+
+              
 
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE,
+                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
+                    ($modelxml: string) => {
+                        dis.readTxtToModel($modelxml);
+                    });
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                    dis.material = $materialTree;
+                })
+
+        /*
+               LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE,
                     ($modelxml: string) => {
                         dis.readTxtToModel($modelxml);
                     });
                 filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree ) => {
                     dis.material = $materialTree;
                 })
+
+                */
+
+              
+              
             })
 
         }
