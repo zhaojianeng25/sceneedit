@@ -38,10 +38,18 @@ var prop;
             $ui.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
         };
         TexturePicUi.prototype.dragDrop = function (evt) {
-            console.log("------");
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                console.log("可以拖动");
+            }
+            else {
+                console.log("不可以");
+            }
         };
         TexturePicUi.prototype.dragEnter = function (evt) {
-            console.log("执行拖动");
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                this.url = drag.DragManager.dragSource.url;
+                this.dispatchEvent(new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA));
+            }
         };
         TexturePicUi.prototype.butClik = function (evt) {
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
@@ -67,6 +75,9 @@ var prop;
             this._inputHtmlSprite.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
         };
         TexturePicUi.prototype.testSuffix = function (value) {
+            if (!this.suffix) {
+                return;
+            }
             var tempItem = this.suffix.split("|");
             for (var i = 0; i < tempItem.length; i++) {
                 if (value.indexOf(tempItem[i]) != -1) {

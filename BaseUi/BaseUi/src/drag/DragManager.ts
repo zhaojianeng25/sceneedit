@@ -21,25 +21,10 @@
         public static MOVE: string = "move";
         public static LINK: string = "link";
 
-        private static _impl: IDragManager;
-
-        private static get impl(): IDragManager {
-            if (!this._impl) {
-                this._impl = new TempDrawManager()
-            }
-
-            return this._impl;
-        }
-        public static doDrag(
-            dragInitiator: UIConatiner,
-            dragSource: DragSource,
-            mouseEvent: MouseEvent,
-            xOffset: Number = 0,
-            yOffset: Number = 0,
-            imageAlpha: Number = 0.5,
-            allowMove: Boolean = true): void {
-            this.impl.doDrag(dragInitiator, dragSource, mouseEvent);
-
+  
+        public static dragSource: DragSource
+        public static doDragdoDrag(  dragInitiator: UIConatiner,  node: DragSource  ): void {
+            this.dragSource = node;
             Pan3d.ModuleEventManager.dispatchEvent(new DragEvent(DragEvent.DRAG_SHOW))
         }
 

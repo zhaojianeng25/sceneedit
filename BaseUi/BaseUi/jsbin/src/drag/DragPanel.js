@@ -18,9 +18,9 @@ var drag;
     var UIConatiner = Pan3d.UIConatiner;
     var UIAtlas = Pan3d.UIAtlas;
     var TextureManager = Pan3d.TextureManager;
-    var TextureContext = /** @class */ (function (_super) {
-        __extends(TextureContext, _super);
-        function TextureContext(w, h) {
+    var DragPanel = /** @class */ (function (_super) {
+        __extends(DragPanel, _super);
+        function DragPanel(w, h) {
             var _this = _super.call(this) || this;
             _this.tempUiName = "tempui";
             _this._bRender = new UIRenderComponent();
@@ -35,19 +35,15 @@ var drag;
             _this.addChild(_this.ui);
             _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(w, h, false);
             _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx);
-            _this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", _this.ui.skinName);
             return _this;
         }
-        return TextureContext;
-    }(UIConatiner));
-    drag.TextureContext = TextureContext;
-    var DragPanel = /** @class */ (function (_super) {
-        __extends(DragPanel, _super);
-        function DragPanel() {
-            return _super.call(this, 64, 64) || this;
-        }
+        DragPanel.prototype.setData = function (value) {
+            if (value.icon) {
+                this.ui.uiRender.uiAtlas.upDataPicToTexture(value.icon, this.ui.skinName);
+            }
+        };
         return DragPanel;
-    }(TextureContext));
+    }(UIConatiner));
     drag.DragPanel = DragPanel;
 })(drag || (drag = {}));
 //# sourceMappingURL=DragPanel.js.map

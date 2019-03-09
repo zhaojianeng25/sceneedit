@@ -31,7 +31,7 @@ var filelist;
         };
         PrefabMeshView.prototype.textureChangeInfo = function (value) {
             this.prefabStaticMesh.paramInfo = value;
-            this.prefabStaticMesh.needSave = true;
+            this.saveToSever();
         };
         PrefabMeshView.prototype.getParamItem = function (value) {
             for (var i = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
@@ -62,24 +62,13 @@ var filelist;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(PrefabMeshView.prototype, "picurl", {
-            get: function () {
-                return "c.png";
-            },
-            set: function (value) {
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(PrefabMeshView.prototype, "data", {
             get: function () {
                 return this._data;
             },
             set: function (value) {
                 this._data = value;
-                // 
                 this.prefabStaticMesh = this._data;
-                this.prefabStaticMesh.needSave = false;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -97,8 +86,11 @@ var filelist;
             configurable: true
         });
         PrefabMeshView.prototype.saveToSever = function () {
-            if (this.prefabStaticMesh.needSave) {
-                console.log("保存", this.prefabStaticMesh);
+            var _this = this;
+            this.lastTm = Pan3d.TimeUtil.getTimer();
+            if (!this.isSaveNow) {
+                this.isSaveNow = true;
+                this.saveTm = this.lastTm;
                 var $byte = new Pan3d.Pan3dByteArray();
                 var $fileName = "newfiletxt.prefab";
                 var $obj = JSON.stringify(this.prefabStaticMesh);
@@ -106,16 +98,21 @@ var filelist;
                 var $file = new File([$byte.buffer], $fileName);
                 var pathurl = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
                 filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, function () {
-                    console.log("更新Prafab完成", pathurl + $file.name);
+                    _this.isSaveNow = false;
+                    if (_this.lastTm != _this.saveTm) {
+                        console.log("不是最后一次，所以需要再存一次");
+                        Pan3d.TimeUtil.addTimeOut(1000, function () {
+                            _this.saveToSever();
+                        });
+                    }
+                    else {
+                        console.log("更新Prafab完成", pathurl + $file.name);
+                    }
                 });
             }
             else {
-                console.log("不需要改变");
+                console.log("正在处理保存");
             }
-            //materialInfoArr: undefined
-            //name: "temp.prefab"
-            //objsurl: "ccsss.objs"
-            //textureurl: "texture/5.material"
         };
         return PrefabMeshView;
     }(MetaDataView));

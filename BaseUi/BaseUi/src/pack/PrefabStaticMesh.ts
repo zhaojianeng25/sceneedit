@@ -2,7 +2,6 @@
  
     export class PrefabStaticMesh extends Prefab   {
         public paramInfo: Array<any>;
-        public needSave: boolean
         public sunColor: Vector3D;
         public constructor() {
             super();

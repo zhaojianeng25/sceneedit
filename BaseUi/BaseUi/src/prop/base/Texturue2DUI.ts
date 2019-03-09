@@ -16,11 +16,18 @@
             this.texturePicUi = new TexturePicUi()
      
             this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.onChangePicurl, this)
-            this.height = 100
+            this.height = 100;
         }
 
         private onChangePicurl($evt: ReflectionEvet): void {
-            this.makeNewTextureByFile($evt.data);
+
+            if ($evt.data instanceof File) {
+                this.makeNewTextureByFile($evt.data);
+            } else {
+                this.target[this.FunKey] = this.texturePicUi.url
+                this.changFun&& this.changFun();
+                this.refreshViewValue()
+            }
 
         }
         private makeNewTextureByFile(simpleFile: File): void {
@@ -31,6 +38,7 @@
                 img.onload = () => {
                     TextureManager.getInstance().addImgRes(Scene_data.fileRoot + simpleFile.name, img);
                     this.target[this.FunKey] = simpleFile.name
+
                     this.refreshViewValue()
                 }
                 img.src = reader.result;

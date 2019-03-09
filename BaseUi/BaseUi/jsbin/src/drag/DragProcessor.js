@@ -57,9 +57,10 @@ var drag;
             if ($event instanceof DragEvent) {
                 if ($event.type == DragEvent.DRAG_SHOW) {
                     if (!this._dragPanel) {
-                        this._dragPanel = new drag.DragPanel();
+                        this._dragPanel = new drag.DragPanel(64, 64);
                     }
                     this.addUIContainer(this._dragPanel);
+                    this._dragPanel.setData(drag.DragManager.dragSource);
                 }
             }
         };

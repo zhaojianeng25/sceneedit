@@ -16,7 +16,9 @@
 
     import UIPanel = win.UIPanel
 
-    export class TextureContext extends UIConatiner {
+  
+    export class DragPanel extends UIConatiner {
+ 
         private _bRender: UIRenderComponent;
 
         private tempUiName: string = "tempui";
@@ -37,19 +39,14 @@
 
             this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(w, h, false);
             this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
-               this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
+       
 
         }
+        public setData(value: DragSource): void{
+            if (value.icon) {
+                this.ui.uiRender.uiAtlas.upDataPicToTexture(value.icon, this.ui.skinName);
+            }
 
-
-    }
-
-    export class DragPanel extends TextureContext {
- 
-        public constructor() {
-            super(64,64);
- 
-   
         }
     }
 }

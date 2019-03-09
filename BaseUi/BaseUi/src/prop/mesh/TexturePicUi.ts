@@ -35,10 +35,18 @@
             $ui.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
         }
         private dragDrop(evt: any): void {
-            console.log("------")
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                console.log("可以拖动")
+            } else {
+                console.log("不可以")
+            }
+
         }
         private dragEnter(evt: any): void {
-            console.log("执行拖动")
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                this.url = drag.DragManager.dragSource.url;
+                this.dispatchEvent(new ReflectionEvet(ReflectionEvet.CHANGE_DATA));
+            }
         }
         private $dulbelClikTm: number = 0;
         private _inputHtmlSprite: HTMLInputElement
@@ -70,6 +78,9 @@
             this._inputHtmlSprite.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
         }
         private testSuffix(value: string): boolean {
+            if (!this.suffix) {
+                return;
+            }
             var tempItem: Array<string> = this.suffix.split("|")
             for (var i: number = 0; i < tempItem.length; i++) {
                 if (value.indexOf(tempItem[i])!=-1) {

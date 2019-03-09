@@ -42,9 +42,11 @@
             if ($event instanceof DragEvent) {
                 if ($event.type == DragEvent.DRAG_SHOW) {
                     if (!this._dragPanel) {
-                        this._dragPanel = new DragPanel()
+                        this._dragPanel = new DragPanel(64,64)
                     }
                     this.addUIContainer(this._dragPanel)
+                    this._dragPanel.setData(DragManager.dragSource)
+
                 }
              
             }
@@ -54,7 +56,6 @@
 
             if (!this.topDrag) {
                 this.topDrag = new Panel(false)
-          
                 layout.LayerManager.getInstance().addPanel(this.topDrag, 200)
 
             }
@@ -96,6 +97,7 @@
            
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.onMove, this);
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.onUp, this);
+
             var $ui: UICompenent = this.getObjectsUnderPoint(new Vector2D($e.x, $e.y))
             if ($ui) {
                 $ui.dispatchEvent(new DragEvent(DragEvent.DRAG_ENTER))

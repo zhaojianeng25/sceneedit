@@ -28,7 +28,14 @@ var prop;
             this.height = 100;
         };
         Texturue2DUI.prototype.onChangePicurl = function ($evt) {
-            this.makeNewTextureByFile($evt.data);
+            if ($evt.data instanceof File) {
+                this.makeNewTextureByFile($evt.data);
+            }
+            else {
+                this.target[this.FunKey] = this.texturePicUi.url;
+                this.changFun && this.changFun();
+                this.refreshViewValue();
+            }
         };
         Texturue2DUI.prototype.makeNewTextureByFile = function (simpleFile) {
             var _this = this;

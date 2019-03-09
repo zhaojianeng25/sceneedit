@@ -19,14 +19,16 @@
             return ary;
         }
         private textureChangeInfo(value: Array<any>): void {
-    
-            this.prefabStaticMesh.paramInfo = value
-            this.prefabStaticMesh.needSave = true
 
+            this.prefabStaticMesh.paramInfo = value;
+
+
+            this.saveToSever()
 
         }
+
         public getParamItem(value: string): any {
-            for (var i: number = 0; this.prefabStaticMesh.paramInfo&& i < this.prefabStaticMesh.paramInfo.length; i++) {
+            for (var i: number = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
                 if (this.prefabStaticMesh.paramInfo[i].paramName == value) {
                     return this.prefabStaticMesh.paramInfo[i].data
                 }
@@ -48,24 +50,15 @@
             return this.prefabStaticMesh.objsurl
         }
 
-        public set picurl(value: string) {
-      
-        }
-        public get picurl(): string {
-            return "c.png"
-        }
-
         public set data(value: any) {
             this._data = value;
-          // 
             this.prefabStaticMesh = this._data
-            this.prefabStaticMesh.needSave = false
             this.refreshViewValue()
         }
         public get data(): any {
             return this._data
         }
-      
+
         public get sunColor(): Vector3D {
             return this.prefabStaticMesh.sunColor
         }
@@ -73,33 +66,40 @@
             this.prefabStaticMesh.sunColor = value
 
             console.log("颜色变化")
-        
+
         }
- 
+
+        private isSaveNow: boolean;
+        private lastTm: number
+        private saveTm: number
         public saveToSever(): void {
-       
-            if (this.prefabStaticMesh.needSave) {
-                console.log("保存", this.prefabStaticMesh);
+            this.lastTm = Pan3d.TimeUtil.getTimer()
+            if (!this.isSaveNow) {
+                this.isSaveNow = true
+                this.saveTm = this.lastTm;
+
                 var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
                 var $fileName: string = "newfiletxt.prefab";
                 var $obj: any = JSON.stringify(this.prefabStaticMesh);
                 $byte.writeUTF($obj)
                 var $file: File = new File([$byte.buffer], $fileName);
                 var pathurl: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+
                 filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, () => {
-                    console.log("更新Prafab完成", pathurl + $file.name);
+                    this.isSaveNow = false
+                    if (this.lastTm != this.saveTm) {
+                        console.log("不是最后一次，所以需要再存一次")
+                        Pan3d.TimeUtil.addTimeOut(1000, () => {
+                            this.saveToSever();
+                        })
+                    } else {
+                        console.log("更新Prafab完成", pathurl + $file.name);
+                    }
                 })
-
             } else {
-                console.log("不需要改变")
+                console.log("正在处理保存")
             }
-
-
-         
-            //materialInfoArr: undefined
-            //name: "temp.prefab"
-            //objsurl: "ccsss.objs"
-            //textureurl: "texture/5.material"
+ 
         }
 
 

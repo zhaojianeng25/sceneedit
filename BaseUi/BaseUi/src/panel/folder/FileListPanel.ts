@@ -252,17 +252,35 @@
             this.makeDragData(evt);
         }
         private makeDragData(evt: InteractiveEvent): void {
-            var dsragSource: DragSource = new DragSource();
             var event: MouseEvent = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y })
+            var vo: FileListName = this.getItemVoByUi(evt.target)
+            if (vo) {
+                var fileUrl: string = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                var dsragSource: DragSource = new DragSource();
+                if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
+                    dsragSource.icon = "icon/icon_Folder_64x.png"
+                } else {
+              
+                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
+                        case FileVo.MATERIAL:
+                            dsragSource.icon = "icon/marterial_64x.png"
+                            break
+                        case "jpg":
+                        case "png":
+                            dsragSource.icon = "icon/profeb_64x.png"
+                         
+                            break
+                        default:
+                            break;
+                    }
 
-
-
-            var node: any = {}
-            node.name = "file"
-            node.path = "urlpath"
-            node.url = "urlpath.jpg"
-            dsragSource.addData(node, "fileNode");
-            DragManager.doDrag(this, dsragSource, event);
+                }
+                dsragSource.url = fileUrl;
+                dsragSource.type = "file"
+                DragManager.doDragdoDrag(this, dsragSource);
+            }
+       
 
 
         }
