@@ -20,6 +20,7 @@ var prop;
         ReflectionData.Key_SelectIndex = "SelectIndex";
         ReflectionData.NumberInput = "NumberInput";
         ReflectionData.CaptureIdUi = "CaptureIdUi";
+        ReflectionData.TEXT = "Txt";
         ReflectionData.Num = "Number";
         ReflectionData.Input = "Input";
         ReflectionData.ComboBox = "ComboBox";

@@ -5,6 +5,7 @@
         getName() :string{
             return "prefab"
         }
+        public url: string
         public objsurl: string;;
         public textureurl: string;
         public material: Material;

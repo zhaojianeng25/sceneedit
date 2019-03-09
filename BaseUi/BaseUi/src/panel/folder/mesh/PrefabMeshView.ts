@@ -12,6 +12,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this },
                     { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "属性" },
                     { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunColor", target: this, Step: 0.1 },
@@ -32,6 +33,14 @@
             }
             return null
         }
+        public set prebaburl(value: string) {
+ 
+ 
+        }
+        public get prebaburl(): string {
+            return this.prefabStaticMesh.url
+        }
+
         public set texture(value: Material) {
             this.prefabStaticMesh.material = value
             this.refreshViewValue()
@@ -76,14 +85,19 @@
                 this.saveTm = this.lastTm;
 
                 var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-                var $fileName: string = "newfiletxt.prefab";
+                var $fileUrl: string = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url
+
+
+
                 this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
                 var $obj: any = JSON.stringify(this.prefabStaticMesh);
                 $byte.writeUTF($obj)
-                var $file: File = new File([$byte.buffer], $fileName);
-                var pathurl: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
 
-                filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, () => {
+
+                console.log($fileUrl)
+                var $file: File = new File([$byte.buffer], "cc.prefab");
+                var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                filemodel.FileModel.getInstance().upOssFile($file, pathurl, () => {
                     this.isSaveNow = false
                     if (this.lastTm != this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次")

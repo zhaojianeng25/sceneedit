@@ -106,6 +106,7 @@ var filemodel;
                 for (var key in $obj) {
                     $prefab[key] = $obj[key];
                 }
+                $prefab.url = $url;
                 filemodel.MaterialManager.getInstance().getMaterialByUrl($prefab.textureurl, function ($materialTree) {
                     $prefab.material = $materialTree;
                     bfun($prefab);

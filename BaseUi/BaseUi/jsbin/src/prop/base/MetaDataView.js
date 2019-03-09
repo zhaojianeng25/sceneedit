@@ -69,7 +69,17 @@ var prop;
             if (type == prop.ReflectionData.Vec3Color) {
                 return this.getVec3Color(obj);
             }
+            if (type == prop.ReflectionData.TEXT) {
+                return this.getTextField2DUI(obj);
+            }
             return null;
+        };
+        MetaDataView.prototype.getTextField2DUI = function ($obj) {
+            var $textCtrlInput = new prop.TextField2DUI();
+            $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
+            $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            $textCtrlInput.target = this;
+            return $textCtrlInput;
         };
         MetaDataView.prototype.getVec3Color = function ($obj) {
             var $textCtrlInput = new prop.Vec3ColorCtrlUI();

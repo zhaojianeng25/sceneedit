@@ -107,10 +107,6 @@ var prop;
         };
         PropModel.prototype.showPefabMesh = function (value) {
             if (this.metaDataView) {
-                var tempview = this.metaDataView;
-                if (tempview) {
-                    tempview.saveToSever();
-                }
                 this.metaDataView.destory();
                 this.metaDataView = null;
                 this.lastNodel = null;

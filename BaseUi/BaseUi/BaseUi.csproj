@@ -54,6 +54,7 @@
     <TypeScriptCompile Include="src\pack\Prefab.ts" />
     <TypeScriptCompile Include="src\pack\PrefabStaticMesh.ts" />
     <TypeScriptCompile Include="src\panel\folder\mesh\PrefabMeshView.ts" />
+    <TypeScriptCompile Include="src\prop\base\TextField2DUI.ts" />
     <TypeScriptCompile Include="src\prop\base\Material2DUI.ts" />
     <TypeScriptCompile Include="src\prop\base\MaterialParamUi.ts" />
     <TypeScriptCompile Include="src\win\BaseWindow.ts" />

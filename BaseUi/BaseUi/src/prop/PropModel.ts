@@ -89,10 +89,6 @@
         }
         public showPefabMesh(value: MetaDataView): void {
             if (this.metaDataView) {
-                var tempview: filelist.PrefabMeshView = this.metaDataView as filelist.PrefabMeshView;
-                if (tempview) {
-                     tempview.saveToSever()
-                }
                 this.metaDataView.destory()
                 this.metaDataView = null;
                 this.lastNodel = null;

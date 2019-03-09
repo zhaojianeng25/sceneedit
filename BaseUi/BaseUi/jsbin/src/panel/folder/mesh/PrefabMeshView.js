@@ -23,6 +23,7 @@ var filelist;
         PrefabMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunColor", target: this, Step: 0.1 },
@@ -41,6 +42,15 @@ var filelist;
             }
             return null;
         };
+        Object.defineProperty(PrefabMeshView.prototype, "prebaburl", {
+            get: function () {
+                return this.prefabStaticMesh.url;
+            },
+            set: function (value) {
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(PrefabMeshView.prototype, "texture", {
             get: function () {
                 return this.prefabStaticMesh.material;
@@ -93,13 +103,14 @@ var filelist;
                 this.isSaveNow = true;
                 this.saveTm = this.lastTm;
                 var $byte = new Pan3d.Pan3dByteArray();
-                var $fileName = "newfiletxt.prefab";
+                var $fileUrl = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url;
                 this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
                 var $obj = JSON.stringify(this.prefabStaticMesh);
                 $byte.writeUTF($obj);
-                var $file = new File([$byte.buffer], $fileName);
-                var pathurl = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
-                filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, function () {
+                console.log($fileUrl);
+                var $file = new File([$byte.buffer], "cc.prefab");
+                var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                filemodel.FileModel.getInstance().upOssFile($file, pathurl, function () {
                     _this.isSaveNow = false;
                     if (_this.lastTm != _this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次");

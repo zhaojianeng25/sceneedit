@@ -23,6 +23,7 @@
 
         public static NumberInput: string = "NumberInput";
         public static CaptureIdUi: string = "CaptureIdUi";
+        public static TEXT: string = "Txt";
         public static Num: string = "Number";
         public static Input: string = "Input";
         public static ComboBox: string = "ComboBox";

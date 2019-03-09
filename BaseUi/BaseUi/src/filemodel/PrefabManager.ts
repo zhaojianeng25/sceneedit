@@ -128,16 +128,14 @@
  
         }
 
-        public getPrefabByUrl($url: String, bfun: Function): void {
+        public getPrefabByUrl($url: string, bfun: Function): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, ($byte: any) => {
                 var $obj: any = JSON.parse(new Pan3dByteArray($byte).readUTF())
                 var $prefab: PrefabStaticMesh = new PrefabStaticMesh();
                 for (var key in $obj) {
                     $prefab[key] = $obj[key];
                 }
-
-       
-
+                $prefab.url = $url;
                 filemodel.MaterialManager.getInstance().getMaterialByUrl($prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                     $prefab.material = $materialTree
                     bfun($prefab)
