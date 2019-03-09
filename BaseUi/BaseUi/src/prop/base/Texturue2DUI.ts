@@ -6,9 +6,7 @@
         protected textLabelUI: TextLabelUI;
         protected textureUrlText: TextLabelUI;
         protected texturePicUi: TexturePicUi
-     
-
-     
+   
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI(64, 16)
@@ -24,9 +22,27 @@
             if ($evt.data instanceof File) {
                 this.makeNewTextureByFile($evt.data);
             } else {
-                this.target[this.FunKey] = this.texturePicUi.url
-                this.changFun&& this.changFun();
-                this.refreshViewValue()
+                if (this.texturePicUi.url.indexOf(".material") != -1) {
+                    console.log("是材质")
+
+                    filemodel.MaterialManager.getInstance().getMaterialByUrl(this.texturePicUi.url, ($materialTree: materialui.MaterialTree) => {
+                        console.log($materialTree);
+                        //是地址
+                        this.target[this.FunKey] = $materialTree
+                        this.changFun && this.changFun();
+                        this.refreshViewValue()
+                    })
+
+                } else {
+                    //是地址
+                    this.target[this.FunKey] = this.texturePicUi.url
+                    this.changFun && this.changFun();
+                    this.refreshViewValue()
+                }
+
+            
+           
+          
             }
 
         }

@@ -19,10 +19,7 @@
             return ary;
         }
         private textureChangeInfo(value: Array<any>): void {
-
             this.prefabStaticMesh.paramInfo = value;
-
-
             this.saveToSever()
 
         }
@@ -34,7 +31,6 @@
                 }
             }
             return null
-
         }
         public set texture(value: Material) {
             this.prefabStaticMesh.material = value
@@ -45,6 +41,7 @@
         }
         public set objsurl(value: string) {
             this.prefabStaticMesh.objsurl = value
+            this.saveToSever()
         }
         public get objsurl(): string {
             return this.prefabStaticMesh.objsurl
@@ -80,6 +77,7 @@
 
                 var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
                 var $fileName: string = "newfiletxt.prefab";
+                this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
                 var $obj: any = JSON.stringify(this.prefabStaticMesh);
                 $byte.writeUTF($obj)
                 var $file: File = new File([$byte.buffer], $fileName);

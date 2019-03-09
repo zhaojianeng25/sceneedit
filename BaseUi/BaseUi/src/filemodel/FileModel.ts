@@ -18,6 +18,7 @@
         public static JPG: string = "jpg";
         public static PNG: string = "png";
         public static TXT: string = "txt";
+        public static OBJS: string = "objs";
 
 
 

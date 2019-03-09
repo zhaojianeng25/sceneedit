@@ -27,6 +27,7 @@ var filemodel;
         FileVo.JPG = "jpg";
         FileVo.PNG = "png";
         FileVo.TXT = "txt";
+        FileVo.OBJS = "objs";
         return FileVo;
     }());
     filemodel.FileVo = FileVo;

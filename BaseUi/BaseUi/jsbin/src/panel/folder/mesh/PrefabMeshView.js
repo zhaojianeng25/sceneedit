@@ -58,6 +58,7 @@ var filelist;
             },
             set: function (value) {
                 this.prefabStaticMesh.objsurl = value;
+                this.saveToSever();
             },
             enumerable: true,
             configurable: true
@@ -93,6 +94,7 @@ var filelist;
                 this.saveTm = this.lastTm;
                 var $byte = new Pan3d.Pan3dByteArray();
                 var $fileName = "newfiletxt.prefab";
+                this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
                 var $obj = JSON.stringify(this.prefabStaticMesh);
                 $byte.writeUTF($obj);
                 var $file = new File([$byte.buffer], $fileName);

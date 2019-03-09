@@ -25,8 +25,6 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
-    var TexItem = Pan3d.TexItem;
-    var ConstItem = Pan3d.ConstItem;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
@@ -286,82 +284,18 @@ var maineditor;
             return null;
         };
         HierarchyListPanel.prototype.makeModel = function () {
-            var _this = this;
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
                 var prefab = value;
                 console.log(prefab);
                 var dis = new ModelSprite();
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE, function ($modelxml) {
                     dis.readTxtToModel($modelxml);
                 });
-                LoadManager.getInstance().load(Scene_data.fileRoot + "texture/color.material", LoadManager.BYTE_TYPE, function ($dtstr) {
-                    var $byte = new Pan3d.Pan3dByteArray($dtstr);
-                    $byte.position = 0;
-                    var $temp = JSON.parse($byte.readUTF());
-                    var $buildShader = new left.BuildMaterialShader();
-                    $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
-                    $buildShader.vertex = $buildShader.getVertexShaderString();
-                    $buildShader.fragment = $temp.info.shaderStr;
-                    $buildShader.encode();
-                    var $materialTree = new materialui.MaterialTree();
-                    $materialTree.texList = _this.makeTextList($temp.info.texList);
-                    $materialTree.constList = _this.makeConstList($temp.info.constList);
-                    $materialTree.fcData = _this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
-                    $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
-                    $materialTree.shader = $buildShader;
-                    $materialTree.program = $buildShader.program;
-                    console.log("----------vertex------------");
-                    console.log($buildShader.vertex);
-                    console.log("----------fragment------------");
-                    console.log($buildShader.fragment);
-                    console.log("----------buildShader------------");
+                filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {
                     dis.material = $materialTree;
                 });
             });
-        };
-        HierarchyListPanel.prototype.makeConstList = function (item) {
-            var constList = [];
-            for (var i = 0; i < item.length; i++) {
-                var temp = new ConstItem();
-                temp.name = "fc" + i;
-                temp.offset = i;
-                temp.value = item[i].value;
-                temp.vecNum = item[i].vecNum;
-                temp.id = i;
-                constList.push(temp);
-            }
-            return constList;
-        };
-        HierarchyListPanel.prototype.makeFc = function (constVec, infofcData) {
-            var fcData = new Float32Array(infofcData.length);
-            for (var i = 0; i < infofcData.length; i++) {
-                fcData[i] = Number(infofcData[i]);
-            }
-            for (var k = 0; k < constVec.length; k++) {
-                constVec[k].creat(fcData);
-            }
-            return fcData;
-        };
-        HierarchyListPanel.prototype.makeTextList = function (item) {
-            var texList = new Array;
-            for (var i = 0; i < item.length; i++) {
-                var texItem = new TexItem;
-                texItem.id = item[i].id;
-                texItem.url = item[i].url;
-                texItem.name = item[i].name;
-                texItem.isDynamic = item[i].isDynamic;
-                texItem.paramName = item[i].paramName;
-                texItem.isMain = item[i].isMain;
-                texItem.type = item[i].type;
-                if (texItem.type == undefined) {
-                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, function ($texture) {
-                        texItem.textureRes = $texture;
-                    });
-                }
-                texList.push(texItem);
-            }
-            return texList;
         };
         HierarchyListPanel.prototype.readMapFile = function () {
             var _this = this;

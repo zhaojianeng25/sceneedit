@@ -97,6 +97,7 @@ var prop;
         MetaDataView.prototype.getMaterialPicUi = function ($obj) {
             var $texturue2DUI = new prop.Material2DUI();
             $texturue2DUI.label = $obj[prop.ReflectionData.Key_Label];
+            $texturue2DUI.suffix = $obj[prop.ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
             $texturue2DUI.changFun = $obj["changFun"];
             $texturue2DUI.target = this;

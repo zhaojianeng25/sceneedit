@@ -99,6 +99,9 @@
                     case FileVo.TXT:
                         this.drawFileIconName(FileListPanel.imgBaseDic["txt_64x"], fileVo.name, $color)
                         break
+                    case FileVo.OBJS:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["objs_64x"], fileVo.name, $color)
+                        break
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color)
                         break
@@ -201,6 +204,7 @@
             item.push("profeb_64x");
             item.push("marterial_64x");
             item.push("txt_64x");
+            item.push("objs_64x");
             
 
 
@@ -269,11 +273,14 @@
                         case "jpg":
                         case "png":
                             dsragSource.icon = "icon/profeb_64x.png"
-                         
+                            break
+                        case "objs":
+                            dsragSource.icon = "icon/objs_64x.png"
                             break
                         default:
                             break;
                     }
+
 
                 }
                 dsragSource.url = fileUrl;

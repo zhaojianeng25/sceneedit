@@ -28,13 +28,27 @@ var prop;
             this.height = 100;
         };
         Texturue2DUI.prototype.onChangePicurl = function ($evt) {
+            var _this = this;
             if ($evt.data instanceof File) {
                 this.makeNewTextureByFile($evt.data);
             }
             else {
-                this.target[this.FunKey] = this.texturePicUi.url;
-                this.changFun && this.changFun();
-                this.refreshViewValue();
+                if (this.texturePicUi.url.indexOf(".material") != -1) {
+                    console.log("是材质");
+                    filemodel.MaterialManager.getInstance().getMaterialByUrl(this.texturePicUi.url, function ($materialTree) {
+                        console.log($materialTree);
+                        //是地址
+                        _this.target[_this.FunKey] = $materialTree;
+                        _this.changFun && _this.changFun();
+                        _this.refreshViewValue();
+                    });
+                }
+                else {
+                    //是地址
+                    this.target[this.FunKey] = this.texturePicUi.url;
+                    this.changFun && this.changFun();
+                    this.refreshViewValue();
+                }
             }
         };
         Texturue2DUI.prototype.makeNewTextureByFile = function (simpleFile) {
