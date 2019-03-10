@@ -9,8 +9,8 @@
     import ModuleEventManager = Pan3d.ModuleEventManager;
 
     export class PopModelShowEvent extends BaseEvent {
-        public static SHOW_POP_MODEL_PANEL: string = "SHOW_LEFT_PANEL"; //显示面板
-        public static HIDE_POP_MODEL_PANEL: string = "HIDE_LEFT_PANEL"; //显示面板
+        public static SHOW_POP_MODEL_PANEL: string = "SHOW_LEFT_PANEL";  
+        public static HIDE_POP_MODEL_PANEL: string = "HIDE_LEFT_PANEL";  
     }
     export class PopModelShowModule extends Module {
         public getModuleName(): string {

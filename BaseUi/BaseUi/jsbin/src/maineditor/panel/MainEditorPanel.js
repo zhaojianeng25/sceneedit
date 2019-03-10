@@ -17,6 +17,7 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var UIRenderComponent = Pan3d.UIRenderComponent;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIConatiner = Pan3d.UIConatiner;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ProgrmaManager = Pan3d.ProgrmaManager;
@@ -126,6 +127,7 @@ var maineditor;
         __extends(MainEditorPanel, _super);
         function MainEditorPanel() {
             var _this = _super.call(this) || this;
+            _this.suffix = "prefab";
             _this.pageRect = new Rectangle(0, 0, 500, 500);
             _this._bottomRender = new UIRenderComponent;
             _this.addRender(_this._bottomRender);
@@ -159,6 +161,33 @@ var maineditor;
                 _this._sceneViewRender.textureRes = $texture;
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             });
+            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
+            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+        };
+        MainEditorPanel.prototype.dragDrop = function (evt) {
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                console.log("可以拖动");
+            }
+            else {
+                console.log("不可以");
+            }
+        };
+        MainEditorPanel.prototype.testSuffix = function (value) {
+            if (!this.suffix) {
+                return;
+            }
+            var tempItem = this.suffix.split("|");
+            for (var i = 0; i < tempItem.length; i++) {
+                if (value.indexOf(tempItem[i]) != -1) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        MainEditorPanel.prototype.dragEnter = function (evt) {
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), drag.DragManager.dragSource.url);
+            }
         };
         MainEditorPanel.prototype.upFrame = function (t) {
             maineditor.MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;

@@ -21,8 +21,8 @@ var colorview;
         function ColorEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        ColorEvent.SHOW_COLOR_PANEL = "SHOW_COLOR_PANEL"; //显示面板
-        ColorEvent.HIDE_COLOR_PANEL = "HIDE_COLOR_PANEL"; //显示面板
+        ColorEvent.SHOW_COLOR_PANEL = "SHOW_COLOR_PANEL";
+        ColorEvent.HIDE_COLOR_PANEL = "HIDE_COLOR_PANEL";
         return ColorEvent;
     }(BaseEvent));
     colorview.ColorEvent = ColorEvent;

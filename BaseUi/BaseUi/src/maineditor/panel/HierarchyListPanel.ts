@@ -316,7 +316,7 @@
                 $vo.pos.y=-1000
                 this.showTemp($vo);
                 if ($hierarchyFileNode.type == HierarchyNodeType.Prefab) {
-                    this.makeModel()
+                 //   this.makeModel()
                 }
     
 
@@ -328,14 +328,27 @@
             }
             return null
         }
+        public inputPrefabToScene(value: string): void {
+            filemodel.PrefabManager.getInstance().getPrefabByUrl(value, (value: pack.PrefabStaticMesh) => {
+                var prefab: pack.PrefabStaticMesh = value;
+                var dis: ModelSprite = new ModelSprite();
+                dis.x = random(200) - 100
+                dis.z = random(200) - 100
+                MainEditorProcessor.edItorSceneManager.addDisplay(dis);
+                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
+                    ($modelxml: string) => {
+                        dis.readTxtToModel($modelxml);
+                    });
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                    dis.material = $materialTree;
+                })
+            })
+
+        }
         private makeModel(): void {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {
                 var prefab: pack.PrefabStaticMesh = value;
-
                 var dis: ModelSprite = new ModelSprite();
-
-              
-
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
                 LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
                     ($modelxml: string) => {

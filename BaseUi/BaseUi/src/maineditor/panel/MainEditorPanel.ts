@@ -215,6 +215,35 @@
 
 
             });
+
+            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
+            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+        }
+        private dragDrop(evt: any): void {
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                console.log("可以拖动")
+            } else {
+                console.log("不可以")
+            }
+
+        }
+        public suffix: string="prefab"
+        private testSuffix(value: string): boolean {
+            if (!this.suffix) {
+                return;
+            }
+            var tempItem: Array<string> = this.suffix.split("|")
+            for (var i: number = 0; i < tempItem.length; i++) {
+                if (value.indexOf(tempItem[i]) != -1) {
+                    return true
+                }
+            }
+            return false
+        }
+        private dragEnter(evt: any): void {
+            if (this.testSuffix(drag.DragManager.dragSource.url)) {
+                ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), drag.DragManager.dragSource.url)
+            }
         }
   
         private upFrame(t: number): void {

@@ -25,8 +25,8 @@ var popmodel;
         function PopModelShowEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        PopModelShowEvent.SHOW_POP_MODEL_PANEL = "SHOW_LEFT_PANEL"; //显示面板
-        PopModelShowEvent.HIDE_POP_MODEL_PANEL = "HIDE_LEFT_PANEL"; //显示面板
+        PopModelShowEvent.SHOW_POP_MODEL_PANEL = "SHOW_LEFT_PANEL";
+        PopModelShowEvent.HIDE_POP_MODEL_PANEL = "HIDE_LEFT_PANEL";
         return PopModelShowEvent;
     }(BaseEvent));
     popmodel.PopModelShowEvent = PopModelShowEvent;

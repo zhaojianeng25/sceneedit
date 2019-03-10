@@ -165,11 +165,11 @@ var Pan3d;
         });
         Object3D.prototype.updateMatrix = function () {
             this.posMatrix.identity();
-            // this.posMatrix.appendScale(this._scaleX, this._scaleY, this._scaleZ);
+            this.posMatrix.appendScale(this._scaleX, this._scaleY, this._scaleZ);
             this.posMatrix.appendRotation(this._rotationX, Pan3d.Vector3D.X_AXIS);
             this.posMatrix.appendRotation(this._rotationY, Pan3d.Vector3D.Y_AXIS);
             this.posMatrix.appendRotation(this._rotationZ, Pan3d.Vector3D.Z_AXIS);
-            // this.posMatrix.appendTranslation(this._x, this._y, this._z);
+            this.posMatrix.appendTranslation(this._x, this._y, this._z);
         };
         Object3D.prototype.updateRotationMatrix = function () {
         };

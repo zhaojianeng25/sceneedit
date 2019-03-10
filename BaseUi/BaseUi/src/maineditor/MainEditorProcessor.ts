@@ -16,8 +16,9 @@
 
 
     export class MainEditorEvent extends BaseEvent {
-        public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL"; //显示面板
-        public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL"; //显示面板
+        public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL";  
+        public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL";  
+        public static INPUT_PREFAB_TO_SCENE: string = "INPUT_PREFAB_TO_SCENE";  
   
  
     }
@@ -53,11 +54,12 @@
                         this._editScenePanel = new MainEditorPanel();
                     }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
-
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel)
+ 
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
 
-
-                   //  this.addTestWindPanel()
+                    this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data)
                 }
            
 
@@ -180,9 +182,9 @@
             return [
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
- 
+                new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
-
+                
             ];
         }
     }

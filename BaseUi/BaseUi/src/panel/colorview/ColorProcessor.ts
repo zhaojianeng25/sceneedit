@@ -6,8 +6,8 @@
     import BaseProcessor = Pan3d.BaseProcessor;
     import UIManager = Pan3d.UIManager;
     export class ColorEvent extends BaseEvent {
-        public static SHOW_COLOR_PANEL: string = "SHOW_COLOR_PANEL"; //显示面板
-        public static HIDE_COLOR_PANEL: string = "HIDE_COLOR_PANEL"; //显示面板
+        public static SHOW_COLOR_PANEL: string = "SHOW_COLOR_PANEL";  
+        public static HIDE_COLOR_PANEL: string = "HIDE_COLOR_PANEL";  
 
         public bfun: Function;
         public v3dColor: Vector3D;

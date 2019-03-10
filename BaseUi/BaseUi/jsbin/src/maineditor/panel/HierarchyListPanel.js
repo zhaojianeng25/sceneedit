@@ -273,7 +273,7 @@ var maineditor;
                 $vo.pos.y = -1000;
                 this.showTemp($vo);
                 if ($hierarchyFileNode.type == maineditor.HierarchyNodeType.Prefab) {
-                    this.makeModel();
+                    //   this.makeModel()
                 }
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
                 $item.push($vo);
@@ -282,6 +282,21 @@ var maineditor;
                 return $item;
             }
             return null;
+        };
+        HierarchyListPanel.prototype.inputPrefabToScene = function (value) {
+            filemodel.PrefabManager.getInstance().getPrefabByUrl(value, function (value) {
+                var prefab = value;
+                var dis = new ModelSprite();
+                dis.x = random(200) - 100;
+                dis.z = random(200) - 100;
+                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
+                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
+                    dis.readTxtToModel($modelxml);
+                });
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
+                    dis.material = $materialTree;
+                });
+            });
         };
         HierarchyListPanel.prototype.makeModel = function () {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
