@@ -101,7 +101,7 @@
             b.y = ((-p.y / p.w) + 1) * (rect.height / 2)
             return b;
         }
-        private static mathDisplay2Dto3DWorldPos($point: Vector2D, scene: SceneManager): Vector3D {
+        public static mathDisplay2Dto3DWorldPos($point: Vector2D, scene: SceneManager): Vector3D {
             var cameraMatrixInvert: Matrix3D = scene.cam3D.cameraMatrix.clone()
             var viewMatrx3DInvert: Matrix3D = scene.viewMatrx3D.clone()
             cameraMatrixInvert.invert();

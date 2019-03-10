@@ -50,12 +50,13 @@
 
                     $materialTree.shader = $buildShader;
                     $materialTree.program = $buildShader.program;
+                    /*
                     console.log("----------vertex------------");
                     console.log($buildShader.vertex);
                     console.log("----------fragment------------");
                     console.log($buildShader.fragment);
                     console.log("----------buildShader------------");
-
+                    */
 
                     $materialTree.url = $url
  

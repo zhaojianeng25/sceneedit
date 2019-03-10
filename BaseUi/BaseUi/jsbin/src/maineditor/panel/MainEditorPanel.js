@@ -26,6 +26,7 @@ var maineditor;
     var Shader3D = Pan3d.Shader3D;
     var MouseType = Pan3d.MouseType;
     var MathUtil = Pan3d.MathUtil;
+    var PanDragEvent = drag.PanDragEvent;
     var BloomUiShader = /** @class */ (function (_super) {
         __extends(BloomUiShader, _super);
         function BloomUiShader() {
@@ -164,8 +165,8 @@ var maineditor;
                 _this._sceneViewRender.textureRes = $texture;
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             });
-            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
-            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+            this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
+            this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
         };
         MainEditorPanel.prototype.onPanellMouseWheel = function ($evt) {
@@ -204,7 +205,10 @@ var maineditor;
         };
         MainEditorPanel.prototype.dragEnter = function (evt) {
             if (this.testSuffix(drag.DragManager.dragSource.url)) {
-                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), drag.DragManager.dragSource.url);
+                var obj = {};
+                obj.url = drag.DragManager.dragSource.url;
+                obj.mouse = new Vector2D(evt.data.x, evt.data.y);
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj);
             }
         };
         MainEditorPanel.prototype.upFrame = function (t) {

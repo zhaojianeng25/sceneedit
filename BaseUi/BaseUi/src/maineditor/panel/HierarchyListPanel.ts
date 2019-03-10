@@ -328,12 +328,26 @@
             }
             return null
         }
-        public inputPrefabToScene(value: string): void {
-            filemodel.PrefabManager.getInstance().getPrefabByUrl(value, (value: pack.PrefabStaticMesh) => {
+        public inputPrefabToScene(temp: any): void {
+            var $url: string = temp.url
+            var $mouse: Vector2D = temp.mouse
+            let $scene = MainEditorProcessor.edItorSceneManager;
+            
+            var $hipPos: Vector3D = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene)
+ 
+
+            var $groundPos = this.getGroundPos(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos);
+
+     
+
+ 
+      
+            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, (value: pack.PrefabStaticMesh) => {
                 var prefab: pack.PrefabStaticMesh = value;
                 var dis: ModelSprite = new ModelSprite();
-                dis.x = random(200) - 100
-                dis.z = random(200) - 100
+                dis.x = $groundPos.x;
+                dis.y = $groundPos.y;
+                dis.z = $groundPos.z;
                 MainEditorProcessor.edItorSceneManager.addDisplay(dis);
                 LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
                     ($modelxml: string) => {
@@ -344,6 +358,29 @@
                 })
             })
 
+        }
+
+        private getGroundPos(line_a: Vector3D, line_b: Vector3D): Vector3D {
+            var triItem: Array<Vector3D> = new Array;
+            triItem.push(new Vector3D(0, 0, 0));
+            triItem.push(new Vector3D(-100, 0, 100));
+            triItem.push(new Vector3D(+100, 0, 100));
+         
+            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(line_a, line_b, triItem)
+        }
+        private mouseHitInWorld3D($p: Vector2D, cam3D: Pan3d.Camera3D): Vector3D {
+
+            var stageHeight: number = cam3D.cavanRect.width;
+            var stageWidth: number = cam3D.cavanRect.height;
+            var $v: Vector3D = new Vector3D();
+            $v.x = $p.x - stageWidth / 2;
+            $v.y = stageHeight / 2 - $p.y;
+            $v.z = 100 * 2;
+            var $m: Matrix3D = new Matrix3D;
+
+            $m.appendRotation(- cam3D.rotationX, Vector3D.X_AXIS);
+            $m.appendRotation(- cam3D.rotationY, Vector3D.Y_AXIS);
+            return $m.transformVector($v);
         }
         private makeModel(): void {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {

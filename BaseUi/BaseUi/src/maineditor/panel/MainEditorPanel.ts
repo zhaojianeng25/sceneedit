@@ -32,6 +32,8 @@
     import MouseType = Pan3d.MouseType
     import MathUtil = Pan3d.MathUtil
 
+    import PanDragEvent = drag.PanDragEvent
+
     import Sprite = layout.Sprite
     import Panel = layout.Panel
 
@@ -218,8 +220,8 @@
 
             });
 
-            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
-            this.a_scene_view.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+            this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
+            this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
 
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
         }
@@ -240,7 +242,7 @@
  
             }
         }
-        private dragDrop(evt: any): void {
+        private dragDrop(evt: PanDragEvent): void {
             if (this.testSuffix(drag.DragManager.dragSource.url)) {
                 console.log("可以拖动")
             } else {
@@ -261,9 +263,14 @@
             }
             return false
         }
-        private dragEnter(evt: any): void {
+        private dragEnter(evt: PanDragEvent): void {
             if (this.testSuffix(drag.DragManager.dragSource.url)) {
-                ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), drag.DragManager.dragSource.url)
+                var obj: any = {}
+                obj.url = drag.DragManager.dragSource.url
+                obj.mouse = new Vector2D(evt.data.x, evt.data.y);
+
+    
+                ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
             }
         }
   

@@ -34,8 +34,8 @@ var prop;
         TexturePicUi.prototype.addEvets = function () {
             _super.prototype.addEvets.call(this);
             var $ui = this.ui;
-            $ui.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
-            $ui.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+            $ui.addEventListener(drag.PanDragEvent.DRAG_DROP, this.dragDrop, this);
+            $ui.addEventListener(drag.PanDragEvent.DRAG_ENTER, this.dragEnter, this);
         };
         TexturePicUi.prototype.dragDrop = function (evt) {
             if (this.testSuffix(drag.DragManager.dragSource.url)) {

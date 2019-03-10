@@ -35,11 +35,13 @@ var filemodel;
                 $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
                 $materialTree.shader = $buildShader;
                 $materialTree.program = $buildShader.program;
+                /*
                 console.log("----------vertex------------");
                 console.log($buildShader.vertex);
                 console.log("----------fragment------------");
                 console.log($buildShader.fragment);
                 console.log("----------buildShader------------");
+                */
                 $materialTree.url = $url;
                 bfun($materialTree);
             });

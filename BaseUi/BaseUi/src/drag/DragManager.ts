@@ -25,7 +25,7 @@
         public static dragSource: DragSource
         public static doDragdoDrag(  dragInitiator: UIConatiner,  node: DragSource  ): void {
             this.dragSource = node;
-            Pan3d.ModuleEventManager.dispatchEvent(new DragEvent(DragEvent.DRAG_SHOW))
+            Pan3d.ModuleEventManager.dispatchEvent(new PanDragEvent(PanDragEvent.DRAG_SHOW))
         }
 
     }

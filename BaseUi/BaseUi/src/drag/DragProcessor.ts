@@ -17,7 +17,7 @@
     import Panel = layout.Panel
 
  
-    export class DragEvent extends BaseEvent {
+    export class PanDragEvent extends BaseEvent {
 
         public static DRAG_SHOW: string = "DRAG_SHOW";
         public static DRAG_ENTER: string = "DRAG_ENTER";
@@ -39,8 +39,8 @@
         }
         private _dragPanel: DragPanel
         protected receivedModuleEvent($event: BaseEvent): void {
-            if ($event instanceof DragEvent) {
-                if ($event.type == DragEvent.DRAG_SHOW) {
+            if ($event instanceof PanDragEvent) {
+                if ($event.type == PanDragEvent.DRAG_SHOW) {
                     if (!this._dragPanel) {
                         this._dragPanel = new DragPanel(64,64)
                     }
@@ -71,7 +71,7 @@
         private onMove($e: InteractiveEvent): void {
             var $ui: UICompenent = this.getObjectsUnderPoint(new Vector2D($e.x, $e.y))
             if ($ui) {
-                $ui.dispatchEvent(new DragEvent(DragEvent.DRAG_DROP))
+                $ui.dispatchEvent(new PanDragEvent(PanDragEvent.DRAG_DROP))
             }
  
 
@@ -100,7 +100,9 @@
 
             var $ui: UICompenent = this.getObjectsUnderPoint(new Vector2D($e.x, $e.y))
             if ($ui) {
-                $ui.dispatchEvent(new DragEvent(DragEvent.DRAG_ENTER))
+                var tempEvent: PanDragEvent = new PanDragEvent(PanDragEvent.DRAG_ENTER)
+                tempEvent.data = $e
+                $ui.dispatchEvent(tempEvent)
             }
  
             this._dragPanel.left =10000
@@ -108,9 +110,9 @@
         }
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
-                new DragEvent(DragEvent.DRAG_SHOW),
-                new DragEvent(DragEvent.DRAG_DROP),
-                new DragEvent(DragEvent.DRAG_ENTER),
+                new PanDragEvent(PanDragEvent.DRAG_SHOW),
+                new PanDragEvent(PanDragEvent.DRAG_DROP),
+                new PanDragEvent(PanDragEvent.DRAG_ENTER),
           
             ];
         }

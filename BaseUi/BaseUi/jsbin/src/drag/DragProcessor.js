@@ -20,17 +20,17 @@ var drag;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Scene_data = Pan3d.Scene_data;
     var Panel = layout.Panel;
-    var DragEvent = /** @class */ (function (_super) {
-        __extends(DragEvent, _super);
-        function DragEvent() {
+    var PanDragEvent = /** @class */ (function (_super) {
+        __extends(PanDragEvent, _super);
+        function PanDragEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        DragEvent.DRAG_SHOW = "DRAG_SHOW";
-        DragEvent.DRAG_ENTER = "DRAG_ENTER";
-        DragEvent.DRAG_DROP = "DRAG_DROP";
-        return DragEvent;
+        PanDragEvent.DRAG_SHOW = "DRAG_SHOW";
+        PanDragEvent.DRAG_ENTER = "DRAG_ENTER";
+        PanDragEvent.DRAG_DROP = "DRAG_DROP";
+        return PanDragEvent;
     }(BaseEvent));
-    drag.DragEvent = DragEvent;
+    drag.PanDragEvent = PanDragEvent;
     var DragModule = /** @class */ (function (_super) {
         __extends(DragModule, _super);
         function DragModule() {
@@ -54,8 +54,8 @@ var drag;
             return "DragProcessor";
         };
         DragProcessor.prototype.receivedModuleEvent = function ($event) {
-            if ($event instanceof DragEvent) {
-                if ($event.type == DragEvent.DRAG_SHOW) {
+            if ($event instanceof PanDragEvent) {
+                if ($event.type == PanDragEvent.DRAG_SHOW) {
                     if (!this._dragPanel) {
                         this._dragPanel = new drag.DragPanel(64, 64);
                     }
@@ -79,7 +79,7 @@ var drag;
         DragProcessor.prototype.onMove = function ($e) {
             var $ui = this.getObjectsUnderPoint(new Vector2D($e.x, $e.y));
             if ($ui) {
-                $ui.dispatchEvent(new DragEvent(DragEvent.DRAG_DROP));
+                $ui.dispatchEvent(new PanDragEvent(PanDragEvent.DRAG_DROP));
             }
             this._dragPanel.left = $e.x - 32;
             this._dragPanel.top = $e.y - 32;
@@ -101,16 +101,18 @@ var drag;
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.onUp, this);
             var $ui = this.getObjectsUnderPoint(new Vector2D($e.x, $e.y));
             if ($ui) {
-                $ui.dispatchEvent(new DragEvent(DragEvent.DRAG_ENTER));
+                var tempEvent = new PanDragEvent(PanDragEvent.DRAG_ENTER);
+                tempEvent.data = $e;
+                $ui.dispatchEvent(tempEvent);
             }
             this._dragPanel.left = 10000;
             this._dragPanel.top = 10000;
         };
         DragProcessor.prototype.listenModuleEvents = function () {
             return [
-                new DragEvent(DragEvent.DRAG_SHOW),
-                new DragEvent(DragEvent.DRAG_DROP),
-                new DragEvent(DragEvent.DRAG_ENTER),
+                new PanDragEvent(PanDragEvent.DRAG_SHOW),
+                new PanDragEvent(PanDragEvent.DRAG_DROP),
+                new PanDragEvent(PanDragEvent.DRAG_ENTER),
             ];
         };
         return DragProcessor;
