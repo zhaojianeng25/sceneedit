@@ -257,7 +257,7 @@ var maineditor;
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
-            this.readMapFile();
+            // this.readMapFile()
         };
         HierarchyListPanel.prototype.wirteItem = function (childItem) {
             var $item = new Array;
@@ -283,7 +283,15 @@ var maineditor;
             }
             return null;
         };
+        HierarchyListPanel.prototype.clearItemForChidren = function (item) {
+            while (item && item.length) {
+                var vo = item.pop();
+                this.clearItemForChidren(vo.childItem);
+                this.clearTemp(vo);
+            }
+        };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
+            var _this = this;
             var $url = temp.url;
             var $groundPos = this.getGroundPos(temp.mouse);
             filemodel.PrefabManager.getInstance().getPrefabByUrl($url, function (value) {
@@ -299,6 +307,19 @@ var maineditor;
                 filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
                     dis.material = $materialTree;
                 });
+                var $vo = new FolderMeshVo;
+                $vo.ossListFile = new OssListFile;
+                $vo.ossListFile.fileNode = new maineditor.HierarchyFileNode();
+                $vo.ossListFile.fileNode.name = temp.url;
+                $vo.ossListFile.fileNode.type = maineditor.HierarchyNodeType.Prefab;
+                $vo.ossListFile.fileNode.treeSelect = false;
+                $vo.pos = new Vector3D;
+                $vo.pos.y = -1000;
+                _this.showTemp($vo);
+                _this.fileItem.push($vo);
+                _this.isCompelet = true;
+                _this.refrishFolder();
+                _this.resize();
             });
         };
         HierarchyListPanel.prototype.getGroundPos = function ($mouse) {

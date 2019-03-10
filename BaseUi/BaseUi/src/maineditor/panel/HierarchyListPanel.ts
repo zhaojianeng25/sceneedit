@@ -299,7 +299,7 @@
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
-            this.readMapFile()
+           // this.readMapFile()
         }
 
         private wirteItem(childItem: Array<any>): Array<FolderMeshVo> {
@@ -326,7 +326,19 @@
             }
             return null
         }
+        private clearItemForChidren(item: Array<FolderMeshVo>): void {
+            while (item&&item.length) {
+                var vo: FolderMeshVo = item.pop();
+                this.clearItemForChidren(vo.childItem);
+                this.clearTemp(vo)
+            }
+ 
+        }
         public inputPrefabToScene(temp: any): void {
+   
+            
+      
+       
             var $url: string = temp.url
             var $groundPos = this.getGroundPos(temp.mouse)
             filemodel.PrefabManager.getInstance().getPrefabByUrl($url, (value: pack.PrefabStaticMesh) => {
@@ -343,6 +355,22 @@
                 filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                     dis.material = $materialTree;
                 })
+
+
+                var $vo: FolderMeshVo = new FolderMeshVo;
+                $vo.ossListFile = new OssListFile;
+                $vo.ossListFile.fileNode = new HierarchyFileNode()
+                $vo.ossListFile.fileNode.name = temp.url
+                $vo.ossListFile.fileNode.type = HierarchyNodeType.Prefab
+                $vo.ossListFile.fileNode.treeSelect = false
+                $vo.pos = new Vector3D
+                $vo.pos.y = -1000
+                this.showTemp($vo);
+
+                this.fileItem.push($vo);
+                this.isCompelet = true;
+                this.refrishFolder();
+                this.resize()
             })
 
         }
