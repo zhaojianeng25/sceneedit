@@ -318,8 +318,6 @@
                 if ($hierarchyFileNode.type == HierarchyNodeType.Prefab) {
                  //   this.makeModel()
                 }
-    
-
                 $vo.childItem = this.wirteItem($hierarchyFileNode.children);
                 $item.push($vo)
             }
@@ -330,18 +328,7 @@
         }
         public inputPrefabToScene(temp: any): void {
             var $url: string = temp.url
-            var $mouse: Vector2D = temp.mouse
-            let $scene = MainEditorProcessor.edItorSceneManager;
-            
-            var $hipPos: Vector3D = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene)
- 
-
-            var $groundPos = this.getGroundPos(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos);
-
-     
-
- 
-      
+            var $groundPos = this.getGroundPos(temp.mouse)
             filemodel.PrefabManager.getInstance().getPrefabByUrl($url, (value: pack.PrefabStaticMesh) => {
                 var prefab: pack.PrefabStaticMesh = value;
                 var dis: ModelSprite = new ModelSprite();
@@ -359,29 +346,22 @@
             })
 
         }
+        private getGroundPos($mouse: Vector2D): Vector3D {
+            let $scene = MainEditorProcessor.edItorSceneManager;
 
-        private getGroundPos(line_a: Vector3D, line_b: Vector3D): Vector3D {
+            var $hipPos: Vector3D = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene)
+ 
             var triItem: Array<Vector3D> = new Array;
             triItem.push(new Vector3D(0, 0, 0));
             triItem.push(new Vector3D(-100, 0, 100));
             triItem.push(new Vector3D(+100, 0, 100));
-         
-            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(line_a, line_b, triItem)
-        }
-        private mouseHitInWorld3D($p: Vector2D, cam3D: Pan3d.Camera3D): Vector3D {
 
-            var stageHeight: number = cam3D.cavanRect.width;
-            var stageWidth: number = cam3D.cavanRect.height;
-            var $v: Vector3D = new Vector3D();
-            $v.x = $p.x - stageWidth / 2;
-            $v.y = stageHeight / 2 - $p.y;
-            $v.z = 100 * 2;
-            var $m: Matrix3D = new Matrix3D;
+            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
 
-            $m.appendRotation(- cam3D.rotationX, Vector3D.X_AXIS);
-            $m.appendRotation(- cam3D.rotationY, Vector3D.Y_AXIS);
-            return $m.transformVector($v);
         }
+
+    
+       
         private makeModel(): void {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {
                 var prefab: pack.PrefabStaticMesh = value;
@@ -394,20 +374,6 @@
                 filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                     dis.material = $materialTree;
                 })
-
-        /*
-               LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE,
-                    ($modelxml: string) => {
-                        dis.readTxtToModel($modelxml);
-                    });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree ) => {
-                    dis.material = $materialTree;
-                })
-
-                */
-
-              
-              
             })
 
         }
@@ -421,8 +387,6 @@
                         this.fileItem.push(kkk[i])
                     }
                     this.isCompelet = true;
-
-         
                     this.refrishFolder();
                     this.resize()
                 });
@@ -431,13 +395,9 @@
         protected changeScrollBar(): void {
             var th: number = this._uiMask.height - this.a_scroll_bar.height
             var ty: number = this.a_scroll_bar.y - this._uiMask.y;
-        
             this.moveListTy=-  (this.contentHeight - this._uiMask.height) * (ty / th)
-
             this.refrishFolder()
-
         }
-
         public resize(): void {
             if (this.isCompelet) {
                 this.contentHeight = this.getItemDisNum(this.fileItem) * 20;

@@ -25,7 +25,6 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
-    var Matrix3D = Pan3d.Matrix3D;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
@@ -286,10 +285,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var $url = temp.url;
-            var $mouse = temp.mouse;
-            var $scene = maineditor.MainEditorProcessor.edItorSceneManager;
-            var $hipPos = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene);
-            var $groundPos = this.getGroundPos(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos);
+            var $groundPos = this.getGroundPos(temp.mouse);
             filemodel.PrefabManager.getInstance().getPrefabByUrl($url, function (value) {
                 var prefab = value;
                 var dis = new ModelSprite();
@@ -305,24 +301,14 @@ var maineditor;
                 });
             });
         };
-        HierarchyListPanel.prototype.getGroundPos = function (line_a, line_b) {
+        HierarchyListPanel.prototype.getGroundPos = function ($mouse) {
+            var $scene = maineditor.MainEditorProcessor.edItorSceneManager;
+            var $hipPos = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene);
             var triItem = new Array;
             triItem.push(new Vector3D(0, 0, 0));
             triItem.push(new Vector3D(-100, 0, 100));
             triItem.push(new Vector3D(+100, 0, 100));
-            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(line_a, line_b, triItem);
-        };
-        HierarchyListPanel.prototype.mouseHitInWorld3D = function ($p, cam3D) {
-            var stageHeight = cam3D.cavanRect.width;
-            var stageWidth = cam3D.cavanRect.height;
-            var $v = new Vector3D();
-            $v.x = $p.x - stageWidth / 2;
-            $v.y = stageHeight / 2 - $p.y;
-            $v.z = 100 * 2;
-            var $m = new Matrix3D;
-            $m.appendRotation(-cam3D.rotationX, Vector3D.X_AXIS);
-            $m.appendRotation(-cam3D.rotationY, Vector3D.Y_AXIS);
-            return $m.transformVector($v);
+            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
         };
         HierarchyListPanel.prototype.makeModel = function () {
             filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
@@ -335,16 +321,6 @@ var maineditor;
                 filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
                     dis.material = $materialTree;
                 });
-                /*
-                       LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE,
-                            ($modelxml: string) => {
-                                dis.readTxtToModel($modelxml);
-                            });
-                        filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree ) => {
-                            dis.material = $materialTree;
-                        })
-        
-                        */
             });
         };
         HierarchyListPanel.prototype.readMapFile = function () {
