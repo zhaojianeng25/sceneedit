@@ -29,6 +29,8 @@
     import UIAtlas = Pan3d.UIAtlas
     import Shader3D = Pan3d.Shader3D
     import TextureRes = Pan3d.TextureRes
+    import MouseType = Pan3d.MouseType
+    import MathUtil = Pan3d.MathUtil
 
     import Sprite = layout.Sprite
     import Panel = layout.Panel
@@ -218,6 +220,25 @@
 
             this.a_scene_view.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+
+            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
+        }
+        public onPanellMouseWheel($evt: MouseWheelEvent): void {
+            var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+            if ($slectUi && $slectUi.parent == this) {
+
+                var q: Pan3d.Quaternion = new Pan3d.Quaternion();
+                q.fromMatrix(MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
+                var m: Pan3d.Matrix3D = q.toMatrix3D()
+                m.invert()
+                var $add: Vector3D = m.transformVector(new Vector3D(0, 0, $evt.wheelDelta / 100 ))
+                MainEditorProcessor.edItorSceneManager.cam3D.x += $add.x
+                MainEditorProcessor.edItorSceneManager.cam3D.y += $add.y
+                MainEditorProcessor.edItorSceneManager.cam3D.z += $add.z
+
+                MathUtil.MathCam(MainEditorProcessor.edItorSceneManager.cam3D)
+ 
+            }
         }
         private dragDrop(evt: any): void {
             if (this.testSuffix(drag.DragManager.dragSource.url)) {

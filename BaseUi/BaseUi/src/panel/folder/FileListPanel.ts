@@ -454,20 +454,20 @@
             $evt.preventDefault();
             var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi) {
-                if ($slectUi.parent as FileListPanel) {
-             
-
+                if ($slectUi.parent instanceof FileListPanel) {
                     var vo: FileListName = this.getItemVoByUi($slectUi);
                     if (vo) {
                         this.makeFileFloadMenu($evt)
-                    } else {
-                        console.log("是空位置")
-                        this.makeFileListMenu($evt)
-                    }
-
-                  
+                    }  
+                }
+            } else {
+                if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                    this.makeFileListMenu($evt)
                 }
             }
+   
+
+      
           
         }
         private makeFileFloadMenu($evt: MouseEvent): void {

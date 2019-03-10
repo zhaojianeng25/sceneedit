@@ -370,15 +370,16 @@ var filelist;
             $evt.preventDefault();
             var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi) {
-                if ($slectUi.parent) {
+                if ($slectUi.parent instanceof FileListPanel) {
                     var vo = this.getItemVoByUi($slectUi);
                     if (vo) {
                         this.makeFileFloadMenu($evt);
                     }
-                    else {
-                        console.log("是空位置");
-                        this.makeFileListMenu($evt);
-                    }
+                }
+            }
+            else {
+                if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                    this.makeFileListMenu($evt);
                 }
             }
         };

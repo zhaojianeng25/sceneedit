@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 var maineditor;
 (function (maineditor) {
     var Rectangle = Pan3d.Rectangle;
+    var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var UIRenderComponent = Pan3d.UIRenderComponent;
@@ -23,6 +24,8 @@ var maineditor;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var UIAtlas = Pan3d.UIAtlas;
     var Shader3D = Pan3d.Shader3D;
+    var MouseType = Pan3d.MouseType;
+    var MathUtil = Pan3d.MathUtil;
     var BloomUiShader = /** @class */ (function (_super) {
         __extends(BloomUiShader, _super);
         function BloomUiShader() {
@@ -163,6 +166,21 @@ var maineditor;
             });
             this.a_scene_view.addEventListener(drag.DragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(drag.DragEvent.DRAG_ENTER, this.dragEnter, this);
+            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
+        };
+        MainEditorPanel.prototype.onPanellMouseWheel = function ($evt) {
+            var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+            if ($slectUi && $slectUi.parent == this) {
+                var q = new Pan3d.Quaternion();
+                q.fromMatrix(maineditor.MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
+                var m = q.toMatrix3D();
+                m.invert();
+                var $add = m.transformVector(new Vector3D(0, 0, $evt.wheelDelta / 100));
+                maineditor.MainEditorProcessor.edItorSceneManager.cam3D.x += $add.x;
+                maineditor.MainEditorProcessor.edItorSceneManager.cam3D.y += $add.y;
+                maineditor.MainEditorProcessor.edItorSceneManager.cam3D.z += $add.z;
+                MathUtil.MathCam(maineditor.MainEditorProcessor.edItorSceneManager.cam3D);
+            }
         };
         MainEditorPanel.prototype.dragDrop = function (evt) {
             if (this.testSuffix(drag.DragManager.dragSource.url)) {

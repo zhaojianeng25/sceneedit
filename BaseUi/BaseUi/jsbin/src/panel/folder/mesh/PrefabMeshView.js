@@ -111,14 +111,15 @@ var filelist;
                 var $file = new File([$byte.buffer], "cc.prefab");
                 var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 filemodel.FileModel.getInstance().upOssFile($file, pathurl, function () {
-                    _this.isSaveNow = false;
                     if (_this.lastTm != _this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次");
                         Pan3d.TimeUtil.addTimeOut(1000, function () {
+                            _this.isSaveNow = false;
                             _this.saveToSever();
                         });
                     }
                     else {
+                        _this.isSaveNow = false;
                         console.log("更新Prafab完成", pathurl + $file.name);
                     }
                 });
