@@ -79,8 +79,8 @@ var maineditor;
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
                 // this.parent.uiAtlas.ctx.fillStyle = "#3c3c3c"; // text color
                 // this.parent.uiAtlas.ctx.fillRect(1, 1, $uiRec.pixelWitdh-2, $uiRec.pixelHeight-2);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.fileNode.name, 12, 35, 5, TextAlign.LEFT);
-                if (this.folderMeshVo.ossListFile.fileNode.children || this.folderMeshVo.ossListFile.fileNode.type == maineditor.HierarchyNodeType.Folder) {
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.name, 12, 35, 5, TextAlign.LEFT);
+                if (this.folderMeshVo.ossListFile.children || this.folderMeshVo.ossListFile.type == maineditor.HierarchyNodeType.Folder) {
                     if (this.folderMeshVo.ossListFile.isOpen) {
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanRight"], 2, 5, 10, 10);
                     }
@@ -88,7 +88,7 @@ var maineditor;
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanUp"], 3, 5, 10, 10);
                     }
                 }
-                switch (this.folderMeshVo.ossListFile.fileNode.type) {
+                switch (this.folderMeshVo.ossListFile.type) {
                     case maineditor.HierarchyNodeType.Prefab:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["profeb_16"], 15, 2, 13, 16);
                         break;
@@ -221,7 +221,7 @@ var maineditor;
             }
             if ($clikVo) {
                 this.hidefileItemBg(this.fileItem);
-                $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true;
+                $clikVo.folderMeshVo.ossListFile.treeSelect = true;
                 this.showEditorPanel();
             }
             this.refrishFolder();
@@ -233,7 +233,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {
-                arr[i].ossListFile.fileNode.treeSelect = false;
+                arr[i].ossListFile.treeSelect = false;
                 this.hidefileItemBg(arr[i].childItem);
             }
         };
@@ -266,20 +266,30 @@ var maineditor;
             for (var i = 0; childItem && i < childItem.length; i++) {
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.fileNode = new maineditor.HierarchyFileNode();
-                $vo.ossListFile.fileNode.name = childItem[i].name;
-                $vo.ossListFile.fileNode.type = childItem[i].type;
-                $vo.ossListFile.fileNode.treeSelect = false;
-                $vo.pos = new Vector3D;
-                $vo.pos.y = -1000;
+                $vo.ossListFile.name = childItem[i].ossListFile.name;
+                $vo.ossListFile.type = childItem[i].ossListFile.type;
+                $vo.ossListFile.treeSelect = childItem[i].ossListFile.treeSelect;
+                ;
+                $vo.pos = new Vector3D();
+                $vo.dis = new ModelSprite();
+                $vo.dis.x = 0;
+                $vo.dis.y = 0;
+                $vo.dis.z = 0;
+                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
                 this.showTemp($vo);
+                filemodel.PrefabManager.getInstance().getPrefabByUrl($vo.ossListFile.name, function (value) {
+                    var prefab = value;
+                    LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
+                        $vo.dis.readTxtToModel($modelxml);
+                    });
+                    filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
+                        $vo.dis.material = $materialTree;
+                    });
+                });
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo);
             }
-            if ($item.length) {
-                return $item;
-            }
-            return null;
+            return $item;
         };
         HierarchyListPanel.prototype.clearItemForChidren = function (item) {
             while (item && item.length) {
@@ -292,32 +302,32 @@ var maineditor;
             var _this = this;
             var $url = temp.url;
             var $groundPos = this.getGroundPos(temp.mouse);
-            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, function (value) {
-                var prefab = value;
-                var dis = new ModelSprite();
-                dis.x = $groundPos.x;
-                dis.y = $groundPos.y;
-                dis.z = $groundPos.z;
-                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
-                    dis.readTxtToModel($modelxml);
-                });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
-                    dis.material = $materialTree;
-                });
+            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, function (prefab) {
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.fileNode = new maineditor.HierarchyFileNode();
-                $vo.ossListFile.fileNode.name = temp.url;
-                $vo.ossListFile.fileNode.type = maineditor.HierarchyNodeType.Prefab;
-                $vo.ossListFile.fileNode.treeSelect = false;
-                $vo.pos = new Vector3D;
-                $vo.pos.y = -1000;
+                $vo.dis = new ModelSprite();
+                $vo.dis.x = $groundPos.x;
+                $vo.dis.y = $groundPos.y;
+                $vo.dis.z = $groundPos.z;
+                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+                _this.makeModelSprite($vo.dis, prefab);
+                $vo.ossListFile.name = temp.url;
+                $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;
+                $vo.ossListFile.treeSelect = false;
+                $vo.pos = new Vector3D();
                 _this.showTemp($vo);
                 _this.fileItem.push($vo);
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
+            });
+        };
+        HierarchyListPanel.prototype.makeModelSprite = function (dis, prefab) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
+                dis.readTxtToModel($modelxml);
+            });
+            filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
+                dis.material = $materialTree;
             });
         };
         HierarchyListPanel.prototype.getGroundPos = function ($mouse) {
@@ -346,20 +356,19 @@ var maineditor;
             var _this = this;
             LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE, function ($dtstr) {
                 var $byte = new Pan3d.Pan3dByteArray($dtstr);
-                $byte.position = 0;
-                var $item = JSON.parse($byte.readUTF());
-                var kkk = _this.wirteItem($item);
-                console.log(kkk);
-                //var kkk: Array<FolderMeshVo> = this.wirteItem(obj.hierarchyList.item)
-                //for (var i: number = 0; i < kkk.length; i++) {
-                //    this.fileItem.push(kkk[i])
-                //}
+                var $item = _this.wirteItem(JSON.parse($byte.readUTF()));
+                for (var i = 0; i < $item.length; i++) {
+                    _this.fileItem.push($item[i]);
+                }
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
             });
         };
         HierarchyListPanel.prototype.saveMap = function () {
+            if (this.fileItem.length > 3) {
+                this.fileItem = [];
+            }
             var tempObj = JSON.stringify(this.fileItem);
             var $byte = new Pan3d.Pan3dByteArray();
             var $fileUrl = Pan3d.Scene_data.fileRoot + "scene.map";
@@ -399,7 +408,7 @@ var maineditor;
                 if (arr[i].ossListFile.isOpen) {
                     this.showSelectBg(arr[i].childItem);
                 }
-                if (arr[i].ossListFile.fileNode.treeSelect) {
+                if (arr[i].ossListFile.treeSelect) {
                     //var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
                     //ui.goToAndStop(0)
                     //ui.y = arr[i].pos.y;

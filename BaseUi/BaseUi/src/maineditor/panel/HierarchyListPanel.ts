@@ -67,13 +67,15 @@
     export class OssListFile extends HierarchyFileNode {
         public isOpen: boolean;
 
-        public fileNode: HierarchyFileNode
+       // public fileNode: HierarchyFileNode
 
     }
     export class FolderMeshVo extends Pan3d.baseMeshVo {
         public ossListFile: OssListFile
         public childItem: Array<FolderMeshVo>
         public needDraw: boolean;
+        public dis: ModelSprite;
+   
         public constructor() {
             super();
         }
@@ -84,7 +86,6 @@
 
         public destory(): void {
             this.pos = null;
-
             this.needDraw = null;
             this.clear = true
         }
@@ -105,18 +106,18 @@
                 // this.parent.uiAtlas.ctx.fillRect(1, 1, $uiRec.pixelWitdh-2, $uiRec.pixelHeight-2);
 
 
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.fileNode.name, 12, 35, 5, TextAlign.LEFT)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.name, 12, 35, 5, TextAlign.LEFT)
 
 
 
-                if (this.folderMeshVo.ossListFile.fileNode.children || this.folderMeshVo.ossListFile.fileNode.type == HierarchyNodeType.Folder) {
+                if (this.folderMeshVo.ossListFile.children || this.folderMeshVo.ossListFile.type == HierarchyNodeType.Folder) {
                     if (this.folderMeshVo.ossListFile.isOpen) {
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanRight"], 2, 5, 10, 10)
                     } else {
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanUp"], 3, 5, 10, 10)
                     }
                 }
-                switch (this.folderMeshVo.ossListFile.fileNode.type) {
+                switch (this.folderMeshVo.ossListFile.type) {
                     case HierarchyNodeType.Prefab:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["profeb_16"], 15, 2, 13, 16)
                         break
@@ -258,7 +259,7 @@
             }
             if ($clikVo) {
                 this.hidefileItemBg(this.fileItem);
-                $clikVo.folderMeshVo.ossListFile.fileNode.treeSelect = true
+                $clikVo.folderMeshVo.ossListFile.treeSelect = true
                 this.showEditorPanel();
             }
             this.refrishFolder();
@@ -271,7 +272,7 @@
         }
         private hidefileItemBg(arr: Array<FolderMeshVo>): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
-                arr[i].ossListFile.fileNode.treeSelect = false;
+                arr[i].ossListFile.treeSelect = false;
                 this.hidefileItemBg(arr[i].childItem);
             }
         }
@@ -308,21 +309,37 @@
             
                 var $vo: FolderMeshVo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.fileNode = new HierarchyFileNode();
-                $vo.ossListFile.fileNode.name = childItem[i].name;
-                $vo.ossListFile.fileNode.type = childItem[i].type;
-                $vo.ossListFile.fileNode.treeSelect = false;
-                $vo.pos = new Vector3D;
-                $vo.pos.y = -1000;
+  
+                $vo.ossListFile.name = childItem[i].ossListFile.name;
+                $vo.ossListFile.type = childItem[i].ossListFile.type;
+                $vo.ossListFile.treeSelect = childItem[i].ossListFile.treeSelect;;
+                $vo.pos = new Vector3D()
+
+                $vo.dis = new ModelSprite();
+                $vo.dis.x = 0;
+                $vo.dis.y = 0;
+                $vo.dis.z = 0;
+                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+
                 this.showTemp($vo);
+                filemodel.PrefabManager.getInstance().getPrefabByUrl($vo.ossListFile.name, (value: pack.PrefabStaticMesh) => {
+                    var prefab: pack.PrefabStaticMesh = value;
+                    LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
+                        ($modelxml: string) => {
+                            $vo.dis.readTxtToModel($modelxml);
+                        });
+                    filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                        $vo.dis.material = $materialTree;
+                    })
+                })
+
 
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo)
             }
-            if ($item.length) {
+    
                 return $item
-            }
-            return null
+         
         }
         private clearItemForChidren(item: Array<FolderMeshVo>): void {
             while (item&&item.length) {
@@ -334,35 +351,27 @@
         }
         public inputPrefabToScene(temp: any): void {
    
-            
-      
-       
+        
             var $url: string = temp.url
             var $groundPos = this.getGroundPos(temp.mouse)
-            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, (value: pack.PrefabStaticMesh) => {
-                var prefab: pack.PrefabStaticMesh = value;
-                var dis: ModelSprite = new ModelSprite();
-                dis.x = $groundPos.x;
-                dis.y = $groundPos.y;
-                dis.z = $groundPos.z;
-                MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
-                    ($modelxml: string) => {
-                        dis.readTxtToModel($modelxml);
-                    });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
-                    dis.material = $materialTree;
-                })
-
+            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, (prefab: pack.PrefabStaticMesh) => {
+ 
 
                 var $vo: FolderMeshVo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.fileNode = new HierarchyFileNode()
-                $vo.ossListFile.fileNode.name = temp.url
-                $vo.ossListFile.fileNode.type = HierarchyNodeType.Prefab
-                $vo.ossListFile.fileNode.treeSelect = false
-                $vo.pos = new Vector3D
-                $vo.pos.y = -1000
+                $vo.dis = new ModelSprite();
+                $vo.dis.x = $groundPos.x;
+                $vo.dis.y = $groundPos.y;
+                $vo.dis.z = $groundPos.z;
+                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+                this.makeModelSprite($vo.dis, prefab);
+        
+ 
+                $vo.ossListFile.name = temp.url;
+                $vo.ossListFile.type = HierarchyNodeType.Prefab;
+                $vo.ossListFile.treeSelect = false;
+                $vo.pos = new Vector3D();
+            
                 this.showTemp($vo);
 
                 this.fileItem.push($vo);
@@ -371,6 +380,15 @@
                 this.resize()
             })
 
+        }
+        private makeModelSprite(dis: ModelSprite, prefab: pack.PrefabStaticMesh): void {
+            LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
+                ($modelxml: string) => {
+                    dis.readTxtToModel($modelxml);
+                });
+            filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                dis.material = $materialTree;
+            })
         }
         private getGroundPos($mouse: Vector2D): Vector3D {
             let $scene = MainEditorProcessor.edItorSceneManager;
@@ -408,22 +426,19 @@
             LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
-                    $byte.position = 0
-                    var $item: Array<any> = JSON.parse($byte.readUTF());
-
-                    var kkk: Array<FolderMeshVo> = this.wirteItem($item)
-                    console.log(kkk)
-
-                    //var kkk: Array<FolderMeshVo> = this.wirteItem(obj.hierarchyList.item)
-                    //for (var i: number = 0; i < kkk.length; i++) {
-                    //    this.fileItem.push(kkk[i])
-                    //}
+                    var $item: Array<FolderMeshVo> = this.wirteItem(JSON.parse($byte.readUTF()))
+                    for (var i: number = 0; i < $item.length; i++) {
+                        this.fileItem.push($item[i]);
+                    }
                     this.isCompelet = true;
                     this.refrishFolder();
                     this.resize()
                 });
         }
         public saveMap(): void {
+            if (this.fileItem.length > 3) {
+                this.fileItem=[]
+            }
             var tempObj: any = JSON.stringify(this.fileItem);
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var $fileUrl: string = Pan3d.Scene_data.fileRoot + "scene.map";
@@ -479,7 +494,7 @@
                 if (arr[i].ossListFile.isOpen) {
                     this.showSelectBg(arr[i].childItem)
                 }
-                if (arr[i].ossListFile.fileNode.treeSelect) {
+                if (arr[i].ossListFile.treeSelect) {
                     //var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
                     //ui.goToAndStop(0)
                     //ui.y = arr[i].pos.y;
