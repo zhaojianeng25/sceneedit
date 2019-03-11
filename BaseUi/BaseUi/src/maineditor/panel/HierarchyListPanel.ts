@@ -64,7 +64,7 @@
  
     }
 
-    export class OssListFile {
+    export class OssListFile extends HierarchyFileNode {
         public isOpen: boolean;
 
         public fileNode: HierarchyFileNode
@@ -299,26 +299,24 @@
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
-           // this.readMapFile()
+            this.readMapFile()
         }
 
         private wirteItem(childItem: Array<any>): Array<FolderMeshVo> {
             var $item: Array<FolderMeshVo> = new Array
             for (var i: number = 0; childItem && i < childItem.length; i++) {
-                var $hierarchyFileNode: HierarchyFileNode = childItem[i] as HierarchyFileNode
+            
                 var $vo: FolderMeshVo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.fileNode = new HierarchyFileNode()
-                $vo.ossListFile.fileNode.name = $hierarchyFileNode.name
-                $vo.ossListFile.fileNode.type = $hierarchyFileNode.type
-                $vo.ossListFile.fileNode.treeSelect = false
-                $vo.pos = new Vector3D
-                $vo.pos.y=-1000
+                $vo.ossListFile.fileNode = new HierarchyFileNode();
+                $vo.ossListFile.fileNode.name = childItem[i].name;
+                $vo.ossListFile.fileNode.type = childItem[i].type;
+                $vo.ossListFile.fileNode.treeSelect = false;
+                $vo.pos = new Vector3D;
+                $vo.pos.y = -1000;
                 this.showTemp($vo);
-                if ($hierarchyFileNode.type == HierarchyNodeType.Prefab) {
-                 //   this.makeModel()
-                }
-                $vo.childItem = this.wirteItem($hierarchyFileNode.children);
+
+                $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo)
             }
             if ($item.length) {
@@ -407,19 +405,42 @@
         }
       
         private readMapFile(): void {
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "scene011_map.txt", LoadManager.XML_TYPE,
-                ($data: string) => {
-                    var obj: any = JSON.parse($data);
-                    var kkk: Array<FolderMeshVo> = this.wirteItem(obj.hierarchyList.item)
-                    for (var i: number = 0; i < kkk.length; i++) {
-                        this.fileItem.push(kkk[i])
-                    }
+            LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE,
+                ($dtstr: ArrayBuffer) => {
+                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
+                    $byte.position = 0
+                    var $item: Array<any> = JSON.parse($byte.readUTF());
+
+                    var kkk: Array<FolderMeshVo> = this.wirteItem($item)
+                    console.log(kkk)
+
+                    //var kkk: Array<FolderMeshVo> = this.wirteItem(obj.hierarchyList.item)
+                    //for (var i: number = 0; i < kkk.length; i++) {
+                    //    this.fileItem.push(kkk[i])
+                    //}
                     this.isCompelet = true;
                     this.refrishFolder();
                     this.resize()
                 });
         }
+        public saveMap(): void {
+            var tempObj: any = JSON.stringify(this.fileItem);
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + "scene.map";
+  
+            $byte.writeUTF(tempObj)
 
+            var $file: File = new File([$byte.buffer], "scene.map");
+            var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            filemodel.FileModel.getInstance().upOssFile($file, pathurl, () => {
+
+                console.log("上传完成")
+            
+            })
+
+
+
+        }
         protected changeScrollBar(): void {
             var th: number = this._uiMask.height - this.a_scroll_bar.height
             var ty: number = this.a_scroll_bar.y - this._uiMask.y;
@@ -431,12 +452,9 @@
                 this.contentHeight = this.getItemDisNum(this.fileItem) * 20;
             }
             super.resize()
-             
-         
  
         }
-       
-     
+ 
         private fileItem: Array<FolderMeshVo>;
 
         private moveListTy: number = 0;

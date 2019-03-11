@@ -38,11 +38,13 @@ var maineditor;
         return ModelSprite;
     }(left.MaterialModelSprite));
     maineditor.ModelSprite = ModelSprite;
-    var OssListFile = /** @class */ (function () {
+    var OssListFile = /** @class */ (function (_super) {
+        __extends(OssListFile, _super);
         function OssListFile() {
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         return OssListFile;
-    }());
+    }(maineditor.HierarchyFileNode));
     maineditor.OssListFile = OssListFile;
     var FolderMeshVo = /** @class */ (function (_super) {
         __extends(FolderMeshVo, _super);
@@ -257,25 +259,21 @@ var maineditor;
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
-            // this.readMapFile()
+            this.readMapFile();
         };
         HierarchyListPanel.prototype.wirteItem = function (childItem) {
             var $item = new Array;
             for (var i = 0; childItem && i < childItem.length; i++) {
-                var $hierarchyFileNode = childItem[i];
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
                 $vo.ossListFile.fileNode = new maineditor.HierarchyFileNode();
-                $vo.ossListFile.fileNode.name = $hierarchyFileNode.name;
-                $vo.ossListFile.fileNode.type = $hierarchyFileNode.type;
+                $vo.ossListFile.fileNode.name = childItem[i].name;
+                $vo.ossListFile.fileNode.type = childItem[i].type;
                 $vo.ossListFile.fileNode.treeSelect = false;
                 $vo.pos = new Vector3D;
                 $vo.pos.y = -1000;
                 this.showTemp($vo);
-                if ($hierarchyFileNode.type == maineditor.HierarchyNodeType.Prefab) {
-                    //   this.makeModel()
-                }
-                $vo.childItem = this.wirteItem($hierarchyFileNode.children);
+                $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo);
             }
             if ($item.length) {
@@ -346,15 +344,30 @@ var maineditor;
         };
         HierarchyListPanel.prototype.readMapFile = function () {
             var _this = this;
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "scene011_map.txt", LoadManager.XML_TYPE, function ($data) {
-                var obj = JSON.parse($data);
-                var kkk = _this.wirteItem(obj.hierarchyList.item);
-                for (var i = 0; i < kkk.length; i++) {
-                    _this.fileItem.push(kkk[i]);
-                }
+            LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE, function ($dtstr) {
+                var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                $byte.position = 0;
+                var $item = JSON.parse($byte.readUTF());
+                var kkk = _this.wirteItem($item);
+                console.log(kkk);
+                //var kkk: Array<FolderMeshVo> = this.wirteItem(obj.hierarchyList.item)
+                //for (var i: number = 0; i < kkk.length; i++) {
+                //    this.fileItem.push(kkk[i])
+                //}
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
+            });
+        };
+        HierarchyListPanel.prototype.saveMap = function () {
+            var tempObj = JSON.stringify(this.fileItem);
+            var $byte = new Pan3d.Pan3dByteArray();
+            var $fileUrl = Pan3d.Scene_data.fileRoot + "scene.map";
+            $byte.writeUTF(tempObj);
+            var $file = new File([$byte.buffer], "scene.map");
+            var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            filemodel.FileModel.getInstance().upOssFile($file, pathurl, function () {
+                console.log("上传完成");
             });
         };
         HierarchyListPanel.prototype.changeScrollBar = function () {

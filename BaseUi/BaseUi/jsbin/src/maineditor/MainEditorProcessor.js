@@ -20,6 +20,7 @@ var maineditor;
     var Rectangle = Pan3d.Rectangle;
     var MouseType = Pan3d.MouseType;
     var MathClass = Pan3d.MathClass;
+    var KeyboardType = Pan3d.KeyboardType;
     var EditSceneEvent = editscene.EditSceneEvent;
     var MainEditorEvent = /** @class */ (function (_super) {
         __extends(MainEditorEvent, _super);
@@ -29,6 +30,7 @@ var maineditor;
         MainEditorEvent.INIT_MAIN_EDITOR_PANEL = "INIT_MAIN_EDITOR_PANEL";
         MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL";
         MainEditorEvent.INPUT_PREFAB_TO_SCENE = "INPUT_PREFAB_TO_SCENE";
+        MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER = "SAVE_SCENE_MAP_TO_SEVER";
         return MainEditorEvent;
     }(BaseEvent));
     maineditor.MainEditorEvent = MainEditorEvent;
@@ -63,6 +65,7 @@ var maineditor;
                         this._hierarchyListPanel = new maineditor.HierarchyListPanel();
                     }
                     BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                    this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
                     if (!this._editScenePanel) {
@@ -73,6 +76,9 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data);
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
+                    this._hierarchyListPanel.saveMap();
                 }
                 this.changePageRect();
             }
@@ -122,7 +128,31 @@ var maineditor;
         };
         MainEditorProcessor.prototype.onMouseUp = function ($e) {
         };
-        MainEditorProcessor.prototype.onKeyDown = function ($e) {
+        Object.defineProperty(MainEditorProcessor.prototype, "hasStage", {
+            get: function () {
+                if (this._hierarchyListPanel.hasStage) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MainEditorProcessor.prototype.onKeyDown = function ($evt) {
+            if (!this.hasStage) {
+                return;
+            }
+            else {
+                switch ($evt.keyCode) {
+                    case KeyboardType.Delete:
+                        break;
+                    case KeyboardType.S:
+                        ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER));
+                        break;
+                }
+            }
         };
         MainEditorProcessor.prototype.onKeyUp = function ($e) {
         };
@@ -170,6 +200,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
+                new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };

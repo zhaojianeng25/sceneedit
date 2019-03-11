@@ -10,6 +10,7 @@
     import MouseType = Pan3d.MouseType
     import UICompenent = Pan3d.UICompenent
     import MathClass = Pan3d.MathClass
+    import KeyboardType = Pan3d.KeyboardType
     import MaterialModelSprite = left.MaterialModelSprite
     import Panel = layout.Panel
     import EditSceneEvent = editscene.EditSceneEvent
@@ -19,6 +20,7 @@
         public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL";  
         public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL";  
         public static INPUT_PREFAB_TO_SCENE: string = "INPUT_PREFAB_TO_SCENE";  
+        public static SAVE_SCENE_MAP_TO_SEVER: string = "SAVE_SCENE_MAP_TO_SEVER";  
   
  
     }
@@ -47,6 +49,7 @@
                     }
                     BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
 
+                    this.addEvents()
                
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
@@ -61,7 +64,12 @@
 
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data)
                 }
-           
+
+                if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
+
+                    this._hierarchyListPanel.saveMap( )
+                }
+
 
                 this.changePageRect()
   
@@ -125,7 +133,35 @@
         }
         private onMouseUp($e: MouseEvent): void {
         }
-        private onKeyDown($e: KeyboardEvent): void {
+        private get hasStage(): boolean { //false为可以操作
+            if (this._hierarchyListPanel.hasStage) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+        }
+        private onKeyDown($evt: KeyboardEvent): void {
+
+            if (!this.hasStage) {
+                return
+            } else {
+                switch ($evt.keyCode) {
+
+                    case KeyboardType.Delete:
+                  
+                        break
+                    case KeyboardType.S:
+  
+                            ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER))
+                      
+                   
+                        break
+                }
+            }
+ 
+
         }
         private onKeyUp($e: KeyboardEvent): void {
         }
@@ -183,6 +219,7 @@
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
+                new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
                 
             ];
