@@ -102,10 +102,29 @@
                         default:
                             break
                     }
-
+                    this.upChange()
                 }
             }
-           
+       
+        }
+        private upChange(): void {
+            if (this.xyzMoveData) {
+                for (var i: number = 0; i < this.xyzMoveData.modelItem.length; i++) {
+                    var M: Matrix3D = this.xyzMoveData.modeMatrx3D.clone();
+                    M.prepend(this.xyzMoveData.dataItem[i].modeMatrx3D);
+
+                    this.xyzMoveData.modelItem[i].x = M.position.x;
+                    this.xyzMoveData.modelItem[i].y = M.position.y;
+                    this.xyzMoveData.modelItem[i].z = M.position.z;
+
+                    var ro: Vector3D = M.toEulerAngles();
+                    this.xyzMoveData.modelItem[i].rotationX = ro.x * 180 / Math.PI;
+                    this.xyzMoveData.modelItem[i].rotationY = ro.y * 180 / Math.PI;
+                    this.xyzMoveData.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
+                }
+                this.xyzMoveData.dataUpDate && this.xyzMoveData.dataUpDate();
+
+            }
         }
         public onMouseUp($e: MouseEvent): void {
             var mouseVect2d: Vector2D = new Vector2D($e.x - this._scene.cam3D.cavanRect.x, $e.y - this._scene.cam3D.cavanRect.y)

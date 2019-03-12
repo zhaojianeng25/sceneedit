@@ -78,7 +78,8 @@ var xyz;
                         this.uiContainer = $event.data;
                         break;
                     case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
-                        this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
+                        // this.moveScaleRotationLevel.xyzMoveData = this.makeBaseData();
+                        this.moveScaleRotationLevel.xyzMoveData = $event.data;
                         break;
                     case MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA:
                         this.moveScaleRotationLevel.xyzMoveData = null;

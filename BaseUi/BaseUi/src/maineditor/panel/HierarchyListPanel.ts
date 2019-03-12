@@ -41,7 +41,9 @@
     import ProgrmaManager = Pan3d.ProgrmaManager
     import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
     import ConstItem = Pan3d.ConstItem
+    import Display3D = Pan3d.Display3D
 
+    import TooXyzPosData = xyz.TooXyzPosData
 
     import MenuListData = menutwo.MenuListData
     import SampleFileVo = filelist.SampleFileVo
@@ -307,16 +309,28 @@
             if ($clikVo) {
                 this.hidefileItemBg(this.fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true
-                this.showEditorPanel();
+ 
+                this.showEditorPanel($clikVo);
             }
             this.refrishFolder();
             this.resize()
 
         }
-        private showEditorPanel(): void {
+        private showEditorPanel(folderName: FolderName): void {
             Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
-            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE))
+
+            var disItem: Array<Display3D>=[]
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var $vo: FolderName = <FolderName>this._uiItem[i];
+                if ($vo.data) {
+                    disItem.push($vo.folderMeshVo.dis)
+                }
+            }
+            disItem = [folderName.folderMeshVo.dis]
+            var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
+            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }
+    
         private hidefileItemBg(arr: Array<FolderMeshVo>): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].ossListFile.treeSelect = false;

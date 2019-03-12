@@ -26,6 +26,7 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
+    var TooXyzPosData = xyz.TooXyzPosData;
     var MenuListData = menutwo.MenuListData;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
@@ -260,14 +261,23 @@ var maineditor;
             if ($clikVo) {
                 this.hidefileItemBg(this.fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true;
-                this.showEditorPanel();
+                this.showEditorPanel($clikVo);
             }
             this.refrishFolder();
             this.resize();
         };
-        HierarchyListPanel.prototype.showEditorPanel = function () {
+        HierarchyListPanel.prototype.showEditorPanel = function (folderName) {
             Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
-            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE));
+            var disItem = [];
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.data) {
+                    disItem.push($vo.folderMeshVo.dis);
+                }
+            }
+            disItem = [folderName.folderMeshVo.dis];
+            var data = TooXyzPosData.getBase(disItem);
+            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data);
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {
