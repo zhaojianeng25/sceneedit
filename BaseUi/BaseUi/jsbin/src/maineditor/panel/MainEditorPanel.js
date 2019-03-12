@@ -17,12 +17,9 @@ var maineditor;
     var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
-    var UIRenderComponent = Pan3d.UIRenderComponent;
     var ModuleEventManager = Pan3d.ModuleEventManager;
-    var UIConatiner = Pan3d.UIConatiner;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ProgrmaManager = Pan3d.ProgrmaManager;
-    var UIAtlas = Pan3d.UIAtlas;
     var Shader3D = Pan3d.Shader3D;
     var MouseType = Pan3d.MouseType;
     var MathUtil = Pan3d.MathUtil;
@@ -133,34 +130,29 @@ var maineditor;
             var _this = _super.call(this) || this;
             _this.suffix = "prefab";
             _this.pageRect = new Rectangle(0, 0, 500, 500);
-            _this._bottomRender = new UIRenderComponent;
-            _this.addRender(_this._bottomRender);
-            _this._topRender = new UIRenderComponent;
-            _this.addRender(_this._topRender);
             _this._sceneViewRender = new modelShowRender();
             _this.addRender(_this._sceneViewRender);
-            _this._bottomRender.uiAtlas = new UIAtlas();
-            _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             return _this;
         }
         MainEditorPanel.prototype.loadConfigCom = function () {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender);
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.height = 15;
-            this.a_win_bg = this.addEvntBut("a_bg", this._bottomRender);
-            this.a_win_bg.x = 0;
-            this.a_win_bg.y = 25;
-            //a_scene_view
+            _super.prototype.loadConfigCom.call(this);
             this.initView();
-            //  this.setUiListVisibleByItem([this.a_win_tittle], false);
+            var item = [
+                this.b_bottom_left,
+                this.b_bottom_mid,
+                this.b_bottom_right,
+                this.b_bottom_line_left,
+                this.b_bottom_line_right,
+                this.a_bottom_line,
+                this.a_scroll_bar_bg,
+            ];
+            this.setUiListVisibleByItem(item, false);
             this.uiLoadComplete = true;
             this.refrishSize();
         };
         MainEditorPanel.prototype.initView = function () {
             var _this = this;
-            this._sceneViewRender.uiAtlas = this._topRender.uiAtlas;
+            this._sceneViewRender.uiAtlas = this._tRender.uiAtlas;
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
             TextureManager.getInstance().getTexture("res/shuangdaonv.jpg", function ($texture) {
                 _this._sceneViewRender.textureRes = $texture;
@@ -222,29 +214,27 @@ var maineditor;
             maineditor.MainEditorProcessor.edItorSceneManager.renderToTexture();
         };
         MainEditorPanel.prototype.butClik = function (evt) {
-            if (this.perent) {
-            }
         };
         MainEditorPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);
         };
         MainEditorPanel.prototype.panelEventChanger = function (value) {
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = value.width;
-                this.left = value.x;
-                this.top = value.y;
-                this.refrishSize();
-            }
+            //console.log(value)
+            //if (this.pageRect) {
+            //    this.pageRect.height = value.height;
+            //    this.pageRect.width = value.width;
+            //    this.pageRect.x = value.x
+            //    this.pageRect.y = value.y
+            //    this.left = value.x;
+            //    this.top = value.y;
+            //    this.refrishSize();
+            //}
+            this.setRect(value);
+            this.refrishSize();
         };
         MainEditorPanel.prototype.refrishSize = function () {
             if (this.uiLoadComplete) {
-                this.a_win_bg.width = this.pageRect.width;
-                this.a_win_bg.height = this.pageRect.height - 25;
-                this.a_win_tittle.width = this.pageRect.width;
-                this._bottomRender.applyObjData();
-                this._topRender.applyObjData();
-                var roundNum = 50;
+                var roundNum = 0;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum + 15;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
@@ -253,7 +243,7 @@ var maineditor;
             this.resize();
         };
         return MainEditorPanel;
-    }(UIConatiner));
+    }(base.BaseWindow));
     maineditor.MainEditorPanel = MainEditorPanel;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=MainEditorPanel.js.map

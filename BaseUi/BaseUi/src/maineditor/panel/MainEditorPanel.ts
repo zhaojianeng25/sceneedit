@@ -162,48 +162,47 @@
     }
 
 
-    export class MainEditorPanel extends UIConatiner {
+    export class MainEditorPanel extends base.BaseWindow {
 
         public constructor() {
             super();
             this.pageRect = new Rectangle(0, 0, 500, 500)
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
+          
 
             this._sceneViewRender = new modelShowRender();
             this.addRender(this._sceneViewRender)
 
 
-            this._bottomRender.uiAtlas = new UIAtlas();
+       
         
-            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
+      
         }
+ 
 
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
+ 
         private _sceneViewRender: UIRenderOnlyPicComponent;
 
         protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-         
-
-
-            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender)
-            this.a_win_tittle.x = 0
-            this.a_win_tittle.y = 0
-            this.a_win_tittle.height=15
-
-            this.a_win_bg = this.addEvntBut("a_bg", this._bottomRender)
-            this.a_win_bg.x = 0
-            this.a_win_bg.y = 25
-
-            //a_scene_view
+            super.loadConfigCom();
+ 
             this.initView()
 
-          //  this.setUiListVisibleByItem([this.a_win_tittle], false);
+ 
+
+
+            var item: Array<UICompenent> = [
+                this.b_bottom_left,
+                this.b_bottom_mid,
+                this.b_bottom_right,
+                this.b_bottom_line_left,
+                this.b_bottom_line_right,
+                this.a_bottom_line,
+                this.a_scroll_bar_bg,
+ 
+  
+ 
+            ]
+            this.setUiListVisibleByItem(item, false)
 
             this.uiLoadComplete = true
             this.refrishSize()
@@ -211,19 +210,15 @@
         }
         private a_scene_view: UICompenent
         private initView(): void {
-            this._sceneViewRender.uiAtlas = this._topRender.uiAtlas
+            this._sceneViewRender.uiAtlas = this._tRender.uiAtlas
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
             TextureManager.getInstance().getTexture("res/shuangdaonv.jpg", ($texture: TextureRes) => {
                 this._sceneViewRender.textureRes = $texture;
- 
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
-
-
             });
 
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
-
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
         }
         public onPanellMouseWheel($evt: MouseWheelEvent): void {
@@ -269,8 +264,7 @@
                 var obj: any = {}
                 obj.url = drag.DragManager.dragSource.url
                 obj.mouse = new Vector2D(evt.data.x, evt.data.y);
-
-    
+ 
                 ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
             }
         }
@@ -286,36 +280,33 @@
             MainEditorProcessor.edItorSceneManager.renderToTexture()
            
         }
-        private a_win_tittle: UICompenent;
+       
         protected butClik(evt: InteractiveEvent): void {
-            if (this.perent) {
-
-            }
+          
         }
         public resize(): void {
             super.resize();
         }
-        private pageRect: Rectangle
+     
         public panelEventChanger(value: Rectangle): void {
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = value.width;
-                this.left = value.x;
-                this.top = value.y;
-                this.refrishSize();
-            }
+            //console.log(value)
+            //if (this.pageRect) {
+            //    this.pageRect.height = value.height;
+            //    this.pageRect.width = value.width;
+            //    this.pageRect.x = value.x
+            //    this.pageRect.y = value.y
+            //    this.left = value.x;
+            //    this.top = value.y;
+            //    this.refrishSize();
+            //}
+
+            this.setRect(value)
+            this.refrishSize()
 
         }
         public refrishSize(): void {
             if (this.uiLoadComplete) {
-                this.a_win_bg.width = this.pageRect.width;
-                this.a_win_bg.height = this.pageRect.height-25;
-                this.a_win_tittle.width = this.pageRect.width;
-
-                this._bottomRender.applyObjData()
-                this._topRender.applyObjData()
-
-                var roundNum: number = 50;
+                var roundNum: number = 0;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum+15;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
@@ -326,7 +317,7 @@
             this.resize()
         }
 
-        private a_win_bg: UICompenent;
+  
 
 
     }
