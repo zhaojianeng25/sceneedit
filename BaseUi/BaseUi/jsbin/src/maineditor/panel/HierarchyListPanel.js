@@ -61,7 +61,6 @@ var maineditor;
             configurable: true
         });
         FolderMeshVo.prototype.destory = function () {
-            this.pos = null;
             this.needDraw = null;
             this.clear = true;
         };
@@ -121,9 +120,9 @@ var maineditor;
                     this.makeData();
                     this.folderMeshVo.needDraw = false;
                 }
-                if (this.folderMeshVo.pos) {
-                    this.ui.x = this.folderMeshVo.pos.x;
-                    this.ui.y = this.folderMeshVo.pos.y;
+                if (this.folderMeshVo.cellPos) {
+                    this.ui.x = this.folderMeshVo.cellPos.x;
+                    this.ui.y = this.folderMeshVo.cellPos.y;
                 }
                 if (this.folderMeshVo.clear) {
                     this.ui.parent.removeChild(this.ui);
@@ -280,7 +279,7 @@ var maineditor;
             if ($folderMeshVo.childItem) {
                 for (var i = 0; i < $folderMeshVo.childItem.length; i++) {
                     var $vo = $folderMeshVo.childItem[i];
-                    $vo.pos.x = -1000;
+                    $vo.cellPos.x = -1000;
                     this.clearChildern($vo);
                 }
             }
@@ -334,7 +333,7 @@ var maineditor;
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;
                 ;
-                $vo.pos = new Vector3D();
+                $vo.cellPos = new Vector2D();
                 this.showTemp($vo);
                 $vo.dis = this.makeModelSpriet(childItem[i].data);
                 $vo.dis.x = childItem[i].x;
@@ -382,7 +381,7 @@ var maineditor;
                 $vo.ossListFile.name = temp.url;
                 $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;
                 $vo.ossListFile.treeSelect = false;
-                $vo.pos = new Vector3D();
+                $vo.cellPos = new Vector2D();
                 _this.showTemp($vo);
                 _this.fileItem.push($vo);
                 _this.isCompelet = true;
@@ -485,7 +484,7 @@ var maineditor;
                 }
                 if (arr[i].ossListFile.treeSelect) {
                     var ui = this.addChild(this._bRender.getComponent("a_round_line"));
-                    ui.y = arr[i].pos.y;
+                    ui.y = arr[i].cellPos.y;
                     ui.x = 0;
                     ui.width = this.pageRect.width;
                     ui.height = 20;
@@ -496,7 +495,7 @@ var maineditor;
         HierarchyListPanel.prototype.moveAllTy = function (arr, ty) {
             if (ty === void 0) { ty = 0; }
             for (var i = 0; arr && i < arr.length; i++) {
-                arr[i].pos.y += ty;
+                arr[i].cellPos.y += ty;
                 if (arr[i].ossListFile.isOpen) {
                     this.moveAllTy(arr[i].childItem, ty);
                 }
@@ -516,8 +515,8 @@ var maineditor;
         HierarchyListPanel.prototype.disChiendren = function (arr, tx) {
             if (tx === void 0) { tx = 0; }
             for (var i = 0; arr && i < arr.length; i++) {
-                arr[i].pos.x = tx;
-                arr[i].pos.y = HierarchyListPanel.listTy;
+                arr[i].cellPos.x = tx;
+                arr[i].cellPos.y = HierarchyListPanel.listTy;
                 HierarchyListPanel.listTy += 20;
                 if (arr[i].ossListFile.isOpen) {
                     this.disChiendren(arr[i].childItem, tx + 20);
