@@ -310,29 +310,22 @@
                 var $vo: FolderMeshVo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
   
-                $vo.ossListFile.name = childItem[i].ossListFile.name;
-                $vo.ossListFile.type = childItem[i].ossListFile.type;
-                $vo.ossListFile.treeSelect = childItem[i].ossListFile.treeSelect;;
+                $vo.ossListFile.name = childItem[i].name;
+ 
+                $vo.ossListFile.type = childItem[i].type;
+                $vo.ossListFile.treeSelect = childItem[i].treeSelect;;
                 $vo.pos = new Vector3D()
 
-                $vo.dis = new ModelSprite();
-                $vo.dis.x = 0;
-                $vo.dis.y = 0;
-                $vo.dis.z = 0;
-                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+     
 
                 this.showTemp($vo);
-                filemodel.PrefabManager.getInstance().getPrefabByUrl($vo.ossListFile.name, (value: pack.PrefabStaticMesh) => {
-                    var prefab: pack.PrefabStaticMesh = value;
-                    LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
-                        ($modelxml: string) => {
-                            $vo.dis.readTxtToModel($modelxml);
-                        });
-                    filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
-                        $vo.dis.material = $materialTree;
-                    })
-                })
 
+                $vo.dis = this.makeModelSpriet(childItem[i].data)
+                $vo.dis.x = childItem[i].x;
+                $vo.dis.y = childItem[i].y;
+                $vo.dis.z = childItem[i].z;
+                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+              
 
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo)
@@ -340,6 +333,20 @@
     
                 return $item
          
+        }
+        private makeModelSpriet(url: string): ModelSprite {
+            var dis: ModelSprite = new ModelSprite();
+            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
+                var prefab: pack.PrefabStaticMesh = value;
+                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
+                    ($modelxml: string) => {
+                        dis.readTxtToModel($modelxml);
+                    });
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                    dis.material = $materialTree;
+                })
+            })
+            return dis
         }
         private clearItemForChidren(item: Array<FolderMeshVo>): void {
             while (item&&item.length) {
@@ -406,44 +413,31 @@
 
     
        
-        private makeModel(): void {
-            filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", (value: pack. PrefabStaticMesh) => {
-                var prefab: pack.PrefabStaticMesh = value;
-                var dis: ModelSprite = new ModelSprite();
-                MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
-                    ($modelxml: string) => {
-                        dis.readTxtToModel($modelxml);
-                    });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
-                    dis.material = $materialTree;
-                })
-            })
-
-        }
+    
       
         private readMapFile(): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
-                    var $item: Array<FolderMeshVo> = this.wirteItem(JSON.parse($byte.readUTF()))
+ 
+                    var $fileObj: any = JSON.parse($byte.readUTF())
+        
+                    var $item: Array<FolderMeshVo> = this.wirteItem($fileObj.list)
                     for (var i: number = 0; i < $item.length; i++) {
                         this.fileItem.push($item[i]);
                     }
                     this.isCompelet = true;
                     this.refrishFolder();
                     this.resize()
+                
                 });
         }
         public saveMap(): void {
-            if (this.fileItem.length > 3) {
-                this.fileItem=[]
-            }
-            var tempObj: any = JSON.stringify(this.fileItem);
+        
+            var tempObj: any = { list: this.getWillSaveItem(this.fileItem) };
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var $fileUrl: string = Pan3d.Scene_data.fileRoot + "scene.map";
-  
-            $byte.writeUTF(tempObj)
+            $byte.writeUTF(JSON.stringify(tempObj))
 
             var $file: File = new File([$byte.buffer], "scene.map");
             var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
@@ -452,6 +446,29 @@
                 console.log("上传完成")
             
             })
+ 
+
+        }
+        private getWillSaveItem(item: Array<FolderMeshVo>): Array<any> {
+            var $arr: Array<any>=[]
+            for (var i: number = 0; i < item.length; i++) {
+                var $obj: any = {};
+                $obj.type = item[i].ossListFile.type
+                $obj.name = item[i].ossListFile.name
+                $obj.x = item[i].dis.x
+                $obj.y = item[i].dis.y
+                $obj.z = item[i].dis.z
+                $obj.data = item[i].ossListFile.name
+                if (item[i].childItem) {
+                    $obj.childItem=  this.getWillSaveItem(item[i].childItem)
+                }
+                $arr.push($obj)
+            }
+            if ($arr.length) {
+                return $arr
+            } else {
+                return null
+            }
 
 
 

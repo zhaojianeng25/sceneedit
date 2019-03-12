@@ -266,30 +266,34 @@ var maineditor;
             for (var i = 0; childItem && i < childItem.length; i++) {
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.name = childItem[i].ossListFile.name;
-                $vo.ossListFile.type = childItem[i].ossListFile.type;
-                $vo.ossListFile.treeSelect = childItem[i].ossListFile.treeSelect;
+                $vo.ossListFile.name = childItem[i].name;
+                $vo.ossListFile.type = childItem[i].type;
+                $vo.ossListFile.treeSelect = childItem[i].treeSelect;
                 ;
                 $vo.pos = new Vector3D();
-                $vo.dis = new ModelSprite();
-                $vo.dis.x = 0;
-                $vo.dis.y = 0;
-                $vo.dis.z = 0;
-                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
                 this.showTemp($vo);
-                filemodel.PrefabManager.getInstance().getPrefabByUrl($vo.ossListFile.name, function (value) {
-                    var prefab = value;
-                    LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
-                        $vo.dis.readTxtToModel($modelxml);
-                    });
-                    filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
-                        $vo.dis.material = $materialTree;
-                    });
-                });
+                $vo.dis = this.makeModelSpriet(childItem[i].data);
+                $vo.dis.x = childItem[i].x;
+                $vo.dis.y = childItem[i].y;
+                $vo.dis.z = childItem[i].z;
+                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo);
             }
             return $item;
+        };
+        HierarchyListPanel.prototype.makeModelSpriet = function (url) {
+            var dis = new ModelSprite();
+            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
+                var prefab = value;
+                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
+                    dis.readTxtToModel($modelxml);
+                });
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
+                    dis.material = $materialTree;
+                });
+            });
+            return dis;
         };
         HierarchyListPanel.prototype.clearItemForChidren = function (item) {
             while (item && item.length) {
@@ -339,24 +343,12 @@ var maineditor;
             triItem.push(new Vector3D(+100, 0, 100));
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
         };
-        HierarchyListPanel.prototype.makeModel = function () {
-            filemodel.PrefabManager.getInstance().getPrefabByUrl("newfiletxt.prefab", function (value) {
-                var prefab = value;
-                var dis = new ModelSprite();
-                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(dis);
-                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
-                    dis.readTxtToModel($modelxml);
-                });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
-                    dis.material = $materialTree;
-                });
-            });
-        };
         HierarchyListPanel.prototype.readMapFile = function () {
             var _this = this;
             LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE, function ($dtstr) {
                 var $byte = new Pan3d.Pan3dByteArray($dtstr);
-                var $item = _this.wirteItem(JSON.parse($byte.readUTF()));
+                var $fileObj = JSON.parse($byte.readUTF());
+                var $item = _this.wirteItem($fileObj.list);
                 for (var i = 0; i < $item.length; i++) {
                     _this.fileItem.push($item[i]);
                 }
@@ -366,18 +358,37 @@ var maineditor;
             });
         };
         HierarchyListPanel.prototype.saveMap = function () {
-            if (this.fileItem.length > 3) {
-                this.fileItem = [];
-            }
-            var tempObj = JSON.stringify(this.fileItem);
+            var tempObj = { list: this.getWillSaveItem(this.fileItem) };
             var $byte = new Pan3d.Pan3dByteArray();
             var $fileUrl = Pan3d.Scene_data.fileRoot + "scene.map";
-            $byte.writeUTF(tempObj);
+            $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
             filemodel.FileModel.getInstance().upOssFile($file, pathurl, function () {
                 console.log("上传完成");
             });
+        };
+        HierarchyListPanel.prototype.getWillSaveItem = function (item) {
+            var $arr = [];
+            for (var i = 0; i < item.length; i++) {
+                var $obj = {};
+                $obj.type = item[i].ossListFile.type;
+                $obj.name = item[i].ossListFile.name;
+                $obj.x = item[i].dis.x;
+                $obj.y = item[i].dis.y;
+                $obj.z = item[i].dis.z;
+                $obj.data = item[i].ossListFile.name;
+                if (item[i].childItem) {
+                    $obj.childItem = this.getWillSaveItem(item[i].childItem);
+                }
+                $arr.push($obj);
+            }
+            if ($arr.length) {
+                return $arr;
+            }
+            else {
+                return null;
+            }
         };
         HierarchyListPanel.prototype.changeScrollBar = function () {
             var th = this._uiMask.height - this.a_scroll_bar.height;
