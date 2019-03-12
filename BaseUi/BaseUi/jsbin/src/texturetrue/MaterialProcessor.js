@@ -281,13 +281,10 @@ var materialui;
                     break;
                 case KeyboardType.S:
                     if ($evt.altKey) {
-                        ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
                     }
                     break;
                 case KeyboardType.C:
                     if ($evt.altKey) {
-                        console.log("编译");
-                        ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.COMPILE_MATERIAL));
                     }
                     else {
                         var $selectUi = this.getSelUI();

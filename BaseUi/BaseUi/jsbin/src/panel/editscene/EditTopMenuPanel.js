@@ -117,7 +117,7 @@ var topMenu;
             var temp = {};
             var menuB = new Array();
             menuB.push(new MenuListData("保存材质", "1001"));
-            menuB.push(new MenuListData("显示材质", "1002"));
+            menuB.push(new MenuListData("编译材质", "1002"));
             temp.menuXmlItem = menuB;
             this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
             this.initMenuData(temp);
@@ -131,7 +131,11 @@ var topMenu;
                     break;
                 case "4":
                     break;
-                case "21":
+                case "1001":
+                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
+                    break;
+                case "1002":
+                    ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break;
                 default:
                     break;
