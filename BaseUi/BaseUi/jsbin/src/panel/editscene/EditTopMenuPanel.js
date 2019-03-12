@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var topMenu;
 (function (topMenu) {
+    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var ModuleEventManager = Pan3d.ModuleEventManager;
@@ -21,6 +22,8 @@ var topMenu;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
     var TextureManager = Pan3d.TextureManager;
     var Rectangle = Pan3d.Rectangle;
+    var UIAtlas = Pan3d.UIAtlas;
+    var Scene_data = Pan3d.Scene_data;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var MenuListData = /** @class */ (function () {
         function MenuListData($label, $key) {
@@ -57,8 +60,27 @@ var topMenu;
     var EditTopMenuPanel = /** @class */ (function (_super) {
         __extends(EditTopMenuPanel, _super);
         function EditTopMenuPanel() {
-            return _super.call(this, LabelTxtVo, new Rectangle(0, 0, 70, 20), 50) || this;
+            var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 70, 20), 50) || this;
+            _this._bottomRender = new UIRenderComponent();
+            _this._bottomRender.uiAtlas = new UIAtlas();
+            _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
+            _this.addRenderAt(_this._bottomRender, 0);
+            return _this;
         }
+        EditTopMenuPanel.prototype.loadConfigCom = function () {
+            this.winBg = this.addChild(this._bottomRender.getComponent("b_tittle_bg"));
+            this.uiLoadComplete = true;
+            this.resize();
+        };
+        EditTopMenuPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete) {
+                this.winBg.x = 0;
+                this.winBg.y = 0;
+                this.winBg.width = Scene_data.stageWidth;
+                this.winBg.height = 20;
+            }
+        };
         EditTopMenuPanel.prototype.initMenuData = function (value) {
             this.menuXmlItem = value.menuXmlItem;
             meshFunSon(this.menuXmlItem, 0);

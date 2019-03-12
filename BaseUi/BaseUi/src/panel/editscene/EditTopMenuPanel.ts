@@ -1,11 +1,8 @@
 ﻿module topMenu {
     import UICompenent = Pan3d.UICompenent
-    import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
-    import ColorType = Pan3d.ColorType
     import InteractiveEvent = Pan3d.InteractiveEvent
     import TextAlign = Pan3d.TextAlign
-
     import ModuleEventManager = Pan3d.ModuleEventManager
     import UIManager = Pan3d.UIManager
     import LabelTextFont = Pan3d.LabelTextFont
@@ -13,6 +10,8 @@
     import UIRectangle = Pan3d.UIRectangle
     import TextureManager = Pan3d.TextureManager
     import Rectangle = Pan3d.Rectangle
+    import UIAtlas = Pan3d.UIAtlas
+    import Scene_data = Pan3d.Scene_data
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
 
     export class MenuListData {
@@ -39,9 +38,7 @@
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-
-
-
+ 
 
                 var colorBg: string = $menuListData.select ? "#6c6c6c" : "#555555";
                 var colorFont: string = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
@@ -61,13 +58,39 @@
 
     export class EditTopMenuPanel extends Dis2DUIContianerPanel {
 
-        public static imgBaseDic: any
+
+        private _bottomRender: UIRenderComponent
         public constructor() {
             super(LabelTxtVo, new Rectangle(0, 0, 70, 20), 50);
 
+            this._bottomRender = new UIRenderComponent();
+            this._bottomRender.uiAtlas = new UIAtlas();
+            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
+
+ 
+            this.addRenderAt(this._bottomRender, 0);
+
+        }
+        private winBg: UICompenent
+        private loadConfigCom(): void {
+        
+            this.winBg = this.addChild(<UICompenent>this._bottomRender.getComponent("b_tittle_bg"));
+
+            this.uiLoadComplete = true
+
+            this.resize()
+
+        }
+        public resize(): void {
+            super.resize()
+            if (this.uiLoadComplete) {
+                this.winBg.x = 0
+                this.winBg.y = 0;
+                this.winBg.width = Scene_data.stageWidth
+                this.winBg.height = 20
+            }
         }
         private menuXmlItem: Array<MenuListData>
-
         public initMenuData(value: any): void {
 
             this.menuXmlItem = value.menuXmlItem;
@@ -106,7 +129,6 @@
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER))
                     break
                 case "4":
-          
                     break
                 case "21":
            
@@ -121,16 +143,12 @@
             $vo.subMenu = new Array;
             $vo.subMenu.push(new MenuListData("保存场景", "11"));
             $vo.subMenu.push(new MenuListData("SUB", "12"));
-
-
             return $vo
         }
         private getMenu1(): MenuListData {
             var $vo: MenuListData = new MenuListData("编辑", "2")
             $vo.subMenu = new Array;
             $vo.subMenu.push(new MenuListData("eeee", "21"));
-
-
             return $vo
         }
     
