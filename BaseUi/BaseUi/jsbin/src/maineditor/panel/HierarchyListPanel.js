@@ -16,6 +16,7 @@ var maineditor;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
@@ -25,6 +26,7 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
+    var MenuListData = menutwo.MenuListData;
     var ModelSprite = /** @class */ (function (_super) {
         __extends(ModelSprite, _super);
         function ModelSprite() {
@@ -202,6 +204,44 @@ var maineditor;
                 this.resize();
             }
         };
+        HierarchyListPanel.prototype.makeFileFloadMenu = function ($evt) {
+            var _this = this;
+            var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
+            var temp = {};
+            temp.mouse = new Vector2D($evt.clientX, $evt.clientY);
+            var menuA = new Array();
+            menuA.push(new MenuListData("删除文件", "1"));
+            menuA.push(new MenuListData("重命名", "2"));
+            temp.menuXmlItem = menuA;
+            temp.info = {};
+            temp.info.bfun = function (value, evt) { _this.menuBfun(value, evt); };
+            ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
+        };
+        HierarchyListPanel.prototype.menuBfun = function (value, evt) {
+            switch (value.key) {
+                case "1":
+                    if (this.selectFolderMeshVo) {
+                        this.deleFile(this.fileItem, this.selectFolderMeshVo);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
+        HierarchyListPanel.prototype.deleFile = function (item, vo) {
+            var idx = item.indexOf(vo.folderMeshVo);
+            if (idx == -1) {
+                console.log("没找到需要到子目录找");
+            }
+            else {
+                item.splice(idx, 1);
+                console.log("删除文件");
+                this.clearTemp(vo);
+                maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.folderMeshVo.dis);
+            }
+            this.refrishFolder();
+            this.resize();
+        };
         HierarchyListPanel.prototype.itemMouseUp = function (evt) {
             var $clikVo;
             for (var i = 0; i < this._uiItem.length; i++) {
@@ -260,6 +300,31 @@ var maineditor;
             }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
             this.readMapFile();
+            if (!this.onRightMenuFun) {
+                this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
+            }
+            document.addEventListener("contextmenu", this.onRightMenuFun);
+        };
+        HierarchyListPanel.prototype.onRightMenu = function ($evt) {
+            $evt.preventDefault();
+            var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+            if ($slectUi) {
+                if ($slectUi.parent instanceof HierarchyListPanel) {
+                    var vo = this.getItemVoByUi($slectUi);
+                    if (vo) {
+                        this.selectFolderMeshVo = vo;
+                        this.makeFileFloadMenu($evt);
+                    }
+                }
+            }
+        };
+        HierarchyListPanel.prototype.getItemVoByUi = function (ui) {
+            for (var i = 0; i < this._uiItem.length; i++) {
+                if (this._uiItem[i].ui == ui) {
+                    return this._uiItem[i];
+                }
+            }
+            return null;
         };
         HierarchyListPanel.prototype.wirteItem = function (childItem) {
             var $item = new Array;
@@ -420,12 +485,12 @@ var maineditor;
                     this.showSelectBg(arr[i].childItem);
                 }
                 if (arr[i].ossListFile.treeSelect) {
-                    //var ui: FrameCompenent = <FrameCompenent>this.addChild(this._cellBgRender.getComponent("a_select_cell_bg"));
-                    //ui.goToAndStop(0)
-                    //ui.y = arr[i].pos.y;
-                    //ui.x = 0
-                    //ui.width = this.pageRect.width
-                    //this.cellBgItem.push(ui);
+                    var ui = this.addChild(this._bRender.getComponent("a_round_line"));
+                    ui.y = arr[i].pos.y;
+                    ui.x = 0;
+                    ui.width = this.pageRect.width;
+                    ui.height = 20;
+                    this.cellBgItem.push(ui);
                 }
             }
         };

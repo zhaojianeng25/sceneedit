@@ -44,7 +44,7 @@
         }
 
         public onMouseDown(mouseVect2d: Vector2D): void {
-            console.log("mouseVect2d", mouseVect2d)
+      
             if (TooMathHitModel.testHitModel(this._roundA, this._scene, mouseVect2d)) {
                 this.selectId = 1;
             } else if (TooMathHitModel.testHitModel(this._roundB, this._scene, mouseVect2d)) {

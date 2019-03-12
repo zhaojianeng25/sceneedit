@@ -34,7 +34,6 @@ var xyz;
             this.testHitTemp(this._roundC, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 0, 1)]);
         };
         TooRotationLevel.prototype.onMouseDown = function (mouseVect2d) {
-            console.log("mouseVect2d", mouseVect2d);
             if (xyz.TooMathHitModel.testHitModel(this._roundA, this._scene, mouseVect2d)) {
                 this.selectId = 1;
             }
