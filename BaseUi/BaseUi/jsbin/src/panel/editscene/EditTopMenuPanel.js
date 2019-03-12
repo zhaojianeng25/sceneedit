@@ -82,6 +82,7 @@ var topMenu;
             }
         };
         EditTopMenuPanel.prototype.initMenuData = function (value) {
+            this.clearAll();
             this.menuXmlItem = value.menuXmlItem;
             meshFunSon(this.menuXmlItem, 0);
             function meshFunSon(subMenu, level) {

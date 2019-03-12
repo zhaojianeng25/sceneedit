@@ -66,8 +66,6 @@
             this._bottomRender = new UIRenderComponent();
             this._bottomRender.uiAtlas = new UIAtlas();
             this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
-
- 
             this.addRenderAt(this._bottomRender, 0);
 
         }
@@ -92,7 +90,7 @@
         }
         private menuXmlItem: Array<MenuListData>
         public initMenuData(value: any): void {
-
+            this.clearAll();
             this.menuXmlItem = value.menuXmlItem;
             meshFunSon(this.menuXmlItem, 0)
             function meshFunSon(subMenu: Array<MenuListData>, level: number): void {
@@ -114,10 +112,7 @@
             menuA.push(new MenuListData("配置", "2"));
             menuA.push(new MenuListData("系统", "3"));
             temp.menuXmlItem = menuA;
- 
-
             this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
-
             this.initMenuData(temp)
             this.showMainUi()
         }

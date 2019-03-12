@@ -173,14 +173,6 @@
   
         private modelPic: modelShowRender;
  
-        //public onMouseWheel($evt: MouseWheelEvent): void {
-        //    var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-        //    if ($slectUi && $slectUi.parent == this) {
-        //        Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
-                
-        //    }
-        //}
-
         private showModelPicUI: UICompenent
         private initView(): void {
    
