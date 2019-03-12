@@ -149,7 +149,6 @@ var maineditor;
                     case KeyboardType.Delete:
                         break;
                     case KeyboardType.S:
-                        ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER));
                         break;
                 }
             }

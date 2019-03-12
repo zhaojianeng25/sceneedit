@@ -59,11 +59,17 @@ var editscene;
                     this._editScenePanel.width = 450;
                     this._editScenePanel.height = 500;
                     layout.LayerManager.getInstance().addPanel(this._editScenePanel, 100);
+                    this.showTopMenuPanel();
                 }
                 if ($editSceneEvent.type == EditSceneEvent.LEFT_LINE_MOVE) {
                     this._editScenePanel.resize();
                 }
             }
+        };
+        EditSceneProcessor.prototype.showTopMenuPanel = function () {
+            var editTopMenuPanel = new topMenu.EditTopMenuPanel();
+            BaseUiStart.topPanel.addUIContainer(editTopMenuPanel);
+            editTopMenuPanel.cctv();
         };
         EditSceneProcessor.prototype.listenModuleEvents = function () {
             return [

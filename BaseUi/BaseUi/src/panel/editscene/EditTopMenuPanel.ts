@@ -1,122 +1,222 @@
-﻿module editscene {
-    import Panel = layout.Panel;
-    import Rectangle = Pan3d.Rectangle
-    import Vector2D = Pan3d.Vector2D
-    import Scene_data = Pan3d.Scene_data
- 
+﻿module topMenu {
     import UICompenent = Pan3d.UICompenent
-    import Sprite = layout.Sprite
-
- 
     import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
     import ColorType = Pan3d.ColorType
     import InteractiveEvent = Pan3d.InteractiveEvent
     import TextAlign = Pan3d.TextAlign
- 
+
     import ModuleEventManager = Pan3d.ModuleEventManager
     import UIManager = Pan3d.UIManager
     import LabelTextFont = Pan3d.LabelTextFont
-    import UIConatiner = Pan3d.UIConatiner;
     import Disp2DBaseText = Pan3d.Disp2DBaseText
     import UIRectangle = Pan3d.UIRectangle
-    import baseMeshVo = Pan3d.baseMeshVo
-    import UIMask = Pan3d.UIMask
-    import UiDraw = Pan3d.UiDraw
-    import UIData = Pan3d.UIData
-    import UIAtlas = Pan3d.UIAtlas
- 
+    import TextureManager = Pan3d.TextureManager
+    import Rectangle = Pan3d.Rectangle
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
 
+    export class MenuListData {
+        public label: string
+        public level: number;
+        public subMenu: Array<MenuListData>;
+        public select: boolean;
+        public key: string
 
-    export class EditTopMenuPanel extends UIConatiner {
-
-       
-        public constructor() {
-            super();
-
-            this.left = 0;
-            this._pageRect = new Rectangle(0, 0, 300, 300)
-
-            this._bottomRender = new UIRenderComponent;
-            this.addRender(this._bottomRender);
-
-            this._topRender = new UIRenderComponent;
-            this.addRender(this._topRender);
-
-            this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
-
-        }
-
-        private _bottomRender: UIRenderComponent;
-        private _topRender: UIRenderComponent;
-
-
-        protected mouseDown(evt: InteractiveEvent): void {
-            this.mouseIsDown = true
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        }
-        private mouseIsDown: boolean
-        protected stageMouseMove(evt: InteractiveEvent): void {
-            this.mouseIsDown = false
-
-        }
-        protected mouseUp(evt: InteractiveEvent): void {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-        }
-        
-        protected loadConfigCom(): void {
-            this._topRender.uiAtlas = this._bottomRender.uiAtlas
-
-
-            this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender)
-
-            this.uiLoadComplete = true
-
-            this.refrishSize()
- 
-
-        }
-        protected butClik(evt: InteractiveEvent): void {
-            console.log(evt.target)
-        }
-        public set pageRect(value: Rectangle) {
-            this._pageRect = value;
-            if (this.uiLoadComplete) {
-                this.refrishSize();
-            }
-        }
-        public get pageRect() {
-            return this._pageRect;
-
-        }
-        private _pageRect: Rectangle;
- 
-        private a_win_tittle: UICompenent;
-
-        private refrishSize(): void {
-
-            this.left = this._pageRect.x;
-            this.top = this._pageRect.y;
-            this._pageRect.width = Math.max(100, this._pageRect.width)
-            this._pageRect.height = Math.max(100, this._pageRect.height)
-
-            this.a_win_tittle.x = 0;
-            this.a_win_tittle.y = 0;
-            this.a_win_tittle.width = this._pageRect.width;
-
-
-
-            this._topRender.applyObjData()
-
-
-            this.resize();
+        constructor($label: string, $key: string = null) {
+            this.select = false
+            this.label = $label;
+            this.key = $key;
 
 
         }
-
 
     }
- 
-}
+    export class LabelTxtVo extends Disp2DBaseText {
 
+        public makeData(): void {
+            if (this.data) {
+                var $menuListData: MenuListData = this.data
+                var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
+                this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
+                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+
+
+
+
+                var colorBg: string = $menuListData.select ? "#6c6c6c" : "#555555";
+                var colorFont: string = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+
+                this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
+                this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 5, 5, TextAlign.LEFT)
+
+                TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+            }
+
+
+
+
+        }
+    }
+
+    export class EditTopMenuPanel extends Dis2DUIContianerPanel {
+
+        public static imgBaseDic: any
+        public constructor() {
+            super(LabelTxtVo, new Rectangle(0, 0, 70, 20), 50);
+
+        }
+        private menuXmlItem: Array<MenuListData>
+
+        public initMenuData(value: any): void {
+
+            this.menuXmlItem = value.menuXmlItem;
+            meshFunSon(this.menuXmlItem, 0)
+            function meshFunSon(subMenu: Array<MenuListData>, level: number): void {
+                for (var i: number = 0; subMenu && i < subMenu.length; i++) {
+                    subMenu[i].level = level;
+                    meshFunSon(subMenu[i].subMenu, level + 1);
+
+                }
+            }
+        }
+
+
+        public cctv(): void {
+
+            var temp: any = {};
+            var menuA: Array<MenuListData> = new Array();
+            menuA.push(this.getMenu0());
+            menuA.push(this.getMenu1());
+            menuA.push(new MenuListData("配置", "2"));
+            menuA.push(new MenuListData("系统", "3"));
+            temp.menuXmlItem = menuA;
+ 
+
+            this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
+
+            this.initMenuData(temp)
+            this.showMainUi()
+        }
+        private menuBfun(value: any, evt: InteractiveEvent): void {
+            console.log(value.key)
+
+            switch (value.key) {
+                case "11":
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER))
+                    break
+                case "4":
+          
+                    break
+                case "21":
+           
+                    break
+                default:
+    
+                    break
+            }
+        }
+        private getMenu0(): MenuListData {
+            var $vo: MenuListData = new MenuListData("菜单", "1")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("保存场景", "11"));
+            $vo.subMenu.push(new MenuListData("SUB", "12"));
+
+
+            return $vo
+        }
+        private getMenu1(): MenuListData {
+            var $vo: MenuListData = new MenuListData("编辑", "2")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("eeee", "21"));
+
+
+            return $vo
+        }
+    
+        public showMainUi(): void {
+            this.clearAll();
+            Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
+            this.showSon(this.menuXmlItem,20,0);
+        }
+        private onStageMouseUp(evt: InteractiveEvent): void {
+            //this.clearAll();
+        }
+        public showTempMenu($data: MenuListData, i: number, tx: number, ty: number): LabelTxtVo {
+
+            let temp: LabelTxtVo = super.showTemp($data) as LabelTxtVo;
+            console.log($data.level)
+            if ($data.level == 0) {
+                temp.ui.x =   i * 70;
+                temp.ui.y = 0;
+            } else {
+                temp.ui.x = tx;
+                temp.ui.y = i * 20 + ty;
+            }
+
+
+            temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
+            temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
+            return temp
+        }
+        //清理单元内的内容并需要将对象移出显示队例
+        public clearTemp($data: any): void {
+            var temp: LabelTxtVo = this.getVoByData($data);
+            temp.ui.removeEventListener(InteractiveEvent.Move, this.butMove, this);
+            temp.ui.removeEventListener(InteractiveEvent.Down, this.onMouseUp, this);
+            super.clearTemp($data);
+        }
+        private setColorByLevel(value: number): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var menuListData: MenuListData = this._uiItem[i].data as MenuListData
+                if (menuListData && menuListData.level == value) {
+                    menuListData.select = false
+                    this._uiItem[i].makeData()
+                }
+            }
+        }
+        private removeOtherSonMenu(level: number): void {
+
+            for (var i: number = this._uiItem.length - 1; i >= 0; i--) {
+                var $menuListData: MenuListData = this._uiItem[i].data as MenuListData
+                if ($menuListData && $menuListData.level > level) {
+                    this.clearTemp($menuListData)
+                }
+            }
+        }
+        protected butMove(evt: InteractiveEvent): void {
+            var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
+            if (temp && temp.data) {
+                var menuListData: MenuListData = temp.data
+                this.setColorByLevel(menuListData.level);
+                this.removeOtherSonMenu(menuListData.level);
+
+                menuListData.select = true;
+                temp.makeData();
+
+                this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height)
+
+
+            }
+        }
+        private bfun: Function
+        protected onMouseUp(evt: InteractiveEvent): void {
+            var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
+            if (temp && temp.data) {
+                this.bfun(temp.data, evt)
+                this.removeOtherSonMenu(0);
+            }
+        }
+        private showSon(subMenu: Array<MenuListData>, tx: number, ty: number): void {
+
+            for (var i: number = 0; subMenu && i < subMenu.length; i++) {
+                var labelTxtVo: LabelTxtVo = this.getVoByData(subMenu[i]) as LabelTxtVo;
+                if (!labelTxtVo) {
+                    this.showTempMenu(subMenu[i], i, tx, ty);
+                }
+
+            }
+        }
+
+    }
+}

@@ -6,7 +6,7 @@ class BaseUiStart extends Pan3d.GameStart {
     public static leftPanel: layout.Panel
     public static rightPanel: layout.Panel
     public static centenPanel: layout.Panel
-
+    public static topPanel: layout.Panel
 
 
 

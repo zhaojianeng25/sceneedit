@@ -13,6 +13,7 @@
     import Panel=layout.Panel
     import FileListPanel = filelist.FileListPanel
  
+ 
     import OssFolderPanel = ossfolder.OssFolderPanel;
 
 
@@ -49,7 +50,9 @@
                     this._editScenePanel.y = 300
                     this._editScenePanel.width = 450
                     this._editScenePanel.height = 500
-                    layout.LayerManager.getInstance().addPanel(this._editScenePanel,100)
+                    layout.LayerManager.getInstance().addPanel(this._editScenePanel, 100)
+
+                    this.showTopMenuPanel();
                 }
                 if ($editSceneEvent.type == EditSceneEvent.LEFT_LINE_MOVE) {
 
@@ -57,6 +60,12 @@
                 }
             }
         }
+        private showTopMenuPanel(): void {
+            var editTopMenuPanel: topMenu.EditTopMenuPanel = new topMenu.EditTopMenuPanel()
+            BaseUiStart.topPanel.addUIContainer(editTopMenuPanel)
+            editTopMenuPanel.cctv()
+        }
+
  
         protected listenModuleEvents(): Array<BaseEvent> {
             return [

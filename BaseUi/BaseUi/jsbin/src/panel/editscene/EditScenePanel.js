@@ -77,6 +77,7 @@ var editscene;
             _this.addLeftMoveLine();
             _this.addRightMoveLine();
             _this.addBottomMoveLine();
+            _this.addTop();
             _this.resize();
             return _this;
         }
@@ -115,6 +116,15 @@ var editscene;
             temp.height = 500;
             this.addChild(temp);
             BaseUiStart.rightPanel = temp;
+        };
+        EditScenePanel.prototype.addTop = function () {
+            var tempPanel = new Panel(false);
+            tempPanel.x = 0;
+            tempPanel.y = 0;
+            tempPanel.width = 450;
+            tempPanel.height = 30;
+            this.addChild(tempPanel);
+            BaseUiStart.topPanel = tempPanel;
         };
         EditScenePanel.prototype.addLeft = function () {
             var temp = new Panel(false);
