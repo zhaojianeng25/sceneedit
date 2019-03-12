@@ -265,6 +265,8 @@
 
                     if (this.selectFolderMeshVo) {
                         this.deleFile(this.fileItem, this.selectFolderMeshVo)
+                        this.refrishFolder();
+                        this.resize()
                     }
                     break
                 default:
@@ -277,17 +279,10 @@
             if (idx == -1) {
                 console.log("没找到需要到子目录找")
             } else {
-                item.splice(idx, 1)
-                console.log("删除文件")
-
-                this.clearTemp(vo)
-
+                item.splice(idx,1)
                 MainEditorProcessor.edItorSceneManager.removeDisplay(vo.folderMeshVo.dis);
+                this.clearTemp(vo.folderMeshVo)
             }
-
-            this.refrishFolder();
-            this.resize()
-
         }
 
 

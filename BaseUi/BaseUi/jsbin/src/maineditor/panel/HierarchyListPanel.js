@@ -222,6 +222,8 @@ var maineditor;
                 case "1":
                     if (this.selectFolderMeshVo) {
                         this.deleFile(this.fileItem, this.selectFolderMeshVo);
+                        this.refrishFolder();
+                        this.resize();
                     }
                     break;
                 default:
@@ -235,12 +237,9 @@ var maineditor;
             }
             else {
                 item.splice(idx, 1);
-                console.log("删除文件");
-                this.clearTemp(vo);
                 maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.folderMeshVo.dis);
+                this.clearTemp(vo.folderMeshVo);
             }
-            this.refrishFolder();
-            this.resize();
         };
         HierarchyListPanel.prototype.itemMouseUp = function (evt) {
             var $clikVo;
