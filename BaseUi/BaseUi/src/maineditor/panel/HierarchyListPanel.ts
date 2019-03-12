@@ -243,11 +243,15 @@
             if (this.pageRect) {
                 this.pageRect.height = value.height;
                 this.pageRect.width = value.width;
+                this.pageRect.y = value.y
                 this.left = value.x;
                 this.top = value.y;
+            
                 this.resize();
             }
         }
+ 
+
         private makeFileFloadMenu($evt: MouseEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
             var temp: any = {};

@@ -114,28 +114,34 @@
         }
         private addLeft(): void {
             var temp: Panel = new Panel(false);
-            temp.x = 0
-            temp.y = 0
-            temp.width = 450
-            temp.height = 500
-            this.addChild(temp)
-            BaseUiStart.leftPanel = temp
-
-      
+            temp.x = 0;
+            temp.y = 50;
+            temp.width = 450;
+            temp.height = 500;
+            this.addChild(temp);
+            BaseUiStart.leftPanel = temp;
         }
+        private menuHeight: number=20
         public resize(): void {
 
-            BaseUiStart.leftPanel.height = this.bottomMoveLine.y
+            BaseUiStart.leftPanel.y = this.menuHeight
+            BaseUiStart.centenPanel.y = this.menuHeight
+            BaseUiStart.rightPanel.y = this.menuHeight
+            this.leftMoveLine.y = this.menuHeight
+            this.rightMoveLine.y = this.menuHeight
+
+            BaseUiStart.leftPanel.height = this.bottomMoveLine.y - BaseUiStart.leftPanel.y;
             BaseUiStart.leftPanel.width = this.leftMoveLine.x;
-            BaseUiStart.rightPanel.height = Scene_data.stageHeight
+
 
             this.leftMoveLine.x = BaseUiStart.leftPanel.width;
-            this.leftMoveLine.height = BaseUiStart.leftPanel.height;
+            this.leftMoveLine.height = Scene_data.stageHeight - this.leftMoveLine.y
+            this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y
 
-            this.rightMoveLine.height = Scene_data.stageHeight
-
+    
             BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 10
             BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width
+            BaseUiStart.rightPanel.height = Scene_data.stageHeight - BaseUiStart.rightPanel.y;
 
             this.bottomMoveLine.width = BaseUiStart.rightPanel.x-10
             this.bottomMoveLine.x = 0
@@ -144,14 +150,10 @@
             BaseUiStart.centenPanel.height = BaseUiStart.leftPanel.height;
             BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
 
-
             BaseUiStart.centenPanel.resize();
             BaseUiStart.rightPanel.resize();
 
             super.resize()
-
-
-
             var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 15, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y -15)
 
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);

@@ -199,6 +199,7 @@ var maineditor;
             if (this.pageRect) {
                 this.pageRect.height = value.height;
                 this.pageRect.width = value.width;
+                this.pageRect.y = value.y;
                 this.left = value.x;
                 this.top = value.y;
                 this.resize();
