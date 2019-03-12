@@ -84,6 +84,7 @@ var materialui;
                             this.lastMaterialUrl = $materialEvent.data;
                         }
                     }
+                    topMenu.EditTopMenuPanel.getInstance().makeTextureTopMenu();
                     this.addEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {

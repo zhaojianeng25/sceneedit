@@ -58,6 +58,13 @@
 
     export class EditTopMenuPanel extends Dis2DUIContianerPanel {
 
+        public static _instance: any;
+        public static getInstance(): EditTopMenuPanel {
+            if (!this._instance) {
+                this._instance = new EditTopMenuPanel();
+            }
+            return this._instance;
+        }
 
         private _bottomRender: UIRenderComponent
         public constructor() {
@@ -67,6 +74,9 @@
             this._bottomRender.uiAtlas = new UIAtlas();
             this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
             this.addRenderAt(this._bottomRender, 0);
+
+
+            BaseUiStart.topPanel.addUIContainer(this)
 
         }
         private winBg: UICompenent
@@ -105,7 +115,7 @@
         }
 
 
-        public cctv(): void {
+        public makeSceneTopMenu(): void {
 
             var temp: any = {};
             var menuA: Array<MenuListData> = new Array();
@@ -114,6 +124,18 @@
             menuA.push(new MenuListData("配置", "2"));
             menuA.push(new MenuListData("系统", "3"));
             temp.menuXmlItem = menuA;
+            this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
+            this.initMenuData(temp)
+            this.showMainUi()
+        }
+        public makeTextureTopMenu(): void {
+
+            var temp: any = {};
+            var menuB: Array<MenuListData> = new Array();
+            menuB.push(new MenuListData("保存材质", "1001"));
+            menuB.push(new MenuListData("显示材质", "1002"));
+
+            temp.menuXmlItem = menuB;
             this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
             this.initMenuData(temp)
             this.showMainUi()

@@ -65,8 +65,15 @@ var topMenu;
             _this._bottomRender.uiAtlas = new UIAtlas();
             _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             _this.addRenderAt(_this._bottomRender, 0);
+            BaseUiStart.topPanel.addUIContainer(_this);
             return _this;
         }
+        EditTopMenuPanel.getInstance = function () {
+            if (!this._instance) {
+                this._instance = new EditTopMenuPanel();
+            }
+            return this._instance;
+        };
         EditTopMenuPanel.prototype.loadConfigCom = function () {
             this.winBg = this.addChild(this._bottomRender.getComponent("b_tittle_bg"));
             this.uiLoadComplete = true;
@@ -92,7 +99,7 @@ var topMenu;
                 }
             }
         };
-        EditTopMenuPanel.prototype.cctv = function () {
+        EditTopMenuPanel.prototype.makeSceneTopMenu = function () {
             var _this = this;
             var temp = {};
             var menuA = new Array();
@@ -101,6 +108,17 @@ var topMenu;
             menuA.push(new MenuListData("配置", "2"));
             menuA.push(new MenuListData("系统", "3"));
             temp.menuXmlItem = menuA;
+            this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
+            this.initMenuData(temp);
+            this.showMainUi();
+        };
+        EditTopMenuPanel.prototype.makeTextureTopMenu = function () {
+            var _this = this;
+            var temp = {};
+            var menuB = new Array();
+            menuB.push(new MenuListData("保存材质", "1001"));
+            menuB.push(new MenuListData("显示材质", "1002"));
+            temp.menuXmlItem = menuB;
             this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
             this.initMenuData(temp);
             this.showMainUi();

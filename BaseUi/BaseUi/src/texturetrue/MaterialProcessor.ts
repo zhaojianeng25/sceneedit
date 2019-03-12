@@ -72,9 +72,13 @@
                             ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
                             MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
                             this.lastMaterialUrl = $materialEvent.data
+
+
                         }
                        
                     }
+
+                    topMenu.EditTopMenuPanel.getInstance().makeTextureTopMenu()
 
                     this.addEvents()
                

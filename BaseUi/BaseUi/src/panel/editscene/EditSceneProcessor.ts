@@ -52,7 +52,8 @@
                     this._editScenePanel.height = 500
                     layout.LayerManager.getInstance().addPanel(this._editScenePanel, 100)
 
-                    this.showTopMenuPanel();
+
+             
                 }
                 if ($editSceneEvent.type == EditSceneEvent.LEFT_LINE_MOVE) {
 
@@ -60,12 +61,7 @@
                 }
             }
         }
-        private showTopMenuPanel(): void {
-            var editTopMenuPanel: topMenu.EditTopMenuPanel = new topMenu.EditTopMenuPanel()
-            BaseUiStart.topPanel.addUIContainer(editTopMenuPanel)
-            editTopMenuPanel.cctv()
-        }
-
+     
  
         protected listenModuleEvents(): Array<BaseEvent> {
             return [

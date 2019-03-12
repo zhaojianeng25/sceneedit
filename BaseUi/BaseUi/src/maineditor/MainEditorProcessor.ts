@@ -58,6 +58,7 @@
                     }
                      BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel)
+                    topMenu.EditTopMenuPanel.getInstance().makeSceneTopMenu()
  
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
