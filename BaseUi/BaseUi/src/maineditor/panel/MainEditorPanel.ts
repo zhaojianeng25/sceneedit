@@ -194,6 +194,7 @@
             this.a_win_tittle = this.addEvntBut("a_tittle_bg", this._topRender)
             this.a_win_tittle.x = 0
             this.a_win_tittle.y = 0
+            this.a_win_tittle.height=15
 
             this.a_win_bg = this.addEvntBut("a_bg", this._bottomRender)
             this.a_win_bg.x = 0
@@ -314,11 +315,11 @@
                 this._bottomRender.applyObjData()
                 this._topRender.applyObjData()
 
-                var roundNum: number = 0;
+                var roundNum: number = 50;
                 this.a_scene_view.x = roundNum;
-                this.a_scene_view.y = roundNum+25;
+                this.a_scene_view.y = roundNum+15;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
-                this.a_scene_view.height = this.pageRect.height-25 - roundNum * 2;
+                this.a_scene_view.height = this.pageRect.height - roundNum * 2;
 
             }
 

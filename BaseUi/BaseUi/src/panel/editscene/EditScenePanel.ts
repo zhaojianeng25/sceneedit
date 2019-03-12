@@ -152,7 +152,7 @@
 
 
             this.leftMoveLine.x = BaseUiStart.leftPanel.width;
-            this.leftMoveLine.height = Scene_data.stageHeight - this.leftMoveLine.y
+            this.leftMoveLine.height = this.bottomMoveLine.y  - this.leftMoveLine.y
             this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y
 
     

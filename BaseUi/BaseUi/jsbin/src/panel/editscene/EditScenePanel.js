@@ -144,7 +144,7 @@ var editscene;
             BaseUiStart.leftPanel.height = this.bottomMoveLine.y - BaseUiStart.leftPanel.y;
             BaseUiStart.leftPanel.width = this.leftMoveLine.x;
             this.leftMoveLine.x = BaseUiStart.leftPanel.width;
-            this.leftMoveLine.height = Scene_data.stageHeight - this.leftMoveLine.y;
+            this.leftMoveLine.height = this.bottomMoveLine.y - this.leftMoveLine.y;
             this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y;
             BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 10;
             BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width;
