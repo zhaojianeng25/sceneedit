@@ -61,7 +61,7 @@
 
         private _bottomRender: UIRenderComponent
         public constructor() {
-            super(LabelTxtVo, new Rectangle(0, 0, 70, 20), 50);
+            super(LabelTxtVo, new Rectangle(0, 0, 70, 22), 50);
 
             this._bottomRender = new UIRenderComponent();
             this._bottomRender.uiAtlas = new UIAtlas();
@@ -74,18 +74,20 @@
         
             this.winBg = this.addChild(<UICompenent>this._bottomRender.getComponent("b_tittle_bg"));
 
+    
             this.uiLoadComplete = true
 
             this.resize()
 
         }
+  
         public resize(): void {
             super.resize()
             if (this.uiLoadComplete) {
                 this.winBg.x = 0
                 this.winBg.y = 0;
                 this.winBg.width = Scene_data.stageWidth
-                this.winBg.height = 20
+                this.winBg.height = 25
             }
         }
         private menuXmlItem: Array<MenuListData>
@@ -152,8 +154,9 @@
             Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem,20,0);
         }
-        private onStageMouseUp(evt: InteractiveEvent): void {
-            //this.clearAll();
+        private onStageMouseUp($evt: InteractiveEvent): void {
+        
+            this.removeOtherSonMenu(0);
         }
         public showTempMenu($data: MenuListData, i: number, tx: number, ty: number): LabelTxtVo {
 

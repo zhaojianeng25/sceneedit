@@ -362,7 +362,7 @@
             this._baseRender.mask = this._uiMask
             this.fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
             this.readMapFile()
@@ -444,14 +444,7 @@
             })
             return dis
         }
-        private clearItemForChidren(item: Array<FolderMeshVo>): void {
-            while (item && item.length) {
-                var vo: FolderMeshVo = item.pop();
-                this.clearItemForChidren(vo.childItem);
-                this.clearTemp(vo)
-            }
-
-        }
+ 
         public inputPrefabToScene(temp: any): void {
 
 

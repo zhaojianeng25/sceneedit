@@ -60,7 +60,7 @@ var topMenu;
     var EditTopMenuPanel = /** @class */ (function (_super) {
         __extends(EditTopMenuPanel, _super);
         function EditTopMenuPanel() {
-            var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 70, 20), 50) || this;
+            var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 70, 22), 50) || this;
             _this._bottomRender = new UIRenderComponent();
             _this._bottomRender.uiAtlas = new UIAtlas();
             _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
@@ -78,7 +78,7 @@ var topMenu;
                 this.winBg.x = 0;
                 this.winBg.y = 0;
                 this.winBg.width = Scene_data.stageWidth;
-                this.winBg.height = 20;
+                this.winBg.height = 25;
             }
         };
         EditTopMenuPanel.prototype.initMenuData = function (value) {
@@ -137,8 +137,8 @@ var topMenu;
             Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem, 20, 0);
         };
-        EditTopMenuPanel.prototype.onStageMouseUp = function (evt) {
-            //this.clearAll();
+        EditTopMenuPanel.prototype.onStageMouseUp = function ($evt) {
+            this.removeOtherSonMenu(0);
         };
         EditTopMenuPanel.prototype.showTempMenu = function ($data, i, tx, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);

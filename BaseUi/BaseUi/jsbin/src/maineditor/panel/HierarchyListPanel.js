@@ -305,7 +305,7 @@ var maineditor;
             this._baseRender.mask = this._uiMask;
             this.fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
             this.readMapFile();
@@ -368,13 +368,6 @@ var maineditor;
                 });
             });
             return dis;
-        };
-        HierarchyListPanel.prototype.clearItemForChidren = function (item) {
-            while (item && item.length) {
-                var vo = item.pop();
-                this.clearItemForChidren(vo.childItem);
-                this.clearTemp(vo);
-            }
         };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var _this = this;
