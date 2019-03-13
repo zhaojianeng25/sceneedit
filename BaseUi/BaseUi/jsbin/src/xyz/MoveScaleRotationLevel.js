@@ -61,7 +61,11 @@ var xyz;
             set: function (value) {
                 this._xyzMoveData = value;
                 if (this._xyzMoveData == null) {
+                    this._statceType = xyz.TooMathMoveUint.MOVE_NULL;
                     return;
+                }
+                else {
+                    this._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
                 }
                 this._xyzMoveData.modeMatrx3D = new Matrix3D;
                 this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);

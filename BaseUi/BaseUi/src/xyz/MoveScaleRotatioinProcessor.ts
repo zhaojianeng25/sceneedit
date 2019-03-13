@@ -295,6 +295,9 @@
                 case KeyboardType.E:
                     this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_ROUTATION
                     break;
+                case KeyboardType.Q:
+                    this.moveScaleRotationLevel.xyzMoveData = null
+                    break;
              
                 default:
                     break

@@ -33,10 +33,7 @@
                 this.lookLenToFocu = Vector3D.distance(this._scene.cam3D, this._xyzMoveData);
              
             }
- 
-
-           
-
+  
             switch (this._statceType) {
                 case TooMathMoveUint.MOVE_XYZ:
                     this._tooMoveLevel.update()
@@ -64,7 +61,10 @@
         public set xyzMoveData(value: TooXyzPosData) {
             this._xyzMoveData = value;
             if (this._xyzMoveData == null) {
+                this._statceType = TooMathMoveUint.MOVE_NULL
                 return
+            } else {
+                this._statceType = TooMathMoveUint.MOVE_XYZ
             }
             this._xyzMoveData.modeMatrx3D = new Matrix3D;
             this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);
