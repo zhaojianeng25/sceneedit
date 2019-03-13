@@ -67,6 +67,10 @@ module Pan3d {
                 point.x = $e.pageX;
                 point.y = $e.pageY;
             }
+            if (evt) {
+                evt.mouseEvent = $e;
+            }
+ 
             this.makeMouseEvent(evt, point);
         }
         private canTestClikGroundMove: InteractiveEvent //假如是点地面空白非UI区域才会有数据

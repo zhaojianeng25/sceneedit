@@ -17,6 +17,7 @@ var maineditor;
     var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ProgrmaManager = Pan3d.ProgrmaManager;
@@ -160,7 +161,19 @@ var maineditor;
             });
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
+            this.a_scene_view.addEventListener(InteractiveEvent.Down, this.butClik, this);
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
+        };
+        MainEditorPanel.prototype.butClik = function (evt) {
+            switch (evt.target) {
+                case this.a_scene_view:
+                    if (evt.mouseEvent.ctrlKey || evt.mouseEvent.shiftKey) {
+                        ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SCENE_SELECT_SPRITE_DOWN), evt);
+                    }
+                    break;
+                default:
+                    break;
+            }
         };
         MainEditorPanel.prototype.onPanellMouseWheel = function ($evt) {
             var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
@@ -212,8 +225,6 @@ var maineditor;
             cam3D.cavanRect.width = this.a_scene_view.width;
             cam3D.cavanRect.height = this.a_scene_view.height;
             maineditor.MainEditorProcessor.edItorSceneManager.renderToTexture();
-        };
-        MainEditorPanel.prototype.butClik = function (evt) {
         };
         MainEditorPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);

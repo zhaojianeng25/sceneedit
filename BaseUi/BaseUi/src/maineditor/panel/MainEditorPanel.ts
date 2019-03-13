@@ -219,7 +219,22 @@
 
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
+            this.a_scene_view.addEventListener(InteractiveEvent.Down, this.butClik, this);
+ 
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
+        }
+        protected butClik(evt: InteractiveEvent): void {
+            switch (evt.target) {
+                case this.a_scene_view:
+                    if (evt.mouseEvent.ctrlKey || evt.mouseEvent.shiftKey) {
+
+                        ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN), evt)
+                    }
+                    break
+                default:
+                    break
+            }
+
         }
         public onPanellMouseWheel($evt: MouseWheelEvent): void {
             var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
@@ -281,9 +296,7 @@
            
         }
        
-        protected butClik(evt: InteractiveEvent): void {
-          
-        }
+     
         public resize(): void {
             super.resize();
         }

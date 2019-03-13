@@ -59,9 +59,7 @@
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             super.setMaterialVc($material, $mp)
-            //  Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
-
-
+ 
         }
 
 
@@ -271,7 +269,7 @@
                 case "1":
 
                     if (this.selectFolderMeshVo) {
-                        this.deleFile(this.fileItem, this.selectFolderMeshVo)
+                        this.deleFile(EditorModel.getInstance().fileItem, this.selectFolderMeshVo)
                         this.refrishFolder();
                         this.resize()
                     }
@@ -311,26 +309,24 @@
                 }
             }
             if ($clikVo) {
-                this.hidefileItemBg(this.fileItem);
+                this.hidefileItemBg(EditorModel.getInstance().fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true
- 
-                this.showEditorPanel($clikVo);
+                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+
+                EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
+                this.showXyzMove( );
             }
             this.refrishFolder();
             this.resize()
 
         }
-        private showEditorPanel(folderName: FolderName): void {
-            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
-
+        private showXyzMove( ): void {
             var disItem: Array<Display3D>=[]
-            for (var i: number = 0; i < this._uiItem.length; i++) {
-                var $vo: FolderName = <FolderName>this._uiItem[i];
-                if ($vo.data) {
-                    disItem.push($vo.folderMeshVo.dis)
-                }
+            for (var i: number = 0; i < EditorModel.getInstance().selectItem.length; i++) {
+                var vo: FolderMeshVo = EditorModel.getInstance().selectItem[i]
+                vo.ossListFile.treeSelect = true
+                disItem.push(vo.dis)
             }
-            disItem = [folderName.folderMeshVo.dis]
             var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }
@@ -360,7 +356,7 @@
         protected makeItemUiList(): void {
 
             this._baseRender.mask = this._uiMask
-            this.fileItem = [];
+            EditorModel.getInstance().fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
@@ -470,7 +466,7 @@
 
                 this.showTemp($vo);
 
-                this.fileItem.push($vo);
+                EditorModel.getInstance().fileItem.push($vo);
                 this.isCompelet = true;
                 this.refrishFolder();
                 this.resize()
@@ -499,31 +495,40 @@
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
 
         }
-
-
-
-
-
+ 
         private readMapFile(): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
-
                     var $fileObj: any = JSON.parse($byte.readUTF())
 
                     var $item: Array<FolderMeshVo> = this.wirteItem($fileObj.list)
                     for (var i: number = 0; i < $item.length; i++) {
-                        this.fileItem.push($item[i]);
+                        EditorModel.getInstance().fileItem.push($item[i]);
                     }
                     this.isCompelet = true;
                     this.refrishFolder();
                     this.resize()
 
                 });
+
+            
+        }
+        public selectModelEvet(tempItem: Array<FolderMeshVo>, isshift: boolean = false): void {
+ 
+            if (tempItem.length) {
+                this.hidefileItemBg(EditorModel.getInstance().fileItem);
+                EditorModel.getInstance().addSelctItem(tempItem, isshift);
+
+                this.showXyzMove()
+                this.refrishFolder();
+                this.resize()
+            }
         }
         public saveMap(): void {
 
-            var tempObj: any = { list: this.getWillSaveItem(this.fileItem) };
+ 
+            var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var $fileUrl: string = Pan3d.Scene_data.fileRoot + "scene.map";
             $byte.writeUTF(JSON.stringify(tempObj))
@@ -570,26 +575,26 @@
         }
         public resize(): void {
             if (this.isCompelet) {
-                this.contentHeight = this.getItemDisNum(this.fileItem) * 20;
+                this.contentHeight = this.getItemDisNum(EditorModel.getInstance().fileItem) * 20;
             }
             super.resize()
 
         }
 
-        private fileItem: Array<FolderMeshVo>;
+       // private fileItem: Array<FolderMeshVo>;
 
         private moveListTy: number = 0;
         private refrishFolder(): void {
             if (this.isCompelet) {
                 HierarchyListPanel.listTy = this.moveListTy + this._uiMask.y;
-                this.disChiendren(this.fileItem, 10);
+                this.disChiendren(EditorModel.getInstance().fileItem, 10);
                 var moveTy: number = 0
-                this.moveAllTy(this.fileItem, moveTy)
+                this.moveAllTy(EditorModel.getInstance().fileItem, moveTy)
 
                 while (this.cellBgItem.length) {
                     this.removeChild(this.cellBgItem.pop());
                 }
-                this.showSelectBg(this.fileItem)
+                this.showSelectBg(EditorModel.getInstance().fileItem)
             }
 
 

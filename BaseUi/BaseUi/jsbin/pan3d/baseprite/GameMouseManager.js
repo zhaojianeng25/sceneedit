@@ -68,6 +68,9 @@ var Pan3d;
                 point.x = $e.pageX;
                 point.y = $e.pageY;
             }
+            if (evt) {
+                evt.mouseEvent = $e;
+            }
             this.makeMouseEvent(evt, point);
         };
         GameMouseManager.prototype.makeMouseEvent = function (evt, point) {

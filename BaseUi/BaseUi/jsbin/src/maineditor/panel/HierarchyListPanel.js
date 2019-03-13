@@ -36,7 +36,6 @@ var maineditor;
         ModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             _super.prototype.setMaterialVc.call(this, $material, $mp);
-            //  Scene_data.context3D.setVc4fv($material.shader, "fc", new Float32Array([1, 0, 1, 1]));
         };
         return ModelSprite;
     }(left.MaterialModelSprite));
@@ -138,6 +137,7 @@ var maineditor;
         __extends(HierarchyListPanel, _super);
         function HierarchyListPanel() {
             var _this = _super.call(this, FolderName, new Rectangle(0, 0, 128, 20), 50) || this;
+            // private fileItem: Array<FolderMeshVo>;
             _this.moveListTy = 0;
             _this.cellBgItem = [];
             _this.left = 0;
@@ -222,7 +222,7 @@ var maineditor;
             switch (value.key) {
                 case "1":
                     if (this.selectFolderMeshVo) {
-                        this.deleFile(this.fileItem, this.selectFolderMeshVo);
+                        this.deleFile(maineditor.EditorModel.getInstance().fileItem, this.selectFolderMeshVo);
                         this.refrishFolder();
                         this.resize();
                     }
@@ -260,23 +260,22 @@ var maineditor;
                 }
             }
             if ($clikVo) {
-                this.hidefileItemBg(this.fileItem);
+                this.hidefileItemBg(maineditor.EditorModel.getInstance().fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true;
-                this.showEditorPanel($clikVo);
+                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                maineditor.EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
+                this.showXyzMove();
             }
             this.refrishFolder();
             this.resize();
         };
-        HierarchyListPanel.prototype.showEditorPanel = function (folderName) {
-            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+        HierarchyListPanel.prototype.showXyzMove = function () {
             var disItem = [];
-            for (var i = 0; i < this._uiItem.length; i++) {
-                var $vo = this._uiItem[i];
-                if ($vo.data) {
-                    disItem.push($vo.folderMeshVo.dis);
-                }
+            for (var i = 0; i < maineditor.EditorModel.getInstance().selectItem.length; i++) {
+                var vo = maineditor.EditorModel.getInstance().selectItem[i];
+                vo.ossListFile.treeSelect = true;
+                disItem.push(vo.dis);
             }
-            disItem = [folderName.folderMeshVo.dis];
             var data = TooXyzPosData.getBase(disItem);
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data);
         };
@@ -303,7 +302,7 @@ var maineditor;
         HierarchyListPanel.prototype.makeItemUiList = function () {
             var _this = this;
             this._baseRender.mask = this._uiMask;
-            this.fileItem = [];
+            maineditor.EditorModel.getInstance().fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
@@ -387,7 +386,7 @@ var maineditor;
                 $vo.ossListFile.treeSelect = false;
                 $vo.cellPos = new Vector2D();
                 _this.showTemp($vo);
-                _this.fileItem.push($vo);
+                maineditor.EditorModel.getInstance().fileItem.push($vo);
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
@@ -417,15 +416,25 @@ var maineditor;
                 var $fileObj = JSON.parse($byte.readUTF());
                 var $item = _this.wirteItem($fileObj.list);
                 for (var i = 0; i < $item.length; i++) {
-                    _this.fileItem.push($item[i]);
+                    maineditor.EditorModel.getInstance().fileItem.push($item[i]);
                 }
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
             });
         };
+        HierarchyListPanel.prototype.selectModelEvet = function (tempItem, isshift) {
+            if (isshift === void 0) { isshift = false; }
+            if (tempItem.length) {
+                this.hidefileItemBg(maineditor.EditorModel.getInstance().fileItem);
+                maineditor.EditorModel.getInstance().addSelctItem(tempItem, isshift);
+                this.showXyzMove();
+                this.refrishFolder();
+                this.resize();
+            }
+        };
         HierarchyListPanel.prototype.saveMap = function () {
-            var tempObj = { list: this.getWillSaveItem(this.fileItem) };
+            var tempObj = { list: this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem) };
             var $byte = new Pan3d.Pan3dByteArray();
             var $fileUrl = Pan3d.Scene_data.fileRoot + "scene.map";
             $byte.writeUTF(JSON.stringify(tempObj));
@@ -465,20 +474,20 @@ var maineditor;
         };
         HierarchyListPanel.prototype.resize = function () {
             if (this.isCompelet) {
-                this.contentHeight = this.getItemDisNum(this.fileItem) * 20;
+                this.contentHeight = this.getItemDisNum(maineditor.EditorModel.getInstance().fileItem) * 20;
             }
             _super.prototype.resize.call(this);
         };
         HierarchyListPanel.prototype.refrishFolder = function () {
             if (this.isCompelet) {
                 HierarchyListPanel.listTy = this.moveListTy + this._uiMask.y;
-                this.disChiendren(this.fileItem, 10);
+                this.disChiendren(maineditor.EditorModel.getInstance().fileItem, 10);
                 var moveTy = 0;
-                this.moveAllTy(this.fileItem, moveTy);
+                this.moveAllTy(maineditor.EditorModel.getInstance().fileItem, moveTy);
                 while (this.cellBgItem.length) {
                     this.removeChild(this.cellBgItem.pop());
                 }
-                this.showSelectBg(this.fileItem);
+                this.showSelectBg(maineditor.EditorModel.getInstance().fileItem);
             }
         };
         HierarchyListPanel.prototype.showSelectBg = function (arr) {

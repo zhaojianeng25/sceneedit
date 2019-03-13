@@ -21,6 +21,7 @@
         public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL";  
         public static INPUT_PREFAB_TO_SCENE: string = "INPUT_PREFAB_TO_SCENE";  
         public static SAVE_SCENE_MAP_TO_SEVER: string = "SAVE_SCENE_MAP_TO_SEVER";  
+        public static SCENE_SELECT_SPRITE_DOWN: string = "SCENE_SELECT_SPRITE_DOWN";   //选取舞台物件
   
  
     }
@@ -68,7 +69,13 @@
 
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
 
-                    this._hierarchyListPanel.saveMap( )
+                    this._hierarchyListPanel.saveMap()
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.SCENE_SELECT_SPRITE_DOWN) {
+
+           
+                    var tempItem: Array<FolderMeshVo> = EditorModel.getInstance().selectModel(new Vector2D($event.data.x - MainEditorProcessor.edItorSceneManager.cam3D.cavanRect.x, $event.data.y - MainEditorProcessor.edItorSceneManager.cam3D.cavanRect.y))
+                    this._hierarchyListPanel.selectModelEvet(tempItem, $event.data.mouseEvent.shiftKey)
                 }
 
 
@@ -129,6 +136,10 @@
        
         }
         private onMouseDown($e: MouseEvent): void {
+            if (this.isCanToDo) {
+
+            
+            }
    
          
         }
@@ -221,6 +232,7 @@
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
+                new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
                 
             ];

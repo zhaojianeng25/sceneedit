@@ -11,5 +11,6 @@
         public data: number;
         public roation: number;
         public target: any;
+        public mouseEvent: MouseEvent
     }
 }

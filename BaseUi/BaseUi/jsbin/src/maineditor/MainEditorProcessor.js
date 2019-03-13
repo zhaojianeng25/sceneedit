@@ -31,6 +31,7 @@ var maineditor;
         MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL";
         MainEditorEvent.INPUT_PREFAB_TO_SCENE = "INPUT_PREFAB_TO_SCENE";
         MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER = "SAVE_SCENE_MAP_TO_SEVER";
+        MainEditorEvent.SCENE_SELECT_SPRITE_DOWN = "SCENE_SELECT_SPRITE_DOWN"; //选取舞台物件
         return MainEditorEvent;
     }(BaseEvent));
     maineditor.MainEditorEvent = MainEditorEvent;
@@ -81,6 +82,10 @@ var maineditor;
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
                     this._hierarchyListPanel.saveMap();
                 }
+                if ($mainEditorEvent.type == MainEditorEvent.SCENE_SELECT_SPRITE_DOWN) {
+                    var tempItem = maineditor.EditorModel.getInstance().selectModel(new Vector2D($event.data.x - MainEditorProcessor.edItorSceneManager.cam3D.cavanRect.x, $event.data.y - MainEditorProcessor.edItorSceneManager.cam3D.cavanRect.y));
+                    this._hierarchyListPanel.selectModelEvet(tempItem, $event.data.mouseEvent.shiftKey);
+                }
                 this.changePageRect();
             }
             if ($event instanceof EditSceneEvent) {
@@ -126,6 +131,8 @@ var maineditor;
         MainEditorProcessor.prototype.onMouseMove = function ($e) {
         };
         MainEditorProcessor.prototype.onMouseDown = function ($e) {
+            if (this.isCanToDo) {
+            }
         };
         MainEditorProcessor.prototype.onMouseUp = function ($e) {
         };
@@ -201,6 +208,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
+                new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };
