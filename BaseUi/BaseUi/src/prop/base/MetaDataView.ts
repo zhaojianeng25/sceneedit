@@ -33,7 +33,7 @@
             return this._data
         }
 
-        private ui: Array<BaseReflComponent>
+        public ui: Array<BaseReflComponent>
         public creat(data: Array<any>): void {
             this.ui = new Array;
             for (var i: number = 0; i < data.length; i++) {

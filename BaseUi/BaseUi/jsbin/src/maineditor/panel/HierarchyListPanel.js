@@ -30,6 +30,7 @@ var maineditor;
     var DynamicBaseTexItem = Pan3d.DynamicBaseTexItem;
     var DynamicBaseConstItem = Pan3d.DynamicBaseConstItem;
     var BaseEvent = Pan3d.BaseEvent;
+    var CombineReflectionView = prop.CombineReflectionView;
     var TooXyzPosData = xyz.TooXyzPosData;
     var MenuListData = menutwo.MenuListData;
     var ModelSprite = /** @class */ (function (_super) {
@@ -42,6 +43,9 @@ var maineditor;
             _super.prototype.setMaterialVc.call(this, $material, $mp);
         };
         Object.defineProperty(ModelSprite.prototype, "prefab", {
+            get: function () {
+                return this._prefab;
+            },
             set: function (value) {
                 var _this = this;
                 this._prefab = value;
@@ -355,20 +359,29 @@ var maineditor;
             this.refrishFolder();
             this.resize();
         };
-        HierarchyListPanel.prototype.showMeshView = function (value) {
-            var tempview = new maineditor.PropertyMeshView;
-            tempview.data = value;
-            prop.PropModel.getInstance().showPefabMesh(tempview);
+        HierarchyListPanel.prototype.showMeshView = function (value, selctprefab) {
+            var _combineReflectionView = new CombineReflectionView();
+            var A = new maineditor.PropertyMeshView;
+            A.data = value;
+            _combineReflectionView.addView(A);
+            if (selctprefab) {
+                var B = new filelist.PrefabMeshView;
+                B.data = selctprefab;
+                _combineReflectionView.addView(B);
+            }
+            prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
         };
         HierarchyListPanel.prototype.showXyzMove = function () {
             var disItem = [];
+            var selctprefab;
             for (var i = 0; i < maineditor.EditorModel.getInstance().selectItem.length; i++) {
                 var vo = maineditor.EditorModel.getInstance().selectItem[i];
                 vo.ossListFile.treeSelect = true;
                 disItem.push(vo.dis);
+                selctprefab = vo.dis.prefab;
             }
             var data = TooXyzPosData.getBase(disItem);
-            this.showMeshView(data);
+            this.showMeshView(data, selctprefab);
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data);
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {

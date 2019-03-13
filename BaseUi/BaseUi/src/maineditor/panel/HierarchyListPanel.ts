@@ -46,7 +46,8 @@
     import DynamicBaseConstItem = Pan3d.DynamicBaseConstItem
     import BaseEvent = Pan3d.BaseEvent
 
-    import PrefabStaticMesh=        pack.PrefabStaticMesh
+    import PrefabStaticMesh = pack.PrefabStaticMesh
+    import CombineReflectionView = prop.CombineReflectionView
 
     import TooXyzPosData = xyz.TooXyzPosData
 
@@ -68,6 +69,9 @@
             super.setMaterialVc($material, $mp)
         }
         private _prefab: PrefabStaticMesh;
+        public get prefab(): PrefabStaticMesh {
+            return this._prefab
+        }
         public set prefab(value: PrefabStaticMesh) {
             this._prefab = value
             LoadManager.getInstance().load(Scene_data.fileRoot + this._prefab.objsurl, LoadManager.XML_TYPE,
@@ -409,20 +413,41 @@
             this.resize()
 
         }
-        private showMeshView(value: TooXyzPosData): void {
-            var tempview: PropertyMeshView = new PropertyMeshView
-            tempview.data = value;
-            prop.PropModel.getInstance().showPefabMesh(tempview);
+        private showMeshView(value: TooXyzPosData, selctprefab: PrefabStaticMesh): void {
+            var _combineReflectionView = new CombineReflectionView();
+            var A: PropertyMeshView = new PropertyMeshView
+            A.data = value;
+            _combineReflectionView.addView(A)
+
+            if (selctprefab) {
+                var B: filelist.PrefabMeshView = new filelist.PrefabMeshView
+                B.data = selctprefab;
+                _combineReflectionView.addView(B)
+            }
+    
+   
+
+
+ 
+  
+      
+
+
+             prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
+          
         }
         private showXyzMove( ): void {
-            var disItem: Array<Display3D>=[]
+            var disItem: Array<Display3D> = []
+            var selctprefab: PrefabStaticMesh
             for (var i: number = 0; i < EditorModel.getInstance().selectItem.length; i++) {
                 var vo: FolderMeshVo = EditorModel.getInstance().selectItem[i]
                 vo.ossListFile.treeSelect = true
                 disItem.push(vo.dis)
+
+                selctprefab=  vo.dis.prefab
             }
             var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
-            this.showMeshView(data)
+            this.showMeshView(data, selctprefab)
 
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }
