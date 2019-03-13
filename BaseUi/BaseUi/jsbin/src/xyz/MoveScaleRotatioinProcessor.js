@@ -74,7 +74,6 @@ var xyz;
                         this.addEvents();
                         break;
                     case MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ:
-                        console.log($event.data);
                         this.uiContainer = $event.data;
                         break;
                     case MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE:
