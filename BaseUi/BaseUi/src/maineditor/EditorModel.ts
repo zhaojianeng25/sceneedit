@@ -11,10 +11,10 @@
             this.selectItem=[]
             this.fileItem=[]
         }
+        public hierarchyListPanel: HierarchyListPanel
         public selectItem: Array<FolderMeshVo>
 
         public addSelctItem(value: Array<FolderMeshVo>, isShift: boolean): void {
-            console.log("isShift", isShift)
             if (isShift) {
                 for (var i: number = 0; i < value.length; i++) {
                     if (this.selectItem.indexOf(value[i]) == -1) {
@@ -24,7 +24,23 @@
             } else {
                 this.selectItem = value
             }
+  
+        }
+        public keyDeleSelectItem(): void {
+            if (this.selectItem.length) {
+                var truthBeTold = window.confirm("单击“确定”继续。单击“取消”停止。");
+                if (truthBeTold) {
+                    this.deleSelectItem()
+                } else {
 
+                }
+            }
+        }
+        public deleSelectItem(): void {
+            while (this.selectItem.length) {
+                var vo: FolderMeshVo = this.selectItem.pop();
+                this.hierarchyListPanel.deleFile(this.fileItem, vo);
+            }
         }
         public fileItem: Array<FolderMeshVo>;
 

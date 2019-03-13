@@ -155,20 +155,18 @@
 
         }
         private onKeyDown($evt: KeyboardEvent): void {
-
             if (!this.hasStage) {
                 return
             } else {
                 switch ($evt.keyCode) {
 
                     case KeyboardType.Delete:
+                        console.log("删除选取")
+
+                        maineditor.EditorModel.getInstance().keyDeleSelectItem()
                   
                         break
                     case KeyboardType.S:
-  
-                           
-                      
-                   
                         break
                 }
             }

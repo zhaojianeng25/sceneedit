@@ -12,7 +12,6 @@ var maineditor;
             return this._instance;
         };
         EditorModel.prototype.addSelctItem = function (value, isShift) {
-            console.log("isShift", isShift);
             if (isShift) {
                 for (var i = 0; i < value.length; i++) {
                     if (this.selectItem.indexOf(value[i]) == -1) {
@@ -23,6 +22,21 @@ var maineditor;
             else {
                 this.selectItem = value;
             }
+        };
+        EditorModel.prototype.keyDeleSelectItem = function () {
+            if (this.selectItem.length) {
+                var truthBeTold = window.confirm("单击“确定”继续。单击“取消”停止。");
+                if (truthBeTold) {
+                    while (this.selectItem.length) {
+                        var vo = this.selectItem.pop();
+                        this.hierarchyListPanel.deleFile(this.fileItem, vo);
+                    }
+                }
+                else {
+                }
+            }
+        };
+        EditorModel.prototype.deleSelectItem = function () {
         };
         EditorModel.prototype.mouseHitSprite = function (item, mouseVect2d, selectArr) {
             for (var i = 0; i < item.length; i++) {

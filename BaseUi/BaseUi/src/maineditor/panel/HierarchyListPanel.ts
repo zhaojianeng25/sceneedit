@@ -172,6 +172,7 @@
             super(FolderName, new Rectangle(0, 0, 128, 20), 50);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
+            EditorModel.getInstance().hierarchyListPanel=this
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();
@@ -267,9 +268,8 @@
         private menuBfun(value: any, evt: InteractiveEvent): void {
             switch (value.key) {
                 case "1":
-
                     if (this.selectFolderMeshVo) {
-                        this.deleFile(EditorModel.getInstance().fileItem, this.selectFolderMeshVo)
+                        this.deleFile(EditorModel.getInstance().fileItem, this.selectFolderMeshVo.folderMeshVo)
                         this.refrishFolder();
                         this.resize()
                     }
@@ -279,14 +279,14 @@
                     break
             }
         }
-        private deleFile(item: Array<FolderMeshVo>, vo: FolderName): void {
-            var idx: number = item.indexOf(vo.folderMeshVo)
+        public deleFile(item: Array<FolderMeshVo>, vo: FolderMeshVo): void {
+            var idx: number = item.indexOf(vo)
             if (idx == -1) {
                 console.log("没找到需要到子目录找")
             } else {
                 item.splice(idx,1)
-                MainEditorProcessor.edItorSceneManager.removeDisplay(vo.folderMeshVo.dis);
-                this.clearTemp(vo.folderMeshVo)
+                MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                this.clearTemp(vo)
             }
         }
 

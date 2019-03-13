@@ -142,6 +142,7 @@ var maineditor;
             _this.cellBgItem = [];
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
+            maineditor.EditorModel.getInstance().hierarchyListPanel = _this;
             return _this;
         }
         HierarchyListPanel.prototype.loadConfigCom = function () {
@@ -222,7 +223,7 @@ var maineditor;
             switch (value.key) {
                 case "1":
                     if (this.selectFolderMeshVo) {
-                        this.deleFile(maineditor.EditorModel.getInstance().fileItem, this.selectFolderMeshVo);
+                        this.deleFile(maineditor.EditorModel.getInstance().fileItem, this.selectFolderMeshVo.folderMeshVo);
                         this.refrishFolder();
                         this.resize();
                     }
@@ -232,14 +233,14 @@ var maineditor;
             }
         };
         HierarchyListPanel.prototype.deleFile = function (item, vo) {
-            var idx = item.indexOf(vo.folderMeshVo);
+            var idx = item.indexOf(vo);
             if (idx == -1) {
                 console.log("没找到需要到子目录找");
             }
             else {
                 item.splice(idx, 1);
-                maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.folderMeshVo.dis);
-                this.clearTemp(vo.folderMeshVo);
+                maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                this.clearTemp(vo);
             }
         };
         HierarchyListPanel.prototype.itemMouseUp = function (evt) {
