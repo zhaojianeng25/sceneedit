@@ -289,16 +289,7 @@
         }
      
         public panelEventChanger(value: Rectangle): void {
-            //console.log(value)
-            //if (this.pageRect) {
-            //    this.pageRect.height = value.height;
-            //    this.pageRect.width = value.width;
-            //    this.pageRect.x = value.x
-            //    this.pageRect.y = value.y
-            //    this.left = value.x;
-            //    this.top = value.y;
-            //    this.refrishSize();
-            //}
+          
 
             this.setRect(value)
             this.refrishSize()
