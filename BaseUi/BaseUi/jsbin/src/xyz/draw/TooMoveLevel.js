@@ -86,22 +86,26 @@ var xyz;
             return pos;
         };
         TooMoveLevel.prototype.onMouseMove = function (mouseVect2d) {
+            var isTrue; //是否有执行
             if (this.selectId > 0) {
                 if (this.lastMousePosV3d) {
-                    var clik3dVect = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
                     var pos = this.getMouseHitPanelPos(mouseVect2d);
                     var addPos = new Vector3D();
                     switch (this.selectId) {
                         case 1:
                             addPos.x = pos.x - this.lastMousePosV3d.x;
+                            isTrue = true;
                             break;
                         case 2:
                             addPos.y = pos.y - this.lastMousePosV3d.y;
+                            isTrue = true;
                             break;
                         case 3:
                             addPos.z = pos.z - this.lastMousePosV3d.z;
+                            isTrue = true;
                             break;
                         default:
+                            isTrue = false;
                             break;
                     }
                     var $m = this.lastMatrix3d.clone();
@@ -112,6 +116,7 @@ var xyz;
                     this.parent.xyzMoveData.z = pos.z;
                 }
             }
+            return isTrue;
         };
         TooMoveLevel.prototype.getMouseHitPos = function (mouseVect2d) {
             var pos = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);

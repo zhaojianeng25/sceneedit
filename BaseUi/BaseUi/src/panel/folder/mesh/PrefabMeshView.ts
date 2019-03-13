@@ -23,6 +23,8 @@
             this.prefabStaticMesh.paramInfo = value;
             this.saveToSever()
 
+            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+
         }
 
         public getParamItem(value: string): any {
@@ -72,7 +74,7 @@
             this.prefabStaticMesh.sunColor = value
 
             console.log("颜色变化")
-
+     
         }
 
         private isSaveNow: boolean;
@@ -80,18 +82,20 @@
         private saveTm: number
         public saveToSever(): void {
             this.lastTm = Pan3d.TimeUtil.getTimer()
+           // this.isSaveNow = true
+         
             if (!this.isSaveNow) {
                 this.isSaveNow = true
                 this.saveTm = this.lastTm;
 
                 var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
                 var $fileUrl: string = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url
-
-
+                console.log(this.prefabStaticMesh.material)
+ 
 
                 this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
-                var $obj: any = JSON.stringify(this.prefabStaticMesh);
-                $byte.writeUTF($obj)
+         
+                $byte.writeUTF(JSON.stringify(this.prefabStaticMesh.getObject()))
 
 
                 console.log($fileUrl)

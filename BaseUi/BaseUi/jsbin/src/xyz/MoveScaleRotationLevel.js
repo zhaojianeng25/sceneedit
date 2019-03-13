@@ -93,17 +93,20 @@ var xyz;
             }
             else {
                 if ($e.buttons == 1) {
+                    var needUpData = false;
                     switch (this._statceType) {
                         case xyz.TooMathMoveUint.MOVE_XYZ:
-                            this._tooMoveLevel.onMouseMove(mouseVect2d);
+                            needUpData = this._tooMoveLevel.onMouseMove(mouseVect2d);
                             break;
                         case xyz.TooMathMoveUint.MOVE_ROUTATION:
-                            this._tooRotationLevel.onMouseMove(mouseVect2d);
+                            needUpData = this._tooRotationLevel.onMouseMove(mouseVect2d);
                             break;
                         default:
                             break;
                     }
-                    this.upChange();
+                    if (needUpData) {
+                        this.upChange();
+                    }
                 }
             }
         };
@@ -121,6 +124,7 @@ var xyz;
                     this.xyzMoveData.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
                 }
                 this.xyzMoveData.dataUpDate && this.xyzMoveData.dataUpDate();
+                console.log("修改位置");
             }
         };
         MoveScaleRotationLevel.prototype.onMouseUp = function ($e) {

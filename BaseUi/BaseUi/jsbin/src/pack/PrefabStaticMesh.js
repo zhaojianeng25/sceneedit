@@ -20,6 +20,18 @@ var pack;
             _this.sunColor = new Vector3D(2, 3, 4, 1);
             return _this;
         }
+        PrefabStaticMesh.prototype.getObject = function () {
+            var obj = {};
+            obj.material = this.material;
+            obj.name = this.getName();
+            obj.objsurl = this.objsurl;
+            obj.paramInfo = this.paramInfo;
+            obj.sunColor = this.sunColor;
+            obj.textureurl = this.textureurl;
+            obj.url = this.url;
+            // var bstr: string = JSON.stringify(obj);
+            return obj;
+        };
         return PrefabStaticMesh;
     }(pack.Prefab));
     pack.PrefabStaticMesh = PrefabStaticMesh;

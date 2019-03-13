@@ -26,6 +26,10 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
+    var MaterialBaseParam = Pan3d.MaterialBaseParam;
+    var DynamicBaseTexItem = Pan3d.DynamicBaseTexItem;
+    var DynamicBaseConstItem = Pan3d.DynamicBaseConstItem;
+    var BaseEvent = Pan3d.BaseEvent;
     var TooXyzPosData = xyz.TooXyzPosData;
     var MenuListData = menutwo.MenuListData;
     var ModelSprite = /** @class */ (function (_super) {
@@ -46,11 +50,71 @@ var maineditor;
                 });
                 filemodel.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, function ($materialTree) {
                     _this.material = $materialTree;
+                    _this.meshParamInfo();
                 });
+                this._prefab.addEventListener(BaseEvent.COMPLETE, this.prefabComplete, this);
             },
             enumerable: true,
             configurable: true
         });
+        ModelSprite.prototype.prefabComplete = function () {
+            this.meshParamInfo();
+        };
+        ModelSprite.prototype.meshParamInfo = function () {
+            if (this.material) {
+                if (this._prefab.paramInfo) {
+                    this.materialParam = new MaterialBaseParam;
+                    this.materialParam.material = this.material;
+                    this.materialParam.dynamicTexList = [];
+                    this.materialParam.dynamicConstList = [];
+                    for (var i = 0; i < this._prefab.paramInfo.length; i++) {
+                        var tempInfo = this._prefab.paramInfo[i];
+                        if (tempInfo.type == "tex") {
+                            this.mekeParamTexture(tempInfo);
+                        }
+                        else {
+                            console.log(tempInfo.type);
+                            this.makeParamValue(tempInfo);
+                        }
+                    }
+                }
+            }
+        };
+        ModelSprite.prototype.makeParamValue = function (obj) {
+            var constList = this.material.constList;
+            var targetName = obj.paramName;
+            var target = null;
+            for (var j = 0; j < constList.length; j++) {
+                if (targetName == constList[j].paramName0
+                    || targetName == constList[j].paramName1
+                    || targetName == constList[j].paramName2
+                    || targetName == constList[j].paramName3) {
+                    target = constList[j];
+                    break;
+                }
+            }
+            var constItem = new DynamicBaseConstItem();
+            constItem.setTargetInfo(target, targetName, obj.type);
+            if (obj.type == "vec3") {
+                constItem.setCurrentVal(obj.data.x, obj.data.y, obj.data.z);
+            }
+            this.materialParam.dynamicConstList.push(constItem);
+        };
+        ModelSprite.prototype.mekeParamTexture = function (obj) {
+            var texList = this.material.texList;
+            var texItem = new DynamicBaseTexItem();
+            texItem.paramName = obj.paramName;
+            for (var i = 0; i < texList.length; i++) {
+                if (texItem.paramName == texList[i].paramName) {
+                    texItem.target = texList[i];
+                    break;
+                }
+            }
+            TextureManager.getInstance().getTexture(Scene_data.fileRoot + obj.data, function ($textres) {
+                texItem.textureRes = $textres;
+            });
+            this.materialParam.dynamicTexList.push(texItem);
+        };
         ModelSprite.prototype.setPreFabUrl = function (url) {
             var _this = this;
             filemodel.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
@@ -286,10 +350,16 @@ var maineditor;
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true;
                 Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 maineditor.EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
+                this.showMeshView($clikVo.folderMeshVo.dis);
                 this.showXyzMove();
             }
             this.refrishFolder();
             this.resize();
+        };
+        HierarchyListPanel.prototype.showMeshView = function (value) {
+            var tempview = new maineditor.HieraichyModelMeshView;
+            tempview.data = value;
+            prop.PropModel.getInstance().showPefabMesh(tempview);
         };
         HierarchyListPanel.prototype.showXyzMove = function () {
             var disItem = [];

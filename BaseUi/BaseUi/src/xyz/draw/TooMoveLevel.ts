@@ -106,28 +106,29 @@
             return pos
         }
         private lastMousePosV3d: Vector3D;
-        public onMouseMove(mouseVect2d: Vector2D): void {
+        public onMouseMove(mouseVect2d: Vector2D): boolean {
+            var isTrue: boolean //是否有执行
             if (this.selectId > 0) {
-
- 
                 if (this.lastMousePosV3d) {
-                    var clik3dVect: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
-                    var pos: Vector3D= this.getMouseHitPanelPos(mouseVect2d)
-
-                    var addPos: Vector3D = new Vector3D()
  
-
+                    var pos: Vector3D= this.getMouseHitPanelPos(mouseVect2d)
+                    var addPos: Vector3D = new Vector3D()
+  
                     switch (this.selectId) {
                         case 1:
                             addPos.x = pos.x - this.lastMousePosV3d.x
+                            isTrue = true
                             break
                         case 2:
                             addPos.y = pos.y - this.lastMousePosV3d.y
+                            isTrue = true
                            break
                         case 3:
                             addPos.z = pos.z - this.lastMousePosV3d.z
+                            isTrue = true
                             break
                         default:
+                            isTrue = false
                             break
                     }
                     var $m: Matrix3D = this.lastMatrix3d.clone()
@@ -136,11 +137,11 @@
                     this.parent.xyzMoveData.x = pos.x
                     this.parent.xyzMoveData.y = pos.y
                     this.parent.xyzMoveData.z = pos.z
-  
  
                 }
               
             }
+            return isTrue
         }
         private getMouseHitPos(mouseVect2d: Vector2D): Vector3D {
             var pos: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);

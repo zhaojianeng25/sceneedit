@@ -102,6 +102,7 @@ var xyz;
             return d.x;
         };
         TooRotationLevel.prototype.onMouseMove = function (mouseVect2d) {
+            var isTrue; //是否有执行
             if (this.selectId > 0) {
                 var dis = this.testInfo(this._linePosinA, this._linePosinB, mouseVect2d);
                 if (!isNaN(this.lastDis)) {
@@ -131,12 +132,14 @@ var xyz;
                     _xyzMoveData.rotationX = outVec3d.x;
                     _xyzMoveData.rotationY = outVec3d.y;
                     _xyzMoveData.rotationZ = outVec3d.z;
+                    isTrue = true;
                 }
                 else {
                     console.log("开始");
                 }
                 this.lastDis = dis;
             }
+            return isTrue;
         };
         TooRotationLevel.prototype.update = function () {
             _super.prototype.update.call(this);

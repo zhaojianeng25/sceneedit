@@ -132,8 +132,9 @@
             return d.x
 
         }
-        public onMouseMove(mouseVect2d: Vector2D): void {
-   
+        public onMouseMove(mouseVect2d: Vector2D): boolean {
+
+            var isTrue: boolean //是否有执行
             if (this.selectId > 0) {
        
                 var dis: number =this.testInfo(this._linePosinA, this._linePosinB, mouseVect2d)
@@ -166,13 +167,14 @@
                     _xyzMoveData.rotationX = outVec3d.x
                     _xyzMoveData.rotationY = outVec3d.y
                     _xyzMoveData.rotationZ = outVec3d.z
-
+                    isTrue = true
 
                 } else {
                     console.log("开始")
                 }
                 this.lastDis = dis
             }
+            return isTrue
         }
        
 

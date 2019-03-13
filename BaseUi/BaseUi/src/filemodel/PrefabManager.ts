@@ -87,10 +87,12 @@
             var constList: Array<ConstItem> = []
             for (var i: number = 0; i < item.length; i++) {
                 var temp: ConstItem = new ConstItem()
+
+                for (var key in item[i]) {
+                    temp[key] = item[i][key]
+                }
                 temp.name = "fc" + i;
                 temp.offset = i;
-                temp.value = item[i].value;
-                temp.vecNum = item[i].vecNum;
                 temp.id = i;
                 constList.push(temp)
             }

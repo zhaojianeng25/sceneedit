@@ -51,6 +51,7 @@
         public treeSelect: Boolean
         public lock: Boolean
         public isHide: Boolean
+        public isOpen: boolean;
         public constructor() {
             super()
         }

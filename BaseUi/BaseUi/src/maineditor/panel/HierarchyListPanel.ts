@@ -42,6 +42,9 @@
     import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
     import ConstItem = Pan3d.ConstItem
     import Display3D = Pan3d.Display3D
+    import DynamicBaseTexItem = Pan3d.DynamicBaseTexItem
+    import DynamicBaseConstItem = Pan3d.DynamicBaseConstItem
+    import BaseEvent = Pan3d.BaseEvent
 
     import PrefabStaticMesh=        pack.PrefabStaticMesh
 
@@ -73,7 +76,76 @@
                 });
             filemodel.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                 this.material = $materialTree;
+                this.meshParamInfo();
             })
+
+            this._prefab.addEventListener(BaseEvent.COMPLETE, this.prefabComplete, this);
+        }
+        private prefabComplete(): void {
+            this.meshParamInfo();
+        }
+        private meshParamInfo(): void {
+            if (this.material) {
+                if (this._prefab.paramInfo) {
+                    this.materialParam = new MaterialBaseParam;
+                    this.materialParam.material = this.material
+                    this.materialParam.dynamicTexList = []
+                    this.materialParam.dynamicConstList=[]
+                    for (var i: number = 0; i < this._prefab.paramInfo.length; i++) {
+                        var tempInfo: any = this._prefab.paramInfo[i];
+                        if (tempInfo.type == "tex") {
+                            this.mekeParamTexture(tempInfo)
+                        } else {
+                            console.log(tempInfo.type)
+
+                            this.makeParamValue(tempInfo)
+                        }
+                         
+                    }
+                }
+            }
+
+        }
+        private makeParamValue(obj: any): void {
+            var constList = this.material.constList;
+            var targetName: string = obj.paramName;
+
+            var target: ConstItem = null;
+            for (var j: number = 0; j < constList.length; j++) {
+
+                if (targetName == constList[j].paramName0
+                    || targetName == constList[j].paramName1
+                    || targetName == constList[j].paramName2
+                    || targetName == constList[j].paramName3) {
+                    target = constList[j];
+                    break;
+                }
+
+            }
+            var constItem: DynamicBaseConstItem = new DynamicBaseConstItem();
+            constItem.setTargetInfo(target, targetName, obj.type);
+            if (obj.type == "vec3") {
+                constItem.setCurrentVal(obj.data.x, obj.data.y, obj.data.z);
+            }
+            this.materialParam.dynamicConstList.push(constItem)
+        }
+        private mekeParamTexture(obj: any): void {
+         
+                var texList = this.material.texList;
+                var texItem: DynamicBaseTexItem = new DynamicBaseTexItem();
+                texItem.paramName = obj.paramName;
+                for (var i: number = 0; i < texList.length; i++) {
+                    if (texItem.paramName == texList[i].paramName) {
+                        texItem.target = texList[i];
+                        break;
+                    }
+                }
+                TextureManager.getInstance().getTexture(Scene_data.fileRoot + obj.data, ($textres: TextureRes) => {
+                    texItem.textureRes = $textres;
+                });
+                this.materialParam.dynamicTexList.push(texItem);
+ 
+ 
         }
         public setPreFabUrl(url: string): void {
             filemodel.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
@@ -86,10 +158,8 @@
     }
 
     export class OssListFile extends HierarchyFileNode {
-        public isOpen: boolean;
-
-        // public fileNode: HierarchyFileNode
-
+  
+ 
     }
     export class FolderMeshVo extends Pan3d.baseMeshVo {
         public ossListFile: OssListFile
@@ -332,11 +402,17 @@
                 Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
 
                 EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
+                this.showMeshView($clikVo.folderMeshVo.dis)
                 this.showXyzMove( );
             }
             this.refrishFolder();
             this.resize()
 
+        }
+        private showMeshView(value: ModelSprite): void {
+            var tempview: HieraichyModelMeshView = new HieraichyModelMeshView
+            tempview.data = value;
+            prop.PropModel.getInstance().showPefabMesh(tempview);
         }
         private showXyzMove( ): void {
             var disItem: Array<Display3D>=[]
