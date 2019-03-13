@@ -402,15 +402,15 @@
                 Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
 
                 EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
-                this.showMeshView($clikVo.folderMeshVo.dis)
+      
                 this.showXyzMove( );
             }
             this.refrishFolder();
             this.resize()
 
         }
-        private showMeshView(value: ModelSprite): void {
-            var tempview: HieraichyModelMeshView = new HieraichyModelMeshView
+        private showMeshView(value: TooXyzPosData): void {
+            var tempview: PropertyMeshView = new PropertyMeshView
             tempview.data = value;
             prop.PropModel.getInstance().showPefabMesh(tempview);
         }
@@ -422,6 +422,8 @@
                 disItem.push(vo.dis)
             }
             var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
+            this.showMeshView(data)
+
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }
     

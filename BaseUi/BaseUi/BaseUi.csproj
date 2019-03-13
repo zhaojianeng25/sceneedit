@@ -40,7 +40,7 @@
     <TypeScriptCompile Include="src\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\maineditor\EditorModel.ts" />
     <TypeScriptCompile Include="src\maineditor\EdItorSceneManager.ts" />
-    <TypeScriptCompile Include="src\maineditor\panel\HieraichyModelMeshView.ts" />
+    <TypeScriptCompile Include="src\maineditor\panel\PropertyMeshView.ts" />
     <TypeScriptCompile Include="src\maineditor\panel\MainEditorPanel.ts" />
     <TypeScriptCompile Include="src\maineditor\vo\FileNode.ts" />
     <TypeScriptCompile Include="src\maineditor\vo\HierarchyFileNode.ts" />

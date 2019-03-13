@@ -350,14 +350,13 @@ var maineditor;
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true;
                 Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 maineditor.EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
-                this.showMeshView($clikVo.folderMeshVo.dis);
                 this.showXyzMove();
             }
             this.refrishFolder();
             this.resize();
         };
         HierarchyListPanel.prototype.showMeshView = function (value) {
-            var tempview = new maineditor.HieraichyModelMeshView;
+            var tempview = new maineditor.PropertyMeshView;
             tempview.data = value;
             prop.PropModel.getInstance().showPefabMesh(tempview);
         };
@@ -369,6 +368,7 @@ var maineditor;
                 disItem.push(vo.dis);
             }
             var data = TooXyzPosData.getBase(disItem);
+            this.showMeshView(data);
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data);
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {

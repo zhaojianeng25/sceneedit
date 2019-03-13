@@ -32,6 +32,19 @@ var xyz;
             tempXyz.type = 1;
             return tempXyz;
         };
+        TooXyzPosData.prototype.upChangeToAll = function () {
+            for (var i = 0; i < this.modelItem.length; i++) {
+                var M = this.modeMatrx3D.clone();
+                M.prepend(this.dataItem[i].modeMatrx3D);
+                this.modelItem[i].x = M.position.x;
+                this.modelItem[i].y = M.position.y;
+                this.modelItem[i].z = M.position.z;
+                var ro = M.toEulerAngles();
+                this.modelItem[i].rotationX = ro.x * 180 / Math.PI;
+                this.modelItem[i].rotationY = ro.y * 180 / Math.PI;
+                this.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
+            }
+        };
         TooXyzPosData.getBase = function ($arr, isCenten) {
             if (isCenten === void 0) { isCenten = false; }
             var baseXyz = new TooXyzPosData();

@@ -35,7 +35,21 @@
             tempXyz.type = 1
             return tempXyz;
         }
+        public upChangeToAll(): void {
+            for (var i: number = 0; i < this.modelItem.length; i++) {
+                var M: Matrix3D = this.modeMatrx3D.clone();
+                M.prepend(this.dataItem[i].modeMatrx3D);
+                this.modelItem[i].x = M.position.x;
+                this.modelItem[i].y = M.position.y;
+                this.modelItem[i].z = M.position.z;
 
+                var ro: Vector3D = M.toEulerAngles();
+                this.modelItem[i].rotationX = ro.x * 180 / Math.PI;
+                this.modelItem[i].rotationY = ro.y * 180 / Math.PI;
+                this.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
+            }
+            
+        }
 
 
         public static getBase($arr: Array<Display3D>, isCenten: boolean = false): TooXyzPosData {

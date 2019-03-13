@@ -63,9 +63,10 @@
                 this.fbo = this.getFBO();  
             }
             this.viewMatrx3D.identity();
-            this.viewMatrx3D.perspectiveFieldOfViewLH(Engine.sceneCamScale, 1, 1, 2000);
+
+            this.viewMatrx3D.perspectiveFieldOfViewLH(0.8, 1, 1, 2000);
             this.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
-            var sceneViewHW: number = 1000 / this.cam3D.cavanRect.width;
+            var sceneViewHW: number = 400 / this.cam3D.cavanRect.width;
 
             this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
 

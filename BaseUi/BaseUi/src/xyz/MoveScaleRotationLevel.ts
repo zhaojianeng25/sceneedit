@@ -115,21 +115,9 @@
         }
         private upChange(): void {
             if (this.xyzMoveData) {
-                for (var i: number = 0; i < this.xyzMoveData.modelItem.length; i++) {
-                    var M: Matrix3D = this.xyzMoveData.modeMatrx3D.clone();
-                    M.prepend(this.xyzMoveData.dataItem[i].modeMatrx3D);
-
-                    this.xyzMoveData.modelItem[i].x = M.position.x;
-                    this.xyzMoveData.modelItem[i].y = M.position.y;
-                    this.xyzMoveData.modelItem[i].z = M.position.z;
-
-                    var ro: Vector3D = M.toEulerAngles();
-                    this.xyzMoveData.modelItem[i].rotationX = ro.x * 180 / Math.PI;
-                    this.xyzMoveData.modelItem[i].rotationY = ro.y * 180 / Math.PI;
-                    this.xyzMoveData.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
-                }
+                this.xyzMoveData.upChangeToAll()
                 this.xyzMoveData.dataUpDate && this.xyzMoveData.dataUpDate();
-                console.log("修改位置")
+    
             }
         }
         public onMouseUp($e: MouseEvent): void {
