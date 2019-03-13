@@ -441,6 +441,7 @@ var maineditor;
             }
         };
         HierarchyListPanel.prototype.saveMap = function () {
+            // EditorModel.getInstance().fileItem=[]
             var tempObj = { list: this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem) };
             var $byte = new Pan3d.Pan3dByteArray();
             var $fileUrl = Pan3d.Scene_data.fileRoot + "scene.map";

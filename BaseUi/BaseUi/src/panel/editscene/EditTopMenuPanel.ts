@@ -147,7 +147,8 @@
                 case "11":
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER))
                     break
-                case "4":
+                case "12":
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CLEAR_SCENE_MAP_ALL))
                     break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
@@ -164,7 +165,7 @@
             var $vo: MenuListData = new MenuListData("菜单", "1")
             $vo.subMenu = new Array;
             $vo.subMenu.push(new MenuListData("保存场景", "11"));
-            $vo.subMenu.push(new MenuListData("SUB", "12"));
+            $vo.subMenu.push(new MenuListData("清理场景", "12"));
             return $vo
         }
         private getMenu1(): MenuListData {

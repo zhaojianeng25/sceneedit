@@ -31,6 +31,7 @@ var maineditor;
         MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL";
         MainEditorEvent.INPUT_PREFAB_TO_SCENE = "INPUT_PREFAB_TO_SCENE";
         MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER = "SAVE_SCENE_MAP_TO_SEVER";
+        MainEditorEvent.CLEAR_SCENE_MAP_ALL = "CLEAR_SCENE_MAP_ALL";
         MainEditorEvent.SCENE_SELECT_SPRITE_DOWN = "SCENE_SELECT_SPRITE_DOWN"; //选取舞台物件
         return MainEditorEvent;
     }(BaseEvent));
@@ -81,6 +82,12 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
                     this._hierarchyListPanel.saveMap();
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.CLEAR_SCENE_MAP_ALL) {
+                    while (maineditor.EditorModel.getInstance().fileItem.length) {
+                        maineditor.EditorModel.getInstance().selectItem = [maineditor.EditorModel.getInstance().fileItem[0]];
+                        maineditor.EditorModel.getInstance().deleSelectItem();
+                    }
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SCENE_SELECT_SPRITE_DOWN) {
                     var tempItem = maineditor.EditorModel.getInstance().selectModel(new Vector2D($event.data.x - MainEditorProcessor.edItorSceneManager.cam3D.cavanRect.x, $event.data.y - MainEditorProcessor.edItorSceneManager.cam3D.cavanRect.y));
@@ -211,6 +218,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
+                new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };

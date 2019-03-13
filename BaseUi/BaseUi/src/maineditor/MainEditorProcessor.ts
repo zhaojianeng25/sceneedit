@@ -21,6 +21,7 @@
         public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL";  
         public static INPUT_PREFAB_TO_SCENE: string = "INPUT_PREFAB_TO_SCENE";  
         public static SAVE_SCENE_MAP_TO_SEVER: string = "SAVE_SCENE_MAP_TO_SEVER";  
+        public static CLEAR_SCENE_MAP_ALL: string = "CLEAR_SCENE_MAP_ALL";  
         public static SCENE_SELECT_SPRITE_DOWN: string = "SCENE_SELECT_SPRITE_DOWN";   //选取舞台物件
   
  
@@ -70,6 +71,16 @@
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
 
                     this._hierarchyListPanel.saveMap()
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.CLEAR_SCENE_MAP_ALL) {
+
+            
+
+                    while (maineditor.EditorModel.getInstance().fileItem.length) {
+                        maineditor.EditorModel.getInstance().selectItem =[ maineditor.EditorModel.getInstance().fileItem[0]]
+                        maineditor.EditorModel.getInstance().deleSelectItem()
+                    }
+                
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SCENE_SELECT_SPRITE_DOWN) {
 
@@ -231,6 +242,7 @@
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
+                new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
                 
             ];

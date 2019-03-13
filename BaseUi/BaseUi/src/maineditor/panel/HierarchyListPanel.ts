@@ -530,7 +530,7 @@
             }
         }
         public saveMap(): void {
-
+           // EditorModel.getInstance().fileItem=[]
  
             var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
