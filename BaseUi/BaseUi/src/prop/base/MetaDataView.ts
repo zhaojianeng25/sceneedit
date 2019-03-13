@@ -3,7 +3,7 @@
     export class MetaDataView {
 
         protected _data: any;
-        protected _top: number=100
+        protected _top: number=50
         public set top(value: number) {
             this._top = value;
             this.resize()
@@ -52,6 +52,7 @@
                 this.ui[i].y = ty;
                 this.ui[i].x = 20;
                 ty += this.ui[i].height;
+  
             }
         }
         public creatComponent(obj: any): BaseReflComponent {

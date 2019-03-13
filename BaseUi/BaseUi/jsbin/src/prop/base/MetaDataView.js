@@ -2,7 +2,7 @@ var prop;
 (function (prop) {
     var MetaDataView = /** @class */ (function () {
         function MetaDataView() {
-            this._top = 100;
+            this._top = 50;
             this.creat(this.getView());
         }
         Object.defineProperty(MetaDataView.prototype, "top", {

@@ -46,7 +46,6 @@
                 this._materialTreeMc.changFun = (value: Array<any>) => { this.paramChange(value) }
             }
             this.textureTree = this.target[this.FunKey]
-
             this._materialTreeMc.setData(this.makeTempInfo(this.textureTree))
             this._materialTreeMc.y = this._y + 100
  
@@ -54,6 +53,7 @@
            
            
         }
+      
    
         private makeTempInfo($materialTree: materialui.MaterialTree): Array<any> {
 

@@ -13,8 +13,8 @@ module prop {
         }
         public refreshViewValue(): void {
             for (var i: number = 0; i < this.list.length; i++) {
+                this.list[i].top = i * 100 + 50
                 this.list[i].refreshViewValue();
-                this.list[i].top=i*100+50
             }
             super.refreshViewValue();
         }
