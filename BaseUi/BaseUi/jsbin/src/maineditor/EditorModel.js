@@ -25,18 +25,20 @@ var maineditor;
         };
         EditorModel.prototype.keyDeleSelectItem = function () {
             if (this.selectItem.length) {
-                var truthBeTold = window.confirm("单击“确定”继续。单击“取消”停止。");
+                var truthBeTold = window.confirm("是否确定要删除选取的对象。");
                 if (truthBeTold) {
-                    while (this.selectItem.length) {
-                        var vo = this.selectItem.pop();
-                        this.hierarchyListPanel.deleFile(this.fileItem, vo);
-                    }
+                    this.deleSelectItem();
                 }
                 else {
                 }
             }
         };
         EditorModel.prototype.deleSelectItem = function () {
+            while (this.selectItem.length) {
+                var vo = this.selectItem.pop();
+                this.hierarchyListPanel.deleFile(this.fileItem, vo);
+            }
+            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
         };
         EditorModel.prototype.mouseHitSprite = function (item, mouseVect2d, selectArr) {
             for (var i = 0; i < item.length; i++) {

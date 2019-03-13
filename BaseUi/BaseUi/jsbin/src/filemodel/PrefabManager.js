@@ -9,6 +9,8 @@ var filemodel;
     var TextureManager = Pan3d.TextureManager;
     var MaterialManager = /** @class */ (function () {
         function MaterialManager() {
+            this.dic = {};
+            this.loadDic = {};
         }
         MaterialManager.getInstance = function () {
             if (!this._instance) {
@@ -18,33 +20,48 @@ var filemodel;
         };
         MaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
             var _this = this;
-            LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($dtstr) {
-                var $byte = new Pan3d.Pan3dByteArray($dtstr);
-                $byte.position = 0;
-                var $temp = JSON.parse($byte.readUTF());
-                var $buildShader = new left.BuildMaterialShader();
-                $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
-                $buildShader.vertex = $buildShader.getVertexShaderString();
-                $buildShader.fragment = $temp.info.shaderStr;
-                $buildShader.encode();
-                var $materialTree = new materialui.MaterialTree();
-                $materialTree.setData({ data: $temp.data });
-                $materialTree.texList = _this.makeTextList($temp.info.texList);
-                $materialTree.constList = _this.makeConstList($temp.info.constList);
-                $materialTree.fcData = _this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
-                $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
-                $materialTree.shader = $buildShader;
-                $materialTree.program = $buildShader.program;
-                /*
-                console.log("----------vertex------------");
-                console.log($buildShader.vertex);
-                console.log("----------fragment------------");
-                console.log($buildShader.fragment);
-                console.log("----------buildShader------------");
-                */
-                $materialTree.url = $url;
-                bfun($materialTree);
-            });
+            if (this.dic[$url]) { //有了就反回
+                bfun(this.dic[$url]);
+            }
+            if (!this.loadDic[$url]) { //创建加载队列
+                this.loadDic[$url] = [bfun];
+                LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($dtstr) {
+                    var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                    $byte.position = 0;
+                    var $temp = JSON.parse($byte.readUTF());
+                    var $buildShader = new left.BuildMaterialShader();
+                    $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
+                    $buildShader.vertex = $buildShader.getVertexShaderString();
+                    $buildShader.fragment = $temp.info.shaderStr;
+                    $buildShader.encode();
+                    var $materialTree = new materialui.MaterialTree();
+                    $materialTree.setData({ data: $temp.data });
+                    $materialTree.texList = _this.makeTextList($temp.info.texList);
+                    $materialTree.constList = _this.makeConstList($temp.info.constList);
+                    $materialTree.fcData = _this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
+                    $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
+                    $materialTree.shader = $buildShader;
+                    $materialTree.program = $buildShader.program;
+                    /*
+                    console.log("----------vertex------------");
+                    console.log($buildShader.vertex);
+                    console.log("----------fragment------------");
+                    console.log($buildShader.fragment);
+                    console.log("----------buildShader------------");
+                    */
+                    console.log("材质加载完成", $url);
+                    $materialTree.url = $url;
+                    if (!_this.dic[$url]) {
+                        _this.dic[$url] = $materialTree;
+                    }
+                    while (_this.loadDic[$url].length) {
+                        _this.loadDic[$url].pop()($materialTree);
+                    }
+                });
+            }
+            else {
+                this.loadDic[$url].push(bfun);
+            }
         };
         MaterialManager.prototype.makeConstList = function (item) {
             var constList = [];
@@ -94,6 +111,8 @@ var filemodel;
     filemodel.MaterialManager = MaterialManager;
     var PrefabManager = /** @class */ (function () {
         function PrefabManager() {
+            this.dic = {};
+            this.loadDic = {};
         }
         PrefabManager.getInstance = function () {
             if (!this._instance) {
@@ -102,28 +121,32 @@ var filemodel;
             return this._instance;
         };
         PrefabManager.prototype.getPrefabByUrl = function ($url, bfun) {
-            LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($byte) {
-                var $obj = JSON.parse(new Pan3dByteArray($byte).readUTF());
-                var $prefab = new PrefabStaticMesh();
-                for (var key in $obj) {
-                    $prefab[key] = $obj[key];
-                }
-                $prefab.url = $url;
-                filemodel.MaterialManager.getInstance().getMaterialByUrl($prefab.textureurl, function ($materialTree) {
-                    $prefab.material = $materialTree;
-                    bfun($prefab);
+            var _this = this;
+            if (this.dic[$url]) { //有了就反回
+                bfun(this.dic[$url]);
+            }
+            if (!this.loadDic[$url]) { //创建加载队列
+                this.loadDic[$url] = [bfun];
+                LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($byte) {
+                    var $obj = JSON.parse(new Pan3dByteArray($byte).readUTF());
+                    var $prefab = new PrefabStaticMesh();
+                    for (var key in $obj) {
+                        $prefab[key] = $obj[key];
+                    }
+                    $prefab.url = $url;
+                    console.log("prefab加载完成", $prefab.url);
+                    filemodel.MaterialManager.getInstance().getMaterialByUrl($prefab.textureurl, function ($materialTree) {
+                        $prefab.material = $materialTree;
+                        if (!_this.dic[$url]) {
+                            _this.dic[$url] = $prefab;
+                        }
+                        while (_this.loadDic[$url].length) {
+                            _this.loadDic[$url].pop()($prefab);
+                        }
+                    });
                 });
-            });
-        };
-        PrefabManager.prototype.loadTextTureByUrl = function (value, bfun) {
-            LoadManager.getInstance().load(Scene_data.fileRoot + value, LoadManager.BYTE_TYPE, function ($dtstr) {
-                var $byte = new Pan3d.Pan3dByteArray($dtstr);
-                var $temp = JSON.parse($byte.readUTF());
-                var $tempMaterial = new materialui.MaterialTree;
-                $tempMaterial.url = value;
-                $tempMaterial.setData({ data: $temp.data });
-                bfun($tempMaterial);
-            });
+            }
+            this.loadDic[$url].push(bfun);
         };
         return PrefabManager;
     }());

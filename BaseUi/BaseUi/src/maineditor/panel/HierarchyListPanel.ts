@@ -189,10 +189,6 @@
             ]
             this.setUiListVisibleByItem(item, false)
 
-
-
-
-
             this.resize();
 
             this.loadAssetImg(() => {
@@ -270,8 +266,9 @@
                 case "1":
                     if (this.selectFolderMeshVo) {
                         this.deleFile(EditorModel.getInstance().fileItem, this.selectFolderMeshVo.folderMeshVo)
+                        Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
                         this.refrishFolder();
-                        this.resize()
+                
                     }
                     break
                 default:
@@ -288,6 +285,7 @@
                 MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
                 this.clearTemp(vo)
             }
+            this.refrishFolder();
         }
 
 

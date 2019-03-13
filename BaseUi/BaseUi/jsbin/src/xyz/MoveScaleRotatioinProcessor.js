@@ -266,11 +266,6 @@ var xyz;
             if (!this.isCanToDo) {
                 return;
             }
-        };
-        MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
-            if (!this.isCanToDo) {
-                return;
-            }
             switch ($e.keyCode) {
                 case KeyboardType.W:
                     this.moveScaleRotationLevel._statceType = xyz.TooMathMoveUint.MOVE_XYZ;
@@ -283,6 +278,11 @@ var xyz;
                     break;
                 default:
                     break;
+            }
+        };
+        MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
+            if (!this.isCanToDo) {
+                return;
             }
         };
         MoveScaleRotatioinProcessor.prototype.onMouseWheel = function ($evt) {

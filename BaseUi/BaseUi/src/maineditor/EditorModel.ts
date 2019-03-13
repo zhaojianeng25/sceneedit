@@ -28,7 +28,7 @@
         }
         public keyDeleSelectItem(): void {
             if (this.selectItem.length) {
-                var truthBeTold = window.confirm("单击“确定”继续。单击“取消”停止。");
+                var truthBeTold = window.confirm("是否确定要删除选取的对象。" );
                 if (truthBeTold) {
                     this.deleSelectItem()
                 } else {
@@ -41,6 +41,7 @@
                 var vo: FolderMeshVo = this.selectItem.pop();
                 this.hierarchyListPanel.deleFile(this.fileItem, vo);
             }
+            Pan3d.  ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
         }
         public fileItem: Array<FolderMeshVo>;
 

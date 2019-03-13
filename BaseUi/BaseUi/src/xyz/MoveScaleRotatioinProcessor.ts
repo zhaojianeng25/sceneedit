@@ -283,11 +283,6 @@
             if (!this.isCanToDo) {
                 return
             }
-        }
-        private onKeyUp($e: KeyboardEvent): void {
-            if (!this.isCanToDo) {
-                return
-            }
             switch ($e.keyCode) {
                 case KeyboardType.W:
                     this.moveScaleRotationLevel._statceType = TooMathMoveUint.MOVE_XYZ
@@ -298,10 +293,16 @@
                 case KeyboardType.Q:
                     this.moveScaleRotationLevel.xyzMoveData = null
                     break;
-             
+
                 default:
                     break
             }
+        }
+        private onKeyUp($e: KeyboardEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
+      
 
         }
 
