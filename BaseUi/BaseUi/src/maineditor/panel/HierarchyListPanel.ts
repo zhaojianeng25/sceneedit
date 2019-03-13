@@ -43,24 +43,44 @@
     import ConstItem = Pan3d.ConstItem
     import Display3D = Pan3d.Display3D
 
+    import PrefabStaticMesh=        pack.PrefabStaticMesh
+
     import TooXyzPosData = xyz.TooXyzPosData
 
     import MenuListData = menutwo.MenuListData
     import SampleFileVo = filelist.SampleFileVo
-
+    
 
 
 
 
     export class ModelSprite extends left.MaterialModelSprite {
+
+
         public constructor() {
             super();
 
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             super.setMaterialVc($material, $mp)
- 
         }
+        private _prefab: PrefabStaticMesh;
+        public set prefab(value: PrefabStaticMesh) {
+            this._prefab = value
+            LoadManager.getInstance().load(Scene_data.fileRoot + this._prefab.objsurl, LoadManager.XML_TYPE,
+                ($modelxml: string) => {
+                    this.readTxtToModel($modelxml);
+                });
+            filemodel.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                this.material = $materialTree;
+            })
+        }
+        public setPreFabUrl(url: string): void {
+            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
+                this.prefab = value
+            })
+        }
+        
 
 
     }
@@ -409,8 +429,11 @@
 
 
                 this.showTemp($vo);
+ 
+                $vo.dis = new ModelSprite();
+                $vo.dis.setPreFabUrl(childItem[i].data)
 
-                $vo.dis = this.makeModelSpriet(childItem[i].data)
+
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
@@ -424,51 +447,34 @@
             return $item
 
         }
-        private makeModelSpriet(url: string): ModelSprite {
-            var dis: ModelSprite = new ModelSprite();
-            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
-                var prefab: pack.PrefabStaticMesh = value;
-                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE,
-                    ($modelxml: string) => {
-                        dis.readTxtToModel($modelxml);
-                    });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
-                    dis.material = $materialTree;
-                })
-            })
-            return dis
-        }
+      
  
         public inputPrefabToScene(temp: any): void {
 
 
             var $url: string = temp.url
             var $groundPos = this.getGroundPos(temp.mouse)
-            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, (prefab: pack.PrefabStaticMesh) => {
 
+            var $vo: FolderMeshVo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+            $vo.dis = new ModelSprite();
+            $vo.dis.setPreFabUrl($url)
+            $vo.dis.x = $groundPos.x;
+            $vo.dis.y = $groundPos.y;
+            $vo.dis.z = $groundPos.z;
+            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+ 
+            $vo.ossListFile.name = temp.url;
+            $vo.ossListFile.type = HierarchyNodeType.Prefab;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
 
-                var $vo: FolderMeshVo = new FolderMeshVo;
-                $vo.ossListFile = new OssListFile;
-                $vo.dis = new ModelSprite();
-                $vo.dis.x = $groundPos.x;
-                $vo.dis.y = $groundPos.y;
-                $vo.dis.z = $groundPos.z;
-                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
-                this.makeModelSprite($vo.dis, prefab);
+            this.showTemp($vo);
 
-
-                $vo.ossListFile.name = temp.url;
-                $vo.ossListFile.type = HierarchyNodeType.Prefab;
-                $vo.ossListFile.treeSelect = false;
-                $vo.cellPos = new Vector2D();
-
-                this.showTemp($vo);
-
-                EditorModel.getInstance().fileItem.push($vo);
-                this.isCompelet = true;
-                this.refrishFolder();
-                this.resize()
-            })
+            EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize()
 
         }
         private makeModelSprite(dis: ModelSprite, prefab: pack.PrefabStaticMesh): void {

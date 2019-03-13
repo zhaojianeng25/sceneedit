@@ -37,6 +37,26 @@ var maineditor;
             if ($mp === void 0) { $mp = null; }
             _super.prototype.setMaterialVc.call(this, $material, $mp);
         };
+        Object.defineProperty(ModelSprite.prototype, "prefab", {
+            set: function (value) {
+                var _this = this;
+                this._prefab = value;
+                LoadManager.getInstance().load(Scene_data.fileRoot + this._prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
+                    _this.readTxtToModel($modelxml);
+                });
+                filemodel.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, function ($materialTree) {
+                    _this.material = $materialTree;
+                });
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ModelSprite.prototype.setPreFabUrl = function (url) {
+            var _this = this;
+            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
+                _this.prefab = value;
+            });
+        };
         return ModelSprite;
     }(left.MaterialModelSprite));
     maineditor.ModelSprite = ModelSprite;
@@ -347,7 +367,8 @@ var maineditor;
                 ;
                 $vo.cellPos = new Vector2D();
                 this.showTemp($vo);
-                $vo.dis = this.makeModelSpriet(childItem[i].data);
+                $vo.dis = new ModelSprite();
+                $vo.dis.setPreFabUrl(childItem[i].data);
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
@@ -357,42 +378,26 @@ var maineditor;
             }
             return $item;
         };
-        HierarchyListPanel.prototype.makeModelSpriet = function (url) {
-            var dis = new ModelSprite();
-            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
-                var prefab = value;
-                LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
-                    dis.readTxtToModel($modelxml);
-                });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
-                    dis.material = $materialTree;
-                });
-            });
-            return dis;
-        };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
-            var _this = this;
             var $url = temp.url;
             var $groundPos = this.getGroundPos(temp.mouse);
-            filemodel.PrefabManager.getInstance().getPrefabByUrl($url, function (prefab) {
-                var $vo = new FolderMeshVo;
-                $vo.ossListFile = new OssListFile;
-                $vo.dis = new ModelSprite();
-                $vo.dis.x = $groundPos.x;
-                $vo.dis.y = $groundPos.y;
-                $vo.dis.z = $groundPos.z;
-                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
-                _this.makeModelSprite($vo.dis, prefab);
-                $vo.ossListFile.name = temp.url;
-                $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;
-                $vo.ossListFile.treeSelect = false;
-                $vo.cellPos = new Vector2D();
-                _this.showTemp($vo);
-                maineditor.EditorModel.getInstance().fileItem.push($vo);
-                _this.isCompelet = true;
-                _this.refrishFolder();
-                _this.resize();
-            });
+            var $vo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+            $vo.dis = new ModelSprite();
+            $vo.dis.setPreFabUrl($url);
+            $vo.dis.x = $groundPos.x;
+            $vo.dis.y = $groundPos.y;
+            $vo.dis.z = $groundPos.z;
+            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+            $vo.ossListFile.name = temp.url;
+            $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
+            this.showTemp($vo);
+            maineditor.EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize();
         };
         HierarchyListPanel.prototype.makeModelSprite = function (dis, prefab) {
             LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
