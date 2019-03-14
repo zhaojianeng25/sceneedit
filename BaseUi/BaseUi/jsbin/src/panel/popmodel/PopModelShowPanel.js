@@ -136,6 +136,12 @@ var popmodel;
         PopModelShowPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.a_scroll_bar_bg], false);
+            this.setUiListVisibleByItem([this.b_win_close], true);
+        };
+        PopModelShowPanel.prototype.butClik = function (evt) {
+            if (evt.target == this.b_win_close) {
+                this.perent.removeUIContainer(this);
+            }
         };
         PopModelShowPanel.prototype.initView = function () {
             var _this = this;

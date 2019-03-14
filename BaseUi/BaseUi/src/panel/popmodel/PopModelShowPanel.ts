@@ -168,7 +168,18 @@
             super.loadConfigCom();
 
             this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
+            this.setUiListVisibleByItem([this.b_win_close], true)
+
+         
  
+        }
+        protected butClik(evt: InteractiveEvent): void {
+ 
+            if (evt.target == this.b_win_close) {
+  
+                this.perent.removeUIContainer(this)
+
+            }
         }
   
         private modelPic: modelShowRender;

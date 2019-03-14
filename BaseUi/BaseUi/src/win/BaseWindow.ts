@@ -47,6 +47,9 @@
             this._tRender = new UIRenderComponent;
             this.addRender(this._tRender);
 
+            this._closeRender = new UIRenderComponent;
+            this.addRender(this._closeRender);
+
             this._bRender.uiAtlas = new UIAtlas();
             this._bRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
 
@@ -55,6 +58,7 @@
         protected _bRender: UIRenderComponent;
         protected _mRender: UIRenderComponent;
         protected _tRender: UIRenderComponent;
+        protected _closeRender: UIRenderComponent;
         protected _uiMask: UIMask
 
         protected mouseDown(evt: InteractiveEvent): void {
@@ -73,10 +77,12 @@
         protected b_bottom_right: UICompenent
         protected b_bottom_line_left: UICompenent
         protected b_bottom_line_right: UICompenent
+        protected b_win_close: UICompenent
         private static maskLevel: number=10
         protected loadConfigCom(): void {
             this._tRender.uiAtlas = this._bRender.uiAtlas
             this._mRender.uiAtlas = this._bRender.uiAtlas
+            this._closeRender.uiAtlas = this._bRender.uiAtlas
             
 
             this._uiMask = new UIMask();
@@ -101,12 +107,18 @@
             this.b_bottom_line_left = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_line"));
             this.b_bottom_line_right = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_line"));
 
+          
+            this.b_win_close = this.addEvntBut("b_win_close", this._closeRender)
+
+            
 
             this.setUiListVisibleByItem([this.a_left_line], false)
             this.setUiListVisibleByItem([this.a_rigth_line], false)
             this.setUiListVisibleByItem([this.a_bottom_line], false)
+
+            this.setUiListVisibleByItem([this.b_win_close], false)
   
- 
+           
 
             if (this.useMoseMove) {
                 this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -173,7 +185,10 @@
 
                 this.a_tittle_bg.x = 2;
                 this.a_tittle_bg.y = 2;
-                this.a_tittle_bg.width = this.pageRect.width-4;
+                this.a_tittle_bg.width = this.pageRect.width - 4;
+
+                this.b_win_close.y =2
+                this.b_win_close.x = this.pageRect.width - this.b_win_close.width-5
 
                 this._uiMask.y = this.a_tittle_bg.height+2;
                 this._uiMask.x = 0
