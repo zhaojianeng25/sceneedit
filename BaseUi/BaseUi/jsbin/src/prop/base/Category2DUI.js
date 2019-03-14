@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var InteractiveEvent = Pan3d.InteractiveEvent;
     var Category2DUI = /** @class */ (function (_super) {
         __extends(Category2DUI, _super);
         function Category2DUI() {
@@ -28,7 +29,10 @@ var prop;
             this.categoryBgUi.ui.height = this.height - 5;
             this.drawOutColor(this.categoryBgUi.ui, new Vector3D(79, 79, 79));
             this.drawUrlImgToUi(this.categoryIcon.ui, "icon/profeb_16.png");
-            this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanRight.png");
+            this.categoryBgUi.ui.addEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
+        };
+        Category2DUI.prototype.clikMouseUp = function (evt) {
+            this.changFun(this.label);
         };
         Category2DUI.prototype.resize = function () {
             this.categoryBgUi.ui.width = this.width;
@@ -45,6 +49,12 @@ var prop;
             },
             set: function (value) {
                 this._data = value;
+                if (this._data) {
+                    this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanUp.png");
+                }
+                else {
+                    this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanRight.png");
+                }
             },
             enumerable: true,
             configurable: true

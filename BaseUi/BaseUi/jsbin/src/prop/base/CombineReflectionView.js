@@ -21,11 +21,17 @@ var prop;
             return _this;
         }
         CombineReflectionView.prototype.addView = function ($view) {
+            var _this = this;
             this.list.push($view);
+            $view.categoryFun = function () {
+                _this.refreshViewValue();
+            };
         };
         CombineReflectionView.prototype.refreshViewValue = function () {
+            var ty = this.top;
             for (var i = 0; i < this.list.length; i++) {
-                this.list[i].top = i * 100 + this.top;
+                this.list[i].top = ty;
+                ty += this.list[i].height;
                 this.list[i].refreshViewValue();
             }
             _super.prototype.refreshViewValue.call(this);

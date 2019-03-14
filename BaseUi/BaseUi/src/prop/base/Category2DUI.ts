@@ -7,6 +7,7 @@
     import UIRectangle = Pan3d.UIRectangle
     import Scene_data = Pan3d.Scene_data
     import LoadManager = Pan3d.LoadManager
+    import InteractiveEvent = Pan3d.InteractiveEvent
  
     export class Category2DUI extends BaseReflComponent {
 
@@ -36,8 +37,15 @@
   
 
             this.drawUrlImgToUi(this.categoryIcon.ui, "icon/profeb_16.png")
-            this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanRight.png")
+          
+
+            this.categoryBgUi.ui.addEventListener(InteractiveEvent.Up, this.clikMouseUp, this)
         }
+        private clikMouseUp(evt: InteractiveEvent): void {
+ 
+            this.changFun(this.label)
+        }
+
       
         public resize(): void {
  
@@ -52,6 +60,13 @@
         }
         public set data(value: any) {
             this._data = value;
+            if (this._data) {
+                this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanUp.png")
+            } else {
+                this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanRight.png")
+            }
+
+          
 
         }
         public get data(): any {

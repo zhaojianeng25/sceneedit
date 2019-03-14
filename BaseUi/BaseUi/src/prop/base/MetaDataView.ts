@@ -4,7 +4,7 @@
 
         protected _data: any;
         protected _top: number = 10
-        protected _width: number=100
+     
         public set top(value: number) {
             this._top = value;
             this.resize()
@@ -18,8 +18,19 @@
             this.resize()
 
         }
+        protected _width: number = 100
         public get width(): number {
             return this._width
+        }
+
+        public set height(value: number) {
+            this._height = value;
+            this.resize()
+
+        }
+        protected _height: number = 100
+        public get height(): number {
+            return this._height
         }
 
         public constructor() {
@@ -46,22 +57,37 @@
         private categoryKey: any = {}
         public creat(data: Array<any>): void {
             this.ui = new Array;
-           // this.ui = [this.getCategoryUI("物体")]
+            this.categoryKey = {};
             for (var i: number = 0; i < data.length; i++) {
-         
                 if (data[i].Category&&!this.categoryKey[data[i].Category]) {
                     this.categoryKey[data[i].Category] = true
-                    this.ui.push(this.getCategoryUI(data[i].Category));
+                    var tempCategory2DUI: Category2DUI = this.getCategoryUI(data[i].Category)
+                    tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                    this.ui.push(tempCategory2DUI);
                 }
-
-                this.ui.push(this.creatComponent(data[i]));
+                if (!Boolean(this.hideCategoryKey[data[i].Category])) {
+                    this.ui.push(this.creatComponent(data[i]));
+                }
+             
             }
             this.addComponentView();
         }
+        private hideCategoryKey: any = {};
+        public categoryFun: Function
+        public categoryClikUp(value: string): void {
+
+            this.destory()
+            this.hideCategoryKey[value] = !this.hideCategoryKey[value];
+            this.creat(this.getView());
+            this.refreshViewValue();
+
+
+            this.categoryFun && this.categoryFun();
+       
+ 
+        }
         private addComponentView(): void {
-
             this.resize();
-
         }
         public resize(): void {
             var ty: number = this._top
@@ -73,6 +99,7 @@
                 this.ui[i].resize()
   
             }
+            this._height = ty - this._top;
         }
         public creatComponent(obj: any): BaseReflComponent {
             var type: String = obj[ReflectionData.Key_Type];
@@ -101,12 +128,13 @@
             if (type == ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
- 
             return null;
         }
+     
         public getCategoryUI(value: string): Category2DUI {
             var $category2DUI: Category2DUI = new Category2DUI()
-            $category2DUI.label =value
+            $category2DUI.label = value
+            $category2DUI.changFun = (value: string) => { this.categoryClikUp(value) }
             return $category2DUI;
         }
         public getTextField2DUI($obj: Object): TextField2DUI {

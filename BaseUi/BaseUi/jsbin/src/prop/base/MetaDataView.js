@@ -4,7 +4,9 @@ var prop;
         function MetaDataView() {
             this._top = 10;
             this._width = 100;
+            this._height = 100;
             this.categoryKey = {};
+            this.hideCategoryKey = {};
             this.creat(this.getView());
         }
         Object.defineProperty(MetaDataView.prototype, "top", {
@@ -29,6 +31,17 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(MetaDataView.prototype, "height", {
+            get: function () {
+                return this._height;
+            },
+            set: function (value) {
+                this._height = value;
+                this.resize();
+            },
+            enumerable: true,
+            configurable: true
+        });
         MetaDataView.prototype.getView = function () {
             var ary = [];
             return ary;
@@ -46,15 +59,26 @@ var prop;
         });
         MetaDataView.prototype.creat = function (data) {
             this.ui = new Array;
-            // this.ui = [this.getCategoryUI("物体")]
+            this.categoryKey = {};
             for (var i = 0; i < data.length; i++) {
                 if (data[i].Category && !this.categoryKey[data[i].Category]) {
                     this.categoryKey[data[i].Category] = true;
-                    this.ui.push(this.getCategoryUI(data[i].Category));
+                    var tempCategory2DUI = this.getCategoryUI(data[i].Category);
+                    tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                    this.ui.push(tempCategory2DUI);
                 }
-                this.ui.push(this.creatComponent(data[i]));
+                if (!Boolean(this.hideCategoryKey[data[i].Category])) {
+                    this.ui.push(this.creatComponent(data[i]));
+                }
             }
             this.addComponentView();
+        };
+        MetaDataView.prototype.categoryClikUp = function (value) {
+            this.destory();
+            this.hideCategoryKey[value] = !this.hideCategoryKey[value];
+            this.creat(this.getView());
+            this.refreshViewValue();
+            this.categoryFun && this.categoryFun();
         };
         MetaDataView.prototype.addComponentView = function () {
             this.resize();
@@ -68,6 +92,7 @@ var prop;
                 this.ui[i].width = this.width;
                 this.ui[i].resize();
             }
+            this._height = ty - this._top;
         };
         MetaDataView.prototype.creatComponent = function (obj) {
             var type = obj[prop.ReflectionData.Key_Type];
@@ -98,8 +123,10 @@ var prop;
             return null;
         };
         MetaDataView.prototype.getCategoryUI = function (value) {
+            var _this = this;
             var $category2DUI = new prop.Category2DUI();
             $category2DUI.label = value;
+            $category2DUI.changFun = function (value) { _this.categoryClikUp(value); };
             return $category2DUI;
         };
         MetaDataView.prototype.getTextField2DUI = function ($obj) {

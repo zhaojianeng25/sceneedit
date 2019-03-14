@@ -10,10 +10,16 @@ module prop {
         }
         public addView($view: MetaDataView): void {
             this.list.push($view)
+            $view.categoryFun = () => {
+                this.refreshViewValue()
+            }
+           
         }
         public refreshViewValue(): void {
+            var ty: number = this.top
             for (var i: number = 0; i < this.list.length; i++) {
-                this.list[i].top = i * 100 + this.top;
+                this.list[i].top = ty;
+                ty += this.list[i].height;
                 this.list[i].refreshViewValue();
             }
             super.refreshViewValue();
