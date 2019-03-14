@@ -19,8 +19,16 @@ var layout;
         LayerManager.prototype.initData = function () {
             this.children = [];
         };
-        LayerManager.prototype.addPanel = function ($panel, $level) {
+        LayerManager.prototype.addPanel = function ($panel, $level, $isOnly) {
+            if ($isOnly === void 0) { $isOnly = false; }
             $panel.layer = $level;
+            if ($isOnly) {
+                for (var i = this.children.length - 1; i >= 0; i--) {
+                    if (this.children[i].layer == $level) {
+                        this.removePanel(this.children[i]);
+                    }
+                }
+            }
             var index = this.children.indexOf($panel);
             if (index == -1) {
                 this.children.push($panel);

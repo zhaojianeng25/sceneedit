@@ -62,6 +62,7 @@
     <TypeScriptCompile Include="src\prop\base\Material2DUI.ts" />
     <TypeScriptCompile Include="src\prop\base\MaterialParamUi.ts" />
     <TypeScriptCompile Include="src\prop\mesh\CategoryBG2DUI.ts" />
+    <TypeScriptCompile Include="src\prop\view\TextureFunPanel.ts" />
     <TypeScriptCompile Include="src\win\BaseWindow.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorPanel.ts" />
     <TypeScriptCompile Include="src\panel\colorview\ColorProcessor.ts" />

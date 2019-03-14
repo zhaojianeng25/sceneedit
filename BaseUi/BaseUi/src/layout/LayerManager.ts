@@ -36,8 +36,18 @@
         public initData(): void {
             this.children = [];
         }
-        public addPanel($panel: Panel, $level: number): void {
+        
+        public addPanel($panel: Panel, $level: number, $isOnly: boolean = false): void {
             $panel.layer = $level;
+
+            if ($isOnly) {
+                for (var i: number = this.children.length - 1; i >= 0; i--) {
+                    if (this.children[i].layer == $level) {
+                        this.removePanel(this.children[i])
+                    }
+                }
+
+            }
             var index: number = this.children.indexOf($panel);
             if (index == -1) {
                 this.children.push($panel);

@@ -65,7 +65,7 @@ var popmodel;
             }
         };
         PopModelShowProcessor.prototype.readBaseModel = function () {
-            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_5_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                 left.ModelShowModel.getInstance().readTxtToModelBy($modelxml);
                 ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
             });
