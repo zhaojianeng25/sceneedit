@@ -140,6 +140,12 @@ var prop;
             var $textCtrlInput = new prop.Vec3dCtrlUI();
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            if ($obj[prop.ReflectionData.Key_Step]) {
+                $textCtrlInput.KeyStep = $obj[prop.ReflectionData.Key_Step];
+            }
+            else {
+                $textCtrlInput.KeyStep = 1;
+            }
             $textCtrlInput.target = this;
             return $textCtrlInput;
         };
@@ -147,6 +153,12 @@ var prop;
             var $textCtrlInput = new prop.Vec3ColorCtrlUI();
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            if ($obj[prop.ReflectionData.Key_Step]) {
+                $textCtrlInput.KeyStep = $obj[prop.ReflectionData.Key_Step];
+            }
+            else {
+                $textCtrlInput.KeyStep = 0.01;
+            }
             $textCtrlInput.target = this;
             return $textCtrlInput;
         };

@@ -58,7 +58,8 @@ var prop;
             configurable: true
         });
         Vec3dCtrlUI.prototype.getSpeedNum = function (value) {
-            return value * 0.01;
+            console.log(value, this.KeyStep, value * this.KeyStep);
+            return value * this.KeyStep;
         };
         Vec3dCtrlUI.prototype.inputTextUiXchange = function ($evt) {
             this._v3d.x += this.getSpeedNum($evt.data);

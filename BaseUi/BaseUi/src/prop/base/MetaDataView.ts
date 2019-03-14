@@ -148,6 +148,11 @@
             var $textCtrlInput: Vec3dCtrlUI = new Vec3dCtrlUI()
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
+            if ($obj[ReflectionData.Key_Step]) {
+                $textCtrlInput.KeyStep = $obj[ReflectionData.Key_Step];
+            } else {
+                $textCtrlInput.KeyStep = 1
+            }
             $textCtrlInput.target = this
             return $textCtrlInput;
         }
@@ -155,6 +160,11 @@
             var $textCtrlInput: Vec3ColorCtrlUI = new Vec3ColorCtrlUI()
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
+            if ($obj[ReflectionData.Key_Step]) {
+                $textCtrlInput.KeyStep = $obj[ReflectionData.Key_Step];
+            } else {
+                $textCtrlInput.KeyStep=0.01
+            }
             $textCtrlInput.target = this
             return $textCtrlInput;
         }

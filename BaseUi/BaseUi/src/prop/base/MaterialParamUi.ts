@@ -32,6 +32,7 @@
                 }
                 if (item[i].type == materialui.NodeTree.VEC3) {
                     tempBaseReflComponent = new Vec3ColorCtrlUI();
+                    tempBaseReflComponent.KeyStep = 0.01;
                 }
                 if (item[i].type == materialui.NodeTree.FLOAT) {
                     tempBaseReflComponent = new TextCtrlInput();

@@ -59,7 +59,8 @@
             return this._data
         }
         private getSpeedNum(value: number): number {
-            return value*0.01
+            console.log(value ,this.KeyStep, value * this.KeyStep)
+            return value * this.KeyStep
         }
         private inputTextUiXchange($evt: ReflectionEvet): void {
             this._v3d.x += this.getSpeedNum($evt.data);
