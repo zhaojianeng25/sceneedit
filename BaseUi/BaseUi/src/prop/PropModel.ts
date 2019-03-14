@@ -19,6 +19,10 @@
                 this._containerList[i].left = this.rect.x
                 this._containerList[i].top = this.rect.y;
             }
+            if (this._containerList.length) {
+                PropModel.getInstance().resize()
+            }
+         //  
         }
     }
     export class PropModel {
@@ -29,6 +33,12 @@
                 this._instance = new PropModel();
             }
             return this._instance;
+        }
+        public resize(): void {
+            if (this.metaDataView) {
+                this.metaDataView.width = Pan3d.Scene_data.stageWidth - this.propPanle.x;
+            }
+
         }
         public constructor() {
             this.propPanle = new PropPanle();

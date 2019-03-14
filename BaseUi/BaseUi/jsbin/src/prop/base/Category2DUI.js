@@ -30,6 +30,9 @@ var prop;
             this.drawUrlImgToUi(this.categoryIcon.ui, "icon/profeb_16.png");
             this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanRight.png");
         };
+        Category2DUI.prototype.resize = function () {
+            this.categoryBgUi.ui.width = this.width;
+        };
         Category2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
             this.categoryBgUi.destory();

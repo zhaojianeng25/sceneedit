@@ -85,6 +85,8 @@ var prop;
         };
         BaseReflComponent.prototype.destory = function () {
         };
+        BaseReflComponent.prototype.resize = function () {
+        };
         BaseReflComponent.prototype.drawOutColor = function (ui, $vcolor) {
             var $UIAtlas = ui.uiRender.uiAtlas;
             var $textureStr = ui.skinName;

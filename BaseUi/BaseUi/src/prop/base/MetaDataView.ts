@@ -3,7 +3,8 @@
     export class MetaDataView {
 
         protected _data: any;
-        protected _top: number=10
+        protected _top: number = 10
+        protected _width: number=100
         public set top(value: number) {
             this._top = value;
             this.resize()
@@ -11,6 +12,14 @@
         }
         public get top(): number {
             return this._top
+        }
+        public set width(value: number) {
+            this._width = value;
+            this.resize()
+
+        }
+        public get width(): number {
+            return this._width
         }
 
         public constructor() {
@@ -54,12 +63,14 @@
             this.resize();
 
         }
-        protected resize(): void {
+        public resize(): void {
             var ty: number = this._top
             for (var i: number = 0; this.ui&& i < this.ui.length; i++) {
                 this.ui[i].y = ty;
                 this.ui[i].x = 20;
                 ty += this.ui[i].height;
+                this.ui[i].width = this.width
+                this.ui[i].resize()
   
             }
         }

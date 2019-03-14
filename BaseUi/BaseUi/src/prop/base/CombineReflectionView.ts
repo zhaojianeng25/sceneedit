@@ -25,5 +25,12 @@ module prop {
             }
             super.destory()
         }
+        public resize(): void {
+            super.resize()
+            for (var i: number = 0; this.list&&i < this.list.length; i++) {
+                this.list[i].width = this.width
+                this.list[i].resize();
+            }
+        }
     }
 }

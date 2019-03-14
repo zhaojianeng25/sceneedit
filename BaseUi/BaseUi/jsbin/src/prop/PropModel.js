@@ -35,6 +35,10 @@ var prop;
                 this._containerList[i].left = this.rect.x;
                 this._containerList[i].top = this.rect.y;
             }
+            if (this._containerList.length) {
+                PropModel.getInstance().resize();
+            }
+            //  
         };
         return PropPanle;
     }(layout.Sprite));
@@ -53,6 +57,11 @@ var prop;
                 this._instance = new PropModel();
             }
             return this._instance;
+        };
+        PropModel.prototype.resize = function () {
+            if (this.metaDataView) {
+                this.metaDataView.width = Pan3d.Scene_data.stageWidth - this.propPanle.x;
+            }
         };
         PropModel.prototype.hidePanel = function () {
             if (this.metaDataView) {

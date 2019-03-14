@@ -89,6 +89,8 @@
         }
         public destory(): void {
         }
+        public resize(): void {
+        }
 
         protected drawOutColor(ui: Pan3d.UICompenent, $vcolor: Vector3D): void {
 

@@ -39,7 +39,10 @@
             this.drawUrlImgToUi(this.categoryOpen.ui, "icon/icon_PanRight.png")
         }
       
-
+        public resize(): void {
+ 
+            this.categoryBgUi.ui.width = this.width
+        }
         public destory(): void {
             this.textLabelUI.destory()
             this.categoryBgUi.destory()

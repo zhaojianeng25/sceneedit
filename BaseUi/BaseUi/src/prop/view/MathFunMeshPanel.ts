@@ -53,7 +53,7 @@
             }
       
         }
-        protected resize(): void {
+        public resize(): void {
             super.resize()
             if (this.chatHtmlInput) {
                 this.chatHtmlInput.style.top = 0 + "px";

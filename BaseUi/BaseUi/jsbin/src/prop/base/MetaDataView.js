@@ -3,6 +3,7 @@ var prop;
     var MetaDataView = /** @class */ (function () {
         function MetaDataView() {
             this._top = 10;
+            this._width = 100;
             this.categoryKey = {};
             this.creat(this.getView());
         }
@@ -12,6 +13,17 @@ var prop;
             },
             set: function (value) {
                 this._top = value;
+                this.resize();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MetaDataView.prototype, "width", {
+            get: function () {
+                return this._width;
+            },
+            set: function (value) {
+                this._width = value;
                 this.resize();
             },
             enumerable: true,
@@ -53,6 +65,8 @@ var prop;
                 this.ui[i].y = ty;
                 this.ui[i].x = 20;
                 ty += this.ui[i].height;
+                this.ui[i].width = this.width;
+                this.ui[i].resize();
             }
         };
         MetaDataView.prototype.creatComponent = function (obj) {

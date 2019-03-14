@@ -37,6 +37,13 @@ var prop;
             }
             _super.prototype.destory.call(this);
         };
+        CombineReflectionView.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            for (var i = 0; this.list && i < this.list.length; i++) {
+                this.list[i].width = this.width;
+                this.list[i].resize();
+            }
+        };
         return CombineReflectionView;
     }(prop.MetaDataView));
     prop.CombineReflectionView = CombineReflectionView;
