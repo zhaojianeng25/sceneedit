@@ -25,7 +25,6 @@ var filelist;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型" },
                 { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "模型" },
-                { Type: ReflectionData.Vec3Color, Label: "名字:", FunKey: "sunColor", target: this, Step: 0.1, Category: "模型" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "材质" },
             ];
             return ary;
@@ -82,17 +81,6 @@ var filelist;
                 this._data = value;
                 this.prefabStaticMesh = this._data;
                 this.refreshViewValue();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PrefabMeshView.prototype, "sunColor", {
-            get: function () {
-                return this.prefabStaticMesh.sunColor;
-            },
-            set: function (value) {
-                this.prefabStaticMesh.sunColor = value;
-                console.log("颜色变化");
             },
             enumerable: true,
             configurable: true

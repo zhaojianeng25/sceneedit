@@ -75,6 +75,9 @@ var prop;
             if (type == prop.ReflectionData.Vec3Color) {
                 return this.getVec3Color(obj);
             }
+            if (type == prop.ReflectionData.Vec3) {
+                return this.getVec3(obj);
+            }
             if (type == prop.ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
@@ -87,6 +90,13 @@ var prop;
         };
         MetaDataView.prototype.getTextField2DUI = function ($obj) {
             var $textCtrlInput = new prop.TextField2DUI();
+            $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
+            $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            $textCtrlInput.target = this;
+            return $textCtrlInput;
+        };
+        MetaDataView.prototype.getVec3 = function ($obj) {
+            var $textCtrlInput = new prop.Vec3dCtrlUI();
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             $textCtrlInput.target = this;

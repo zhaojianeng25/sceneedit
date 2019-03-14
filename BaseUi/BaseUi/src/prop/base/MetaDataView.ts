@@ -84,6 +84,9 @@
             if (type == ReflectionData.Vec3Color) {
                 return this.getVec3Color(obj);
             }
+            if (type == ReflectionData.Vec3) {
+                return this.getVec3(obj);
+            }
             if (type == ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
@@ -102,7 +105,13 @@
             $textCtrlInput.target = this
             return $textCtrlInput;
         }
- 
+        public getVec3($obj: Object): Vec3dCtrlUI {
+            var $textCtrlInput: Vec3dCtrlUI = new Vec3dCtrlUI()
+            $textCtrlInput.label = $obj[ReflectionData.Key_Label];
+            $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
+            $textCtrlInput.target = this
+            return $textCtrlInput;
+        }
         public getVec3Color($obj: Object): Vec3ColorCtrlUI {
             var $textCtrlInput: Vec3ColorCtrlUI = new Vec3ColorCtrlUI()
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
