@@ -20,8 +20,10 @@ var prop;
     var TextAlign = Pan3d.TextAlign;
     var InputTextUi = /** @class */ (function (_super) {
         __extends(InputTextUi, _super);
-        function InputTextUi() {
-            return _super.call(this) || this;
+        function InputTextUi(w, h) {
+            if (w === void 0) { w = 64; }
+            if (h === void 0) { h = 64; }
+            return _super.call(this, w, h) || this;
         }
         InputTextUi.prototype.initView = function () {
             this.addEvets();

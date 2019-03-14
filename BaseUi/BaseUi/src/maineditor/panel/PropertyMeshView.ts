@@ -13,8 +13,8 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.Vec3Color, Label: "位置:", FunKey: "pos", target: this, Step: 1 },
-                    { Type: ReflectionData.Vec3Color, Label: "角度:", FunKey: "rotation", target: this, Step: 1 },
+                    { Type: ReflectionData.Vec3Color, Label: "坐标:", FunKey: "pos", target: this, Step: 1, Category: "属性" },
+                    { Type: ReflectionData.Vec3Color, Label: "角度:", FunKey: "rotation", target: this, Step: 1, Category: "属性" },
      
                 ];
             return ary;

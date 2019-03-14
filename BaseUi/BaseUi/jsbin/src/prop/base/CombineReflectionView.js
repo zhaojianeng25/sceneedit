@@ -25,7 +25,7 @@ var prop;
         };
         CombineReflectionView.prototype.refreshViewValue = function () {
             for (var i = 0; i < this.list.length; i++) {
-                this.list[i].top = i * 100 + 50;
+                this.list[i].top = i * 100 + this.top;
                 this.list[i].refreshViewValue();
             }
             _super.prototype.refreshViewValue.call(this);

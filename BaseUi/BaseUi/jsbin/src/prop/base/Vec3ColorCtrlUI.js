@@ -37,7 +37,7 @@ var prop;
             this.inputTextUiY.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiYchange, this);
             this.inputTextUiZ.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiZchange, this);
             this.colorPickUI.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this);
-            this.height = 50;
+            this.height = 30;
         };
         Vec3ColorCtrlUI.prototype.destory = function () {
             this.textLabelUI.destory();
@@ -102,7 +102,7 @@ var prop;
                 return this._x;
             },
             set: function (value) {
-                this._x = value;
+                this._x = value + 10;
                 this.textLabelUI.x = this._x - 20;
                 this.textX.x = this._x + 55;
                 this.textY.x = this._x + 125;
@@ -120,7 +120,7 @@ var prop;
                 return this._y;
             },
             set: function (value) {
-                this._y = value;
+                this._y = value + 5;
                 this.textLabelUI.y = this._y;
                 this.textX.y = this._y;
                 this.textY.y = this._y;

@@ -3,7 +3,7 @@
     export class MetaDataView {
 
         protected _data: any;
-        protected _top: number=50
+        protected _top: number=10
         public set top(value: number) {
             this._top = value;
             this.resize()
@@ -33,11 +33,18 @@
             return this._data
         }
 
-        public ui: Array<BaseReflComponent>
+        public ui: Array<BaseReflComponent>;
+        private categoryKey: any = {}
         public creat(data: Array<any>): void {
             this.ui = new Array;
-            this.ui = [this.getCategoryUI("物体")]
+           // this.ui = [this.getCategoryUI("物体")]
             for (var i: number = 0; i < data.length; i++) {
+         
+                if (data[i].Category&&!this.categoryKey[data[i].Category]) {
+                    this.categoryKey[data[i].Category] = true
+                    this.ui.push(this.getCategoryUI(data[i].Category));
+                }
+
                 this.ui.push(this.creatComponent(data[i]));
             }
             this.addComponentView();

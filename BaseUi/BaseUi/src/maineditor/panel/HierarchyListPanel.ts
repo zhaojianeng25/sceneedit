@@ -424,15 +424,7 @@
                 B.data = selctprefab;
                 _combineReflectionView.addView(B)
             }
-    
-   
-
-
  
-  
-      
-
-
              prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
           
         }

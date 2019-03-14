@@ -19,13 +19,13 @@ var prop;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         TextField2DUI.prototype.initView = function () {
-            this.textLabelUI = new prop.TextLabelUI();
-            this.inputTextUi = new prop.InputTextUi();
+            this.textLabelUI = new prop.TextLabelUI(128, 32);
+            this.infoLabelUi = new prop.TextLabelUI(128, 32);
             this.height = 40;
         };
         TextField2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
-            this.inputTextUi.destory();
+            this.infoLabelUi.destory();
         };
         Object.defineProperty(TextField2DUI.prototype, "data", {
             get: function () {
@@ -38,7 +38,7 @@ var prop;
             configurable: true
         });
         TextField2DUI.prototype.refreshViewValue = function () {
-            this.inputTextUi.text = this.target[this.FunKey];
+            this.infoLabelUi.label = this.target[this.FunKey];
         };
         TextField2DUI.prototype.getNumStr = function (num) {
             var n = Math.floor(num * 100) / 100;
@@ -51,7 +51,7 @@ var prop;
             set: function (value) {
                 this._x = value;
                 this.textLabelUI.x = this._x + 0;
-                this.inputTextUi.x = this._x + 75;
+                this.infoLabelUi.x = this._x + 75;
             },
             enumerable: true,
             configurable: true
@@ -63,7 +63,7 @@ var prop;
             set: function (value) {
                 this._y = value;
                 this.textLabelUI.y = this._y;
-                this.inputTextUi.y = this._y;
+                this.infoLabelUi.y = this._y;
             },
             enumerable: true,
             configurable: true

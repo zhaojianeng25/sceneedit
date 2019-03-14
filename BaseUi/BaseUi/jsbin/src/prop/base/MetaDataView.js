@@ -2,7 +2,8 @@ var prop;
 (function (prop) {
     var MetaDataView = /** @class */ (function () {
         function MetaDataView() {
-            this._top = 50;
+            this._top = 10;
+            this.categoryKey = {};
             this.creat(this.getView());
         }
         Object.defineProperty(MetaDataView.prototype, "top", {
@@ -33,8 +34,12 @@ var prop;
         });
         MetaDataView.prototype.creat = function (data) {
             this.ui = new Array;
-            this.ui = [this.getCategoryUI("物体")];
+            // this.ui = [this.getCategoryUI("物体")]
             for (var i = 0; i < data.length; i++) {
+                if (data[i].Category && !this.categoryKey[data[i].Category]) {
+                    this.categoryKey[data[i].Category] = true;
+                    this.ui.push(this.getCategoryUI(data[i].Category));
+                }
                 this.ui.push(this.creatComponent(data[i]));
             }
             this.addComponentView();

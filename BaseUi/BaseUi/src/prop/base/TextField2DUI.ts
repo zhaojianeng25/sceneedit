@@ -2,21 +2,17 @@
 
     export class TextField2DUI extends BaseReflComponent {
 
-
         private textLabelUI: TextLabelUI;
-        private inputTextUi: InputTextUi;
-
-
+        private infoLabelUi: TextLabelUI;
 
         protected initView(): void {
-            this.textLabelUI = new TextLabelUI();
-            this.inputTextUi = new InputTextUi();
- 
+            this.textLabelUI = new TextLabelUI(128, 32);
+            this.infoLabelUi = new TextLabelUI(128, 32);
             this.height = 40
         }
         public destory(): void {
             this.textLabelUI.destory()
-            this.inputTextUi.destory()
+            this.infoLabelUi.destory()
         }
         public set data(value: any) {
             this._data = value;
@@ -29,7 +25,7 @@
    
         public refreshViewValue(): void {
 
-            this.inputTextUi.text = this.target[this.FunKey]
+            this.infoLabelUi.label = this.target[this.FunKey]
 
         }
         public getNumStr(num: number): string {
@@ -39,7 +35,7 @@
         public set x(value: number) {
             this._x = value;
             this.textLabelUI.x = this._x + 0;
-            this.inputTextUi.x = this._x + 75;
+            this.infoLabelUi.x = this._x + 75;
         }
         public get x(): number {
             return this._x
@@ -48,7 +44,7 @@
         public set y(value: number) {
             this._y = value;
             this.textLabelUI.y = this._y
-            this.inputTextUi.y = this._y
+            this.infoLabelUi.y = this._y
         }
         public get y(): number {
             return this._y

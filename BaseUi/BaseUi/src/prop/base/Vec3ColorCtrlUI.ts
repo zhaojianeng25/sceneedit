@@ -41,7 +41,7 @@
             this.inputTextUiZ.addEventListener(ReflectionEvet.CHANGE_DATA, this.inputTextUiZchange, this)
 
             this.colorPickUI.addEventListener(ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this)
-            this.height = 50
+            this.height = 30
         }
         public destory(): void {
             this.textLabelUI.destory();
@@ -100,7 +100,7 @@
             return n.toString();
         }
         public set x(value: number) {
-            this._x = value;
+            this._x = value+10;
             this.textLabelUI.x = this._x -20;
 
             this.textX.x = this._x + 55;
@@ -118,7 +118,7 @@
         }
 
         public set y(value: number) {
-            this._y = value;
+            this._y = value+5;
             this.textLabelUI.y = this._y
             this.textX.y = this._y
             this.textY.y = this._y
@@ -126,6 +126,7 @@
             this.inputTextUiX.y = this._y
             this.inputTextUiY.y = this._y
             this.inputTextUiZ.y = this._y
+
             this.colorPickUI.y = this._y-2 ;
         }
         public get y(): number {

@@ -53,6 +53,9 @@
             this.textureContext = new TextureContext(w,h)
             PropModel.getInstance().propPanle.addUIContainer(this.textureContext);
             this.ui = this.textureContext.ui
+       
+
+
         }
         public destory(): void {
             PropModel.getInstance().propPanle.removeUIContainer(this.textureContext);
@@ -102,7 +105,7 @@
             return "";
         }
         public set label(value: string) {
-            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e",1);
         }
 
     }

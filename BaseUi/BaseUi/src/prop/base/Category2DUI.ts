@@ -23,10 +23,10 @@
             this.categoryOpen = new BaseMeshUi(20,20);
             this.textLabelUI = new TextLabelUI();
  
-            this.height = 20
+            this.height = 25
 
             this.categoryBgUi.ui.width = 400;
-            this.categoryBgUi.ui.height = this.height
+            this.categoryBgUi.ui.height = this.height-5
 
  
 

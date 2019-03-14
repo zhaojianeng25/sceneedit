@@ -9,9 +9,8 @@
 
     export class InputTextUi extends TextLabelUI{
 
-        
-        public constructor() {
-            super();
+        public constructor(w: number = 64, h: number = 64) {
+            super(w, h);
         }
         protected initView(): void {
        
