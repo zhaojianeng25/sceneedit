@@ -1,5 +1,9 @@
 var prop;
 (function (prop) {
+    var TextureManager = Pan3d.TextureManager;
+    var UIManager = Pan3d.UIManager;
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
     var BaseReflComponent = /** @class */ (function () {
         function BaseReflComponent() {
             this._width = 1;
@@ -80,6 +84,35 @@ var prop;
         BaseReflComponent.prototype.initView = function () {
         };
         BaseReflComponent.prototype.destory = function () {
+        };
+        BaseReflComponent.prototype.drawOutColor = function (ui, $vcolor) {
+            var $UIAtlas = ui.uiRender.uiAtlas;
+            var $textureStr = ui.skinName;
+            var rec = $UIAtlas.getRec($textureStr);
+            var ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var $imgData = ctx.getImageData(0, 0, rec.pixelWitdh, rec.pixelHeight);
+            for (var i = 0; i < $imgData.data.length / 4; i++) {
+                $imgData.data[i * 4 + 0] = $vcolor.x;
+                $imgData.data[i * 4 + 1] = $vcolor.y;
+                $imgData.data[i * 4 + 2] = $vcolor.z;
+                $imgData.data[i * 4 + 3] = 255;
+            }
+            ctx.putImageData($imgData, 0, 0);
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
+        };
+        BaseReflComponent.prototype.drawUrlImgToUi = function (ui, url) {
+            var _this = this;
+            LoadManager.getInstance().load(Scene_data.fileRoot + url, LoadManager.IMG_TYPE, function ($img) {
+                _this.drawImgToUi(ui, $img);
+            });
+        };
+        BaseReflComponent.prototype.drawImgToUi = function (ui, $img) {
+            var $UIAtlas = ui.uiRender.uiAtlas;
+            var $textureStr = ui.skinName;
+            var rec = $UIAtlas.getRec($textureStr);
+            var ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
         };
         return BaseReflComponent;
     }());

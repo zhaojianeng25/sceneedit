@@ -36,6 +36,7 @@
         public ui: Array<BaseReflComponent>
         public creat(data: Array<any>): void {
             this.ui = new Array;
+            this.ui = [this.getCategoryUI("物体")]
             for (var i: number = 0; i < data.length; i++) {
                 this.ui.push(this.creatComponent(data[i]));
             }
@@ -79,10 +80,13 @@
             if (type == ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
-
-            
-            
+ 
             return null;
+        }
+        public getCategoryUI(value: string): Category2DUI {
+            var $category2DUI: Category2DUI = new Category2DUI()
+            $category2DUI.label =value
+            return $category2DUI;
         }
         public getTextField2DUI($obj: Object): TextField2DUI {
             var $textCtrlInput: TextField2DUI = new TextField2DUI()

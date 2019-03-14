@@ -33,6 +33,7 @@ var prop;
         });
         MetaDataView.prototype.creat = function (data) {
             this.ui = new Array;
+            this.ui = [this.getCategoryUI("物体")];
             for (var i = 0; i < data.length; i++) {
                 this.ui.push(this.creatComponent(data[i]));
             }
@@ -73,6 +74,11 @@ var prop;
                 return this.getTextField2DUI(obj);
             }
             return null;
+        };
+        MetaDataView.prototype.getCategoryUI = function (value) {
+            var $category2DUI = new prop.Category2DUI();
+            $category2DUI.label = value;
+            return $category2DUI;
         };
         MetaDataView.prototype.getTextField2DUI = function ($obj) {
             var $textCtrlInput = new prop.TextField2DUI();

@@ -1,4 +1,10 @@
 ﻿module prop {
+    import UIAtlas = Pan3d.UIAtlas;
+    import TextureManager = Pan3d.TextureManager
+    import UIManager = Pan3d.UIManager
+    import UIRectangle = Pan3d.UIRectangle
+    import Scene_data = Pan3d.Scene_data
+    import LoadManager = Pan3d.LoadManager
 
     export class BaseReflComponent {
 
@@ -84,6 +90,38 @@
         public destory(): void {
         }
 
+        protected drawOutColor(ui: Pan3d.UICompenent, $vcolor: Vector3D): void {
 
+            var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
+            var $textureStr: string = ui.skinName
+            var rec: UIRectangle = $UIAtlas.getRec($textureStr);
+            var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var $imgData: ImageData = ctx.getImageData(0, 0, rec.pixelWitdh, rec.pixelHeight);
+            for (var i: number = 0; i < $imgData.data.length / 4; i++) {
+                $imgData.data[i * 4 + 0] = $vcolor.x;
+                $imgData.data[i * 4 + 1] = $vcolor.y;
+                $imgData.data[i * 4 + 2] = $vcolor.z;
+                $imgData.data[i * 4 + 3] = 255;
+            }
+            ctx.putImageData($imgData, 0, 0)
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
+
+        }
+        protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void {
+
+            LoadManager.getInstance().load(Scene_data.fileRoot + url, LoadManager.IMG_TYPE,
+                ($img: any) => {
+                    this.drawImgToUi(ui, $img)
+                });
+        }
+        protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void {
+
+            var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
+            var $textureStr: string = ui.skinName
+            var rec: UIRectangle = $UIAtlas.getRec($textureStr);
+            var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            ctx.drawImage($img, 0, 0, rec.pixelWitdh, rec.pixelHeight);
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
+        }
     }
 }
