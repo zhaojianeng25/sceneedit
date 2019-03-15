@@ -219,17 +219,15 @@ var materialui;
                 $rect.width = ($rect.width - $rect.x) + 180;
                 $rect.height = ($rect.height - $rect.y) + 200;
                 //重新载入的材质适配到可显示位置
-                console.log($rect);
-                console.log(BaseUiStart.centenPanel.rect);
-                console.log(pageRect.width / $rect.width, pageRect.height / $rect.height);
                 var scaleNum = (Math.min(pageRect.width / $rect.width, pageRect.height / $rect.height));
                 scaleNum = Math.min(scaleNum, 0.8);
                 scaleNum = Math.max(scaleNum, 0.5);
                 materialui.MtlUiData.Scale = scaleNum;
-                console.log("----------- MtlUiData.Scale----", materialui.MtlUiData.Scale);
                 var tureXY = new Vector2D();
                 tureXY.x = -$rect.x + pageRect.x / materialui.MtlUiData.Scale;
                 tureXY.y = -$rect.y + pageRect.y / materialui.MtlUiData.Scale;
+                tureXY.x += (pageRect.width / materialui.MtlUiData.Scale - $rect.width) / 2;
+                tureXY.y += (pageRect.height / materialui.MtlUiData.Scale - $rect.height) / 2;
                 this.stageMoveTx(tureXY);
             }
         };

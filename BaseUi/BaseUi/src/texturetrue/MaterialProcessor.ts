@@ -248,22 +248,23 @@
                 $rect.width = ($rect.width - $rect.x)+180
                 $rect.height = ($rect.height - $rect.y)+200
                 //重新载入的材质适配到可显示位置
-                console.log($rect)
-                console.log(BaseUiStart.centenPanel.rect)
-            
-
-                console.log(pageRect.width / $rect.width, pageRect.height / $rect.height)
+ 
 
                 var scaleNum: number = (Math.min(pageRect.width / $rect.width, pageRect.height / $rect.height))
                 scaleNum = Math.min(scaleNum, 0.8)
                 scaleNum = Math.max(scaleNum, 0.5)
                 MtlUiData.Scale = scaleNum;
 
-                console.log("----------- MtlUiData.Scale----", MtlUiData.Scale)
+ 
 
                 var tureXY: Vector2D = new Vector2D();
-                tureXY.x = -$rect.x + pageRect.x / MtlUiData.Scale
-                tureXY.y = -$rect.y + pageRect.y / MtlUiData.Scale
+                tureXY.x = -$rect.x + pageRect.x / MtlUiData.Scale;
+                tureXY.y = -$rect.y + pageRect.y / MtlUiData.Scale;
+
+
+                tureXY.x += (pageRect.width / MtlUiData.Scale - $rect.width) / 2
+                tureXY.y += (pageRect.height / MtlUiData.Scale - $rect.height) / 2
+
              
       
                 this.stageMoveTx(tureXY)
