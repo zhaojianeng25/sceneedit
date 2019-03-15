@@ -110,6 +110,9 @@ var Pan3d;
         };
         LoaderThread.prototype.loadError = function () {
             this.idle = true;
+            if (this._loadInfo.info && this._loadInfo.info.errorFun) {
+                this._loadInfo.info.errorFun();
+            }
             this._loadInfo = null;
             LoadManager.getInstance().loadWaitList();
         };

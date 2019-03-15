@@ -4,9 +4,9 @@
     import MathClass = Pan3d.MathClass
     import ModuleEventManager = Pan3d.ModuleEventManager
 
- 
 
- 
+
+
     export class FileVo {
         public name: string
         public path: string
@@ -72,16 +72,53 @@
         }
         private static saveDicfileGropFun($dir, fileArr: Array<FileVo>): void {
 
-            console.log("保存文件夹目录", $dir, fileArr)
-            JSON.stringify(fileArr);
-            
-        }
-        public static getFolderArr($dir: string, bfun: Function): void {
+            //  console.log("保存文件夹目录", $dir, fileArr)
 
-          //  console.log("获取文件目录", $dir) 
-            this.getDisList($dir, (value) => {
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray()
+            $byte.writeUTF(JSON.stringify(fileArr))
+            var $file: File = new File([$byte.buffer], this.indexFileName);
+            var pathurl: string = $dir
+            console.log(pathurl + $file.name);
+            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
+                console.log("文件上传成功");
+            })
+
+        }
+        private static indexFileName: string = "index.hidegroup" //配置文件名读取这个文件标记为文件夹下的所以
+
+        private static getDicByUrl($dir: string, bfun: Function, errBfun: Function): void {
+            var filePath: string = Scene_data.ossRoot + $dir + this.indexFileName
+            Pan3d.LoadManager.getInstance().load(filePath, Pan3d.LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
+                var $dicByte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($byte);
+                var $tempItem: Array<any> = JSON.parse($dicByte.readUTF());
                 var fileArr: Array<FileVo> = []
-             
+                for (var i: number = 0; i < $tempItem.length; i++) {
+                    var fileVo: FileVo = new FileVo();
+                    fileVo.name = $tempItem[i].name
+                    fileVo.path = $tempItem[i].path
+                    if ($tempItem[i].isFolder) {
+                        fileVo.isFolder = $tempItem[i].isFolder
+                    }
+                    if ($tempItem[i].suffix) {
+                        fileVo.suffix = $tempItem[i].suffix
+                    }
+                    fileArr.push(fileVo)
+
+                }
+                bfun(fileArr);
+                console.log("url获取", filePath)
+            }, {
+                    errorFun: () => {
+                        errBfun();
+                    }
+                });
+
+        }
+        //通过方法可以重新生存文件目录
+        public static getDisByOss($dir: string, bfun: Function): void {
+
+            this.getTempOss($dir, (value) => {
+                var fileArr: Array<FileVo> = []
                 for (var i: number = 0; value.prefixes && i < value.prefixes.length; i++) {
                     var fileVo: FileVo = new FileVo();
                     fileVo.meshStr(value.prefixes[i])
@@ -89,17 +126,26 @@
                 }
                 for (var j: number = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo: FileVo = FileVo.meshObj(value.objects[j])
-                    if (fileVo) {
+                    if (fileVo && fileVo.suffix != this.indexFileName.split(".")[1]) { //不是文件夹配置文件
                         fileArr.push(fileVo);
                     }
-
                 }
                 bfun(fileArr);
-
-                this.saveDicfileGropFun($dir,fileArr)
+                console.log("oss获取文件目录", $dir)
+                this.saveDicfileGropFun($dir, fileArr)
             })
         }
-        private static getDisList($dir: string, bfun: Function): void {
+        public static isMustUseOssGetDic: boolean = false //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
+        public static getFolderArr($dir: string, bfun: Function): void { 
+            if (this.isMustUseOssGetDic) { 
+                this.getDisByOss($dir, bfun)
+            } else {
+                this.getDicByUrl($dir, bfun, () => {
+                    this.getDisByOss($dir, bfun)
+                })
+            }
+        }
+        private static getTempOss($dir: string, bfun: Function): void {
             if (!this.waitItem) {
                 this.waitItem = [];
             }
@@ -111,7 +157,7 @@
                     })
                 } else {
                     this.oneByOne();
-                    
+
                 }
             }
         }
@@ -127,7 +173,7 @@
                         bucket: "webpan"
                     });
                     bfun()
-               
+
                 } else {
                     console.log(res);
                 }
@@ -138,7 +184,7 @@
 
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(() => {
- 
+
                     FileOssModel.ossWrapper.delete($filename).then(function (result) {
                         console.log(result);
                         $bfun && $bfun()
@@ -148,7 +194,7 @@
 
                 })
             } else {
- 
+
                 FileOssModel.ossWrapper.delete($filename).then(function (result) {
                     console.log(result);
                     $bfun && $bfun()
@@ -157,7 +203,7 @@
                 });
 
             }
-          
+
 
 
         }
@@ -265,5 +311,5 @@
         }
 
     }
- 
+
 }

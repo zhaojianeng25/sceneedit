@@ -1,5 +1,6 @@
 var filemodel;
 (function (filemodel) {
+    var Scene_data = Pan3d.Scene_data;
     var FileVo = /** @class */ (function () {
         function FileVo() {
         }
@@ -59,13 +60,46 @@ var filemodel;
             }
         };
         FileOssModel.saveDicfileGropFun = function ($dir, fileArr) {
-            console.log("保存文件夹目录", $dir, fileArr);
-            JSON.stringify(fileArr);
+            //  console.log("保存文件夹目录", $dir, fileArr)
+            var $byte = new Pan3d.Pan3dByteArray();
+            $byte.writeUTF(JSON.stringify(fileArr));
+            var $file = new File([$byte.buffer], this.indexFileName);
+            var pathurl = $dir;
+            console.log(pathurl + $file.name);
+            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
+                console.log("文件上传成功");
+            });
         };
-        FileOssModel.getFolderArr = function ($dir, bfun) {
+        FileOssModel.getDicByUrl = function ($dir, bfun, errBfun) {
+            var filePath = Scene_data.ossRoot + $dir + this.indexFileName;
+            Pan3d.LoadManager.getInstance().load(filePath, Pan3d.LoadManager.BYTE_TYPE, function ($byte) {
+                var $dicByte = new Pan3d.Pan3dByteArray($byte);
+                var $tempItem = JSON.parse($dicByte.readUTF());
+                var fileArr = [];
+                for (var i = 0; i < $tempItem.length; i++) {
+                    var fileVo = new FileVo();
+                    fileVo.name = $tempItem[i].name;
+                    fileVo.path = $tempItem[i].path;
+                    if ($tempItem[i].isFolder) {
+                        fileVo.isFolder = $tempItem[i].isFolder;
+                    }
+                    if ($tempItem[i].suffix) {
+                        fileVo.suffix = $tempItem[i].suffix;
+                    }
+                    fileArr.push(fileVo);
+                }
+                bfun(fileArr);
+                console.log("url获取", filePath);
+            }, {
+                errorFun: function () {
+                    errBfun();
+                }
+            });
+        };
+        //通过方法可以重新生存文件目录
+        FileOssModel.getDisByOss = function ($dir, bfun) {
             var _this = this;
-            //  console.log("获取文件目录", $dir) 
-            this.getDisList($dir, function (value) {
+            this.getTempOss($dir, function (value) {
                 var fileArr = [];
                 for (var i = 0; value.prefixes && i < value.prefixes.length; i++) {
                     var fileVo = new FileVo();
@@ -74,15 +108,27 @@ var filemodel;
                 }
                 for (var j = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo = FileVo.meshObj(value.objects[j]);
-                    if (fileVo) {
+                    if (fileVo && fileVo.suffix != _this.indexFileName.split(".")[1]) { //不是文件夹配置文件
                         fileArr.push(fileVo);
                     }
                 }
                 bfun(fileArr);
+                console.log("oss获取文件目录", $dir);
                 _this.saveDicfileGropFun($dir, fileArr);
             });
         };
-        FileOssModel.getDisList = function ($dir, bfun) {
+        FileOssModel.getFolderArr = function ($dir, bfun) {
+            var _this = this;
+            if (this.isMustUseOssGetDic) {
+                this.getDisByOss($dir, bfun);
+            }
+            else {
+                this.getDicByUrl($dir, bfun, function () {
+                    _this.getDisByOss($dir, bfun);
+                });
+            }
+        };
+        FileOssModel.getTempOss = function ($dir, bfun) {
             var _this = this;
             if (!this.waitItem) {
                 this.waitItem = [];
@@ -224,6 +270,8 @@ var filemodel;
                 });
             }
         };
+        FileOssModel.indexFileName = "index.hidegroup"; //配置文件名读取这个文件标记为文件夹下的所以
+        FileOssModel.isMustUseOssGetDic = false; //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
         FileOssModel.waitItemUpFile = [];
         return FileOssModel;
     }());
