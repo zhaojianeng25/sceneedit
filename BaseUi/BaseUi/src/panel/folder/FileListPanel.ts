@@ -570,11 +570,11 @@
                 var $vo: FileListName = <FileListName>this._uiItem[i]
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
-
                         filemodel.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
-                            console.log("删除成功")
-
-                            this.refrishPath(this.rootFilePath)
+                            filemodel.FileOssModel.getDisByOss(this.rootFilePath, () => {
+                                this.refrishPath(this.rootFilePath)
+                                console.log("删除成功")
+                            })
                         })
                     }
                 }
@@ -604,8 +604,12 @@
 
                 filemodel.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, () => {
                     console.log("文件上传成功");
+         
+                    filemodel.FileOssModel.getDisByOss(pathurl, () => {
+                        this.refrishPath(this.rootFilePath)
+                    })
 
-                    this.refrishPath(this.rootFilePath)
+                 
                 })
             }
             this._inputHtmlSprite = null;

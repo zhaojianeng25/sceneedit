@@ -100,7 +100,7 @@
                         if (tempInfo.type == "tex") {
                             this.mekeParamTexture(tempInfo)
                         } else {
-                            console.log(tempInfo.type)
+                           // console.log(tempInfo.type)
 
                             this.makeParamValue(tempInfo)
                         }

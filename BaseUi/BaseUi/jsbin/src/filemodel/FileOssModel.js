@@ -59,7 +59,7 @@ var filemodel;
                 });
             }
         };
-        FileOssModel.saveDicfileGropFun = function ($dir, fileArr) {
+        FileOssModel.saveDicfileGropFun = function ($dir, fileArr, bfun) {
             //  console.log("保存文件夹目录", $dir, fileArr)
             var $byte = new Pan3d.Pan3dByteArray();
             $byte.writeUTF(JSON.stringify(fileArr));
@@ -67,7 +67,8 @@ var filemodel;
             var pathurl = $dir;
             console.log(pathurl + $file.name);
             filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
-                console.log("文件上传成功");
+                console.log("文件夹配置", pathurl + $file.name);
+                bfun();
             });
         };
         FileOssModel.getDicByUrl = function ($dir, bfun, errBfun) {
@@ -89,7 +90,7 @@ var filemodel;
                     fileArr.push(fileVo);
                 }
                 bfun(fileArr);
-                console.log("url获取", filePath);
+                //    console.log("url获取", filePath)
             }, {
                 errorFun: function () {
                     errBfun();
@@ -99,6 +100,14 @@ var filemodel;
         //通过方法可以重新生存文件目录
         FileOssModel.getDisByOss = function ($dir, bfun) {
             var _this = this;
+            //特别处理是不椒"/"结尾的文件目录
+            var idex = $dir.lastIndexOf("/");
+            if (idex != -1) {
+                $dir = $dir.substr(0, idex + 1);
+            }
+            else {
+                $dir = "";
+            }
             this.getTempOss($dir, function (value) {
                 var fileArr = [];
                 for (var i = 0; value.prefixes && i < value.prefixes.length; i++) {
@@ -112,9 +121,10 @@ var filemodel;
                         fileArr.push(fileVo);
                     }
                 }
-                bfun(fileArr);
                 console.log("oss获取文件目录", $dir);
-                _this.saveDicfileGropFun($dir, fileArr);
+                _this.saveDicfileGropFun($dir, fileArr, function () {
+                    bfun(fileArr);
+                });
             });
         };
         FileOssModel.getFolderArr = function ($dir, bfun) {
@@ -169,7 +179,7 @@ var filemodel;
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(function () {
                     FileOssModel.ossWrapper.delete($filename).then(function (result) {
-                        console.log(result);
+                        // console.log(result);
                         $bfun && $bfun();
                     }).catch(function (err) {
                         console.log(err);
@@ -178,7 +188,7 @@ var filemodel;
             }
             else {
                 FileOssModel.ossWrapper.delete($filename).then(function (result) {
-                    console.log(result);
+                    //  console.log(result);
                     $bfun && $bfun();
                 }).catch(function (err) {
                     console.log(err);
@@ -190,7 +200,7 @@ var filemodel;
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(function () {
                     FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
-                        console.log(result);
+                        //   console.log(result);
                         $bfun && $bfun();
                     }).catch(function (err) {
                         console.log(err);
@@ -199,7 +209,7 @@ var filemodel;
             }
             else {
                 FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
-                    console.log(result);
+                    //  console.log(result);
                     $bfun && $bfun();
                 }).catch(function (err) {
                     console.log(err);
@@ -262,7 +272,7 @@ var filemodel;
             var _this = this;
             if (this.waitItemUpFile.length > 0) {
                 FileOssModel.uploadFile(this.waitItemUpFile[0].a, this.waitItemUpFile[0].b, function () {
-                    console.log(_this.waitItemUpFile[0]);
+                    // console.log(this.waitItemUpFile[0])
                     var kFun = _this.waitItemUpFile[0].c;
                     _this.waitItemUpFile.shift();
                     kFun && kFun();

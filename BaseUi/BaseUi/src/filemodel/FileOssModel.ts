@@ -70,7 +70,7 @@
                 });
             }
         }
-        private static saveDicfileGropFun($dir, fileArr: Array<FileVo>): void {
+        private static saveDicfileGropFun($dir, fileArr: Array<FileVo>, bfun: Function): void {
 
             //  console.log("保存文件夹目录", $dir, fileArr)
 
@@ -80,7 +80,9 @@
             var pathurl: string = $dir
             console.log(pathurl + $file.name);
             filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
-                console.log("文件上传成功");
+                console.log("文件夹配置",pathurl + $file.name);
+
+                bfun();
             })
 
         }
@@ -106,7 +108,7 @@
 
                 }
                 bfun(fileArr);
-                console.log("url获取", filePath)
+            //    console.log("url获取", filePath)
             }, {
                     errorFun: () => {
                         errBfun();
@@ -116,6 +118,14 @@
         }
         //通过方法可以重新生存文件目录
         public static getDisByOss($dir: string, bfun: Function): void {
+
+            //特别处理是不椒"/"结尾的文件目录
+            var idex: number = $dir.lastIndexOf("/")
+            if (idex != -1) {
+                $dir = $dir.substr(0, idex + 1)
+            } else {
+                $dir=""
+            }
 
             this.getTempOss($dir, (value) => {
                 var fileArr: Array<FileVo> = []
@@ -130,13 +140,18 @@
                         fileArr.push(fileVo);
                     }
                 }
-                bfun(fileArr);
                 console.log("oss获取文件目录", $dir)
-                this.saveDicfileGropFun($dir, fileArr)
+                this.saveDicfileGropFun($dir, fileArr, () => {
+                    bfun(fileArr);
+                })
+         
+               
             })
         }
         public static isMustUseOssGetDic: boolean = false //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
-        public static getFolderArr($dir: string, bfun: Function): void { 
+        public static getFolderArr($dir: string, bfun: Function): void {
+       
+
             if (this.isMustUseOssGetDic) { 
                 this.getDisByOss($dir, bfun)
             } else {
@@ -181,12 +196,10 @@
         }
 
         public static deleFile($filename: string, $bfun: Function = null): void {
-
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(() => {
-
                     FileOssModel.ossWrapper.delete($filename).then(function (result) {
-                        console.log(result);
+                       // console.log(result);
                         $bfun && $bfun()
                     }).catch(function (err) {
                         console.log(err);
@@ -196,7 +209,7 @@
             } else {
 
                 FileOssModel.ossWrapper.delete($filename).then(function (result) {
-                    console.log(result);
+                  //  console.log(result);
                     $bfun && $bfun()
                 }).catch(function (err) {
                     console.log(err);
@@ -211,28 +224,22 @@
         public static uploadFile($file: File, $filename: string, $bfun: Function = null): void {
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(() => {
-
                     FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
-                        console.log(result);
+                     //   console.log(result);
                         $bfun && $bfun()
                     }).catch(function (err) {
                         console.log(err);
                     });
-
                 });
             } else {
-
                 FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
-                    console.log(result);
+                  //  console.log(result);
                     $bfun && $bfun()
                 }).catch(function (err) {
                     console.log(err);
                 });
             }
-
             console.log("上传文件==>", $filename)
-
-
 
         }
 
@@ -300,7 +307,7 @@
         private static oneByOneUpFile(): void {
             if (this.waitItemUpFile.length > 0) {
                 FileOssModel.uploadFile(this.waitItemUpFile[0].a, this.waitItemUpFile[0].b, () => {
-                    console.log(this.waitItemUpFile[0])
+                   // console.log(this.waitItemUpFile[0])
                     var kFun: Function = this.waitItemUpFile[0].c;
                     this.waitItemUpFile.shift();
                     kFun && kFun()

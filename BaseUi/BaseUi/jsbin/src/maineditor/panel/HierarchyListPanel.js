@@ -77,7 +77,7 @@ var maineditor;
                             this.mekeParamTexture(tempInfo);
                         }
                         else {
-                            console.log(tempInfo.type);
+                            // console.log(tempInfo.type)
                             this.makeParamValue(tempInfo);
                         }
                     }

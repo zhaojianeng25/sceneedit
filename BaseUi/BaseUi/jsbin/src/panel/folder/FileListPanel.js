@@ -455,8 +455,10 @@ var filelist;
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
                         filemodel.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
-                            console.log("删除成功");
-                            _this.refrishPath(_this.rootFilePath);
+                            filemodel.FileOssModel.getDisByOss(_this.rootFilePath, function () {
+                                _this.refrishPath(_this.rootFilePath);
+                                console.log("删除成功");
+                            });
                         });
                     }
                 }
@@ -482,7 +484,9 @@ var filelist;
                 console.log(pathurl + simpleFile.name);
                 filemodel.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, function () {
                     console.log("文件上传成功");
-                    _this.refrishPath(_this.rootFilePath);
+                    filemodel.FileOssModel.getDisByOss(pathurl, function () {
+                        _this.refrishPath(_this.rootFilePath);
+                    });
                 });
             }
             this._inputHtmlSprite = null;
