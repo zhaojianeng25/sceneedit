@@ -82,6 +82,7 @@
                     $color = "[ffffff]";
                 }
                 var fileVo: FileVo = this.fileListMeshVo.fileXmlVo.data;
+                this.parent.uiAtlas.clearCtxTextureBySkilname(this.textureStr)
                 switch (fileVo.suffix) {
                     case FileVo.JPG:
                     case FileVo.PNG:
@@ -118,7 +119,22 @@
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
 
-            this.parent.uiAtlas.ctx.drawImage($img, 12.5, 5, 45, 45)
+            console.log($img.width)
+            var tw: number = 45;
+            var th: number = 45;
+            if ($img.width) {
+                tw = Math.max($img.width, 10);
+                th = Math.max($img.height, 10);
+
+                tw = Math.min($img.width, 45);
+                th = Math.min($img.height, 45);
+            }
+         
+ 
+      
+            this.parent.uiAtlas.ctx.drawImage($img, 12.5 + (45 - tw) / 2, 5 + (45 - th) / 2, tw, th)
+
+
             var outStr: string = name.split(".")[0];
 
             var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
@@ -247,11 +263,26 @@
 
         }
         private lastfileDonwInfo: any;
-        private mouseDownTm: number
+ 
         protected fileMouseDown(evt: InteractiveEvent): void {
-            this.filemouseIsDown = true
-            this.mouseDownTm = Pan3d.TimeUtil.getTimer()
+            this.filemouseIsDown = true;
+       
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+
+         
+
+                if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
+                    console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer())
+                    if (this.lastfileDonwInfo.tm >( Pan3d.TimeUtil.getTimer()-1000)) {
+                        this.fileDuboclik(evt)
+                        return
+                    } else {
+                        this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer() 
+                    }
+                } else {
+                    this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+                }
+         
 
             this.makeDragData(evt);
         }
@@ -294,6 +325,7 @@
         private filemouseIsDown: boolean
         protected stageMouseMove(evt: InteractiveEvent): void {
             this.filemouseIsDown = false
+            this.lastfileDonwInfo = null
 
         }
         private fileDuboclik(evt: InteractiveEvent): void {
@@ -354,22 +386,7 @@
         protected fileMouseUp(evt: InteractiveEvent): void {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
       
-            if (this.filemouseIsDown) {
-                if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
-                    if (this.lastfileDonwInfo.tm + 500 > Pan3d.TimeUtil.getTimer()) {
-                        if (Pan3d.TimeUtil.getTimer() > this.mouseDownTm + 100) {
-                            this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer()
-                        } else {
-                            this.fileDuboclik(evt)
-                        }
-                        return
-                    } else {
-                        this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer()
-                    }
-                } else {
-                    this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
-                }
-            }
+        
             this.selectFileIcon(evt)
 
         }

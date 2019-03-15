@@ -53,15 +53,15 @@ var editscene;
             }
             if ($container) {
                 _super.prototype.addUIContainer.call(this, $container);
-                console.log("添加", this._containerList.length);
+                //   console.log("添加", this._containerList.length)
             }
             else {
-                console.log("清理主UI");
+                //      console.log("清理主UI")
             }
         };
         CentenPanel.prototype.removeUIContainer = function ($container) {
             _super.prototype.removeUIContainer.call(this, $container);
-            console.log("删除", this._containerList.length);
+            //  console.log("删除", this._containerList.length)
         };
         return CentenPanel;
     }(Panel));

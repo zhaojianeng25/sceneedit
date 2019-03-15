@@ -45,15 +45,15 @@
             }
             if ($container) {
                 super.addUIContainer($container)
-                console.log("添加", this._containerList.length)
+             //   console.log("添加", this._containerList.length)
             } else {
-                console.log("清理主UI")
+          //      console.log("清理主UI")
             }
           
         }
         public removeUIContainer($container: UIConatiner): void {
             super.removeUIContainer($container)
-            console.log("删除", this._containerList.length)
+          //  console.log("删除", this._containerList.length)
         }
     }
     export class EditScenePanel extends Panel {
