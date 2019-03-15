@@ -43,7 +43,7 @@
         }
     }
 
-    export class FolderModel {
+    export class FileOssModel {
         private static waitItem: Array<any>;
         public static ossWrapper: OSS.Wrapper;
         private static oneByOne(): void {
@@ -70,8 +70,15 @@
                 });
             }
         }
+        private static saveDicfileGropFun($dir, fileArr: Array<FileVo>): void {
+
+            console.log("保存文件夹目录", $dir, fileArr)
+            JSON.stringify(fileArr);
+            
+        }
         public static getFolderArr($dir: string, bfun: Function): void {
 
+          //  console.log("获取文件目录", $dir) 
             this.getDisList($dir, (value) => {
                 var fileArr: Array<FileVo> = []
              
@@ -88,6 +95,8 @@
 
                 }
                 bfun(fileArr);
+
+                this.saveDicfileGropFun($dir,fileArr)
             })
         }
         private static getDisList($dir: string, bfun: Function): void {
@@ -107,8 +116,8 @@
             }
         }
         public static makeOssWrapper(bfun: Function): void {
-            FileModel.webseverurl = "https://api.h5key.com/api/";
-            FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
+            this.webseverurl = "https://api.h5key.com/api/";
+            this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
                 if (res.data && res.data.info) {
                     this.ossWrapper = new OSS.Wrapper({
                         accessKeyId: res.data.info.AccessKeyId,
@@ -124,102 +133,65 @@
                 }
             })
         }
-       
-   
 
-    }
-    export class FileModel {
+        public static deleFile($filename: string, $bfun: Function = null): void {
 
+            if (!FileOssModel.ossWrapper) {
+                this.makeOssWrapper(() => {
+ 
+                    FileOssModel.ossWrapper.delete($filename).then(function (result) {
+                        console.log(result);
+                        $bfun && $bfun()
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
 
-        private static _instance: FileModel;
-        public static getInstance(): FileModel {
-            if (!this._instance) {
-                this._instance = new FileModel();
-            }
-            return this._instance;
-        }
-        private info: any;
-        private waitItemFile: Array<any> = []
-        public upOssFile(file: File, $fileUrl: string, $bfun: Function = null): void {
-            FileModel.webseverurl = "https://api.h5key.com/api/";
-            this.waitItemFile.push({ a: file, b: $fileUrl, c: $bfun })
-            if (this.waitItemFile.length == 1) {
-                if (this.info) {
-                    this.oneByOne();
-                } else {
-                    FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
-                        this.info = res.data.info
-                        if (this.info) {
-                            this.oneByOne()
-                        } else {
-                            console.log("get_STS", res)
-                        }
-                    })
-                }
-
-            }
-        }
-        private oneByOne(): void {
-            if (this.waitItemFile.length > 0) {
-                this.uploadFile(this.waitItemFile[0].a, this.waitItemFile[0].b, () => {
-                    console.log(this.waitItemFile[0])
-                    var kFun: Function = this.waitItemFile[0].c;
-                    this.waitItemFile.shift();
-                    kFun && kFun()
-                    this.oneByOne()
                 })
+            } else {
+ 
+                FileOssModel.ossWrapper.delete($filename).then(function (result) {
+                    console.log(result);
+                    $bfun && $bfun()
+                }).catch(function (err) {
+                    console.log(err);
+                });
+
             }
+          
+
 
         }
-   
-    
-        public convertCanvasToImage(canvas): any {
-            var image = new Image();
-            image.src = canvas.toDataURL("image/png");
-            return image;
-        }
 
-        public uploadFile($file: File, $filename: string, $bfun: Function = null): void {
-            if (!FolderModel.ossWrapper) {
-                this.makeOSSWrapper();
+        public static uploadFile($file: File, $filename: string, $bfun: Function = null): void {
+            if (!FileOssModel.ossWrapper) {
+                this.makeOssWrapper(() => {
+
+                    FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
+                        console.log(result);
+                        $bfun && $bfun()
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+
+                });
+            } else {
+
+                FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
+                    console.log(result);
+                    $bfun && $bfun()
+                }).catch(function (err) {
+                    console.log(err);
+                });
             }
+
             console.log("上传文件==>", $filename)
 
-             
-            FolderModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
-                console.log(result);
-                $bfun && $bfun()
-            }).catch(function (err) {
-                console.log(err);
-            });
-          
+
+
         }
-        private makeOSSWrapper() {
-            FolderModel.ossWrapper = new OSS.Wrapper({
-                accessKeyId: this.info.AccessKeyId,
-                accessKeySecret: this.info.AccessKeySecret,
-                stsToken: this.info.SecurityToken,
-                endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                bucket: "webpan"
-            });
-        }
-        public deleFile($filename: string, $bfun: Function = null): void {
-
-            if (!FolderModel.ossWrapper) {
-                this.makeOSSWrapper()
-            }
-            console.log(FolderModel.ossWrapper)
 
 
-            FolderModel.ossWrapper.delete($filename).then(function (result) {
-                console.log(result);
-                $bfun && $bfun()
-            }).catch(function (err) {
-                console.log(err);
-            });
 
-          
-        }
 
         public static WEB_SEVER_EVENT_AND_BACK(webname: string, postStr: string, $bfun: Function = null): void {
             webname = webname.replace(/\s+/g, "");
@@ -236,7 +208,7 @@
         //网页模式的WEB请求
         private static isPostWeboffwx(webname: string, postStr: string, $bfun: Function = null) {
             var ajax: XMLHttpRequest = new XMLHttpRequest();
-            var url: string = FileModel.webseverurl + webname;
+            var url: string = this.webseverurl + webname;
 
             // $bfun = null;
 
@@ -263,7 +235,35 @@
             ajax.send(postStr);
         }
 
-       
+
+        private static waitItemUpFile: Array<any> = []
+        public static upOssFile(file: File, $fileUrl: string, $bfun: Function = null): void {
+            FileOssModel.webseverurl = "https://api.h5key.com/api/";
+            this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun })
+            if (this.waitItemUpFile.length == 1) {
+                if (!FileOssModel.ossWrapper) {
+                    FileOssModel.makeOssWrapper(() => {
+                        this.oneByOneUpFile();
+                    })
+                } else {
+                    this.oneByOneUpFile();
+                }
+
+            }
+        }
+        private static oneByOneUpFile(): void {
+            if (this.waitItemUpFile.length > 0) {
+                FileOssModel.uploadFile(this.waitItemUpFile[0].a, this.waitItemUpFile[0].b, () => {
+                    console.log(this.waitItemUpFile[0])
+                    var kFun: Function = this.waitItemUpFile[0].c;
+                    this.waitItemUpFile.shift();
+                    kFun && kFun()
+                    this.oneByOneUpFile()
+                })
+            }
+
+        }
 
     }
+ 
 }

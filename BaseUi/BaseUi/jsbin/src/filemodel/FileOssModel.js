@@ -31,10 +31,10 @@ var filemodel;
         return FileVo;
     }());
     filemodel.FileVo = FileVo;
-    var FolderModel = /** @class */ (function () {
-        function FolderModel() {
+    var FileOssModel = /** @class */ (function () {
+        function FileOssModel() {
         }
-        FolderModel.oneByOne = function () {
+        FileOssModel.oneByOne = function () {
             var _this = this;
             if (this.waitItem.length > 0) {
                 var $dir = this.waitItem[0].a; //目录
@@ -58,7 +58,13 @@ var filemodel;
                 });
             }
         };
-        FolderModel.getFolderArr = function ($dir, bfun) {
+        FileOssModel.saveDicfileGropFun = function ($dir, fileArr) {
+            console.log("保存文件夹目录", $dir, fileArr);
+            JSON.stringify(fileArr);
+        };
+        FileOssModel.getFolderArr = function ($dir, bfun) {
+            var _this = this;
+            //  console.log("获取文件目录", $dir) 
             this.getDisList($dir, function (value) {
                 var fileArr = [];
                 for (var i = 0; value.prefixes && i < value.prefixes.length; i++) {
@@ -73,9 +79,10 @@ var filemodel;
                     }
                 }
                 bfun(fileArr);
+                _this.saveDicfileGropFun($dir, fileArr);
             });
         };
-        FolderModel.getDisList = function ($dir, bfun) {
+        FileOssModel.getDisList = function ($dir, bfun) {
             var _this = this;
             if (!this.waitItem) {
                 this.waitItem = [];
@@ -92,10 +99,10 @@ var filemodel;
                 }
             }
         };
-        FolderModel.makeOssWrapper = function (bfun) {
+        FileOssModel.makeOssWrapper = function (bfun) {
             var _this = this;
-            FileModel.webseverurl = "https://api.h5key.com/api/";
-            FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
+            this.webseverurl = "https://api.h5key.com/api/";
+            this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
                 if (res.data && res.data.info) {
                     _this.ossWrapper = new OSS.Wrapper({
                         accessKeyId: res.data.info.AccessKeyId,
@@ -111,94 +118,50 @@ var filemodel;
                 }
             });
         };
-        return FolderModel;
-    }());
-    filemodel.FolderModel = FolderModel;
-    var FileModel = /** @class */ (function () {
-        function FileModel() {
-            this.waitItemFile = [];
-        }
-        FileModel.getInstance = function () {
-            if (!this._instance) {
-                this._instance = new FileModel();
-            }
-            return this._instance;
-        };
-        FileModel.prototype.upOssFile = function (file, $fileUrl, $bfun) {
-            var _this = this;
+        FileOssModel.deleFile = function ($filename, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
-            FileModel.webseverurl = "https://api.h5key.com/api/";
-            this.waitItemFile.push({ a: file, b: $fileUrl, c: $bfun });
-            if (this.waitItemFile.length == 1) {
-                if (this.info) {
-                    this.oneByOne();
-                }
-                else {
-                    FileModel.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
-                        _this.info = res.data.info;
-                        if (_this.info) {
-                            _this.oneByOne();
-                        }
-                        else {
-                            console.log("get_STS", res);
-                        }
+            if (!FileOssModel.ossWrapper) {
+                this.makeOssWrapper(function () {
+                    FileOssModel.ossWrapper.delete($filename).then(function (result) {
+                        console.log(result);
+                        $bfun && $bfun();
+                    }).catch(function (err) {
+                        console.log(err);
                     });
-                }
+                });
             }
-        };
-        FileModel.prototype.oneByOne = function () {
-            var _this = this;
-            if (this.waitItemFile.length > 0) {
-                this.uploadFile(this.waitItemFile[0].a, this.waitItemFile[0].b, function () {
-                    console.log(_this.waitItemFile[0]);
-                    var kFun = _this.waitItemFile[0].c;
-                    _this.waitItemFile.shift();
-                    kFun && kFun();
-                    _this.oneByOne();
+            else {
+                FileOssModel.ossWrapper.delete($filename).then(function (result) {
+                    console.log(result);
+                    $bfun && $bfun();
+                }).catch(function (err) {
+                    console.log(err);
                 });
             }
         };
-        FileModel.prototype.convertCanvasToImage = function (canvas) {
-            var image = new Image();
-            image.src = canvas.toDataURL("image/png");
-            return image;
-        };
-        FileModel.prototype.uploadFile = function ($file, $filename, $bfun) {
+        FileOssModel.uploadFile = function ($file, $filename, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
-            if (!FolderModel.ossWrapper) {
-                this.makeOSSWrapper();
+            if (!FileOssModel.ossWrapper) {
+                this.makeOssWrapper(function () {
+                    FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
+                        console.log(result);
+                        $bfun && $bfun();
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+                });
+            }
+            else {
+                FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
+                    console.log(result);
+                    $bfun && $bfun();
+                }).catch(function (err) {
+                    console.log(err);
+                });
             }
             console.log("上传文件==>", $filename);
-            FolderModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
-                console.log(result);
-                $bfun && $bfun();
-            }).catch(function (err) {
-                console.log(err);
-            });
         };
-        FileModel.prototype.makeOSSWrapper = function () {
-            FolderModel.ossWrapper = new OSS.Wrapper({
-                accessKeyId: this.info.AccessKeyId,
-                accessKeySecret: this.info.AccessKeySecret,
-                stsToken: this.info.SecurityToken,
-                endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                bucket: "webpan"
-            });
-        };
-        FileModel.prototype.deleFile = function ($filename, $bfun) {
-            if ($bfun === void 0) { $bfun = null; }
-            if (!FolderModel.ossWrapper) {
-                this.makeOSSWrapper();
-            }
-            console.log(FolderModel.ossWrapper);
-            FolderModel.ossWrapper.delete($filename).then(function (result) {
-                console.log(result);
-                $bfun && $bfun();
-            }).catch(function (err) {
-                console.log(err);
-            });
-        };
-        FileModel.WEB_SEVER_EVENT_AND_BACK = function (webname, postStr, $bfun) {
+        FileOssModel.WEB_SEVER_EVENT_AND_BACK = function (webname, postStr, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
             webname = webname.replace(/\s+/g, "");
             var $obj = new Object();
@@ -208,10 +171,10 @@ var filemodel;
             this.isPostWeboffwx(webname, postStr, $bfun);
         };
         //网页模式的WEB请求
-        FileModel.isPostWeboffwx = function (webname, postStr, $bfun) {
+        FileOssModel.isPostWeboffwx = function (webname, postStr, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
             var ajax = new XMLHttpRequest();
-            var url = FileModel.webseverurl + webname;
+            var url = this.webseverurl + webname;
             // $bfun = null;
             var timestamp = String(Pan3d.TimeUtil.getTimer());
             var keystr = "ABC";
@@ -233,8 +196,37 @@ var filemodel;
             };
             ajax.send(postStr);
         };
-        return FileModel;
+        FileOssModel.upOssFile = function (file, $fileUrl, $bfun) {
+            var _this = this;
+            if ($bfun === void 0) { $bfun = null; }
+            FileOssModel.webseverurl = "https://api.h5key.com/api/";
+            this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun });
+            if (this.waitItemUpFile.length == 1) {
+                if (!FileOssModel.ossWrapper) {
+                    FileOssModel.makeOssWrapper(function () {
+                        _this.oneByOneUpFile();
+                    });
+                }
+                else {
+                    this.oneByOneUpFile();
+                }
+            }
+        };
+        FileOssModel.oneByOneUpFile = function () {
+            var _this = this;
+            if (this.waitItemUpFile.length > 0) {
+                FileOssModel.uploadFile(this.waitItemUpFile[0].a, this.waitItemUpFile[0].b, function () {
+                    console.log(_this.waitItemUpFile[0]);
+                    var kFun = _this.waitItemUpFile[0].c;
+                    _this.waitItemUpFile.shift();
+                    kFun && kFun();
+                    _this.oneByOneUpFile();
+                });
+            }
+        };
+        FileOssModel.waitItemUpFile = [];
+        return FileOssModel;
     }());
-    filemodel.FileModel = FileModel;
+    filemodel.FileOssModel = FileOssModel;
 })(filemodel || (filemodel = {}));
-//# sourceMappingURL=FileModel.js.map
+//# sourceMappingURL=FileOssModel.js.map

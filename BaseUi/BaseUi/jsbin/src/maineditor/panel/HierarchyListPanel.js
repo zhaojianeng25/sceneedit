@@ -531,7 +531,7 @@ var maineditor;
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-            filemodel.FileModel.getInstance().upOssFile($file, pathurl, function () {
+            filemodel.FileOssModel.upOssFile($file, pathurl, function () {
                 console.log("上传完成");
             });
         };

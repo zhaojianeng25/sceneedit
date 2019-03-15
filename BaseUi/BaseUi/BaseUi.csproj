@@ -75,7 +75,7 @@
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\FolderProcessor.ts" />
     <TypeScriptCompile Include="src\panel\folder\OssFolderPanel.ts" />
-    <TypeScriptCompile Include="src\filemodel\FileModel.ts" />
+    <TypeScriptCompile Include="src\filemodel\FileOssModel.ts" />
     <TypeScriptCompile Include="libs\libs.d.ts" />
     <TypeScriptCompile Include="pan3dinit\mainpan3d.ts" />
     <TypeScriptCompile Include="pan3dinit\scene2d\AppDataArpg.ts" />

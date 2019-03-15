@@ -230,7 +230,7 @@
                             /*
                             var $upfile: File = this.dataURLtoFile($img.src, $vo.data.url);
                             var $newUrl: string = "ccc.jpg"
-                            filemodel.FileModel.getInstance().upOssFile($upfile, "shadertree/" + $newUrl, () => {
+                            filemodel.FolderModel.upOssFile($upfile, "shadertree/" + $newUrl, () => {
                                 console.log("文件上传成功");
                             })
                             $vo.data.url = $newUrl;
@@ -251,7 +251,7 @@
             var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
             var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathUrl)
-            filemodel.FileModel.getInstance().uploadFile($file, pathurl, () => {
+            filemodel.FileOssModel.upOssFile($file, pathurl, () => {
                 console.log("材质上传成功");
             })
             //    this.upOssFile($file, "shadertree/texturelist/" + this.fileid + ".txt", () => {

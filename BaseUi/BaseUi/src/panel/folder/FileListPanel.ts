@@ -27,7 +27,7 @@
     import DragManager = drag.DragManager;
 
     import FileVo = filemodel.FileVo;
-    import FileModel = filemodel.FileModel;
+    import FileModel = filemodel.FileOssModel;
  
     import MenuListData = menutwo.MenuListData
 
@@ -119,7 +119,6 @@
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
 
-            console.log($img.width)
             var tw: number = 45;
             var th: number = 45;
             if ($img.width) {
@@ -422,7 +421,7 @@
             //this.a_path_tittle_txt.x = 10
             //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll()
-            filemodel.FolderModel.getFolderArr(pathstr, (value: Array<FileVo>) => {
+            filemodel.FileOssModel.getFolderArr(pathstr, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
                     var sampleFile: SampleFileVo = new SampleFileVo;
                     sampleFile.id = i;
@@ -557,7 +556,7 @@
             var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathurl + $file.name);
 
-            filemodel.FileModel.getInstance().upOssFile($file, pathurl + $file.name, () => {
+            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
                 console.log("文件上传成功");
 
                 this.refrishPath(this.rootFilePath)
@@ -572,7 +571,7 @@
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
 
-                        filemodel.FileModel.getInstance().deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
+                        filemodel.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
                             console.log("删除成功")
 
                             this.refrishPath(this.rootFilePath)
@@ -603,7 +602,7 @@
                 var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
                 console.log(pathurl + simpleFile.name);
 
-                filemodel.FileModel.getInstance().upOssFile(simpleFile, pathurl + simpleFile.name, () => {
+                filemodel.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, () => {
                     console.log("文件上传成功");
 
                     this.refrishPath(this.rootFilePath)

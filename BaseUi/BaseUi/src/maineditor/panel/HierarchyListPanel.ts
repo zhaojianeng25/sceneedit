@@ -634,7 +634,8 @@
 
             var $file: File = new File([$byte.buffer], "scene.map");
             var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-            filemodel.FileModel.getInstance().upOssFile($file, pathurl, () => {
+            
+            filemodel.FileOssModel.upOssFile($file, pathurl, () => {
 
                 console.log("上传完成")
 

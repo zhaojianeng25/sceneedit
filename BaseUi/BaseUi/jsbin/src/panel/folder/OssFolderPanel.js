@@ -207,7 +207,7 @@ var ossfolder;
             }
             else {
                 var pathurl = $folderName.folderMeshVo.ossListFile.baseFile.path;
-                filemodel.FolderModel.getFolderArr(pathurl, function (value) {
+                filemodel.FileOssModel.getFolderArr(pathurl, function (value) {
                     if (!$folderName.folderMeshVo.childItem) {
                         $folderName.folderMeshVo.childItem = [];
                         for (var i = 0; value && i < value.length; i++) {
@@ -245,7 +245,7 @@ var ossfolder;
             //
             //Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
             var rootDic = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
-            filemodel.FolderModel.getFolderArr(rootDic, function (value) {
+            filemodel.FileOssModel.getFolderArr(rootDic, function (value) {
                 for (var i = 0; i < value.length; i++) {
                     if (value[i].isFolder) {
                         var $vo = _this.getCharNameMeshVo(value[i]);
