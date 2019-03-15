@@ -19,7 +19,7 @@ var prop;
             var _this = _super.call(this) || this;
             _this.layaPanel = new layout.Panel(false);
             layout.LayerManager.getInstance().addPanel(_this.layaPanel, 501);
-            ;
+            _this.setRect(new Pan3d.Rectangle(100, 100, 500, 400));
             return _this;
         }
         TextureFunPanel.prototype.loadConfigCom = function () {

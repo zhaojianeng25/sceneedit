@@ -91,6 +91,8 @@
             super();
             this.layaPanel = new layout.Panel(false)
             layout.LayerManager.getInstance().addPanel(this.layaPanel, 501);
+
+            this.setRect(new Pan3d.Rectangle(100, 100, 500, 400))
     ;
         }
         public showPanel(value: materialui.MathFunNodeUI): void {

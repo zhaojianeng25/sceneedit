@@ -244,6 +244,7 @@ var materialui;
                     }
                     else {
                         prop.PropModel.getInstance().showPanel(this);
+                        prop.TextureFunPanel.getInstance().hidePanel();
                     }
                 }
             },

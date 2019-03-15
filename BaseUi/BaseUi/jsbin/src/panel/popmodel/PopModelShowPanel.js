@@ -192,6 +192,7 @@ var popmodel;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height;
             }
+            console.log(this.left, this.top);
         };
         PopModelShowPanel.prototype.selectInputDae = function (evt) {
             var _this = this;

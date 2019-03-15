@@ -327,6 +327,8 @@
                     prop.TextureFunPanel.getInstance().showPanel(this)
                 } else {
                     prop.PropModel.getInstance().showPanel(this)
+
+                    prop.TextureFunPanel.getInstance().hidePanel()
                 }
            
             }
