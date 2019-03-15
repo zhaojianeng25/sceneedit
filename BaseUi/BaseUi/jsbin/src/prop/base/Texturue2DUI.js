@@ -15,6 +15,7 @@ var prop;
 (function (prop) {
     var TextureManager = Pan3d.TextureManager;
     var Scene_data = Pan3d.Scene_data;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
     var Texturue2DUI = /** @class */ (function (_super) {
         __extends(Texturue2DUI, _super);
         function Texturue2DUI() {
@@ -24,8 +25,29 @@ var prop;
             this.textLabelUI = new prop.TextLabelUI(64, 16);
             this.textureUrlText = new prop.TextLabelUI(128, 16);
             this.texturePicUi = new prop.TexturePicUi();
+            this.searchIcon = new prop.BaseMeshUi(26, 26);
+            this.drawUrlImgToUi(this.searchIcon.ui, "icon/search.png");
             this.texturePicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.onChangePicurl, this);
+            this.searchIcon.ui.addEventListener(InteractiveEvent.Up, this.searchClik, this);
             this.height = 100;
+        };
+        Texturue2DUI.prototype.searchClik = function (evt) {
+            this.searchFileByPath(this.target[this.FunKey]);
+        };
+        Texturue2DUI.prototype.searchFileByPath = function (value) {
+            var pathurl = Pan3d.Scene_data.fileRoot + value;
+            pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "");
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), this.getPerentPath(pathurl));
+        };
+        Texturue2DUI.prototype.getPerentPath = function (value) {
+            var idex = value.lastIndexOf("/");
+            if (idex != -1) {
+                value = value.substr(0, idex + 1);
+            }
+            else {
+                value = "";
+            }
+            return value;
         };
         Texturue2DUI.prototype.onChangePicurl = function ($evt) {
             var _this = this;
@@ -69,6 +91,7 @@ var prop;
             this.textLabelUI.destory();
             this.textureUrlText.destory();
             this.texturePicUi.destory();
+            this.searchIcon.destory();
         };
         Object.defineProperty(Texturue2DUI.prototype, "data", {
             get: function () {
@@ -95,6 +118,7 @@ var prop;
                 this.textLabelUI.x = this._x + 0;
                 this.texturePicUi.x = this._x + 60;
                 this.textureUrlText.x = this._x + 60;
+                this.searchIcon.x = this._x + 150;
             },
             enumerable: true,
             configurable: true
@@ -108,6 +132,7 @@ var prop;
                 this.textLabelUI.y = this._y;
                 this.texturePicUi.y = this._y;
                 this.textureUrlText.y = this._y + 75;
+                this.searchIcon.y = this._y + 10;
             },
             enumerable: true,
             configurable: true

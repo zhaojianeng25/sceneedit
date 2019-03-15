@@ -1,20 +1,45 @@
 ﻿module prop {
     import TextureManager = Pan3d.TextureManager
     import Scene_data = Pan3d.Scene_data
+    import InteractiveEvent = Pan3d.InteractiveEvent
     export class Texturue2DUI extends BaseReflComponent {
 
         protected textLabelUI: TextLabelUI;
         protected textureUrlText: TextLabelUI;
         protected texturePicUi: TexturePicUi
+        protected searchIcon: BaseMeshUi
    
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI(64, 16)
             this.textureUrlText = new TextLabelUI(128,16)
             this.texturePicUi = new TexturePicUi()
+            this.searchIcon = new BaseMeshUi(26, 26);
+
+            this.drawUrlImgToUi(this.searchIcon.ui, "icon/search.png")
      
             this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.onChangePicurl, this)
+
+            this.searchIcon.ui.addEventListener(InteractiveEvent.Up, this.searchClik, this)
+
             this.height = 100;
+        }
+        protected searchClik(evt: InteractiveEvent): void {
+            this.searchFileByPath(this.target[this.FunKey])
+        }
+        protected searchFileByPath(value: string): void {
+            var pathurl: string = Pan3d.Scene_data.fileRoot + value;
+            pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "")
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), this.getPerentPath(pathurl))
+        }
+        private getPerentPath(value: string): string {
+            var idex: number = value.lastIndexOf("/")
+            if (idex != -1) {
+                value = value.substr(0, idex + 1)
+            } else {
+                value = ""
+            }
+            return value
         }
 
         private onChangePicurl($evt: ReflectionEvet): void {
@@ -67,6 +92,7 @@
             this.textLabelUI.destory()
             this.textureUrlText.destory()
             this.texturePicUi.destory()
+            this.searchIcon.destory()
     
         }
         public set data(value: any) {
@@ -90,7 +116,8 @@
             this._x = value;
             this.textLabelUI.x = this._x + 0;
             this.texturePicUi.x = this._x + 60;
-            this.textureUrlText.x=this._x+60
+            this.textureUrlText.x = this._x + 60
+            this.searchIcon.x = this._x + 150;
 
         }
         public get x(): number {
@@ -101,7 +128,8 @@
             this._y = value;
             this.textLabelUI.y = this._y
             this.texturePicUi.y = this._y 
-            this.textureUrlText.y = this._y+75
+            this.textureUrlText.y = this._y + 75
+            this.searchIcon.y = this._y+10
         }
         public get y(): number {
             return this._y

@@ -53,7 +53,10 @@
            
            
         }
-      
+        protected searchClik(evt: Pan3d.InteractiveEvent): void {
+            console.log(this.textureTree.url)
+            this.searchFileByPath(this.textureTree.url)
+        }
    
         private makeTempInfo($materialTree: materialui.MaterialTree): Array<any> {
 

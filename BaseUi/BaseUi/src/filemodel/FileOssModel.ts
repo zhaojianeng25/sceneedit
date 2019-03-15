@@ -116,16 +116,21 @@
                 });
 
         }
+        //获得文件夹目录
+        private static getPerentPath(value: string): string {
+            var idex: number = value.lastIndexOf("/")
+            if (idex != -1) {
+                value = value.substr(0, idex + 1)
+            } else {
+                value = ""
+            }
+            return value
+        }
         //通过方法可以重新生存文件目录
         public static getDisByOss($dir: string, bfun: Function): void {
 
             //特别处理是不椒"/"结尾的文件目录
-            var idex: number = $dir.lastIndexOf("/")
-            if (idex != -1) {
-                $dir = $dir.substr(0, idex + 1)
-            } else {
-                $dir=""
-            }
+            $dir = this.getPerentPath($dir)
 
             this.getTempOss($dir, (value) => {
                 var fileArr: Array<FileVo> = []

@@ -64,6 +64,10 @@ var prop;
             this._materialTreeMc.y = this._y + 100;
             this.height = 100 + this._materialTreeMc.height;
         };
+        Material2DUI.prototype.searchClik = function (evt) {
+            console.log(this.textureTree.url);
+            this.searchFileByPath(this.textureTree.url);
+        };
         Material2DUI.prototype.makeTempInfo = function ($materialTree) {
             var item = [];
             for (var i = 0; i < $materialTree.data.length; i++) {

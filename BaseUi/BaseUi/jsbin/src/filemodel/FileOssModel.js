@@ -97,17 +97,22 @@ var filemodel;
                 }
             });
         };
+        //获得文件夹目录
+        FileOssModel.getPerentPath = function (value) {
+            var idex = value.lastIndexOf("/");
+            if (idex != -1) {
+                value = value.substr(0, idex + 1);
+            }
+            else {
+                value = "";
+            }
+            return value;
+        };
         //通过方法可以重新生存文件目录
         FileOssModel.getDisByOss = function ($dir, bfun) {
             var _this = this;
             //特别处理是不椒"/"结尾的文件目录
-            var idex = $dir.lastIndexOf("/");
-            if (idex != -1) {
-                $dir = $dir.substr(0, idex + 1);
-            }
-            else {
-                $dir = "";
-            }
+            $dir = this.getPerentPath($dir);
             this.getTempOss($dir, function (value) {
                 var fileArr = [];
                 for (var i = 0; value.prefixes && i < value.prefixes.length; i++) {
