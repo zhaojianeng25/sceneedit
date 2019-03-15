@@ -202,17 +202,35 @@ var materialui;
                     if ($rect) {
                         $rect.x = Math.min($rect.x, temp.x);
                         $rect.y = Math.min($rect.y, temp.y);
-                        $rect.width = Math.max($rect.width, temp.width);
-                        $rect.height = Math.max($rect.height, temp.height);
+                        $rect.width = Math.max($rect.width, temp.x);
+                        $rect.height = Math.max($rect.height, temp.y);
                     }
                     else {
-                        $rect = new Rectangle(temp.x, temp.y, temp.width, temp.height);
+                        $rect = new Rectangle(temp.x, temp.y, temp.x, temp.y);
                     }
                 }
             }
             if ($rect) {
+                var pageRect = new Rectangle();
+                pageRect.x = BaseUiStart.centenPanel.rect.x;
+                pageRect.y = BaseUiStart.centenPanel.rect.y + 15;
+                pageRect.width = BaseUiStart.centenPanel.rect.width;
+                pageRect.height = BaseUiStart.centenPanel.rect.height - 40;
+                $rect.width = ($rect.width - $rect.x) + 180;
+                $rect.height = ($rect.height - $rect.y) + 200;
+                //重新载入的材质适配到可显示位置
                 console.log($rect);
-                console.log(BaseUiStart.stagePos);
+                console.log(BaseUiStart.centenPanel.rect);
+                console.log(pageRect.width / $rect.width, pageRect.height / $rect.height);
+                var scaleNum = (Math.min(pageRect.width / $rect.width, pageRect.height / $rect.height));
+                scaleNum = Math.min(scaleNum, 0.8);
+                scaleNum = Math.max(scaleNum, 0.5);
+                materialui.MtlUiData.Scale = scaleNum;
+                console.log("----------- MtlUiData.Scale----", materialui.MtlUiData.Scale);
+                var tureXY = new Vector2D();
+                tureXY.x = -$rect.x + pageRect.x / materialui.MtlUiData.Scale;
+                tureXY.y = -$rect.y + pageRect.y / materialui.MtlUiData.Scale;
+                this.stageMoveTx(tureXY);
             }
         };
         MaterialProcessor.prototype.saveMateriaPanel = function () {

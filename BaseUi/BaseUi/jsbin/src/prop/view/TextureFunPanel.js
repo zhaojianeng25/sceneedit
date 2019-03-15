@@ -37,12 +37,13 @@ var prop;
                 this.chatHtmlInput.style.color = "#ffffff";
                 document.body.appendChild(this.chatHtmlInput);
                 this.chatHtmlInput.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
+                //this.chatHtmlInput.style.resize = (cevt: any) => { this.changeInputResize(cevt) };
+                this.chatHtmlInput.style.resize = "none";
             }
             this.chatHtmlInput.style.left = 0 + "px";
             this.chatHtmlInput.style.top = 0 + "px";
             var tw = 350;
             var th = 40;
-            var textSize = 100;
             this.chatHtmlInput.style.fontSize = String(12) + "px";
             this.chatHtmlInput.style.width = String(tw) + "px";
             this.chatHtmlInput.style.height = String(th) + "px";
@@ -62,6 +63,9 @@ var prop;
                 this.chatHtmlInput.style.width = this.pageRect.width - 8 + "px";
                 this.chatHtmlInput.style.height = this.pageRect.height - 30 + "px";
             }
+        };
+        TextureFunPanel.prototype.changeInputResize = function (evt) {
+            console.log(evt);
         };
         TextureFunPanel.prototype.changeFile = function (evt) {
             var $agalStr = this.chatHtmlInput.value;

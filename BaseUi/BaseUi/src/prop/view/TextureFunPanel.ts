@@ -21,6 +21,10 @@
                 this.chatHtmlInput.style.color = "#ffffff";
                 document.body.appendChild(this.chatHtmlInput);
                 this.chatHtmlInput.addEventListener("change", (cevt: any) => { this.changeFile(cevt) });
+                //this.chatHtmlInput.style.resize = (cevt: any) => { this.changeInputResize(cevt) };
+                this.chatHtmlInput.style.resize = "none"
+               
+              
             }
 
             this.chatHtmlInput.style.left = 0 + "px";
@@ -29,7 +33,8 @@
 
             var tw: number = 350
             var th: number = 40;
-            var textSize: number = 100
+
+          
             this.chatHtmlInput.style.fontSize = String(12) + "px";
             this.chatHtmlInput.style.width = String(tw) + "px";
             this.chatHtmlInput.style.height = String(th) + "px";
@@ -54,6 +59,9 @@
                 this.chatHtmlInput.style.width = this.pageRect.width-8 + "px";
                 this.chatHtmlInput.style.height = this.pageRect.height-30 + "px";
             }
+        }
+        private changeInputResize(evt: any): void {
+            console.log(evt)
         }
         
         private changeFile(evt: any): void {
