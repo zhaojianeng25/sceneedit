@@ -65,9 +65,10 @@
         protected loadConfigCom(): void {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas
 
- 
-            this.tureUpLine = this.addChild(<UICompenent>this._topRender.getComponent("b_move_line_a"));
-            this.tureUpLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.lineBgPixe = this.addChild(<UICompenent>this._bottomRender.getComponent("b_line_pixe_point"));
+
+            this.lineMoveEmpty = this.addChild(<UICompenent>this._topRender.getComponent("a_empty"));
+            this.lineMoveEmpty.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
             this.loadFinish = true
 
@@ -85,7 +86,7 @@
             this.lastMousePos = new Vector2D(evt.x, evt.y)
 
             switch (this.mouseMoveTaget) {
-                case this.tureUpLine:
+                case this.lineMoveEmpty:
                     this.lastPagePos = new Vector2D(this._pageRect.x,this._pageRect.y)
                     break
                 default:
@@ -103,7 +104,7 @@
       
         protected mouseOnTittleMove(evt: InteractiveEvent): void {
             switch (this.mouseMoveTaget) {
-                case this.tureUpLine:
+                case this.lineMoveEmpty:
                     this._pageRect.x = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
                     break
                 default:
@@ -136,16 +137,23 @@
         }
         private _pageRect: Rectangle;
  
-        private tureUpLine: UICompenent
+        private lineMoveEmpty: UICompenent
+        private lineBgPixe: UICompenent
+        
         private refrishSize(): void {
 
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
 
-            this.tureUpLine.x = 0;
-            this.tureUpLine.y = 0;
-            this.tureUpLine.height = this._pageRect.height
-            this.tureUpLine.width=10
+            this.lineMoveEmpty.x = 0;
+            this.lineMoveEmpty.y = 0;
+            this.lineMoveEmpty.height = this._pageRect.height;
+            this.lineMoveEmpty.width = 5;
+
+            this.lineBgPixe.x = 2;
+            this.lineBgPixe.y = 0;
+            this.lineBgPixe.height = this._pageRect.height;
+            this.lineBgPixe.width = 1;
 
             this.resize();
 

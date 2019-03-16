@@ -105,15 +105,7 @@ var ossfolder;
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
-            var item = [
-                this.a_bg,
-                this.a_tittle_bg,
-                this.b_bottom_right,
-            ];
-            this.setUiListVisibleByItem(item, false);
-            this.a_tittle_bg.height = 2;
-            this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.resize();
+            this.setUiListVisibleByItem([this.c_right_line], true);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
@@ -157,6 +149,12 @@ var ossfolder;
             this.pageRect.width = value.width * this.percentNum;
             this.pageRect.height = value.height;
             this.resize();
+        };
+        OssFolderPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete) {
+                this.c_right_line.y = 20;
+            }
         };
         OssFolderPanel.prototype.getPageRect = function () {
             return this.pageRect;

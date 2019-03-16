@@ -47,8 +47,9 @@ var editscene;
         };
         VerticalLineSprite.prototype.loadConfigCom = function () {
             this._topRender.uiAtlas = this._bottomRender.uiAtlas;
-            this.tureLeftright = this.addChild(this._topRender.getComponent("a_tittle_bg"));
-            this.tureLeftright.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.lineBgPixe = this.addChild(this._topRender.getComponent("b_line_pixe_point"));
+            this.lineMoveEmpty = this.addChild(this._topRender.getComponent("a_empty"));
+            this.lineMoveEmpty.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadFinish = true;
             this.refrishSize();
         };
@@ -56,7 +57,7 @@ var editscene;
             this.mouseMoveTaget = evt.target;
             this.lastMousePos = new Vector2D(evt.x, evt.y);
             switch (this.mouseMoveTaget) {
-                case this.tureLeftright:
+                case this.lineMoveEmpty:
                     this.lastPagePos = new Vector2D(this._pageRect.x, this._pageRect.y);
                     break;
                 default:
@@ -72,7 +73,7 @@ var editscene;
         };
         VerticalLineSprite.prototype.mouseOnTittleMove = function (evt) {
             switch (this.mouseMoveTaget) {
-                case this.tureLeftright:
+                case this.lineMoveEmpty:
                     this._pageRect.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
                     break;
                 default:
@@ -104,10 +105,14 @@ var editscene;
         VerticalLineSprite.prototype.refrishSize = function () {
             this.left = this._pageRect.x;
             this.top = this._pageRect.y;
-            this.tureLeftright.x = 0;
-            this.tureLeftright.y = 0;
-            this.tureLeftright.width = this._pageRect.width;
-            this.tureLeftright.height = 20;
+            this.lineMoveEmpty.x = 0;
+            this.lineMoveEmpty.y = 0;
+            this.lineMoveEmpty.width = this._pageRect.width;
+            this.lineMoveEmpty.height = 5;
+            this.lineBgPixe.x = 0;
+            this.lineBgPixe.y = 2;
+            this.lineBgPixe.width = this._pageRect.width;
+            this.lineBgPixe.height = 1;
             this.resize();
         };
         return VerticalLineSprite;

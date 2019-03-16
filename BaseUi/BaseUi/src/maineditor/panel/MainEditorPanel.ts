@@ -188,22 +188,7 @@
             this.initView()
 
  
-
-
-            var item: Array<UICompenent> = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
-                this.a_scroll_bar_bg,
  
-  
- 
-            ]
-            this.setUiListVisibleByItem(item, false)
-
             this.uiLoadComplete = true
             this.refrishSize()
 
@@ -309,16 +294,17 @@
 
         }
         public refrishSize(): void {
+  
+            this.resize()
+
             if (this.uiLoadComplete) {
                 var roundNum: number = 0;
                 this.a_scene_view.x = roundNum;
-                this.a_scene_view.y = roundNum+15;
+                this.a_scene_view.y = roundNum;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
                 this.a_scene_view.height = this.pageRect.height - roundNum * 2;
 
             }
-
-            this.resize()
         }
 
   

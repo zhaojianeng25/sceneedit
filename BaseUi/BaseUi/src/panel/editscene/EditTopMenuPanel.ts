@@ -39,13 +39,12 @@
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
  
-
-                var colorBg: string = $menuListData.select ? "#6c6c6c" : "#555555";
+                var colorBg: string = $menuListData.select ? "#6c6c6c" : "#353535";
                 var colorFont: string = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
 
                 this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                 this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 5, 5, TextAlign.LEFT)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 0, 5, TextAlign.CENTER)
 
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
@@ -74,8 +73,7 @@
             this._bottomRender.uiAtlas = new UIAtlas();
             this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
             this.addRenderAt(this._bottomRender, 0);
-
-
+ 
             BaseUiStart.topPanel.addUIContainer(this)
 
         }

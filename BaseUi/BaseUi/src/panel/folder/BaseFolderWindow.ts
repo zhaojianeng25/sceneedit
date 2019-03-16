@@ -30,34 +30,13 @@
         public setRect(value: Rectangle): void {
             this.pageRect = value
             this.resize()
-
-            this.left = value.x;
-            this.top = value.y;
             this.refrishSize()
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();
-            var item: Array<UICompenent> = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
-                this.a_tittle_bg,
-                this.a_bg,
-                this.a_scroll_bar_bg,
-            ]
-            this.setUiListVisibleByItem(item, false)
-            this.a_bg = this.addEvntBut("a_bg", this._bRender); //重加一个没有边线的背景
-
-            this.a_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-            this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.setUiListVisibleByItem([this.c_tittle_bg, this.c_win_bg], true)
         }
-        public resize(): void {
-            super.resize()
-          
-        }
+ 
 
         private refrishSize(): void {
             var pageSizeEvet: folder.FolderEvent = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);

@@ -14,6 +14,9 @@
                 this.changeSize()
             }
         }
+        public setShowUi(value: Array<string>): void {
+            this.winBg.setShowUi(value)
+        }
         public changeSize(): void {
             if (this.winBg) {
                 this.winBg.setRect (this.rect)

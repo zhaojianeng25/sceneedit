@@ -115,24 +115,10 @@
             super.loadConfigCom();
 
             this._baseRender.mask = this._uiMask
-     
-            var item: Array<UICompenent> = [
-                this.a_bg,
-                this.a_tittle_bg,
  
-         
-                this.b_bottom_right,
-               
- 
+
+            this.setUiListVisibleByItem([this.c_right_line], true)
      
-            ]
-            this.setUiListVisibleByItem(item, false)
-
-            this.a_tittle_bg.height=2
-            this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-            this.resize();
-
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
@@ -192,6 +178,13 @@
             this.pageRect.height = value.height;
 
             this.resize();
+        }
+        public resize(): void {
+            super.resize()
+            if (this.uiLoadComplete) {
+
+                this.c_right_line.y=20
+            }
         }
         public getPageRect(): Rectangle {
             return this.pageRect;

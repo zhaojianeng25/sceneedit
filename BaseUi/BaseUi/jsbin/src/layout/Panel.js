@@ -26,6 +26,9 @@ var layout;
             }
             return _this;
         }
+        Panel.prototype.setShowUi = function (value) {
+            this.winBg.setShowUi(value);
+        };
         Panel.prototype.changeSize = function () {
             if (this.winBg) {
                 this.winBg.setRect(this.rect);

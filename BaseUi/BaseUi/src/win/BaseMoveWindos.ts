@@ -1,4 +1,4 @@
-﻿module base {
+﻿module basemove {
     import UICompenent = Pan3d.UICompenent
     import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
@@ -22,7 +22,7 @@
     import Scene_data = Pan3d.Scene_data
 
 
-    export class BaseWindow extends UIConatiner {
+    export class BaseMoveWindos extends UIConatiner {
 
 
         private useMoseMove: boolean
@@ -35,23 +35,17 @@
             } else {
                 this.pageRect = new Rectangle(100, 100, 500, 500);
             }
-            this.contentHeight=0
+            this.contentHeight = 0
             this.useMoseMove = $move
 
             this._bRender = new UIRenderComponent;
-         //   this.addRender(this._bRender);
+            this.addRender(this._bRender);
 
             this._mRender = new UIRenderComponent;
-        //    this.addRender(this._mRender);
+            this.addRender(this._mRender);
 
             this._tRender = new UIRenderComponent;
-          //  this.addRender(this._tRender);
-
-            this._baseMidRender = new UIRenderComponent;
-            this.addRender(this._baseMidRender);
-
-            this._baseTopRender = new UIRenderComponent;
-            this.addRender(this._baseTopRender);
+            this.addRender(this._tRender);
 
             this._closeRender = new UIRenderComponent;
             this.addRender(this._closeRender);
@@ -60,12 +54,10 @@
             this._bRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
 
         }
-        //b_tittle_bg
+
         protected _bRender: UIRenderComponent;
         protected _mRender: UIRenderComponent;
         protected _tRender: UIRenderComponent;
-        protected _baseMidRender: UIRenderComponent;
-        protected _baseTopRender: UIRenderComponent;
         protected _closeRender: UIRenderComponent;
         protected _uiMask: UIMask
 
@@ -86,24 +78,20 @@
         protected b_bottom_line_left: UICompenent
         protected b_bottom_line_right: UICompenent
         protected b_win_close: UICompenent
-        public static maskLevel: number=10
+        private static maskLevel: number = 10
         protected loadConfigCom(): void {
             this._tRender.uiAtlas = this._bRender.uiAtlas
             this._mRender.uiAtlas = this._bRender.uiAtlas
             this._closeRender.uiAtlas = this._bRender.uiAtlas
 
-            this._baseMidRender.uiAtlas = this._bRender.uiAtlas
-            this._baseTopRender.uiAtlas = this._bRender.uiAtlas
- 
-            
 
             this._uiMask = new UIMask();
-            this._uiMask.level = BaseWindow.maskLevel++;
+            this._uiMask.level = base. BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
 
 
             this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
-            
+
 
             this.a_tittle_bg = this.addChild(<UICompenent>this._tRender.getComponent("b_tittle_bg"));
             this.a_left_line = this.addChild(<UICompenent>this._tRender.getComponent("a_left_line"));
@@ -119,49 +107,35 @@
             this.b_bottom_line_left = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_line"));
             this.b_bottom_line_right = this.addChild(<UICompenent>this._tRender.getComponent("b_bottom_line"));
 
-          
+
             this.b_win_close = this.addEvntBut("b_win_close", this._closeRender)
 
-            
+
 
             this.setUiListVisibleByItem([this.a_left_line], false)
             this.setUiListVisibleByItem([this.a_rigth_line], false)
             this.setUiListVisibleByItem([this.a_bottom_line], false)
+
             this.setUiListVisibleByItem([this.b_win_close], false)
-  
-           
-       
-            this.a_scroll_bar.y =this.a_tittle_bg.height+2
-
-            //新UI
-
-            this.c_tittle_bg = this._baseTopRender.getComponent("a_tittle_bg");
-            this.c_left_line = this._baseTopRender.getComponent("c_left_line");
-            this.c_right_line = this._baseTopRender.getComponent("c_left_line");
-            this.c_bottom_line = this._baseTopRender.getComponent("b_line_pixe_point");
-      
 
 
-            this.c_win_bg = this._baseMidRender.getComponent("c_win_bg");
-   
-            
 
- 
-          //  this.setUiListVisibleByItem([this.c_win_bg], true)
+            if (this.useMoseMove) {
+                this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            }
+            this.a_scroll_bar.y = this.a_tittle_bg.height + 2
+
 
             this.uiLoadComplete = true
             this.setHideUi()
-            this.setShowUi()
             this.resize()
 
 
         }
-        protected c_win_bg: UICompenent
-        protected c_tittle_bg: UICompenent
-        protected c_left_line: UICompenent
-        protected c_right_line: UICompenent
-        protected c_bottom_line: UICompenent
-        
+
         public removeMoveEvent(): void {
             if (this.uiLoadComplete) {
                 this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -180,39 +154,27 @@
         protected contentHeight: number
 
 
- 
+
         public setRect(value: Rectangle): void {
             this.pageRect = value
             this.resize()
-  
+
         }
         private hideUiItem: Array<string>
         public setHideUi(value: Array<string> = null): void {
+
             if (value) {
                 this.hideUiItem = value;
             }
             if (this.uiLoadComplete) {
-                for (var i: number = 0; this.hideUiItem&&i < this.hideUiItem.length; i++) {
+                for (var i: number = 0; this.hideUiItem && i < this.hideUiItem.length; i++) {
                     var uiName: string = this.hideUiItem[i];
                     this.setUiListVisibleByItem([this[uiName]], false);
                 }
             }
-          
-        }
-        private showUiItem: Array<string>
-        public setShowUi(value: Array<string> = null): void {
-            if (value) {
-                this.showUiItem = value;
-            }
-            if (this.uiLoadComplete) {
-                for (var i: number = 0; this.showUiItem && i < this.showUiItem.length; i++) {
-                    var uiName: string = this.showUiItem[i];
-                    this.setUiListVisibleByItem([this[uiName]], true);
-                }
-            }
 
         }
-     
+
         public resize(): void {
             if (this.uiLoadComplete) {
 
@@ -225,10 +187,10 @@
                 this.a_tittle_bg.y = 2;
                 this.a_tittle_bg.width = this.pageRect.width - 4;
 
-                this.b_win_close.y =2
-                this.b_win_close.x = this.pageRect.width - this.b_win_close.width-5
+                this.b_win_close.y = 2
+                this.b_win_close.x = this.pageRect.width - this.b_win_close.width - 5
 
-                this._uiMask.y = this.a_tittle_bg.height+2;
+                this._uiMask.y = this.a_tittle_bg.height + 2;
                 this._uiMask.x = 0
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width
                 this._uiMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height
@@ -239,7 +201,7 @@
                 this.a_bg.height = this.pageRect.height
 
                 this.a_rigth_line.x = this.pageRect.width - this.a_rigth_line.width
-                this.a_rigth_line.y = this.a_tittle_bg.height-1;
+                this.a_rigth_line.y = this.a_tittle_bg.height - 1;
                 this.a_rigth_line.height = this.pageRect.height - this.a_tittle_bg.height
 
                 this.a_left_line.x = 0;
@@ -251,13 +213,13 @@
                 this.a_bottom_line.width = this.a_bg.width
 
                 this.a_scroll_bar.x = this._uiMask.x + this._uiMask.width - this.a_scroll_bar.width;
-             
+
 
                 this.a_scroll_bar_bg.x = this.pageRect.width - this.a_rigth_line.width - this.a_scroll_bar_bg.width + 2
                 this.a_scroll_bar_bg.y = this.a_tittle_bg.height
                 this.a_scroll_bar_bg.height = this.a_left_line.height
 
- 
+
 
                 this.setUiListVisibleByItem([this.a_scroll_bar], this.contentHeight > this._uiMask.height)
 
@@ -265,14 +227,14 @@
                     this.a_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight)
                     this.a_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.a_scroll_bar.height, this.a_scroll_bar.y)
                 } else {
-                  //  this.a_scroll_bar.y = this.a_tittle_bg.height;
+                    //  this.a_scroll_bar.y = this.a_tittle_bg.height;
                 }
 
                 this.b_bottom_left.x = 0;
                 this.b_bottom_left.y = this.pageRect.height - this.b_bottom_left.height;
 
                 this.b_bottom_mid.y = this.b_bottom_left.y;
-                this.b_bottom_mid.x = this.pageRect.width/2 - this.b_bottom_mid.width / 2;
+                this.b_bottom_mid.x = this.pageRect.width / 2 - this.b_bottom_mid.width / 2;
 
                 this.b_bottom_right.y = this.b_bottom_left.y
                 this.b_bottom_right.x = this.pageRect.width - this.b_bottom_right.width;
@@ -282,7 +244,7 @@
                 this.b_bottom_line_left.width = this.b_bottom_mid.x - this.b_bottom_left.width;
 
                 this.b_bottom_line_right.y = this.b_bottom_left.y
-              
+
                 this.b_bottom_line_right.x = this.b_bottom_mid.x + this.b_bottom_mid.width;
                 this.b_bottom_line_right.width = this.b_bottom_right.x - this.b_bottom_mid.width - this.b_bottom_mid.x;
 
@@ -290,33 +252,6 @@
                 this._mRender.applyObjData();
                 this._tRender.applyObjData();
 
-
-                //新UI
-                this.c_win_bg.x = 0;
-                this.c_win_bg.y = 0
-                this.c_win_bg.width = this.pageRect.width
-                this.c_win_bg.height = this.pageRect.height
-
-
-                this.c_tittle_bg.x = 0
-                this.c_tittle_bg.y = 0;
-                this.c_tittle_bg.width = this.pageRect.width;
-
-                this.c_left_line.x = 0
-                this.c_left_line.y = 0
-                this.c_left_line.height = this.pageRect.height;
-
-
-                this.c_right_line.x = this.pageRect.width - this.c_right_line.width
-                this.c_right_line.y = 0
-                this.c_right_line.height = this.pageRect.height;
-
-
-                this.c_bottom_line.x = 0
-                this.c_bottom_line.y = this.pageRect.height - 1
-                this.c_bottom_line.width = this.pageRect.width
-                this.c_bottom_line.height = 1
-                
             }
             super.resize()
         }
@@ -327,7 +262,7 @@
         protected mouseMoveTaget: UICompenent
         protected pageRect: Rectangle
         protected tittleMouseDown(evt: InteractiveEvent): void {
-           
+
             this.mouseMoveTaget = evt.target
 
             this.lastMousePos = new Vector2D(evt.x, evt.y)
@@ -378,7 +313,7 @@
 
                     break
 
-           
+
 
                 case this.a_scroll_bar:
 
@@ -401,7 +336,7 @@
         protected changeScrollBar(): void {
         }
 
- 
+
     }
 
     export class Dis2dBaseWindow extends base.BaseWindow {
@@ -593,6 +528,6 @@
         }
 
     }
- 
+
 
 }

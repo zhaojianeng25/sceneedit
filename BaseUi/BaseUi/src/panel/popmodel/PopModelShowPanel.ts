@@ -167,9 +167,17 @@
         protected loadConfigCom(): void {
             super.loadConfigCom();
 
-            this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
+
+            this.setUiListVisibleByItem([this.c_left_line], true)
+            this.setUiListVisibleByItem([this.c_right_line], true)
+            this.setUiListVisibleByItem([this.c_bottom_line], true)
+            this.setUiListVisibleByItem([this.c_tittle_bg], true)
+            this.setUiListVisibleByItem([this.c_win_bg], true)
             this.setUiListVisibleByItem([this.b_win_close], true)
 
+            
+            this.a_tittle_bg = this.c_tittle_bg
+            this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
          
  
         }

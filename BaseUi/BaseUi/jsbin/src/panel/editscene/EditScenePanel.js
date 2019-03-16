@@ -22,22 +22,7 @@ var editscene;
         __extends(CentenPanel, _super);
         function CentenPanel(has) {
             if (has === void 0) { has = true; }
-            var _this = _super.call(this, has) || this;
-            if (_this.winBg) {
-                //只保留远离的Tittle
-                _this.winBg.setHideUi([
-                    "a_bg",
-                    "a_rigth_line",
-                    "a_left_line",
-                    "a_bottom_line",
-                    "b_bottom_left",
-                    "b_bottom_line_left",
-                    "b_bottom_mid",
-                    "b_bottom_line_right",
-                    "b_bottom_right"
-                ]);
-            }
-            return _this;
+            return _super.call(this, has) || this;
         }
         CentenPanel.prototype.changeSize = function () {
             if (this.winBg) {
@@ -101,6 +86,7 @@ var editscene;
         };
         EditScenePanel.prototype.addCenten = function () {
             var temp = new CentenPanel(true);
+            //  temp.setShowUi(["c_win_bg"]);
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;
@@ -110,6 +96,7 @@ var editscene;
         };
         EditScenePanel.prototype.addRight = function () {
             var temp = new Panel(true);
+            temp.setShowUi(["c_left_line", "c_win_bg"]);
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;
@@ -127,7 +114,8 @@ var editscene;
             BaseUiStart.topPanel = tempPanel;
         };
         EditScenePanel.prototype.addLeft = function () {
-            var temp = new Panel(false);
+            var temp = new Panel(true);
+            temp.setShowUi(["c_right_line", "c_win_bg"]);
             temp.x = 0;
             temp.y = 50;
             temp.width = 450;
@@ -142,14 +130,13 @@ var editscene;
             this.leftMoveLine.y = this.menuHeight;
             this.rightMoveLine.y = this.menuHeight;
             BaseUiStart.leftPanel.height = this.bottomMoveLine.y - BaseUiStart.leftPanel.y;
-            BaseUiStart.leftPanel.width = this.leftMoveLine.x;
-            this.leftMoveLine.x = BaseUiStart.leftPanel.width;
+            BaseUiStart.leftPanel.width = this.leftMoveLine.x + 3;
             this.leftMoveLine.height = this.bottomMoveLine.y - this.leftMoveLine.y;
             this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y;
-            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 10;
+            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 0;
             BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width;
             BaseUiStart.rightPanel.height = Scene_data.stageHeight - BaseUiStart.rightPanel.y;
-            this.bottomMoveLine.width = BaseUiStart.rightPanel.x - 10;
+            this.bottomMoveLine.width = BaseUiStart.rightPanel.x - 0;
             this.bottomMoveLine.x = 0;
             BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
             BaseUiStart.centenPanel.height = BaseUiStart.leftPanel.height;
@@ -157,7 +144,7 @@ var editscene;
             BaseUiStart.centenPanel.resize();
             BaseUiStart.rightPanel.resize();
             _super.prototype.resize.call(this);
-            var rect = new Rectangle(0, this.bottomMoveLine.y + 15, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y - 15);
+            var rect = new Rectangle(0, this.bottomMoveLine.y + 0, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y - 15);
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
             Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         };

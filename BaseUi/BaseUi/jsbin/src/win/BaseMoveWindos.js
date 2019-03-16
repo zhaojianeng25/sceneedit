@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var base;
-(function (base) {
+var basemove;
+(function (basemove) {
     var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Rectangle = Pan3d.Rectangle;
@@ -24,9 +24,9 @@ var base;
     var Vector2D = Pan3d.Vector2D;
     var TextureManager = Pan3d.TextureManager;
     var Scene_data = Pan3d.Scene_data;
-    var BaseWindow = /** @class */ (function (_super) {
-        __extends(BaseWindow, _super);
-        function BaseWindow($rect, $move) {
+    var BaseMoveWindos = /** @class */ (function (_super) {
+        __extends(BaseMoveWindos, _super);
+        function BaseMoveWindos($rect, $move) {
             if ($rect === void 0) { $rect = null; }
             if ($move === void 0) { $move = true; }
             var _this = _super.call(this) || this;
@@ -39,39 +39,33 @@ var base;
             _this.contentHeight = 0;
             _this.useMoseMove = $move;
             _this._bRender = new UIRenderComponent;
-            //   this.addRender(this._bRender);
+            _this.addRender(_this._bRender);
             _this._mRender = new UIRenderComponent;
-            //    this.addRender(this._mRender);
+            _this.addRender(_this._mRender);
             _this._tRender = new UIRenderComponent;
-            //  this.addRender(this._tRender);
-            _this._baseMidRender = new UIRenderComponent;
-            _this.addRender(_this._baseMidRender);
-            _this._baseTopRender = new UIRenderComponent;
-            _this.addRender(_this._baseTopRender);
+            _this.addRender(_this._tRender);
             _this._closeRender = new UIRenderComponent;
             _this.addRender(_this._closeRender);
             _this._bRender.uiAtlas = new UIAtlas();
             _this._bRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             return _this;
         }
-        BaseWindow.prototype.mouseDown = function (evt) {
+        BaseMoveWindos.prototype.mouseDown = function (evt) {
             this.mouseIsDown = true;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
-        BaseWindow.prototype.stageMouseMove = function (evt) {
+        BaseMoveWindos.prototype.stageMouseMove = function (evt) {
             this.mouseIsDown = false;
         };
-        BaseWindow.prototype.mouseUp = function (evt) {
+        BaseMoveWindos.prototype.mouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
         };
-        BaseWindow.prototype.loadConfigCom = function () {
+        BaseMoveWindos.prototype.loadConfigCom = function () {
             this._tRender.uiAtlas = this._bRender.uiAtlas;
             this._mRender.uiAtlas = this._bRender.uiAtlas;
             this._closeRender.uiAtlas = this._bRender.uiAtlas;
-            this._baseMidRender.uiAtlas = this._bRender.uiAtlas;
-            this._baseTopRender.uiAtlas = this._bRender.uiAtlas;
             this._uiMask = new UIMask();
-            this._uiMask.level = BaseWindow.maskLevel++;
+            this._uiMask.level = base.BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
             this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
             this.a_tittle_bg = this.addChild(this._tRender.getComponent("b_tittle_bg"));
@@ -90,31 +84,29 @@ var base;
             this.setUiListVisibleByItem([this.a_rigth_line], false);
             this.setUiListVisibleByItem([this.a_bottom_line], false);
             this.setUiListVisibleByItem([this.b_win_close], false);
+            if (this.useMoseMove) {
+                this.a_rigth_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_bottom_line.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            }
             this.a_scroll_bar.y = this.a_tittle_bg.height + 2;
-            //新UI
-            this.c_tittle_bg = this._baseTopRender.getComponent("a_tittle_bg");
-            this.c_left_line = this._baseTopRender.getComponent("c_left_line");
-            this.c_right_line = this._baseTopRender.getComponent("c_left_line");
-            this.c_bottom_line = this._baseTopRender.getComponent("b_line_pixe_point");
-            this.c_win_bg = this._baseMidRender.getComponent("c_win_bg");
-            //  this.setUiListVisibleByItem([this.c_win_bg], true)
             this.uiLoadComplete = true;
             this.setHideUi();
-            this.setShowUi();
             this.resize();
         };
-        BaseWindow.prototype.removeMoveEvent = function () {
+        BaseMoveWindos.prototype.removeMoveEvent = function () {
             if (this.uiLoadComplete) {
                 this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             }
         };
-        BaseWindow.prototype.setRect = function (value) {
+        BaseMoveWindos.prototype.setRect = function (value) {
             this.pageRect = value;
             this.resize();
         };
-        BaseWindow.prototype.setHideUi = function (value) {
+        BaseMoveWindos.prototype.setHideUi = function (value) {
             if (value === void 0) { value = null; }
             if (value) {
                 this.hideUiItem = value;
@@ -126,19 +118,7 @@ var base;
                 }
             }
         };
-        BaseWindow.prototype.setShowUi = function (value) {
-            if (value === void 0) { value = null; }
-            if (value) {
-                this.showUiItem = value;
-            }
-            if (this.uiLoadComplete) {
-                for (var i = 0; this.showUiItem && i < this.showUiItem.length; i++) {
-                    var uiName = this.showUiItem[i];
-                    this.setUiListVisibleByItem([this[uiName]], true);
-                }
-            }
-        };
-        BaseWindow.prototype.resize = function () {
+        BaseMoveWindos.prototype.resize = function () {
             if (this.uiLoadComplete) {
                 this.left = this.pageRect.x;
                 this.top = this.pageRect.y;
@@ -193,28 +173,10 @@ var base;
                 this._bRender.applyObjData();
                 this._mRender.applyObjData();
                 this._tRender.applyObjData();
-                //新UI
-                this.c_win_bg.x = 0;
-                this.c_win_bg.y = 0;
-                this.c_win_bg.width = this.pageRect.width;
-                this.c_win_bg.height = this.pageRect.height;
-                this.c_tittle_bg.x = 0;
-                this.c_tittle_bg.y = 0;
-                this.c_tittle_bg.width = this.pageRect.width;
-                this.c_left_line.x = 0;
-                this.c_left_line.y = 0;
-                this.c_left_line.height = this.pageRect.height;
-                this.c_right_line.x = this.pageRect.width - this.c_right_line.width;
-                this.c_right_line.y = 0;
-                this.c_right_line.height = this.pageRect.height;
-                this.c_bottom_line.x = 0;
-                this.c_bottom_line.y = this.pageRect.height - 1;
-                this.c_bottom_line.width = this.pageRect.width;
-                this.c_bottom_line.height = 1;
             }
             _super.prototype.resize.call(this);
         };
-        BaseWindow.prototype.tittleMouseDown = function (evt) {
+        BaseMoveWindos.prototype.tittleMouseDown = function (evt) {
             this.mouseMoveTaget = evt.target;
             this.lastMousePos = new Vector2D(evt.x, evt.y);
             switch (this.mouseMoveTaget) {
@@ -235,11 +197,11 @@ var base;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
             Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
         };
-        BaseWindow.prototype.tittleMouseUp = function (evt) {
+        BaseMoveWindos.prototype.tittleMouseUp = function (evt) {
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
         };
-        BaseWindow.prototype.mouseOnTittleMove = function (evt) {
+        BaseMoveWindos.prototype.mouseOnTittleMove = function (evt) {
             switch (this.mouseMoveTaget) {
                 case this.a_tittle_bg:
                     this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
@@ -266,12 +228,12 @@ var base;
             }
             this.resize();
         };
-        BaseWindow.prototype.changeScrollBar = function () {
+        BaseMoveWindos.prototype.changeScrollBar = function () {
         };
-        BaseWindow.maskLevel = 10;
-        return BaseWindow;
+        BaseMoveWindos.maskLevel = 10;
+        return BaseMoveWindos;
     }(UIConatiner));
-    base.BaseWindow = BaseWindow;
+    basemove.BaseMoveWindos = BaseMoveWindos;
     var Dis2dBaseWindow = /** @class */ (function (_super) {
         __extends(Dis2dBaseWindow, _super);
         function Dis2dBaseWindow($classVo, $rect, $num) {
@@ -437,6 +399,6 @@ var base;
         };
         return Dis2dBaseWindow;
     }(base.BaseWindow));
-    base.Dis2dBaseWindow = Dis2dBaseWindow;
-})(base || (base = {}));
-//# sourceMappingURL=BaseWindow.js.map
+    basemove.Dis2dBaseWindow = Dis2dBaseWindow;
+})(basemove || (basemove = {}));
+//# sourceMappingURL=BaseMoveWindos.js.map

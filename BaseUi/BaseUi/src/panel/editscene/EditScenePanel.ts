@@ -9,33 +9,19 @@
 
     import LayoutbaseBg = layout.LayoutbaseBg
 
+ 
+
     export class CentenPanel extends Panel {
         public constructor(has: boolean = true) {
             super(has);
-            if (this.winBg) {
-                //只保留远离的Tittle
  
-
-                this.winBg.setHideUi([
-                    "a_bg",
-                    "a_rigth_line",
-                    "a_left_line",
-                    "a_bottom_line",
-                    "b_bottom_left",
-                    "b_bottom_line_left",
-                    "b_bottom_mid",
-                    "b_bottom_line_right",
-                    "b_bottom_right"
-                ])
-     
-            }
         }
         public changeSize(): void {
             if (this.winBg) {
                 this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 300))
             }
         }
-    
+  
         public addUIContainer($container: UIConatiner): void {
             //特殊处理，删除非底层背景
             for (var i: number = this._containerList.length - 1; i > 0; i--) {
@@ -98,6 +84,7 @@
 
         private addCenten(): void {
             var temp: CentenPanel = new CentenPanel(true);
+          //  temp.setShowUi(["c_win_bg"]);
             temp.x = 600
             temp.y = 0
             temp.width = 450
@@ -108,6 +95,8 @@
 
         private addRight(): void {
             var temp: Panel = new Panel(true);
+            temp.setShowUi(["c_left_line","c_win_bg"]);
+
             temp.x = 600
             temp.y = 0
             temp.width = 450
@@ -130,7 +119,8 @@
         }
      
         private addLeft(): void {
-            var temp: Panel = new Panel(false);
+            var temp: Panel = new Panel(true);
+            temp.setShowUi(["c_right_line", "c_win_bg"]);
             temp.x = 0;
             temp.y = 50;
             temp.width = 450;
@@ -148,19 +138,18 @@
             this.rightMoveLine.y = this.menuHeight
 
             BaseUiStart.leftPanel.height = this.bottomMoveLine.y - BaseUiStart.leftPanel.y;
-            BaseUiStart.leftPanel.width = this.leftMoveLine.x;
+            BaseUiStart.leftPanel.width = this.leftMoveLine.x+3;
 
-
-            this.leftMoveLine.x = BaseUiStart.leftPanel.width;
+ 
             this.leftMoveLine.height = this.bottomMoveLine.y  - this.leftMoveLine.y
             this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y
 
     
-            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 10
+            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 0
             BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width
             BaseUiStart.rightPanel.height = Scene_data.stageHeight - BaseUiStart.rightPanel.y;
 
-            this.bottomMoveLine.width = BaseUiStart.rightPanel.x-10
+            this.bottomMoveLine.width = BaseUiStart.rightPanel.x-0
             this.bottomMoveLine.x = 0
 
             BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
@@ -172,7 +161,7 @@
 
             super.resize();
 
-            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 15, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y -15)
+            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 0, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y -15)
 
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         }

@@ -138,16 +138,6 @@ var maineditor;
         MainEditorPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.initView();
-            var item = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
-                this.a_scroll_bar_bg,
-            ];
-            this.setUiListVisibleByItem(item, false);
             this.uiLoadComplete = true;
             this.refrishSize();
         };
@@ -234,14 +224,14 @@ var maineditor;
             this.refrishSize();
         };
         MainEditorPanel.prototype.refrishSize = function () {
+            this.resize();
             if (this.uiLoadComplete) {
                 var roundNum = 0;
                 this.a_scene_view.x = roundNum;
-                this.a_scene_view.y = roundNum + 15;
+                this.a_scene_view.y = roundNum;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
                 this.a_scene_view.height = this.pageRect.height - roundNum * 2;
             }
-            this.resize();
         };
         return MainEditorPanel;
     }(base.BaseWindow));
