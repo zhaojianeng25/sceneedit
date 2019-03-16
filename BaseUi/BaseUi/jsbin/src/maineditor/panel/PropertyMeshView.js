@@ -35,7 +35,9 @@ var maineditor;
                 this.ui[i].y = ty;
                 this.ui[i].x = 20;
                 ty += this.ui[i].height;
-                ty += 10; //特殊间隔加上10，显得比平时宽一点
+                if (this.ui.length > 1) { //展开的情况需要处理
+                    ty += 10; //特殊间隔加上10，显得比平时宽一点
+                }
                 this.ui[i].width = this.width;
                 this.ui[i].resize();
             }

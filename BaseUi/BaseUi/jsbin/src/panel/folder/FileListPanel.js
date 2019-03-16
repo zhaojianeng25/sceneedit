@@ -110,10 +110,10 @@ var filelist;
             var tw = drawPicRect.width;
             var th = drawPicRect.height;
             if ($img.width) {
-                tw = Math.max($img.width, 10);
-                th = Math.max($img.height, 10);
-                tw = Math.min($img.width, drawPicRect.width);
-                th = Math.min($img.height, drawPicRect.height);
+                tw = Math.max($img.width * 1.5, 20);
+                th = Math.max($img.heigh * 1.5, 20);
+                tw = Math.min($img.width * 1.5, drawPicRect.width);
+                th = Math.min($img.height * 1.5, drawPicRect.height);
             }
             this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th);
             var outStr = name.split(".")[0];
