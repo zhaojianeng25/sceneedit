@@ -106,7 +106,7 @@ var filelist;
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-            var drawPicRect = new Rectangle(18, 0, 64, 64);
+            var drawPicRect = new Rectangle(18, 1, 64, 64);
             var tw = drawPicRect.width;
             var th = drawPicRect.height;
             if ($img.width) {
@@ -138,8 +138,8 @@ var filelist;
                 if (this.fileListMeshVo.pos) {
                     this.ui.x = this.fileListMeshVo.pos.x;
                     this.ui.y = this.fileListMeshVo.pos.y;
-                    this.ui.width = this.ui.baseRec.width * FileListName.uiScale;
-                    this.ui.height = this.ui.baseRec.height * FileListName.uiScale;
+                    this.ui.width = this.ui.baseRec.width * this.fileListMeshVo.uiScale;
+                    this.ui.height = this.ui.baseRec.height * this.fileListMeshVo.uiScale;
                 }
                 if (this.fileListMeshVo.clear) {
                     this.ui.parent.removeChild(this.ui);
@@ -147,16 +147,13 @@ var filelist;
                 }
             }
         };
-        FileListName.uiScale = 1;
         return FileListName;
     }(Disp2DBaseText));
     filelist.FileListName = FileListName;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
-            var _this = _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 50) || this;
-            FileListName.uiScale = 0.7;
-            return _this;
+            return _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 50) || this;
         }
         FileListPanel.prototype.loadConfigCom = function () {
             var _this = this;
@@ -493,13 +490,12 @@ var filelist;
             var moveTy = 0;
             for (var i = 0; this.fileItem && i < this.fileItem.length; i++) {
                 var vo = this.fileItem[i];
+                vo.uiScale = 0.7;
                 vo.pos.x = i % w * 100;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy;
             }
             if (this.uiLoadComplete && this.fileItem) {
-                // console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy))
                 var isVisible = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy);
-                //   console.log(isVisible)
                 this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible);
             }
         };

@@ -674,8 +674,10 @@ module Pan3d {
             return this._visible;
         }
         public pos: Vector3D;
+        public uiScale: number
         public clear: boolean = false;
         public constructor() {
+            this.uiScale=1
         }
     }
 }

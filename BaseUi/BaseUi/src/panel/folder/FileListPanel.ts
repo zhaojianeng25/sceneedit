@@ -119,7 +119,7 @@
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
-            var drawPicRect: Rectangle = new Rectangle(18, 0, 64, 64)
+            var drawPicRect: Rectangle = new Rectangle(18, 1, 64, 64)
             var tw: number = drawPicRect.width;
             var th: number = drawPicRect.height;
             if ($img.width) {
@@ -154,7 +154,7 @@
         }
 
 
-        public static uiScale: number=1
+      
         public update(): void {
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
@@ -165,8 +165,8 @@
                 if (this.fileListMeshVo.pos) {
                     this.ui.x = this.fileListMeshVo.pos.x;
                     this.ui.y = this.fileListMeshVo.pos.y;
-                    this.ui.width = this.ui.baseRec.width * FileListName.uiScale;
-                    this.ui.height = this.ui.baseRec.height * FileListName.uiScale;
+                    this.ui.width = this.ui.baseRec.width * this.fileListMeshVo.uiScale;
+                    this.ui.height = this.ui.baseRec.height * this.fileListMeshVo.uiScale;
            
                 }
                 if (this.fileListMeshVo.clear) {
@@ -183,7 +183,7 @@
         public constructor() {
             super(FileListName, new Rectangle(0, 0, 100, 100), 50);
       
-            FileListName.uiScale=0.7
+         
  
         }
         protected loadConfigCom(): void {
@@ -615,18 +615,15 @@
             var moveTy: number = 0
             for (var i: number = 0; this.fileItem&& i < this.fileItem.length; i++) {
                 var vo: FileListMeshVo = this.fileItem[i];
+                vo.uiScale = 0.7
                 vo.pos.x = i % w * 100;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy
             }
 
             if (this.uiLoadComplete && this.fileItem) {
-          
-
-               // console.log(this.pageRect.height, (Math.round(this.fileItem.length / w) * 70 + moveTy))
-
+ 
                 var isVisible: boolean = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy)
-             //   console.log(isVisible)
-
+  
                 this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible)
 
 
@@ -637,6 +634,7 @@
         public getCharNameMeshVo(value: SampleFileVo): FileListMeshVo {
             var $vo: FileListMeshVo = new FileListMeshVo;
             $vo.fileXmlVo = value;
+    
             this.showTemp($vo);
             return $vo;
         }

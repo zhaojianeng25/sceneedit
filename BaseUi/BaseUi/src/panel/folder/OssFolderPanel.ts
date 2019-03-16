@@ -63,18 +63,18 @@
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
 
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.baseFile.name, 12, 35, 5, TextAlign.LEFT)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.baseFile.name, 18, 50, 5, TextAlign.LEFT)
 
 
 
                 if (this.folderMeshVo.ossListFile.isOpen) {
-                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_PanRight"], 2, 5, 10, 10)
+                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_PanRight"], 2, 7, 14, 14)
 
-                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_FolderOpen_dark"], 15, 2, 18, 16)
+                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_FolderOpen_dark"], 20, 2, 18 * 1.4, 16 * 1.4)
                 } else {
-                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_PanUp"], 3, 5, 10, 10)
+                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_PanUp"], 3, 7, 14, 14)
 
-                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_FolderClosed_dark"], 15, 2, 18, 16)
+                    this.parent.uiAtlas.ctx.drawImage(OssFolderPanel.imgBaseDic["icon_FolderClosed_dark"], 20, 2, 18 * 1.4, 16 * 1.4)
                 }
 
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
@@ -94,6 +94,10 @@
                 if (this.folderMeshVo.pos) {
                     this.ui.x = this.folderMeshVo.pos.x;
                     this.ui.y = this.folderMeshVo.pos.y;
+ 
+                    this.ui.width = this.ui.baseRec.width * this.folderMeshVo.uiScale;
+                    this.ui.height = this.ui.baseRec.height * this.folderMeshVo.uiScale;
+
                 }
                 if (this.folderMeshVo.clear) {
                     this.ui.parent.removeChild(this.ui);
@@ -107,7 +111,7 @@
 
         public static imgBaseDic: any
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 128, 20), 50);
+            super(FolderName, new Rectangle(0, 0, 256, 40), 50);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
         }
@@ -115,9 +119,7 @@
             super.loadConfigCom();
 
             this._baseRender.mask = this._uiMask
- 
- 
-     
+  
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
@@ -299,6 +301,7 @@
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].pos.x = tx;
                 arr[i].pos.y = OssFolderPanel.listTy
+                arr[i].uiScale=0.7
                 OssFolderPanel.listTy += 20;
                 if (arr[i].ossListFile.isOpen) {
                     this.disChiendren(arr[i].childItem, tx+20)

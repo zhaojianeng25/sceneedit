@@ -660,6 +660,7 @@ var Pan3d;
             this._visible = true;
             this.visibleChange = false;
             this.clear = false;
+            this.uiScale = 1;
         }
         Object.defineProperty(baseMeshVo.prototype, "visible", {
             get: function () {

@@ -202,23 +202,24 @@
                 // this.parent.uiAtlas.ctx.fillRect(1, 1, $uiRec.pixelWitdh-2, $uiRec.pixelHeight-2);
 
 
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.name, 12, 35, 5, TextAlign.LEFT)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.name, 24, 70, 10, TextAlign.LEFT)
 
 
+                var uiScaleVo: number=2
 
                 if (this.folderMeshVo.ossListFile.children || this.folderMeshVo.ossListFile.type == HierarchyNodeType.Folder) {
                     if (this.folderMeshVo.ossListFile.isOpen) {
-                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanRight"], 2, 5, 10, 10)
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanRight"], 2, 5, 20, 20)
                     } else {
-                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanUp"], 3, 5, 10, 10)
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_PanUp"], 3, 5, 20, 20)
                     }
                 }
                 switch (this.folderMeshVo.ossListFile.type) {
                     case HierarchyNodeType.Prefab:
-                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["profeb_16"], 15, 2, 13, 16)
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["profeb_16"], 30, 5, 26, 32)
                         break
                     case HierarchyNodeType.Light:
-                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_point16"], 15, 2, 13, 16)
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_point16"], 30, 5, 26, 32)
                         break
                     case HierarchyNodeType.Folder:
                         if (this.folderMeshVo.ossListFile.isOpen) {
@@ -250,6 +251,9 @@
                 if (this.folderMeshVo.cellPos) {
                     this.ui.x = this.folderMeshVo.cellPos.x;
                     this.ui.y = this.folderMeshVo.cellPos.y;
+
+                    this.ui.width = this.ui.baseRec.width * this.folderMeshVo.uiScale;
+                    this.ui.height = this.ui.baseRec.height * this.folderMeshVo.uiScale;
                 }
                 if (this.folderMeshVo.clear) {
                     this.ui.parent.removeChild(this.ui);
@@ -263,7 +267,7 @@
 
         public static imgBaseDic: any;
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 128, 20), 50);
+            super(FolderName, new Rectangle(0, 0, 256, 40), 50);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
             EditorModel.getInstance().hierarchyListPanel=this
@@ -738,6 +742,7 @@
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].cellPos.x = tx;
                 arr[i].cellPos.y = HierarchyListPanel.listTy
+                arr[i].uiScale = 0.5;
                 HierarchyListPanel.listTy += 20;
                 if (arr[i].ossListFile.isOpen) {
                     this.disChiendren(arr[i].childItem, tx + 20)
