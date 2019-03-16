@@ -106,24 +106,25 @@ var filelist;
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-            var tw = 45;
-            var th = 45;
+            var drawPicRect = new Rectangle(18, 0, 64, 64);
+            var tw = drawPicRect.width;
+            var th = drawPicRect.height;
             if ($img.width) {
                 tw = Math.max($img.width, 10);
                 th = Math.max($img.height, 10);
-                tw = Math.min($img.width, 45);
-                th = Math.min($img.height, 45);
+                tw = Math.min($img.width, drawPicRect.width);
+                th = Math.min($img.height, drawPicRect.height);
             }
-            this.parent.uiAtlas.ctx.drawImage($img, 12.5 + (45 - tw) / 2, 5 + (45 - th) / 2, tw, th);
+            this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th);
             var outStr = name.split(".")[0];
             var $textMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
             if ($textMetrics.width > 70) {
-                var inset = Math.floor(outStr.length * (1 / 3));
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 12, 0 - 6, 50, TextAlign.CENTER);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 12, 0 - 6, 65, TextAlign.CENTER);
+                var inset = Math.floor(outStr.length * (2 / 5));
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 15, 0 - 2, 60, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 15, 0 - 2, 78, TextAlign.CENTER);
             }
             else {
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr, 12, 0 - 6, 55, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr, 18, 0, 65, TextAlign.CENTER);
             }
             TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
         };
@@ -137,6 +138,8 @@ var filelist;
                 if (this.fileListMeshVo.pos) {
                     this.ui.x = this.fileListMeshVo.pos.x;
                     this.ui.y = this.fileListMeshVo.pos.y;
+                    this.ui.width = this.ui.baseRec.width * FileListName.uiScale;
+                    this.ui.height = this.ui.baseRec.height * FileListName.uiScale;
                 }
                 if (this.fileListMeshVo.clear) {
                     this.ui.parent.removeChild(this.ui);
@@ -144,13 +147,16 @@ var filelist;
                 }
             }
         };
+        FileListName.uiScale = 1;
         return FileListName;
     }(Disp2DBaseText));
     filelist.FileListName = FileListName;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
-            return _super.call(this, FileListName, new Rectangle(0, 0, 80, 80), 50) || this;
+            var _this = _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 50) || this;
+            FileListName.uiScale = 0.7;
+            return _this;
         }
         FileListPanel.prototype.loadConfigCom = function () {
             var _this = this;
@@ -201,7 +207,6 @@ var filelist;
             _super.prototype.update.call(this, t);
         };
         FileListPanel.prototype.fileMouseDown = function (evt) {
-            this.filemouseIsDown = true;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
                 console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer());
@@ -250,7 +255,6 @@ var filelist;
             }
         };
         FileListPanel.prototype.stageMouseMove = function (evt) {
-            this.filemouseIsDown = false;
             this.lastfileDonwInfo = null;
         };
         FileListPanel.prototype.fileDuboclik = function (evt) {

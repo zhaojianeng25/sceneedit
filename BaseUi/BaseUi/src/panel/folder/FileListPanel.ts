@@ -73,6 +73,7 @@
     }
     export class FileListName extends Disp2DBaseText {
         public fileListMeshVo: FileListMeshVo
+
         public makeData(): void {
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
@@ -118,20 +119,18 @@
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
-
-            var tw: number = 45;
-            var th: number = 45;
+            var drawPicRect: Rectangle = new Rectangle(18, 0, 64, 64)
+            var tw: number = drawPicRect.width;
+            var th: number = drawPicRect.height;
             if ($img.width) {
                 tw = Math.max($img.width, 10);
                 th = Math.max($img.height, 10);
 
-                tw = Math.min($img.width, 45);
-                th = Math.min($img.height, 45);
+                tw = Math.min($img.width, drawPicRect.width);
+                th = Math.min($img.height, drawPicRect.height);
             }
-         
- 
-      
-            this.parent.uiAtlas.ctx.drawImage($img, 12.5 + (45 - tw) / 2, 5 + (45 - th) / 2, tw, th)
+        
+            this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th)
 
 
             var outStr: string = name.split(".")[0];
@@ -140,11 +139,11 @@
  
 
             if ($textMetrics.width > 70) {
-                var inset: number = Math.floor(outStr.length * (1 / 3))
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 12, 0 - 6, 50, TextAlign.CENTER)
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 12, 0 - 6, 65, TextAlign.CENTER)
+                var inset: number = Math.floor(outStr.length * (2 / 5))
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 15, 0-2 , 60, TextAlign.CENTER)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 15, 0-2 , 78, TextAlign.CENTER)
             } else {
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr, 12, 0 - 6, 55, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr, 18, 0, 65, TextAlign.CENTER);
 
 
             }
@@ -155,7 +154,7 @@
         }
 
 
-
+        public static uiScale: number=1
         public update(): void {
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
@@ -166,6 +165,9 @@
                 if (this.fileListMeshVo.pos) {
                     this.ui.x = this.fileListMeshVo.pos.x;
                     this.ui.y = this.fileListMeshVo.pos.y;
+                    this.ui.width = this.ui.baseRec.width * FileListName.uiScale;
+                    this.ui.height = this.ui.baseRec.height * FileListName.uiScale;
+           
                 }
                 if (this.fileListMeshVo.clear) {
                     this.ui.parent.removeChild(this.ui);
@@ -179,9 +181,9 @@
 
         public static imgBaseDic: any
         public constructor() {
-            super(FileListName, new Rectangle(0, 0, 80, 80), 50);
+            super(FileListName, new Rectangle(0, 0, 100, 100), 50);
       
-    
+            FileListName.uiScale=0.7
  
         }
         protected loadConfigCom(): void {
@@ -255,7 +257,7 @@
         private lastfileDonwInfo: any;
  
         protected fileMouseDown(evt: InteractiveEvent): void {
-            this.filemouseIsDown = true;
+    
        
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
 
@@ -312,9 +314,9 @@
 
 
         }
-        private filemouseIsDown: boolean
+  
         protected stageMouseMove(evt: InteractiveEvent): void {
-            this.filemouseIsDown = false
+       
             this.lastfileDonwInfo = null
 
         }
