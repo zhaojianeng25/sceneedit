@@ -203,8 +203,8 @@ var maineditor;
         };
         MainEditorProcessor.prototype.changePageRect = function () {
             if (this._hierarchyListPanel && BaseUiStart.leftPanel) {
-                var rect = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width + 10, BaseUiStart.leftPanel.rect.height + 5);
-                this._hierarchyListPanel.panelEventChanger(rect);
+                var rect = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width, BaseUiStart.leftPanel.rect.height);
+                this._hierarchyListPanel.setRect(rect);
             }
             if (this._editScenePanel && BaseUiStart.centenPanel) {
                 var rect = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width - 1, BaseUiStart.centenPanel.rect.height - 1);

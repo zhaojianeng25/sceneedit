@@ -197,13 +197,6 @@ var filelist;
             tempImg.url = Scene_data.fileuiRoot + "ui/icon/" + name + ".png";
             tempImg.src = Scene_data.fileuiRoot + "ui/icon/" + name + ".png";
         };
-        FileListPanel.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-            if (this.uiLoadComplete) {
-                this.b_bottom_line_left.x = 0;
-                this.b_bottom_line_left.width = this.b_bottom_mid.x;
-            }
-        };
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
@@ -491,19 +484,9 @@ var filelist;
             }
             this._inputHtmlSprite = null;
         };
-        FileListPanel.prototype.panelEventChanger = function (value) {
-            this.left = value.x;
-            this.top = value.y;
-            this.pageRect.x = value.x;
-            this.pageRect.y = value.y;
-            this.pageRect.width = value.width;
-            this.pageRect.height = value.height;
-            this.resetSampleFilePos();
-            this.resize();
-        };
         FileListPanel.prototype.resetSampleFilePos = function () {
             var w = Math.round((this.pageRect.width - 50) / 100);
-            var moveTy = 20;
+            var moveTy = 0;
             for (var i = 0; this.fileItem && i < this.fileItem.length; i++) {
                 var vo = this.fileItem[i];
                 vo.pos.x = i % w * 100;

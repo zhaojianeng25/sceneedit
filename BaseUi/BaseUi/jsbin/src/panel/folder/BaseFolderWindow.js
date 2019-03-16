@@ -13,25 +13,72 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var basefolderwin;
 (function (basefolderwin) {
-    var Rectangle = Pan3d.Rectangle;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var Vector2D = Pan3d.Vector2D;
+    var Scene_data = Pan3d.Scene_data;
     var BaseFolderWindow = /** @class */ (function (_super) {
         __extends(BaseFolderWindow, _super);
         function BaseFolderWindow() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.percentNum = 0.2;
+            return _this;
         }
         BaseFolderWindow.prototype.setRect = function (value) {
             this.pageRect = value;
+            this.setLinePos();
             this.resize();
-            this.refrishSize();
+            this.refrishWinSize();
+        };
+        BaseFolderWindow.prototype.getPageRect = function () {
+            return this.pageRect;
+        };
+        BaseFolderWindow.prototype.setLinePos = function () {
+            if (this.moveLine) {
+                this.moveLine.x = this.pageRect.width * this.percentNum;
+                this.moveLine.y = 0;
+                this.moveLine.width = 5;
+                this.moveLine.height = this.pageRect.height;
+                console.log("设置位置");
+            }
         };
         BaseFolderWindow.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.c_tittle_bg, this.c_win_bg], true);
+            this.moveLine = this.addChild(this._baseMidRender.getComponent("b_line_pixe_point"));
+            this.moveLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.setLinePos();
+            this.resize();
         };
-        BaseFolderWindow.prototype.refrishSize = function () {
-            var pageSizeEvet = new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG);
-            pageSizeEvet.data = new Rectangle(this.pageRect.x, this.pageRect.y, this.pageRect.width, this.pageRect.height - 0);
-            Pan3d.ModuleEventManager.dispatchEvent(pageSizeEvet);
+        BaseFolderWindow.prototype.tittleMouseDown = function (evt) {
+            this.mouseMoveTaget = evt.target;
+            this.lastMousePos = new Vector2D(evt.x, evt.y);
+            switch (this.mouseMoveTaget) {
+                case this.moveLine:
+                    this.lastPagePos = new Vector2D(this.moveLine.x, this.moveLine.y);
+                    break;
+                default:
+                    console.log("nonono");
+                    break;
+            }
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
+        };
+        BaseFolderWindow.prototype.refrishWinSize = function () {
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.RESET_FOLDE_WIN_SIZE));
+        };
+        BaseFolderWindow.prototype.mouseOnTittleMove = function (evt) {
+            switch (this.mouseMoveTaget) {
+                case this.moveLine:
+                    this.moveLine.x = this.lastPagePos.x + (evt.x - this.lastMousePos.x);
+                    this.moveLine.x = Math.min(this.moveLine.x, this.pageRect.width * 0.6);
+                    this.moveLine.x = Math.max(this.moveLine.x, this.pageRect.width * 0.2);
+                    this.percentNum = this.moveLine.x / this.pageRect.width;
+                    this.refrishWinSize();
+                default:
+                    console.log("nonono");
+                    break;
+            }
+            this.resize();
         };
         return BaseFolderWindow;
     }(base.BaseWindow));

@@ -95,7 +95,6 @@ var ossfolder;
         __extends(OssFolderPanel, _super);
         function OssFolderPanel() {
             var _this = _super.call(this, FolderName, new Rectangle(0, 0, 128, 20), 50) || this;
-            _this.percentNum = 0.2;
             _this.folderCellHeight = 20;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
@@ -105,7 +104,6 @@ var ossfolder;
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
-            this.setUiListVisibleByItem([this.c_right_line], true);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
@@ -139,30 +137,6 @@ var ossfolder;
         };
         OssFolderPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
-        };
-        OssFolderPanel.prototype.panelEventChanger = function (value) {
-            this.perentRect = value;
-            this.left = value.x;
-            this.top = value.y;
-            this.pageRect.x = value.x;
-            this.pageRect.y = value.y;
-            this.pageRect.width = value.width * this.percentNum;
-            this.pageRect.height = value.height;
-            this.resize();
-        };
-        OssFolderPanel.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-            if (this.uiLoadComplete) {
-                this.c_right_line.y = 20;
-            }
-        };
-        OssFolderPanel.prototype.getPageRect = function () {
-            return this.pageRect;
-        };
-        OssFolderPanel.prototype.mouseOnTittleMove = function (evt) {
-            _super.prototype.mouseOnTittleMove.call(this, evt);
-            this.percentNum = Math.min(0.8, Math.max(0.2, this.pageRect.width / this.perentRect.width));
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG), this.perentRect);
         };
         OssFolderPanel.prototype.itemMouseUp = function (evt) {
             for (var i = 0; i < this._uiItem.length; i++) {
@@ -262,7 +236,7 @@ var ossfolder;
             return $vo;
         };
         OssFolderPanel.prototype.refrishFolder = function () {
-            OssFolderPanel.listTy = this.a_tittle_bg.height;
+            OssFolderPanel.listTy = 0;
             this.disChiendren(this.fileItem, 10);
             var moveTy = 0;
             this.moveAllTy(this.fileItem, moveTy);

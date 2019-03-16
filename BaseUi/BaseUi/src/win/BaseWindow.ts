@@ -228,7 +228,7 @@
                 this.b_win_close.y =2
                 this.b_win_close.x = this.pageRect.width - this.b_win_close.width-5
 
-                this._uiMask.y = this.a_tittle_bg.height+2;
+                this._uiMask.y = 0;
                 this._uiMask.x = 0
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width
                 this._uiMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height

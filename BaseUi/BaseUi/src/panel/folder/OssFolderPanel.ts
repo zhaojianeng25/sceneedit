@@ -116,8 +116,7 @@
 
             this._baseRender.mask = this._uiMask
  
-
-            this.setUiListVisibleByItem([this.c_right_line], true)
+ 
      
             this.loadAssetImg(() => {
                 this.makeItemUiList()
@@ -163,41 +162,7 @@
             super.update(t);
 
         }
-
-        private percentNum: number = 0.2;
-        private perentRect: Rectangle
-        public panelEventChanger(value: Rectangle): void {
-
-            this.perentRect = value
-            this.left = value.x;
-            this.top = value.y;
-
-            this.pageRect.x = value.x;
-            this.pageRect.y = value.y;
-            this.pageRect.width = value.width * this.percentNum;
-            this.pageRect.height = value.height;
-
-            this.resize();
-        }
-        public resize(): void {
-            super.resize()
-            if (this.uiLoadComplete) {
-
-                this.c_right_line.y=20
-            }
-        }
-        public getPageRect(): Rectangle {
-            return this.pageRect;
-        }
-        protected mouseOnTittleMove(evt: InteractiveEvent): void {
-            super.mouseOnTittleMove(evt);
- 
- 
-            this.percentNum = Math.min(0.8, Math.max(0.2, this.pageRect.width / this.perentRect.width))
- 
-       
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.FILE_LIST_PANEL_CHANG), this.perentRect);
-        }
+         
         protected itemMouseUp(evt: InteractiveEvent): void {
   
                 for (var i: number = 0; i < this._uiItem.length; i++) {
@@ -314,7 +279,7 @@
         }
         private folderCellHeight: number = 20
         private refrishFolder(): void {
-            OssFolderPanel.listTy = this.a_tittle_bg.height;
+            OssFolderPanel.listTy = 0;
             this.disChiendren(this.fileItem,10);
             var moveTy: number = 0
             this.moveAllTy(this.fileItem, moveTy)

@@ -226,7 +226,7 @@ var maineditor;
         MainEditorPanel.prototype.refrishSize = function () {
             this.resize();
             if (this.uiLoadComplete) {
-                var roundNum = 0;
+                var roundNum = 110;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;

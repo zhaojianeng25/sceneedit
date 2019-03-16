@@ -27,8 +27,8 @@ var folder;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         FolderEvent.SHOW_FOLDER_PANEL = "SHOW_FOLDER_PANEL";
-        FolderEvent.FILE_LIST_PANEL_CHANG = "FILE_LIST_PANEL_CHANG";
         FolderEvent.EDITSCENE_RESET_SIZE = "EDITSCENE_RESET_SIZE";
+        FolderEvent.RESET_FOLDE_WIN_SIZE = "RESET_FOLDE_WIND_SIZE";
         FolderEvent.LIST_DIS_ALL_FILE = "LIST_DIS_ALL_FILE";
         return FolderEvent;
     }(BaseEvent));
@@ -75,14 +75,6 @@ var folder;
                         this._baseFolderWindow.setRect(this.fristRect);
                     }
                 }
-                if (_folderEvent.type == FolderEvent.FILE_LIST_PANEL_CHANG) {
-                    var base = _folderEvent.data;
-                    if (this._folderPanel) {
-                        this._folderPanel.panelEventChanger(new Rectangle(base.x, base.y, base.width, base.height));
-                        var leftw = this._folderPanel.getPageRect().width;
-                        this._fileListPanel.panelEventChanger(new Rectangle(base.x + leftw, base.y, base.width - leftw, base.height));
-                    }
-                }
                 if (_folderEvent.type == FolderEvent.EDITSCENE_RESET_SIZE) {
                     if (this._baseFolderWindow) {
                         this._baseFolderWindow.setRect(_folderEvent.data);
@@ -94,7 +86,20 @@ var folder;
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {
                     this._fileListPanel.refrishPath(String(_folderEvent.data));
                 }
+                if (_folderEvent.type == FolderEvent.RESET_FOLDE_WIN_SIZE) {
+                    this.resetFolderWinSize();
+                }
             }
+        };
+        FolderProcessor.prototype.resetFolderWinSize = function () {
+            var A = this._baseFolderWindow.getPageRect().clone();
+            A.y += 20;
+            A.height -= 20;
+            this._folderPanel.setRect(new Rectangle(A.x, A.y, A.width * this._baseFolderWindow.percentNum, A.height - 20));
+            var B = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y + 20, A.width * (1 - this._baseFolderWindow.percentNum), A.height);
+            B.x += 10;
+            B.width -= 10;
+            this._fileListPanel.setRect(B);
         };
         FolderProcessor.prototype.addOtherPanel = function () {
             layout.LayerManager.getInstance().addPanel(new Panel, 200);
@@ -116,7 +121,7 @@ var folder;
         FolderProcessor.prototype.listenModuleEvents = function () {
             return [
                 new FolderEvent(FolderEvent.SHOW_FOLDER_PANEL),
-                new FolderEvent(FolderEvent.FILE_LIST_PANEL_CHANG),
+                new FolderEvent(FolderEvent.RESET_FOLDE_WIN_SIZE),
                 new FolderEvent(FolderEvent.EDITSCENE_RESET_SIZE),
                 new FolderEvent(FolderEvent.LIST_DIS_ALL_FILE),
             ];

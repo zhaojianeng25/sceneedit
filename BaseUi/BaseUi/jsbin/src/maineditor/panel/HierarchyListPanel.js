@@ -283,17 +283,6 @@ var maineditor;
         HierarchyListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
-        HierarchyListPanel.prototype.panelEventChanger = function (value) {
-            this.perentRect = value;
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = value.width;
-                this.pageRect.y = value.y;
-                this.left = value.x;
-                this.top = value.y;
-                this.resize();
-            }
-        };
         HierarchyListPanel.prototype.makeFileFloadMenu = function ($evt) {
             var _this = this;
             var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
@@ -568,6 +557,9 @@ var maineditor;
                 this.contentHeight = this.getItemDisNum(maineditor.EditorModel.getInstance().fileItem) * 20;
             }
             _super.prototype.resize.call(this);
+            for (var i = 0; i < this.cellBgItem.length; i++) {
+                this.cellBgItem[i].width = this.pageRect.width;
+            }
         };
         HierarchyListPanel.prototype.refrishFolder = function () {
             if (this.isCompelet) {
@@ -587,7 +579,7 @@ var maineditor;
                     this.showSelectBg(arr[i].childItem);
                 }
                 if (arr[i].ossListFile.treeSelect) {
-                    var ui = this.addChild(this._bRender.getComponent("a_round_line"));
+                    var ui = this.addChild(this._baseMidRender.getComponent("a_round_line"));
                     ui.y = arr[i].cellPos.y;
                     ui.x = 0;
                     ui.width = this.pageRect.width;

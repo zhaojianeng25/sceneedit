@@ -326,19 +326,8 @@
             super.update(t);
 
         }
-        private perentRect: Rectangle
-        public panelEventChanger(value: Rectangle): void {
-            this.perentRect = value;
-            if (this.pageRect) {
-                this.pageRect.height = value.height;
-                this.pageRect.width = value.width;
-                this.pageRect.y = value.y
-                this.left = value.x;
-                this.top = value.y;
-            
-                this.resize();
-            }
-        }
+ 
+    
  
 
         private makeFileFloadMenu($evt: MouseEvent): void {
@@ -679,6 +668,11 @@
             }
             super.resize()
 
+            for (var i: number = 0; i < this.cellBgItem.length; i++) {
+                this.cellBgItem[i].width = this.pageRect.width
+
+            }
+        
         }
 
        // private fileItem: Array<FolderMeshVo>;
@@ -707,17 +701,17 @@
                     this.showSelectBg(arr[i].childItem)
                 }
                 if (arr[i].ossListFile.treeSelect) {
-                    var ui: UICompenent = <UICompenent>this.addChild(this._bRender.getComponent("a_round_line"));
+                    var ui: UICompenent = <UICompenent>this.addChild(this._baseMidRender.getComponent("a_round_line"));
                     ui.y = arr[i].cellPos.y;
                     ui.x = 0
                     ui.width = this.pageRect.width
                     ui.height = 20
-
-
+ 
                     this.cellBgItem.push(ui);
                 }
 
             }
+        
         }
         private moveAllTy(arr: Array<FolderMeshVo>, ty: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {

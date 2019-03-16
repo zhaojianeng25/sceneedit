@@ -128,7 +128,7 @@
             this.addChild(temp);
             BaseUiStart.leftPanel = temp;
         }
-        private menuHeight: number=20
+        private menuHeight: number=22
         public resize(): void {
 
             BaseUiStart.leftPanel.y = this.menuHeight
@@ -161,7 +161,7 @@
 
             super.resize();
 
-            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 0, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y -15)
+            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 0, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y )
 
             Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         }

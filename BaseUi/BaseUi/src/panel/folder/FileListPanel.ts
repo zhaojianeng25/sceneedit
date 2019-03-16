@@ -246,16 +246,7 @@
             tempImg.src = Scene_data.fileuiRoot + "ui/icon/" + name + ".png"
 
         }
-        public resize(): void {
-            super.resize()
-            if (this.uiLoadComplete) {
-                this.b_bottom_line_left.x =0 ;
-                this.b_bottom_line_left.width = this.b_bottom_mid.x;
-            }
-       
-     
-        }
-
+ 
        
         public update(t: number): void {
             super.update(t);
@@ -615,24 +606,11 @@
             this._inputHtmlSprite = null;
         }
         
-    
-        public panelEventChanger(value: Pan3d.Rectangle): void {
-            this.left = value.x
-            this.top = value.y;
-
-            this.pageRect.x = value.x;
-            this.pageRect.y = value.y;
-            this.pageRect.width = value.width;
-            this.pageRect.height = value.height;
-
-            this.resetSampleFilePos()
-            this.resize();
-        }
  
     
         private resetSampleFilePos(): void {
             var w: number = Math.round((this.pageRect.width-50)  / 100);
-            var moveTy: number = 20
+            var moveTy: number = 0
             for (var i: number = 0; this.fileItem&& i < this.fileItem.length; i++) {
                 var vo: FileListMeshVo = this.fileItem[i];
                 vo.pos.x = i % w * 100;

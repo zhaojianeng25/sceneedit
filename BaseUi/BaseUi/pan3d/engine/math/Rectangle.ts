@@ -12,6 +12,11 @@
             this.y = $y;
             this.width = $width;
             this.height = $height;
+
+ 
+        }
+        public clone(): Rectangle {
+            return new Rectangle(this.x, this.y, this.width, this.height);
         }
 
         public sets($x: number, $y, $width: number, $height): void {
