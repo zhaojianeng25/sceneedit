@@ -26,18 +26,23 @@ var prop;
         function TextureContext(w, h) {
             var _this = _super.call(this) || this;
             _this.tempUiName = "tempui";
+            _this.uiViewScale = 0.5;
+            w /= _this.uiViewScale;
+            h /= _this.uiViewScale;
             _this._bRender = new UIRenderComponent();
             _this.addRender(_this._bRender);
             _this._bRender.uiAtlas = new UIAtlas();
             var $uiAtlas = _this._bRender.uiAtlas;
             $uiAtlas.configData = [];
-            $uiAtlas.configData.push($uiAtlas.getObject(_this.tempUiName, 0, 0, w, h, w, h));
-            _this.ui = _this._bRender.creatBaseComponent(_this.tempUiName);
-            _this.ui.width = w;
-            _this.ui.height = h;
-            _this.addChild(_this.ui);
-            _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(w, h, false);
+            var kkwA = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
+            var kkhB = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)));
+            _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(kkwA, kkhB, false);
             _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx);
+            $uiAtlas.configData.push($uiAtlas.getObject(_this.tempUiName, 0, 0, w, h, kkwA, kkhB));
+            _this.ui = _this._bRender.creatBaseComponent(_this.tempUiName);
+            _this.ui.width = w * _this.uiViewScale;
+            _this.ui.height = h * _this.uiViewScale;
+            _this.addChild(_this.ui);
             return _this;
             //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
         }
@@ -99,8 +104,8 @@ var prop;
     var TextLabelUI = /** @class */ (function (_super) {
         __extends(TextLabelUI, _super);
         function TextLabelUI(w, h) {
-            if (w === void 0) { w = 64; }
-            if (h === void 0) { h = 64; }
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 30; }
             var _this = _super.call(this, w, h) || this;
             _this.initView();
             _this.resize();
@@ -113,7 +118,7 @@ var prop;
                 return "";
             },
             set: function (value) {
-                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e", 1);
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
             },
             enumerable: true,
             configurable: true

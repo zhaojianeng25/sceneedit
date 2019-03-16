@@ -20,18 +20,15 @@ var prop;
         }
         Vec3dCtrlUI.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI();
-            this.textX = new prop.TextLabelUI(32, 16);
-            this.textY = new prop.TextLabelUI(32, 16);
-            this.textZ = new prop.TextLabelUI(32, 16);
+            this.textX = new prop.TextLabelUI(50, 30);
+            this.textY = new prop.TextLabelUI(50, 30);
+            this.textZ = new prop.TextLabelUI(50, 30);
             this.textX.label = "X:";
             this.textY.label = "Y:";
             this.textZ.label = "Z:";
-            this.inputTextUiX = new prop.InputTextUi();
-            this.inputTextUiX.text = "255";
-            this.inputTextUiY = new prop.InputTextUi();
-            this.inputTextUiY.text = "0";
-            this.inputTextUiZ = new prop.InputTextUi();
-            this.inputTextUiZ.text = "255";
+            this.inputTextUiX = new prop.InputTextUi(100, 30);
+            this.inputTextUiY = new prop.InputTextUi(100, 30);
+            this.inputTextUiZ = new prop.InputTextUi(100, 30);
             this.inputTextUiX.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiXchange, this);
             this.inputTextUiY.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiYchange, this);
             this.inputTextUiZ.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.inputTextUiZchange, this);

@@ -20,8 +20,8 @@
 
         protected initView(): void {
             this.categoryBgUi = new BaseMeshUi();
-            this.categoryIcon = new BaseMeshUi(20,20);
-            this.categoryOpen = new BaseMeshUi(20,20);
+            this.categoryIcon = new BaseMeshUi(16,16);
+            this.categoryOpen = new BaseMeshUi(16,16);
             this.textLabelUI = new TextLabelUI();
  
             this.height = 25
@@ -83,8 +83,8 @@
             this._x = value;
             this.textLabelUI.x = this._x + 50;
             this.categoryBgUi.x = 0
-            this.categoryOpen.x = 5;
-            this.categoryIcon.x = 30
+            this.categoryOpen.x = 10;
+            this.categoryIcon.x = 40
   
         }
         public get x(): number {

@@ -16,21 +16,17 @@
         protected _v3d: Vector3D;
         protected initView(): void {
             this.textLabelUI = new TextLabelUI();
-            this.textX = new TextLabelUI(32,16);
-            this.textY = new TextLabelUI(32, 16);
-            this.textZ = new TextLabelUI(32, 16);
+            this.textX = new TextLabelUI(50,30);
+            this.textY = new TextLabelUI(50, 30);
+            this.textZ = new TextLabelUI(50, 30);
             this.textX.label = "X:";
             this.textY.label = "Y:";
             this.textZ.label = "Z:";
 
-            this.inputTextUiX = new InputTextUi();
-            this.inputTextUiX.text = "255";
-
-            this.inputTextUiY = new InputTextUi();
-            this.inputTextUiY.text = "0";
-
-            this.inputTextUiZ = new InputTextUi();
-            this.inputTextUiZ.text = "255";
+            this.inputTextUiX = new InputTextUi(100,30);
+            this.inputTextUiY = new InputTextUi(100, 30);
+            this.inputTextUiZ = new InputTextUi(100, 30);
+ 
 
 
 

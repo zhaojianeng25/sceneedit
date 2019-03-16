@@ -21,23 +21,40 @@
         private _bRender: UIRenderComponent;
 
         private tempUiName: string = "tempui";
-        public ui: UICompenent
+        public ui: UICompenent;
+
+        public uiViewScale: number = 0.5;
+  
         public constructor(w: number , h: number ) {
             super();
+            w /=this. uiViewScale;
+            h /=this. uiViewScale;
+
             this._bRender = new UIRenderComponent();
             this.addRender(this._bRender);
             this._bRender.uiAtlas = new UIAtlas();
             var $uiAtlas: UIAtlas = this._bRender.uiAtlas
             $uiAtlas.configData = [];
-            $uiAtlas.configData.push($uiAtlas.getObject(this.tempUiName, 0, 0, w, h, w, h));
+
+
+            var kkwA: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))
+            var kkhB: number = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)))
+
+      
+
+            this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(kkwA, kkhB, false);
+            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
+ 
+            $uiAtlas.configData.push($uiAtlas.getObject(this.tempUiName, 0, 0, w, h, kkwA, kkhB));
 
             this.ui = <UICompenent>this._bRender.creatBaseComponent(this.tempUiName);
-            this.ui.width = w;
-            this.ui.height = h;
-            this.addChild(this.ui)
+            this.ui.width = w * this.uiViewScale;
+            this.ui.height = h * this.uiViewScale;
+            this.addChild(this.ui);
 
-            this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(w, h, false);
-            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
+
+
+      
             //  this.ui.uiRender.uiAtlas.upDataPicToTexture("b.jpg", this.ui.skinName);
 
         }
@@ -93,7 +110,7 @@
 
     import InteractiveEvent = Pan3d.InteractiveEvent
     export class TextLabelUI extends BaseMeshUi{
-        public constructor(w: number = 64, h: number = 64) {
+        public constructor(w: number = 128, h: number = 30) {
             super(w, h);
             this.initView();
             this.resize();
@@ -105,7 +122,9 @@
             return "";
         }
         public set label(value: string) {
-            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e",1);
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+
+
         }
 
     }

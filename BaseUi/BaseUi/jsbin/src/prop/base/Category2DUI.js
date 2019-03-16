@@ -21,8 +21,8 @@ var prop;
         }
         Category2DUI.prototype.initView = function () {
             this.categoryBgUi = new prop.BaseMeshUi();
-            this.categoryIcon = new prop.BaseMeshUi(20, 20);
-            this.categoryOpen = new prop.BaseMeshUi(20, 20);
+            this.categoryIcon = new prop.BaseMeshUi(16, 16);
+            this.categoryOpen = new prop.BaseMeshUi(16, 16);
             this.textLabelUI = new prop.TextLabelUI();
             this.height = 25;
             this.categoryBgUi.ui.width = 400;
@@ -69,8 +69,8 @@ var prop;
                 this._x = value;
                 this.textLabelUI.x = this._x + 50;
                 this.categoryBgUi.x = 0;
-                this.categoryOpen.x = 5;
-                this.categoryIcon.x = 30;
+                this.categoryOpen.x = 10;
+                this.categoryIcon.x = 40;
             },
             enumerable: true,
             configurable: true
