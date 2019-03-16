@@ -298,7 +298,7 @@
             this.resize()
 
             if (this.uiLoadComplete) {
-                var roundNum: number = 110;
+                var roundNum: number = 1;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
