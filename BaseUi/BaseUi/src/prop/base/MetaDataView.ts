@@ -3,7 +3,7 @@
     export class MetaDataView {
 
         protected _data: any;
-        protected _top: number = 10
+        protected _top: number = 0
      
         public set top(value: number) {
             this._top = value;

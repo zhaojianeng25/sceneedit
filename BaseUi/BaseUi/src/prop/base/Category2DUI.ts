@@ -27,11 +27,11 @@
             this.height = 25
 
             this.categoryBgUi.ui.width = 400;
-            this.categoryBgUi.ui.height = this.height-5
+            this.categoryBgUi.ui.height = this.height-2
 
  
 
-            this.drawOutColor(this.categoryBgUi.ui, new Vector3D(79, 79, 79))
+            this.drawOutColor(this.categoryBgUi.ui, new Vector3D(60, 60, 60))
  
 
   

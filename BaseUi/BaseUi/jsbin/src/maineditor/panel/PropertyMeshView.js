@@ -24,9 +24,22 @@ var maineditor;
         PropertyMeshView.prototype.getView = function () {
             var ary = [
                 { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "pos", target: this, Step: 1, Category: "属性" },
+                { Type: ReflectionData.Vec3, Label: "比例:", FunKey: "scale", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "rotation", target: this, Step: 1, Category: "属性" },
             ];
             return ary;
+        };
+        PropertyMeshView.prototype.resize = function () {
+            var ty = this._top;
+            for (var i = 0; this.ui && i < this.ui.length; i++) {
+                this.ui[i].y = ty;
+                this.ui[i].x = 20;
+                ty += this.ui[i].height;
+                ty += 10; //特殊间隔加上10，显得比平时宽一点
+                this.ui[i].width = this.width;
+                this.ui[i].resize();
+            }
+            this._height = ty - this._top;
         };
         Object.defineProperty(PropertyMeshView.prototype, "data", {
             get: function () {
@@ -64,6 +77,19 @@ var maineditor;
                 this.xyzPosData.rotationX = value.x;
                 this.xyzPosData.rotationY = value.y;
                 this.xyzPosData.rotationZ = value.z;
+                this.xyzPosData.upChangeToAll();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PropertyMeshView.prototype, "scale", {
+            get: function () {
+                return new Vector3D(this.xyzPosData.scaleX, this.xyzPosData.scaleY, this.xyzPosData.scaleZ);
+            },
+            set: function (value) {
+                this.xyzPosData.scaleX = value.x;
+                this.xyzPosData.scaleY = value.y;
+                this.xyzPosData.scaleZ = value.z;
                 this.xyzPosData.upChangeToAll();
             },
             enumerable: true,
