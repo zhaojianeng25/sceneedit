@@ -45,8 +45,15 @@
         public getName(): string {
             return "MaterialProcessor";
         }
-        private materialCavasPanel: MaterialCavasPanel;
-        private lastMaterialUrl: string
+        private baseWindow: base.BaseWindow;
+        private lastMaterialUrl: string;
+
+        public constructor() {
+            super();
+    
+        }
+
+ 
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof MaterialEvent) {
                 var $materialEvent: MaterialEvent = <MaterialEvent>$event;
@@ -58,12 +65,16 @@
                     BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
 
-                    this.materialCavasPanel = new MaterialCavasPanel()
+                    this.baseWindow = new base.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
-                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 0)
-                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 10);
-                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel)
+                    BaseUiStart.centenPanel.addUIContainer(this.baseWindow)
+                 
+
+                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().bgwinPanel, 1)
+                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 2)
+                    LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 3);
+ 
 
                     ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
                     if ($materialEvent.data) {
@@ -134,7 +145,7 @@
         private onRightMenuFun: any;
 
         private get hasStage(): boolean { //false为可以操作
-            if (this.materialCavasPanel.hasStage) {
+            if (this.baseWindow.hasStage) {
                 return true;
             } else {
                 return false;
@@ -485,9 +496,9 @@
 
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-                if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI) {
+                if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI || $slectUi.parent instanceof MaterialCavasPanel) {
                     this.changeScalePanle($evt)
-                }
+                } 
             }
 
 

@@ -24,6 +24,7 @@
         public lineContainer: MaterialLineContainer
         public linePanel: Panel;
         public nodeUiPanel: Panel
+        public bgwinPanel: Panel
         private  _materialTree: MaterialTree;
         private uiList: Array<BaseMaterialNodeUI>;
         public  nodeList: Array<NodeTree>;

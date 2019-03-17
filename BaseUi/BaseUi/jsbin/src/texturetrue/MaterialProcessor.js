@@ -56,7 +56,7 @@ var materialui;
     var MaterialProcessor = /** @class */ (function (_super) {
         __extends(MaterialProcessor, _super);
         function MaterialProcessor() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            return _super.call(this) || this;
         }
         MaterialProcessor.prototype.getName = function () {
             return "MaterialProcessor";
@@ -70,12 +70,13 @@ var materialui;
                     BaseUiStart.stagePos = new Vector2D();
                     materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
-                    this.materialCavasPanel = new materialui.MaterialCavasPanel();
+                    this.baseWindow = new base.BaseWindow();
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
-                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 0);
-                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 10);
-                    BaseUiStart.centenPanel.addUIContainer(this.materialCavasPanel);
+                    BaseUiStart.centenPanel.addUIContainer(this.baseWindow);
+                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
+                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
+                    LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 3);
                     ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
                     if ($materialEvent.data) {
                         if (this.lastMaterialUrl != $materialEvent.data) { //是上一个材质，就不加载
@@ -121,7 +122,7 @@ var materialui;
         };
         Object.defineProperty(MaterialProcessor.prototype, "hasStage", {
             get: function () {
-                if (this.materialCavasPanel.hasStage) {
+                if (this.baseWindow.hasStage) {
                     return true;
                 }
                 else {
@@ -400,7 +401,7 @@ var materialui;
             }
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-                if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI) {
+                if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI || $slectUi.parent instanceof materialui.MaterialCavasPanel) {
                     this.changeScalePanle($evt);
                 }
             }

@@ -16,10 +16,12 @@ var materialui;
             return this._instance;
         };
         MaterialModel.prototype.makePanle = function () {
-            materialui.MaterialCtrl.getInstance().nodeUiPanel = new Panel(false);
-            materialui.MaterialCtrl.getInstance().linePanel = new Panel(false);
+            materialui.MaterialCtrl.getInstance().bgwinPanel = new Panel(false); //背景线
+            materialui.MaterialCtrl.getInstance().nodeUiPanel = new Panel(false); //模块
+            materialui.MaterialCtrl.getInstance().linePanel = new Panel(false); //线
             materialui.MaterialCtrl.getInstance().lineContainer = new materialui.MaterialLineContainer(); //创建线层
             materialui.MaterialCtrl.getInstance().linePanel.addUIContainer(materialui.MaterialCtrl.getInstance().lineContainer);
+            materialui.MaterialCtrl.getInstance().bgwinPanel.addUIContainer(new materialui.MaterialCavasPanel());
         };
         MaterialModel.prototype.selectMaterialUrl = function (url) {
             LoadManager.getInstance().load(Scene_data.fileRoot + url, LoadManager.BYTE_TYPE, function ($dtstr) {

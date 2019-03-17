@@ -17,12 +17,16 @@
             return this._instance;
         }
         public makePanle(): void {
- 
-            MaterialCtrl.getInstance().nodeUiPanel = new Panel(false)
-            MaterialCtrl.getInstance().linePanel = new Panel(false);
+
+            MaterialCtrl.getInstance().bgwinPanel = new Panel(false) //背景线
+            MaterialCtrl.getInstance().nodeUiPanel = new Panel(false) //模块
+            MaterialCtrl.getInstance().linePanel = new Panel(false);//线
 
             MaterialCtrl.getInstance().lineContainer = new MaterialLineContainer() //创建线层
             MaterialCtrl.getInstance().linePanel.addUIContainer(MaterialCtrl.getInstance().lineContainer);
+
+ 
+            MaterialCtrl.getInstance().bgwinPanel.addUIContainer(new MaterialCavasPanel());
 
         
         }

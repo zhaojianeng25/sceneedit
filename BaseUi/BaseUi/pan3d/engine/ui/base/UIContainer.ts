@@ -478,7 +478,16 @@
             $ui.width = temp.width;
             $ui.height = temp.height;
         }
-
+        protected makeBaseUiatlas(w: number, h: number): UIAtlas {
+            var $uiAtlas: UIAtlas = new UIAtlas();
+            $uiAtlas.configData = [];
+            var kkwA: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))
+            var kkhB: number = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)))
+            $uiAtlas.ctx = UIManager.getInstance().getContext2D(kkwA, kkhB, false);
+            $uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
+            $uiAtlas.configData.push($uiAtlas.getObject("temp_ui", 0, 0, w, h, kkwA, kkhB));
+            return $uiAtlas
+        }
 
 
     }

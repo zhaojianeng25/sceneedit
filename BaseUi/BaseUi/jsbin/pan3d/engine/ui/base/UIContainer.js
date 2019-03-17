@@ -483,6 +483,16 @@ var Pan3d;
             $ui.width = temp.width;
             $ui.height = temp.height;
         };
+        UIConatiner.prototype.makeBaseUiatlas = function (w, h) {
+            var $uiAtlas = new Pan3d.UIAtlas();
+            $uiAtlas.configData = [];
+            var kkwA = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
+            var kkhB = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)));
+            $uiAtlas.ctx = Pan3d.UIManager.getInstance().getContext2D(kkwA, kkhB, false);
+            $uiAtlas.textureRes = Pan3d.TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
+            $uiAtlas.configData.push($uiAtlas.getObject("temp_ui", 0, 0, w, h, kkwA, kkhB));
+            return $uiAtlas;
+        };
         return UIConatiner;
     }());
     Pan3d.UIConatiner = UIConatiner;
