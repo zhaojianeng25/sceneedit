@@ -110,10 +110,16 @@ var maineditor;
             }
         };
         MainEditorProcessor.prototype.showScnePojectView = function (value) {
-            var A = new maineditor.ScenePojectMeshView;
-            A.data = value;
-            prop.PropModel.getInstance().showPefabMesh(A);
+            if (value) {
+                this.scenePojectMapData = value;
+            }
+            var _cenePojectMeshView = new maineditor.ScenePojectMeshView;
+            _cenePojectMeshView.data = this.scenePojectMapData;
+            prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
             prop.PropModel.getInstance().resize();
+            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/cctv.material", function ($materialTree) {
+                _cenePojectMeshView.texture = $materialTree;
+            });
         };
         MainEditorProcessor.prototype.addEvents = function () {
             var _this = this;

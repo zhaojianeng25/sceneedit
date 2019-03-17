@@ -148,7 +148,7 @@
         private getMenu1(): MenuListData {
             var $vo: MenuListData = new MenuListData("窗口", "2")
             $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("对象列表", "21"));
+            $vo.subMenu.push(new MenuListData("场景属性", "21"));
             $vo.subMenu.push(new MenuListData("属性列表", "22"));
             $vo.subMenu.push(new MenuListData("文件列表", "23"));
             return $vo
@@ -189,10 +189,7 @@
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CLEAR_SCENE_MAP_ALL))
                     break
                 case "21":
-                case "22":
-                case "23":
-                    //   ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL), value.key)
-             
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW))
                     break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));

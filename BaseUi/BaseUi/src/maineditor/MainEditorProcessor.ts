@@ -111,12 +111,20 @@
                 }
             }
         }
+        private scenePojectMapData: any;
         private showScnePojectView(value: any): void {
-           
-            var A: ScenePojectMeshView = new ScenePojectMeshView;
-            A.data = value;
-            prop.PropModel.getInstance().showPefabMesh(A);
+            if (value) {
+                this.scenePojectMapData = value
+            }
+            var _cenePojectMeshView: ScenePojectMeshView= new ScenePojectMeshView;
+            _cenePojectMeshView.data  =   this.scenePojectMapData;
+            prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
             prop.PropModel.getInstance().resize();
+
+            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/cctv.material", ($materialTree: materialui.MaterialTree) => {
+                _cenePojectMeshView.texture = $materialTree;
+           
+            })
  
 
         }

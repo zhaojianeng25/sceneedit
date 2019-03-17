@@ -19,8 +19,23 @@
                     { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                     { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
 
+                    { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "后期" },
+
                 ];
             return ary;
+        }
+        private textureChangeInfo(value: Array<any>): void {
+        }
+        public getParamItem(value: string): any {
+            return null
+        }
+        public set texture(value: Material) {
+            this.data.material = value
+            this.refreshViewValue()
+        }
+        public get texture(): Material {
+            console.log("材质", this.data.material)
+            return this.data.material
         }
         public get mapname() {
             return "test.map";

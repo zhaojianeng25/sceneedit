@@ -24,14 +24,33 @@ var maineditor;
             return _this;
         }
         ScenePojectMeshView.prototype.getView = function () {
+            var _this = this;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "场景名字:", FunKey: "mapname", target: this, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "背景颜色:", FunKey: "bgcolor", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
+                { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
             ];
             return ary;
         };
+        ScenePojectMeshView.prototype.textureChangeInfo = function (value) {
+        };
+        ScenePojectMeshView.prototype.getParamItem = function (value) {
+            return null;
+        };
+        Object.defineProperty(ScenePojectMeshView.prototype, "texture", {
+            get: function () {
+                console.log("材质", this.data.material);
+                return this.data.material;
+            },
+            set: function (value) {
+                this.data.material = value;
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ScenePojectMeshView.prototype, "mapname", {
             get: function () {
                 return "test.map";
