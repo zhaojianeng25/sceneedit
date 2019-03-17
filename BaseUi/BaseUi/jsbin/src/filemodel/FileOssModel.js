@@ -29,6 +29,7 @@ var filemodel;
         FileVo.PNG = "png";
         FileVo.TXT = "txt";
         FileVo.OBJS = "objs";
+        FileVo.MAP = "map";
         return FileVo;
     }());
     filemodel.FileVo = FileVo;

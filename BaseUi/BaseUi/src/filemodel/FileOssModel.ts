@@ -19,6 +19,7 @@
         public static PNG: string = "png";
         public static TXT: string = "txt";
         public static OBJS: string = "objs";
+        public static MAP: string = "map";
 
 
 
