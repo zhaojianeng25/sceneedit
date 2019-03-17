@@ -60,30 +60,29 @@
             this.resize()
 
         }
-        private leftWidth: number = 300 //左边宽度；
-        private rightWidth: number = 300 //右边宽度；
-        private bottomHeight: number = 300 //底下宽度；
-
-
+        private leftWidthNum: number = 300 //左边宽度；
+        private rightWidthNum: number = 300 //右边宽度；
+        private bottomHeightNum: number = 300 //底下宽度；
+ 
         public resize(): void {
 
             super.resize()
             if (this.bottomLine) {
 
-                this.leftLine.x = this.leftWidth-5
+                this.leftLine.x = this.leftWidthNum-5
                 this.leftLine.y = 0
                 this.leftLine.width = 10
-                this.leftLine.height = Scene_data.stageHeight - this.bottomHeight
+                this.leftLine.height = Scene_data.stageHeight - this.bottomHeightNum
                
 
-                this.rightLine.x = Scene_data.stageWidth - this.rightWidth-5
+                this.rightLine.x = Scene_data.stageWidth - this.rightWidthNum-5
                 this.rightLine.y = 0
                 this.rightLine.width = 10
                 this.rightLine.height = Scene_data.stageHeight
 
                 this.bottomLine.x = 0
-                this.bottomLine.y = Scene_data.stageHeight - this.bottomHeight-5
-                this.bottomLine.width = Scene_data.stageWidth - this.rightWidth
+                this.bottomLine.y = Scene_data.stageHeight - this.bottomHeightNum-5
+                this.bottomLine.width = Scene_data.stageWidth - this.rightWidthNum
                 this.bottomLine.height = 10
 
 
@@ -111,23 +110,23 @@
 
  
                 BaseUiStart.leftPanel.x = 0
-                BaseUiStart.leftPanel.height = Scene_data.stageHeight - this.bottomHeight - this.menuHeight;
-                BaseUiStart.leftPanel.width = this.leftWidth;
+                BaseUiStart.leftPanel.height = Scene_data.stageHeight - this.bottomHeightNum - this.menuHeight;
+                BaseUiStart.leftPanel.width = this.leftWidthNum;
                 BaseUiStart.leftPanel.resize()
 
 
 
-                BaseUiStart.rightPanel.x = Scene_data.stageWidth - this.rightWidth
+                BaseUiStart.rightPanel.x = Scene_data.stageWidth - this.rightWidthNum
                 BaseUiStart.rightPanel.height = Scene_data.stageHeight - this.menuHeight;
-                BaseUiStart.rightPanel.width = this.rightWidth;
+                BaseUiStart.rightPanel.width = this.rightWidthNum;
                 BaseUiStart.rightPanel.resize()
 
-                BaseUiStart.centenPanel.x = this.leftWidth
-                BaseUiStart.centenPanel.height = Scene_data.stageHeight - this.bottomHeight - this.menuHeight
-                BaseUiStart.centenPanel.width = Scene_data.stageWidth - this.leftWidth - this.rightWidth
+                BaseUiStart.centenPanel.x = this.leftWidthNum
+                BaseUiStart.centenPanel.height = Scene_data.stageHeight - this.bottomHeightNum - this.menuHeight
+                BaseUiStart.centenPanel.width = Scene_data.stageWidth - this.leftWidthNum - this.rightWidthNum
                 BaseUiStart.centenPanel.resize()
 
-                var rect: Rectangle = new Rectangle(0, Scene_data.stageHeight - this.bottomHeight + 2, Scene_data.stageWidth - this.rightWidth, this.bottomHeight);
+                var rect: Rectangle = new Rectangle(0, Scene_data.stageHeight - this.bottomHeightNum + 2, Scene_data.stageWidth - this.rightWidthNum, this.bottomHeightNum);
                 Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
                 Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
             }
@@ -145,7 +144,7 @@
                 case this.rightLine:
                 case this.bottomLine:
                     this.lastPagePos = new Vector2D(evt.target.x, evt.target.y)
-                    this.lastLaoutVec = new Vector3D(this.leftWidth, this.rightWidth, this.bottomHeight);
+                    this.lastLaoutVec = new Vector3D(this.leftWidthNum, this.rightWidthNum, this.bottomHeightNum);
                     break
                 default:
  
@@ -160,19 +159,19 @@
         protected mouseOnTittleMove(evt: InteractiveEvent): void {
             switch (this.mouseMoveTaget) {
                 case this.leftLine:
-                    this.leftWidth = this.lastLaoutVec.x + (evt.x - this.lastMousePos.x)
-                    this.leftWidth = Math.min((Scene_data.stageWidth - this.rightWidth) - 100, this.leftWidth)
-                    this.leftWidth = Math.max(100, this.leftWidth);
+                    this.leftWidthNum = this.lastLaoutVec.x + (evt.x - this.lastMousePos.x)
+                    this.leftWidthNum = Math.min((Scene_data.stageWidth - this.rightWidthNum) - 100, this.leftWidthNum)
+                    this.leftWidthNum = Math.max(100, this.leftWidthNum);
                     break
                 case this.rightLine:
-                    this.rightWidth = this.lastLaoutVec.y - (evt.x - this.lastMousePos.x)
-                    this.rightWidth = Math.min((Scene_data.stageWidth - this.leftWidth) - 100, this.rightWidth)
-                    this.rightWidth = Math.max(100, this.rightWidth);
+                    this.rightWidthNum = this.lastLaoutVec.y - (evt.x - this.lastMousePos.x)
+                    this.rightWidthNum = Math.min((Scene_data.stageWidth - this.leftWidthNum) - 100, this.rightWidthNum)
+                    this.rightWidthNum = Math.max(100, this.rightWidthNum);
                     break
                 case this.bottomLine:
-                    this.bottomHeight = this.lastLaoutVec.z - (evt.y - this.lastMousePos.y)
-                    this.bottomHeight = Math.min(Scene_data.stageHeight  - 100, this.bottomHeight)
-                    this.bottomHeight = Math.max(100, this.bottomHeight);
+                    this.bottomHeightNum = this.lastLaoutVec.z - (evt.y - this.lastMousePos.y)
+                    this.bottomHeightNum = Math.min(Scene_data.stageHeight  - 100, this.bottomHeightNum)
+                    this.bottomHeightNum = Math.max(100, this.bottomHeightNum);
 
                     break
                 default:

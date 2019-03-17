@@ -70,7 +70,6 @@
     <TypeScriptCompile Include="src\panel\editscene\EditSceneLine.ts" />
     <TypeScriptCompile Include="src\panel\editscene\EditScenePanel.ts" />
     <TypeScriptCompile Include="src\panel\editscene\EditSceneProcessor.ts" />
-    <TypeScriptCompile Include="src\panel\editscene\EditSceneLineVertical.ts" />
     <TypeScriptCompile Include="src\panel\editscene\EditTopMenuPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\BaseFolderWindow.ts" />
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
