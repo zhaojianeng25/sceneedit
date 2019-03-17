@@ -12,6 +12,13 @@ var Pan3d;
             this.visible = true;
             this.initData();
         }
+        Object.defineProperty(UIRenderComponent.prototype, "uiListLen", {
+            get: function () {
+                return this._uiList.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(UIRenderComponent.prototype, "rendering", {
             get: function () {
                 return this._rendering;

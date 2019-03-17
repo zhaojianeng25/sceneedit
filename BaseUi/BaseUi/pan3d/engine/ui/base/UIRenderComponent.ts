@@ -2,6 +2,9 @@
     export class UIRenderComponent {
 
         protected _uiList: Array<UICompenent>;
+        public get uiListLen(): number {
+            return this._uiList.length;
+        }
         public objData: ObjData;
         public program: WebGLProgram;
         public shader: Shader3D;

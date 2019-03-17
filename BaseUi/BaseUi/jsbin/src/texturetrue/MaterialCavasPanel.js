@@ -54,19 +54,33 @@ var materialui;
         __extends(MaterialCavasPanel, _super);
         function MaterialCavasPanel() {
             var _this = _super.call(this) || this;
-            _this.lineItem = [];
+            _this.lineItemA = [];
+            _this.lineItemB = [];
             _this.setRect(new Rectangle(0, 0, Scene_data.stageWidth, Scene_data.stageHeight));
             _this.blakCavansRender = new UIRenderComponent();
             _this.addRender(_this.blakCavansRender);
             _this.blakCavansRender.uiAtlas = _this.makeBaseUiatlas(64, 64);
-            _this.lineCavansRenderA = new UIRenderComponent();
-            _this.addRender(_this.lineCavansRenderA);
-            _this.lineCavansRenderA.uiAtlas = _this.makeBaseUiatlas(64, 64);
-            _this.lineCavansRenderB = new UIRenderComponent();
-            _this.addRender(_this.lineCavansRenderB);
-            _this.lineCavansRenderB.uiAtlas = _this.lineCavansRenderA.uiAtlas;
+            _this.lineCavansRender = new UIRenderComponent();
+            _this.addRender(_this.lineCavansRender);
+            _this.lineCavansRender.uiAtlas = _this.makeBaseUiatlas(64, 64);
+            var tempLine = _this.lineCavansRender.creatBaseComponent("temp_ui");
+            _this.drawOutColor(tempLine, new Vector3D(53, 53, 53));
+            for (var i = 0; i < 100; i++) {
+                _this.lineItemA.push(_this.getTempLineUi());
+                _this.lineItemB.push(_this.getTempLineUi());
+            }
             return _this;
         }
+        MaterialCavasPanel.prototype.getTempLineUi = function () {
+            if (this.lineCavansRender.uiListLen >= 50) {
+                var temp = new UIRenderComponent();
+                this.addRender(temp);
+                temp.uiAtlas = this.lineCavansRender.uiAtlas;
+                this.lineCavansRender = temp;
+            }
+            var ui = this.addChild(this.lineCavansRender.creatBaseComponent("temp_ui"));
+            return ui;
+        };
         MaterialCavasPanel.prototype.drawOutColor = function (ui, $vcolor) {
             // var $vcolor: Vector3D = new Vector3D(1 * 255, 0,0);
             var $UIAtlas = ui.uiRender.uiAtlas;
@@ -92,22 +106,33 @@ var materialui;
             this.tempListBg.width = Scene_data.stageWidth;
             this.tempListBg.height = Scene_data.stageHeight;
             this.drawOutColor(this.tempListBg, new Vector3D(42, 42, 42));
-            var tempLine = this.lineCavansRenderA.creatBaseComponent("temp_ui");
-            this.drawOutColor(tempLine, new Vector3D(53, 53, 53));
-            var tempLineB = this.lineCavansRenderB.creatBaseComponent("temp_ui");
-            this.drawOutColor(tempLineB, new Vector3D(53, 53, 53));
-            for (var i = 0; i < 50; i++) {
-                var $tempA = this.addChild(this.lineCavansRenderA.creatBaseComponent("temp_ui"));
+            this.resize();
+        };
+        MaterialCavasPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.tempListBg) {
+                this.moveLineA();
+                this.moveLineB();
+            }
+        };
+        MaterialCavasPanel.prototype.moveLineA = function () {
+            var speedNum = materialui.MtlUiData.Scale * 30;
+            for (var i = 0; i < this.lineItemA.length; i++) {
+                var $tempA = this.lineItemA[i];
                 $tempA.x = 0;
-                $tempA.y = i * 30;
+                $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * materialui.MtlUiData.Scale) % (speedNum);
                 $tempA.width = Scene_data.stageWidth;
                 $tempA.height = 2;
-                var $tempB = this.addChild(this.lineCavansRenderB.creatBaseComponent("temp_ui"));
-                $tempB.x = i * 30;
+            }
+        };
+        MaterialCavasPanel.prototype.moveLineB = function () {
+            var speedNum = materialui.MtlUiData.Scale * 30;
+            for (var i = 0; i < this.lineItemB.length; i++) {
+                var $tempB = this.lineItemB[i];
+                $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * materialui.MtlUiData.Scale) % (speedNum);
                 $tempB.y = 0;
                 $tempB.width = 2;
                 $tempB.height = Scene_data.stageHeight;
-                this.lineItem.push($tempA);
             }
         };
         return MaterialCavasPanel;

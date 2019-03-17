@@ -1,5 +1,5 @@
 ﻿module materialui {
- 
+
     import Rectangle = Pan3d.Rectangle
     import Vector2D = Pan3d.Vector2D
     import Scene_data = Pan3d.Scene_data
@@ -29,13 +29,13 @@
     //ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
 
     import Vector3D = Pan3d.Vector3D
- 
+
     import Matrix3D = Pan3d.Matrix3D;
     import EventDispatcher = Pan3d.EventDispatcher;
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
-  
+
     import TimeUtil = Pan3d.TimeUtil;
-     import TextureManager = Pan3d.TextureManager
+    import TextureManager = Pan3d.TextureManager
 
 
 
@@ -84,14 +84,14 @@
 
     }
     export class MaterialCavasPanel extends base.BaseWindow {
- 
-       
+
+
         private blakCavansRender: UIRenderComponent
-        private lineCavansRenderA: UIRenderComponent
-        private lineCavansRenderB: UIRenderComponent
+        private lineCavansRender: UIRenderComponent
+
         public constructor() {
             super();
-            this.lineItem = [];
+
             this.setRect(new Rectangle(0, 0, Scene_data.stageWidth, Scene_data.stageHeight))
 
 
@@ -100,19 +100,31 @@
             this.blakCavansRender.uiAtlas = this.makeBaseUiatlas(64, 64);
 
 
-            this.lineCavansRenderA = new UIRenderComponent();
-            this.addRender(this.lineCavansRenderA);
-            this.lineCavansRenderA.uiAtlas = this.makeBaseUiatlas(64, 64);
+            this.lineCavansRender = new UIRenderComponent();
+            this.addRender(this.lineCavansRender);
+            this.lineCavansRender.uiAtlas = this.makeBaseUiatlas(64, 64);
+            var tempLine: UICompenent = <UICompenent>this.lineCavansRender.creatBaseComponent("temp_ui");
+            this.drawOutColor(tempLine, new Vector3D(53, 53, 53))
+  
 
-            this.lineCavansRenderB = new UIRenderComponent();
-            this.addRender(this.lineCavansRenderB);
-            this.lineCavansRenderB.uiAtlas = this.lineCavansRenderA.uiAtlas
-
-
-
+            for (var i: number = 0; i < 100; i++) {
+                this.lineItemA.push(this.getTempLineUi());
+                this.lineItemB.push(this.getTempLineUi());
+            }
         }
+        private getTempLineUi(): UICompenent {
+            if (this.lineCavansRender.uiListLen >= 50) {
+                let temp = new UIRenderComponent();
+                this.addRender(temp);
+                temp.uiAtlas = this.lineCavansRender.uiAtlas
+                this.lineCavansRender = temp;
+            }
+            var ui: UICompenent = this.addChild(<UICompenent>this.lineCavansRender.creatBaseComponent("temp_ui"))
+            return ui;
+        }
+
         private drawOutColor(ui: UICompenent, $vcolor): void {
-           // var $vcolor: Vector3D = new Vector3D(1 * 255, 0,0);
+            // var $vcolor: Vector3D = new Vector3D(1 * 255, 0,0);
             var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
             var $textureStr: string = ui.skinName
             var rec: UIRectangle = $UIAtlas.getRec($textureStr);
@@ -129,12 +141,13 @@
         }
 
         private tempListBg: UICompenent;
-        private lineItem: Array<UICompenent>
+        private lineItemA: Array<UICompenent> = [];
+        private lineItemB: Array<UICompenent> = [];
         protected loadConfigCom(): void {
             super.loadConfigCom();
- 
- 
-            this.tempListBg= <UICompenent>this.blakCavansRender.creatBaseComponent("temp_ui");
+
+
+            this.tempListBg = <UICompenent>this.blakCavansRender.creatBaseComponent("temp_ui");
             this.addChild(this.tempListBg);
             this.tempListBg.x = 0;
             this.tempListBg.y = 0;
@@ -143,35 +156,44 @@
             this.drawOutColor(this.tempListBg, new Vector3D(42, 42, 42))
 
 
+            this.resize();
 
+        }
 
-            var tempLine: UICompenent = <UICompenent>this.lineCavansRenderA.creatBaseComponent("temp_ui");
-            this.drawOutColor(tempLine, new Vector3D(53, 53, 53))
+  
 
-            var tempLineB: UICompenent = <UICompenent>this.lineCavansRenderB.creatBaseComponent("temp_ui");
-            this.drawOutColor(tempLineB, new Vector3D(53, 53, 53))
-
-    
-            for (var i: number = 0; i < 50; i++) {
+        public resize(): void {
+            super.resize();
+            if (this.tempListBg) {
+                this.moveLineA();
+                this.moveLineB();
+            }
  
-                var $tempA: UICompenent = this.addChild(<UICompenent>this.lineCavansRenderA.creatBaseComponent("temp_ui"));
+        }
+        private moveLineA(): void {
+            var speedNum: number = MtlUiData.Scale * 30
+            for (var i: number = 0; i < this.lineItemA.length; i++) {
+                var $tempA: UICompenent = this.lineItemA[i];
                 $tempA.x = 0;
-                $tempA.y = i * 30;
+                $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * MtlUiData.Scale) % (speedNum);
                 $tempA.width = Scene_data.stageWidth
                 $tempA.height = 2;
 
-                var $tempB: UICompenent = this.addChild(<UICompenent>this.lineCavansRenderB.creatBaseComponent("temp_ui"));
-                $tempB.x = i * 30;
+            }
+ 
+        }
+        private moveLineB(): void {
+            var speedNum: number = MtlUiData.Scale * 30
+            for (var i: number = 0; i < this.lineItemB.length; i++) {
+                var $tempB: UICompenent = this.lineItemB[i];
+                $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * MtlUiData.Scale) % (speedNum);
                 $tempB.y = 0
                 $tempB.width = 2;
                 $tempB.height = Scene_data.stageHeight
 
-                this.lineItem.push($tempA);
             }
- 
-        
-
         }
+ 
 
     }
 
