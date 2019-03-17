@@ -87,7 +87,7 @@
 
 
         private blakCavansRender: UIRenderComponent
-        private lineCavansRender: UIRenderComponent
+
 
         public constructor() {
             super();
@@ -100,26 +100,55 @@
             this.blakCavansRender.uiAtlas = this.makeBaseUiatlas(64, 64);
 
 
-            this.lineCavansRender = new UIRenderComponent();
-            this.addRender(this.lineCavansRender);
-            this.lineCavansRender.uiAtlas = this.makeBaseUiatlas(64, 64);
-            var tempLine: UICompenent = <UICompenent>this.lineCavansRender.creatBaseComponent("temp_ui");
-            this.drawOutColor(tempLine, new Vector3D(53, 53, 53))
+
   
 
-            for (var i: number = 0; i < 100; i++) {
+            for (var i: number = 0; i < 200; i++) {
                 this.lineItemA.push(this.getTempLineUi());
                 this.lineItemB.push(this.getTempLineUi());
             }
+            for (var j: number = 0; j < 30; j++) {
+                this.lineItemBigA.push(this.getTempBigLineUi());
+                this.lineItemBigB.push(this.getTempBigLineUi());
+            }
         }
+        private linesSmailRender: UIRenderComponent
         private getTempLineUi(): UICompenent {
-            if (this.lineCavansRender.uiListLen >= 50) {
+            if (!this.linesSmailRender) {
+                this.linesSmailRender = new UIRenderComponent();
+                this.addRender(this.linesSmailRender);
+                this.linesSmailRender.uiAtlas = this.makeBaseUiatlas(64, 64);
+                var tempLine: UICompenent = <UICompenent>this.linesSmailRender.creatBaseComponent("temp_ui");
+                this.drawOutColor(tempLine, new Vector3D(53, 53, 53))
+            }
+            if (this.linesSmailRender.uiListLen >= 50) {
                 let temp = new UIRenderComponent();
                 this.addRender(temp);
-                temp.uiAtlas = this.lineCavansRender.uiAtlas
-                this.lineCavansRender = temp;
+                temp.uiAtlas = this.linesSmailRender.uiAtlas
+                this.linesSmailRender = temp;
             }
-            var ui: UICompenent = this.addChild(<UICompenent>this.lineCavansRender.creatBaseComponent("temp_ui"))
+            var ui: UICompenent = this.addChild(<UICompenent>this.linesSmailRender.creatBaseComponent("temp_ui"))
+            return ui;
+        }
+        private lineBigRender: UIRenderComponent
+
+        private lineItemBigA: Array<UICompenent> = [];
+        private lineItemBigB: Array<UICompenent> = [];
+        private getTempBigLineUi(): UICompenent {
+            if (!this.lineBigRender) {
+                this.lineBigRender = new UIRenderComponent();
+                this.addRender(this.lineBigRender);
+                this.lineBigRender.uiAtlas = this.makeBaseUiatlas(64, 64);
+                var tempLine: UICompenent = <UICompenent>this.lineBigRender.creatBaseComponent("temp_ui");
+                this.drawOutColor(tempLine, new Vector3D(35, 35, 35))
+            }
+            if (this.lineBigRender.uiListLen >= 50) {
+                let temp = new UIRenderComponent();
+                this.addRender(temp);
+                temp.uiAtlas = this.lineBigRender.uiAtlas
+                this.lineBigRender = temp;
+            }
+            var ui: UICompenent = this.addChild(<UICompenent>this.lineBigRender.creatBaseComponent("temp_ui"))
             return ui;
         }
 
@@ -145,14 +174,9 @@
         private lineItemB: Array<UICompenent> = [];
         protected loadConfigCom(): void {
             super.loadConfigCom();
-
-
+ 
             this.tempListBg = <UICompenent>this.blakCavansRender.creatBaseComponent("temp_ui");
             this.addChild(this.tempListBg);
-            this.tempListBg.x = 0;
-            this.tempListBg.y = 0;
-            this.tempListBg.width = Scene_data.stageWidth;
-            this.tempListBg.height = Scene_data.stageHeight;
             this.drawOutColor(this.tempListBg, new Vector3D(42, 42, 42))
 
 
@@ -167,28 +191,61 @@
             if (this.tempListBg) {
                 this.moveLineA();
                 this.moveLineB();
+
+                this.movelineItemBigA();
+                this.movelineItemBigB();
+
+                this.tempListBg.x = 0;
+                this.tempListBg.y = 0;
+                this.tempListBg.width = Scene_data.stageWidth;
+                this.tempListBg.height = Scene_data.stageHeight;
             }
  
         }
         private moveLineA(): void {
-            var speedNum: number = MtlUiData.Scale * 30
+            var speedNum: number = MtlUiData.Scale * 20
             for (var i: number = 0; i < this.lineItemA.length; i++) {
                 var $tempA: UICompenent = this.lineItemA[i];
+                $tempA.x = 0;
+                $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * MtlUiData.Scale) % (speedNum);
+                $tempA.width = Scene_data.stageWidth
+                $tempA.height = 1;
+
+            }
+ 
+        }
+        private moveLineB(): void {
+            var speedNum: number = MtlUiData.Scale * 20
+            for (var i: number = 0; i < this.lineItemB.length; i++) {
+                var $tempB: UICompenent = this.lineItemB[i];
+                $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * MtlUiData.Scale) % (speedNum);
+                $tempB.y = 0
+                $tempB.width = 1;
+                $tempB.height = Scene_data.stageHeight
+
+            }
+        }
+
+        private movelineItemBigA(): void {
+            var speedNum: number = MtlUiData.Scale * 20*8
+            for (var i: number = 0; i < this.lineItemBigA.length; i++) {
+                var $tempA: UICompenent = this.lineItemBigA[i];
                 $tempA.x = 0;
                 $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * MtlUiData.Scale) % (speedNum);
                 $tempA.width = Scene_data.stageWidth
                 $tempA.height = 2;
 
             }
- 
+
         }
-        private moveLineB(): void {
-            var speedNum: number = MtlUiData.Scale * 30
-            for (var i: number = 0; i < this.lineItemB.length; i++) {
-                var $tempB: UICompenent = this.lineItemB[i];
+
+        private movelineItemBigB(): void {
+            var speedNum: number = MtlUiData.Scale * 20 * 8
+            for (var i: number = 0; i < this.lineItemBigB.length; i++) {
+                var $tempB: UICompenent = this.lineItemBigB[i];
                 $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * MtlUiData.Scale) % (speedNum);
                 $tempB.y = 0
-                $tempB.width = 2;
+                $tempB.width = 1;
                 $tempB.height = Scene_data.stageHeight
 
             }

@@ -54,31 +54,56 @@ var materialui;
         __extends(MaterialCavasPanel, _super);
         function MaterialCavasPanel() {
             var _this = _super.call(this) || this;
+            _this.lineItemBigA = [];
+            _this.lineItemBigB = [];
             _this.lineItemA = [];
             _this.lineItemB = [];
             _this.setRect(new Rectangle(0, 0, Scene_data.stageWidth, Scene_data.stageHeight));
             _this.blakCavansRender = new UIRenderComponent();
             _this.addRender(_this.blakCavansRender);
             _this.blakCavansRender.uiAtlas = _this.makeBaseUiatlas(64, 64);
-            _this.lineCavansRender = new UIRenderComponent();
-            _this.addRender(_this.lineCavansRender);
-            _this.lineCavansRender.uiAtlas = _this.makeBaseUiatlas(64, 64);
-            var tempLine = _this.lineCavansRender.creatBaseComponent("temp_ui");
-            _this.drawOutColor(tempLine, new Vector3D(53, 53, 53));
-            for (var i = 0; i < 100; i++) {
+            for (var i = 0; i < 200; i++) {
                 _this.lineItemA.push(_this.getTempLineUi());
                 _this.lineItemB.push(_this.getTempLineUi());
+            }
+            for (var j = 0; j < 30; j++) {
+                _this.lineItemBigA.push(_this.getTempBigLineUi());
+                _this.lineItemBigB.push(_this.getTempBigLineUi());
             }
             return _this;
         }
         MaterialCavasPanel.prototype.getTempLineUi = function () {
-            if (this.lineCavansRender.uiListLen >= 50) {
+            if (!this.linesSmailRender) {
+                this.linesSmailRender = new UIRenderComponent();
+                this.addRender(this.linesSmailRender);
+                this.linesSmailRender.uiAtlas = this.makeBaseUiatlas(64, 64);
+                var tempLine = this.linesSmailRender.creatBaseComponent("temp_ui");
+                this.drawOutColor(tempLine, new Vector3D(53, 53, 53));
+            }
+            if (this.linesSmailRender.uiListLen >= 50) {
                 var temp = new UIRenderComponent();
                 this.addRender(temp);
-                temp.uiAtlas = this.lineCavansRender.uiAtlas;
-                this.lineCavansRender = temp;
+                temp.uiAtlas = this.linesSmailRender.uiAtlas;
+                this.linesSmailRender = temp;
             }
-            var ui = this.addChild(this.lineCavansRender.creatBaseComponent("temp_ui"));
+            var ui = this.addChild(this.linesSmailRender.creatBaseComponent("temp_ui"));
+            return ui;
+        };
+        MaterialCavasPanel.prototype.getTempBigLineUi = function () {
+            if (!this.lineBigRender) {
+                this.lineBigRender = new UIRenderComponent();
+                this.addRender(this.lineBigRender);
+                this.lineBigRender.uiAtlas = this.makeBaseUiatlas(64, 64);
+                var tempLine = this.lineBigRender.creatBaseComponent("temp_ui");
+                this.drawOutColor(tempLine, new Vector3D(35, 35, 35));
+            }
+            if (this.lineBigRender.uiListLen >= 50) {
+                var temp = new UIRenderComponent();
+                this.addRender(temp);
+                temp.uiAtlas = this.lineBigRender.uiAtlas;
+                this.lineBigRender = temp;
+            }
+            var ui = this.addChild(this.lineBigRender.creatBaseComponent("temp_ui"));
             return ui;
         };
         MaterialCavasPanel.prototype.drawOutColor = function (ui, $vcolor) {
@@ -101,10 +126,6 @@ var materialui;
             _super.prototype.loadConfigCom.call(this);
             this.tempListBg = this.blakCavansRender.creatBaseComponent("temp_ui");
             this.addChild(this.tempListBg);
-            this.tempListBg.x = 0;
-            this.tempListBg.y = 0;
-            this.tempListBg.width = Scene_data.stageWidth;
-            this.tempListBg.height = Scene_data.stageHeight;
             this.drawOutColor(this.tempListBg, new Vector3D(42, 42, 42));
             this.resize();
         };
@@ -113,25 +134,51 @@ var materialui;
             if (this.tempListBg) {
                 this.moveLineA();
                 this.moveLineB();
+                this.movelineItemBigA();
+                this.movelineItemBigB();
+                this.tempListBg.x = 0;
+                this.tempListBg.y = 0;
+                this.tempListBg.width = Scene_data.stageWidth;
+                this.tempListBg.height = Scene_data.stageHeight;
             }
         };
         MaterialCavasPanel.prototype.moveLineA = function () {
-            var speedNum = materialui.MtlUiData.Scale * 30;
+            var speedNum = materialui.MtlUiData.Scale * 20;
             for (var i = 0; i < this.lineItemA.length; i++) {
                 var $tempA = this.lineItemA[i];
+                $tempA.x = 0;
+                $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * materialui.MtlUiData.Scale) % (speedNum);
+                $tempA.width = Scene_data.stageWidth;
+                $tempA.height = 1;
+            }
+        };
+        MaterialCavasPanel.prototype.moveLineB = function () {
+            var speedNum = materialui.MtlUiData.Scale * 20;
+            for (var i = 0; i < this.lineItemB.length; i++) {
+                var $tempB = this.lineItemB[i];
+                $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * materialui.MtlUiData.Scale) % (speedNum);
+                $tempB.y = 0;
+                $tempB.width = 1;
+                $tempB.height = Scene_data.stageHeight;
+            }
+        };
+        MaterialCavasPanel.prototype.movelineItemBigA = function () {
+            var speedNum = materialui.MtlUiData.Scale * 20 * 8;
+            for (var i = 0; i < this.lineItemBigA.length; i++) {
+                var $tempA = this.lineItemBigA[i];
                 $tempA.x = 0;
                 $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * materialui.MtlUiData.Scale) % (speedNum);
                 $tempA.width = Scene_data.stageWidth;
                 $tempA.height = 2;
             }
         };
-        MaterialCavasPanel.prototype.moveLineB = function () {
-            var speedNum = materialui.MtlUiData.Scale * 30;
-            for (var i = 0; i < this.lineItemB.length; i++) {
-                var $tempB = this.lineItemB[i];
+        MaterialCavasPanel.prototype.movelineItemBigB = function () {
+            var speedNum = materialui.MtlUiData.Scale * 20 * 8;
+            for (var i = 0; i < this.lineItemBigB.length; i++) {
+                var $tempB = this.lineItemBigB[i];
                 $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * materialui.MtlUiData.Scale) % (speedNum);
                 $tempB.y = 0;
-                $tempB.width = 2;
+                $tempB.width = 1;
                 $tempB.height = Scene_data.stageHeight;
             }
         };
