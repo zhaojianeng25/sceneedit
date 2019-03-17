@@ -22,6 +22,7 @@ var editscene;
         __extends(TempSceneLine, _super);
         function TempSceneLine() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.hideItemDic = {};
             _this.leftWidthNum = 300; //左边宽度；
             _this.rightWidthNum = 300; //右边宽度；
             _this.bottomHeightNum = 300; //底下宽度；
@@ -39,6 +40,15 @@ var editscene;
             this.leftLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
             this.rightLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
             this.bottomLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
+            this.closeLeftBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
+            this.closeRightBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
+            this.closeBottomBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
+            this.closeLeftBut.width = 10;
+            this.closeLeftBut.height = 60;
+            this.closeRightBut.width = 10;
+            this.closeRightBut.height = 60;
+            this.closeBottomBut.width = 60;
+            this.closeBottomBut.height = 10;
             this.setUiListVisibleByItem([this.leftLineMin], true);
             this.setUiListVisibleByItem([this.rightLineMin], true);
             this.setUiListVisibleByItem([this.bottomLineMin], true);
@@ -48,21 +58,54 @@ var editscene;
             this.setRect(new Rectangle(0, 0, Scene_data.stageWidth, Scene_data.stageHeight));
             this.resize();
         };
+        TempSceneLine.prototype.butClik = function (evt) {
+            switch (evt.target) {
+                case this.closeLeftBut:
+                    this.hideItemDic["left"] = !this.hideItemDic["left"];
+                    break;
+                case this.closeRightBut:
+                    this.hideItemDic["right"] = !this.hideItemDic["right"];
+                    break;
+                case this.closeBottomBut:
+                    this.hideItemDic["bottom"] = !this.hideItemDic["bottom"];
+                    break;
+                default:
+            }
+            this.resize();
+        };
         TempSceneLine.prototype.resize = function () {
             _super.prototype.resize.call(this);
             if (this.bottomLine) {
-                this.leftLine.x = this.leftWidthNum - 5;
+                var leftNum = this.leftWidthNum;
+                var rightNum = this.rightWidthNum;
+                var bottomNum = this.bottomHeightNum;
+                if (this.hideItemDic["left"]) { //左边关关闭
+                    leftNum = 0;
+                }
+                if (this.hideItemDic["right"]) { //左边关关闭
+                    rightNum = 0;
+                }
+                if (this.hideItemDic["bottom"]) { //左边关关闭
+                    bottomNum = 20;
+                }
+                this.leftLine.x = leftNum - 5;
                 this.leftLine.y = 0;
                 this.leftLine.width = 10;
-                this.leftLine.height = Scene_data.stageHeight - this.bottomHeightNum;
-                this.rightLine.x = Scene_data.stageWidth - this.rightWidthNum - 5;
+                this.leftLine.height = Scene_data.stageHeight - bottomNum;
+                this.closeLeftBut.x = this.leftLine.x + 5;
+                this.closeLeftBut.y = this.leftLine.height / 2 - this.closeLeftBut.height;
+                this.rightLine.x = Scene_data.stageWidth - rightNum - 5;
                 this.rightLine.y = 0;
                 this.rightLine.width = 10;
                 this.rightLine.height = Scene_data.stageHeight;
+                this.closeRightBut.x = this.rightLine.x - 5;
+                this.closeRightBut.y = this.closeLeftBut.y;
                 this.bottomLine.x = 0;
-                this.bottomLine.y = Scene_data.stageHeight - this.bottomHeightNum - 5;
-                this.bottomLine.width = Scene_data.stageWidth - this.rightWidthNum;
+                this.bottomLine.y = Scene_data.stageHeight - bottomNum - 5;
+                this.bottomLine.width = Scene_data.stageWidth - rightNum;
                 this.bottomLine.height = 10;
+                this.closeBottomBut.x = leftNum + (this.bottomLine.width - leftNum) / 2 - this.closeBottomBut.width;
+                this.closeBottomBut.y = this.bottomLine.y - 5;
                 this.leftLineMin.x = this.leftLine.x + 5;
                 this.leftLineMin.y = this.leftLine.y;
                 this.leftLineMin.width = 2;
@@ -78,19 +121,25 @@ var editscene;
                 BaseUiStart.leftPanel.y = this.menuHeight;
                 BaseUiStart.centenPanel.y = this.menuHeight;
                 BaseUiStart.rightPanel.y = this.menuHeight;
-                BaseUiStart.leftPanel.x = 0;
-                BaseUiStart.leftPanel.height = Scene_data.stageHeight - this.bottomHeightNum - this.menuHeight;
+                if (this.hideItemDic["left"]) { //左边关关闭
+                    BaseUiStart.leftPanel.x = -this.leftWidthNum;
+                }
+                else {
+                    BaseUiStart.leftPanel.x = 0;
+                }
+                BaseUiStart.leftPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
                 BaseUiStart.leftPanel.width = this.leftWidthNum;
                 BaseUiStart.leftPanel.resize();
-                BaseUiStart.rightPanel.x = Scene_data.stageWidth - this.rightWidthNum;
+                BaseUiStart.rightPanel.x = Scene_data.stageWidth - rightNum;
                 BaseUiStart.rightPanel.height = Scene_data.stageHeight - this.menuHeight;
-                BaseUiStart.rightPanel.width = this.rightWidthNum;
+                BaseUiStart.rightPanel.width = rightNum;
                 BaseUiStart.rightPanel.resize();
-                BaseUiStart.centenPanel.x = this.leftWidthNum;
-                BaseUiStart.centenPanel.height = Scene_data.stageHeight - this.bottomHeightNum - this.menuHeight;
-                BaseUiStart.centenPanel.width = Scene_data.stageWidth - this.leftWidthNum - this.rightWidthNum;
+                BaseUiStart.centenPanel.x = leftNum;
+                BaseUiStart.centenPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
+                BaseUiStart.centenPanel.width = Scene_data.stageWidth - leftNum - rightNum;
+                BaseUiStart.centenPanel.width = Scene_data.stageWidth - leftNum - rightNum;
                 BaseUiStart.centenPanel.resize();
-                var rect = new Rectangle(0, Scene_data.stageHeight - this.bottomHeightNum + 2, Scene_data.stageWidth - this.rightWidthNum, this.bottomHeightNum);
+                var rect = new Rectangle(0, Scene_data.stageHeight - bottomNum + 2, Scene_data.stageWidth - rightNum, bottomNum);
                 Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
                 Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_RESIZE), rect);
             }
