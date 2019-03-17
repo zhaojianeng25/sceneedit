@@ -116,7 +116,7 @@
 
         }
         public checkItem(): void {
-            console.log("checkItem")
+           // console.log("checkItem")
             this.resetBgSize()
         }
         public setData(obj: any): void {
@@ -131,13 +131,13 @@
         }
         public setInItemByData(ary: Array<any>): void {
             super.setInItemByData(ary);
-            console.log("setInItemByData")
+           // console.log("setInItemByData")
 
         }
 
         public setOutItemByData(ary: Array<any>): void {
             super.setOutItemByData(ary);
-            console.log("setOutItemByData")
+          //  console.log("setOutItemByData")
 
 
         }

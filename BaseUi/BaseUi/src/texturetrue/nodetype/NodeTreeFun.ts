@@ -44,7 +44,7 @@
                 if ($kv[i].split(CompileTwo.LN).length != 2) {
                     var atype: string = $kv[i].split(CompileTwo.SPACE)[0];
                     var aname: string = $kv[i].split(CompileTwo.SPACE)[1];
-                    console.log(atype, aname);
+                   // console.log(atype, aname);
                     $arr.push(new DataMathFunNode(aname, atype));
                 } else {
                     console.log("有错")

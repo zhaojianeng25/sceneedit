@@ -104,7 +104,7 @@ var materialui;
             this.checkItem();
         };
         MathFunNodeUI.prototype.checkItem = function () {
-            console.log("checkItem");
+            // console.log("checkItem")
             this.resetBgSize();
         };
         MathFunNodeUI.prototype.setData = function (obj) {
@@ -119,11 +119,11 @@ var materialui;
         };
         MathFunNodeUI.prototype.setInItemByData = function (ary) {
             _super.prototype.setInItemByData.call(this, ary);
-            console.log("setInItemByData");
+            // console.log("setInItemByData")
         };
         MathFunNodeUI.prototype.setOutItemByData = function (ary) {
             _super.prototype.setOutItemByData.call(this, ary);
-            console.log("setOutItemByData");
+            //  console.log("setOutItemByData")
         };
         return MathFunNodeUI;
     }(materialui.BaseMaterialNodeUI));

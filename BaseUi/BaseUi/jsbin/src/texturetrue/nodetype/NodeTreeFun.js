@@ -51,7 +51,7 @@ var materialui;
                 if ($kv[i].split(materialui.CompileTwo.LN).length != 2) {
                     var atype = $kv[i].split(materialui.CompileTwo.SPACE)[0];
                     var aname = $kv[i].split(materialui.CompileTwo.SPACE)[1];
-                    console.log(atype, aname);
+                    // console.log(atype, aname);
                     $arr.push(new DataMathFunNode(aname, atype));
                 }
                 else {

@@ -119,12 +119,13 @@
             var $temp: materialui.MaterialTree = $treeMater.clone()
             $temp.shader = $buildShader;
             $temp.program = $buildShader.program;
+            /*
             console.log("----------vertex------------");
             console.log($buildShader.vertex);
             console.log("----------fragment------------");
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
-
+            */
             (<MaterialModelSprite>this.selectShowDisp).material = $temp;
         }
         public outShaderStr($treeMater: materialui.MaterialTree): void {

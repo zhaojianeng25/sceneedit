@@ -215,7 +215,7 @@
  
         }
         public onMouseWheel($evt: MouseWheelEvent): void {
-            console.log(this.pageRect.isHitByPoint($evt.x, $evt.y) , this.hasStage)
+           // console.log(this.pageRect.isHitByPoint($evt.x, $evt.y) , this.hasStage)
 
             if (this.pageRect.isHitByPoint($evt.x, $evt.y) && this.hasStage) {
                 Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
@@ -253,7 +253,7 @@
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height
             }
-            console.log(this.left, this.top)
+     
         }
    
  

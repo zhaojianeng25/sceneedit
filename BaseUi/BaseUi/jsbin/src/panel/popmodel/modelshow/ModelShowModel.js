@@ -84,11 +84,13 @@ var left;
             var $temp = $treeMater.clone();
             $temp.shader = $buildShader;
             $temp.program = $buildShader.program;
+            /*
             console.log("----------vertex------------");
             console.log($buildShader.vertex);
             console.log("----------fragment------------");
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
+            */
             this.selectShowDisp.material = $temp;
         };
         ModelShowModel.prototype.outShaderStr = function ($treeMater) {

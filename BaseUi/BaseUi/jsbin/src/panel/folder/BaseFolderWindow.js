@@ -38,7 +38,7 @@ var basefolderwin;
                 this.moveLine.y = 0;
                 this.moveLine.width = 5;
                 this.moveLine.height = this.pageRect.height;
-                console.log("设置位置");
+                // console.log("设置位置")
             }
         };
         BaseFolderWindow.prototype.loadConfigCom = function () {

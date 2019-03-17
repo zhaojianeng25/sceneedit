@@ -34,7 +34,7 @@
             this.refreshViewValue()
         }
         public get texture(): Material {
-            console.log("材质", this.data.material)
+            //console.log("材质", this.data.material)
             return this.data.material
         }
         public get mapname() {
@@ -48,7 +48,7 @@
             this._data = value
             this.refreshViewValue()
 
-            console.log(this._data)
+           // console.log(this._data)
          
         }
         public get campos() {

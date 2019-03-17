@@ -41,7 +41,7 @@ var maineditor;
         };
         Object.defineProperty(ScenePojectMeshView.prototype, "texture", {
             get: function () {
-                console.log("材质", this.data.material);
+                //console.log("材质", this.data.material)
                 return this.data.material;
             },
             set: function (value) {
@@ -65,7 +65,7 @@ var maineditor;
             set: function (value) {
                 this._data = value;
                 this.refreshViewValue();
-                console.log(this._data);
+                // console.log(this._data)
             },
             enumerable: true,
             configurable: true
