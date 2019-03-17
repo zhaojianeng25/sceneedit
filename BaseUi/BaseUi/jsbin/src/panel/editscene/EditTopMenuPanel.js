@@ -38,19 +38,37 @@ var topMenu;
     var LabelTxtVo = /** @class */ (function (_super) {
         __extends(LabelTxtVo, _super);
         function LabelTxtVo() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.uiScale = 0.5;
+            return _this;
         }
         LabelTxtVo.prototype.makeData = function () {
             if (this.data) {
+                this.ui.width = this.ui.baseRec.width * this.uiScale;
+                this.ui.height = this.ui.baseRec.height * this.uiScale;
                 var $menuListData = this.data;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
                 var colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
                 var colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                switch ($menuListData.level) {
+                    case 0:
+                        colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        break;
+                    case 1:
+                        colorBg = $menuListData.select ? "#353535" : "#6c6c6c";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        break;
+                    default:
+                        colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        break;
+                }
                 this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                 this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 0, 5, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 10, TextAlign.CENTER);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
         };
@@ -60,7 +78,7 @@ var topMenu;
     var EditTopMenuPanel = /** @class */ (function (_super) {
         __extends(EditTopMenuPanel, _super);
         function EditTopMenuPanel() {
-            var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 70, 22), 50) || this;
+            var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 140, 48), 50) || this;
             _this._bottomRender = new UIRenderComponent();
             _this._bottomRender.uiAtlas = new UIAtlas();
             _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
@@ -99,6 +117,21 @@ var topMenu;
                 }
             }
         };
+        EditTopMenuPanel.prototype.getMenu0 = function () {
+            var $vo = new MenuListData("菜单", "1");
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("保存场景", "11"));
+            $vo.subMenu.push(new MenuListData("清理场景", "12"));
+            return $vo;
+        };
+        EditTopMenuPanel.prototype.getMenu1 = function () {
+            var $vo = new MenuListData("窗口", "2");
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("对象列表", "21"));
+            $vo.subMenu.push(new MenuListData("属性列表", "22"));
+            $vo.subMenu.push(new MenuListData("文件列表", "23"));
+            return $vo;
+        };
         EditTopMenuPanel.prototype.makeSceneTopMenu = function () {
             var _this = this;
             var temp = {};
@@ -132,6 +165,11 @@ var topMenu;
                 case "12":
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CLEAR_SCENE_MAP_ALL));
                     break;
+                case "21":
+                case "22":
+                case "23":
+                    ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL), value.key);
+                    break;
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
                     break;
@@ -141,19 +179,6 @@ var topMenu;
                 default:
                     break;
             }
-        };
-        EditTopMenuPanel.prototype.getMenu0 = function () {
-            var $vo = new MenuListData("菜单", "1");
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("保存场景", "11"));
-            $vo.subMenu.push(new MenuListData("清理场景", "12"));
-            return $vo;
-        };
-        EditTopMenuPanel.prototype.getMenu1 = function () {
-            var $vo = new MenuListData("编辑", "2");
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("eeee", "21"));
-            return $vo;
         };
         EditTopMenuPanel.prototype.showMainUi = function () {
             this.clearAll();
@@ -165,9 +190,8 @@ var topMenu;
         };
         EditTopMenuPanel.prototype.showTempMenu = function ($data, i, tx, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);
-            console.log($data.level);
             if ($data.level == 0) {
-                temp.ui.x = i * 70;
+                temp.ui.x = i * 80;
                 temp.ui.y = 0;
             }
             else {

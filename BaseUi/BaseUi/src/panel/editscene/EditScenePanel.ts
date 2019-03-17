@@ -6,22 +6,17 @@
     import UIConatiner = Pan3d.UIConatiner
     import LoadManager = Pan3d.LoadManager
  
-
     import LayoutbaseBg = layout.LayoutbaseBg
-
  
-
     export class CentenPanel extends Panel {
         public constructor(has: boolean = true) {
             super(has);
- 
         }
         public changeSize(): void {
             if (this.winBg) {
                 this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 300))
             }
         }
-  
         public addUIContainer($container: UIConatiner): void {
             //特殊处理，删除非底层背景
             for (var i: number = this._containerList.length - 1; i > 0; i--) {
@@ -31,15 +26,10 @@
             }
             if ($container) {
                 super.addUIContainer($container)
-             //   console.log("添加", this._containerList.length)
-            } else {
-          //      console.log("清理主UI")
             }
-          
         }
         public removeUIContainer($container: UIConatiner): void {
             super.removeUIContainer($container)
-          //  console.log("删除", this._containerList.length)
         }
     }
     export class EditScenePanel extends Panel {
@@ -49,15 +39,29 @@
             this.addRight()
             this.addLeft();
      
-
-            this.addLeftMoveLine();
-            this.addRightMoveLine();
-            this.addBottomMoveLine();
+  
+            this.addSceneLaoutLinePane()
 
             this.addTop()
            
             this.resize()
         
+        }
+        public showofHide(panel: Panel): void {
+       
+            if (panel.ishide) {
+                switch (panel) {
+                    case BaseUiStart.leftPanel:
+                        this.leftMoveLine.x = panel.width + 3
+                        break
+                    case BaseUiStart.rightPanel:
+                        this.rightMoveLine.x = Scene_data.stageWidth - panel.width
+                        break
+                }
+
+            }  
+
+            panel.ishide = !panel.ishide;
         }
       
         private bottomMoveLine: EditSceneLineVertical
@@ -81,6 +85,15 @@
             this.rightMoveLine.roundPos = new Vector2D(0.55, 0.85);
             this.addChild(this.rightMoveLine)
         }
+
+        private _sceneLaoutLinePane: SceneLaoutLinePane
+        private  addSceneLaoutLinePane(): void {
+            this._sceneLaoutLinePane = new SceneLaoutLinePane
+            this._sceneLaoutLinePane.x = 0
+            this._sceneLaoutLinePane.y = 0
+            this.addChild(this._sceneLaoutLinePane)
+        }
+
 
         private addCenten(): void {
             var temp: CentenPanel = new CentenPanel(true);
@@ -129,43 +142,8 @@
             BaseUiStart.leftPanel = temp;
         }
         private menuHeight: number=22
-        public resize(): void {
-
-            BaseUiStart.leftPanel.y = this.menuHeight
-            BaseUiStart.centenPanel.y = this.menuHeight
-            BaseUiStart.rightPanel.y = this.menuHeight
-            this.leftMoveLine.y = this.menuHeight
-            this.rightMoveLine.y = this.menuHeight
-
-            BaseUiStart.leftPanel.height = this.bottomMoveLine.y - BaseUiStart.leftPanel.y;
-            BaseUiStart.leftPanel.width = this.leftMoveLine.x+3;
-
- 
-            this.leftMoveLine.height = this.bottomMoveLine.y  - this.leftMoveLine.y
-            this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y
-
-    
-            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 0
-            BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width
-            BaseUiStart.rightPanel.height = Scene_data.stageHeight - BaseUiStart.rightPanel.y;
-
-            this.bottomMoveLine.width = BaseUiStart.rightPanel.x-0
-            this.bottomMoveLine.x = 0
-
-            BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
-            BaseUiStart.centenPanel.height = BaseUiStart.leftPanel.height;
-            BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
-
-            BaseUiStart.centenPanel.resize();
-            BaseUiStart.rightPanel.resize();
-
-            super.resize();
-
-            var rect: Rectangle = new Rectangle(0, this.bottomMoveLine.y + 0, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y )
-
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect); Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
-        }
-        
+      
+   
 
     }
 }

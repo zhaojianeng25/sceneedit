@@ -38,15 +38,10 @@ var editscene;
             }
             if ($container) {
                 _super.prototype.addUIContainer.call(this, $container);
-                //   console.log("添加", this._containerList.length)
-            }
-            else {
-                //      console.log("清理主UI")
             }
         };
         CentenPanel.prototype.removeUIContainer = function ($container) {
             _super.prototype.removeUIContainer.call(this, $container);
-            //  console.log("删除", this._containerList.length)
         };
         return CentenPanel;
     }(Panel));
@@ -59,13 +54,24 @@ var editscene;
             _this.addCenten();
             _this.addRight();
             _this.addLeft();
-            _this.addLeftMoveLine();
-            _this.addRightMoveLine();
-            _this.addBottomMoveLine();
+            _this.addSceneLaoutLinePane();
             _this.addTop();
             _this.resize();
             return _this;
         }
+        EditScenePanel.prototype.showofHide = function (panel) {
+            if (panel.ishide) {
+                switch (panel) {
+                    case BaseUiStart.leftPanel:
+                        this.leftMoveLine.x = panel.width + 3;
+                        break;
+                    case BaseUiStart.rightPanel:
+                        this.rightMoveLine.x = Scene_data.stageWidth - panel.width;
+                        break;
+                }
+            }
+            panel.ishide = !panel.ishide;
+        };
         EditScenePanel.prototype.addBottomMoveLine = function () {
             this.bottomMoveLine = new editscene.EditSceneLineVertical;
             this.bottomMoveLine.y = Scene_data.stageHeight * 0.7;
@@ -83,6 +89,12 @@ var editscene;
             this.rightMoveLine.x = Math.max(Scene_data.stageWidth * 0.80, Scene_data.stageWidth - 250);
             this.rightMoveLine.roundPos = new Vector2D(0.55, 0.85);
             this.addChild(this.rightMoveLine);
+        };
+        EditScenePanel.prototype.addSceneLaoutLinePane = function () {
+            this._sceneLaoutLinePane = new editscene.SceneLaoutLinePane;
+            this._sceneLaoutLinePane.x = 0;
+            this._sceneLaoutLinePane.y = 0;
+            this.addChild(this._sceneLaoutLinePane);
         };
         EditScenePanel.prototype.addCenten = function () {
             var temp = new CentenPanel(true);
@@ -122,31 +134,6 @@ var editscene;
             temp.height = 500;
             this.addChild(temp);
             BaseUiStart.leftPanel = temp;
-        };
-        EditScenePanel.prototype.resize = function () {
-            BaseUiStart.leftPanel.y = this.menuHeight;
-            BaseUiStart.centenPanel.y = this.menuHeight;
-            BaseUiStart.rightPanel.y = this.menuHeight;
-            this.leftMoveLine.y = this.menuHeight;
-            this.rightMoveLine.y = this.menuHeight;
-            BaseUiStart.leftPanel.height = this.bottomMoveLine.y - BaseUiStart.leftPanel.y;
-            BaseUiStart.leftPanel.width = this.leftMoveLine.x + 3;
-            this.leftMoveLine.height = this.bottomMoveLine.y - this.leftMoveLine.y;
-            this.rightMoveLine.height = Scene_data.stageHeight - this.rightMoveLine.y;
-            BaseUiStart.rightPanel.width = Scene_data.stageWidth - this.rightMoveLine.x - 0;
-            BaseUiStart.rightPanel.x = Scene_data.stageWidth - BaseUiStart.rightPanel.width;
-            BaseUiStart.rightPanel.height = Scene_data.stageHeight - BaseUiStart.rightPanel.y;
-            this.bottomMoveLine.width = BaseUiStart.rightPanel.x - 0;
-            this.bottomMoveLine.x = 0;
-            BaseUiStart.centenPanel.x = BaseUiStart.leftPanel.width;
-            BaseUiStart.centenPanel.height = BaseUiStart.leftPanel.height;
-            BaseUiStart.centenPanel.width = BaseUiStart.rightPanel.x - BaseUiStart.centenPanel.x;
-            BaseUiStart.centenPanel.resize();
-            BaseUiStart.rightPanel.resize();
-            _super.prototype.resize.call(this);
-            var rect = new Rectangle(0, this.bottomMoveLine.y + 0, this.bottomMoveLine.width, Scene_data.stageHeight - this.bottomMoveLine.y);
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
-            Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_RESIZE), rect);
         };
         return EditScenePanel;
     }(Panel));

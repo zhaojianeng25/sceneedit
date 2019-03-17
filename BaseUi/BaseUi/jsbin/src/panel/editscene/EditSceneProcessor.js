@@ -24,6 +24,7 @@ var editscene;
         EditSceneEvent.SHOW_EDITSCENE_PANEL = "SHOW_EDITSCENE_PANEL";
         EditSceneEvent.LEFT_LINE_MOVE = "LEFT_LINE_MOVE";
         EditSceneEvent.EDITE_SCENE_RESIZE = "EDITE_SCENE_RESIZE";
+        EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL = "SHOW_HIDE_EDIT_TEMP_PANEL";
         return EditSceneEvent;
     }(BaseEvent));
     editscene.EditSceneEvent = EditSceneEvent;
@@ -63,11 +64,22 @@ var editscene;
                 if ($editSceneEvent.type == EditSceneEvent.LEFT_LINE_MOVE) {
                     this._editScenePanel.resize();
                 }
+                if ($editSceneEvent.type == EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL) {
+                    if ($editSceneEvent.data == 21) {
+                        this._editScenePanel.showofHide(BaseUiStart.leftPanel);
+                    }
+                    if ($editSceneEvent.data == 22) {
+                        this._editScenePanel.showofHide(BaseUiStart.rightPanel);
+                    }
+                    console.log("$editSceneEvent.data", $editSceneEvent.data);
+                    this._editScenePanel.resize();
+                }
             }
         };
         EditSceneProcessor.prototype.listenModuleEvents = function () {
             return [
                 new EditSceneEvent(EditSceneEvent.SHOW_EDITSCENE_PANEL),
+                new EditSceneEvent(EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL),
                 new EditSceneEvent(EditSceneEvent.LEFT_LINE_MOVE),
             ];
         };

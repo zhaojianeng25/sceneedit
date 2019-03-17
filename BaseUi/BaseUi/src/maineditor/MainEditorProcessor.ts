@@ -223,8 +223,11 @@
      
         private changePageRect(): void {
             if (this._hierarchyListPanel && BaseUiStart.leftPanel) {
-                var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width, BaseUiStart.leftPanel.rect.height);
-                this._hierarchyListPanel.setRect(rect)
+           
+                    var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width, BaseUiStart.leftPanel.rect.height);
+                    this._hierarchyListPanel.setRect(rect)
+                
+    
             }
  
             if (this._editScenePanel && BaseUiStart.centenPanel) {

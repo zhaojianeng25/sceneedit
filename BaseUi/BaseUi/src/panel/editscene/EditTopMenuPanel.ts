@@ -31,20 +31,46 @@
 
     }
     export class LabelTxtVo extends Disp2DBaseText {
-
+        public uiScale: number=0.5
         public makeData(): void {
             if (this.data) {
+      
+                this.ui.width = this.ui.baseRec.width * this.uiScale
+                this.ui.height = this.ui.baseRec.height * this.uiScale
+                
                 var $menuListData: MenuListData = this.data
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
- 
+
+               
                 var colorBg: string = $menuListData.select ? "#6c6c6c" : "#353535";
                 var colorFont: string = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
 
+                switch ($menuListData.level) {
+                    case 0:
+
+                        colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+
+                        break
+                    case 1:
+
+                        colorBg = $menuListData.select ? "#353535" : "#6c6c6c";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+
+                        break
+                    default:
+
+                         colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        break
+
+                }
+
                 this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                 this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 12, 0, 5, TextAlign.CENTER)
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 10, TextAlign.CENTER)
 
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
@@ -67,7 +93,7 @@
 
         private _bottomRender: UIRenderComponent
         public constructor() {
-            super(LabelTxtVo, new Rectangle(0, 0, 70, 22), 50);
+            super(LabelTxtVo, new Rectangle(0, 0, 140, 48), 50);
 
             this._bottomRender = new UIRenderComponent();
             this._bottomRender.uiAtlas = new UIAtlas();
@@ -112,7 +138,21 @@
             }
         }
 
-
+        private getMenu0(): MenuListData {
+            var $vo: MenuListData = new MenuListData("菜单", "1")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("保存场景", "11"));
+            $vo.subMenu.push(new MenuListData("清理场景", "12"));
+            return $vo
+        }
+        private getMenu1(): MenuListData {
+            var $vo: MenuListData = new MenuListData("窗口", "2")
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("对象列表", "21"));
+            $vo.subMenu.push(new MenuListData("属性列表", "22"));
+            $vo.subMenu.push(new MenuListData("文件列表", "23"));
+            return $vo
+        }
         public makeSceneTopMenu(): void {
 
             var temp: any = {};
@@ -148,6 +188,11 @@
                 case "12":
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CLEAR_SCENE_MAP_ALL))
                     break
+                case "21":
+                case "22":
+                case "23":
+                    ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL), value.key)
+                    break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
                     break
@@ -159,19 +204,7 @@
                     break
             }
         }
-        private getMenu0(): MenuListData {
-            var $vo: MenuListData = new MenuListData("菜单", "1")
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("保存场景", "11"));
-            $vo.subMenu.push(new MenuListData("清理场景", "12"));
-            return $vo
-        }
-        private getMenu1(): MenuListData {
-            var $vo: MenuListData = new MenuListData("编辑", "2")
-            $vo.subMenu = new Array;
-            $vo.subMenu.push(new MenuListData("eeee", "21"));
-            return $vo
-        }
+
     
         public showMainUi(): void {
             this.clearAll();
@@ -185,15 +218,16 @@
         public showTempMenu($data: MenuListData, i: number, tx: number, ty: number): LabelTxtVo {
 
             let temp: LabelTxtVo = super.showTemp($data) as LabelTxtVo;
-            console.log($data.level)
+           
             if ($data.level == 0) {
-                temp.ui.x =   i * 70;
+                temp.ui.x =   i * 80;
                 temp.ui.y = 0;
             } else {
                 temp.ui.x = tx;
                 temp.ui.y = i * 20 + ty;
             }
-
+      
+            
 
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
             temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
@@ -201,7 +235,7 @@
         }
         //清理单元内的内容并需要将对象移出显示队例
         public clearTemp($data: any): void {
-            var temp: LabelTxtVo = this.getVoByData($data);
+            var temp: LabelTxtVo = this.getVoByData($data) as LabelTxtVo;
             temp.ui.removeEventListener(InteractiveEvent.Move, this.butMove, this);
             temp.ui.removeEventListener(InteractiveEvent.Down, this.onMouseUp, this);
             super.clearTemp($data);

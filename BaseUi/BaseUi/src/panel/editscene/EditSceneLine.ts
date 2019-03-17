@@ -113,14 +113,11 @@
 
             }
             var roundPos: Vector2D = (<EditSceneLine>this.perent).roundPos;
-    
-
             this._pageRect.x = Math.max(this._pageRect.x, Scene_data.stageWidth * roundPos.x)
             this._pageRect.x = Math.min(this._pageRect.x, Scene_data.stageWidth * roundPos.y)
-
             this.refrishSize();
 
-            (<EditSceneLine>this.perent).perent.resize()
+            (<EditSceneLine>this.perent).perent.resize();
         }
         protected butClik(evt: InteractiveEvent): void {
             console.log(evt.target)
@@ -182,6 +179,154 @@
             }
 
         }
+    }
+
+    export class TempTopLaout extends base.BaseWindow {
+
+        private leftLine: UICompenent;
+        private rightLine: UICompenent;
+        private bottomLine: UICompenent;
+        protected loadConfigCom(): void {
+            super.loadConfigCom();
+ 
+ 
+            this.leftLine = this._baseTopRender.getComponent("b_line_pixe_point");
+            this.rightLine = this._baseTopRender.getComponent("b_line_pixe_point");
+            this.bottomLine = this._baseTopRender.getComponent("b_line_pixe_point");
+
+            this.setUiListVisibleByItem([this.leftLine], true)
+            this.setUiListVisibleByItem([this.rightLine], true)
+            this.setUiListVisibleByItem([this.bottomLine], true)
+
+            this.leftLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.rightLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.bottomLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+
+
+            this.setRect(new Rectangle(0, 0, Scene_data.stageWidth, Scene_data.stageHeight))
+
+            this.resize()
+
+        }
+        private leftWidth: number = 300 //左边宽度；
+        private rightWidth: number = 300 //右边宽度；
+        private bottomHeight: number = 300 //底下宽度；
+
+
+        public resize(): void {
+
+            super.resize()
+            if (this.bottomLine) {
+
+                this.leftLine.x = this.leftWidth
+                this.leftLine.y = 0
+                this.leftLine.width = 10
+                this.leftLine.height = Scene_data.stageHeight
+
+                this.rightLine.x = Scene_data.stageWidth - this.rightWidth
+                this.rightLine.y = 0
+                this.rightLine.width = 10
+                this.rightLine.height = Scene_data.stageHeight
+
+                this.bottomLine.x = 0
+                this.bottomLine.y = Scene_data.stageHeight - this.bottomHeight
+                this.bottomLine.width = Scene_data.stageWidth
+                this.bottomLine.height = 10
+
+
+
+                BaseUiStart.leftPanel.y = this.menuHeight;
+                BaseUiStart.centenPanel.y = this.menuHeight;
+                BaseUiStart.rightPanel.y = this.menuHeight;
+
+
+
+                BaseUiStart.leftPanel.x = 0
+                BaseUiStart.leftPanel.height = Scene_data.stageHeight - this.bottomHeight - this.menuHeight;
+                BaseUiStart.leftPanel.width = this.leftWidth;
+
+
+
+                BaseUiStart.rightPanel.x = Scene_data.stageWidth - this.rightWidth
+                BaseUiStart.rightPanel.height = Scene_data.stageHeight - this.menuHeight;
+                BaseUiStart.rightPanel.width = this.rightWidth;
+
+
+
+                BaseUiStart.centenPanel.x = this.leftWidth
+                BaseUiStart.centenPanel.height = Scene_data.stageHeight - this.bottomHeight - this.menuHeight
+                BaseUiStart.centenPanel.width = Scene_data.stageWidth - this.leftWidth - this.rightWidth
+
+
+
+                var rect: Rectangle = new Rectangle(0, Scene_data.stageHeight - this.bottomHeight + 10, Scene_data.stageWidth - this.rightWidth, this.bottomHeight);
+                Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
+                Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
+            }
+
+        }
+        protected lastLaoutVec: Vector3D;
+        protected tittleMouseDown(evt: InteractiveEvent): void {
+            this.mouseMoveTaget = evt.target
+            this.lastMousePos = new Vector2D(evt.x, evt.y)
+
+        
+
+            switch (this.mouseMoveTaget) {
+                case this.leftLine:
+                case this.rightLine:
+                case this.bottomLine:
+                    this.lastPagePos = new Vector2D(evt.target.x, evt.target.y)
+                    this.lastLaoutVec = new Vector3D(this.leftWidth, this.rightWidth, this.bottomHeight);
+                    break
+                default:
+ 
+                    break
+
+            }
+ 
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
+        }
+        private menuHeight: number = 22
+        protected mouseOnTittleMove(evt: InteractiveEvent): void {
+            switch (this.mouseMoveTaget) {
+                case this.leftLine:
+                    this.leftWidth = this.lastLaoutVec.x + (evt.x - this.lastMousePos.x)
+                    break
+                case this.rightLine:
+                    this.rightWidth = this.lastLaoutVec.y - (evt.x - this.lastMousePos.x)
+                    break
+                case this.bottomLine:
+                    this.bottomHeight = this.lastLaoutVec.z - (evt.y - this.lastMousePos.y)
+                    break
+                default:
+                    console.log("nonono")
+                    break
+
+            }
+            this.resize()
+
+
+           
+
+        }
+       
+    }
+
+    export class SceneLaoutLinePane extends Sprite {
+        private winBg: TempTopLaout;
+        public constructor(has: boolean = true) {
+            super();
+ 
+            this.winBg = new TempTopLaout();
+            this.addUIContainer(this.winBg)
+            this.changeSize()
+     
+
+        }
+ 
+       
     }
 }
 
