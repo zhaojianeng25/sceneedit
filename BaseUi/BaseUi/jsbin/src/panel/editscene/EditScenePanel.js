@@ -15,8 +15,6 @@ var editscene;
 (function (editscene) {
     var Panel = layout.Panel;
     var Rectangle = Pan3d.Rectangle;
-    var Vector2D = Pan3d.Vector2D;
-    var Scene_data = Pan3d.Scene_data;
     var LayoutbaseBg = layout.LayoutbaseBg;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
@@ -60,38 +58,9 @@ var editscene;
             return _this;
         }
         EditScenePanel.prototype.showofHide = function (panel) {
-            if (panel.ishide) {
-                switch (panel) {
-                    case BaseUiStart.leftPanel:
-                        this.leftMoveLine.x = panel.width + 3;
-                        break;
-                    case BaseUiStart.rightPanel:
-                        this.rightMoveLine.x = Scene_data.stageWidth - panel.width;
-                        break;
-                }
-            }
-            panel.ishide = !panel.ishide;
-        };
-        EditScenePanel.prototype.addBottomMoveLine = function () {
-            this.bottomMoveLine = new editscene.EditSceneLineVertical;
-            this.bottomMoveLine.y = Scene_data.stageHeight * 0.7;
-            this.bottomMoveLine.roundPos = new Vector2D(0.5, 0.80);
-            this.addChild(this.bottomMoveLine);
-        };
-        EditScenePanel.prototype.addLeftMoveLine = function () {
-            this.leftMoveLine = new editscene.EditSceneLine;
-            this.leftMoveLine.x = Math.min(Scene_data.stageWidth * 0.20, 250);
-            this.leftMoveLine.roundPos = new Vector2D(0.15, 0.45);
-            this.addChild(this.leftMoveLine);
-        };
-        EditScenePanel.prototype.addRightMoveLine = function () {
-            this.rightMoveLine = new editscene.EditSceneLine;
-            this.rightMoveLine.x = Math.max(Scene_data.stageWidth * 0.80, Scene_data.stageWidth - 250);
-            this.rightMoveLine.roundPos = new Vector2D(0.55, 0.85);
-            this.addChild(this.rightMoveLine);
         };
         EditScenePanel.prototype.addSceneLaoutLinePane = function () {
-            this._sceneLaoutLinePane = new editscene.SceneLaoutLinePane;
+            this._sceneLaoutLinePane = new editscene.EditSceneLine;
             this._sceneLaoutLinePane.x = 0;
             this._sceneLaoutLinePane.y = 0;
             this.addChild(this._sceneLaoutLinePane);

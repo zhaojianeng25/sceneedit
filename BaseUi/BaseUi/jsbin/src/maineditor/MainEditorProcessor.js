@@ -207,7 +207,7 @@ var maineditor;
                 this._hierarchyListPanel.setRect(rect);
             }
             if (this._editScenePanel && BaseUiStart.centenPanel) {
-                var rect = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width - 1, BaseUiStart.centenPanel.rect.height - 1);
+                var rect = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width, BaseUiStart.centenPanel.rect.height);
                 this._editScenePanel.panelEventChanger(rect);
             }
         };

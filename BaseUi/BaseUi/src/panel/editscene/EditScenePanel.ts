@@ -49,46 +49,12 @@
         }
         public showofHide(panel: Panel): void {
        
-            if (panel.ishide) {
-                switch (panel) {
-                    case BaseUiStart.leftPanel:
-                        this.leftMoveLine.x = panel.width + 3
-                        break
-                    case BaseUiStart.rightPanel:
-                        this.rightMoveLine.x = Scene_data.stageWidth - panel.width
-                        break
-                }
-
-            }  
-
-            panel.ishide = !panel.ishide;
+        
         }
-      
-        private bottomMoveLine: EditSceneLineVertical
-        private addBottomMoveLine(): void {
-            this.bottomMoveLine = new EditSceneLineVertical
-            this.bottomMoveLine.y = Scene_data.stageHeight * 0.7
-            this.bottomMoveLine.roundPos = new Vector2D(0.5, 0.80);
-            this.addChild(this.bottomMoveLine)
-        }
-        private leftMoveLine: EditSceneLine
-        private addLeftMoveLine(): void {
-            this.leftMoveLine = new EditSceneLine
-            this.leftMoveLine.x = Math.min(Scene_data.stageWidth * 0.20,250)
-            this.leftMoveLine.roundPos = new Vector2D(0.15, 0.45);
-            this.addChild(this.leftMoveLine)
-        }
-        private rightMoveLine: EditSceneLine
-        private addRightMoveLine(): void {
-            this.rightMoveLine = new EditSceneLine
-            this.rightMoveLine.x = Math.max(Scene_data.stageWidth * 0.80, Scene_data.stageWidth - 250)
-            this.rightMoveLine.roundPos = new Vector2D(0.55, 0.85);
-            this.addChild(this.rightMoveLine)
-        }
-
-        private _sceneLaoutLinePane: SceneLaoutLinePane
+ 
+        private _sceneLaoutLinePane: EditSceneLine
         private  addSceneLaoutLinePane(): void {
-            this._sceneLaoutLinePane = new SceneLaoutLinePane
+            this._sceneLaoutLinePane = new EditSceneLine
             this._sceneLaoutLinePane.x = 0
             this._sceneLaoutLinePane.y = 0
             this.addChild(this._sceneLaoutLinePane)
