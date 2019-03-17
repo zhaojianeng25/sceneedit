@@ -57,6 +57,8 @@ var editscene;
             this.bottomLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.setRect(new Rectangle(0, 0, Scene_data.stageWidth, Scene_data.stageHeight));
             this.resize();
+            console.log("ui布局完成");
+            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP)); //加载场景
         };
         TempSceneLine.prototype.butClik = function (evt) {
             switch (evt.target) {

@@ -8,7 +8,7 @@
         protected initView(): void {
             this.textLabelUI = new TextLabelUI(128, 32);
             this.infoLabelUi = new TextLabelUI(128, 32);
-            this.height = 40
+            this.height = 20
         }
         public destory(): void {
             this.textLabelUI.destory()

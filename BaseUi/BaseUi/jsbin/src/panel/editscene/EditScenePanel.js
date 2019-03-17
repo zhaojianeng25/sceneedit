@@ -48,7 +48,6 @@ var editscene;
         __extends(EditScenePanel, _super);
         function EditScenePanel() {
             var _this = _super.call(this, false) || this;
-            _this.menuHeight = 22;
             _this.addCenten();
             _this.addRight();
             _this.addLeft();

@@ -404,7 +404,7 @@ var maineditor;
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
-            this.readMapFile();
+            //this.readMapFile()
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
@@ -503,6 +503,7 @@ var maineditor;
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), $fileObj);
             });
         };
         HierarchyListPanel.prototype.selectModelEvet = function (tempItem, isshift) {

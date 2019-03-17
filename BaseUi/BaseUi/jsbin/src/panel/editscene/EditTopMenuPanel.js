@@ -168,7 +168,7 @@ var topMenu;
                 case "21":
                 case "22":
                 case "23":
-                    ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL), value.key);
+                    //   ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL), value.key)
                     break;
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));

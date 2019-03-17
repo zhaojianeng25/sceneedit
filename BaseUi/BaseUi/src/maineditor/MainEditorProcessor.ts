@@ -17,11 +17,13 @@
 
 
     export class MainEditorEvent extends BaseEvent {
+        public static LOAD_SCENE_MAP: string = "LOAD_SCENE_MAP";  
         public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL";  
         public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL";  
         public static INPUT_PREFAB_TO_SCENE: string = "INPUT_PREFAB_TO_SCENE";  
         public static SAVE_SCENE_MAP_TO_SEVER: string = "SAVE_SCENE_MAP_TO_SEVER";  
         public static CLEAR_SCENE_MAP_ALL: string = "CLEAR_SCENE_MAP_ALL";  
+        public static SHOW_SCENE_POJECT_MESH_VIEW: string = "SHOW_SCENE_POJECT_MESH_VIEW";  
         public static SCENE_SELECT_SPRITE_DOWN: string = "SCENE_SELECT_SPRITE_DOWN";   //选取舞台物件
   
  
@@ -67,6 +69,17 @@
 
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data)
                 }
+                if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
+
+
+                    this.showScnePojectView($mainEditorEvent.data);
+                 
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
+
+                    this._hierarchyListPanel.readMapFile();
+                }
+
 
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
 
@@ -74,7 +87,6 @@
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.CLEAR_SCENE_MAP_ALL) {
 
-            
 
                     while (maineditor.EditorModel.getInstance().fileItem.length) {
                         maineditor.EditorModel.getInstance().selectItem =[ maineditor.EditorModel.getInstance().fileItem[0]]
@@ -99,13 +111,16 @@
                 }
             }
         }
-        private addTestWindPanel(): void {
-            var temp: layout.Panel = new layout.Panel(false)
-            layout.LayerManager.getInstance().addPanel(temp, 500);
+        private showScnePojectView(value: any): void {
+           
+            var A: ScenePojectMeshView = new ScenePojectMeshView;
+            A.data = value;
+            prop.PropModel.getInstance().showPefabMesh(A);
+            prop.PropModel.getInstance().resize();
+ 
 
-            var winPanel: base.BaseWindow = new base.BaseWindow()
-            temp.addUIContainer(winPanel);
         }
+   
         private onMouseWheelFun: any;
         private onMouseDownFun: any;
         private onMouseMoveFun: any;
@@ -246,6 +261,8 @@
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
                 new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),
+                new MainEditorEvent(MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW),
+                new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
                 
             ];

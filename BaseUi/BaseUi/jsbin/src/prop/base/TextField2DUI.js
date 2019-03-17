@@ -21,7 +21,7 @@ var prop;
         TextField2DUI.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI(128, 32);
             this.infoLabelUi = new prop.TextLabelUI(128, 32);
-            this.height = 40;
+            this.height = 20;
         };
         TextField2DUI.prototype.destory = function () {
             this.textLabelUI.destory();

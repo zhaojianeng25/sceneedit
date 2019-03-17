@@ -107,7 +107,7 @@
             this.addChild(temp);
             BaseUiStart.leftPanel = temp;
         }
-        private menuHeight: number=22
+  
       
    
 

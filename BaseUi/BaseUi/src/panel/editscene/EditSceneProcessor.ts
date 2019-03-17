@@ -20,7 +20,7 @@
 
     export class EditSceneEvent extends BaseEvent {
         public static SHOW_EDITSCENE_PANEL: string = "SHOW_EDITSCENE_PANEL";
-        public static LEFT_LINE_MOVE: string = "LEFT_LINE_MOVE";
+ 
         public static EDITE_SCENE_RESIZE: string = "EDITE_SCENE_RESIZE";
 
         public static SHOW_HIDE_EDIT_TEMP_PANEL: string = "SHOW_HIDE_EDIT_TEMP_PANEL";
@@ -45,35 +45,13 @@
             if ($event instanceof EditSceneEvent) {
                 var $editSceneEvent: EditSceneEvent = <EditSceneEvent>$event;
                 if ($editSceneEvent.type == EditSceneEvent.SHOW_EDITSCENE_PANEL) {
- 
                     this._editScenePanel = new EditScenePanel
-         
                     this._editScenePanel.x = 300
                     this._editScenePanel.y = 300
                     this._editScenePanel.width = 450
                     this._editScenePanel.height = 500
                     layout.LayerManager.getInstance().addPanel(this._editScenePanel, 100)
 
-
-             
-                }
-                if ($editSceneEvent.type == EditSceneEvent.LEFT_LINE_MOVE) {
-
-                    this._editScenePanel.resize();
-                }
-                if ($editSceneEvent.type == EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL) {
-              
-                    if ($editSceneEvent.data == 21) {
-                        this._editScenePanel.showofHide(BaseUiStart.leftPanel)
-                    }
-                    if ($editSceneEvent.data == 22) {
-                        this._editScenePanel.showofHide(BaseUiStart.rightPanel)
-                    }
-                  
-
-                    console.log("$editSceneEvent.data", $editSceneEvent.data)
-
-                    this._editScenePanel.resize();
                 }
             }
         }
@@ -83,7 +61,7 @@
             return [
                 new EditSceneEvent(EditSceneEvent.SHOW_EDITSCENE_PANEL),
                 new EditSceneEvent(EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL),
-                new EditSceneEvent(EditSceneEvent.LEFT_LINE_MOVE),
+ 
             ];
         }
     }

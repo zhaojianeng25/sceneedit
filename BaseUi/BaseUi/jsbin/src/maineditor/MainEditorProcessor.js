@@ -27,11 +27,13 @@ var maineditor;
         function MainEditorEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        MainEditorEvent.LOAD_SCENE_MAP = "LOAD_SCENE_MAP";
         MainEditorEvent.INIT_MAIN_EDITOR_PANEL = "INIT_MAIN_EDITOR_PANEL";
         MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL";
         MainEditorEvent.INPUT_PREFAB_TO_SCENE = "INPUT_PREFAB_TO_SCENE";
         MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER = "SAVE_SCENE_MAP_TO_SEVER";
         MainEditorEvent.CLEAR_SCENE_MAP_ALL = "CLEAR_SCENE_MAP_ALL";
+        MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW = "SHOW_SCENE_POJECT_MESH_VIEW";
         MainEditorEvent.SCENE_SELECT_SPRITE_DOWN = "SCENE_SELECT_SPRITE_DOWN"; //选取舞台物件
         return MainEditorEvent;
     }(BaseEvent));
@@ -80,6 +82,12 @@ var maineditor;
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data);
                 }
+                if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
+                    this.showScnePojectView($mainEditorEvent.data);
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
+                    this._hierarchyListPanel.readMapFile();
+                }
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
                     this._hierarchyListPanel.saveMap();
                 }
@@ -101,11 +109,11 @@ var maineditor;
                 }
             }
         };
-        MainEditorProcessor.prototype.addTestWindPanel = function () {
-            var temp = new layout.Panel(false);
-            layout.LayerManager.getInstance().addPanel(temp, 500);
-            var winPanel = new base.BaseWindow();
-            temp.addUIContainer(winPanel);
+        MainEditorProcessor.prototype.showScnePojectView = function (value) {
+            var A = new maineditor.ScenePojectMeshView;
+            A.data = value;
+            prop.PropModel.getInstance().showPefabMesh(A);
+            prop.PropModel.getInstance().resize();
         };
         MainEditorProcessor.prototype.addEvents = function () {
             var _this = this;
@@ -219,6 +227,8 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
                 new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),
+                new MainEditorEvent(MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW),
+                new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };

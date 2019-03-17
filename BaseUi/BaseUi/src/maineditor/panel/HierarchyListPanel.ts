@@ -467,7 +467,7 @@
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
-            this.readMapFile()
+            //this.readMapFile()
 
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = ($evt: MouseEvent) => { this.onRightMenu($evt) };
@@ -587,8 +587,8 @@
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
 
         }
- 
-        private readMapFile(): void {
+
+        public readMapFile(): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
@@ -601,11 +601,15 @@
                     this.isCompelet = true;
                     this.refrishFolder();
                     this.resize()
+ 
+                
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), $fileObj)
 
                 });
 
-            
         }
+
+    
         public selectModelEvet(tempItem: Array<FolderMeshVo>, isshift: boolean = false): void {
  
             if (tempItem.length) {
