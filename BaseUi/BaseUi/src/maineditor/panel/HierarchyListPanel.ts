@@ -462,12 +462,12 @@
         protected makeItemUiList(): void {
 
             this._baseRender.mask = this._uiMask
-            EditorModel.getInstance().fileItem = [];
+        
             for (var i: number = 0; i < this._uiItem.length; i++) {
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
-            //this.readMapFile()
+     
 
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = ($evt: MouseEvent) => { this.onRightMenu($evt) };

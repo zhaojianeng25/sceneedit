@@ -399,12 +399,10 @@ var maineditor;
         HierarchyListPanel.prototype.makeItemUiList = function () {
             var _this = this;
             this._baseRender.mask = this._uiMask;
-            maineditor.EditorModel.getInstance().fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
-            //this.readMapFile()
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
