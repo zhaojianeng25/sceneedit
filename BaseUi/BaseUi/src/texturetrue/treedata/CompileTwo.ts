@@ -113,33 +113,25 @@
 
         private defaultUvReg: RegisterItem;
         private defaultLightUvReg: RegisterItem;
-        private defaultPtReg: RegisterItem;
-        private defaultLutReg: RegisterItem;
-        private defaultTangent: RegisterItem;
-        private defatultV5: RegisterItem;
-        private defatultV6: RegisterItem;
-        //private defaultBinormal:RegisterItem;
+
 
         private strVec: Array<string>;
         private texVec: Array<TexItem>;
         private constVec: Array<ConstItem>;
         private hasTime: boolean;
-        private timeSpeed: number = 0;
-        private blendMode: number;
-        private writeZbuffer: boolean;
-        private backCull: boolean;
+
         private killNum: number = 0;
         private hasVertexColor: boolean;
         private usePbr: boolean;
         private useNormal: boolean;
-        private roughness: number = 0;
+
  
         private hasSkyBox: boolean;
         private skyBoxTextId: number;
         private useDynamicIBL: boolean;
-        private normalScale: number = 0;
+
         private lightProbe: boolean;
-        private useLightMap: boolean;
+
         private directLight: boolean;
         private noLight: boolean;
         private fogMode: number;
@@ -162,13 +154,7 @@
             this.initReg();
             new Vector3D
             this.defaultUvReg = new RegisterItem(0);
-            this.defaultPtReg = new RegisterItem(1);
-            this.defaultLightUvReg = new RegisterItem(2);
-            this.defaultLutReg = new RegisterItem(3);
-            this.defaultTangent = new RegisterItem(4);
 
-            this.defatultV5 = new RegisterItem(5);
-            this.defatultV6 = new RegisterItem(6);
         }
         private initReg(): void {
             this.fragmentTempList = new Array
@@ -196,11 +182,11 @@
             this.hasVertexColor = false;
             this.usePbr = false;
             this.useNormal = false;
-            this.roughness = 0;
+  
   
             this.useDynamicIBL = false;
             this.lightProbe = false;
-            this.useLightMap = false;
+  
             this.useKill = false;
             this.directLight = false;
             this.noLight = false;
@@ -770,7 +756,7 @@
             this.strVec.push(str);
             $node.regResultTemp = regtemp;
             this.hasTime = true;
-            this.timeSpeed = 0.001;
+     
         }
         private  processStaticNode($node: NodeTree, opCode: string): void {
             var str: string = "";
@@ -847,7 +833,7 @@
 
 
             this.hasTime = true;
-            this.timeSpeed = 0.001;
+ 
 
             $node.regResultTemp = regtemp;
             $node.shaderStr = str;
@@ -1089,7 +1075,7 @@
                     texItem.id = regtexLightMap.id;
                     texItem.type = TexItem.LIGHTMAP;
                     this.texVec.push(texItem);
-                    this.useLightMap = true;
+            
                 }
 
                 if (this.noLight && !this.directLight) {
@@ -1153,11 +1139,7 @@
             this.strVec.push(str);
 
 
-
-            this.backCull = (<NodeTreeOP>$node).backCull;
-            this.blendMode = (<NodeTreeOP>$node).blendMode;
-            this.writeZbuffer = (<NodeTreeOP>$node).writeZbuffer;
-            this.normalScale = (<NodeTreeOP>$node).normalScale;
+ 
         }
         private initBaseFc(): void {
             var dataID: number = 0;

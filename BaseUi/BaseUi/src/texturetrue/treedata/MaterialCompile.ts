@@ -20,14 +20,13 @@
  
         public compile($list: Array<NodeTree>, $materialTree: MaterialTree): void {
             this._compileGlslServer = new CompileTwo();
-
             this.nodeList = $list;
             this.resetCompile($list);
             this.resetPriority();
             var opNode: NodeTree = this.getOpNode();
             opNode.priority = 0;
             this.setPriority(opNode);
-            this.priorityList = new Array
+            this.priorityList = new Array;
             for (var i: number = 0; i <= this.maxPriority; i++) {
                 this.priorityList.push(new Array);
             }
@@ -47,10 +46,8 @@
                 }
                 this.priorityList[this.nodeList[i].priority].push(this.nodeList[i]);
             }
-            // this._compilePan.compile(this.priorityList, $materialTree)
-            var resultStr: string = this._compileGlslServer.compile(this.priorityList, $materialTree);
 
-
+           this._compileGlslServer.compile(this.priorityList, $materialTree);
            left.ModelShowModel.getInstance().outShaderStr($materialTree);
 
         }

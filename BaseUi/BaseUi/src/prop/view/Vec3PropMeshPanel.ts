@@ -6,12 +6,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    //{ Type: ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1 },
-                    //{ Type: ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1 },
-                    //{ Type: ReflectionData.NumberInput, Label: "z:", FunKey: "constZValue", target: this, Step: 0.1 },
-
                     { Type: ReflectionData.Vec3Color, Label: "Vec3d:", FunKey: "constValue", target: this, Step: 0.1, Category: "属性" },
-
                 ];
             return ary;
         }
@@ -32,7 +27,10 @@
             return this.constVec3NodeUI.constValue
         }
         public set constValue(value: Vector3D) {
-            this.constVec3NodeUI.constValue = value
+            this.constVec3NodeUI.constValue = value 
+            this.changeData();
+            console.log(value)
+
         }
 
 
