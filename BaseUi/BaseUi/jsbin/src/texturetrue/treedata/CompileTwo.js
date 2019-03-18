@@ -11,7 +11,6 @@ var materialui;
     var TextureManager = Pan3d.TextureManager;
     var CompileTwo = /** @class */ (function () {
         function CompileTwo() {
-            this.killNum = 0;
             this._killID = 0;
             this._timeID = 0;
             this._fogdataID = 0;
@@ -42,15 +41,8 @@ var materialui;
             this.texVec = new Array;
             this.constVec = new Array;
             this.hasTime = false;
-            this.hasVertexColor = false;
             this.useNormal = false;
-            this.useDynamicIBL = false;
-            this.lightProbe = false;
-            this.useKill = false;
-            this.directLight = false;
             this.noLight = false;
-            this.fogMode = 0;
-            this.scaleLightMap = false;
             this.cubeTextItem = null;
             this.initBaseFc();
             this.funNodeStr = "";
@@ -72,24 +64,10 @@ var materialui;
             $materialTree.fcData = this.makeFc($materialTree.fcNum);
             $materialTree.hasTime = this.hasTime;
             ;
-            $materialTree.hasVertexColor = this.hasVertexColor;
-            ;
             $materialTree.useNormal = this.useNormal;
             ;
             $materialTree.roughness = 0;
-            $materialTree.useDynamicIBL = this.useDynamicIBL;
-            ;
-            $materialTree.lightProbe = this.lightProbe;
-            ;
-            $materialTree.useKill = this.useKill;
-            ;
-            $materialTree.directLight = this.directLight;
-            ;
             $materialTree.noLight = this.noLight;
-            ;
-            $materialTree.fogMode = this.fogMode;
-            ;
-            $materialTree.scaleLightMap = this.scaleLightMap;
             ;
             return resultStr;
         };
@@ -106,7 +84,6 @@ var materialui;
             return maxID;
         };
         CompileTwo.prototype.makeFc = function (fcNum) {
-            var fcIDAry = [this._camposID, this._fogcolorID, this._scalelightmapID];
             var fcData = new Float32Array(fcNum * 4);
             for (var i = 0; i < this.constVec.length; i++) {
                 this.constVec[i].creat(fcData);
@@ -119,7 +96,6 @@ var materialui;
                 mainStr += this.strVec[i] + "\n";
             }
             var perStr = "precision mediump float;\n";
-            var hasParticleColor = false;
             var texStr = "";
             for (i = 0; i < this.texVec.length; i++) {
                 if (this.texVec[i].type == TexItem.CUBEMAP) {
@@ -184,17 +160,6 @@ var materialui;
             }
             return null;
         };
-        //private getFunTree(): string {
-        //    var $outstr: string = "vec3 ic(vec2 id){bool ie=(id.y>(32767.1/65535.0));\n" +
-        //        "id.y=ie?(id.y-(32768.0/65535.0)):id.y;\n" +
-        //        "vec3 r;\n" +
-        //        "r.xy=(2.0*65535.0/32767.0)*id-vec2(1.0);\n" +
-        //        "r.z=sqrt(clamp(1.0-dot(r.xy,r.xy),0.0,1.0));\n" +
-        //        "r.z=ie?-r.z:r.z;\n" +
-        //        "return r;\n" +
-        //    "}\n"
-        //    return $outstr
-        //}
         CompileTwo.prototype.getFragmentTex = function ($nodeTreeTex) {
             if ($nodeTreeTex === void 0) { $nodeTreeTex = null; }
             for (var i = 0; i < this.fragmentTexList.length; i++) {
@@ -282,7 +247,6 @@ var materialui;
             var input = $node.inputVec[0];
             var regtex = this.getFragmentTex($node);
             var regtemp = this.getFragmentTemp();
-            //"vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
             var resultStr;
             if (regtemp.hasInit) {
                 resultStr = CompileTwo.FT + regtemp.id;
@@ -293,11 +257,9 @@ var materialui;
             }
             if (input.parentNodeItem) {
                 var pNode = input.parentNodeItem.node;
-                //str = TEX +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id +CompileTwo. COMMA+ pNode.getComponentID(input.parentNodeItem.id) +CompileTwo. COMMA+ FS + regtex.id +CompileTwo. SPACE + getTexType(NodeTreeTex($node).wrap);
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.texture2D + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             }
             else {
-                //str = TEX +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id +CompileTwo. COMMA+CompileTwo. VI+ defaultUvReg.id +CompileTwo. COMMA+ FS + regtex.id +CompileTwo. SPACE + getTexType(NodeTreeTex($node).wrap);
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.texture2D + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             }
             if ($node.permul) {
@@ -330,8 +292,6 @@ var materialui;
             var $nodeTreeFun = $node;
             var str = "";
             var input0 = $node.inputVec[0];
-            var type0 = input0.type;
-            var pNode0 = input0.parentNodeItem.node;
             var output = $node.outputVec[0];
             var regtemp = this.getFragmentTemp();
             var resultStr = "";
@@ -469,25 +429,7 @@ var materialui;
                 case materialui.NodeTree.NORMAL:
                     this.useNormal = true;
                     break;
-                case materialui.NodeTree.PTCOLOR:
-                    //  processParticleColor($node);
-                    break;
-                case materialui.NodeTree.VERCOLOR:
-                    //  hasVertexColor = true;
-                    break;
-                case materialui.NodeTree.HEIGHTINFO:
-                    //  processHeightInfo($node);
-                    break;
-                case materialui.NodeTree.FRESNEL:
-                    break;
-                case materialui.NodeTree.REFRACTION:
-                    // processRefraction($node);
-                    break;
-                case materialui.NodeTree.PANNER:
-                    this.processPanner($node);
-                    break;
-                case materialui.NodeTree.MIN:
-                    //   processMathMinNode($node);
+                default:
                     break;
             }
         };
@@ -518,94 +460,16 @@ var materialui;
                 str = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END + CompileTwo.LN;
                 regtemp.hasInit = true;
             }
-            // ft0.x = sin(ft1.x);
             str += CompileTwo.FT + regtemp.id + CompileTwo.X + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + opCode + CompileTwo.LEFT_PARENTH + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
-            //str += opCode + SPACE + FT + regtemp.id + X + COMMA + pNode.getComponentID(input.parentNodeItem.id);
             input.hasCompiled = true;
             pNode.releaseUse();
             $node.regResultTemp = regtemp;
             $node.shaderStr = str;
             this.strVec.push(str);
         };
-        CompileTwo.prototype.processPanner = function ($node) {
-            var str = "";
-            var input1 = $node.inputVec[0];
-            var input2 = $node.inputVec[1];
-            var regtemp = this.getFragmentTemp();
-            if (!regtemp.hasInit) {
-                str = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END;
-                regtemp.hasInit = true;
-                this.strVec.push(str);
-            }
-            //var regtemp2:RegisterItem = getFragmentTemp();
-            // ft0.xy = v0.xy * fc5.xy
-            var pNode1;
-            if (input1.parentNodeItem) {
-                pNode1 = input1.parentNodeItem.node;
-                //str += MUL + SPACE + FT + regtemp.id + XY + COMMA + VI + defaultUvReg.id + XY + COMMA + pNode1.getComponentID(input1.parentNodeItem.id) + LN;
-                str = CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + pNode1.getComponentID(input1.parentNodeItem.id) + CompileTwo.END + CompileTwo.LN;
-            }
-            else {
-                pNode1 = new materialui.NodeTreeVec2;
-                pNode1.type = materialui.NodeTree.VEC2;
-                pNode1.constValue = $node.coordinateValue;
-                this.processVec3Node(pNode1);
-                //str += MUL + SPACE + FT + regtemp.id + XY + COMMA + VI + defaultUvReg.id + XY + COMMA + pNode1.getComponentID(0) + LN;
-                str = CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + pNode1.getComponentID(0) + CompileTwo.END + CompileTwo.LN;
-            }
-            //str += MOV + SPACE + FT + regtemp.id + Z + COMMA + FC + ZERO + W + LN;
-            //ft1.zw = fc5.zw * ft0.z
-            var pNode2;
-            if (input2.parentNodeItem) {
-                pNode2 = input2.parentNodeItem.node;
-                //str += FT + regtemp.id + ZW + SPACE + EQU + SPACE + pNode2.getComponentID(input2.parentNodeItem.id) + SPACE + MUL_MATH + SPACE + FC + ZERO + W + END +LN;
-                str += CompileTwo.FT + regtemp.id + CompileTwo.ZW + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNode2.getComponentID(input2.parentNodeItem.id) + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + this.timeStr + CompileTwo.END + CompileTwo.LN;
-            }
-            else {
-                pNode2 = new materialui.NodeTreeVec2;
-                pNode2.type = materialui.NodeTree.VEC2;
-                pNode2.constValue = $node.speedValue;
-                this.processVec3Node(pNode2);
-                //str += FT + regtemp.id + ZW + SPACE + EQU + SPACE + pNode2.getComponentID(0) + SPACE + MUL_MATH + SPACE + FC + ZERO + W + END + LN;
-                str += CompileTwo.FT + regtemp.id + CompileTwo.ZW + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNode2.getComponentID(0) + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + this.timeStr + CompileTwo.END + CompileTwo.LN;
-            }
-            //ft1.xy = ft1.xy + ft1.zw
-            str += CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.ADD_MATH + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.ZW + CompileTwo.END;
-            //str += ADD + SPACE + FT + regtemp.id + XY + COMMA + FT + regtemp.id + XY + COMMA + FT + regtemp2.id + XY;
-            this.hasTime = true;
-            $node.regResultTemp = regtemp;
-            $node.shaderStr = str;
-            this.strVec.push(str);
-            pNode1.releaseUse();
-            pNode2.releaseUse();
-        };
-        CompileTwo.prototype.preSetNormal = function () {
-            for (var i = this.priorityList.length - 1; i >= 0; i--) {
-                var treelist = this.priorityList[i];
-                for (var j = 0; j < treelist.length; j++) {
-                    if (treelist[j].type == materialui.NodeTree.OP) {
-                        var inputNormal = treelist[j].inputVec[2];
-                        if (inputNormal.parentNodeItem) {
-                            this.useNormal = true;
-                        }
-                        else {
-                            this.useNormal = false;
-                        }
-                        return;
-                    }
-                }
-            }
-        };
         CompileTwo.prototype.traceFt = function () {
             return;
         };
-        Object.defineProperty(CompileTwo.prototype, "killStr", {
-            get: function () {
-                return "fc[" + this._killID + "].x";
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(CompileTwo.prototype, "timeStr", {
             get: function () {
                 return "fc[" + this._timeID + "].y";
@@ -613,43 +477,7 @@ var materialui;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CompileTwo.prototype, "fogdataXStr", {
-            get: function () {
-                return "fc[" + this._fogdataID + "].z";
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CompileTwo.prototype, "fogdataYStr", {
-            get: function () {
-                return "fc[" + this._fogdataID + "].w";
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CompileTwo.prototype, "fogcolorStr", {
-            get: function () {
-                return "fc[" + this._fogcolorID + "].xyz";
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CompileTwo.prototype, "camposStr", {
-            get: function () {
-                return "fc[" + this._camposID + "].xyz";
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CompileTwo.prototype, "scalelightmapStr", {
-            get: function () {
-                return "fc[" + this._scalelightmapID + "].x";
-            },
-            enumerable: true,
-            configurable: true
-        });
         CompileTwo.prototype.processVec3Node = function ($node) {
-            var str = "";
             this.setFragmentConst($node);
             this.addConstItem($node);
         };
@@ -756,18 +584,13 @@ var materialui;
         };
         CompileTwo.prototype.processOpNode = function ($node) {
             //diffuse
-            this.lightProbe = $node.lightProbe;
-            this.directLight = $node.directLight;
             this.noLight = $node.noLight;
-            this.fogMode = $node.fogMode;
-            this.scaleLightMap = $node.scaleLightMap;
             var str = "";
             var inputDiffuse = $node.inputVec[0];
             var inputNormal = $node.inputVec[1];
             if (inputNormal.parentNodeItem) {
                 this.useNormal = true;
             }
-            this.useDynamicIBL = $node.useDynamicIBL;
             var regOp;
             this.traceFt();
             if (inputDiffuse.parentNodeItem) { //漫反射部分
@@ -781,7 +604,7 @@ var materialui;
                     resultStr = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtempLightMap.id;
                     regtempLightMap.hasInit = true;
                 }
-                if (this.noLight && !this.directLight) {
+                if (this.noLight) {
                     str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VEC4 + CompileTwo.LEFT_PARENTH + pNodeDiffuse.getComponentID(inputDiffuse.parentNodeItem.id) + CompileTwo.COMMA + "1.0" + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
                 }
                 this.strVec.push(str);
@@ -806,39 +629,19 @@ var materialui;
         };
         CompileTwo.prototype.initBaseFc = function () {
             var dataID = 0;
-            var $useKill = false;
             var $hasTime = false;
-            var $fogMode = 0;
-            var $usePbr = false;
-            //var $hasFresnel:Boolean = false;
-            var $scaleLightMap = false;
             for (var i = this.priorityList.length - 1; i >= 0; i--) {
                 var treelist = this.priorityList[i];
                 for (var j = 0; j < treelist.length; j++) {
                     var node = treelist[j];
                     if (node.type == materialui.NodeTree.OP) {
-                        var opnode = node;
-                        $fogMode = opnode.fogMode;
-                        $scaleLightMap = opnode.scaleLightMap;
                     }
                     else if (node.type == materialui.NodeTree.TIME || node.type == materialui.NodeTree.PANNER) {
                         $hasTime = true;
                     }
                 }
             }
-            if ($useKill || $hasTime || $fogMode != 0) {
-                dataID++;
-            }
-            if ($usePbr || $fogMode == 1) {
-                this._camposID = dataID;
-                dataID++;
-            }
-            if ($fogMode != 0) {
-                this._fogcolorID = dataID;
-                dataID++;
-            }
-            if ($scaleLightMap) {
-                this._scalelightmapID = dataID;
+            if ($hasTime) {
                 dataID++;
             }
             this._fcBeginID = dataID;

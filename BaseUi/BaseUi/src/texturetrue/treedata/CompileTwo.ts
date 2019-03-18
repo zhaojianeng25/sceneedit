@@ -98,52 +98,33 @@
         public static IF: string = "if";
         public static DISCARD: string = "{discard;}";
         public static scalelight: string = "scalelight";
-        //public static fogdata:string = "fogdata";
-        //public static fogcolor:string = "fogcolor";
-
-
-
 
 
         public priorityList: Array<Array<NodeTree>>;
-
         private fragmentTempList: Array<RegisterItem>;
         private fragmentTexList: Array<RegisterItem>;
         private fragmentConstList: Array<RegisterItem>;
-
         private defaultUvReg: RegisterItem;
-        private defaultLightUvReg: RegisterItem;
 
 
         private strVec: Array<string>;
         private texVec: Array<TexItem>;
         private constVec: Array<ConstItem>;
         private hasTime: boolean;
- 
-        private hasVertexColor: boolean;
+  
 
         private useNormal: boolean;
-
- 
-
- 
         private noLight: boolean;
-        private fogMode: number;
-        private scaleLightMap: boolean;
-        private useKill: boolean;
         private fcNum: number;
-
 
         private _killID: number = 0;
         private _timeID: number = 0;
         private _fogdataID: number = 0;
-
         private _camposID: number = 0;
-
         private _fogcolorID: number = 0;
         private _scalelightmapID: number = 0;
-
         private _fcBeginID: number = 0;
+
         public constructor() {
             this.initReg();
             new Vector3D
@@ -158,11 +139,9 @@
                 this.fragmentTempList.push(new RegisterItem(i));
                 this.fragmentTexList.push(new RegisterItem(i));
             }
-
             for (i = 0; i < 28; i++) {
                 this.fragmentConstList.push(new RegisterItem(i));
             }
-
         }
 
         public compile($priorityList: Array<Array<NodeTree>>, $materialTree: MaterialTree): string {
@@ -173,18 +152,8 @@
             this.texVec = new Array;
             this.constVec = new Array;
             this.hasTime = false;
-            this.hasVertexColor = false;
-
             this.useNormal = false;
-
-
- 
-            this.useKill = false;
- 
             this.noLight = false;
-            this.fogMode = 0;
-            this.scaleLightMap = false;
-
             this.cubeTextItem = null
             this.initBaseFc();
             this.funNodeStr = ""
@@ -208,15 +177,10 @@
 
 
             $materialTree.hasTime = this.hasTime;;
-            $materialTree.hasVertexColor = this.hasVertexColor;;
-
             $materialTree.useNormal = this.useNormal;;
             $materialTree.roughness = 0;
-
- 
             $materialTree.noLight = this.noLight;;
-            $materialTree.fogMode = this.fogMode;;
-            $materialTree.scaleLightMap = this.scaleLightMap;;
+ 
 
             return resultStr
 
@@ -233,12 +197,7 @@
             return maxID
         }
         private makeFc(fcNum: number): Float32Array {
-
-            var fcIDAry: Array<number> = [this._camposID, this._fogcolorID, this._scalelightmapID];
             var fcData: Float32Array = new Float32Array(fcNum * 4);
-
-
-
             for (var i: number = 0; i < this.constVec.length; i++) {
                 this.constVec[i].creat(fcData);
             }
@@ -248,15 +207,11 @@
         private funNodeStr: string
         private getGLSLStr(): string {
 
-
             var mainStr: string = "";
             for (var i: number = 0; i < this.strVec.length; i++) {
                 mainStr += this.strVec[i] + "\n";
             }
-
             var perStr: string = "precision mediump float;\n";
-
-            var hasParticleColor: boolean = false;
             var texStr: string = "";
             for (i = 0; i < this.texVec.length; i++) {
                 if (this.texVec[i].type == TexItem.CUBEMAP) {
@@ -266,15 +221,10 @@
                 }
 
             }
-
             if (this.cubeTextItem) {
                 texStr += "uniform samplerCube skyBoxCube; \n";
             }
-
-
             var constStr: string = "";
-
-
             var maxID: number = 0;
             if (this.constVec.length) {
                 maxID = this.constVec[this.constVec.length - 1].id + 1;
@@ -283,37 +233,24 @@
                     maxID = this._fcBeginID;
                 }
             }
-
             this.fcNum = maxID;
-
             if (this.fcNum > 0) {
                 constStr += "uniform vec4 fc[" + (this.fcNum) + "];\n";
             }
-
-
-
-
             var varyStr: string = "";
             varyStr += "varying vec2 v0;\n";
             varyStr += "varying highp vec3 vPos;\n";
             varyStr += "uniform vec3 cam3DPos;\n";
-
-
             if (this.useNormal) {
                 varyStr += "varying vec3 T;\n";
                 varyStr += "varying vec3 B;\n";
                 varyStr += "varying vec3 N;\n";
-
-
                 varyStr += "vec3 normalpic(vec3 n) { \n" +
                     "n=2.0*n-vec3(1.0);\n" +
                     "return normalize(T*n.x+B*n.y+N*n.z);\n" +
                     "}\n";
             }
-
-
             var beginStr: string = "void main(void){\n";
-
             if (this.useNormal) {
                 var inputNormal = this.getInputNormal();
                 if (inputNormal.parentNodeItem) {
@@ -322,13 +259,7 @@
                     beginStr += "vec3 normalVec = " + "N.xyz" + CompileTwo.END + "\n";
                 }
             }
-
-
             var endStr: string = "\n}";
-
-
-
-
             var resultStr: string = perStr + texStr + constStr + varyStr + this.funNodeStr + beginStr + mainStr + endStr;
 
             return resultStr;
@@ -344,18 +275,7 @@
             }
             return null
         }
-        //private getFunTree(): string {
-        //    var $outstr: string = "vec3 ic(vec2 id){bool ie=(id.y>(32767.1/65535.0));\n" +
-        //        "id.y=ie?(id.y-(32768.0/65535.0)):id.y;\n" +
-        //        "vec3 r;\n" +
-        //        "r.xy=(2.0*65535.0/32767.0)*id-vec2(1.0);\n" +
-        //        "r.z=sqrt(clamp(1.0-dot(r.xy,r.xy),0.0,1.0));\n" +
-        //        "r.z=ie?-r.z:r.z;\n" +
-        //        "return r;\n" +
-        //    "}\n"
-        //    return $outstr
-        //}
-        public getFragmentTex($nodeTreeTex: NodeTreeTex = null): RegisterItem {
+        private getFragmentTex($nodeTreeTex: NodeTreeTex = null): RegisterItem {
             for (var i: number = 0; i < this.fragmentTexList.length; i++) {
                 if (!this.fragmentTexList[i].inUse) {
                     this.fragmentTexList[i].inUse = true;
@@ -365,7 +285,7 @@
             }
             return null;
         }
-        public getFragmentTemp(): RegisterItem {
+        private getFragmentTemp(): RegisterItem {
             for (var i: number = 0; i < this.fragmentTempList.length; i++) {
                 if (!this.fragmentTempList[i].inUse) {
                     this.fragmentTempList[i].inUse = true;
@@ -374,7 +294,7 @@
             }
             return null;
         }
-        public processTexCubeNode($node: NodeTree): void {
+        private processTexCubeNode($node: NodeTree): void {
 
             var texItem: TextureCube = new TextureCube;
             texItem.url = (<NodeTreeTex>$node).url;
@@ -390,9 +310,6 @@
 
 
             });
-
-
-
             LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, ($img: any, $info: any) => {
 
                 texItem.cubeTextWebgl = CubemapLoad.makeTempCubeTextture($img)
@@ -402,15 +319,12 @@
             this.cubeTextItem = texItem
         }
         public cubeTextItem: TextureCube
-        public processTex3DNode($node: NodeTree): void {
+        private processTex3DNode($node: NodeTree): void {
             var str: string = ""
             var input: NodeTreeInputItem = $node.inputVec[0];
             var regtex: RegisterItem = this.getFragmentTex(<NodeTreeTex>$node);
             var regtemp: RegisterItem = this.getFragmentTemp();
-
-
             var resultStr: string;
-
             if (regtemp.hasInit) {
                 resultStr = CompileTwo.FT + regtemp.id;
             } else {
@@ -419,14 +333,12 @@
             }
             if (input.parentNodeItem) {
                 var pNode: NodeTree = input.parentNodeItem.node;
-
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + "textureCube" + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             }
 
             $node.regResultTemp = regtemp;
             $node.regResultTex = regtex;
             $node.shaderStr = str;
-
             this.strVec.push(str);
 
             var texItem: TexItem = new TexItem;
@@ -443,30 +355,23 @@
 
             TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, ($texture: TextureRes) => {
                 texItem.textureRes = $texture;
-
                 LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, ($img: any, $info: any) => {
-
                     texItem.textureRes.texture = CubemapLoad.makeTempCubeTextture($img)
-
-
                 });
             });
             this.texVec.push(texItem);
-
             input.hasCompiled = true;
             if (pNode) {
                 pNode.releaseUse();
             }
 
         }
-        public processTexNode($node: NodeTree): void {
+        private processTexNode($node: NodeTree): void {
             var str: string = ""
             var input: NodeTreeInputItem = $node.inputVec[0];
             var regtex: RegisterItem = this.getFragmentTex(<NodeTreeTex>$node);
             var regtemp: RegisterItem = this.getFragmentTemp();
-
-            //"vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-
+ 
             var resultStr: string;
 
             if (regtemp.hasInit) {
@@ -477,11 +382,10 @@
             }
             if (input.parentNodeItem) {
                 var pNode: NodeTree = input.parentNodeItem.node;
-                //str = TEX +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id +CompileTwo. COMMA+ pNode.getComponentID(input.parentNodeItem.id) +CompileTwo. COMMA+ FS + regtex.id +CompileTwo. SPACE + getTexType(NodeTreeTex($node).wrap);
+ 
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.texture2D + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             } else {
-                //str = TEX +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id +CompileTwo. COMMA+CompileTwo. VI+ defaultUvReg.id +CompileTwo. COMMA+ FS + regtex.id +CompileTwo. SPACE + getTexType(NodeTreeTex($node).wrap);
-
+  
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.texture2D + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             }
             if ((<NodeTreeTex>$node).permul) {
@@ -516,14 +420,12 @@
             }
 
         }
-        public processFunNode($node: NodeTree): void {
+        private processFunNode($node: NodeTree): void {
             var $nodeTreeFun: NodeTreeFun = <NodeTreeFun>$node;
 
             var str: string = ""
             var input0: NodeTreeInputItem = $node.inputVec[0];
-            var type0: string = input0.type;
-            var pNode0: NodeTree = input0.parentNodeItem.node;
-
+       
             var output: NodeTreeOutoutItem = $node.outputVec[0];
             var regtemp: RegisterItem = this.getFragmentTemp();
             var resultStr: string = "";
@@ -570,7 +472,7 @@
             }
         }
         private FunDic: any;
-        public processDynamicNode($node: NodeTree, opCode: string): void {
+        private processDynamicNode($node: NodeTree, opCode: string): void {
             var str: string = ""
             var input0: NodeTreeInputItem = $node.inputVec[0];
             var input1: NodeTreeInputItem = $node.inputVec[1];
@@ -631,7 +533,7 @@
             this.strVec.push(str);
         }
 
-        public processNode($node: NodeTree): void {
+        private processNode($node: NodeTree): void {
             switch ($node.type) {
                 case NodeTree.VEC3:
                 case NodeTree.FLOAT:
@@ -675,33 +577,14 @@
                     this.processStaticNode($node, CompileTwo.COS);
                     break;
                 case NodeTree.NORMAL:
-                    this.useNormal = true
+                    this.useNormal = true;
                     break;
-                case NodeTree.PTCOLOR:
-                    //  processParticleColor($node);
-                    break;
-                case NodeTree.VERCOLOR:
-                    //  hasVertexColor = true;
-                    break;
-                case NodeTree.HEIGHTINFO:
-                    //  processHeightInfo($node);
-                    break;
-                case NodeTree.FRESNEL:
-
-                    break;
-                case NodeTree.REFRACTION:
-                    // processRefraction($node);
-                    break;
-                case NodeTree.PANNER:
-                    this.processPanner($node);
-                    break;
-                case NodeTree.MIN:
-                    //   processMathMinNode($node);
-                    break;
+                default:
+                    break
             }
 
         }
-        public processTimeNode($node: NodeTree): void {
+        private processTimeNode($node: NodeTree): void {
             var str: string = ""
             var regtemp: RegisterItem = this.getFragmentTemp();
 
@@ -737,9 +620,9 @@
                 str = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END + CompileTwo.LN;
                 regtemp.hasInit = true;
             }
-            // ft0.x = sin(ft1.x);
+ 
             str += CompileTwo.FT + regtemp.id + CompileTwo.X + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + opCode + CompileTwo.LEFT_PARENTH + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
-            //str += opCode + SPACE + FT + regtemp.id + X + COMMA + pNode.getComponentID(input.parentNodeItem.id);
+ 
             input.hasCompiled = true;
             pNode.releaseUse();
 
@@ -747,125 +630,20 @@
             $node.shaderStr = str;
             this.strVec.push(str);
         }
-        public processPanner($node: NodeTree): void {
-            var str: string = "";
-            var input1: NodeTreeInputItem = $node.inputVec[0];
-            var input2: NodeTreeInputItem = $node.inputVec[1];
-
-
-            var regtemp: RegisterItem = this.getFragmentTemp();
-
-            if (!regtemp.hasInit) {
-                str = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END;
-                regtemp.hasInit = true;
-                this.strVec.push(str);
-            }
-
-            //var regtemp2:RegisterItem = getFragmentTemp();
-
-            // ft0.xy = v0.xy * fc5.xy
-            var pNode1: NodeTree;
-            if (input1.parentNodeItem) {
-                pNode1 = input1.parentNodeItem.node;
-                //str += MUL + SPACE + FT + regtemp.id + XY + COMMA + VI + defaultUvReg.id + XY + COMMA + pNode1.getComponentID(input1.parentNodeItem.id) + LN;
-                str = CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + pNode1.getComponentID(input1.parentNodeItem.id) + CompileTwo.END + CompileTwo.LN;
-            } else {
-                pNode1 = new NodeTreeVec2;
-                pNode1.type = NodeTree.VEC2;
-                (<NodeTreeVec2>pNode1).constValue = (<NodeTreePanner>$node).coordinateValue;
-                this.processVec3Node(pNode1);
-                //str += MUL + SPACE + FT + regtemp.id + XY + COMMA + VI + defaultUvReg.id + XY + COMMA + pNode1.getComponentID(0) + LN;
-                str = CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + pNode1.getComponentID(0) + CompileTwo.END + CompileTwo.LN;
-            }
-
-            //str += MOV + SPACE + FT + regtemp.id + Z + COMMA + FC + ZERO + W + LN;
-            //ft1.zw = fc5.zw * ft0.z
-            var pNode2: NodeTree;
-            if (input2.parentNodeItem) {
-                pNode2 = input2.parentNodeItem.node;
-                //str += FT + regtemp.id + ZW + SPACE + EQU + SPACE + pNode2.getComponentID(input2.parentNodeItem.id) + SPACE + MUL_MATH + SPACE + FC + ZERO + W + END +LN;
-                str += CompileTwo.FT + regtemp.id + CompileTwo.ZW + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNode2.getComponentID(input2.parentNodeItem.id) + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + this.timeStr + CompileTwo.END + CompileTwo.LN;
-            } else {
-                pNode2 = new NodeTreeVec2;
-                pNode2.type = NodeTree.VEC2;
-                (<NodeTreeVec2>pNode2).constValue = (<NodeTreePanner>$node).speedValue;
-                this.processVec3Node(pNode2);
-                //str += FT + regtemp.id + ZW + SPACE + EQU + SPACE + pNode2.getComponentID(0) + SPACE + MUL_MATH + SPACE + FC + ZERO + W + END + LN;
-                str += CompileTwo.FT + regtemp.id + CompileTwo.ZW + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNode2.getComponentID(0) + CompileTwo.SPACE + CompileTwo.MUL_MATH + CompileTwo.SPACE + this.timeStr + CompileTwo.END + CompileTwo.LN;
-            }
-            //ft1.xy = ft1.xy + ft1.zw
-
-            str += CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.ADD_MATH + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.ZW + CompileTwo.END;
-            //str += ADD + SPACE + FT + regtemp.id + XY + COMMA + FT + regtemp.id + XY + COMMA + FT + regtemp2.id + XY;
-
-
-            this.hasTime = true;
-
-
-            $node.regResultTemp = regtemp;
-            $node.shaderStr = str;
-            this.strVec.push(str);
-            pNode1.releaseUse();
-            pNode2.releaseUse();
-        }
-        private preSetNormal(): void {
-            for (var i: number = this.priorityList.length - 1; i >= 0; i--) {
-                var treelist: Array<NodeTree> = this.priorityList[i];
-                for (var j: number = 0; j < treelist.length; j++) {
-                    if (treelist[j].type == NodeTree.OP) {
-
-
-                        var inputNormal: NodeTreeInputItem = treelist[j].inputVec[2];
-
-
-                        if (inputNormal.parentNodeItem) {
-                            this.useNormal = true;
-                        } else {
-                            this.useNormal = false;
-                        }
-                        return;
-                    }
-                }
-            }
-        }
-
-
+ 
 
         private traceFt(): void {
             return;
         }
-        private get killStr(): string {
-            return "fc[" + this._killID + "].x";
-        }
-
         private get timeStr(): string {
             return "fc[" + this._timeID + "].y";
         }
-
-        private get fogdataXStr(): string {
-            return "fc[" + this._fogdataID + "].z";
-        }
-
-        private get fogdataYStr(): string {
-            return "fc[" + this._fogdataID + "].w";
-        }
-
-        private get fogcolorStr(): string {
-            return "fc[" + this._fogcolorID + "].xyz";
-        }
-
-        private get camposStr(): string {
-            return "fc[" + this._camposID + "].xyz";
-        }
-        private get scalelightmapStr(): string {
-            return "fc[" + this._scalelightmapID + "].x";
-        }
-        public processVec3Node($node: NodeTree): void {
-            var str: string = "";
+        private processVec3Node($node: NodeTree): void {
+ 
             this.setFragmentConst($node);
             this.addConstItem($node);
         }
-        public addConstItem($node: NodeTree): void {
+        private addConstItem($node: NodeTree): void {
             if ($node.isDynamic) {
                 console.log($node.paramName);
             }
@@ -959,7 +737,7 @@
 
 
         }
-        public setFragmentConst($nodeTree: NodeTree): void {
+        private setFragmentConst($nodeTree: NodeTree): void {
             for (var i: number = this._fcBeginID; i < this.fragmentConstList.length; i++) {
                 var tf: boolean = this.fragmentConstList[i].getUse($nodeTree);
                 if (tf) {
@@ -968,12 +746,11 @@
             }
         }
 
-        public processOpNode($node: NodeTree): void {
+        private processOpNode($node: NodeTree): void {
             //diffuse
  
             this.noLight = (<NodeTreeOP>$node).noLight;
-            this.fogMode = (<NodeTreeOP>$node).fogMode;
-            this.scaleLightMap = (<NodeTreeOP>$node).scaleLightMap;
+ 
 
             var str: string = "";
             var inputDiffuse: NodeTreeInputItem = $node.inputVec[0];
@@ -1035,53 +812,21 @@
         }
         private initBaseFc(): void {
             var dataID: number = 0;
-
-
-            var $useKill: Boolean = false;
             var $hasTime: Boolean = false;
-            var $fogMode: number = 0;
-            var $usePbr: Boolean = false;
-            //var $hasFresnel:Boolean = false;
-            var $scaleLightMap: Boolean = false;
-
-
             for (var i: number = this.priorityList.length - 1; i >= 0; i--) {
                 var treelist: Array<NodeTree> = this.priorityList[i];
                 for (var j: number = 0; j < treelist.length; j++) {
-
                     var node: NodeTree = treelist[j];
                     if (node.type == NodeTree.OP) {
-                        var opnode: NodeTreeOP = node as NodeTreeOP;
-
-                        $fogMode = opnode.fogMode;
-                        $scaleLightMap = opnode.scaleLightMap;
-
-
-
-
                     } else if (node.type == NodeTree.TIME || node.type == NodeTree.PANNER) {
                         $hasTime = true;
                     }
-
-
                 }
             }
-
-            if ($useKill || $hasTime || $fogMode != 0) {
+            if (  $hasTime  ) {
                 dataID++;
             }
-            if ($usePbr || $fogMode == 1) {
-                this._camposID = dataID;
-                dataID++;
-            }
-            if ($fogMode != 0) {
-                this._fogcolorID = dataID;
-                dataID++;
-            }
-            if ($scaleLightMap) {
-                this._scalelightmapID = dataID;
-                dataID++;
-            }
+    
             this._fcBeginID = dataID;
 
         }
