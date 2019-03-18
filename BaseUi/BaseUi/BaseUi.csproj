@@ -57,6 +57,7 @@
     <TypeScriptCompile Include="src\pack\Prefab.ts" />
     <TypeScriptCompile Include="src\pack\PrefabStaticMesh.ts" />
     <TypeScriptCompile Include="src\panel\folder\mesh\PrefabMeshView.ts" />
+    <TypeScriptCompile Include="src\panel\menutwo\ComboTwoBoxMenu.ts" />
     <TypeScriptCompile Include="src\prop\base\Category2DUI.ts" />
     <TypeScriptCompile Include="src\prop\base\CombineReflectionView.ts" />
     <TypeScriptCompile Include="src\prop\base\TextField2DUI.ts" />

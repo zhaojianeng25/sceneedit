@@ -61,7 +61,7 @@
 
     export class MenuTwoPanel extends Dis2DUIContianerPanel {
 
-        public static imgBaseDic: any
+   
         public constructor() {
             super(LabelTxtVo, new Rectangle(0, 0, 70, 20), 50);
  

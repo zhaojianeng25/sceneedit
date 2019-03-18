@@ -22,15 +22,15 @@ var prop;
             return _super.call(this) || this;
         }
         ComboBoxUi.prototype.initView = function () {
+            this.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
         };
         ComboBoxUi.prototype.destory = function () {
-            var $ui = this.ui;
-            $ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
+            this.ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
             _super.prototype.destory.call(this);
         };
         Object.defineProperty(ComboBoxUi.prototype, "text", {
             set: function (value) {
-                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 14, TextAlign.LEFT, "#ffffff", "#27262e");
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
             },
             enumerable: true,
             configurable: true

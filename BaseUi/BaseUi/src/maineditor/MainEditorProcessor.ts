@@ -121,9 +121,9 @@
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
  
 
-            //filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
-            //   _cenePojectMeshView.texture = $materialTree;
-            //})
+            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
+               _cenePojectMeshView.texture = $materialTree;
+            })
  
 
         }

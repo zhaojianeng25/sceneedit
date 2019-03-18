@@ -44,24 +44,19 @@ var prop;
         });
         ComBoBoxCtrl2D.prototype.comboBoxUiDown = function ($evt) {
             var _this = this;
-            var $rightMenuEvet = new rightmenu.RightMenuEvent(rightmenu.RightMenuEvent.SHOW_COMBOX_MENU);
-            $rightMenuEvet.posv2d = new Vector2D(this.comboBoxUi.x, this.comboBoxUi.y + 20);
+            var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_COMBOX_MENU);
+            $rightMenuEvet.posv2d = new Vector2D(this.comboBoxUi.ui.absoluteX, this.comboBoxUi.ui.absoluteY + 20);
             $rightMenuEvet.comboxData = this.data;
             $rightMenuEvet.comboxFun = function (value) { _this.selectFun(value); };
             ModuleEventManager.dispatchEvent($rightMenuEvet);
-            console.log(this.data);
-            //  this.target[this.FunKey] = this.target[this.FunKey] + Number($evt.data)
-            //this.refreshViewValue();
         };
         ComBoBoxCtrl2D.prototype.selectFun = function (value) {
-            console.log("selectFun", value);
             this.target[this.FunKey] = value;
             this.refreshViewValue();
         };
         ComBoBoxCtrl2D.prototype.refreshViewValue = function () {
             if (this.FunKey) {
                 var $i = this.target[this.FunKey];
-                console.log(this.comboxListTxt[$i].name);
                 this.comboBoxUi.text = this.comboxListTxt[$i].name;
             }
         };

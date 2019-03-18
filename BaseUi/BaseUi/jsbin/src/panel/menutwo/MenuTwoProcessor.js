@@ -26,6 +26,7 @@ var menutwo;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         MenuTwoEvent.SHOW_RIGHT_MENU = "SHOW_RIGHT_MENU";
+        MenuTwoEvent.SHOW_COMBOX_MENU = "SHOW_COMBOX_MENU";
         return MenuTwoEvent;
     }(BaseEvent));
     menutwo.MenuTwoEvent = MenuTwoEvent;
@@ -55,10 +56,24 @@ var menutwo;
             if ($event instanceof MenuTwoEvent) {
                 var $materialEvent = $event;
                 if ($materialEvent.type == MenuTwoEvent.SHOW_RIGHT_MENU) {
-                    console.log("有键菜单");
                     this.showMenuPanel($materialEvent.data);
                 }
+                if ($materialEvent.type == MenuTwoEvent.SHOW_COMBOX_MENU) {
+                    console.log("有键菜单");
+                    this.showComboBoxMenuPanel($materialEvent);
+                }
             }
+        };
+        MenuTwoProcessor.prototype.showComboBoxMenuPanel = function (evt) {
+            if (!this._comboBoxMenuPanel) {
+                this._comboBoxMenuPanel = new menutwo.ComboTwoBoxMenu();
+            }
+            var posv2d = evt.posv2d;
+            console.log("posv2d", posv2d);
+            this._comboBoxMenuPanel.left = posv2d.x;
+            this._comboBoxMenuPanel.top = posv2d.y;
+            this._comboBoxMenuPanel.showComboBoxList(evt.comboxData, evt.comboxFun);
+            this.addUIContainer(this._comboBoxMenuPanel);
         };
         MenuTwoProcessor.prototype.showMenuPanel = function (value) {
             if (!this._MenuTwoPanel) {
@@ -89,6 +104,7 @@ var menutwo;
         MenuTwoProcessor.prototype.listenModuleEvents = function () {
             return [
                 new MenuTwoEvent(MenuTwoEvent.SHOW_RIGHT_MENU),
+                new MenuTwoEvent(MenuTwoEvent.SHOW_COMBOX_MENU),
             ];
         };
         return MenuTwoProcessor;

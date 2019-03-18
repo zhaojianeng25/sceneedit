@@ -17,6 +17,10 @@
 
     export class MenuTwoEvent extends BaseEvent {
         public static SHOW_RIGHT_MENU: string = "SHOW_RIGHT_MENU"; 
+        public static SHOW_COMBOX_MENU: string = "SHOW_COMBOX_MENU"; 
+        public posv2d: Vector2D;
+        public comboxData: Array<any>;
+        public comboxFun: Function
     }
     export class MenuTwoModule extends Module {
         public getModuleName(): string {
@@ -37,13 +41,31 @@
                 var $materialEvent: MenuTwoEvent = <MenuTwoEvent>$event;
                
                 if ($materialEvent.type == MenuTwoEvent.SHOW_RIGHT_MENU) {
-                    console.log("有键菜单")
-
+ 
                     this.showMenuPanel($materialEvent.data);
                 }
-            
+
+                if ($materialEvent.type == MenuTwoEvent.SHOW_COMBOX_MENU) {
+                    console.log("有键菜单")
+
+                    this.showComboBoxMenuPanel($materialEvent);
+                }
+
               
             }
+        }
+        private _comboBoxMenuPanel: ComboTwoBoxMenu
+        private showComboBoxMenuPanel(evt: MenuTwoEvent): void {
+            if (!this._comboBoxMenuPanel) {
+                this._comboBoxMenuPanel = new ComboTwoBoxMenu()
+            }
+            var posv2d: Vector2D = evt.posv2d;
+            console.log("posv2d", posv2d)
+            this._comboBoxMenuPanel.left = posv2d.x 
+            this._comboBoxMenuPanel.top = posv2d.y  
+            this._comboBoxMenuPanel.showComboBoxList(evt.comboxData, evt.comboxFun)
+            this.addUIContainer(this._comboBoxMenuPanel);
+
         }
  
         private showMenuPanel(value: any): void {
@@ -64,7 +86,6 @@
             if (!this.topMenuPanel) {
                 this.topMenuPanel = new Panel(false)
                 layout.LayerManager.getInstance().addPanel(this.topMenuPanel,200)
-           
             }
             this.topMenuPanel.addUIContainer(value)
         }
@@ -83,6 +104,7 @@
             return [
  
                 new MenuTwoEvent(MenuTwoEvent.SHOW_RIGHT_MENU),
+                new MenuTwoEvent(MenuTwoEvent.SHOW_COMBOX_MENU),
               
             ];
         }
