@@ -116,9 +116,9 @@ var maineditor;
             var _cenePojectMeshView = new maineditor.ScenePojectMeshView;
             _cenePojectMeshView.data = this.scenePojectMapData;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
-            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {
-                _cenePojectMeshView.texture = $materialTree;
-            });
+            //filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
+            //   _cenePojectMeshView.texture = $materialTree;
+            //})
         };
         MainEditorProcessor.prototype.addEvents = function () {
             var _this = this;

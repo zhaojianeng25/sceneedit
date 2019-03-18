@@ -67,17 +67,16 @@ module left {
             var $materialTree: MaterialTree = <MaterialTree>$material
             Scene_data.context3D.setuniform3f($material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             super.setMaterialVc($material, $mp)
- 
         }
-
         public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
             var texVec: Array<TexItem> = $material.texList;
             for (var i: number = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
                 if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    if (texVec[i].type == TexItem.CUBEMAP) {
+                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    } else {
+                        Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    }
                 }
             }
             if ($mp) {
@@ -124,8 +123,27 @@ module left {
 
            
         }
+        private get isTextureLoadFinish(): boolean {
+            if (this.material) {
+                if (this.material.texList) {
+                    for (var i: number = 0; i < this.material.texList.length; i++) {
+                        if (!this.material.texList[i].texture) {
+                            return false
+                        }
+                    }
+                    return true
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
+       
+        }
         public update(): void {
-            super.update()
+            if (this.isTextureLoadFinish) {
+                super.update()
+            }
         }
         
     

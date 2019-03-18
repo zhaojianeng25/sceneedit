@@ -36,21 +36,25 @@
                         var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                         $byte.position = 0
                         var $temp: any = JSON.parse($byte.readUTF());
-
-
                         var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
-                        $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
+                        if ($temp.info.paramAry) {
+                            $buildShader.paramAry=[]
+                            for (var i: number = 0; i < $temp.info.paramAry.length; i++) {
+                                $buildShader.paramAry.push($temp.info.paramAry[i])
+                            }
+                        } else {
+                            $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
+                        }
                         $buildShader.vertex = $buildShader.getVertexShaderString();
                         $buildShader.fragment = $temp.info.shaderStr;
-
-                 
+   
 
                         $buildShader.encode();
 
 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
-                        $materialTree.setData({ data: $temp.data });
 
+                        $materialTree.setData({ data: $temp.data });
                         $materialTree.useNormal = $temp.info.useNormal;
                         $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.constList = this.makeConstList($temp.info.constList);
@@ -59,7 +63,6 @@
                         $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
                   
         
-                
 
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
@@ -116,23 +119,30 @@
             return fcData
 
         }
+        private loadTextureRes(texItem: TexItem): void {
+            if (texItem.type == TexItem.CUBEMAP) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, ($img: any, $info: any) => {
+                    texItem.textureRes = new TextureRes
+                    texItem.textureRes.texture = Pan3d.CubemapLoad.makeTempCubeTextture($img)
+                })
+            } else {
+                TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, ($texture: TextureRes) => {
+                    texItem.textureRes = $texture;
+                });
+            }
+         }
         private makeTextList(item: Array<any>): Array<TexItem> {
             var texList: Array<TexItem> = new Array;
             for (var i: number = 0; i < item.length; i++) {
                 var texItem: TexItem = new TexItem;
-                texItem.id = item[i].id;
+                texItem.id = item[i]._id;
                 texItem.url = item[i].url;
                 texItem.name = item[i].name;
                 texItem.isDynamic = item[i].isDynamic;
                 texItem.paramName = item[i].paramName;
                 texItem.isMain = item[i].isMain;
                 texItem.type = item[i].type;
-
-                if (texItem.type == undefined) {
-                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, ($texture: TextureRes) => {
-                        texItem.textureRes = $texture;
-                    });
-                }
+                this.loadTextureRes(texItem)
                 texList.push(texItem);
 
             }

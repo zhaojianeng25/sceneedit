@@ -251,6 +251,7 @@ var materialui;
             obj.constList = this.baseMaterialTree.constList;
             obj.shaderStr = this.baseMaterialTree.shaderStr;
             obj.fcData = this.baseMaterialTree.fcData.toString();
+            obj.paramAry = this.baseMaterialTree.shader.paramAry;
             return obj;
         };
         MaterialProcessor.prototype.selectNodeUi = function ($nodeUi) {

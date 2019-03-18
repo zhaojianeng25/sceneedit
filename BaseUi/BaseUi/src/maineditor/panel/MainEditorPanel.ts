@@ -270,15 +270,17 @@
         }
   
         private upFrame(t: number): void {
-            MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
-            var cam3D: Pan3d.Camera3D = MainEditorProcessor.edItorSceneManager.cam3D
-            cam3D.cavanRect.x = this.a_scene_view.x + this.left;
-            cam3D.cavanRect.y = this.a_scene_view.y + this.top;
-            cam3D.cavanRect.width = this.a_scene_view.width;
-            cam3D.cavanRect.height = this.a_scene_view.height;
+       
+            if (this.hasStage) {
+                MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
+                var cam3D: Pan3d.Camera3D = MainEditorProcessor.edItorSceneManager.cam3D
+                cam3D.cavanRect.x = this.a_scene_view.x + this.left;
+                cam3D.cavanRect.y = this.a_scene_view.y + this.top;
+                cam3D.cavanRect.width = this.a_scene_view.width;
+                cam3D.cavanRect.height = this.a_scene_view.height;
 
-            MainEditorProcessor.edItorSceneManager.renderToTexture()
-           
+                MainEditorProcessor.edItorSceneManager.renderToTexture()
+            }
         }
        
      

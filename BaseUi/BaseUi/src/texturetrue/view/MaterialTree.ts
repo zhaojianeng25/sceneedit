@@ -26,7 +26,7 @@
         public roughness: number;
 
         public writeZbuffer: boolean = true;
-       
+
         public useDynamicIBL: boolean;
         public normalScale: number;
         public lightProbe: boolean;
@@ -42,8 +42,8 @@
         public fcNum: number;
         public fcIDAry: Array<number> = new Array;//[]
 
- 
-      
+
+
         public get data(): any {
             return this._data;
         }
@@ -57,37 +57,35 @@
 
         public clone(): MaterialTree {
             var $temp: MaterialTree = new MaterialTree;
-            var $treeMater : MaterialTree = this
- 
-            $temp.data = $treeMater.data
-            $temp.constList = $treeMater.constList
-            $temp.fcNum = $treeMater.fcNum
-   
-            $temp.fcData = $treeMater.fcData;
-            console.log($temp.fcData)
-            $temp.texList = $treeMater.texList;
-            $temp.cubeTextItem = $treeMater.cubeTextItem;
-            $temp.usePbr = $treeMater.usePbr;
-            $temp.hasTime = $treeMater.hasTime;
-            $temp.hasVertexColor = $treeMater.hasVertexColor;
-            $temp.usePbr = $treeMater.usePbr;
-            $temp.useNormal = $treeMater.useNormal;
-            $temp.roughness = $treeMater.roughness;
-            $temp.hasFresnel = $treeMater.hasFresnel;
-            $temp.useDynamicIBL = $treeMater.useDynamicIBL;
-            $temp.lightProbe = $treeMater.lightProbe;
-            $temp.useKill = $treeMater.useKill;
-            $temp.directLight = $treeMater.directLight;
-            $temp.noLight = $treeMater.noLight;
-            $temp.fogMode = $treeMater.fogMode;
-            $temp.scaleLightMap = $treeMater.scaleLightMap;
-            $temp.skyBoxTextId = $treeMater.skyBoxTextId;
-            $temp.hasSkyBox = $treeMater.hasSkyBox;
+            var $treeMater: MaterialTree = this
+             $temp.data = $treeMater.data
+             $temp.constList = $treeMater.constList
+             $temp.fcNum = $treeMater.fcNum
+             $temp.fcData = $treeMater.fcData;
+             $temp.texList = $treeMater.texList;
+             $temp.useNormal = $treeMater.useNormal;
+
+            //$temp.cubeTextItem = $treeMater.cubeTextItem;
+            //$temp.usePbr = $treeMater.usePbr;
+            //$temp.hasTime = $treeMater.hasTime;
+            //$temp.hasVertexColor = $treeMater.hasVertexColor;
+            //$temp.usePbr = $treeMater.usePbr;
+            //$temp.roughness = $treeMater.roughness;
+            //$temp.hasFresnel = $treeMater.hasFresnel;
+            //$temp.useDynamicIBL = $treeMater.useDynamicIBL;
+            //$temp.lightProbe = $treeMater.lightProbe;
+            //$temp.useKill = $treeMater.useKill;
+            //$temp.directLight = $treeMater.directLight;
+            //$temp.noLight = $treeMater.noLight;
+            //$temp.fogMode = $treeMater.fogMode;
+            //$temp.scaleLightMap = $treeMater.scaleLightMap;
+            //$temp.skyBoxTextId = $treeMater.skyBoxTextId;
+            // $temp.hasSkyBox = $treeMater.hasSkyBox;
 
             return $temp
         }
         public set compileData(value: any) {
-    
+
             if (!value) {
                 return;
             }
@@ -123,7 +121,7 @@
 
             if (this._compileData.texList) {
                 var ary: Array<any> = this._compileData.texList;
-               this. texList = new Array;
+                this.texList = new Array;
                 for (var i: number = 0; i < ary.length; i++) {
                     var texItem: TexItem = new TexItem;
                     texItem.id = ary[i].id;
@@ -137,7 +135,7 @@
                     texItem.permul = ary[i].permul;
                     texItem.isParticleColor = ary[i].isParticleColor;
                     texItem.type = ary[i].type;
-                   this. texList.push(texItem);
+                    this.texList.push(texItem);
                 }
             }
 
@@ -150,7 +148,7 @@
                     this.constList.push(constItem);
                 }
             }
-        
+
 
         }
 

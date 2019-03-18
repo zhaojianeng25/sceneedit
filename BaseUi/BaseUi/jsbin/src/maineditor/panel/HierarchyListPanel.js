@@ -47,8 +47,7 @@ var maineditor;
         TestDiplay3dShader.prototype.getVertexShaderString = function () {
             var $str = "attribute vec3 v3Position;" +
                 "attribute vec2 u2Texture;" +
-                "uniform mat4 viewMatrix3D;" +
-                "uniform mat4 camMatrix3D;" +
+                "uniform mat4 vpMatrix3D;" +
                 "uniform mat4 posMatrix3D;" +
                 "varying vec2 v_texCoord;" +
                 "void main(void)" +
@@ -56,8 +55,7 @@ var maineditor;
                 "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
                 "   vt0 = posMatrix3D * vt0;" +
-                "   vt0 = camMatrix3D * vt0;" +
-                "   vt0 = viewMatrix3D * vt0;" +
+                "   vt0 = vpMatrix3D * vt0;" +
                 "   gl_Position = vt0;" +
                 "}";
             return $str;
@@ -82,15 +80,6 @@ var maineditor;
         function ModelSprite() {
             return _super.call(this) || this;
         }
-        ModelSprite.prototype.update = function () {
-            var showTempModel = true;
-            if (showTempModel) {
-                this.drawBaseModel();
-            }
-            else {
-                _super.prototype.update.call(this);
-            }
-        };
         ModelSprite.prototype.drawBaseModel = function () {
             if (this.objData) {
                 if (!this.baseModeShader) {
@@ -102,8 +91,7 @@ var maineditor;
                     this.baseTextureres = TextureManager.getInstance().getCanvasTexture($ctx);
                 }
                 Scene_data.context3D.setProgram(this.baseModeShader.program);
-                Scene_data.context3D.setVcMatrix4fv(this.baseModeShader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                Scene_data.context3D.setVcMatrix4fv(this.baseModeShader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
+                Scene_data.context3D.setVpMatrix(this.baseModeShader, Scene_data.vpMatrix.m);
                 Scene_data.context3D.setVcMatrix4fv(this.baseModeShader, "posMatrix3D", this.posMatrix.m);
                 Scene_data.context3D.setRenderTexture(this.baseModeShader, "s_texture", this.baseTextureres.texture, 0);
                 Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
@@ -150,7 +138,6 @@ var maineditor;
                             this.mekeParamTexture(tempInfo);
                         }
                         else {
-                            console.log(tempInfo.type);
                             this.makeParamValue(tempInfo);
                         }
                     }

@@ -1,9 +1,3 @@
-D:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.dll.config
-D:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.dll
-D:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.pdb
-D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csproj.CoreCompileInputs.cache
-D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.dll
-D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.pdb
 E:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.dll.config
 E:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.dll
 E:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.pdb
@@ -11,3 +5,9 @@ E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csprojAssemblyReference.cache
 E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csproj.CoreCompileInputs.cache
 E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.dll
 E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.pdb
+D:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.dll.config
+D:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.dll
+D:\github\sceneEdit\BaseUi\BaseUi\bin\BaseUi.pdb
+D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csproj.CoreCompileInputs.cache
+D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.dll
+D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.pdb

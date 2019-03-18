@@ -77,11 +77,13 @@ var left;
             if ($mp === void 0) { $mp = null; }
             var texVec = $material.texList;
             for (var i = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
                 if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    if (texVec[i].type == TexItem.CUBEMAP) {
+                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    }
+                    else {
+                        Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    }
                 }
             }
             if ($mp) {
@@ -120,8 +122,32 @@ var left;
             $objdata.indexBuffer = Scene_data.context3D.uploadIndexBuff3D($objdata.indexs);
             this.objData = $objdata;
         };
+        Object.defineProperty(MaterialModelSprite.prototype, "isTextureLoadFinish", {
+            get: function () {
+                if (this.material) {
+                    if (this.material.texList) {
+                        for (var i = 0; i < this.material.texList.length; i++) {
+                            if (!this.material.texList[i].texture) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         MaterialModelSprite.prototype.update = function () {
-            _super.prototype.update.call(this);
+            if (this.isTextureLoadFinish) {
+                _super.prototype.update.call(this);
+            }
         };
         return MaterialModelSprite;
     }(Display3DSprite));

@@ -7,6 +7,7 @@ var filemodel;
     var ConstItem = Pan3d.ConstItem;
     var TexItem = Pan3d.TexItem;
     var TextureManager = Pan3d.TextureManager;
+    var TextureRes = Pan3d.TextureRes;
     var MaterialManager = /** @class */ (function () {
         function MaterialManager() {
             this.dic = {};
@@ -30,7 +31,15 @@ var filemodel;
                     $byte.position = 0;
                     var $temp = JSON.parse($byte.readUTF());
                     var $buildShader = new left.BuildMaterialShader();
-                    $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
+                    if ($temp.info.paramAry) {
+                        $buildShader.paramAry = [];
+                        for (var i = 0; i < $temp.info.paramAry.length; i++) {
+                            $buildShader.paramAry.push($temp.info.paramAry[i]);
+                        }
+                    }
+                    else {
+                        $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
+                    }
                     $buildShader.vertex = $buildShader.getVertexShaderString();
                     $buildShader.fragment = $temp.info.shaderStr;
                     $buildShader.encode();
@@ -88,22 +97,31 @@ var filemodel;
             }
             return fcData;
         };
+        MaterialManager.prototype.loadTextureRes = function (texItem) {
+            if (texItem.type == TexItem.CUBEMAP) {
+                LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
+                    texItem.textureRes = new TextureRes;
+                    texItem.textureRes.texture = Pan3d.CubemapLoad.makeTempCubeTextture($img);
+                });
+            }
+            else {
+                TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, function ($texture) {
+                    texItem.textureRes = $texture;
+                });
+            }
+        };
         MaterialManager.prototype.makeTextList = function (item) {
             var texList = new Array;
             for (var i = 0; i < item.length; i++) {
                 var texItem = new TexItem;
-                texItem.id = item[i].id;
+                texItem.id = item[i]._id;
                 texItem.url = item[i].url;
                 texItem.name = item[i].name;
                 texItem.isDynamic = item[i].isDynamic;
                 texItem.paramName = item[i].paramName;
                 texItem.isMain = item[i].isMain;
                 texItem.type = item[i].type;
-                if (texItem.type == undefined) {
-                    TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, function ($texture) {
-                        texItem.textureRes = $texture;
-                    });
-                }
+                this.loadTextureRes(texItem);
                 texList.push(texItem);
             }
             return texList;

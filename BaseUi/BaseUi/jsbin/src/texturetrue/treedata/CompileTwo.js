@@ -194,7 +194,7 @@ var materialui;
                 texItem.textureRes = $texture;
             });
             LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
-                texItem.cubeTextWebgl = CubemapLoad.makeTempCubeTextture($img);
+                //   texItem.cubeTextWebgl = CubemapLoad.makeTempCubeTextture($img)
             });
             this.cubeTextItem = texItem;
         };
@@ -230,11 +230,9 @@ var materialui;
             texItem.mipmap = $node.mipmap;
             texItem.permul = $node.permul;
             texItem.type = TexItem.CUBEMAP;
-            TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, function ($texture) {
-                texItem.textureRes = $texture;
-                LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
-                    texItem.textureRes.texture = CubemapLoad.makeTempCubeTextture($img);
-                });
+            LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
+                texItem.textureRes = new Pan3d.TextureRes();
+                texItem.textureRes.texture = CubemapLoad.makeTempCubeTextture($img);
             });
             this.texVec.push(texItem);
             input.hasCompiled = true;
