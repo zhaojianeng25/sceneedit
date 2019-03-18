@@ -45,7 +45,7 @@ var prop;
     prop.PropPanle = PropPanle;
     var PropModel = /** @class */ (function () {
         function PropModel() {
-            this._top = 350;
+            this._top = 0;
             this.propPanle = new PropPanle();
             this.propPanle.x = 500;
             this.propPanle.y = 100;
@@ -112,6 +112,7 @@ var prop;
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
                 this.metaDataView.top = this._top;
+                this.resize();
             }
         };
         PropModel.prototype.showPefabMesh = function (value) {
@@ -122,6 +123,7 @@ var prop;
             }
             this.metaDataView = value;
             this.metaDataView.refreshViewValue();
+            this.resize();
         };
         PropModel.prototype.showSciencePropPanel = function () {
             if (this.metaDataView) {

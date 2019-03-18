@@ -95,6 +95,8 @@
                 this.metaDataView.data = $ui;
                 this.metaDataView.top = this._top
 
+           this.resize();
+
             }
         }
         public showPefabMesh(value: MetaDataView): void {
@@ -105,6 +107,7 @@
             }
             this.metaDataView = value;
             this.metaDataView.refreshViewValue()
+            this.resize();
         }
         private showSciencePropPanel(): void {
             if (this.metaDataView) {
@@ -117,7 +120,7 @@
 
 
         }
-        private _top: number=350
+        private _top: number=0
         public moveTop($ty: number): void {
             this._top = $ty
             if (this.metaDataView) {

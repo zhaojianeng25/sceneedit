@@ -119,7 +119,7 @@
             var _cenePojectMeshView: ScenePojectMeshView= new ScenePojectMeshView;
             _cenePojectMeshView.data  =   this.scenePojectMapData;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
-            prop.PropModel.getInstance().resize();
+ 
 
             filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
                 _cenePojectMeshView.texture = $materialTree;

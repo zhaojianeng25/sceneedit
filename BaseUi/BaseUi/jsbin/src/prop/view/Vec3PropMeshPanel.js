@@ -21,9 +21,10 @@ var prop;
         }
         Vec3PropMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1 },
-                { Type: prop.ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1 },
-                { Type: prop.ReflectionData.NumberInput, Label: "z:", FunKey: "constZValue", target: this, Step: 0.1 },
+                //{ Type: ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1 },
+                //{ Type: ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1 },
+                //{ Type: ReflectionData.NumberInput, Label: "z:", FunKey: "constZValue", target: this, Step: 0.1 },
+                { Type: prop.ReflectionData.Vec3Color, Label: "Vec3d:", FunKey: "constValue", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
         };
@@ -34,44 +35,17 @@ var prop;
             set: function (value) {
                 this._data = value;
                 this.constVec3NodeUI = this._data;
-                this._ve3d = this.constVec3NodeUI.constValue;
                 this.refreshViewValue();
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Vec3PropMeshPanel.prototype, "constXValue", {
+        Object.defineProperty(Vec3PropMeshPanel.prototype, "constValue", {
             get: function () {
-                return this._ve3d.x;
+                return this.constVec3NodeUI.constValue;
             },
             set: function (value) {
-                this._ve3d.x = value;
-                this.constVec3NodeUI.constValue = this._ve3d;
-                this.changeData();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Vec3PropMeshPanel.prototype, "constYValue", {
-            get: function () {
-                return this._ve3d.y;
-            },
-            set: function (value) {
-                this._ve3d.y = value;
-                this.constVec3NodeUI.constValue = this._ve3d;
-                this.changeData();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Vec3PropMeshPanel.prototype, "constZValue", {
-            get: function () {
-                return this._ve3d.z;
-            },
-            set: function (value) {
-                this._ve3d.z = value;
-                this.constVec3NodeUI.constValue = this._ve3d;
-                this.changeData();
+                this.constVec3NodeUI.constValue = value;
             },
             enumerable: true,
             configurable: true
