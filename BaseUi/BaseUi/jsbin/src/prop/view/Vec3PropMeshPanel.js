@@ -21,9 +21,6 @@ var prop;
         }
         Vec3PropMeshPanel.prototype.getView = function () {
             var ary = [
-                //{ Type: ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1 },
-                //{ Type: ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1 },
-                //{ Type: ReflectionData.NumberInput, Label: "z:", FunKey: "constZValue", target: this, Step: 0.1 },
                 { Type: prop.ReflectionData.Vec3Color, Label: "Vec3d:", FunKey: "constValue", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
@@ -46,6 +43,8 @@ var prop;
             },
             set: function (value) {
                 this.constVec3NodeUI.constValue = value;
+                this.changeData();
+                console.log(value);
             },
             enumerable: true,
             configurable: true
