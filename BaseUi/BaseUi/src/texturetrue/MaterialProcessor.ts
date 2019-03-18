@@ -229,6 +229,10 @@
             MaterialViewBuildUtils.getInstance().setData($materailTree.data);
 
             this.resetMaterialListUi()
+
+             left.ModelShowModel.getInstance().modelSprite.material = $materailTree
+
+
         }
         private resetMaterialListUi(): void {
 

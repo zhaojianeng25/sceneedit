@@ -121,7 +121,7 @@
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
             prop.PropModel.getInstance().resize();
 
-            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/5.material", ($materialTree: materialui.MaterialTree) => {
+            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
                 _cenePojectMeshView.texture = $materialTree;
            
             })

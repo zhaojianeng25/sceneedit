@@ -67,6 +67,7 @@
                         */
                         console.log("材质加载完成", $url)
                         $materialTree.url = $url
+
                         if (!this.dic[$url]) {
                             this.dic[$url] = $materialTree;
                         }

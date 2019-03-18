@@ -20,7 +20,7 @@
  
         public compile($list: Array<NodeTree>, $materialTree: MaterialTree): void {
             this._compileGlslServer = new CompileTwo();
-            this._compilePan = new CompilePan();
+
             this.nodeList = $list;
             this.resetCompile($list);
             this.resetPriority();

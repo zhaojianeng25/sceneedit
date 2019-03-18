@@ -344,7 +344,7 @@
             varyStr += "varying vec2 v0;\n";
             varyStr += "varying highp vec3 vPos;\n";
             varyStr += "uniform vec3 cam3DPos;\n";
-            varyStr += "uniform vec4 uDiffuseCoefficients[9];\n";
+ 
         
             if (this.useNormal) {
                 varyStr += "varying vec3 T;\n";
