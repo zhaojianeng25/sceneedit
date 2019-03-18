@@ -168,6 +168,7 @@
         }
 
         public setVc4fv($program: Shader3D, $name: string, $m: any) {
+ 
             this.renderContext.uniform4fv($program.getWebGLUniformLocation($name), $m);
         }
         public setVc1fv($program: Shader3D, $name: string, $m: any) {
@@ -433,42 +434,7 @@
             }
         }
 
-        public getFBO(): FBO {
-            var fw: number = FBO.fw;
-            var fh: number = FBO.fh;
-
-            var frameBuffer: WebGLFramebuffer = this.renderContext.createFramebuffer();
-
-            this.renderContext.bindFramebuffer(this.renderContext.FRAMEBUFFER, frameBuffer);
-
-            var depthRenderBuffer: WebGLRenderbuffer = this.renderContext.createRenderbuffer();
-            this.renderContext.bindRenderbuffer(this.renderContext.RENDERBUFFER, depthRenderBuffer);
-
-            this.renderContext.renderbufferStorage(this.renderContext.RENDERBUFFER, this.renderContext.DEPTH_COMPONENT16, fw, fh);
-
-            this.renderContext.framebufferRenderbuffer(this.renderContext.FRAMEBUFFER, this.renderContext.DEPTH_ATTACHMENT, this.renderContext.RENDERBUFFER, depthRenderBuffer);
-
-            var fTexture: WebGLTexture = this.renderContext.createTexture();
-
-            this.renderContext.bindTexture(this.renderContext.TEXTURE_2D, fTexture);
-
-            this.renderContext.texImage2D(this.renderContext.TEXTURE_2D, 0, this.renderContext.RGBA, fw, fh, 0, this.renderContext.RGBA, this.renderContext.UNSIGNED_BYTE, null);
-
-            this.renderContext.texParameteri(this.renderContext.TEXTURE_2D, this.renderContext.TEXTURE_MAG_FILTER, this.renderContext.LINEAR);
-            this.renderContext.texParameteri(this.renderContext.TEXTURE_2D, this.renderContext.TEXTURE_MIN_FILTER, this.renderContext.LINEAR);
-
-            this.renderContext.framebufferTexture2D(this.renderContext.FRAMEBUFFER, this.renderContext.COLOR_ATTACHMENT0, this.renderContext.TEXTURE_2D, fTexture, 0);
-
-            this.renderContext.bindTexture(this.renderContext.TEXTURE_2D, null);
-            this.renderContext.bindRenderbuffer(this.renderContext.RENDERBUFFER, null);
-            this.renderContext.bindFramebuffer(this.renderContext.FRAMEBUFFER, null);
-
-            var fbo: FBO = new FBO();
-            fbo.frameBuffer = frameBuffer;
-            fbo.depthBuffer = depthRenderBuffer;
-            fbo.texture = fTexture;
-            return fbo;
-        }
+     
 
         public clearTest(): void {
             this._contextSetTest.clear();

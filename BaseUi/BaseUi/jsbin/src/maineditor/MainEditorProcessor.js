@@ -117,7 +117,7 @@ var maineditor;
             _cenePojectMeshView.data = this.scenePojectMapData;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
             prop.PropModel.getInstance().resize();
-            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/cctv.material", function ($materialTree) {
+            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/5.material", function ($materialTree) {
                 _cenePojectMeshView.texture = $materialTree;
             });
         };

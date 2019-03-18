@@ -14,13 +14,10 @@
 
         public maxPriority: number = 0;
 
-        private fragmentTempList: Array<RegisterItem>;
-        private fragmentTexList: Array<RegisterItem>;
-        private fragmentConstList: Array<RegisterItem>;
-
+  
 
         private _compileGlslServer: CompileTwo
-        private _compilePan: CompilePan;
+ 
         public compile($list: Array<NodeTree>, $materialTree: MaterialTree): void {
             this._compileGlslServer = new CompileTwo();
             this._compilePan = new CompilePan();

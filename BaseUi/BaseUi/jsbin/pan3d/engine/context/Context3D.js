@@ -394,30 +394,6 @@ var Pan3d;
                 this.renderContext.disable(this.renderContext.CULL_FACE);
             }
         };
-        Context3D.prototype.getFBO = function () {
-            var fw = FBO.fw;
-            var fh = FBO.fh;
-            var frameBuffer = this.renderContext.createFramebuffer();
-            this.renderContext.bindFramebuffer(this.renderContext.FRAMEBUFFER, frameBuffer);
-            var depthRenderBuffer = this.renderContext.createRenderbuffer();
-            this.renderContext.bindRenderbuffer(this.renderContext.RENDERBUFFER, depthRenderBuffer);
-            this.renderContext.renderbufferStorage(this.renderContext.RENDERBUFFER, this.renderContext.DEPTH_COMPONENT16, fw, fh);
-            this.renderContext.framebufferRenderbuffer(this.renderContext.FRAMEBUFFER, this.renderContext.DEPTH_ATTACHMENT, this.renderContext.RENDERBUFFER, depthRenderBuffer);
-            var fTexture = this.renderContext.createTexture();
-            this.renderContext.bindTexture(this.renderContext.TEXTURE_2D, fTexture);
-            this.renderContext.texImage2D(this.renderContext.TEXTURE_2D, 0, this.renderContext.RGBA, fw, fh, 0, this.renderContext.RGBA, this.renderContext.UNSIGNED_BYTE, null);
-            this.renderContext.texParameteri(this.renderContext.TEXTURE_2D, this.renderContext.TEXTURE_MAG_FILTER, this.renderContext.LINEAR);
-            this.renderContext.texParameteri(this.renderContext.TEXTURE_2D, this.renderContext.TEXTURE_MIN_FILTER, this.renderContext.LINEAR);
-            this.renderContext.framebufferTexture2D(this.renderContext.FRAMEBUFFER, this.renderContext.COLOR_ATTACHMENT0, this.renderContext.TEXTURE_2D, fTexture, 0);
-            this.renderContext.bindTexture(this.renderContext.TEXTURE_2D, null);
-            this.renderContext.bindRenderbuffer(this.renderContext.RENDERBUFFER, null);
-            this.renderContext.bindFramebuffer(this.renderContext.FRAMEBUFFER, null);
-            var fbo = new FBO();
-            fbo.frameBuffer = frameBuffer;
-            fbo.depthBuffer = depthRenderBuffer;
-            fbo.texture = fTexture;
-            return fbo;
-        };
         Context3D.prototype.clearTest = function () {
             this._contextSetTest.clear();
         };
@@ -425,8 +401,10 @@ var Pan3d;
     }());
     Pan3d.Context3D = Context3D;
     var FBO = /** @class */ (function () {
-        function FBO() {
-            this.makeSize(128, 128);
+        function FBO(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
+            this.makeSize(w, h);
         }
         FBO.prototype.resetSize = function (w, h) {
             var a = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
@@ -450,8 +428,6 @@ var Pan3d;
             this.width = w;
             this.height = h;
         };
-        FBO.fw = 512;
-        FBO.fh = 512;
         return FBO;
     }());
     Pan3d.FBO = FBO;

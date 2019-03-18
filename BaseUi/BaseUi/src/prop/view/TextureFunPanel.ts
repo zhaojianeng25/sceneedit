@@ -1,15 +1,60 @@
 ﻿module prop {
     import InteractiveEvent = Pan3d.InteractiveEvent
+    import Scene_data = Pan3d.Scene_data
     export class TextureFunPanel extends base.BaseWindow {
  
         protected loadConfigCom(): void {
             super.loadConfigCom();
 
-            this.setUiListVisibleByItem([this.a_scroll_bar_bg], false)
-            this.setUiListVisibleByItem([this.b_win_close], true)
+            this.setUiListVisibleByItem([this.c_tittle_bg], true)
+            this.setUiListVisibleByItem([this.c_left_line], true)
+            this.setUiListVisibleByItem([this.c_right_line], true)
+            this.setUiListVisibleByItem([this.c_bottom_line], true)
+            this.setUiListVisibleByItem([this.c_win_bg], true)
 
-           
+            this.setUiListVisibleByItem([this.b_win_close], true)
  
+            this.c_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+ 
+        }
+        protected tittleMouseDown(evt: InteractiveEvent): void {
+
+            this.mouseMoveTaget = evt.target
+
+            this.lastMousePos = new Vector2D(evt.x, evt.y)
+
+            switch (this.mouseMoveTaget) {
+                case this.c_tittle_bg:
+                    this.lastPagePos = new Vector2D(this.left, this.top)
+                    break
+ 
+                default:
+                    console.log("nonono")
+                    break
+
+            }
+
+
+
+
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.mouseOnTittleMove, this);
+            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
+        }
+        protected mouseOnTittleMove(evt: InteractiveEvent): void {
+            switch (this.mouseMoveTaget) {
+                case this.c_tittle_bg:
+                    this.left = this.lastPagePos.x + (evt.x - this.lastMousePos.x)
+                    this.top = this.lastPagePos.y + (evt.y - this.lastMousePos.y)
+                    this.pageRect.x = this.left;
+                    this.pageRect.y = this.top;
+                    break;
+                default:
+                    
+                    break
+
+            }
+            this.resize()
+
         }
         private chatHtmlInput: HTMLTextAreaElement;
         private setInputTxtPos(): void {

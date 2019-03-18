@@ -82,7 +82,6 @@
                 this.material = $materialTree;
                 this.meshParamInfo();
             })
-
             this._prefab.addEventListener(BaseEvent.COMPLETE, this.prefabComplete, this);
         }
         private prefabComplete(): void {
@@ -100,7 +99,7 @@
                         if (tempInfo.type == "tex") {
                             this.mekeParamTexture(tempInfo)
                         } else {
-                           // console.log(tempInfo.type)
+                           console.log(tempInfo.type)
 
                             this.makeParamValue(tempInfo)
                         }
