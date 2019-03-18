@@ -440,23 +440,7 @@
 
         }
 
-        public updateFBO(): void {
-            if (!Scene_data.fbo) {
-                Scene_data.fbo = Scene_data.context3D.getFBO();
-            }
-            if (this._displayList.length == 0) {
-                return;
-            }
-            Scene_data.context3D.updateFBO(Scene_data.fbo);
-            Scene_data.viewMatrx3D.identity();
-            Scene_data.context3D.renderContext.viewport(0, 0, FBO.fw, FBO.fh);
-            Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(2, 1, 50, Scene_data.camFar);
-            Scene_data.viewMatrx3D.appendScale(2, 2 * (Scene_data.stageWidth / Scene_data.stageHeight), 1);
-            MathClass.updateVp();
-            this.updateStaticDiplay();
-            Engine.resetSize();
-            Scene_data.context3D.renderContext.bindFramebuffer(Scene_data.context3D.renderContext.FRAMEBUFFER, null);
-        }
+    
 
         public addDisplay2DList($dis: Display3D): void {
             this._display2DList.push($dis)

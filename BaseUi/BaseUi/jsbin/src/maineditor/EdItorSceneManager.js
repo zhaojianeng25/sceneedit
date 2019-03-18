@@ -22,51 +22,36 @@ var maineditor;
     var EdItorSceneManager = /** @class */ (function (_super) {
         __extends(EdItorSceneManager, _super);
         function EdItorSceneManager() {
-            var _this = _super.call(this) || this;
-            _this.fw = 1024;
-            _this.fh = 1024;
-            return _this;
+            return _super.call(this) || this;
         }
-        EdItorSceneManager.prototype.getFBO = function () {
-            this.renderContext = Scene_data.context3D.renderContext;
-            var gl = Scene_data.context3D.renderContext;
-            var fbo = new FBO();
-            fbo.texture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, fbo.texture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.fw, this.fh, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            fbo.frameBuffer = gl.createFramebuffer();
-            fbo.depthBuffer = gl.createRenderbuffer();
-            gl.bindRenderbuffer(gl.RENDERBUFFER, fbo.depthBuffer);
-            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.fw, this.fh);
-            return fbo;
-        };
+        //  private renderContext: WebGLRenderingContext;
         EdItorSceneManager.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
-            this.renderContext.viewport(0, 0, this.fw, this.fh);
-            this.renderContext.clearColor(20 / 255, 20 / 255, 20 / 255, 1.0);
-            this.renderContext.clearDepth(1.0);
-            this.renderContext.clearStencil(0.0);
-            this.renderContext.enable(this.renderContext.DEPTH_TEST);
-            this.renderContext.depthMask(true);
-            this.renderContext.enable(this.renderContext.BLEND);
-            this.renderContext.frontFace(this.renderContext.CW);
-            this.renderContext.clear(this.renderContext.COLOR_BUFFER_BIT | this.renderContext.DEPTH_BUFFER_BIT | this.renderContext.STENCIL_BUFFER_BIT);
+            gl.viewport(0, 0, fbo.width, fbo.height);
+            gl.clearColor(20 / 255, 20 / 255, 20 / 255, 1.0);
+            gl.clearDepth(1.0);
+            gl.clearStencil(0.0);
+            gl.enable(gl.DEPTH_TEST);
+            gl.depthMask(true);
+            gl.enable(gl.BLEND);
+            gl.frontFace(gl.CW);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
         };
         EdItorSceneManager.prototype.renderToTexture = function () {
             if (!this.fbo) {
-                this.fbo = this.getFBO();
+                this.fbo = new FBO;
+            }
+            else {
+                this.fbo.resetSize(this.cam3D.cavanRect.width, this.cam3D.cavanRect.height);
             }
             this.viewMatrx3D.identity();
             this.viewMatrx3D.perspectiveFieldOfViewLH(0.8, 1, 1, 2000);
             this.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
             var sceneViewHW = 400 / this.cam3D.cavanRect.width;
             this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
-            this.cam3D.cavanRect.width;
             this.updateDepthTexture(this.fbo);
             this.update();
             var gl = Scene_data.context3D.renderContext;

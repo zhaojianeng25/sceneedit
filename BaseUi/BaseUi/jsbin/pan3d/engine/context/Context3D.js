@@ -426,7 +426,30 @@ var Pan3d;
     Pan3d.Context3D = Context3D;
     var FBO = /** @class */ (function () {
         function FBO() {
+            this.makeSize(128, 128);
         }
+        FBO.prototype.resetSize = function (w, h) {
+            var a = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
+            var b = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)));
+            if (this.width != a || this.height != b) {
+                console.log("改变FBO尺寸", a, b);
+                this.makeSize(a, b);
+            }
+        };
+        FBO.prototype.makeSize = function (w, h) {
+            var gl = Pan3d.Scene_data.context3D.renderContext;
+            this.texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, this.texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            this.frameBuffer = gl.createFramebuffer();
+            this.depthBuffer = gl.createRenderbuffer();
+            gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthBuffer);
+            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, w, h);
+            this.width = w;
+            this.height = h;
+        };
         FBO.fw = 512;
         FBO.fh = 512;
         return FBO;

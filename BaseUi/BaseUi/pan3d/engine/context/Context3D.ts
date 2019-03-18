@@ -479,12 +479,41 @@
 
     }
 
-    export  class FBO {
-        public static fw: number = 512;
-        public static fh: number = 512;
+    export class FBO {
+    
+
+        public width: number
+        public height: number
         public frameBuffer: WebGLFramebuffer;
         public depthBuffer: WebGLRenderbuffer;
         public texture: WebGLRenderbuffer;
+        public constructor(w: number=128, h: number=128) {
+            this.makeSize(w, h)
+        }
+        public resetSize(w: number, h: number): void {
+            var a: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))
+            var b: number = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)))
+            if (this.width != a || this.height != b) {
+                console.log("改变FBO尺寸",a,b)
+                this.makeSize(a, b)
+            } 
+        }
+        private makeSize(w: number, h: number): void {
+            var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            this.texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, this.texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+            this.frameBuffer = gl.createFramebuffer();
+            this.depthBuffer = gl.createRenderbuffer();
+
+            gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthBuffer);
+            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, w, h);
+            this.width = w;
+            this.height = h;
+        }
     }
 
     export   class ContextSetTest {

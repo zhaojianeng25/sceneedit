@@ -348,23 +348,6 @@ var Pan3d;
                 this._display2DList[i].update();
             }
         };
-        SceneManager.prototype.updateFBO = function () {
-            if (!Pan3d.Scene_data.fbo) {
-                Pan3d.Scene_data.fbo = Pan3d.Scene_data.context3D.getFBO();
-            }
-            if (this._displayList.length == 0) {
-                return;
-            }
-            Pan3d.Scene_data.context3D.updateFBO(Pan3d.Scene_data.fbo);
-            Pan3d.Scene_data.viewMatrx3D.identity();
-            Pan3d.Scene_data.context3D.renderContext.viewport(0, 0, Pan3d.FBO.fw, Pan3d.FBO.fh);
-            Pan3d.Scene_data.viewMatrx3D.perspectiveFieldOfViewLH(2, 1, 50, Pan3d.Scene_data.camFar);
-            Pan3d.Scene_data.viewMatrx3D.appendScale(2, 2 * (Pan3d.Scene_data.stageWidth / Pan3d.Scene_data.stageHeight), 1);
-            Pan3d.MathClass.updateVp();
-            this.updateStaticDiplay();
-            Pan3d.Engine.resetSize();
-            Pan3d.Scene_data.context3D.renderContext.bindFramebuffer(Pan3d.Scene_data.context3D.renderContext.FRAMEBUFFER, null);
-        };
         SceneManager.prototype.addDisplay2DList = function ($dis) {
             this._display2DList.push($dis);
         };
