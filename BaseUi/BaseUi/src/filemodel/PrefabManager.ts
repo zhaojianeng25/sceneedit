@@ -42,19 +42,24 @@
                         $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
                         $buildShader.vertex = $buildShader.getVertexShaderString();
                         $buildShader.fragment = $temp.info.shaderStr;
+
+                 
+
                         $buildShader.encode();
 
 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
                         $materialTree.setData({ data: $temp.data });
 
+                        $materialTree.useNormal = $temp.info.useNormal;
                         $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.constList = this.makeConstList($temp.info.constList);
 
                         $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
                         $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
-
-
+                  
+        
+                
 
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;

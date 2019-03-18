@@ -90,6 +90,8 @@ var left;
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
             this.selectShowDisp.material = $temp;
+            //  (<MaterialModelSprite>this.selectShowDisp).material.shader = $buildShader;
+            //  (<MaterialModelSprite>this.selectShowDisp).material.program = $buildShader.program;
         };
         ModelShowModel.prototype.outShaderStr = function ($treeMater) {
             if (this.selectShowDisp instanceof left.MaterialModelSprite) {

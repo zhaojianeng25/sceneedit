@@ -64,6 +64,7 @@
             $temp.fcNum = $treeMater.fcNum
    
             $temp.fcData = $treeMater.fcData;
+            console.log($temp.fcData)
             $temp.texList = $treeMater.texList;
             $temp.cubeTextItem = $treeMater.cubeTextItem;
             $temp.usePbr = $treeMater.usePbr;

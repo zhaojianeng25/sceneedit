@@ -40,12 +40,14 @@
                     return;
                 }
             }
+
             for (i = 0; i < this.nodeList.length; i++) {
                 if (this.nodeList[i].priority < 0) {
                     continue;
                 }
                 this.priorityList[this.nodeList[i].priority].push(this.nodeList[i]);
             }
+
 
            this._compileGlslServer.compile(this.priorityList, $materialTree);
            left.ModelShowModel.getInstance().outShaderStr($materialTree);

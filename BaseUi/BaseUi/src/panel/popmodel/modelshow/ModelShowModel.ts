@@ -126,8 +126,13 @@
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
              
-            (<MaterialModelSprite>this.selectShowDisp).material = $temp;
+             (<MaterialModelSprite>this.selectShowDisp).material = $temp;
+          //  (<MaterialModelSprite>this.selectShowDisp).material.shader = $buildShader;
+          //  (<MaterialModelSprite>this.selectShowDisp).material.program = $buildShader.program;
         }
+
+
+
         public outShaderStr($treeMater: materialui.MaterialTree): void {
             if (this.selectShowDisp instanceof MaterialModelSprite) {
                 this.makeBuldShader($treeMater)
