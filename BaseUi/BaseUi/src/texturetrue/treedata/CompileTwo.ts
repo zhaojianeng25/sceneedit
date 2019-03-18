@@ -119,19 +119,14 @@
         private texVec: Array<TexItem>;
         private constVec: Array<ConstItem>;
         private hasTime: boolean;
-
-        private killNum: number = 0;
+ 
         private hasVertexColor: boolean;
 
         private useNormal: boolean;
 
+ 
 
-
-        private useDynamicIBL: boolean;
-
-        private lightProbe: boolean;
-
-        private directLight: boolean;
+ 
         private noLight: boolean;
         private fogMode: number;
         private scaleLightMap: boolean;
@@ -183,11 +178,9 @@
             this.useNormal = false;
 
 
-            this.useDynamicIBL = false;
-            this.lightProbe = false;
-
+ 
             this.useKill = false;
-            this.directLight = false;
+ 
             this.noLight = false;
             this.fogMode = 0;
             this.scaleLightMap = false;
@@ -220,10 +213,7 @@
             $materialTree.useNormal = this.useNormal;;
             $materialTree.roughness = 0;
 
-            $materialTree.useDynamicIBL = this.useDynamicIBL;;
-            $materialTree.lightProbe = this.lightProbe;;
-            $materialTree.useKill = this.useKill;;
-            $materialTree.directLight = this.directLight;;
+ 
             $materialTree.noLight = this.noLight;;
             $materialTree.fogMode = this.fogMode;;
             $materialTree.scaleLightMap = this.scaleLightMap;;
@@ -980,9 +970,7 @@
 
         public processOpNode($node: NodeTree): void {
             //diffuse
-
-            this.lightProbe = (<NodeTreeOP>$node).lightProbe;
-            this.directLight = (<NodeTreeOP>$node).directLight;
+ 
             this.noLight = (<NodeTreeOP>$node).noLight;
             this.fogMode = (<NodeTreeOP>$node).fogMode;
             this.scaleLightMap = (<NodeTreeOP>$node).scaleLightMap;
@@ -995,7 +983,7 @@
 
                 this.useNormal = true;
             }
-            this.useDynamicIBL = (<NodeTreeOP>$node).useDynamicIBL;
+ 
 
             var regOp: RegisterItem;
      
@@ -1015,7 +1003,7 @@
                     resultStr = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtempLightMap.id;
                     regtempLightMap.hasInit = true;
                 }
-                if (this.noLight && !this.directLight) {
+                if (this.noLight ) {
                     str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VEC4 + CompileTwo.LEFT_PARENTH + pNodeDiffuse.getComponentID(inputDiffuse.parentNodeItem.id) + CompileTwo.COMMA + "1.0" + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
                 }
                 this.strVec.push(str);
