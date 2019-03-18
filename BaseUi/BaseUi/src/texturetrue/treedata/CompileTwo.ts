@@ -476,8 +476,7 @@
             var str: string = ""
             var input0: NodeTreeInputItem = $node.inputVec[0];
             var input1: NodeTreeInputItem = $node.inputVec[1];
-            var type0: string = input0.type;
-            var type1: string = input1.type;
+ 
 
             var pNode0: NodeTree = input0.parentNodeItem.node;
             var pNode1: NodeTree = input1.parentNodeItem.node;
@@ -487,30 +486,24 @@
             var regtemp: RegisterItem = this.getFragmentTemp();
 
             var resultStr: string = "";
-
-            //"vec4 ft0 = vec4(0,0,0,0);
+ 
             if (!regtemp.hasInit && !(input0.type == MaterialItemType.VEC4 || input1.type == MaterialItemType.VEC4)) {//vec4(0,0,0,0)
                 resultStr = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END + CompileTwo.LN;
                 regtemp.hasInit = true;
             }
-
-            //"vec4 info = infoUv * infoLight;\n" +
-
             if (input0.type == MaterialItemType.VEC4 || input1.type == MaterialItemType.VEC4) {
-                //str = opCode +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id + COMMA;
                 if (!regtemp.hasInit) {
                     resultStr = CompileTwo.VEC4 + CompileTwo.SPACE;
                     regtemp.hasInit = true;
                 }
                 str = CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             } else if (output.type == MaterialItemType.FLOAT) {
-                //str = opCode +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id + X + COMMA;
+ 
                 str = CompileTwo.FT + regtemp.id + CompileTwo.X + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             } else if (output.type == MaterialItemType.VEC2) {
-                //str = opCode +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id + XY + COMMA;
+  
                 str = CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             } else if (output.type == MaterialItemType.VEC3) {
-                //str = opCode +CompileTwo. SPACE +CompileTwo. FT+ regtemp.id +CompileTwo.XYZ+ COMMA;
                 str = CompileTwo.FT + regtemp.id + CompileTwo.XYZ + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             }
 
