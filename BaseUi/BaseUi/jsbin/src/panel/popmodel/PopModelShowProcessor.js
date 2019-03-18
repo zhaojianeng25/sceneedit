@@ -19,7 +19,6 @@ var popmodel;
     var UIManager = Pan3d.UIManager;
     var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
     var PopModelShowEvent = /** @class */ (function (_super) {
         __extends(PopModelShowEvent, _super);
         function PopModelShowEvent() {
@@ -67,7 +66,7 @@ var popmodel;
         PopModelShowProcessor.prototype.readBaseModel = function () {
             LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                 left.ModelShowModel.getInstance().readTxtToModelBy($modelxml);
-                ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+                //  ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
             });
         };
         PopModelShowProcessor.prototype.hideLeftPanel = function () {

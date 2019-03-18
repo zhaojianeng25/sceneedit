@@ -24,16 +24,9 @@ var materialui;
             materialui.MaterialCtrl.getInstance().bgwinPanel.addUIContainer(new materialui.MaterialCavasPanel());
         };
         MaterialModel.prototype.selectMaterialUrl = function (url) {
-            LoadManager.getInstance().load(Scene_data.fileRoot + url, LoadManager.BYTE_TYPE, function ($dtstr) {
-                var $byte = new Pan3d.Pan3dByteArray($dtstr);
-                $byte.position = 0;
-                var $temp = JSON.parse($byte.readUTF());
-                var $tempMaterial = new materialui.MaterialTree;
-                $tempMaterial = new materialui.MaterialTree;
-                $tempMaterial.url = url;
-                $tempMaterial.setData({ data: $temp.data });
+            filemodel.MaterialManager.getInstance().getMaterialByUrl(url, function ($materialTree) {
                 var $materialEvent = new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE);
-                $materialEvent.materailTree = $tempMaterial;
+                $materialEvent.materailTree = $materialTree;
                 ModuleEventManager.dispatchEvent($materialEvent);
             });
         };

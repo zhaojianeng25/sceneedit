@@ -191,6 +191,7 @@ var materialui;
             this.baseMaterialTree = $materailTree;
             materialui.MaterialViewBuildUtils.getInstance().setData($materailTree.data);
             this.resetMaterialListUi();
+            left.ModelShowModel.getInstance().modelSprite.material = $materailTree;
         };
         MaterialProcessor.prototype.resetMaterialListUi = function () {
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;

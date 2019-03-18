@@ -12,7 +12,6 @@ var materialui;
         };
         MaterialCompile.prototype.compile = function ($list, $materialTree) {
             this._compileGlslServer = new materialui.CompileTwo();
-            this._compilePan = new materialui.CompilePan();
             this.nodeList = $list;
             this.resetCompile($list);
             this.resetPriority();
