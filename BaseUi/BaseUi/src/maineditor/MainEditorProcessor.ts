@@ -25,6 +25,8 @@
         public static CLEAR_SCENE_MAP_ALL: string = "CLEAR_SCENE_MAP_ALL";  
         public static SHOW_SCENE_POJECT_MESH_VIEW: string = "SHOW_SCENE_POJECT_MESH_VIEW";  
         public static SCENE_SELECT_SPRITE_DOWN: string = "SCENE_SELECT_SPRITE_DOWN";   //选取舞台物件
+        public static CHANGE_LEFT_PANEL_SHOW: string = "CHANGE_LEFT_PANEL_SHOW";   //选取舞台物件
+        
   
  
     }
@@ -79,7 +81,16 @@
 
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
                 }
-
+                if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
+                    if (this._hierarchyListPanel) {
+                        if (this._hierarchyListPanel.hasStage) {
+                            BaseUiStart.leftPanel.removeUIContainer(this._hierarchyListPanel);
+                        } else {
+                            BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                        }
+                    }
+                }
+                
 
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
 
@@ -270,6 +281,7 @@
                 new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),
                 new MainEditorEvent(MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW),
                 new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
+                new MainEditorEvent(MainEditorEvent.CHANGE_LEFT_PANEL_SHOW),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
                 
             ];

@@ -35,6 +35,7 @@ var maineditor;
         MainEditorEvent.CLEAR_SCENE_MAP_ALL = "CLEAR_SCENE_MAP_ALL";
         MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW = "SHOW_SCENE_POJECT_MESH_VIEW";
         MainEditorEvent.SCENE_SELECT_SPRITE_DOWN = "SCENE_SELECT_SPRITE_DOWN"; //选取舞台物件
+        MainEditorEvent.CHANGE_LEFT_PANEL_SHOW = "CHANGE_LEFT_PANEL_SHOW"; //选取舞台物件
         return MainEditorEvent;
     }(BaseEvent));
     maineditor.MainEditorEvent = MainEditorEvent;
@@ -87,6 +88,16 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
+                    if (this._hierarchyListPanel) {
+                        if (this._hierarchyListPanel.hasStage) {
+                            BaseUiStart.leftPanel.removeUIContainer(this._hierarchyListPanel);
+                        }
+                        else {
+                            BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                        }
+                    }
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
                     this._hierarchyListPanel.saveMap();
@@ -234,6 +245,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),
                 new MainEditorEvent(MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW),
                 new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
+                new MainEditorEvent(MainEditorEvent.CHANGE_LEFT_PANEL_SHOW),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
             ];
         };

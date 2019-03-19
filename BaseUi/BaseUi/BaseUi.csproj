@@ -22,9 +22,11 @@
   <ItemGroup>
     <Content Include="libs\inflate.min.js" />
     <Content Include="index.html" />
+    <Content Include="libs\tween\TweenLite.min.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="libs\tween\TweenLite.d.ts" />
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\BaseUiStart.ts" />
     <TypeScriptCompile Include="src\drag\DragManager.ts" />
