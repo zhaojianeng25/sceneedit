@@ -29,16 +29,16 @@ var prop;
             for (var i = 0; i < item.length; i++) {
                 var tempBaseReflComponent;
                 if (item[i].type == materialui.NodeTree.TEX) {
-                    var texturue2DUI = new prop.Texturue2DUI;
+                    var texturue2DUI = new prop.Texturue2DUI(this.propPanle);
                     texturue2DUI.suffix = "jpg|png";
                     tempBaseReflComponent = texturue2DUI;
                 }
                 if (item[i].type == materialui.NodeTree.VEC3) {
-                    tempBaseReflComponent = new prop.Vec3ColorCtrlUI();
+                    tempBaseReflComponent = new prop.Vec3ColorCtrlUI(this.propPanle);
                     tempBaseReflComponent.KeyStep = 0.01;
                 }
                 if (item[i].type == materialui.NodeTree.FLOAT) {
-                    tempBaseReflComponent = new prop.TextCtrlInput();
+                    tempBaseReflComponent = new prop.TextCtrlInput(this.propPanle);
                 }
                 if (tempBaseReflComponent) {
                     tempBaseReflComponent.FunKey = "data";

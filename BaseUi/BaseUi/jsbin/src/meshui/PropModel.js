@@ -38,7 +38,12 @@ var prop;
             if (this._containerList.length) {
                 PropModel.getInstance().resize();
             }
-            //  
+        };
+        PropPanle.prototype.addBaseMeshUi = function (value) {
+            this.addUIContainer(value.textureContext);
+        };
+        PropPanle.prototype.romveBaseMeshUi = function (value) {
+            this.removeUIContainer(value.textureContext);
         };
         return PropPanle;
     }(win.Sprite));

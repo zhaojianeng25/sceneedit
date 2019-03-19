@@ -63,19 +63,17 @@
     }
    
     export class BaseMeshUi extends EventDispatcher {
-        protected textureContext: TextureContext
+        public textureContext: TextureContext
         public ui: UICompenent
-        public constructor(w: number = 64, h: number=64) {
+        public constructor(  w: number = 64, h: number = 64) {
             super();
             this.textureContext = new TextureContext(w,h)
-            PropModel.getInstance().propPanle.addUIContainer(this.textureContext);
+           // PropModel.getInstance().propPanle.addBaseMeshUi(this);
             this.ui = this.textureContext.ui
        
-
-
         }
         public destory(): void {
-            PropModel.getInstance().propPanle.removeUIContainer(this.textureContext);
+            PropModel.getInstance().propPanle.romveBaseMeshUi(this);
         }
         protected addEvets(): void {
             var $ui: UICompenent = this.ui

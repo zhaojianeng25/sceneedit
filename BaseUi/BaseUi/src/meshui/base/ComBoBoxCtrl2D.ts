@@ -14,6 +14,11 @@
         protected initView(): void {
             this.textLabelUI = new TextLabelUI();
             this.comboBoxUi = new ComboBoxUi();
+
+            this.propPanle.addBaseMeshUi(this.textLabelUI)
+            this.propPanle.addBaseMeshUi(this.comboBoxUi)
+ 
+
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this)
             this.height = 20
         }

@@ -26,8 +26,14 @@
             this.inputTextUiX = new InputTextUi(100,30);
             this.inputTextUiY = new InputTextUi(100, 30);
             this.inputTextUiZ = new InputTextUi(100, 30);
- 
 
+            this.propPanle.addBaseMeshUi(this.textLabelUI)
+            this.propPanle.addBaseMeshUi(this.textX)
+            this.propPanle.addBaseMeshUi(this.textY)
+            this.propPanle.addBaseMeshUi(this.textZ)
+            this.propPanle.addBaseMeshUi(this.inputTextUiX)
+            this.propPanle.addBaseMeshUi(this.inputTextUiY)
+            this.propPanle.addBaseMeshUi(this.inputTextUiZ)
 
 
             this.inputTextUiX.addEventListener(ReflectionEvet.CHANGE_DATA, this.inputTextUiXchange, this)
@@ -175,6 +181,8 @@
             super.initView()
             this.colorPickUI = new ColorPickUI(16, 16);
             this.colorPickUI.addEventListener(ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this)
+
+            this.propPanle.addBaseMeshUi(this.colorPickUI )
      
         }
         public destory(): void {

@@ -3,18 +3,12 @@
     import Scene_data = Pan3d.Scene_data
 
     export class MaterialParamUi extends BaseReflComponent {
-
-
-
-
+ 
         private uiItem: Array<BaseReflComponent>
-
         protected initView(): void {
             this.height = 100
             this.uiItem = []
         }
-
-
  
         public setData( item: Array<any>): void {
             this.destory();
@@ -25,17 +19,17 @@
           
                 var tempBaseReflComponent: BaseReflComponent
                 if (item[i].type == materialui.NodeTree.TEX) {
-                    var texturue2DUI: Texturue2DUI = new Texturue2DUI;
+                    var texturue2DUI: Texturue2DUI = new Texturue2DUI(this.propPanle);
                     texturue2DUI.suffix = "jpg|png";
                     tempBaseReflComponent = texturue2DUI;
 
                 }
                 if (item[i].type == materialui.NodeTree.VEC3) {
-                    tempBaseReflComponent = new Vec3ColorCtrlUI();
+                    tempBaseReflComponent = new Vec3ColorCtrlUI(this.propPanle);
                     tempBaseReflComponent.KeyStep = 0.01;
                 }
                 if (item[i].type == materialui.NodeTree.FLOAT) {
-                    tempBaseReflComponent = new TextCtrlInput();
+                    tempBaseReflComponent = new TextCtrlInput(this.propPanle);
                 }
                 if (tempBaseReflComponent) {
                     tempBaseReflComponent.FunKey = "data";

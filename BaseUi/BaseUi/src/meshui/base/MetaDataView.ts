@@ -132,20 +132,20 @@
         }
      
         public getCategoryUI(value: string): Category2DUI {
-            var $category2DUI: Category2DUI = new Category2DUI()
+            var $category2DUI: Category2DUI = new Category2DUI(PropModel.getInstance().propPanle)
             $category2DUI.label = value
             $category2DUI.changFun = (value: string) => { this.categoryClikUp(value) }
             return $category2DUI;
         }
         public getTextField2DUI($obj: Object): TextField2DUI {
-            var $textCtrlInput: TextField2DUI = new TextField2DUI()
+            var $textCtrlInput: TextField2DUI = new TextField2DUI(PropModel.getInstance().propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
             $textCtrlInput.target = this
             return $textCtrlInput;
         }
         public getVec3($obj: Object): Vec3dCtrlUI {
-            var $textCtrlInput: Vec3dCtrlUI = new Vec3dCtrlUI()
+            var $textCtrlInput: Vec3dCtrlUI = new Vec3dCtrlUI(PropModel.getInstance().propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
             if ($obj[ReflectionData.Key_Step]) {
@@ -157,7 +157,7 @@
             return $textCtrlInput;
         }
         public getVec3Color($obj: Object): Vec3ColorCtrlUI {
-            var $textCtrlInput: Vec3ColorCtrlUI = new Vec3ColorCtrlUI()
+            var $textCtrlInput: Vec3ColorCtrlUI = new Vec3ColorCtrlUI(PropModel.getInstance().propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
             if ($obj[ReflectionData.Key_Step]) {
@@ -169,7 +169,7 @@
             return $textCtrlInput;
         }
         public getComboBox($obj: Object): ComBoBoxCtrl2D {
-            var $ComBoBoxCtrl2D: ComBoBoxCtrl2D = new ComBoBoxCtrl2D()
+            var $ComBoBoxCtrl2D: ComBoBoxCtrl2D = new ComBoBoxCtrl2D(PropModel.getInstance().propPanle)
             $ComBoBoxCtrl2D.label = $obj[ReflectionData.Key_Label];
             $ComBoBoxCtrl2D.FunKey = $obj[ReflectionData.FunKey];
             $ComBoBoxCtrl2D.data = $obj[ReflectionData.Key_Data];
@@ -177,7 +177,7 @@
             return $ComBoBoxCtrl2D;
         }
         public getTexturue2DUI($obj: Object): Texturue2DUI {
-            var $texturue2DUI: Texturue2DUI = new Texturue2DUI()
+            var $texturue2DUI: Texturue2DUI = new Texturue2DUI(PropModel.getInstance().propPanle)
             $texturue2DUI.label = $obj[ReflectionData.Key_Label];
             $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
@@ -185,7 +185,7 @@
             return $texturue2DUI;
         }
         public getMaterialPicUi($obj: Object): Material2DUI {
-            var $texturue2DUI: Material2DUI = new Material2DUI()
+            var $texturue2DUI: Material2DUI = new Material2DUI(PropModel.getInstance().propPanle)
             $texturue2DUI.label = $obj[ReflectionData.Key_Label];
             $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
@@ -194,7 +194,7 @@
             return $texturue2DUI;
         }
         public getNumComponent($obj: Object): TextCtrlInput {
-            var $textCtrlInput: TextCtrlInput = new TextCtrlInput()
+            var $textCtrlInput: TextCtrlInput = new TextCtrlInput(PropModel.getInstance().propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
             $textCtrlInput.KeyStep = $obj[ReflectionData.Key_Step];
@@ -202,7 +202,7 @@
             return $textCtrlInput;
         }
         public getAgalFunComponent($obj: Object): AgalFunUI {
-            var $textCtrlInput: AgalFunUI = new AgalFunUI()
+            var $textCtrlInput: AgalFunUI = new AgalFunUI(PropModel.getInstance().propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
             $textCtrlInput.KeyStep = $obj[ReflectionData.Key_Step];

@@ -22,7 +22,14 @@
             if (this._containerList.length) {
                 PropModel.getInstance().resize()
             }
-         //  
+
+            
+        }
+        public addBaseMeshUi(value: BaseMeshUi) {
+            this.addUIContainer(value.textureContext)
+        }
+        public romveBaseMeshUi(value: BaseMeshUi) {
+            this.removeUIContainer(value.textureContext)
         }
     }
     export class PropModel {

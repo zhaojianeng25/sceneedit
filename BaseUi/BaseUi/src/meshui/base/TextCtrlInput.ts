@@ -10,6 +10,8 @@
         protected initView(): void {
             this.textLabelUI = new TextLabelUI();
             this.inputTextUi = new InputTextUi();
+            this.propPanle.addBaseMeshUi(this.textLabelUI)
+            this.propPanle.addBaseMeshUi(this.inputTextUi)
             this.inputTextUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.onChangeInput, this)
             this.height = 20
         }

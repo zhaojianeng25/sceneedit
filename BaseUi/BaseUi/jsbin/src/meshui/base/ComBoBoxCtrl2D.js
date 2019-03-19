@@ -24,6 +24,8 @@ var prop;
         ComBoBoxCtrl2D.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI();
             this.comboBoxUi = new prop.ComboBoxUi();
+            this.propPanle.addBaseMeshUi(this.textLabelUI);
+            this.propPanle.addBaseMeshUi(this.comboBoxUi);
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
             this.height = 20;
         };

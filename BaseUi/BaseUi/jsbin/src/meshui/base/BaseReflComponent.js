@@ -5,12 +5,13 @@ var prop;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var BaseReflComponent = /** @class */ (function () {
-        function BaseReflComponent() {
+        function BaseReflComponent(value) {
             this._width = 1;
             this._height = 1;
             this._x = 0;
             this._y = 0;
             this.KeyStep = 1;
+            this.propPanle = value;
             this.width = 100;
             this.height = 100;
             this.initView();

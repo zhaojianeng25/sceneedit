@@ -23,6 +23,11 @@
             this.categoryIcon = new BaseMeshUi(16,16);
             this.categoryOpen = new BaseMeshUi(16,16);
             this.textLabelUI = new TextLabelUI();
+
+            this.propPanle.addBaseMeshUi(this.categoryBgUi)
+            this.propPanle.addBaseMeshUi(this.categoryIcon)
+            this.propPanle.addBaseMeshUi(this.categoryOpen)
+            this.propPanle.addBaseMeshUi(this.textLabelUI)
  
             this.height = 25
 

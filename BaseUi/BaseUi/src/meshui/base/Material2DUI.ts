@@ -42,7 +42,7 @@
         }
         private showMaterialParamUi(): void {
             if (!this._materialTreeMc) {
-                this._materialTreeMc = new MaterialParamUi
+                this._materialTreeMc = new MaterialParamUi(PropModel.getInstance().propPanle)
                 this._materialTreeMc.changFun = (value: Array<any>) => { this.paramChange(value) }
             }
             this.textureTree = this.target[this.FunKey]

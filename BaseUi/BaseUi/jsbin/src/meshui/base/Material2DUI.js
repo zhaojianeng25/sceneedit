@@ -56,7 +56,7 @@ var prop;
         Material2DUI.prototype.showMaterialParamUi = function () {
             var _this = this;
             if (!this._materialTreeMc) {
-                this._materialTreeMc = new prop.MaterialParamUi;
+                this._materialTreeMc = new prop.MaterialParamUi(prop.PropModel.getInstance().propPanle);
                 this._materialTreeMc.changFun = function (value) { _this.paramChange(value); };
             }
             this.textureTree = this.target[this.FunKey];

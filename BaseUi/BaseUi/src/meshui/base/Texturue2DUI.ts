@@ -16,6 +16,11 @@
             this.texturePicUi = new TexturePicUi()
             this.searchIcon = new BaseMeshUi(26, 26);
 
+            this.propPanle.addBaseMeshUi(this.textLabelUI)
+            this.propPanle.addBaseMeshUi(this.textureUrlText)
+            this.propPanle.addBaseMeshUi(this.texturePicUi)
+            this.propPanle.addBaseMeshUi(this.searchIcon)
+
             this.drawUrlImgToUi(this.searchIcon.ui, "icon/search.png")
      
             this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.onChangePicurl, this)

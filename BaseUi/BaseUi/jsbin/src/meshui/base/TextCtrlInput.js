@@ -21,6 +21,8 @@ var prop;
         TextCtrlInput.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI();
             this.inputTextUi = new prop.InputTextUi();
+            this.propPanle.addBaseMeshUi(this.textLabelUI);
+            this.propPanle.addBaseMeshUi(this.inputTextUi);
             this.inputTextUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.onChangeInput, this);
             this.height = 20;
         };

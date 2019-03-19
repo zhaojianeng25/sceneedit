@@ -8,7 +8,7 @@
 
     export class BaseReflComponent {
 
-
+        public propPanle: PropPanle
 
 
         protected _width: number=1;
@@ -26,7 +26,8 @@
         public KeyStep: number=1;
 
     
-        public constructor() {
+        public constructor(value: PropPanle) {
+            this.propPanle = value;
 
             this.width = 100;
             this.height = 100;
