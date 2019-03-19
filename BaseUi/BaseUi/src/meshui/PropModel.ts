@@ -1,15 +1,7 @@
 ﻿module prop {
     import UIConatiner = Pan3d.UIConatiner
- 
-    export class PropPanle extends win.Sprite{
-        public changeSize(): void {
-            super.changeSize();
-            this.resize();
-        }
-        public addUIContainer($container: UIConatiner): void {
-            super.addUIContainer($container)
-            this.resize();
-        }
+
+    export class PropPanle extends win.Sprite {
         public resize(): void {
             super.resize();
             if (this.perent) {
@@ -19,18 +11,15 @@
                 this._containerList[i].left = this.rect.x
                 this._containerList[i].top = this.rect.y;
             }
-            if (this._containerList.length) {
-                PropModel.getInstance().resize()
-            }
-
-            
         }
         public addBaseMeshUi(value: BaseMeshUi) {
             this.addUIContainer(value.textureContext)
+            this.resize();
         }
         public romveBaseMeshUi(value: BaseMeshUi) {
             this.removeUIContainer(value.textureContext)
         }
+
     }
     export class PropModel {
 
@@ -53,9 +42,6 @@
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle)
 
-  
-
-            //layout.LayerManager.getInstance().addPanel(this.propPanle, 200);
         }
         public propPanle: PropPanle;
         private metaDataView: MetaDataView;
@@ -65,7 +51,7 @@
                 this.metaDataView.destory()
                 this.metaDataView = null;
             }
-            this.lastNodel=null
+            this.lastNodel = null
         }
         public showPanel($ui: materialui.BaseMaterialNodeUI): void {
             if (this.lastNodel != $ui) {
@@ -95,14 +81,14 @@
                     this.metaDataView = new MathFunMeshPanel();
                 } else {
                     this.showSciencePropPanel();
-  
+
                 }
 
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
                 this.metaDataView.top = this._top
 
-           this.resize();
+                this.resize();
 
             }
         }
@@ -123,11 +109,9 @@
                 this.lastNodel = null;
             }
             this.metaDataView = new SciencePropMeshPanel();
-         
-
-
+ 
         }
-        private _top: number=0
+        private _top: number = 0
         public moveTop($ty: number): void {
             this._top = $ty
             if (this.metaDataView) {

@@ -245,6 +245,8 @@
                 var rect: Rectangle = new Rectangle(0, Scene_data.stageHeight - bottomNum + 2, Scene_data.stageWidth - rightNum, bottomNum);
                 Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
                 Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
+
+                prop.PropModel.getInstance().resize()
             }
 
         }

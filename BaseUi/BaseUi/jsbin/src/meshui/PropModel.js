@@ -18,14 +18,6 @@ var prop;
         function PropPanle() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        PropPanle.prototype.changeSize = function () {
-            _super.prototype.changeSize.call(this);
-            this.resize();
-        };
-        PropPanle.prototype.addUIContainer = function ($container) {
-            _super.prototype.addUIContainer.call(this, $container);
-            this.resize();
-        };
         PropPanle.prototype.resize = function () {
             _super.prototype.resize.call(this);
             if (this.perent) {
@@ -35,12 +27,10 @@ var prop;
                 this._containerList[i].left = this.rect.x;
                 this._containerList[i].top = this.rect.y;
             }
-            if (this._containerList.length) {
-                PropModel.getInstance().resize();
-            }
         };
         PropPanle.prototype.addBaseMeshUi = function (value) {
             this.addUIContainer(value.textureContext);
+            this.resize();
         };
         PropPanle.prototype.romveBaseMeshUi = function (value) {
             this.removeUIContainer(value.textureContext);
@@ -55,7 +45,6 @@ var prop;
             this.propPanle.x = 500;
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle);
-            //layout.LayerManager.getInstance().addPanel(this.propPanle, 200);
         }
         PropModel.getInstance = function () {
             if (!this._instance) {

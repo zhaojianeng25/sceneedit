@@ -7,6 +7,7 @@ var prop;
             this._height = 100;
             this.categoryKey = {};
             this.hideCategoryKey = {};
+            this.propPanle = prop.PropModel.getInstance().propPanle;
             this.creat(this.getView());
         }
         Object.defineProperty(MetaDataView.prototype, "top", {
@@ -124,20 +125,20 @@ var prop;
         };
         MetaDataView.prototype.getCategoryUI = function (value) {
             var _this = this;
-            var $category2DUI = new prop.Category2DUI(prop.PropModel.getInstance().propPanle);
+            var $category2DUI = new prop.Category2DUI(this.propPanle);
             $category2DUI.label = value;
             $category2DUI.changFun = function (value) { _this.categoryClikUp(value); };
             return $category2DUI;
         };
         MetaDataView.prototype.getTextField2DUI = function ($obj) {
-            var $textCtrlInput = new prop.TextField2DUI(prop.PropModel.getInstance().propPanle);
+            var $textCtrlInput = new prop.TextField2DUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             $textCtrlInput.target = this;
             return $textCtrlInput;
         };
         MetaDataView.prototype.getVec3 = function ($obj) {
-            var $textCtrlInput = new prop.Vec3dCtrlUI(prop.PropModel.getInstance().propPanle);
+            var $textCtrlInput = new prop.Vec3dCtrlUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             if ($obj[prop.ReflectionData.Key_Step]) {
@@ -150,7 +151,7 @@ var prop;
             return $textCtrlInput;
         };
         MetaDataView.prototype.getVec3Color = function ($obj) {
-            var $textCtrlInput = new prop.Vec3ColorCtrlUI(prop.PropModel.getInstance().propPanle);
+            var $textCtrlInput = new prop.Vec3ColorCtrlUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             if ($obj[prop.ReflectionData.Key_Step]) {
@@ -163,7 +164,7 @@ var prop;
             return $textCtrlInput;
         };
         MetaDataView.prototype.getComboBox = function ($obj) {
-            var $ComBoBoxCtrl2D = new prop.ComBoBoxCtrl2D(prop.PropModel.getInstance().propPanle);
+            var $ComBoBoxCtrl2D = new prop.ComBoBoxCtrl2D(this.propPanle);
             $ComBoBoxCtrl2D.label = $obj[prop.ReflectionData.Key_Label];
             $ComBoBoxCtrl2D.FunKey = $obj[prop.ReflectionData.FunKey];
             $ComBoBoxCtrl2D.data = $obj[prop.ReflectionData.Key_Data];
@@ -171,7 +172,7 @@ var prop;
             return $ComBoBoxCtrl2D;
         };
         MetaDataView.prototype.getTexturue2DUI = function ($obj) {
-            var $texturue2DUI = new prop.Texturue2DUI(prop.PropModel.getInstance().propPanle);
+            var $texturue2DUI = new prop.Texturue2DUI(this.propPanle);
             $texturue2DUI.label = $obj[prop.ReflectionData.Key_Label];
             $texturue2DUI.suffix = $obj[prop.ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
@@ -179,7 +180,7 @@ var prop;
             return $texturue2DUI;
         };
         MetaDataView.prototype.getMaterialPicUi = function ($obj) {
-            var $texturue2DUI = new prop.Material2DUI(prop.PropModel.getInstance().propPanle);
+            var $texturue2DUI = new prop.Material2DUI(this.propPanle);
             $texturue2DUI.label = $obj[prop.ReflectionData.Key_Label];
             $texturue2DUI.suffix = $obj[prop.ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
@@ -188,7 +189,7 @@ var prop;
             return $texturue2DUI;
         };
         MetaDataView.prototype.getNumComponent = function ($obj) {
-            var $textCtrlInput = new prop.TextCtrlInput(prop.PropModel.getInstance().propPanle);
+            var $textCtrlInput = new prop.TextCtrlInput(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             $textCtrlInput.KeyStep = $obj[prop.ReflectionData.Key_Step];
@@ -196,7 +197,7 @@ var prop;
             return $textCtrlInput;
         };
         MetaDataView.prototype.getAgalFunComponent = function ($obj) {
-            var $textCtrlInput = new prop.AgalFunUI(prop.PropModel.getInstance().propPanle);
+            var $textCtrlInput = new prop.AgalFunUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             $textCtrlInput.KeyStep = $obj[prop.ReflectionData.Key_Step];
