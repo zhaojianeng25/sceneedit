@@ -85,27 +85,58 @@
         }
         private hideItemDic: any = {}
         protected butClik(evt: InteractiveEvent): void {
-    
             switch (evt.target) {
                 case this.closeLeftBut:
                     this.hideItemDic["left"] = !this.hideItemDic["left"]
+                    this.leftSpeed = 0;
+                    TweenLite.to(this, 0.2, { leftSpeed: 1 });
                     break
                 case this.closeRightBut:
                     this.hideItemDic["right"] = !this.hideItemDic["right"]
+                    this.rightSpeed = 0;
+                    TweenLite.to(this, 0.2, { rightSpeed: 1 });
                     break
                 case this.closeBottomBut:
                     this.hideItemDic["bottom"] = !this.hideItemDic["bottom"]
+                    this.bottomSpeed = 0;
+                    TweenLite.to(this, 0.2, { bottomSpeed: 1 });
                     break
                 default:
             }
+          
+        }
+        public set leftSpeed(value: number) {
+            this._leftSpeed = value
             this.resize()
         }
+        private _leftSpeed: number = 1;
+        public get leftSpeed() {
+            return this._leftSpeed
+        }
+        public set rightSpeed(value: number) {
+            this._rightSpeed = value
+            this.resize()
+        }
+        private _rightSpeed: number = 1;
+        public get rightSpeed() {
+            return this._rightSpeed
+        }
+
+        public set bottomSpeed(value: number) {
+            this._bottomSpeed = value
+            this.resize()
+        }
+        private _bottomSpeed: number = 1;
+        public get bottomSpeed() {
+            return this._bottomSpeed
+        }
+
+
         private leftWidthNum: number = 300 //左边宽度；
         private rightWidthNum: number = 300 //右边宽度；
         private bottomHeightNum: number = 300 //底下宽度；
 
         public resize(): void {
-
             super.resize()
             if (this.bottomLine) {
 
@@ -113,15 +144,21 @@
                 var rightNum: number = this.rightWidthNum;
                 var bottomNum: number = this.bottomHeightNum;
 
-
                 if (this.hideItemDic["left"]) {//左边关关闭
-                    leftNum = 0
+                    leftNum = (1 - this._leftSpeed) * this.leftWidthNum;
+                } else {
+                    leftNum = this._leftSpeed * this.leftWidthNum;
                 }
                 if (this.hideItemDic["right"]) {//左边关关闭
-                    rightNum = 0
+                    rightNum = (1 - this._rightSpeed) * this.rightWidthNum;
+                } else {
+                    rightNum = this._rightSpeed * this.rightWidthNum;
                 }
                 if (this.hideItemDic["bottom"]) {//左边关关闭
                     bottomNum = 20
+                    bottomNum = (1 - this._bottomSpeed) * this.bottomHeightNum+20;
+                } else {
+                    bottomNum = this._bottomSpeed * this.bottomHeightNum;
                 }
 
 
@@ -178,9 +215,9 @@
 
 
                 if (this.hideItemDic["left"]) {//左边关关闭
-                    BaseUiStart.leftPanel.x = -this.leftWidthNum;
+                    BaseUiStart.leftPanel.x = -this.leftWidthNum * this._leftSpeed;
                 } else {
-                    BaseUiStart.leftPanel.x = 0;
+                    BaseUiStart.leftPanel.x = this.leftWidthNum *( this._leftSpeed-1);
                 }
 
                 BaseUiStart.leftPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
