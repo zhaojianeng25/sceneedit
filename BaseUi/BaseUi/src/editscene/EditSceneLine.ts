@@ -202,7 +202,7 @@
 
 
 
-                BaseUiStart.leftPanel.y = this.menuHeight;
+                EditLeftPanel.leftPanel.y = this.menuHeight;
                 BaseUiStart.centenPanel.y = this.menuHeight;
                 BaseUiStart.rightPanel.y = this.menuHeight;
 
@@ -210,16 +210,16 @@
 
 
                 if (this.hideItemDic["left"]) {//左边关关闭
-                    BaseUiStart.leftPanel.x = -this.leftWidthNum * this._leftSpeed;
+                    EditLeftPanel.leftPanel.x = -this.leftWidthNum * this._leftSpeed;
                 } else {
-                    BaseUiStart.leftPanel.x = this.leftWidthNum *( this._leftSpeed-1);
+                    EditLeftPanel.leftPanel.x = this.leftWidthNum *( this._leftSpeed-1);
                 }
 
-                BaseUiStart.leftPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
-                BaseUiStart.leftPanel.width = this.leftWidthNum;
+                EditLeftPanel.leftPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
+                EditLeftPanel.leftPanel.width = this.leftWidthNum;
             
 
-                BaseUiStart.leftPanel.resize()
+                EditLeftPanel.leftPanel.resize()
 
 
 

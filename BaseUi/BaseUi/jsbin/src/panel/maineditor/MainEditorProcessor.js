@@ -22,6 +22,7 @@ var maineditor;
     var MathClass = Pan3d.MathClass;
     var KeyboardType = Pan3d.KeyboardType;
     var EditSceneEvent = editscene.EditSceneEvent;
+    var EditLeftPanel = editscene.EditLeftPanel;
     var MainEditorEvent = /** @class */ (function (_super) {
         __extends(MainEditorEvent, _super);
         function MainEditorEvent() {
@@ -69,7 +70,7 @@ var maineditor;
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new maineditor.HierarchyListPanel();
                     }
-                    BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                    EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                     this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
@@ -92,10 +93,10 @@ var maineditor;
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
                     if (this._hierarchyListPanel) {
                         if (this._hierarchyListPanel.hasStage) {
-                            BaseUiStart.leftPanel.removeUIContainer(this._hierarchyListPanel);
+                            EditLeftPanel.leftPanel.removeUIContainer(this._hierarchyListPanel);
                         }
                         else {
-                            BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                            EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                         }
                     }
                 }
@@ -226,8 +227,8 @@ var maineditor;
             ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_MOVE_SCALE_ROTATION), MainEditorProcessor.edItorSceneManager);
         };
         MainEditorProcessor.prototype.changePageRect = function () {
-            if (this._hierarchyListPanel && BaseUiStart.leftPanel) {
-                var rect = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width, BaseUiStart.leftPanel.rect.height);
+            if (this._hierarchyListPanel && EditLeftPanel.leftPanel) {
+                var rect = new Rectangle(EditLeftPanel.leftPanel.rect.x, EditLeftPanel.leftPanel.rect.y, EditLeftPanel.leftPanel.rect.width, EditLeftPanel.leftPanel.rect.height);
                 this._hierarchyListPanel.setRect(rect);
             }
             if (this._editScenePanel && BaseUiStart.centenPanel) {

@@ -3,7 +3,7 @@
 class BaseUiStart extends Pan3d.GameStart {
     public static stagePos: Pan3d.Vector2D;
     public static altKey: boolean;
-    public static leftPanel: win.Panel
+
     public static rightPanel: win.Panel
     public static centenPanel: win.Panel
     public static topPanel: win.Panel

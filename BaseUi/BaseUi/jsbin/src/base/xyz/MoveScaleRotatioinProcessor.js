@@ -288,7 +288,7 @@ var xyz;
             if (!this.isCanToDo) {
                 return;
             }
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+            if ($evt.x > BaseUiStart.centenPanel.x && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi) {
                     var $p = this.getCamForntPos($evt.wheelDelta * 0.1);

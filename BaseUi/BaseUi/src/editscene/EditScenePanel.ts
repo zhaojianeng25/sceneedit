@@ -5,14 +5,6 @@
     import LayoutbaseBg = win.LayoutbaseBg
  
     export class CentenPanel extends Panel {
-        public constructor(has: boolean = true) {
-            super(has);
-        }
-        public changeSize(): void {
-            if (this.winBg) {
-                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 300))
-            }
-        }
         public addUIContainer($container: UIConatiner): void {
             //特殊处理，删除非底层背景
             for (var i: number = this._containerList.length - 1; i > 0; i--) {
@@ -59,7 +51,6 @@
 
         private addCenten(): void {
             var temp: CentenPanel = new CentenPanel(true);
-          //  temp.setShowUi(["c_win_bg"]);
             temp.x = 600
             temp.y = 0
             temp.width = 450
@@ -88,20 +79,18 @@
             tempPanel.height = 30
             this.addChild(tempPanel)
             BaseUiStart.topPanel = tempPanel
-
-      
-
+  
         }
      
         private addLeft(): void {
-            var temp: Panel = new Panel(true);
+            var temp: EditLeftPanel = new EditLeftPanel(true);
             temp.setShowUi(["c_right_line", "c_win_bg"]);
             temp.x = 0;
             temp.y = 50;
             temp.width = 450;
             temp.height = 500;
             this.addChild(temp);
-            BaseUiStart.leftPanel = temp;
+            EditLeftPanel.leftPanel = temp;
         }
   
       

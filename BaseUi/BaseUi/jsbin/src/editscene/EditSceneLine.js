@@ -171,18 +171,18 @@ var editscene;
                 this.bottomLineMin.y = this.bottomLine.y + 5;
                 this.bottomLineMin.width = this.bottomLine.width;
                 this.bottomLineMin.height = 2;
-                BaseUiStart.leftPanel.y = this.menuHeight;
+                editscene.EditLeftPanel.leftPanel.y = this.menuHeight;
                 BaseUiStart.centenPanel.y = this.menuHeight;
                 BaseUiStart.rightPanel.y = this.menuHeight;
                 if (this.hideItemDic["left"]) { //左边关关闭
-                    BaseUiStart.leftPanel.x = -this.leftWidthNum * this._leftSpeed;
+                    editscene.EditLeftPanel.leftPanel.x = -this.leftWidthNum * this._leftSpeed;
                 }
                 else {
-                    BaseUiStart.leftPanel.x = this.leftWidthNum * (this._leftSpeed - 1);
+                    editscene.EditLeftPanel.leftPanel.x = this.leftWidthNum * (this._leftSpeed - 1);
                 }
-                BaseUiStart.leftPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
-                BaseUiStart.leftPanel.width = this.leftWidthNum;
-                BaseUiStart.leftPanel.resize();
+                editscene.EditLeftPanel.leftPanel.height = Scene_data.stageHeight - bottomNum - this.menuHeight;
+                editscene.EditLeftPanel.leftPanel.width = this.leftWidthNum;
+                editscene.EditLeftPanel.leftPanel.resize();
                 BaseUiStart.rightPanel.x = Scene_data.stageWidth - rightNum;
                 BaseUiStart.rightPanel.height = Scene_data.stageHeight - this.menuHeight;
                 BaseUiStart.rightPanel.width = rightNum;

@@ -14,19 +14,12 @@ var __extends = (this && this.__extends) || (function () {
 var editscene;
 (function (editscene) {
     var Panel = win.Panel;
-    var Rectangle = Pan3d.Rectangle;
     var LayoutbaseBg = win.LayoutbaseBg;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
-        function CentenPanel(has) {
-            if (has === void 0) { has = true; }
-            return _super.call(this, has) || this;
+        function CentenPanel() {
+            return _super !== null && _super.apply(this, arguments) || this;
         }
-        CentenPanel.prototype.changeSize = function () {
-            if (this.winBg) {
-                this.winBg.setRect(new Rectangle(this.rect.x, this.rect.y, this.rect.width, 300));
-            }
-        };
         CentenPanel.prototype.addUIContainer = function ($container) {
             //特殊处理，删除非底层背景
             for (var i = this._containerList.length - 1; i > 0; i--) {
@@ -66,7 +59,6 @@ var editscene;
         };
         EditScenePanel.prototype.addCenten = function () {
             var temp = new CentenPanel(true);
-            //  temp.setShowUi(["c_win_bg"]);
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;
@@ -94,14 +86,14 @@ var editscene;
             BaseUiStart.topPanel = tempPanel;
         };
         EditScenePanel.prototype.addLeft = function () {
-            var temp = new Panel(true);
+            var temp = new editscene.EditLeftPanel(true);
             temp.setShowUi(["c_right_line", "c_win_bg"]);
             temp.x = 0;
             temp.y = 50;
             temp.width = 450;
             temp.height = 500;
             this.addChild(temp);
-            BaseUiStart.leftPanel = temp;
+            editscene.EditLeftPanel.leftPanel = temp;
         };
         return EditScenePanel;
     }(Panel));

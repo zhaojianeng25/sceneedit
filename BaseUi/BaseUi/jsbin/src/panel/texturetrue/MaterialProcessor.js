@@ -401,7 +401,7 @@ var materialui;
             if (!this.hasStage) {
                 return;
             }
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+            if ($evt.x > BaseUiStart.centenPanel.x && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI || $slectUi.parent instanceof materialui.MaterialCavasPanel) {
                     this.changeScalePanle($evt);

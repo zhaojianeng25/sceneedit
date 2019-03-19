@@ -497,7 +497,7 @@
                 return
             }
 
-            if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
+            if ($evt.x > BaseUiStart.centenPanel.x && $evt.x < BaseUiStart.rightPanel.x) {
                 var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
                 if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI || $slectUi.parent instanceof MaterialCavasPanel) {
                     this.changeScalePanle($evt)

@@ -14,7 +14,8 @@
     import MaterialModelSprite = left.MaterialModelSprite
     import Panel = win.Panel
     import EditSceneEvent = editscene.EditSceneEvent
-
+    import EditLeftPanel = editscene.EditLeftPanel
+    
 
     export class MainEditorEvent extends BaseEvent {
         public static LOAD_SCENE_MAP: string = "LOAD_SCENE_MAP";  
@@ -53,7 +54,7 @@
                     if (!this._hierarchyListPanel) {
                         this._hierarchyListPanel = new HierarchyListPanel();
                     }
-                    BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                    EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
 
                     this.addEvents()
                
@@ -84,9 +85,9 @@
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
                     if (this._hierarchyListPanel) {
                         if (this._hierarchyListPanel.hasStage) {
-                            BaseUiStart.leftPanel.removeUIContainer(this._hierarchyListPanel);
+                            EditLeftPanel.leftPanel.removeUIContainer(this._hierarchyListPanel);
                         } else {
-                            BaseUiStart.leftPanel.addUIContainer(this._hierarchyListPanel);
+                            EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                         }
                     }
                 }
@@ -255,9 +256,9 @@
         }
      
         private changePageRect(): void {
-            if (this._hierarchyListPanel && BaseUiStart.leftPanel) {
+            if (this._hierarchyListPanel && EditLeftPanel.leftPanel) {
            
-                    var rect: Rectangle = new Rectangle(BaseUiStart.leftPanel.rect.x, BaseUiStart.leftPanel.rect.y, BaseUiStart.leftPanel.rect.width, BaseUiStart.leftPanel.rect.height);
+                    var rect: Rectangle = new Rectangle(EditLeftPanel.leftPanel.rect.x, EditLeftPanel.leftPanel.rect.y, EditLeftPanel.leftPanel.rect.width, EditLeftPanel.leftPanel.rect.height);
                     this._hierarchyListPanel.setRect(rect)
                 
     

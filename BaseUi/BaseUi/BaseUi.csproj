@@ -41,6 +41,7 @@
     <TypeScriptCompile Include="src\base\layout\LayUIManager.ts" />
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
+    <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EditorModel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EdItorSceneManager.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\PropertyMeshView.ts" />
