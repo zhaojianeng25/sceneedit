@@ -17,10 +17,7 @@ class ModuleList {
         //所有的需要注册的模块  都写在这里
 
         var $arr: Array<Pan3d.Module> = [
-
             new materialui.MaterialModule(), //材质
-            new rightmenu.RightMenuModule(), //右菜单
-            new drag.DragModule(), //右菜单
             new colorview.ColorModule(), //右菜单
             new menutwo.MenuTwoModule(), //右菜单
             new editscene.EditSceneModule(), //基本面板
