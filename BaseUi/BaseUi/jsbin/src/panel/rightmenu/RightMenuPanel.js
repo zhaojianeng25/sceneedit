@@ -384,7 +384,7 @@ var rightmenu;
             $ui.top = evt.y / MtlUiData.Scale - 30;
             $ui.uiScale = MtlUiData.Scale;
             MaterialCtrl.getInstance().addNodeUI($ui);
-            layout.LayerManager.getInstance().resize();
+            win.LayerManager.getInstance().resize();
         };
         RightMenuPanel.prototype.drawFrontToFrame = function ($ui, $str, $align) {
             if ($align === void 0) { $align = TextAlign.CENTER; }

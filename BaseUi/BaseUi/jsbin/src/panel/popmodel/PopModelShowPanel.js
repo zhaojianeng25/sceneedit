@@ -270,7 +270,7 @@ var popmodel;
             }
         };
         return PopModelShowPanel;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     popmodel.PopModelShowPanel = PopModelShowPanel;
 })(popmodel || (popmodel = {}));
 //# sourceMappingURL=PopModelShowPanel.js.map

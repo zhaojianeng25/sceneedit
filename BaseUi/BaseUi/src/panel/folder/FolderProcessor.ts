@@ -11,7 +11,7 @@
     import Scene_data = Pan3d.Scene_data;
     import ModuleEventManager = Pan3d.ModuleEventManager;
     import UIConatiner = Pan3d.UIConatiner
-    import Panel = layout.Panel
+    import Panel = win.Panel
     import FileListPanel = filelist.FileListPanel
     import BaseFolderWindow = basefolderwin.BaseFolderWindow
     import OssFolderPanel = ossfolder.OssFolderPanel;
@@ -100,9 +100,9 @@
             this._fileListPanel.setRect(B);
         }
         private fristRect: Rectangle
-        private folderPanel: layout.Panel;
+        private folderPanel: win.Panel;
         private addOtherPanel(): void {
-            layout.LayerManager.getInstance().addPanel(new Panel, 200)
+            win.LayerManager.getInstance().addPanel(new Panel, 200)
         }
         private addUIContainer(value: UIConatiner): void {
             if (!this.folderPanel) {
@@ -111,7 +111,7 @@
                 this.folderPanel.y = 0
                 this.folderPanel.width = 450
                 this.folderPanel.height = 250
-                layout.LayerManager.getInstance().addPanel(this.folderPanel, 200)
+                win.LayerManager.getInstance().addPanel(this.folderPanel, 200)
                 // this.addOtherPanel()
             }
             this.folderPanel.addUIContainer(value)

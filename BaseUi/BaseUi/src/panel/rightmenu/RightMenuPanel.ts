@@ -432,7 +432,7 @@
             $ui.uiScale = MtlUiData.Scale;
             MaterialCtrl.getInstance().addNodeUI($ui)
 
-            layout.LayerManager.getInstance().resize()
+            win.LayerManager.getInstance().resize()
         }
 
         private drawFrontToFrame($ui: FrameCompenent, $str: string, $align: string = TextAlign.CENTER): void {

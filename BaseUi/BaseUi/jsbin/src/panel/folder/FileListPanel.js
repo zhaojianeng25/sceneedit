@@ -372,7 +372,7 @@ var filelist;
         };
         FileListPanel.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();
-            var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+            var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi) {
                 if ($slectUi.parent instanceof FileListPanel) {
                     var vo = this.getItemVoByUi($slectUi);
@@ -513,7 +513,7 @@ var filelist;
             return $vo;
         };
         return FileListPanel;
-    }(base.Dis2dBaseWindow));
+    }(win.Dis2dBaseWindow));
     filelist.FileListPanel = FileListPanel;
 })(filelist || (filelist = {}));
 //# sourceMappingURL=FileListPanel.js.map

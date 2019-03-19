@@ -1,7 +1,7 @@
 ﻿module prop {
     import InteractiveEvent = Pan3d.InteractiveEvent
     import Scene_data = Pan3d.Scene_data
-    export class TextureFunPanel extends base.BaseWindow {
+    export class TextureFunPanel extends win.BaseWindow {
  
         protected loadConfigCom(): void {
             super.loadConfigCom();
@@ -130,12 +130,12 @@
             }
             return this._instance;
         }
-        private layaPanel: layout.Panel
+        private layaPanel: win.Panel
         private mathFunNodeUI: materialui.MathFunNodeUI;
         public constructor() {
             super();
-            this.layaPanel = new layout.Panel(false)
-            layout.LayerManager.getInstance().addPanel(this.layaPanel, 501);
+            this.layaPanel = new win.Panel(false)
+            win.LayerManager.getInstance().addPanel(this.layaPanel, 501);
 
             this.setRect(new Pan3d.Rectangle(100, 100, 500, 400))
     ;

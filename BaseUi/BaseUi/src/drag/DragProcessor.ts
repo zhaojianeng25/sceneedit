@@ -14,7 +14,7 @@
     import UICompenent = Pan3d.UICompenent
 
     import UIPanel = win.UIPanel
-    import Panel = layout.Panel
+    import Panel = win.Panel
 
  
     export class PanDragEvent extends BaseEvent {
@@ -56,7 +56,7 @@
 
             if (!this.topDrag) {
                 this.topDrag = new Panel(false)
-                layout.LayerManager.getInstance().addPanel(this.topDrag, 200)
+                win.LayerManager.getInstance().addPanel(this.topDrag, 200)
 
             }
             this.topDrag.addUIContainer(value)
@@ -79,7 +79,7 @@
             this._dragPanel.top = $e.y-32
         }
         private getObjectsUnderPoint(evt: Vector2D): UICompenent {
-            var children: Array<Panel> = layout.LayerManager.getInstance().children
+            var children: Array<Panel> = win.LayerManager.getInstance().children
         
             for (var i: number = children.length - 1; i >= 0; i--) {
                 if (children[i] != this.topDrag) {

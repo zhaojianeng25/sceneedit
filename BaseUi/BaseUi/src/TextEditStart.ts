@@ -19,7 +19,7 @@
             mainpan3d.canvas.width = document.body.clientWidth
             mainpan3d.canvas.height = document.body.clientHeight
             Pan3d.Engine.resetSize(mainpan3d.canvas.width, mainpan3d.canvas.height); //设置canvas大小
-            layout.LayerManager.getInstance().resize();
+            win.LayerManager.getInstance().resize();
            
         }
     }
@@ -35,7 +35,7 @@
         let gl = Pan3d.Scene_data.context3D.renderContext
         gl.clearColor(83 / 255, 83 / 255, 83 / 255, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
-        layout.LayerManager.getInstance().update();
+        win.LayerManager.getInstance().update();
 
     }
  

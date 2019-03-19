@@ -19,8 +19,8 @@ var prop;
         __extends(TextureFunPanel, _super);
         function TextureFunPanel() {
             var _this = _super.call(this) || this;
-            _this.layaPanel = new layout.Panel(false);
-            layout.LayerManager.getInstance().addPanel(_this.layaPanel, 501);
+            _this.layaPanel = new win.Panel(false);
+            win.LayerManager.getInstance().addPanel(_this.layaPanel, 501);
             _this.setRect(new Pan3d.Rectangle(100, 100, 500, 400));
             return _this;
         }
@@ -135,7 +135,7 @@ var prop;
             this.layaPanel.removeUIContainer(this);
         };
         return TextureFunPanel;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     prop.TextureFunPanel = TextureFunPanel;
 })(prop || (prop = {}));
 //# sourceMappingURL=TextureFunPanel.js.map

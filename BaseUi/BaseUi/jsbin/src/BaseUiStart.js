@@ -29,7 +29,7 @@ var BaseUiStart = /** @class */ (function (_super) {
     };
     BaseUiStart.prototype.loadConfigCom = function () {
         var _this = this;
-        layout.LayerManager.getInstance().initData();
+        win.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
         Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL)); //布局 
         Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INIT_MATERIA_PANEL)); //材质init

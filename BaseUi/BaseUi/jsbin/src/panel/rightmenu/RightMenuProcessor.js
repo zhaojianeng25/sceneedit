@@ -22,7 +22,7 @@ var rightmenu;
     var Scene_data = Pan3d.Scene_data;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIAtlas = Pan3d.UIAtlas;
-    var Panel = layout.Panel;
+    var Panel = win.Panel;
     var RightMenuEvent = /** @class */ (function (_super) {
         __extends(RightMenuEvent, _super);
         function RightMenuEvent() {
@@ -112,7 +112,7 @@ var rightmenu;
         RightMenuProcessor.prototype.addUIContainer = function (value) {
             if (!this.topMenuPanel) {
                 this.topMenuPanel = new Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.topMenuPanel, 200);
+                win.LayerManager.getInstance().addPanel(this.topMenuPanel, 200);
             }
             this.topMenuPanel.addUIContainer(value);
         };

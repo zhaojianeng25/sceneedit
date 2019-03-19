@@ -107,7 +107,7 @@
         }
     }
 
-    export class OssFolderPanel extends base.Dis2dBaseWindow {
+    export class OssFolderPanel extends win.Dis2dBaseWindow {
 
         public static imgBaseDic: any
         public constructor() {

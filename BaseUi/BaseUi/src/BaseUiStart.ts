@@ -3,10 +3,10 @@
 class BaseUiStart extends Pan3d.GameStart {
     public static stagePos: Pan3d.Vector2D;
     public static altKey: boolean;
-    public static leftPanel: layout.Panel
-    public static rightPanel: layout.Panel
-    public static centenPanel: layout.Panel
-    public static topPanel: layout.Panel
+    public static leftPanel: win.Panel
+    public static rightPanel: win.Panel
+    public static centenPanel: win.Panel
+    public static topPanel: win.Panel
 
 
 
@@ -29,7 +29,7 @@ class BaseUiStart extends Pan3d.GameStart {
 
     }
     private loadConfigCom(): void {
-        layout.LayerManager.getInstance().initData();
+        win.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
 
 

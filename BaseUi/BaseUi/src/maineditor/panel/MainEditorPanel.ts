@@ -34,8 +34,8 @@
 
     import PanDragEvent = drag.PanDragEvent
 
-    import Sprite = layout.Sprite
-    import Panel = layout.Panel
+    import Sprite = win.Sprite
+    import Panel = win.Panel
 
     export class BloomUiShader extends Shader3D {
         static BloomUiShader: string = "BloomUiShader";
@@ -162,7 +162,7 @@
     }
 
 
-    export class MainEditorPanel extends base.BaseWindow {
+    export class MainEditorPanel extends win.BaseWindow {
 
         public constructor() {
             super();
@@ -222,7 +222,7 @@
 
         }
         public onPanellMouseWheel($evt: MouseWheelEvent): void {
-            var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+            var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi && $slectUi.parent == this) {
 
                 var q: Pan3d.Quaternion = new Pan3d.Quaternion();

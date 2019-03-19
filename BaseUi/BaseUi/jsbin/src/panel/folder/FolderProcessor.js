@@ -17,7 +17,7 @@ var folder;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
     var Rectangle = Pan3d.Rectangle;
-    var Panel = layout.Panel;
+    var Panel = win.Panel;
     var FileListPanel = filelist.FileListPanel;
     var BaseFolderWindow = basefolderwin.BaseFolderWindow;
     var OssFolderPanel = ossfolder.OssFolderPanel;
@@ -102,7 +102,7 @@ var folder;
             this._fileListPanel.setRect(B);
         };
         FolderProcessor.prototype.addOtherPanel = function () {
-            layout.LayerManager.getInstance().addPanel(new Panel, 200);
+            win.LayerManager.getInstance().addPanel(new Panel, 200);
         };
         FolderProcessor.prototype.addUIContainer = function (value) {
             if (!this.folderPanel) {
@@ -111,7 +111,7 @@ var folder;
                 this.folderPanel.y = 0;
                 this.folderPanel.width = 450;
                 this.folderPanel.height = 250;
-                layout.LayerManager.getInstance().addPanel(this.folderPanel, 200);
+                win.LayerManager.getInstance().addPanel(this.folderPanel, 200);
                 // this.addOtherPanel()
             }
             this.folderPanel.addUIContainer(value);

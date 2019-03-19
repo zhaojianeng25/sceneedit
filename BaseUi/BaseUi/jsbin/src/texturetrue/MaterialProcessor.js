@@ -23,7 +23,7 @@ var materialui;
     var MouseType = Pan3d.MouseType;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
-    var LayerManager = layout.LayerManager;
+    var LayerManager = win.LayerManager;
     var MaterialEvent = /** @class */ (function (_super) {
         __extends(MaterialEvent, _super);
         function MaterialEvent() {
@@ -70,7 +70,7 @@ var materialui;
                     BaseUiStart.stagePos = new Vector2D();
                     materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
-                    this.baseWindow = new base.BaseWindow();
+                    this.baseWindow = new win.BaseWindow();
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
                     BaseUiStart.centenPanel.addUIContainer(this.baseWindow);
@@ -402,7 +402,7 @@ var materialui;
                 return;
             }
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+                var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI || $slectUi.parent instanceof materialui.MaterialCavasPanel) {
                     this.changeScalePanle($evt);
                 }
@@ -432,7 +432,7 @@ var materialui;
                     $uiConatiner.uiScale = materialui.MtlUiData.Scale;
                 }
             }
-            layout.LayerManager.getInstance().resize();
+            win.LayerManager.getInstance().resize();
         };
         MaterialProcessor.prototype.listenModuleEvents = function () {
             return [

@@ -33,13 +33,13 @@
     <TypeScriptCompile Include="src\drag\DragProcessor.ts" />
     <TypeScriptCompile Include="src\drag\DragPanel.ts" />
     <TypeScriptCompile Include="src\drag\DragSource.ts" />
-    <TypeScriptCompile Include="src\filemodel\PrefabManager.ts" />
-    <TypeScriptCompile Include="src\layout\LayBaseTab.ts" />
-    <TypeScriptCompile Include="src\layout\LayerManager.ts" />
-    <TypeScriptCompile Include="src\layout\LayoutbaseBg.ts" />
-    <TypeScriptCompile Include="src\layout\LayUIManager.ts" />
-    <TypeScriptCompile Include="src\layout\Panel.ts" />
-    <TypeScriptCompile Include="src\layout\Sprite.ts" />
+    <TypeScriptCompile Include="src\pack\PrefabManager.ts" />
+    <TypeScriptCompile Include="src\win\layout\LayBaseTab.ts" />
+    <TypeScriptCompile Include="src\win\layout\LayerManager.ts" />
+    <TypeScriptCompile Include="src\win\layout\LayoutbaseBg.ts" />
+    <TypeScriptCompile Include="src\win\layout\LayUIManager.ts" />
+    <TypeScriptCompile Include="src\win\layout\Panel.ts" />
+    <TypeScriptCompile Include="src\win\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\maineditor\EditorModel.ts" />
     <TypeScriptCompile Include="src\maineditor\EdItorSceneManager.ts" />
     <TypeScriptCompile Include="src\maineditor\panel\PropertyMeshView.ts" />
@@ -79,7 +79,7 @@
     <TypeScriptCompile Include="src\panel\folder\FileListPanel.ts" />
     <TypeScriptCompile Include="src\panel\folder\FolderProcessor.ts" />
     <TypeScriptCompile Include="src\panel\folder\OssFolderPanel.ts" />
-    <TypeScriptCompile Include="src\filemodel\FileOssModel.ts" />
+    <TypeScriptCompile Include="src\win\FileOssModel.ts" />
     <TypeScriptCompile Include="libs\libs.d.ts" />
     <TypeScriptCompile Include="pan3dinit\mainpan3d.ts" />
     <TypeScriptCompile Include="pan3dinit\scene2d\AppDataArpg.ts" />
@@ -320,7 +320,6 @@
     <TypeScriptCompile Include="pan3d\mvcframe\ModuleEventManager.ts" />
     <TypeScriptCompile Include="pan3d\mvcframe\Processor.ts" />
     <TypeScriptCompile Include="pan3d\UnitFunction.ts" />
-    <TypeScriptCompile Include="src\filemodel\Md5.ts" />
     <TypeScriptCompile Include="src\ModuleList.ts" />
     <TypeScriptCompile Include="src\panel\menutwo\MenuTwoPanel.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\modelshow\BuildMaterialShader.ts" />
@@ -431,21 +430,21 @@
     <TypeScriptCompile Include="src\texturetrue\view\TextureCubeNodeUI.ts" />
     <TypeScriptCompile Include="src\texturetrue\view\TextureSampleNodeUI.ts" />
     <TypeScriptCompile Include="src\win\UIPanel.ts" />
-    <TypeScriptCompile Include="src\xyz\base\MouseVO.ts" />
-    <TypeScriptCompile Include="src\xyz\base\TooMathHitModel.ts" />
-    <TypeScriptCompile Include="src\xyz\base\TooMathMoveUint.ts" />
-    <TypeScriptCompile Include="src\xyz\base\TooXyzMoveData.ts" />
-    <TypeScriptCompile Include="src\xyz\base\TooXyzRotationMath.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooBaseModelLevel.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooLineDisplaySprite.ts" />
-    <TypeScriptCompile Include="src\xyz\base\TooObjectHitBox.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooJianTouDisplay3DSprite.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooLineTri3DSprite.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooMoveLevel.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooRotationDisplay3DSprite.ts" />
-    <TypeScriptCompile Include="src\xyz\draw\TooRotationLevel.ts" />
-    <TypeScriptCompile Include="src\xyz\MoveScaleRotatioinProcessor.ts" />
-    <TypeScriptCompile Include="src\xyz\MoveScaleRotationLevel.ts" />
+    <TypeScriptCompile Include="src\win\xyz\base\MouseVO.ts" />
+    <TypeScriptCompile Include="src\win\xyz\base\TooMathHitModel.ts" />
+    <TypeScriptCompile Include="src\win\xyz\base\TooMathMoveUint.ts" />
+    <TypeScriptCompile Include="src\win\xyz\base\TooXyzMoveData.ts" />
+    <TypeScriptCompile Include="src\win\xyz\base\TooXyzRotationMath.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooBaseModelLevel.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooLineDisplaySprite.ts" />
+    <TypeScriptCompile Include="src\win\xyz\base\TooObjectHitBox.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooJianTouDisplay3DSprite.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooLineTri3DSprite.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooMoveLevel.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooRotationDisplay3DSprite.ts" />
+    <TypeScriptCompile Include="src\win\xyz\draw\TooRotationLevel.ts" />
+    <TypeScriptCompile Include="src\win\xyz\MoveScaleRotatioinProcessor.ts" />
+    <TypeScriptCompile Include="src\win\xyz\MoveScaleRotationLevel.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">
@@ -457,6 +456,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bins\" />
+    <Folder Include="src\filemodel\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

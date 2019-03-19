@@ -10,7 +10,7 @@
     import Scene_data = Pan3d.Scene_data;
     import ModuleEventManager = Pan3d.ModuleEventManager;
     import UIConatiner = Pan3d.UIConatiner
-    import Panel=layout.Panel
+    import Panel=win.Panel
     import FileListPanel = filelist.FileListPanel
  
  
@@ -50,7 +50,7 @@
                     this._editScenePanel.y = 300
                     this._editScenePanel.width = 450
                     this._editScenePanel.height = 500
-                    layout.LayerManager.getInstance().addPanel(this._editScenePanel, 100)
+                    win.LayerManager.getInstance().addPanel(this._editScenePanel, 100)
 
                 }
             }

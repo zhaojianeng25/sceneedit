@@ -86,7 +86,7 @@
 
 
             this._uiMask = new UIMask();
-            this._uiMask.level = base. BaseWindow.maskLevel++;
+            this._uiMask.level = win. BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
 
 
@@ -339,7 +339,7 @@
 
     }
 
-    export class Dis2dBaseWindow extends base.BaseWindow {
+    export class Dis2dBaseWindow extends win.BaseWindow {
         protected _baseRender: UIRenderComponent;
         public constructor($classVo: any, $rect: Rectangle, $num: number) {
             super();

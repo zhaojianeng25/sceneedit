@@ -12,7 +12,7 @@
     import MathClass = Pan3d.MathClass
     import KeyboardType = Pan3d.KeyboardType
     import MaterialModelSprite = left.MaterialModelSprite
-    import Panel = layout.Panel
+    import Panel = win.Panel
     import EditSceneEvent = editscene.EditSceneEvent
 
 

@@ -13,7 +13,7 @@
     import UIConatiner = Pan3d.UIConatiner
 
     import UIPanel = win.UIPanel
-    import Panel = layout.Panel
+    import Panel = win.Panel
 
     export class MenuTwoEvent extends BaseEvent {
         public static SHOW_RIGHT_MENU: string = "SHOW_RIGHT_MENU"; 
@@ -85,7 +85,7 @@
      
             if (!this.topMenuPanel) {
                 this.topMenuPanel = new Panel(false)
-                layout.LayerManager.getInstance().addPanel(this.topMenuPanel,200)
+                win.LayerManager.getInstance().addPanel(this.topMenuPanel,200)
             }
             this.topMenuPanel.addUIContainer(value)
         }

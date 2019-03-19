@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var editscene;
 (function (editscene) {
-    var Panel = layout.Panel;
+    var Panel = win.Panel;
     var Rectangle = Pan3d.Rectangle;
-    var LayoutbaseBg = layout.LayoutbaseBg;
+    var LayoutbaseBg = win.LayoutbaseBg;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
         function CentenPanel(has) {

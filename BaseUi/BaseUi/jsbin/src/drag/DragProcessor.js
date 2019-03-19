@@ -19,7 +19,7 @@ var drag;
     var Vector2D = Pan3d.Vector2D;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Scene_data = Pan3d.Scene_data;
-    var Panel = layout.Panel;
+    var Panel = win.Panel;
     var PanDragEvent = /** @class */ (function (_super) {
         __extends(PanDragEvent, _super);
         function PanDragEvent() {
@@ -67,7 +67,7 @@ var drag;
         DragProcessor.prototype.addUIContainer = function (value) {
             if (!this.topDrag) {
                 this.topDrag = new Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.topDrag, 200);
+                win.LayerManager.getInstance().addPanel(this.topDrag, 200);
             }
             this.topDrag.addUIContainer(value);
             this.addStageMoveEvets();
@@ -85,7 +85,7 @@ var drag;
             this._dragPanel.top = $e.y - 32;
         };
         DragProcessor.prototype.getObjectsUnderPoint = function (evt) {
-            var children = layout.LayerManager.getInstance().children;
+            var children = win.LayerManager.getInstance().children;
             for (var i = children.length - 1; i >= 0; i--) {
                 if (children[i] != this.topDrag) {
                     var temp = children[i].getObjectsUnderPoint(evt);

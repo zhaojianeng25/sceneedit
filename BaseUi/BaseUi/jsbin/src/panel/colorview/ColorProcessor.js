@@ -68,8 +68,8 @@ var colorview;
         ColorProcessor.prototype.showColorPanel = function ($v3d, $bfun) {
             var _this = this;
             if (!this.colorWinPanel) {
-                this.colorWinPanel = new layout.Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
+                this.colorWinPanel = new win.Panel(false);
+                win.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
             }
             if (!this.colorPanel) {
                 this.colorPanel = new colorview.ColorPanel;

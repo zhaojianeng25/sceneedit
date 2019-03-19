@@ -265,7 +265,7 @@ var ossfolder;
             }
         };
         return OssFolderPanel;
-    }(base.Dis2dBaseWindow));
+    }(win.Dis2dBaseWindow));
     ossfolder.OssFolderPanel = OssFolderPanel;
 })(ossfolder || (ossfolder = {}));
 //# sourceMappingURL=OssFolderPanel.js.map

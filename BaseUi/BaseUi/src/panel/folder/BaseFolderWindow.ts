@@ -21,7 +21,7 @@
     import Scene_data = Pan3d.Scene_data
 
 
-    export class BaseFolderWindow extends base.BaseWindow {
+    export class BaseFolderWindow extends win.BaseWindow {
 
         public constructor( ) {
             super();

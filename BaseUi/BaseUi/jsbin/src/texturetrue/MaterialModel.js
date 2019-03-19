@@ -3,7 +3,7 @@ var materialui;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
-    var Panel = layout.Panel;
+    var Panel = win.Panel;
     var TextureManager = Pan3d.TextureManager;
     var MenuListData = menutwo.MenuListData;
     var MaterialModel = /** @class */ (function () {
@@ -178,7 +178,7 @@ var materialui;
             $ui.top = evt.y / materialui.MtlUiData.Scale - 30;
             $ui.uiScale = materialui.MtlUiData.Scale;
             materialui.MaterialCtrl.getInstance().addNodeUI($ui);
-            layout.LayerManager.getInstance().resize();
+            win.LayerManager.getInstance().resize();
         };
         MaterialModel.prototype.dataURLtoFile = function (dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);

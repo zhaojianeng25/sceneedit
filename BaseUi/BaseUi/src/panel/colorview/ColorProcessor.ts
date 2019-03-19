@@ -48,8 +48,8 @@
         private showColorPanel($v3d: Vector3D, $bfun: Function): void {
 
             if (!this.colorWinPanel) {
-                this.colorWinPanel = new layout.Panel(false)
-                layout.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
+                this.colorWinPanel = new win.Panel(false)
+                win.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
             }
             if (!this.colorPanel) {
                 this.colorPanel = new ColorPanel;
@@ -59,7 +59,7 @@
             }
             this.colorWinPanel.addUIContainer(this.colorPanel);
         }
-        private colorWinPanel: layout.Panel
+        private colorWinPanel: win.Panel
  
         private colorPanel: ColorPanel
         protected listenModuleEvents(): Array<BaseEvent> {

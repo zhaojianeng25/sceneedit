@@ -1,12 +1,12 @@
 ﻿module editscene {
-    import Panel = layout.Panel;
+    import Panel = win.Panel;
     import Rectangle = Pan3d.Rectangle
     import Vector2D = Pan3d.Vector2D
     import Scene_data = Pan3d.Scene_data
     import UIConatiner = Pan3d.UIConatiner
     import LoadManager = Pan3d.LoadManager
  
-    import LayoutbaseBg = layout.LayoutbaseBg
+    import LayoutbaseBg = win.LayoutbaseBg
  
     export class CentenPanel extends Panel {
         public constructor(has: boolean = true) {

@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 var editscene;
 (function (editscene) {
     var Rectangle = Pan3d.Rectangle;
-    var Sprite = layout.Sprite;
+    var Sprite = win.Sprite;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Vector2D = Pan3d.Vector2D;
     var Scene_data = Pan3d.Scene_data;
@@ -237,7 +237,7 @@ var editscene;
             this.resize();
         };
         return TempSceneLine;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     editscene.TempSceneLine = TempSceneLine;
     var EditSceneLine = /** @class */ (function (_super) {
         __extends(EditSceneLine, _super);

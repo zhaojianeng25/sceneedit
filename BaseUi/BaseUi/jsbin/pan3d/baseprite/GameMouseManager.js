@@ -75,7 +75,7 @@ var Pan3d;
         };
         GameMouseManager.prototype.makeMouseEvent = function (evt, point) {
             this.lastMouseEvetTime = Pan3d.TimeUtil.getTimer();
-            var temp = layout.LayerManager.getInstance().mouseEvetData(evt, point);
+            var temp = win.LayerManager.getInstance().mouseEvetData(evt, point);
             if (evt.type == Pan3d.InteractiveEvent.Move) {
                 return;
             }

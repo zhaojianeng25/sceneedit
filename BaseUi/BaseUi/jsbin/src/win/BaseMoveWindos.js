@@ -65,7 +65,7 @@ var basemove;
             this._mRender.uiAtlas = this._bRender.uiAtlas;
             this._closeRender.uiAtlas = this._bRender.uiAtlas;
             this._uiMask = new UIMask();
-            this._uiMask.level = base.BaseWindow.maskLevel++;
+            this._uiMask.level = win.BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
             this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
             this.a_tittle_bg = this.addChild(this._tRender.getComponent("b_tittle_bg"));
@@ -398,7 +398,7 @@ var basemove;
             return $num;
         };
         return Dis2dBaseWindow;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     basemove.Dis2dBaseWindow = Dis2dBaseWindow;
 })(basemove || (basemove = {}));
 //# sourceMappingURL=BaseMoveWindos.js.map

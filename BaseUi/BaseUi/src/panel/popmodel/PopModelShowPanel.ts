@@ -154,7 +154,7 @@
     }
 
 
-    export class PopModelShowPanel extends base.BaseWindow {
+    export class PopModelShowPanel extends win.BaseWindow {
 
  
         public constructor() {

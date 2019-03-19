@@ -5,7 +5,7 @@
     import Scene_data = Pan3d.Scene_data
 
     import UICompenent = Pan3d.UICompenent
-    import Sprite = layout.Sprite
+    import Sprite = win.Sprite
 
 
     import FrameCompenent = Pan3d.FrameCompenent
@@ -25,7 +25,7 @@
     import UiDraw = Pan3d.UiDraw
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
-    import Panel = layout.Panel
+    import Panel = win.Panel
     //ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
 
     import Vector3D = Pan3d.Vector3D
@@ -83,7 +83,7 @@
 
 
     }
-    export class MaterialCavasPanel extends base.BaseWindow {
+    export class MaterialCavasPanel extends win.BaseWindow {
 
 
         private blakCavansRender: UIRenderComponent

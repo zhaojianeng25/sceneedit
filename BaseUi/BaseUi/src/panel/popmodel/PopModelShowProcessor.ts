@@ -59,8 +59,8 @@
             }
             if (!this.popModelShowPanel.hasStage) {
                 // UIManager.getInstance().addUIContainer(this.popModelShowPanel)
-                var temp: layout.Panel = new layout.Panel(false)
-                layout.LayerManager.getInstance().addPanel(temp, 500, true);
+                var temp: win.Panel = new win.Panel(false)
+                win.LayerManager.getInstance().addPanel(temp, 500, true);
                 temp.addUIContainer(this.popModelShowPanel);
                 this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300))
             } 

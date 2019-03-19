@@ -183,7 +183,7 @@ var materialui;
             }
         };
         return MaterialCavasPanel;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     materialui.MaterialCavasPanel = MaterialCavasPanel;
 })(materialui || (materialui = {}));
 //# sourceMappingURL=MaterialCavasPanel.js.map

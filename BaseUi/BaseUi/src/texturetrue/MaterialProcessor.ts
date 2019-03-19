@@ -15,8 +15,8 @@
     import Rectangle = Pan3d.Rectangle
     import UIAtlas = Pan3d.UIAtlas;
 
-    import Panel = layout.Panel
-    import LayerManager = layout.LayerManager
+    import Panel = win.Panel
+    import LayerManager = win.LayerManager
 
     export class MaterialEvent extends BaseEvent {
         public static INIT_MATERIA_PANEL: string = "INIT_MATERIA_PANEL"; //
@@ -45,7 +45,7 @@
         public getName(): string {
             return "MaterialProcessor";
         }
-        private baseWindow: base.BaseWindow;
+        private baseWindow: win.BaseWindow;
         private lastMaterialUrl: string;
 
         public constructor() {
@@ -65,7 +65,7 @@
                     BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
 
-                    this.baseWindow = new base.BaseWindow()
+                    this.baseWindow = new win.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
                     BaseUiStart.centenPanel.addUIContainer(this.baseWindow)
@@ -498,7 +498,7 @@
             }
 
             if ($evt.x > BaseUiStart.leftPanel.width && $evt.x < BaseUiStart.rightPanel.x) {
-                var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+                var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
                 if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI || $slectUi.parent instanceof MaterialCavasPanel) {
                     this.changeScalePanle($evt)
                 } 
@@ -538,7 +538,7 @@
                 }
 
             }
-            layout.LayerManager.getInstance().resize()
+            win.LayerManager.getInstance().resize()
 
         }
         protected listenModuleEvents(): Array<BaseEvent> {

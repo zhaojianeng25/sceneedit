@@ -470,7 +470,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();
-            var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+            var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi) {
                 if ($slectUi.parent instanceof HierarchyListPanel) {
                     var vo = this.getItemVoByUi($slectUi);
@@ -690,7 +690,7 @@ var maineditor;
             }
         };
         return HierarchyListPanel;
-    }(base.Dis2dBaseWindow));
+    }(win.Dis2dBaseWindow));
     maineditor.HierarchyListPanel = HierarchyListPanel;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=HierarchyListPanel.js.map

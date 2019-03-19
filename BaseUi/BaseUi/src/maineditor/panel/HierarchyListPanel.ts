@@ -337,7 +337,7 @@
         }
     }
 
-    export class HierarchyListPanel extends base.Dis2dBaseWindow {
+    export class HierarchyListPanel extends win.Dis2dBaseWindow {
 
         public static imgBaseDic: any;
         public constructor() {
@@ -552,7 +552,7 @@
         private onRightMenuFun: any
         public onRightMenu($evt: MouseEvent): void {
             $evt.preventDefault();
-            var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+            var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi) {
                 if ($slectUi.parent instanceof HierarchyListPanel) {
                     var vo: FolderName = this.getItemVoByUi($slectUi);

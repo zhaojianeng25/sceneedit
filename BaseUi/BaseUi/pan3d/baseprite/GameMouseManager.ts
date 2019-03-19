@@ -79,7 +79,7 @@ module Pan3d {
 
 
             this.lastMouseEvetTime = TimeUtil.getTimer();
-            var temp: boolean = layout.LayerManager.getInstance().mouseEvetData(evt, point);
+            var temp: boolean = win.LayerManager.getInstance().mouseEvetData(evt, point);
          
             if (evt.type == InteractiveEvent.Move) {
                 return;

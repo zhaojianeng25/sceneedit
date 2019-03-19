@@ -81,7 +81,7 @@ var basefolderwin;
             this.resize();
         };
         return BaseFolderWindow;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     basefolderwin.BaseFolderWindow = BaseFolderWindow;
 })(basefolderwin || (basefolderwin = {}));
 //# sourceMappingURL=BaseFolderWindow.js.map

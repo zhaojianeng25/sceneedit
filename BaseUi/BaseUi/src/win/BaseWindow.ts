@@ -1,4 +1,4 @@
-﻿module base {
+﻿module win {
     import UICompenent = Pan3d.UICompenent
     import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
@@ -404,7 +404,7 @@
  
     }
 
-    export class Dis2dBaseWindow extends base.BaseWindow {
+    export class Dis2dBaseWindow extends win.BaseWindow {
         protected _baseRender: UIRenderComponent;
         public constructor($classVo: any, $rect: Rectangle, $num: number) {
             super();

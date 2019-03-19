@@ -3,9 +3,9 @@
     import Scene_data = Pan3d.Scene_data;
     import LoadManager = Pan3d.LoadManager
     import InteractiveEvent = Pan3d.InteractiveEvent
-    import Panel = layout.Panel;
+    import Panel = win.Panel;
     import TextureManager = Pan3d.TextureManager
-    import LayerManager = layout.LayerManager
+    import LayerManager = win.LayerManager
     import MenuListData = menutwo.MenuListData
 
     export class MaterialModel {
@@ -204,7 +204,7 @@
 
    
 
-            layout.LayerManager.getInstance().resize()
+            win.LayerManager.getInstance().resize()
         }
 
         private dataURLtoFile(dataurl: string, filename: string): File {

@@ -166,7 +166,7 @@ var maineditor;
             }
         };
         MainEditorPanel.prototype.onPanellMouseWheel = function ($evt) {
-            var $slectUi = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
+            var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi && $slectUi.parent == this) {
                 var q = new Pan3d.Quaternion();
                 q.fromMatrix(maineditor.MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
@@ -236,7 +236,7 @@ var maineditor;
             }
         };
         return MainEditorPanel;
-    }(base.BaseWindow));
+    }(win.BaseWindow));
     maineditor.MainEditorPanel = MainEditorPanel;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=MainEditorPanel.js.map

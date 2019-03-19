@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var base;
-(function (base) {
+var win;
+(function (win) {
     var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Rectangle = Pan3d.Rectangle;
@@ -271,7 +271,7 @@ var base;
         BaseWindow.maskLevel = 10;
         return BaseWindow;
     }(UIConatiner));
-    base.BaseWindow = BaseWindow;
+    win.BaseWindow = BaseWindow;
     var Dis2dBaseWindow = /** @class */ (function (_super) {
         __extends(Dis2dBaseWindow, _super);
         function Dis2dBaseWindow($classVo, $rect, $num) {
@@ -437,7 +437,7 @@ var base;
             return $num;
         };
         return Dis2dBaseWindow;
-    }(base.BaseWindow));
-    base.Dis2dBaseWindow = Dis2dBaseWindow;
-})(base || (base = {}));
+    }(win.BaseWindow));
+    win.Dis2dBaseWindow = Dis2dBaseWindow;
+})(win || (win = {}));
 //# sourceMappingURL=BaseWindow.js.map

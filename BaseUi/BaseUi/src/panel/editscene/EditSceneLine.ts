@@ -1,6 +1,6 @@
 ﻿module editscene {
     import Rectangle = Pan3d.Rectangle
-    import Sprite = layout.Sprite
+    import Sprite = win.Sprite
 
     import UICompenent = Pan3d.UICompenent
 
@@ -12,7 +12,7 @@
 
 
 
-    export class TempSceneLine extends base.BaseWindow {
+    export class TempSceneLine extends win.BaseWindow {
 
         private leftLine: UICompenent;
         private rightLine: UICompenent;

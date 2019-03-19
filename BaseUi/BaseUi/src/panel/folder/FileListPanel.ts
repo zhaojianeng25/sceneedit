@@ -180,7 +180,7 @@
         }
     }
 
-    export class FileListPanel extends base.Dis2dBaseWindow {
+    export class FileListPanel extends win.Dis2dBaseWindow {
 
         public static imgBaseDic: any
         public constructor() {
@@ -470,7 +470,7 @@
         private onRightMenuFun: any
         public onRightMenu($evt: MouseEvent): void {
             $evt.preventDefault();
-            var $slectUi: UICompenent = layout.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
+            var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi) {
                 if ($slectUi.parent instanceof FileListPanel) {
                     var vo: FileListName = this.getItemVoByUi($slectUi);

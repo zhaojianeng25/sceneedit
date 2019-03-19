@@ -1,7 +1,7 @@
 ﻿module prop {
     import UIConatiner = Pan3d.UIConatiner
  
-    export class PropPanle extends layout.Sprite{
+    export class PropPanle extends win.Sprite{
         public changeSize(): void {
             super.changeSize();
             this.resize();

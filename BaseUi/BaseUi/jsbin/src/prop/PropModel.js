@@ -41,7 +41,7 @@ var prop;
             //  
         };
         return PropPanle;
-    }(layout.Sprite));
+    }(win.Sprite));
     prop.PropPanle = PropPanle;
     var PropModel = /** @class */ (function () {
         function PropModel() {

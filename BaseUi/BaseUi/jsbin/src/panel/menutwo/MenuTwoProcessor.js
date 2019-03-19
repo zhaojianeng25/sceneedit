@@ -19,7 +19,7 @@ var menutwo;
     var UIData = Pan3d.UIData;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var Scene_data = Pan3d.Scene_data;
-    var Panel = layout.Panel;
+    var Panel = win.Panel;
     var MenuTwoEvent = /** @class */ (function (_super) {
         __extends(MenuTwoEvent, _super);
         function MenuTwoEvent() {
@@ -90,7 +90,7 @@ var menutwo;
         MenuTwoProcessor.prototype.addUIContainer = function (value) {
             if (!this.topMenuPanel) {
                 this.topMenuPanel = new Panel(false);
-                layout.LayerManager.getInstance().addPanel(this.topMenuPanel, 200);
+                win.LayerManager.getInstance().addPanel(this.topMenuPanel, 200);
             }
             this.topMenuPanel.addUIContainer(value);
         };
