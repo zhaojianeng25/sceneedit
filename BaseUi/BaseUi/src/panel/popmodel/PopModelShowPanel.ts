@@ -29,6 +29,8 @@
     import Scene_data = Pan3d.Scene_data
     import Vector2D = Pan3d.Vector2D
 
+    import Panel = win.Panel
+
     export class BloomUiShader extends Shader3D {
         static BloomUiShader: string = "BloomUiShader";
         constructor() {
@@ -173,20 +175,16 @@
             this.setUiListVisibleByItem([this.c_bottom_line], true)
             this.setUiListVisibleByItem([this.c_tittle_bg], true)
             this.setUiListVisibleByItem([this.c_win_bg], true)
-            this.setUiListVisibleByItem([this.b_win_close], true)
+        //    this.setUiListVisibleByItem([this.b_win_close], true)
 
             
             this.a_tittle_bg = this.c_tittle_bg
             this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-         
- 
+
         }
         protected butClik(evt: InteractiveEvent): void {
- 
             if (evt.target == this.b_win_close) {
-  
                 this.perent.removeUIContainer(this)
-
             }
         }
   
@@ -204,13 +202,19 @@
             ui.uiRender = this.modelPic;
             this.addChild(ui);
             this.showModelPicUI = ui;
+            this.showModelPicUI.y = 30
+        
             this.modelPic.setImgUrl("pan/marmoset/uilist/1024.jpg");
             ModelShowModel.getInstance()._bigPic = this.modelPic;
             ModelShowModel.getInstance().addBaseModel()
 
             this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+       
  
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) });
+
+
+            this.resize();
          
  
         }
@@ -238,13 +242,23 @@
                     break
              
                 default:
-                    super.mouseOnTittleMove(evt)
+      
                     break
 
             }
 
         }
         public resize(): void {
+
+            var panel: Panel = <Panel>this.perent;
+            if (panel) {
+                this.pageRect.x = panel.x
+                this.pageRect.y = panel.y;
+                this.pageRect.width = panel.width
+                this.pageRect.height = panel.height
+            }
+          
+
             super.resize()
             if (this.uiLoadComplete) {
                 var minW: number = Math.min(this.pageRect.width-20, this.pageRect.height - this.a_tittle_bg.height-20)
@@ -252,8 +266,10 @@
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height
+                this.showModelPicUI.y = 26
             }
-     
+
+      
         }
    
  

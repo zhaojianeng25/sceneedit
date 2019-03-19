@@ -16,7 +16,6 @@ var popmodel;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var UIManager = Pan3d.UIManager;
     var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
     var PopModelShowEvent = /** @class */ (function (_super) {
@@ -70,20 +69,14 @@ var popmodel;
             });
         };
         PopModelShowProcessor.prototype.hideLeftPanel = function () {
-            if (this.popModelShowPanel) {
-                UIManager.getInstance().removeUIContainer(this.popModelShowPanel);
-            }
         };
         PopModelShowProcessor.prototype.showLeftPanel = function () {
             if (!this.popModelShowPanel) {
                 this.popModelShowPanel = new popmodel.PopModelShowPanel;
             }
             if (!this.popModelShowPanel.hasStage) {
-                // UIManager.getInstance().addUIContainer(this.popModelShowPanel)
-                var temp = new win.Panel(false);
-                win.LayerManager.getInstance().addPanel(temp, 500, true);
-                temp.addUIContainer(this.popModelShowPanel);
-                this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300));
+                editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel);
+                // this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300))
             }
         };
         PopModelShowProcessor.prototype.listenModuleEvents = function () {

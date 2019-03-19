@@ -140,7 +140,7 @@ var popmodel;
             this.setUiListVisibleByItem([this.c_bottom_line], true);
             this.setUiListVisibleByItem([this.c_tittle_bg], true);
             this.setUiListVisibleByItem([this.c_win_bg], true);
-            this.setUiListVisibleByItem([this.b_win_close], true);
+            //    this.setUiListVisibleByItem([this.b_win_close], true)
             this.a_tittle_bg = this.c_tittle_bg;
             this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
         };
@@ -160,11 +160,13 @@ var popmodel;
             ui.uiRender = this.modelPic;
             this.addChild(ui);
             this.showModelPicUI = ui;
+            this.showModelPicUI.y = 30;
             this.modelPic.setImgUrl("pan/marmoset/uilist/1024.jpg");
             ModelShowModel.getInstance()._bigPic = this.modelPic;
             ModelShowModel.getInstance().addBaseModel();
             this.showModelPicUI.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
+            this.resize();
         };
         PopModelShowPanel.prototype.onMouseWheel = function ($evt) {
             // console.log(this.pageRect.isHitByPoint($evt.x, $evt.y) , this.hasStage)
@@ -185,11 +187,17 @@ var popmodel;
                     Scene_data.focus3D.rotationY = this.lastPagePos.y - (evt.x - this.lastMousePos.x);
                     break;
                 default:
-                    _super.prototype.mouseOnTittleMove.call(this, evt);
                     break;
             }
         };
         PopModelShowPanel.prototype.resize = function () {
+            var panel = this.perent;
+            if (panel) {
+                this.pageRect.x = panel.x;
+                this.pageRect.y = panel.y;
+                this.pageRect.width = panel.width;
+                this.pageRect.height = panel.height;
+            }
             _super.prototype.resize.call(this);
             if (this.uiLoadComplete) {
                 var minW = Math.min(this.pageRect.width - 20, this.pageRect.height - this.a_tittle_bg.height - 20);
@@ -197,6 +205,7 @@ var popmodel;
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height;
+                this.showModelPicUI.y = 26;
             }
         };
         PopModelShowPanel.prototype.selectInputDae = function (evt) {

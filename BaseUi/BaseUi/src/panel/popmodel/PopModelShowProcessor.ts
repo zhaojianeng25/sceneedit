@@ -49,23 +49,17 @@
         }
  
         private hideLeftPanel(): void {
-            if (this.popModelShowPanel) {
-                UIManager.getInstance().removeUIContainer(this.popModelShowPanel)
-            }
+           
         }
         private showLeftPanel(): void {
             if (!this.popModelShowPanel) {
                 this.popModelShowPanel = new PopModelShowPanel
             }
             if (!this.popModelShowPanel.hasStage) {
-                // UIManager.getInstance().addUIContainer(this.popModelShowPanel)
-                var temp: win.Panel = new win.Panel(false)
-                win.LayerManager.getInstance().addPanel(temp, 500, true);
-                temp.addUIContainer(this.popModelShowPanel);
-                this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300))
+                editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel)
+               // this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300))
             } 
-
-
+ 
         }
         private popModelShowPanel: PopModelShowPanel
         protected listenModuleEvents(): Array<BaseEvent> {
