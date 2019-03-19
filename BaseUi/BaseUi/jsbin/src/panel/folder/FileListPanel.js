@@ -271,6 +271,9 @@ var filelist;
                         case FileVo.MATERIAL:
                             Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                             break;
+                        case FileVo.MAP:
+                            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                            break;
                         default:
                             break;
                     }

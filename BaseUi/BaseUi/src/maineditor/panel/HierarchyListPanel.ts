@@ -661,9 +661,17 @@
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
 
         }
+        public clearSceneAll(): void {
 
-        public readMapFile(): void {
-            LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE,
+            while (EditorModel.getInstance().fileItem.length) {
+                this.deleFile(EditorModel.getInstance().fileItem,EditorModel.getInstance().fileItem[0])
+            }
+        }
+
+        public readMapFile(mapUrl: string): void {
+            this.mapOpenUrl = mapUrl
+            this.clearSceneAll()
+            LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                     var $fileObj: any = JSON.parse($byte.readUTF())
@@ -695,12 +703,13 @@
                 this.resize()
             }
         }
+        public mapOpenUrl: string
         public saveMap(): void {
            // EditorModel.getInstance().fileItem=[]
  
             var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-            var $fileUrl: string = Pan3d.Scene_data.fileRoot + "scene.map";
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + this.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj))
 
             var $file: File = new File([$byte.buffer], "scene.map");

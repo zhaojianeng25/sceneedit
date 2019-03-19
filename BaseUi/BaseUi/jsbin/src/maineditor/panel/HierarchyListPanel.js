@@ -549,9 +549,16 @@ var maineditor;
             triItem.push(new Vector3D(+100, 0, 100));
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
         };
-        HierarchyListPanel.prototype.readMapFile = function () {
+        HierarchyListPanel.prototype.clearSceneAll = function () {
+            while (maineditor.EditorModel.getInstance().fileItem.length) {
+                this.deleFile(maineditor.EditorModel.getInstance().fileItem, maineditor.EditorModel.getInstance().fileItem[0]);
+            }
+        };
+        HierarchyListPanel.prototype.readMapFile = function (mapUrl) {
             var _this = this;
-            LoadManager.getInstance().load(Scene_data.fileRoot + "scene.map", LoadManager.BYTE_TYPE, function ($dtstr) {
+            this.mapOpenUrl = mapUrl;
+            this.clearSceneAll();
+            LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE, function ($dtstr) {
                 var $byte = new Pan3d.Pan3dByteArray($dtstr);
                 var $fileObj = JSON.parse($byte.readUTF());
                 var $item = _this.wirteItem($fileObj.list);
@@ -578,7 +585,7 @@ var maineditor;
             // EditorModel.getInstance().fileItem=[]
             var tempObj = { list: this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem) };
             var $byte = new Pan3d.Pan3dByteArray();
-            var $fileUrl = Pan3d.Scene_data.fileRoot + "scene.map";
+            var $fileUrl = Pan3d.Scene_data.fileRoot + this.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");

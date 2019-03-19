@@ -77,7 +77,7 @@
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
 
-                    this._hierarchyListPanel.readMapFile();
+                    this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
                 }
 
 

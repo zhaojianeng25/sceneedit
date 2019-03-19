@@ -340,6 +340,10 @@
                             break
                    
 
+                        case FileVo.MAP:
+                            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+
+                            break;
                         default:
                  
                             break;
@@ -366,6 +370,7 @@
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
                             })
                             break;
+
 
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path)

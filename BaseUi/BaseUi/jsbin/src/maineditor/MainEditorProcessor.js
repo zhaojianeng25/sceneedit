@@ -86,7 +86,7 @@ var maineditor;
                     this.showScnePojectView($mainEditorEvent.data);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
-                    this._hierarchyListPanel.readMapFile();
+                    this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER) {
                     this._hierarchyListPanel.saveMap();
