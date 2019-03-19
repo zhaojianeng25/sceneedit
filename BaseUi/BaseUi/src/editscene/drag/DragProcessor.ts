@@ -46,7 +46,7 @@
                     }
                     this.addUIContainer(this._dragPanel)
                     this._dragPanel.setData(DragManager.dragSource)
-
+                    console.log("开始")
                 }
              
             }

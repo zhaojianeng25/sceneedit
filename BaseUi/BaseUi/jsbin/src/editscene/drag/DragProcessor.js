@@ -61,6 +61,7 @@ var drag;
                     }
                     this.addUIContainer(this._dragPanel);
                     this._dragPanel.setData(drag.DragManager.dragSource);
+                    console.log("开始");
                 }
             }
         };

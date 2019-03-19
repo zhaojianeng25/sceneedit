@@ -26,6 +26,7 @@ var ModuleList = /** @class */ (function () {
             new folder.FolderModule(),
             new xyz.MoveScaleRotatioinModule(),
             new popmodel.PopModelShowModule(),
+            new drag.DragModule(),
         ];
         return $arr;
     };
