@@ -412,12 +412,13 @@ var maineditor;
             this.resize();
         };
         HierarchyListPanel.prototype.showMeshView = function (value, selctprefab) {
-            var _combineReflectionView = new CombineReflectionView();
-            var A = new maineditor.PropertyMeshView;
+            var propanle = prop.PropModel.getInstance().propPanle;
+            var _combineReflectionView = new CombineReflectionView(propanle);
+            var A = new maineditor.PropertyMeshView(propanle);
             A.data = value;
             _combineReflectionView.addView(A);
             if (selctprefab) {
-                var B = new filelist.PrefabMeshView;
+                var B = new filelist.PrefabMeshView(propanle);
                 B.data = selctprefab;
                 _combineReflectionView.addView(B);
             }

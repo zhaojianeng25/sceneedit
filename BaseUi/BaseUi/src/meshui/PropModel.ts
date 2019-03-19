@@ -1,26 +1,7 @@
 ﻿module prop {
     import UIConatiner = Pan3d.UIConatiner
 
-    export class PropPanle extends win.Sprite {
-        public resize(): void {
-            super.resize();
-            if (this.perent) {
-                this.rect = this.perent.rect
-            }
-            for (var i: number = 0; i < this._containerList.length; i++) {
-                this._containerList[i].left = this.rect.x
-                this._containerList[i].top = this.rect.y;
-            }
-        }
-        public addBaseMeshUi(value: BaseMeshUi) {
-            this.addUIContainer(value.textureContext)
-            this.resize();
-        }
-        public romveBaseMeshUi(value: BaseMeshUi) {
-            this.removeUIContainer(value.textureContext)
-        }
-
-    }
+ 
     export class PropModel {
 
         private static _instance: PropModel;
@@ -37,13 +18,13 @@
 
         }
         public constructor() {
-            this.propPanle = new PropPanle();
+            this.propPanle = new UiMeshSprite();
             this.propPanle.x = 500
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle)
 
         }
-        public propPanle: PropPanle;
+        public propPanle: UiMeshSprite;
         private metaDataView: MetaDataView;
         private lastNodel: materialui.BaseMaterialNodeUI;
         public hidePanel(): void {
@@ -59,26 +40,27 @@
                     this.metaDataView.destory()
                     this.metaDataView = null;
                 }
+                var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
-                    this.metaDataView = new Vec3PropMeshPanel();
+                    this.metaDataView = new Vec3PropMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.ConstVec2NodeUI) {
-                    this.metaDataView = new Vec2PropMeshPanel();
+                    this.metaDataView = new Vec2PropMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.ConstFloatNodeUI) {
-                    this.metaDataView = new FloatPropMeshPanel();
+                    this.metaDataView = new FloatPropMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.TimeNodeUI) {
-                    this.metaDataView = new NodeTimePropPanel();
+                    this.metaDataView = new NodeTimePropPanel(propPanle);
                 } else if ($ui instanceof materialui.PannerNodeUI) {
-                    this.metaDataView = new PannerPropPanel();
+                    this.metaDataView = new PannerPropPanel(propPanle);
                 } else if ($ui instanceof materialui.TextureSampleNodeUI) {
-                    this.metaDataView = new TexturePropMeshPanel();
+                    this.metaDataView = new TexturePropMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.Texture3DNodeUI) {
-                    this.metaDataView = new Texture3DMeshPanel();
+                    this.metaDataView = new Texture3DMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.TextureCubeNodeUI) {
-                    this.metaDataView = new TextureCubeMeshPanel();
+                    this.metaDataView = new TextureCubeMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.ResultNodeUI) {
-                    this.metaDataView = new OpPropMeshPanel();
+                    this.metaDataView = new OpPropMeshPanel(propPanle);
                 } else if ($ui instanceof materialui.MathFunNodeUI) {
-                    this.metaDataView = new MathFunMeshPanel();
+                    this.metaDataView = new MathFunMeshPanel(propPanle);
                 } else {
                     this.showSciencePropPanel();
 
@@ -108,7 +90,8 @@
                 this.metaDataView = null;
                 this.lastNodel = null;
             }
-            this.metaDataView = new SciencePropMeshPanel();
+            var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
+            this.metaDataView = new SciencePropMeshPanel(propPanle);
  
         }
         private _top: number = 0

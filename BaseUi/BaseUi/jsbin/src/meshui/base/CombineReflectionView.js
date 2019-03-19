@@ -15,8 +15,8 @@ var prop;
 (function (prop) {
     var CombineReflectionView = /** @class */ (function (_super) {
         __extends(CombineReflectionView, _super);
-        function CombineReflectionView() {
-            var _this = _super.call(this) || this;
+        function CombineReflectionView(value) {
+            var _this = _super.call(this, value) || this;
             _this.list = [];
             return _this;
         }

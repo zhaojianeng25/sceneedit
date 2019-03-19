@@ -291,7 +291,7 @@ var filelist;
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
                             pack.PrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
-                                var tempview = new filelist.PrefabMeshView;
+                                var tempview = new filelist.PrefabMeshView(prop.PropModel.getInstance().propPanle);
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
                             });
@@ -377,14 +377,15 @@ var filelist;
                 if ($slectUi.parent instanceof FileListPanel) {
                     var vo = this.getItemVoByUi($slectUi);
                     if (vo) {
+                        //在当前文件上
                         this.makeFileFloadMenu($evt);
+                        return;
                     }
                 }
             }
-            else {
-                if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
-                    this.makeFileListMenu($evt);
-                }
+            //范围其它区域
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                this.makeFileListMenu($evt);
             }
         };
         FileListPanel.prototype.makeFileFloadMenu = function ($evt) {
@@ -404,13 +405,13 @@ var filelist;
             var _this = this;
             var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
             var temp = {};
-            temp.mouse = new Vector2D($evt.clientX, $evt.clientY);
             var menuB = new Array();
             menuB.push(new MenuListData("上传文件", "1"));
             menuB.push(new MenuListData("创建文件夹", "2"));
             menuB.push(new MenuListData("创建Texture", "3"));
             menuB.push(new MenuListData("创建prefab", "4"));
             menuB.push(new MenuListData("刷新", "5"));
+            temp.mouse = new Vector2D($evt.clientX, Math.min($evt.clientY, Scene_data.stageHeight - menuB.length * 20));
             temp.menuXmlItem = menuB;
             temp.info = {};
             temp.info.bfun = function (value, evt) { _this.menuBfun(value, evt); };

@@ -32,9 +32,10 @@
         public get height(): number {
             return this._height
         }
-        private propPanle: PropPanle
-        public constructor() {
-            this.propPanle = prop.PropModel.getInstance().propPanle;
+        private propPanle: UiMeshSprite
+        public constructor(value: UiMeshSprite) {
+            this.propPanle = value
+          //  this.propPanle = prop.PropModel.getInstance().propPanle;
             this.creat(this.getView());
         }
         public getView(): Array<any> {

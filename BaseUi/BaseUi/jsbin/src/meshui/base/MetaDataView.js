@@ -1,13 +1,14 @@
 var prop;
 (function (prop) {
     var MetaDataView = /** @class */ (function () {
-        function MetaDataView() {
+        function MetaDataView(value) {
             this._top = 0;
             this._width = 100;
             this._height = 100;
             this.categoryKey = {};
             this.hideCategoryKey = {};
-            this.propPanle = prop.PropModel.getInstance().propPanle;
+            this.propPanle = value;
+            //  this.propPanle = prop.PropModel.getInstance().propPanle;
             this.creat(this.getView());
         }
         Object.defineProperty(MetaDataView.prototype, "top", {

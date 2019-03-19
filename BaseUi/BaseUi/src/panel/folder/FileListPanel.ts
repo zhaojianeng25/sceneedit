@@ -365,7 +365,7 @@
                         case FileVo.PREFAB:
   
                             pack.PrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
-                                var tempview: PrefabMeshView = new PrefabMeshView
+                                var tempview: PrefabMeshView = new PrefabMeshView(prop.PropModel.getInstance().propPanle)
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
                             })
@@ -475,13 +475,15 @@
                 if ($slectUi.parent instanceof FileListPanel) {
                     var vo: FileListName = this.getItemVoByUi($slectUi);
                     if (vo) {
+                        //在当前文件上
                         this.makeFileFloadMenu($evt)
+                        return 
                     }  
                 }
-            } else {
-                if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
-                    this.makeFileListMenu($evt)
-                }
+            } 
+            //范围其它区域
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                this.makeFileListMenu($evt)
             }
    
 
@@ -505,7 +507,7 @@
         private makeFileListMenu($evt: MouseEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
             var temp: any = {};
-            temp.mouse = new Vector2D($evt.clientX, $evt.clientY)
+           
 
             var menuB: Array<MenuListData> = new Array();
             menuB.push(new MenuListData("上传文件", "1"));
@@ -514,7 +516,9 @@
             menuB.push(new MenuListData("创建prefab", "4"));
             menuB.push(new MenuListData("刷新", "5"));
 
+           
 
+            temp.mouse = new Vector2D($evt.clientX, Math.min($evt.clientY, Scene_data.stageHeight - menuB.length * 20));
             temp.menuXmlItem = menuB
 
             temp.info = {};

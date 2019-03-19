@@ -8,7 +8,7 @@
 
     export class BaseReflComponent {
 
-        public propPanle: PropPanle
+        public propPanle: UiMeshSprite
 
 
         protected _width: number=1;
@@ -26,7 +26,7 @@
         public KeyStep: number=1;
 
     
-        public constructor(value: PropPanle) {
+        public constructor(value: UiMeshSprite) {
             this.propPanle = value;
 
             this.width = 100;

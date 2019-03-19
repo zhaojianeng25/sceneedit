@@ -1,47 +1,9 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var prop;
 (function (prop) {
-    var PropPanle = /** @class */ (function (_super) {
-        __extends(PropPanle, _super);
-        function PropPanle() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        PropPanle.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-            if (this.perent) {
-                this.rect = this.perent.rect;
-            }
-            for (var i = 0; i < this._containerList.length; i++) {
-                this._containerList[i].left = this.rect.x;
-                this._containerList[i].top = this.rect.y;
-            }
-        };
-        PropPanle.prototype.addBaseMeshUi = function (value) {
-            this.addUIContainer(value.textureContext);
-            this.resize();
-        };
-        PropPanle.prototype.romveBaseMeshUi = function (value) {
-            this.removeUIContainer(value.textureContext);
-        };
-        return PropPanle;
-    }(win.Sprite));
-    prop.PropPanle = PropPanle;
     var PropModel = /** @class */ (function () {
         function PropModel() {
             this._top = 0;
-            this.propPanle = new PropPanle();
+            this.propPanle = new prop.UiMeshSprite();
             this.propPanle.x = 500;
             this.propPanle.y = 100;
             BaseUiStart.rightPanel.addChild(this.propPanle);
@@ -70,35 +32,36 @@ var prop;
                     this.metaDataView.destory();
                     this.metaDataView = null;
                 }
+                var propPanle = prop.PropModel.getInstance().propPanle;
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
-                    this.metaDataView = new prop.Vec3PropMeshPanel();
+                    this.metaDataView = new prop.Vec3PropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ConstVec2NodeUI) {
-                    this.metaDataView = new prop.Vec2PropMeshPanel();
+                    this.metaDataView = new prop.Vec2PropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ConstFloatNodeUI) {
-                    this.metaDataView = new prop.FloatPropMeshPanel();
+                    this.metaDataView = new prop.FloatPropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TimeNodeUI) {
-                    this.metaDataView = new prop.NodeTimePropPanel();
+                    this.metaDataView = new prop.NodeTimePropPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.PannerNodeUI) {
-                    this.metaDataView = new prop.PannerPropPanel();
+                    this.metaDataView = new prop.PannerPropPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TextureSampleNodeUI) {
-                    this.metaDataView = new prop.TexturePropMeshPanel();
+                    this.metaDataView = new prop.TexturePropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.Texture3DNodeUI) {
-                    this.metaDataView = new prop.Texture3DMeshPanel();
+                    this.metaDataView = new prop.Texture3DMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TextureCubeNodeUI) {
-                    this.metaDataView = new prop.TextureCubeMeshPanel();
+                    this.metaDataView = new prop.TextureCubeMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ResultNodeUI) {
-                    this.metaDataView = new prop.OpPropMeshPanel();
+                    this.metaDataView = new prop.OpPropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.MathFunNodeUI) {
-                    this.metaDataView = new prop.MathFunMeshPanel();
+                    this.metaDataView = new prop.MathFunMeshPanel(propPanle);
                 }
                 else {
                     this.showSciencePropPanel();
@@ -125,7 +88,8 @@ var prop;
                 this.metaDataView = null;
                 this.lastNodel = null;
             }
-            this.metaDataView = new prop.SciencePropMeshPanel();
+            var propPanle = prop.PropModel.getInstance().propPanle;
+            this.metaDataView = new prop.SciencePropMeshPanel(propPanle);
         };
         PropModel.prototype.moveTop = function ($ty) {
             this._top = $ty;

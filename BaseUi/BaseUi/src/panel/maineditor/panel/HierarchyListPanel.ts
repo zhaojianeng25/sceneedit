@@ -481,17 +481,17 @@
 
         }
         private showMeshView(value: TooXyzPosData, selctprefab: PrefabStaticMesh): void {
-            var _combineReflectionView = new CombineReflectionView();
-            var A: PropertyMeshView = new PropertyMeshView
+            let propanle = prop.PropModel.getInstance().propPanle
+            var _combineReflectionView = new CombineReflectionView(propanle);
+            var A: PropertyMeshView = new PropertyMeshView(propanle)
             A.data = value;
             _combineReflectionView.addView(A)
 
             if (selctprefab) {
-                var B: filelist.PrefabMeshView = new filelist.PrefabMeshView
+                var B: filelist.PrefabMeshView = new filelist.PrefabMeshView(propanle)
                 B.data = selctprefab;
                 _combineReflectionView.addView(B)
             }
- 
              prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
           
         }

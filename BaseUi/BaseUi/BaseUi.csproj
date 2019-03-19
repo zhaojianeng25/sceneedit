@@ -42,6 +42,7 @@
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
+    <TypeScriptCompile Include="src\meshui\UiMeshSprite.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EditorModel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EdItorSceneManager.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\PropertyMeshView.ts" />
@@ -331,6 +332,7 @@
     <TypeScriptCompile Include="src\base\modelshow\ModelShowModel.ts" />
     <TypeScriptCompile Include="src\base\modelshow\RoleMaterialShader.ts" />
     <TypeScriptCompile Include="src\base\modelshow\SceneRenderToTextrue.ts" />
+    <TypeScriptCompile Include="src\panel\popmodel\MetriSpriteMesh.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\PopModelShowPanel.ts" />
     <TypeScriptCompile Include="src\panel\popmodel\PopModelShowProcessor.ts" />
     <TypeScriptCompile Include="src\base\modelshow\RoleChangeModel.ts" />

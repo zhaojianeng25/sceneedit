@@ -125,7 +125,7 @@ var maineditor;
             if (value) {
                 this.scenePojectMapData = value;
             }
-            var _cenePojectMeshView = new maineditor.ScenePojectMeshView;
+            var _cenePojectMeshView = new maineditor.ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
             _cenePojectMeshView.data = this.scenePojectMapData;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
             pack.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {

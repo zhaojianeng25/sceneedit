@@ -4,8 +4,8 @@ module prop {
     export class CombineReflectionView extends MetaDataView {
 
         private list: Array<MetaDataView>
-        public constructor() {
-            super();
+        public constructor(value: UiMeshSprite) {
+            super(value);
             this.list=[]
         }
         public addView($view: MetaDataView): void {

@@ -77,7 +77,17 @@ var popmodel;
             if (!this.popModelShowPanel.hasStage) {
                 editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel);
                 // this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300))
+                this.addPojectView();
             }
+        };
+        PopModelShowProcessor.prototype.addPojectView = function () {
+            this.propPanle = new prop.UiMeshSprite();
+            this.propPanle.rect.y = 200;
+            this.propPanle.y = 100;
+            editscene.EditLeftPanel.leftPanel.addChild(this.propPanle);
+            var viewSprite = new popmodel.MetriSpriteMesh(this.propPanle);
+            viewSprite.top = 400;
+            this.propPanle.resize();
         };
         PopModelShowProcessor.prototype.listenModuleEvents = function () {
             return [

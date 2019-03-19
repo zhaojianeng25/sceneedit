@@ -128,7 +128,7 @@
             if (value) {
                 this.scenePojectMapData = value
             }
-            var _cenePojectMeshView: ScenePojectMeshView= new ScenePojectMeshView;
+            var _cenePojectMeshView: ScenePojectMeshView = new ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
             _cenePojectMeshView.data  =   this.scenePojectMapData;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
  
