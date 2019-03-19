@@ -154,7 +154,7 @@ var left;
                 $meshData.normalsOffsets = 20;
                 $meshData.boneIDOffsets = 20;
                 $meshData.boneWeightOffsets = 36;
-                filemodel.RoleChangeModel.getInstance().makeBufToRole($meshData);
+                pack.RoleChangeModel.getInstance().makeBufToRole($meshData);
                 $meshData.compressBuffer = true;
                 $skinMesh.meshAry.push($meshData);
             }

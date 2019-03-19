@@ -78,7 +78,7 @@ var maineditor;
                     }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel);
-                    topMenu.EditTopMenuPanel.getInstance().makeSceneTopMenu();
+                    editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data);
@@ -127,7 +127,7 @@ var maineditor;
             var _cenePojectMeshView = new maineditor.ScenePojectMeshView;
             _cenePojectMeshView.data = this.scenePojectMapData;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
-            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {
+            pack.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {
                 _cenePojectMeshView.texture = $materialTree;
             });
         };

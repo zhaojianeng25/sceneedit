@@ -1,4 +1,4 @@
-﻿module filemodel {
+﻿module pack {
     import Scene_data = Pan3d.Scene_data
     import Engine = Pan3d.Engine
     import MathClass = Pan3d.MathClass
@@ -80,7 +80,7 @@
             var $file: File = new File([$byte.buffer], this.indexFileName);
             var pathurl: string = $dir
             console.log(pathurl + $file.name);
-            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
+            pack.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
                 console.log("文件夹配置",pathurl + $file.name);
 
                 bfun();

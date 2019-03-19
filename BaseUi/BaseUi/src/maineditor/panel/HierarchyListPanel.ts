@@ -18,7 +18,7 @@
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
     import MouseType = Pan3d.MouseType
-    import FileVo = filemodel.FileVo
+    import FileVo = pack.FileVo
     import Vector2D = Pan3d.Vector2D
     import Vector3D = Pan3d.Vector3D
     import Scene_data = Pan3d.Scene_data
@@ -155,7 +155,7 @@
                 ($modelxml: string) => {
                     this.readTxtToModel($modelxml);
                 });
-            filemodel.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+            pack.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                 this.material = $materialTree;
                 this.meshParamInfo();
             })
@@ -226,7 +226,7 @@
  
         }
         public setPreFabUrl(url: string): void {
-            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
+            pack.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
                 this.prefab = value
             })
         }
@@ -644,7 +644,7 @@
                 ($modelxml: string) => {
                     dis.readTxtToModel($modelxml);
                 });
-            filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+            pack.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                 dis.material = $materialTree;
             })
         }
@@ -715,7 +715,7 @@
             var $file: File = new File([$byte.buffer], "scene.map");
             var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
             
-            filemodel.FileOssModel.upOssFile($file, pathurl, () => {
+            pack.FileOssModel.upOssFile($file, pathurl, () => {
 
                 console.log("上传完成")
 

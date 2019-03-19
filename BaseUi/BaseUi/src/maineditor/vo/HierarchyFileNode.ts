@@ -18,7 +18,7 @@
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
     import MouseType = Pan3d.MouseType
-    import FileVo = filemodel.FileVo
+    import FileVo = pack.FileVo
     import Vector2D = Pan3d.Vector2D
     import Vector3D = Pan3d.Vector3D
     import Scene_data = Pan3d.Scene_data

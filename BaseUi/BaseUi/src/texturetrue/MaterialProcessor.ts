@@ -89,7 +89,7 @@
                        
                     }
 
-                    topMenu.EditTopMenuPanel.getInstance().makeTextureTopMenu()
+                    editscene.EditTopMenuPanel.getInstance().makeTextureTopMenu()
 
                     this.addEvents()
                

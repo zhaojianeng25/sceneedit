@@ -26,8 +26,8 @@
     import DragSource = drag.DragSource;
     import DragManager = drag.DragManager;
 
-    import FileVo = filemodel.FileVo;
-    import FileModel = filemodel.FileOssModel;
+    import FileVo = pack.FileVo;
+    import FileModel = pack.FileOssModel;
  
     import MenuListData = menutwo.MenuListData
 
@@ -364,7 +364,7 @@
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
   
-                            filemodel.PrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
+                            pack.PrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
                                 var tempview: PrefabMeshView = new PrefabMeshView
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
@@ -423,7 +423,7 @@
             //this.a_path_tittle_txt.x = 10
             //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll()
-            filemodel.FileOssModel.getFolderArr(pathstr, (value: Array<FileVo>) => {
+            pack.FileOssModel.getFolderArr(pathstr, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
                     var sampleFile: SampleFileVo = new SampleFileVo;
                     sampleFile.id = i;
@@ -558,7 +558,7 @@
             var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathurl + $file.name);
 
-            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
+            pack.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
                 console.log("文件上传成功");
 
                 this.refrishPath(this.rootFilePath)
@@ -572,8 +572,8 @@
                 var $vo: FileListName = <FileListName>this._uiItem[i]
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
-                        filemodel.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
-                            filemodel.FileOssModel.getDisByOss(this.rootFilePath, () => {
+                        pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
+                            pack.FileOssModel.getDisByOss(this.rootFilePath, () => {
                                 this.refrishPath(this.rootFilePath)
                                 console.log("删除成功")
                             })
@@ -604,10 +604,10 @@
                 var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
                 console.log(pathurl + simpleFile.name);
 
-                filemodel.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, () => {
+                pack.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, () => {
                     console.log("文件上传成功");
          
-                    filemodel.FileOssModel.getDisByOss(pathurl, () => {
+                    pack.FileOssModel.getDisByOss(pathurl, () => {
                         this.refrishPath(this.rootFilePath)
                     })
 

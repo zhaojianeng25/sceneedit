@@ -18,7 +18,7 @@
     import UIData = Pan3d.UIData
     import UIAtlas = Pan3d.UIAtlas
     import MouseType = Pan3d.MouseType
-    import FileVo = filemodel.FileVo
+    import FileVo = pack.FileVo
     import Vector2D = Pan3d.Vector2D
     import Vector3D = Pan3d.Vector3D
     import Scene_data = Pan3d.Scene_data
@@ -216,7 +216,7 @@
 
             } else {
                 var pathurl: string = $folderName.folderMeshVo.ossListFile.baseFile.path
-                filemodel.FileOssModel.getFolderArr(pathurl, (value: Array<FileVo>) => {
+                pack.FileOssModel.getFolderArr(pathurl, (value: Array<FileVo>) => {
                     if (!$folderName.folderMeshVo.childItem) {
                         $folderName.folderMeshVo.childItem = []
                         for (var i: number = 0; value && i < value.length; i++) {
@@ -258,7 +258,7 @@
             //
             //Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
             var rootDic: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
-            filemodel.FileOssModel.getFolderArr(rootDic, (value: Array<FileVo>) => {
+            pack.FileOssModel.getFolderArr(rootDic, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
                     if (value[i].isFolder) {
                         var $vo: FolderMeshVo = this.getCharNameMeshVo(value[i])

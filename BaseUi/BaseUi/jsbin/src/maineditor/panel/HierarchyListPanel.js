@@ -113,7 +113,7 @@ var maineditor;
                 LoadManager.getInstance().load(Scene_data.fileRoot + this._prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
                     _this.readTxtToModel($modelxml);
                 });
-                filemodel.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, function ($materialTree) {
+                pack.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, function ($materialTree) {
                     _this.material = $materialTree;
                     _this.meshParamInfo();
                 });
@@ -181,7 +181,7 @@ var maineditor;
         };
         ModelSprite.prototype.setPreFabUrl = function (url) {
             var _this = this;
-            filemodel.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
+            pack.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
                 _this.prefab = value;
             });
         };
@@ -536,7 +536,7 @@ var maineditor;
             LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
                 dis.readTxtToModel($modelxml);
             });
-            filemodel.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
+            pack.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
                 dis.material = $materialTree;
             });
         };
@@ -589,7 +589,7 @@ var maineditor;
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-            filemodel.FileOssModel.upOssFile($file, pathurl, function () {
+            pack.FileOssModel.upOssFile($file, pathurl, function () {
                 console.log("上传完成");
             });
         };

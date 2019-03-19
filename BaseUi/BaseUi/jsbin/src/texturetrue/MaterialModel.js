@@ -24,7 +24,7 @@ var materialui;
             materialui.MaterialCtrl.getInstance().bgwinPanel.addUIContainer(new materialui.MaterialCavasPanel());
         };
         MaterialModel.prototype.selectMaterialUrl = function (url) {
-            filemodel.MaterialManager.getInstance().getMaterialByUrl(url, function ($materialTree) {
+            pack.MaterialManager.getInstance().getMaterialByUrl(url, function ($materialTree) {
                 var $materialEvent = new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE);
                 $materialEvent.materailTree = $materialTree;
                 ModuleEventManager.dispatchEvent($materialEvent);
@@ -213,7 +213,7 @@ var materialui;
             var pathUrl = Pan3d.Scene_data.fileRoot + $url;
             var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathUrl);
-            filemodel.FileOssModel.upOssFile($file, pathurl, function () {
+            pack.FileOssModel.upOssFile($file, pathurl, function () {
                 console.log("材质上传成功");
             });
             //    this.upOssFile($file, "shadertree/texturelist/" + this.fileid + ".txt", () => {

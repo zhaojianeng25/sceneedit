@@ -27,7 +27,7 @@ var filelist;
     var TextureManager = Pan3d.TextureManager;
     var DragSource = drag.DragSource;
     var DragManager = drag.DragManager;
-    var FileVo = filemodel.FileVo;
+    var FileVo = pack.FileVo;
     var MenuListData = menutwo.MenuListData;
     var SampleFileVo = /** @class */ (function () {
         function SampleFileVo() {
@@ -290,7 +290,7 @@ var filelist;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
-                            filemodel.PrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
+                            pack.PrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempview = new filelist.PrefabMeshView;
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
@@ -335,7 +335,7 @@ var filelist;
             //this.a_path_tittle_txt.x = 10
             //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll();
-            filemodel.FileOssModel.getFolderArr(pathstr, function (value) {
+            pack.FileOssModel.getFolderArr(pathstr, function (value) {
                 for (var i = 0; i < value.length; i++) {
                     var sampleFile = new SampleFileVo;
                     sampleFile.id = i;
@@ -444,7 +444,7 @@ var filelist;
             var $file = new File([$byte.buffer], "其他.prefab");
             var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathurl + $file.name);
-            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
+            pack.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
                 console.log("文件上传成功");
                 _this.refrishPath(_this.rootFilePath);
             });
@@ -455,8 +455,8 @@ var filelist;
                 var $vo = this._uiItem[i];
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
-                        filemodel.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
-                            filemodel.FileOssModel.getDisByOss(_this.rootFilePath, function () {
+                        pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
+                            pack.FileOssModel.getDisByOss(_this.rootFilePath, function () {
                                 _this.refrishPath(_this.rootFilePath);
                                 console.log("删除成功");
                             });
@@ -483,9 +483,9 @@ var filelist;
                 console.log(this.rootFilePath);
                 var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
                 console.log(pathurl + simpleFile.name);
-                filemodel.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, function () {
+                pack.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, function () {
                     console.log("文件上传成功");
-                    filemodel.FileOssModel.getDisByOss(pathurl, function () {
+                    pack.FileOssModel.getDisByOss(pathurl, function () {
                         _this.refrishPath(_this.rootFilePath);
                     });
                 });

@@ -1,4 +1,4 @@
-﻿module filemodel {
+﻿module pack {
 
     import Engine = Pan3d.Engine
     import MathClass = Pan3d.MathClass

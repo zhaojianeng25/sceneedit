@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var filemodel;
-(function (filemodel) {
+var pack;
+(function (pack) {
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var RoleRes = Pan3d.RoleRes;
     var SkinMesh = Pan3d.SkinMesh;
@@ -160,7 +160,7 @@ var filemodel;
         };
         return MeshDataChangeManager;
     }(MeshDataManager));
-    filemodel.MeshDataChangeManager = MeshDataChangeManager;
+    pack.MeshDataChangeManager = MeshDataChangeManager;
     var RoleChangeRes = /** @class */ (function (_super) {
         __extends(RoleChangeRes, _super);
         function RoleChangeRes() {
@@ -197,7 +197,7 @@ var filemodel;
         };
         return RoleChangeRes;
     }(RoleRes));
-    filemodel.RoleChangeRes = RoleChangeRes;
+    pack.RoleChangeRes = RoleChangeRes;
     var RoleChangeModel = /** @class */ (function () {
         function RoleChangeModel() {
         }
@@ -378,6 +378,6 @@ var filemodel;
         };
         return RoleChangeModel;
     }());
-    filemodel.RoleChangeModel = RoleChangeModel;
-})(filemodel || (filemodel = {}));
+    pack.RoleChangeModel = RoleChangeModel;
+})(pack || (pack = {}));
 //# sourceMappingURL=RoleChangeModel.js.map

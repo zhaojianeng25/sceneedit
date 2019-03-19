@@ -64,7 +64,7 @@
                     }
                      BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel)
-                    topMenu.EditTopMenuPanel.getInstance().makeSceneTopMenu()
+                    editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu()
  
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
@@ -132,7 +132,7 @@
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
  
 
-            filemodel.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
+            pack.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
                _cenePojectMeshView.texture = $materialTree;
             })
  

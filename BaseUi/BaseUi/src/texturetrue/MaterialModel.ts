@@ -33,7 +33,7 @@
 
         public selectMaterialUrl(url: string): void {
         
-            filemodel.MaterialManager.getInstance().getMaterialByUrl( url, ($materialTree: materialui.MaterialTree) => {
+            pack.MaterialManager.getInstance().getMaterialByUrl( url, ($materialTree: materialui.MaterialTree) => {
                 var $materialEvent: MaterialEvent = new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE)
                 $materialEvent.materailTree = $materialTree;
                 ModuleEventManager.dispatchEvent($materialEvent);
@@ -247,7 +247,7 @@
             var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
             var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathUrl)
-            filemodel.FileOssModel.upOssFile($file, pathurl, () => {
+            pack.FileOssModel.upOssFile($file, pathurl, () => {
                 console.log("材质上传成功");
             })
             //    this.upOssFile($file, "shadertree/texturelist/" + this.fileid + ".txt", () => {

@@ -242,7 +242,7 @@ var popmodel;
                         $reader.onload = function ($temp) {
                             if (_this.isRoleFile($reader.result)) {
                                 console.log("是角色", simpleFile.name);
-                                filemodel.RoleChangeModel.getInstance().loadLocalFile($reader.result);
+                                pack.RoleChangeModel.getInstance().loadLocalFile($reader.result);
                                 left.SceneRenderToTextrue.getInstance().viweLHnumber = 1000;
                             }
                             else {

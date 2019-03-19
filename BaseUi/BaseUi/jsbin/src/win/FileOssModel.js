@@ -1,5 +1,5 @@
-var filemodel;
-(function (filemodel) {
+var pack;
+(function (pack) {
     var Scene_data = Pan3d.Scene_data;
     var FileVo = /** @class */ (function () {
         function FileVo() {
@@ -32,7 +32,7 @@ var filemodel;
         FileVo.MAP = "map";
         return FileVo;
     }());
-    filemodel.FileVo = FileVo;
+    pack.FileVo = FileVo;
     var FileOssModel = /** @class */ (function () {
         function FileOssModel() {
         }
@@ -67,7 +67,7 @@ var filemodel;
             var $file = new File([$byte.buffer], this.indexFileName);
             var pathurl = $dir;
             console.log(pathurl + $file.name);
-            filemodel.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
+            pack.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
                 console.log("文件夹配置", pathurl + $file.name);
                 bfun();
             });
@@ -291,6 +291,6 @@ var filemodel;
         FileOssModel.waitItemUpFile = [];
         return FileOssModel;
     }());
-    filemodel.FileOssModel = FileOssModel;
-})(filemodel || (filemodel = {}));
+    pack.FileOssModel = FileOssModel;
+})(pack || (pack = {}));
 //# sourceMappingURL=FileOssModel.js.map
