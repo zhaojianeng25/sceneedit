@@ -57,21 +57,11 @@
             }
             if (!this.popModelShowPanel.hasStage) {
                 editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel)
-                // this.popModelShowPanel.setRect(new Pan3d.Rectangle(10, 10, 300, 300))
-                this.addPojectView();
+                editscene.EditLeftPanel.leftPanel.addChild(this.popModelShowPanel.propPanle)
+ 
             } 
         }
-        private propPanle:prop.UiMeshSprite;
-        private addPojectView(): void {
-            this.propPanle = new prop.UiMeshSprite();
-            this.propPanle.rect.y = 200;
-            this.propPanle.y = 100;
-            editscene.EditLeftPanel.leftPanel.addChild(this.propPanle)
-
-            let viewSprite = new MetriSpriteMesh(this.propPanle);
-            viewSprite.top=400
-            this.propPanle.resize();
-        }
+  
         private popModelShowPanel: PopModelShowPanel
         protected listenModuleEvents(): Array<BaseEvent> {
             return [

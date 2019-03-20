@@ -27,6 +27,7 @@
   
         public constructor(w: number , h: number ) {
             super();
+           
             w /=this. uiViewScale;
             h /=this. uiViewScale;
 
@@ -36,7 +37,7 @@
             var $uiAtlas: UIAtlas = this._bRender.uiAtlas
             $uiAtlas.configData = [];
 
-
+            
             var kkwA: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))
             var kkhB: number = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)))
 

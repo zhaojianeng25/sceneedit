@@ -16,7 +16,9 @@ var prop;
     var UiMeshSprite = /** @class */ (function (_super) {
         __extends(UiMeshSprite, _super);
         function UiMeshSprite() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.metaViewItem = [];
+            return _this;
         }
         UiMeshSprite.prototype.resize = function () {
             _super.prototype.resize.call(this);
@@ -27,6 +29,11 @@ var prop;
                 this._containerList[i].left = this.rect.x;
                 this._containerList[i].top = this.rect.y;
             }
+            for (var i = 0; i < this.metaViewItem.length; i++) {
+                this.metaViewItem[i].top = this.rect.y + this.metaViewItem[i].y;
+                this.metaViewItem[i].width = this.rect.width;
+                this.metaViewItem[i].resize();
+            }
         };
         UiMeshSprite.prototype.addBaseMeshUi = function (value) {
             this.addUIContainer(value.textureContext);
@@ -34,6 +41,9 @@ var prop;
         };
         UiMeshSprite.prototype.romveBaseMeshUi = function (value) {
             this.removeUIContainer(value.textureContext);
+        };
+        UiMeshSprite.prototype.addMeshView = function (value) {
+            this.metaViewItem.push(value);
         };
         return UiMeshSprite;
     }(win.Sprite));

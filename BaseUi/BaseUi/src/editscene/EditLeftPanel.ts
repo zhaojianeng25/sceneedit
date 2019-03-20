@@ -10,6 +10,17 @@
         }
         public removeUIContainer($container: UIConatiner): void {
             super.removeUIContainer($container)
+  
         }
+        public resize(): void {
+            super.resize()
+            for (var i: number = 0; i < this.children.length; i++) {
+                this.children[i].resize()
+
+            }
+    
+        }
+       
+
     }
 }

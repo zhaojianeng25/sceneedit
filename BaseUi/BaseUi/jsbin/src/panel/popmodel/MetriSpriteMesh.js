@@ -17,15 +17,29 @@ var popmodel;
     var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
+    var MetriMeshSprite = /** @class */ (function (_super) {
+        __extends(MetriMeshSprite, _super);
+        function MetriMeshSprite() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MetriMeshSprite.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+        };
+        return MetriMeshSprite;
+    }(prop.UiMeshSprite));
+    popmodel.MetriMeshSprite = MetriMeshSprite;
     var MetriSpriteMesh = /** @class */ (function (_super) {
         __extends(MetriSpriteMesh, _super);
-        function MetriSpriteMesh() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function MetriSpriteMesh(value) {
+            return _super.call(this, value) || this;
         }
         MetriSpriteMesh.prototype.getView = function () {
             var ary = [
                 { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
+                { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
+                { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
+                { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
@@ -77,6 +91,9 @@ var popmodel;
             enumerable: true,
             configurable: true
         });
+        MetriSpriteMesh.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+        };
         return MetriSpriteMesh;
     }(MetaDataView));
     popmodel.MetriSpriteMesh = MetriSpriteMesh;

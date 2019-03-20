@@ -44,7 +44,6 @@ var prop;
             set: function (value) {
                 this.constVec3NodeUI.constValue = value;
                 this.changeData();
-                console.log(value);
             },
             enumerable: true,
             configurable: true

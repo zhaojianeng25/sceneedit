@@ -29,7 +29,7 @@
         public set constValue(value: Vector3D) {
             this.constVec3NodeUI.constValue = value 
             this.changeData();
-            console.log(value)
+      
 
         }
 

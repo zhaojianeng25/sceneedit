@@ -161,14 +161,22 @@
  
         public constructor() {
             super();
- 
             this.modelPic = new modelShowRender();
             this.addRender(this.modelPic)
+            this.addPojectView();
             this.initView();
         }
+        public propPanle: MetriMeshSprite;
+        private metriSpriteMesh: MetriSpriteMesh
+        private addPojectView(): void {
+            this.propPanle = new MetriMeshSprite();
+            this.metriSpriteMesh = new MetriSpriteMesh(this.propPanle);
+            this.propPanle.addMeshView(this.metriSpriteMesh)
+        }
+
         protected loadConfigCom(): void {
             super.loadConfigCom();
-
+ 
 
             this.setUiListVisibleByItem([this.c_left_line], true)
             this.setUiListVisibleByItem([this.c_right_line], true)
@@ -181,6 +189,8 @@
             this.a_tittle_bg = this.c_tittle_bg
             this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
 
+           
+        
         }
         protected butClik(evt: InteractiveEvent): void {
             if (evt.target == this.b_win_close) {
@@ -261,14 +271,24 @@
 
             super.resize()
             if (this.uiLoadComplete) {
-                var minW: number = Math.min(this.pageRect.width-20, this.pageRect.height - this.a_tittle_bg.height-20)
+                var maxHeight: number = (this.pageRect.height - this.a_tittle_bg.height) - this.metriSpriteMesh.height;
+                maxHeight = Math.max(100, maxHeight);
+
+                var minW: number = Math.min(this.pageRect.width - 20, maxHeight)
+
+
                 this.showModelPicUI.width = minW;
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height
                 this.showModelPicUI.y = 26
+
+                this.metriSpriteMesh.y = this.showModelPicUI.height;
+         
+                this.propPanle.resize()
             }
 
+       
       
         }
    

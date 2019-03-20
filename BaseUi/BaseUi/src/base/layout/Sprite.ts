@@ -5,9 +5,16 @@
     import UICompenent = Pan3d.UICompenent
     export class Sprite extends LayUIManager {
 
-        public rect: Rectangle;
+
+        public set rect(value: Rectangle) {
+            this._rect = value;
+        }
+        private _rect: Rectangle;
+        public get rect() {
+            return this._rect
+        }
         public perent: Sprite;
-        private children: Array<Sprite>;
+        protected children: Array<Sprite>;
  
         public constructor() {
             super();

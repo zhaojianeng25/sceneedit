@@ -3,16 +3,34 @@
     import Vector3D = Pan3d.Vector3D;
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
+    import UiMeshSprite = prop.UiMeshSprite
+ 
+
+    export class MetriMeshSprite extends prop.UiMeshSprite {
+        public resize(): void {
+            super.resize();
+        }
+ 
+    }
+
 
 
     export class MetriSpriteMesh extends MetaDataView {
+        public constructor(value: UiMeshSprite) {
+            super(value);
+ 
+        }
+       
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
                    
                     { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1 , Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0.,  Category: "属性" },
-                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1 , Category: "属性" },
+                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
+                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
+                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
+                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
                 ];
             return ary;
         }
@@ -49,6 +67,11 @@
             Scene_data.light.ambientColor[1] = value.y;
             Scene_data.light.ambientColor[2] = value.z;
         }
+        public resize(): void {
+            super.resize()
+         
+        }
+            
 
 
     }

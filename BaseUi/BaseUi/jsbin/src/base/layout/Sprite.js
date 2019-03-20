@@ -22,6 +22,16 @@ var win;
             _this.children = [];
             return _this;
         }
+        Object.defineProperty(Sprite.prototype, "rect", {
+            get: function () {
+                return this._rect;
+            },
+            set: function (value) {
+                this._rect = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Sprite.prototype.addChild = function (value) {
             value.perent = this;
             this.children.push(value);

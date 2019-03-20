@@ -2,6 +2,8 @@ var prop;
 (function (prop) {
     var MetaDataView = /** @class */ (function () {
         function MetaDataView(value) {
+            this.x = 0;
+            this.y = 0;
             this._top = 0;
             this._width = 100;
             this._height = 100;

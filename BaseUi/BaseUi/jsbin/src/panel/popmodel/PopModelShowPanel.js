@@ -130,9 +130,15 @@ var popmodel;
             var _this = _super.call(this) || this;
             _this.modelPic = new modelShowRender();
             _this.addRender(_this.modelPic);
+            _this.addPojectView();
             _this.initView();
             return _this;
         }
+        PopModelShowPanel.prototype.addPojectView = function () {
+            this.propPanle = new popmodel.MetriMeshSprite();
+            this.metriSpriteMesh = new popmodel.MetriSpriteMesh(this.propPanle);
+            this.propPanle.addMeshView(this.metriSpriteMesh);
+        };
         PopModelShowPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.c_left_line], true);
@@ -200,12 +206,16 @@ var popmodel;
             }
             _super.prototype.resize.call(this);
             if (this.uiLoadComplete) {
-                var minW = Math.min(this.pageRect.width - 20, this.pageRect.height - this.a_tittle_bg.height - 20);
+                var maxHeight = (this.pageRect.height - this.a_tittle_bg.height) - this.metriSpriteMesh.height;
+                maxHeight = Math.max(100, maxHeight);
+                var minW = Math.min(this.pageRect.width - 20, maxHeight);
                 this.showModelPicUI.width = minW;
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height;
                 this.showModelPicUI.y = 26;
+                this.metriSpriteMesh.y = this.showModelPicUI.height;
+                this.propPanle.resize();
             }
         };
         PopModelShowPanel.prototype.selectInputDae = function (evt) {

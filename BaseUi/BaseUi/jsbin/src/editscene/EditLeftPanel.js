@@ -25,6 +25,12 @@ var editscene;
         EditLeftPanel.prototype.removeUIContainer = function ($container) {
             _super.prototype.removeUIContainer.call(this, $container);
         };
+        EditLeftPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            for (var i = 0; i < this.children.length; i++) {
+                this.children[i].resize();
+            }
+        };
         return EditLeftPanel;
     }(Panel));
     editscene.EditLeftPanel = EditLeftPanel;
