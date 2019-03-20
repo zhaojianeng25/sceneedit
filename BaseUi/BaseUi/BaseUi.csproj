@@ -332,9 +332,9 @@
     <TypeScriptCompile Include="src\base\modelshow\ModelShowModel.ts" />
     <TypeScriptCompile Include="src\base\modelshow\RoleMaterialShader.ts" />
     <TypeScriptCompile Include="src\base\modelshow\SceneRenderToTextrue.ts" />
-    <TypeScriptCompile Include="src\panel\popmodel\MetriSpriteMesh.ts" />
-    <TypeScriptCompile Include="src\panel\popmodel\PopModelShowPanel.ts" />
-    <TypeScriptCompile Include="src\panel\popmodel\PopModelShowProcessor.ts" />
+    <TypeScriptCompile Include="src\panel\materialleft\MateriaMeshView.ts" />
+    <TypeScriptCompile Include="src\panel\materialleft\MaterialLeftPanel.ts" />
+    <TypeScriptCompile Include="src\panel\materialleft\MaterialLeftProcessor.ts" />
     <TypeScriptCompile Include="src\base\modelshow\RoleChangeModel.ts" />
     <TypeScriptCompile Include="src\base\modelshow\TBNUtils.ts" />
     <TypeScriptCompile Include="src\editscene\menutwo\MenuTwoProcessor.ts" />

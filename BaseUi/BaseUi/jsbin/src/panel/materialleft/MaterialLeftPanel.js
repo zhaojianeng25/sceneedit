@@ -124,9 +124,9 @@ var popmodel;
         return modelShowRender;
     }(UIRenderOnlyPicComponent));
     popmodel.modelShowRender = modelShowRender;
-    var PopModelShowPanel = /** @class */ (function (_super) {
-        __extends(PopModelShowPanel, _super);
-        function PopModelShowPanel() {
+    var MaterialLeftPanel = /** @class */ (function (_super) {
+        __extends(MaterialLeftPanel, _super);
+        function MaterialLeftPanel() {
             var _this = _super.call(this) || this;
             _this.only = true; //标记需要移除
             _this.modelPic = new modelShowRender();
@@ -135,12 +135,12 @@ var popmodel;
             _this.initView();
             return _this;
         }
-        PopModelShowPanel.prototype.addPojectView = function () {
-            this.propPanle = new popmodel.MetriMeshSprite();
-            this.metriSpriteMesh = new popmodel.MetriSpriteMesh(this.propPanle);
+        MaterialLeftPanel.prototype.addPojectView = function () {
+            this.propPanle = new prop.UiMeshSprite();
+            this.metriSpriteMesh = new popmodel.MateriaMeshView(this.propPanle);
             this.propPanle.addMeshView(this.metriSpriteMesh);
         };
-        PopModelShowPanel.prototype.loadConfigCom = function () {
+        MaterialLeftPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.c_left_line], true);
             this.setUiListVisibleByItem([this.c_right_line], true);
@@ -151,12 +151,12 @@ var popmodel;
             this.a_tittle_bg = this.c_tittle_bg;
             this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
         };
-        PopModelShowPanel.prototype.butClik = function (evt) {
+        MaterialLeftPanel.prototype.butClik = function (evt) {
             if (evt.target == this.b_win_close) {
                 this.perent.removeUIContainer(this);
             }
         };
-        PopModelShowPanel.prototype.initView = function () {
+        MaterialLeftPanel.prototype.initView = function () {
             var _this = this;
             var ui = new UICompenent();
             ui.width = 150;
@@ -175,19 +175,19 @@ var popmodel;
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
             this.resize();
         };
-        PopModelShowPanel.prototype.onMouseWheel = function ($evt) {
+        MaterialLeftPanel.prototype.onMouseWheel = function ($evt) {
             // console.log(this.pageRect.isHitByPoint($evt.x, $evt.y) , this.hasStage)
             if (this.pageRect.isHitByPoint($evt.x, $evt.y) && this.hasStage) {
                 Scene_data.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
             }
         };
-        PopModelShowPanel.prototype.tittleMouseDown = function (evt) {
+        MaterialLeftPanel.prototype.tittleMouseDown = function (evt) {
             if (this.showModelPicUI == evt.target) {
                 this.lastPagePos = new Vector2D(Scene_data.focus3D.rotationX, Scene_data.focus3D.rotationY);
             }
             _super.prototype.tittleMouseDown.call(this, evt);
         };
-        PopModelShowPanel.prototype.mouseOnTittleMove = function (evt) {
+        MaterialLeftPanel.prototype.mouseOnTittleMove = function (evt) {
             switch (this.mouseMoveTaget) {
                 case this.showModelPicUI:
                     Scene_data.focus3D.rotationX = this.lastPagePos.x - (evt.y - this.lastMousePos.y);
@@ -197,7 +197,7 @@ var popmodel;
                     break;
             }
         };
-        PopModelShowPanel.prototype.resize = function () {
+        MaterialLeftPanel.prototype.resize = function () {
             var panel = this.perent;
             if (panel) {
                 this.pageRect.x = panel.x;
@@ -219,7 +219,7 @@ var popmodel;
                 this.propPanle.resize();
             }
         };
-        PopModelShowPanel.prototype.selectInputDae = function (evt) {
+        MaterialLeftPanel.prototype.selectInputDae = function (evt) {
             var _this = this;
             this._inputHtmlSprite = document.createElement('input');
             this._inputHtmlSprite.setAttribute('id', '_ef');
@@ -229,7 +229,7 @@ var popmodel;
             this._inputHtmlSprite.value;
             this._inputHtmlSprite.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
         };
-        PopModelShowPanel.prototype.changeFile = function (evt) {
+        MaterialLeftPanel.prototype.changeFile = function (evt) {
             var _this = this;
             for (var i = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
                 var simpleFile = this._inputHtmlSprite.files[i];
@@ -277,7 +277,7 @@ var popmodel;
             }
             this._inputHtmlSprite = null;
         };
-        PopModelShowPanel.prototype.isRoleFile = function (arrayBuffer) {
+        MaterialLeftPanel.prototype.isRoleFile = function (arrayBuffer) {
             var $byte = new ByteArray(arrayBuffer);
             $byte.position = 0;
             var $version = $byte.readInt();
@@ -289,8 +289,8 @@ var popmodel;
                 return false;
             }
         };
-        return PopModelShowPanel;
+        return MaterialLeftPanel;
     }(win.BaseWindow));
-    popmodel.PopModelShowPanel = PopModelShowPanel;
+    popmodel.MaterialLeftPanel = MaterialLeftPanel;
 })(popmodel || (popmodel = {}));
-//# sourceMappingURL=PopModelShowPanel.js.map
+//# sourceMappingURL=MaterialLeftPanel.js.map

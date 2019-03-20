@@ -37,20 +37,20 @@ var popmodel;
             return "PopModelShowModule";
         };
         PopModelShowModule.prototype.listProcessors = function () {
-            return [new PopModelShowProcessor()];
+            return [new MaterialLeftProcessor()];
         };
         return PopModelShowModule;
     }(Module));
     popmodel.PopModelShowModule = PopModelShowModule;
-    var PopModelShowProcessor = /** @class */ (function (_super) {
-        __extends(PopModelShowProcessor, _super);
-        function PopModelShowProcessor() {
+    var MaterialLeftProcessor = /** @class */ (function (_super) {
+        __extends(MaterialLeftProcessor, _super);
+        function MaterialLeftProcessor() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        PopModelShowProcessor.prototype.getName = function () {
-            return "PopModelShowProcessor";
+        MaterialLeftProcessor.prototype.getName = function () {
+            return "MaterialLeftProcessor";
         };
-        PopModelShowProcessor.prototype.receivedModuleEvent = function ($event) {
+        MaterialLeftProcessor.prototype.receivedModuleEvent = function ($event) {
             if ($event instanceof PopModelShowEvent) {
                 var $leftEvent = $event;
                 if ($leftEvent.type == PopModelShowEvent.SHOW_POP_MODEL_PANEL) {
@@ -62,30 +62,30 @@ var popmodel;
                 }
             }
         };
-        PopModelShowProcessor.prototype.readBaseModel = function () {
+        MaterialLeftProcessor.prototype.readBaseModel = function () {
             LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                 left.ModelShowModel.getInstance().readTxtToModelBy($modelxml);
             });
         };
-        PopModelShowProcessor.prototype.hideLeftPanel = function () {
+        MaterialLeftProcessor.prototype.hideLeftPanel = function () {
             editscene.EditLeftPanel.leftPanel.removeUIContainer(this.popModelShowPanel);
         };
-        PopModelShowProcessor.prototype.showLeftPanel = function () {
+        MaterialLeftProcessor.prototype.showLeftPanel = function () {
             if (!this.popModelShowPanel) {
-                this.popModelShowPanel = new popmodel.PopModelShowPanel;
+                this.popModelShowPanel = new popmodel.MaterialLeftPanel;
             }
             if (!this.popModelShowPanel.hasStage) {
                 editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel);
             }
         };
-        PopModelShowProcessor.prototype.listenModuleEvents = function () {
+        MaterialLeftProcessor.prototype.listenModuleEvents = function () {
             return [
                 new PopModelShowEvent(PopModelShowEvent.SHOW_POP_MODEL_PANEL),
                 new PopModelShowEvent(PopModelShowEvent.HIDE_POP_MODEL_PANEL),
             ];
         };
-        return PopModelShowProcessor;
+        return MaterialLeftProcessor;
     }(BaseProcessor));
-    popmodel.PopModelShowProcessor = PopModelShowProcessor;
+    popmodel.MaterialLeftProcessor = MaterialLeftProcessor;
 })(popmodel || (popmodel = {}));
-//# sourceMappingURL=PopModelShowProcessor.js.map
+//# sourceMappingURL=MaterialLeftProcessor.js.map

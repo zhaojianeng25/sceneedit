@@ -6,16 +6,10 @@
     import UiMeshSprite = prop.UiMeshSprite
  
 
-    export class MetriMeshSprite extends prop.UiMeshSprite {
-        public resize(): void {
-            super.resize();
-        }
  
-    }
 
 
-
-    export class MetriSpriteMesh extends MetaDataView {
+    export class MateriaMeshView extends MetaDataView {
         public constructor(value: UiMeshSprite) {
             super(value);
  

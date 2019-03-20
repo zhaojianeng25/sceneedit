@@ -156,7 +156,7 @@
     }
 
 
-    export class PopModelShowPanel extends win.BaseWindow {
+    export class MaterialLeftPanel extends win.BaseWindow {
 
         public only: boolean = true //标记需要移除
         public constructor() {
@@ -167,11 +167,11 @@
             this.addPojectView();
             this.initView();
         }
-        public propPanle: MetriMeshSprite;
-        private metriSpriteMesh: MetriSpriteMesh
+        public propPanle: prop.UiMeshSprite;
+        private metriSpriteMesh: MateriaMeshView
         private addPojectView(): void {
-            this.propPanle = new MetriMeshSprite();
-            this.metriSpriteMesh = new MetriSpriteMesh(this.propPanle);
+            this.propPanle = new prop.UiMeshSprite();
+            this.metriSpriteMesh = new MateriaMeshView(this.propPanle);
             this.propPanle.addMeshView(this.metriSpriteMesh)
         }
 

@@ -17,13 +17,13 @@
             return "PopModelShowModule";
         }
         protected listProcessors(): Array<Processor> {
-            return [new PopModelShowProcessor()];
+            return [new MaterialLeftProcessor()];
         }
     }
 
-    export class PopModelShowProcessor extends BaseProcessor {
+    export class MaterialLeftProcessor extends BaseProcessor {
         public getName(): string {
-            return "PopModelShowProcessor";
+            return "MaterialLeftProcessor";
         }
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof PopModelShowEvent) {
@@ -49,14 +49,14 @@
         }
         private showLeftPanel(): void {
             if (!this.popModelShowPanel) {
-                this.popModelShowPanel = new PopModelShowPanel
+                this.popModelShowPanel = new MaterialLeftPanel
             }
             if (!this.popModelShowPanel.hasStage) {
                 editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel)
             } 
         }
   
-        private popModelShowPanel: PopModelShowPanel
+        private popModelShowPanel: MaterialLeftPanel
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
                 new PopModelShowEvent(PopModelShowEvent.SHOW_POP_MODEL_PANEL),

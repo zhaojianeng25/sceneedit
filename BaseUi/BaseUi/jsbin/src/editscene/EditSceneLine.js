@@ -218,7 +218,7 @@ var editscene;
                 case this.leftLine:
                     this.leftWidthNum = this.lastLaoutVec.x + (evt.x - this.lastMousePos.x);
                     this.leftWidthNum = Math.min((Scene_data.stageWidth - this.rightWidthNum) - 100, this.leftWidthNum);
-                    this.leftWidthNum = Math.max(100, this.leftWidthNum);
+                    this.leftWidthNum = Math.max(300, this.leftWidthNum);
                     break;
                 case this.rightLine:
                     this.rightWidthNum = this.lastLaoutVec.y - (evt.x - this.lastMousePos.x);
