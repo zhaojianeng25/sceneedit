@@ -313,6 +313,7 @@ var maineditor;
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+                //  console.log("图片加载完")
             });
         };
         HierarchyListPanel.prototype.loadAssetImg = function (bfun) {
@@ -468,6 +469,10 @@ var maineditor;
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
             document.addEventListener("contextmenu", this.onRightMenuFun);
+            this.loadBaseSceneUrl();
+        };
+        HierarchyListPanel.prototype.loadBaseSceneUrl = function () {
+            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), "scene.map"); //加载场景
         };
         HierarchyListPanel.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();

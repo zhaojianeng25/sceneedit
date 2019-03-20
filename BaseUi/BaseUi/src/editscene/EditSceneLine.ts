@@ -74,8 +74,8 @@
 
             this.resize()
 
-            console.log("ui布局完成")
-            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP),"scene.map"); //加载场景
+       //     console.log("ui布局完成")
+         
 
         }
         private hideItemDic: any = {}
