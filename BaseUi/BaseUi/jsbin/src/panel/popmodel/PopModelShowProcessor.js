@@ -65,10 +65,10 @@ var popmodel;
         PopModelShowProcessor.prototype.readBaseModel = function () {
             LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
                 left.ModelShowModel.getInstance().readTxtToModelBy($modelxml);
-                //  ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
             });
         };
         PopModelShowProcessor.prototype.hideLeftPanel = function () {
+            editscene.EditLeftPanel.leftPanel.removeUIContainer(this.popModelShowPanel);
         };
         PopModelShowProcessor.prototype.showLeftPanel = function () {
             if (!this.popModelShowPanel) {
@@ -76,7 +76,6 @@ var popmodel;
             }
             if (!this.popModelShowPanel.hasStage) {
                 editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel);
-                editscene.EditLeftPanel.leftPanel.addChild(this.popModelShowPanel.propPanle);
             }
         };
         PopModelShowProcessor.prototype.listenModuleEvents = function () {

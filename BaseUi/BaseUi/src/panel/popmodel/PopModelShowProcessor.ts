@@ -28,7 +28,6 @@
         protected receivedModuleEvent($event: BaseEvent): void {
             if ($event instanceof PopModelShowEvent) {
                 var $leftEvent: PopModelShowEvent = <PopModelShowEvent>$event;
-
                 if ($leftEvent.type == PopModelShowEvent.SHOW_POP_MODEL_PANEL) {
                     this.showLeftPanel();
                     this.readBaseModel();
@@ -42,14 +41,11 @@
             LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
                 ($modelxml: string) => {
                     left.ModelShowModel.getInstance().readTxtToModelBy($modelxml)
-                 //  ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+  
                 });
-
-        
         }
- 
         private hideLeftPanel(): void {
-           
+            editscene.EditLeftPanel.leftPanel.removeUIContainer(this.popModelShowPanel);
         }
         private showLeftPanel(): void {
             if (!this.popModelShowPanel) {
@@ -57,8 +53,6 @@
             }
             if (!this.popModelShowPanel.hasStage) {
                 editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel)
-                editscene.EditLeftPanel.leftPanel.addChild(this.popModelShowPanel.propPanle)
- 
             } 
         }
   

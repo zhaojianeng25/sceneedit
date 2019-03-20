@@ -36,6 +36,12 @@ var win;
             value.perent = this;
             this.children.push(value);
         };
+        Sprite.prototype.removeChild = function (value) {
+            var idx = this.children.indexOf(value);
+            if (idx != -1) {
+                this.children.splice(idx, 1);
+            }
+        };
         Sprite.prototype.update = function () {
             _super.prototype.update.call(this);
             for (var i = 0; i < this.children.length; i++) {

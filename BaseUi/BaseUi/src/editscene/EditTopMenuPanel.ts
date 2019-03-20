@@ -172,6 +172,8 @@
             var menuB: Array<MenuListData> = new Array();
             menuB.push(new MenuListData("保存材质", "1001"));
             menuB.push(new MenuListData("编译材质", "1002"));
+            menuB.push(new MenuListData("关闭材质窗口", "1003"));
+            menuB.push(new MenuListData("返回场景", "1004"));
 
             temp.menuXmlItem = menuB;
             this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
@@ -199,6 +201,12 @@
                     break
                 case "1002":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+                    break
+                case "1003":
+                    ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.HIDE_POP_MODEL_PANEL));
+                    break
+                case "1004":
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                     break
                 default:
     

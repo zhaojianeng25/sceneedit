@@ -20,9 +20,25 @@ var editscene;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         EditLeftPanel.prototype.addUIContainer = function ($container) {
+            if ($container["only"]) { //唯一标记
+                this.removeNeedRemove();
+            }
             _super.prototype.addUIContainer.call(this, $container);
+            if ($container["propPanle"]) { //特殊添加组件面板
+                this.addChild($container["propPanle"]);
+            }
+        };
+        EditLeftPanel.prototype.removeNeedRemove = function () {
+            for (var i = (this._containerList.length - 1); i >= 0; i--) {
+                if (this._containerList[i]["only"]) { //标记需要移除，不能同时存在的面板
+                    this.removeUIContainer(this._containerList[i]);
+                }
+            }
         };
         EditLeftPanel.prototype.removeUIContainer = function ($container) {
+            if ($container["propPanle"]) { //特殊添加组件面板
+                this.removeChild($container["propPanle"]);
+            }
             _super.prototype.removeUIContainer.call(this, $container);
         };
         EditLeftPanel.prototype.resize = function () {

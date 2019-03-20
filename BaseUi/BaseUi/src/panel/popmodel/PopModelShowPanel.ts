@@ -158,9 +158,10 @@
 
     export class PopModelShowPanel extends win.BaseWindow {
 
- 
+        public only: boolean = true //标记需要移除
         public constructor() {
             super();
+     
             this.modelPic = new modelShowRender();
             this.addRender(this.modelPic)
             this.addPojectView();

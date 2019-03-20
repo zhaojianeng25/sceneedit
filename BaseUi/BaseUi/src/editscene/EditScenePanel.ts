@@ -84,7 +84,7 @@
      
         private addLeft(): void {
             var temp: EditLeftPanel = new EditLeftPanel(true);
-            temp.setShowUi(["c_right_line", "c_win_bg"]);
+             temp.setShowUi(["c_right_line", "c_win_bg"]);
             temp.x = 0;
             temp.y = 50;
             temp.width = 450;

@@ -62,22 +62,25 @@ var maineditor;
         MainEditorProcessor.prototype.getName = function () {
             return "MainEditorProcessor";
         };
+        MainEditorProcessor.prototype.initPanelConfig = function () {
+            if (!this._hierarchyListPanel) {
+                this._hierarchyListPanel = new maineditor.HierarchyListPanel();
+            }
+            if (!this._editScenePanel) {
+                this._editScenePanel = new maineditor.MainEditorPanel();
+            }
+        };
         MainEditorProcessor.prototype.receivedModuleEvent = function ($event) {
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent = $event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
                     this.maseSceneManager();
-                    if (!this._hierarchyListPanel) {
-                        this._hierarchyListPanel = new maineditor.HierarchyListPanel();
-                    }
-                    EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
+                    this.initPanelConfig();
                     this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
-                    if (!this._editScenePanel) {
-                        this._editScenePanel = new maineditor.MainEditorPanel();
-                    }
                     BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                    EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel);
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
                 }

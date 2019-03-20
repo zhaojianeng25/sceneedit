@@ -128,6 +128,7 @@ var popmodel;
         __extends(PopModelShowPanel, _super);
         function PopModelShowPanel() {
             var _this = _super.call(this) || this;
+            _this.only = true; //标记需要移除
             _this.modelPic = new modelShowRender();
             _this.addRender(_this.modelPic);
             _this.addPojectView();
