@@ -1,4 +1,4 @@
-﻿module popmodel {
+﻿module materialleft {
     import Scene_data = Pan3d.Scene_data;
     import Vector3D = Pan3d.Vector3D;
     import MetaDataView = prop.MetaDataView;
@@ -28,8 +28,17 @@
                 ];
             return ary;
         }
+        public creat(data: Array<any>): void {
+            super.creat(data);
+            console.log(data)
+         
+        }
+
+
+        private _materialTree: materialui.MaterialTree
         public set data(value: any) {
             this._data = value;
+            this._materialTree = value;
             this.refreshViewValue()
         }
         public get data(): any {

@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var popmodel;
-(function (popmodel) {
+var materialleft;
+(function (materialleft) {
     var Scene_data = Pan3d.Scene_data;
     var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
@@ -33,12 +33,17 @@ var popmodel;
             ];
             return ary;
         };
+        MateriaMeshView.prototype.creat = function (data) {
+            _super.prototype.creat.call(this, data);
+            console.log(data);
+        };
         Object.defineProperty(MateriaMeshView.prototype, "data", {
             get: function () {
                 return this._data;
             },
             set: function (value) {
                 this._data = value;
+                this._materialTree = value;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -85,6 +90,6 @@ var popmodel;
         };
         return MateriaMeshView;
     }(MetaDataView));
-    popmodel.MateriaMeshView = MateriaMeshView;
-})(popmodel || (popmodel = {}));
+    materialleft.MateriaMeshView = MateriaMeshView;
+})(materialleft || (materialleft = {}));
 //# sourceMappingURL=MateriaMeshView.js.map

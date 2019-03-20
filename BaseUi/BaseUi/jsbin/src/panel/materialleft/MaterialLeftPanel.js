@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var popmodel;
-(function (popmodel) {
+var materialleft;
+(function (materialleft) {
     var UICompenent = Pan3d.UICompenent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var MouseType = Pan3d.MouseType;
@@ -73,7 +73,7 @@ var popmodel;
         BloomUiShader.BloomUiShader = "BloomUiShader";
         return BloomUiShader;
     }(Shader3D));
-    popmodel.BloomUiShader = BloomUiShader;
+    materialleft.BloomUiShader = BloomUiShader;
     var modelShowRender = /** @class */ (function (_super) {
         __extends(modelShowRender, _super);
         function modelShowRender() {
@@ -123,7 +123,7 @@ var popmodel;
         };
         return modelShowRender;
     }(UIRenderOnlyPicComponent));
-    popmodel.modelShowRender = modelShowRender;
+    materialleft.modelShowRender = modelShowRender;
     var MaterialLeftPanel = /** @class */ (function (_super) {
         __extends(MaterialLeftPanel, _super);
         function MaterialLeftPanel() {
@@ -137,9 +137,17 @@ var popmodel;
         }
         MaterialLeftPanel.prototype.addPojectView = function () {
             this.propPanle = new prop.UiMeshSprite();
-            this.metriSpriteMesh = new popmodel.MateriaMeshView(this.propPanle);
+            this.metriSpriteMesh = new materialleft.MateriaMeshView(this.propPanle);
             this.propPanle.addMeshView(this.metriSpriteMesh);
         };
+        Object.defineProperty(MaterialLeftPanel.prototype, "materialTree", {
+            set: function (value) {
+                this._materialTree = value;
+                this.metriSpriteMesh.data = this._materialTree;
+            },
+            enumerable: true,
+            configurable: true
+        });
         MaterialLeftPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.c_left_line], true);
@@ -291,6 +299,6 @@ var popmodel;
         };
         return MaterialLeftPanel;
     }(win.BaseWindow));
-    popmodel.MaterialLeftPanel = MaterialLeftPanel;
-})(popmodel || (popmodel = {}));
+    materialleft.MaterialLeftPanel = MaterialLeftPanel;
+})(materialleft || (materialleft = {}));
 //# sourceMappingURL=MaterialLeftPanel.js.map

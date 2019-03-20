@@ -1,4 +1,4 @@
-﻿module popmodel {
+﻿module materialleft {
     import BaseEvent = Pan3d.BaseEvent;
     import Module = Pan3d.Module;
     import Processor = Pan3d.Processor;
@@ -7,6 +7,8 @@
     import LoadManager = Pan3d.LoadManager;
     import Scene_data = Pan3d.Scene_data
     import ModuleEventManager = Pan3d.ModuleEventManager;
+
+    import MaterialEvent = materialui.MaterialEvent
 
     export class MaterialLeftEvent extends BaseEvent {
         public static SHOW_MATERIAL_LEFT_PANEL: string = "SHOW_MATERIAL_LEFT_PANEL";  
@@ -36,6 +38,14 @@
                     this.hideLeftPanel();
                 }
             }
+ 
+            if ($event instanceof MaterialEvent) {
+                var $materialEvent: MaterialEvent = <MaterialEvent>$event;
+                if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
+                    this.materialLeftPanel.materialTree = $materialEvent.data
+                }
+            }
+         
         }
         private readBaseModel(): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
@@ -45,22 +55,24 @@
                 });
         }
         private hideLeftPanel(): void {
-            editscene.EditLeftPanel.leftPanel.removeUIContainer(this.popModelShowPanel);
+            editscene.EditLeftPanel.leftPanel.removeUIContainer(this.materialLeftPanel);
         }
         private showLeftPanel(): void {
-            if (!this.popModelShowPanel) {
-                this.popModelShowPanel = new MaterialLeftPanel
+            if (!this.materialLeftPanel) {
+                this.materialLeftPanel = new MaterialLeftPanel
             }
-            if (!this.popModelShowPanel.hasStage) {
-                editscene.EditLeftPanel.leftPanel.addUIContainer(this.popModelShowPanel)
+            if (!this.materialLeftPanel.hasStage) {
+                editscene.EditLeftPanel.leftPanel.addUIContainer(this.materialLeftPanel)
             } 
         }
   
-        private popModelShowPanel: MaterialLeftPanel
+        private materialLeftPanel: MaterialLeftPanel
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
                 new MaterialLeftEvent(MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL),
                 new MaterialLeftEvent(MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL),
+
+                new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
 
 
             ];

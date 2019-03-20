@@ -43,6 +43,8 @@
             this.height = 30
         }
         public destory(): void {
+ 
+
             this.textLabelUI.destory();
             this.inputTextUiX.destory();
             this.inputTextUiY.destory();
@@ -50,6 +52,8 @@
             this.textX.destory();
             this.textY.destory();
             this.textZ.destory();
+
+
   
         }
         public set data(value: any) {

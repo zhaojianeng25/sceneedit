@@ -1,4 +1,4 @@
-﻿module popmodel {
+﻿module materialleft {
     import UICompenent = Pan3d.UICompenent
     import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
@@ -174,7 +174,11 @@
             this.metriSpriteMesh = new MateriaMeshView(this.propPanle);
             this.propPanle.addMeshView(this.metriSpriteMesh)
         }
-
+        private _materialTree: materialui.MaterialTree
+        public set materialTree(value: materialui.MaterialTree) {
+            this._materialTree = value;
+            this.metriSpriteMesh.data = this._materialTree;
+        }
         protected loadConfigCom(): void {
             super.loadConfigCom();
  

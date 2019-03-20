@@ -39,9 +39,6 @@ var prop;
             this.addUIContainer(value.textureContext);
             this.resize();
         };
-        UiMeshSprite.prototype.romveBaseMeshUi = function (value) {
-            this.removeUIContainer(value.textureContext);
-        };
         UiMeshSprite.prototype.addMeshView = function (value) {
             this.metaViewItem.push(value);
         };

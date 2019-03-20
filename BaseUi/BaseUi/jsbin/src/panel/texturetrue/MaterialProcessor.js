@@ -76,15 +76,11 @@ var materialui;
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 3);
-                    ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
-                    if ($materialEvent.data) {
-                        if (this.lastMaterialUrl != $materialEvent.data) { //是上一个材质，就不加载
-                            ModuleEventManager.dispatchEvent(new popmodel.MaterialLeftEvent(popmodel.MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL));
-                            materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
-                            this.lastMaterialUrl = $materialEvent.data;
-                        }
-                    }
                     editscene.EditTopMenuPanel.getInstance().makeTextureTopMenu();
+                    ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
+                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL));
+                    materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
+                    this.lastMaterialUrl = $materialEvent.data;
                     this.addEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {

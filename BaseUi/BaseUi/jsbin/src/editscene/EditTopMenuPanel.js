@@ -180,7 +180,7 @@ var editscene;
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break;
                 case "1003":
-                    ModuleEventManager.dispatchEvent(new popmodel.MaterialLeftEvent(popmodel.MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL));
+                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL));
                     break;
                 case "1004":
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));

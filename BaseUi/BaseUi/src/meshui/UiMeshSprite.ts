@@ -20,9 +20,7 @@
             this.addUIContainer(value.textureContext)
             this.resize();
         }
-        public romveBaseMeshUi(value: BaseMeshUi) {
-            this.removeUIContainer(value.textureContext)
-        }
+   
         private metaViewItem: Array<MetaDataView> = []
         public addMeshView(value: MetaDataView): void {
             this.metaViewItem.push(value)
