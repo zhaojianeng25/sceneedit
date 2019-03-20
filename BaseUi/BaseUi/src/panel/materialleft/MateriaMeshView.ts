@@ -26,19 +26,9 @@
                         Category: "设置"
                     },
 
-                    {
-                        Type: ReflectionData.ComboBox, Label: "深度测试:", FunKey: "zbuff", target: this, Data: [
-                            { name: "true", type: 0 },
-                            { name: "false", type: 1 }],
-                        Category: "设置"
-                    },
-
-                    {
-                        Type: ReflectionData.ComboBox, Label: "点灯光:", FunKey: "pointlight", target: this, Data: [
-                            { name: "不接受", type: 0 },
-                            { name: "接受", type: 1 }],
-                        Category: "设置"
-                    },
+             
+                    { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "zbuff", target: this, Category: "设置" },
+                    {  Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this,   Category: "设置"  },
 
                     { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
@@ -54,17 +44,17 @@
             this._materialTree.rendermodel = value
 
         }
-        public get zbuff(): number {
+        public get zbuff(): boolean {
             return this._materialTree.zbuff
         }
-        public set zbuff(value: number) {
+        public set zbuff(value: boolean) {
             this._materialTree.zbuff = value
 
         }
-        public get pointlight(): number {
+        public get pointlight(): boolean {
             return this._materialTree.pointlight
         }
-        public set pointlight(value: number) {
+        public set pointlight(value: boolean) {
             this._materialTree.pointlight = value
 
         }

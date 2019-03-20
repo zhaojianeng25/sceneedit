@@ -7,8 +7,8 @@
     export class MaterialTree extends Material {
         private _data: any;
         public rendermodel: number = 0;
-        public zbuff: number = 0;
-        public pointlight: number = 0;
+        public zbuff: boolean 
+        public pointlight: boolean 
         private _compileData: any;
         private _url: string;
 

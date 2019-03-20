@@ -42,6 +42,7 @@
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
+    <TypeScriptCompile Include="src\meshui\base\CheckBox2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\UiMeshSprite.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EditorModel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EdItorSceneManager.ts" />

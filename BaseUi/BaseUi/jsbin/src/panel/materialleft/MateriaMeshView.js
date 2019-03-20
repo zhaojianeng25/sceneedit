@@ -32,20 +32,8 @@ var materialleft;
                     ],
                     Category: "设置"
                 },
-                {
-                    Type: ReflectionData.ComboBox, Label: "深度测试:", FunKey: "zbuff", target: this, Data: [
-                        { name: "true", type: 0 },
-                        { name: "false", type: 1 }
-                    ],
-                    Category: "设置"
-                },
-                {
-                    Type: ReflectionData.ComboBox, Label: "点灯光:", FunKey: "pointlight", target: this, Data: [
-                        { name: "不接受", type: 0 },
-                        { name: "接受", type: 1 }
-                    ],
-                    Category: "设置"
-                },
+                { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "zbuff", target: this, Category: "设置" },
+                { Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this, Category: "设置" },
                 { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },

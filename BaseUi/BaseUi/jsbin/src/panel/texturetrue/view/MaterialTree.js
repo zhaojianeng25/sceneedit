@@ -21,8 +21,6 @@ var materialui;
         function MaterialTree() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.rendermodel = 0;
-            _this.zbuff = 0;
-            _this.pointlight = 0;
             _this.texList = new Array;
             _this.constList = new Array;
             _this.killNum = 0;

@@ -123,6 +123,9 @@
             if (type == ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
+            if (type == ReflectionData.CheckBox) {
+                return this.getCheckBox(obj);
+            }
             if (type == ReflectionData.Vec3Color) {
                 return this.getVec3Color(obj);
             }
@@ -177,6 +180,13 @@
             $ComBoBoxCtrl2D.label = $obj[ReflectionData.Key_Label];
             $ComBoBoxCtrl2D.FunKey = $obj[ReflectionData.FunKey];
             $ComBoBoxCtrl2D.data = $obj[ReflectionData.Key_Data];
+            $ComBoBoxCtrl2D.target = this
+            return $ComBoBoxCtrl2D;
+        }
+        public getCheckBox($obj: Object): CheckBox2DUI {
+            var $ComBoBoxCtrl2D: CheckBox2DUI = new CheckBox2DUI(this.propPanle)
+            $ComBoBoxCtrl2D.label = $obj[ReflectionData.Key_Label];
+            $ComBoBoxCtrl2D.FunKey = $obj[ReflectionData.FunKey];
             $ComBoBoxCtrl2D.target = this
             return $ComBoBoxCtrl2D;
         }
