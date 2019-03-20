@@ -161,7 +161,7 @@
             this.inputTextUiY.x = this._x + 155;
             this.inputTextUiZ.x = this._x + 225;
 
-            this.colorPickUI.x = this._x + 35;
+            this.colorPickUI.x = this._x + 37;
         }
         public set y(value: number) {
             this._y = value + 5;
@@ -172,7 +172,7 @@
             this.inputTextUiX.y = this._y
             this.inputTextUiY.y = this._y
             this.inputTextUiZ.y = this._y
-            this.colorPickUI.y = this._y - 2;
+            this.colorPickUI.y = this._y +2;
         }
         public refreshViewValue(): void {
             super.refreshViewValue()
@@ -183,7 +183,7 @@
         protected initView(): void {
 
             super.initView()
-            this.colorPickUI = new ColorPickUI(16, 16);
+            this.colorPickUI = new ColorPickUI(12, 12);
             this.colorPickUI.addEventListener(ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this)
 
             this.propPanle.addBaseMeshUi(this.colorPickUI )

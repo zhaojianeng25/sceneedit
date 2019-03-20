@@ -4,36 +4,70 @@
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
     import UiMeshSprite = prop.UiMeshSprite
- 
 
- 
+
+
 
 
     export class MateriaMeshView extends MetaDataView {
         public constructor(value: UiMeshSprite) {
             super(value);
- 
+
         }
-       
+
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                   
-                    { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1 , Category: "属性" },
-                    { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0.,  Category: "属性" },
+                    {
+                        Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "rendermodel", target: this, Data: [
+                            { name: "普通模式", type: 0 },
+                            { name: "透明模式", type: 1 },
+                            { name: "叠加模式", type: 2 }],
+                        Category: "设置"
+                    },
+
+                    {
+                        Type: ReflectionData.ComboBox, Label: "深度测试:", FunKey: "zbuff", target: this, Data: [
+                            { name: "true", type: 0 },
+                            { name: "false", type: 1 }],
+                        Category: "设置"
+                    },
+
+                    {
+                        Type: ReflectionData.ComboBox, Label: "点灯光:", FunKey: "pointlight", target: this, Data: [
+                            { name: "不接受", type: 0 },
+                            { name: "接受", type: 1 }],
+                        Category: "设置"
+                    },
+
+                    { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
+                    { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
-                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
-                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
-                    { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
+
                 ];
             return ary;
         }
-        public creat(data: Array<any>): void {
-            super.creat(data);
-            console.log(data)
-         
+        public get rendermodel(): number {
+            return this._materialTree.rendermodel
         }
+        public set rendermodel(value: number) {
+            this._materialTree.rendermodel = value
 
+        }
+        public get zbuff(): number {
+            return this._materialTree.zbuff
+        }
+        public set zbuff(value: number) {
+            this._materialTree.zbuff = value
+
+        }
+        public get pointlight(): number {
+            return this._materialTree.pointlight
+        }
+        public set pointlight(value: number) {
+            this._materialTree.pointlight = value
+
+        }
 
         private _materialTree: materialui.MaterialTree
         public set data(value: any) {
@@ -72,9 +106,9 @@
         }
         public resize(): void {
             super.resize()
-         
+
         }
-            
+
 
 
     }

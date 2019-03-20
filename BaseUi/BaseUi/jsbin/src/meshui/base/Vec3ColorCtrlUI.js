@@ -161,7 +161,7 @@ var prop;
                 this.inputTextUiX.x = this._x + 85;
                 this.inputTextUiY.x = this._x + 155;
                 this.inputTextUiZ.x = this._x + 225;
-                this.colorPickUI.x = this._x + 35;
+                this.colorPickUI.x = this._x + 37;
             },
             enumerable: true,
             configurable: true
@@ -176,7 +176,7 @@ var prop;
                 this.inputTextUiX.y = this._y;
                 this.inputTextUiY.y = this._y;
                 this.inputTextUiZ.y = this._y;
-                this.colorPickUI.y = this._y - 2;
+                this.colorPickUI.y = this._y + 2;
             },
             enumerable: true,
             configurable: true
@@ -187,7 +187,7 @@ var prop;
         };
         Vec3ColorCtrlUI.prototype.initView = function () {
             _super.prototype.initView.call(this);
-            this.colorPickUI = new prop.ColorPickUI(16, 16);
+            this.colorPickUI = new prop.ColorPickUI(12, 12);
             this.colorPickUI.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.colorPickUIchange, this);
             this.propPanle.addBaseMeshUi(this.colorPickUI);
         };

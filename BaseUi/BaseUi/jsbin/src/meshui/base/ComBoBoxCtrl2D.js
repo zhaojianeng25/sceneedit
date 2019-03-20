@@ -27,7 +27,7 @@ var prop;
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.comboBoxUi);
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
-            this.height = 20;
+            this.height = 30;
         };
         ComBoBoxCtrl2D.prototype.destory = function () {
             this.textLabelUI.destory();
@@ -80,8 +80,8 @@ var prop;
             },
             set: function (value) {
                 this._y = value;
-                this.textLabelUI.y = this._y;
-                this.comboBoxUi.y = this._y;
+                this.textLabelUI.y = this._y + 4;
+                this.comboBoxUi.y = this._y + 6;
             },
             enumerable: true,
             configurable: true

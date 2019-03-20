@@ -222,8 +222,8 @@ var materialleft;
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2;
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height;
-                this.showModelPicUI.y = 26;
-                this.metriSpriteMesh.y = this.showModelPicUI.height;
+                this.showModelPicUI.y = 24;
+                this.metriSpriteMesh.y = this.showModelPicUI.height + 5;
                 this.propPanle.resize();
             }
         };
