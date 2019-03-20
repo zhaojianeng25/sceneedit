@@ -18,30 +18,30 @@ var popmodel;
     var BaseProcessor = Pan3d.BaseProcessor;
     var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
-    var PopModelShowEvent = /** @class */ (function (_super) {
-        __extends(PopModelShowEvent, _super);
-        function PopModelShowEvent() {
+    var MaterialLeftEvent = /** @class */ (function (_super) {
+        __extends(MaterialLeftEvent, _super);
+        function MaterialLeftEvent() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        PopModelShowEvent.SHOW_POP_MODEL_PANEL = "SHOW_LEFT_PANEL";
-        PopModelShowEvent.HIDE_POP_MODEL_PANEL = "HIDE_LEFT_PANEL";
-        return PopModelShowEvent;
+        MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL = "SHOW_MATERIAL_LEFT_PANEL";
+        MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL = "HIDE_MATERIAL_LEFT_PANEL";
+        return MaterialLeftEvent;
     }(BaseEvent));
-    popmodel.PopModelShowEvent = PopModelShowEvent;
-    var PopModelShowModule = /** @class */ (function (_super) {
-        __extends(PopModelShowModule, _super);
-        function PopModelShowModule() {
+    popmodel.MaterialLeftEvent = MaterialLeftEvent;
+    var MaterialLeftModule = /** @class */ (function (_super) {
+        __extends(MaterialLeftModule, _super);
+        function MaterialLeftModule() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        PopModelShowModule.prototype.getModuleName = function () {
-            return "PopModelShowModule";
+        MaterialLeftModule.prototype.getModuleName = function () {
+            return "MaterialLeftModule";
         };
-        PopModelShowModule.prototype.listProcessors = function () {
+        MaterialLeftModule.prototype.listProcessors = function () {
             return [new MaterialLeftProcessor()];
         };
-        return PopModelShowModule;
+        return MaterialLeftModule;
     }(Module));
-    popmodel.PopModelShowModule = PopModelShowModule;
+    popmodel.MaterialLeftModule = MaterialLeftModule;
     var MaterialLeftProcessor = /** @class */ (function (_super) {
         __extends(MaterialLeftProcessor, _super);
         function MaterialLeftProcessor() {
@@ -51,13 +51,13 @@ var popmodel;
             return "MaterialLeftProcessor";
         };
         MaterialLeftProcessor.prototype.receivedModuleEvent = function ($event) {
-            if ($event instanceof PopModelShowEvent) {
+            if ($event instanceof MaterialLeftEvent) {
                 var $leftEvent = $event;
-                if ($leftEvent.type == PopModelShowEvent.SHOW_POP_MODEL_PANEL) {
+                if ($leftEvent.type == MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL) {
                     this.showLeftPanel();
                     this.readBaseModel();
                 }
-                if ($leftEvent.type == PopModelShowEvent.HIDE_POP_MODEL_PANEL) {
+                if ($leftEvent.type == MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL) {
                     this.hideLeftPanel();
                 }
             }
@@ -80,8 +80,8 @@ var popmodel;
         };
         MaterialLeftProcessor.prototype.listenModuleEvents = function () {
             return [
-                new PopModelShowEvent(PopModelShowEvent.SHOW_POP_MODEL_PANEL),
-                new PopModelShowEvent(PopModelShowEvent.HIDE_POP_MODEL_PANEL),
+                new MaterialLeftEvent(MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL),
+                new MaterialLeftEvent(MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL),
             ];
         };
         return MaterialLeftProcessor;

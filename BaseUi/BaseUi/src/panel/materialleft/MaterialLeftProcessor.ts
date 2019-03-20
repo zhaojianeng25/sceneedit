@@ -8,13 +8,13 @@
     import Scene_data = Pan3d.Scene_data
     import ModuleEventManager = Pan3d.ModuleEventManager;
 
-    export class PopModelShowEvent extends BaseEvent {
-        public static SHOW_POP_MODEL_PANEL: string = "SHOW_LEFT_PANEL";  
-        public static HIDE_POP_MODEL_PANEL: string = "HIDE_LEFT_PANEL";  
+    export class MaterialLeftEvent extends BaseEvent {
+        public static SHOW_MATERIAL_LEFT_PANEL: string = "SHOW_MATERIAL_LEFT_PANEL";  
+        public static HIDE_MATERIAL_LEFT_PANEL: string = "HIDE_MATERIAL_LEFT_PANEL";  
     }
-    export class PopModelShowModule extends Module {
+    export class MaterialLeftModule extends Module {
         public getModuleName(): string {
-            return "PopModelShowModule";
+            return "MaterialLeftModule";
         }
         protected listProcessors(): Array<Processor> {
             return [new MaterialLeftProcessor()];
@@ -26,13 +26,13 @@
             return "MaterialLeftProcessor";
         }
         protected receivedModuleEvent($event: BaseEvent): void {
-            if ($event instanceof PopModelShowEvent) {
-                var $leftEvent: PopModelShowEvent = <PopModelShowEvent>$event;
-                if ($leftEvent.type == PopModelShowEvent.SHOW_POP_MODEL_PANEL) {
+            if ($event instanceof MaterialLeftEvent) {
+                var $leftEvent: MaterialLeftEvent = <MaterialLeftEvent>$event;
+                if ($leftEvent.type == MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL) {
                     this.showLeftPanel();
                     this.readBaseModel();
                 }
-                if ($leftEvent.type == PopModelShowEvent.HIDE_POP_MODEL_PANEL) {
+                if ($leftEvent.type == MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL) {
                     this.hideLeftPanel();
                 }
             }
@@ -59,8 +59,8 @@
         private popModelShowPanel: MaterialLeftPanel
         protected listenModuleEvents(): Array<BaseEvent> {
             return [
-                new PopModelShowEvent(PopModelShowEvent.SHOW_POP_MODEL_PANEL),
-                new PopModelShowEvent(PopModelShowEvent.HIDE_POP_MODEL_PANEL),
+                new MaterialLeftEvent(MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL),
+                new MaterialLeftEvent(MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL),
 
 
             ];

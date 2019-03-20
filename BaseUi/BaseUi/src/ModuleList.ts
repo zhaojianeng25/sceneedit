@@ -24,7 +24,7 @@ class ModuleList {
             new maineditor.MainEditorModule(), //场景
             new folder.FolderModule(),  //文件夹
             new xyz.MoveScaleRotatioinModule(),  //移动旋转组件
-            new popmodel.PopModelShowModule(),  //模型显示小窗口
+            new popmodel.MaterialLeftModule(),  //模型显示小窗口
             new drag.DragModule(),
 
         ];
