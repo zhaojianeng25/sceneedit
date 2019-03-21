@@ -194,7 +194,8 @@
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW))
                     break
                 case "22":
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CHANGE_LEFT_PANEL_SHOW))
+                case "23":
+                    inputres.ImputGameResModel.getInstance().loadSceneByUrl()
                     break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
@@ -203,7 +204,7 @@
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break
                 case "1003":
-                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL));
+                    
                     break
                 case "1004":
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));

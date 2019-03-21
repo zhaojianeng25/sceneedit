@@ -197,6 +197,8 @@
             BaseRes.readBytes2ArrayBuffer(byte, data, 3, tangentsOffsets, dataWidth);//tangents
             BaseRes.readBytes2ArrayBuffer(byte, data, 3, bitangentsOffsets, dataWidth);//bitangents
 
+            $objData.dataView = data
+
             // BaseRes.readFloatTwoByte(byte, $objData.vertices);
             // BaseRes.readFloatTwoByte(byte, $objData.uvs);
             // BaseRes.readLightUvForByte(byte, $objData.lightuvs);
@@ -238,6 +240,8 @@
             $objData.tangentsOffsets = tangentsOffsets * 4;
             $objData.bitangentsOffsets = bitangentsOffsets * 4;
             $objData.stride = dataWidth * 4;
+
+            console.log("$objData.stride ", $objData.stride )
 
        
 

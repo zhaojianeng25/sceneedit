@@ -1,6 +1,6 @@
 ﻿module Pan3d {
     export class ObjData extends ResCount {
-
+        public dataView: DataView;
         public vertices: Array<number> = new Array;
         public uvs: Array<number> = new Array;
         public indexs: Array<number> = new Array;

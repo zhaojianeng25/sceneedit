@@ -46,6 +46,7 @@
     <TypeScriptCompile Include="src\meshui\UiMeshSprite.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EditorModel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\EdItorSceneManager.ts" />
+    <TypeScriptCompile Include="src\panel\maineditor\InputGameResModel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\PropertyMeshView.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\MainEditorPanel.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\ScenePojectMeshView.ts" />
