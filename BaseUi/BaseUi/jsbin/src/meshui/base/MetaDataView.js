@@ -115,6 +115,9 @@ var prop;
             if (type == prop.ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
+            if (type == prop.ReflectionData.CheckBox) {
+                return this.getCheckBox(obj);
+            }
             if (type == prop.ReflectionData.Vec3Color) {
                 return this.getVec3Color(obj);
             }
@@ -171,6 +174,13 @@ var prop;
             $ComBoBoxCtrl2D.label = $obj[prop.ReflectionData.Key_Label];
             $ComBoBoxCtrl2D.FunKey = $obj[prop.ReflectionData.FunKey];
             $ComBoBoxCtrl2D.data = $obj[prop.ReflectionData.Key_Data];
+            $ComBoBoxCtrl2D.target = this;
+            return $ComBoBoxCtrl2D;
+        };
+        MetaDataView.prototype.getCheckBox = function ($obj) {
+            var $ComBoBoxCtrl2D = new prop.CheckBox2DUI(this.propPanle);
+            $ComBoBoxCtrl2D.label = $obj[prop.ReflectionData.Key_Label];
+            $ComBoBoxCtrl2D.FunKey = $obj[prop.ReflectionData.FunKey];
             $ComBoBoxCtrl2D.target = this;
             return $ComBoBoxCtrl2D;
         };

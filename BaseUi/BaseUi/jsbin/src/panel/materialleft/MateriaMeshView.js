@@ -11,51 +11,78 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var popmodel;
-(function (popmodel) {
+var materialleft;
+(function (materialleft) {
     var Scene_data = Pan3d.Scene_data;
     var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
-    var MetriMeshSprite = /** @class */ (function (_super) {
-        __extends(MetriMeshSprite, _super);
-        function MetriMeshSprite() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        MetriMeshSprite.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-        };
-        return MetriMeshSprite;
-    }(prop.UiMeshSprite));
-    popmodel.MetriMeshSprite = MetriMeshSprite;
-    var MetriSpriteMesh = /** @class */ (function (_super) {
-        __extends(MetriSpriteMesh, _super);
-        function MetriSpriteMesh(value) {
+    var MateriaMeshView = /** @class */ (function (_super) {
+        __extends(MateriaMeshView, _super);
+        function MateriaMeshView(value) {
             return _super.call(this, value) || this;
         }
-        MetriSpriteMesh.prototype.getView = function () {
+        MateriaMeshView.prototype.getView = function () {
             var ary = [
+                {
+                    Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "rendermodel", target: this, Data: [
+                        { name: "普通模式", type: 0 },
+                        { name: "透明模式", type: 1 },
+                        { name: "叠加模式", type: 2 }
+                    ],
+                    Category: "设置"
+                },
+                { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "zbuff", target: this, Category: "设置" },
+                { Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this, Category: "设置" },
                 { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
-                { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
-                { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
-                { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
         };
-        Object.defineProperty(MetriSpriteMesh.prototype, "data", {
+        Object.defineProperty(MateriaMeshView.prototype, "rendermodel", {
+            get: function () {
+                return this._materialTree.rendermodel;
+            },
+            set: function (value) {
+                this._materialTree.rendermodel = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MateriaMeshView.prototype, "zbuff", {
+            get: function () {
+                return this._materialTree.zbuff;
+            },
+            set: function (value) {
+                this._materialTree.zbuff = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MateriaMeshView.prototype, "pointlight", {
+            get: function () {
+                return this._materialTree.pointlight;
+            },
+            set: function (value) {
+                this._materialTree.pointlight = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MateriaMeshView.prototype, "data", {
             get: function () {
                 return this._data;
             },
             set: function (value) {
                 this._data = value;
+                this._materialTree = value;
                 this.refreshViewValue();
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MetriSpriteMesh.prototype, "sunDirect", {
+        Object.defineProperty(MateriaMeshView.prototype, "sunDirect", {
             get: function () {
                 return new Vector3D(Scene_data.light.sunDirect[0], Scene_data.light.sunDirect[1], Scene_data.light.sunDirect[2]);
             },
@@ -67,7 +94,7 @@ var popmodel;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MetriSpriteMesh.prototype, "sunColor", {
+        Object.defineProperty(MateriaMeshView.prototype, "sunColor", {
             get: function () {
                 return new Vector3D(Scene_data.light.sunColor[0], Scene_data.light.sunColor[1], Scene_data.light.sunColor[2]);
             },
@@ -79,7 +106,7 @@ var popmodel;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MetriSpriteMesh.prototype, "ambientColor", {
+        Object.defineProperty(MateriaMeshView.prototype, "ambientColor", {
             get: function () {
                 return new Vector3D(Scene_data.light.ambientColor[0], Scene_data.light.ambientColor[1], Scene_data.light.ambientColor[2]);
             },
@@ -91,11 +118,11 @@ var popmodel;
             enumerable: true,
             configurable: true
         });
-        MetriSpriteMesh.prototype.resize = function () {
+        MateriaMeshView.prototype.resize = function () {
             _super.prototype.resize.call(this);
         };
-        return MetriSpriteMesh;
+        return MateriaMeshView;
     }(MetaDataView));
-    popmodel.MetriSpriteMesh = MetriSpriteMesh;
-})(popmodel || (popmodel = {}));
-//# sourceMappingURL=MetriSpriteMesh.js.map
+    materialleft.MateriaMeshView = MateriaMeshView;
+})(materialleft || (materialleft = {}));
+//# sourceMappingURL=MateriaMeshView.js.map

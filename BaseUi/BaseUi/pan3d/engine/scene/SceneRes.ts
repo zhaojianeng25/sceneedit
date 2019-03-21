@@ -6,10 +6,7 @@
         protected _progressFun: Function;
         public sceneData: any;
 
-        public set readDataFun(value: Function)
-        {
-            this._readDataFun = value;
-        }
+
         public load($url: string, $completeFun: Function, $progressFun: Function, $readDataFun: Function): void {
 
             if (this.sceneData) {
@@ -141,7 +138,7 @@
         public loadComplete($byte: ArrayBuffer): void {
             //alert(TimeUtil.getTimer()-this.curTime);
             this._byte = new Pan3dByteArray($byte);
-            this._completeFun&& this._completeFun();
+            this._completeFun();
 
             this.applyByteArray();
         }
@@ -160,7 +157,7 @@
             this.read();//particle;
             this.readScene();
 
-            this._readDataFun&&    this._readDataFun(this.sceneData);
+            this._readDataFun(this.sceneData);
         }
 
 

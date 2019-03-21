@@ -288,6 +288,7 @@ var maineditor;
         __extends(HierarchyListPanel, _super);
         function HierarchyListPanel() {
             var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 50) || this;
+            _this.only = true; //标记需要移除
             // private fileItem: Array<FolderMeshVo>;
             _this.moveListTy = 0;
             _this.cellBgItem = [];
@@ -312,6 +313,7 @@ var maineditor;
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+                //  console.log("图片加载完")
             });
         };
         HierarchyListPanel.prototype.loadAssetImg = function (bfun) {
@@ -404,7 +406,6 @@ var maineditor;
             if ($clikVo) {
                 this.hidefileItemBg(maineditor.EditorModel.getInstance().fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true;
-                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 maineditor.EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
                 this.showXyzMove();
             }
@@ -468,6 +469,10 @@ var maineditor;
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
             document.addEventListener("contextmenu", this.onRightMenuFun);
+            this.loadBaseSceneUrl();
+        };
+        HierarchyListPanel.prototype.loadBaseSceneUrl = function () {
+            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), "scene.map"); //加载场景
         };
         HierarchyListPanel.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();

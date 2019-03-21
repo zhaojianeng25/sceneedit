@@ -58,12 +58,14 @@ var prop;
             _this._x = 0;
             _this._y = 0;
             _this.textureContext = new TextureContext(w, h);
-            // PropModel.getInstance().propPanle.addBaseMeshUi(this);
             _this.ui = _this.textureContext.ui;
             return _this;
         }
         BaseMeshUi.prototype.destory = function () {
-            prop.PropModel.getInstance().propPanle.romveBaseMeshUi(this);
+            var layUIManager = this.textureContext.perent;
+            if (layUIManager) {
+                layUIManager.removeUIContainer(this.textureContext);
+            }
         };
         BaseMeshUi.prototype.addEvets = function () {
             var $ui = this.ui;

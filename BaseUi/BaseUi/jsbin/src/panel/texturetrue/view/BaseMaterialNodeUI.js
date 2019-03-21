@@ -171,10 +171,7 @@ var materialui;
                     this.clikUiEvent(evt);
                     break;
             }
-            console.log("BaseMaterialNodeUI");
-            var $materialEvent = new materialui.MaterialEvent(materialui.MaterialEvent.SELECT_MATERIAL_NODE_UI);
-            $materialEvent.nodeUi = this;
-            ModuleEventManager.dispatchEvent($materialEvent);
+            ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SELECT_MATERIAL_NODE_UI), this);
         };
         BaseMaterialNodeUI.prototype.getInItem = function ($id) {
             return this.inPutItemVec[$id];

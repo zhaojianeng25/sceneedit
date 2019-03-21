@@ -34,9 +34,8 @@
         public selectMaterialUrl(url: string): void {
         
             pack.MaterialManager.getInstance().getMaterialByUrl( url, ($materialTree: materialui.MaterialTree) => {
-                var $materialEvent: MaterialEvent = new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE)
-                $materialEvent.materailTree = $materialTree;
-                ModuleEventManager.dispatchEvent($materialEvent);
+ 
+                ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE) ,$materialTree);
             
             })
         }
@@ -273,9 +272,8 @@
                     $tempMaterial = new MaterialTree;
                     $tempMaterial.url = $texturl
                     $tempMaterial.setData({ data: $temp.data });
-                    var $materialEvent: MaterialEvent = new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE)
-                    $materialEvent.materailTree = $tempMaterial;
-                    ModuleEventManager.dispatchEvent($materialEvent);
+           
+                    ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE), $tempMaterial);
 
                 /*
                     LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/config/" + this.fileid + ".txt", LoadManager.XML_TYPE,

@@ -25,6 +25,13 @@
             value.perent = this;
             this.children.push(value);
         }
+        public removeChild(value: Sprite): void {
+            var idx: number = this.children.indexOf(value)
+            if (idx != -1) {
+                this.children.splice(idx, 1)
+            }
+           
+        }
       
         public update(): void {
           

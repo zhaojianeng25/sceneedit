@@ -25,9 +25,7 @@ var materialui;
         };
         MaterialModel.prototype.selectMaterialUrl = function (url) {
             pack.MaterialManager.getInstance().getMaterialByUrl(url, function ($materialTree) {
-                var $materialEvent = new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE);
-                $materialEvent.materailTree = $materialTree;
-                ModuleEventManager.dispatchEvent($materialEvent);
+                ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE), $materialTree);
             });
         };
         MaterialModel.prototype.getMenuXml = function () {
@@ -230,9 +228,7 @@ var materialui;
                 $tempMaterial = new materialui.MaterialTree;
                 $tempMaterial.url = $texturl;
                 $tempMaterial.setData({ data: $temp.data });
-                var $materialEvent = new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE);
-                $materialEvent.materailTree = $tempMaterial;
-                ModuleEventManager.dispatchEvent($materialEvent);
+                ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE), $tempMaterial);
                 /*
                     LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/config/" + this.fileid + ".txt", LoadManager.XML_TYPE,
                         ($configStr: string) => {

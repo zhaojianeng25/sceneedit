@@ -1,4 +1,4 @@
-﻿module popmodel {
+﻿module materialleft {
     import UICompenent = Pan3d.UICompenent
     import FrameCompenent = Pan3d.FrameCompenent
     import UIRenderComponent = Pan3d.UIRenderComponent
@@ -156,24 +156,29 @@
     }
 
 
-    export class PopModelShowPanel extends win.BaseWindow {
+    export class MaterialLeftPanel extends win.BaseWindow {
 
- 
+        public only: boolean = true //标记需要移除
         public constructor() {
             super();
+     
             this.modelPic = new modelShowRender();
             this.addRender(this.modelPic)
             this.addPojectView();
             this.initView();
         }
-        public propPanle: MetriMeshSprite;
-        private metriSpriteMesh: MetriSpriteMesh
+        public propPanle: prop.UiMeshSprite;
+        private metriSpriteMesh: MateriaMeshView
         private addPojectView(): void {
-            this.propPanle = new MetriMeshSprite();
-            this.metriSpriteMesh = new MetriSpriteMesh(this.propPanle);
+            this.propPanle = new prop.UiMeshSprite();
+            this.metriSpriteMesh = new MateriaMeshView(this.propPanle);
             this.propPanle.addMeshView(this.metriSpriteMesh)
         }
-
+        private _materialTree: materialui.MaterialTree
+        public set materialTree(value: materialui.MaterialTree) {
+            this._materialTree = value;
+            this.metriSpriteMesh.data = this._materialTree;
+        }
         protected loadConfigCom(): void {
             super.loadConfigCom();
  
@@ -281,9 +286,9 @@
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2
                 this.showModelPicUI.y = (this.pageRect.height - this.a_tittle_bg.height - minW) / 2 + this.a_tittle_bg.height
-                this.showModelPicUI.y = 26
+                this.showModelPicUI.y = 24
 
-                this.metriSpriteMesh.y = this.showModelPicUI.height;
+                this.metriSpriteMesh.y = this.showModelPicUI.height+5;
          
                 this.propPanle.resize()
             }

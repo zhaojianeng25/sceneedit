@@ -228,15 +228,10 @@
                     break;
             }
 
-            console.log("BaseMaterialNodeUI")
-       
-            var $materialEvent: MaterialEvent = new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI)
-            $materialEvent.nodeUi = this;
-            ModuleEventManager.dispatchEvent($materialEvent);
+ 
+            ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI), this);
 
-  
-         
-     
+ 
         }
 
         public getInItem($id: number): ItemMaterialUI{

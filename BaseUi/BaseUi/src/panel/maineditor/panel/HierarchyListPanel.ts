@@ -339,6 +339,7 @@
 
     export class HierarchyListPanel extends win.Dis2dBaseWindow {
 
+        public only: boolean = true //标记需要移除
         public static imgBaseDic: any;
         public constructor() {
             super(FolderName, new Rectangle(0, 0, 256, 40), 50);
@@ -348,9 +349,6 @@
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();
-
-
-
             var item: Array<UICompenent> = [
                 this.b_bottom_left,
                 this.b_bottom_mid,
@@ -360,12 +358,12 @@
                 this.a_bottom_line,
             ]
             this.setUiListVisibleByItem(item, false)
-
             this.resize();
-
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
+
+              //  console.log("图片加载完")
             })
         }
         private _cellBgRender: UIRenderComponent
@@ -404,9 +402,6 @@
             super.update(t);
 
         }
- 
-    
- 
 
         private makeFileFloadMenu($evt: MouseEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
@@ -470,7 +465,7 @@
             if ($clikVo) {
                 this.hidefileItemBg(EditorModel.getInstance().fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true
-                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+           
 
                 EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
       
@@ -548,6 +543,10 @@
             }
             document.addEventListener("contextmenu", this.onRightMenuFun)
 
+            this.loadBaseSceneUrl()
+        }
+        private loadBaseSceneUrl(): void {
+            ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP), "scene.map"); //加载场景
         }
         private onRightMenuFun: any
         public onRightMenu($evt: MouseEvent): void {

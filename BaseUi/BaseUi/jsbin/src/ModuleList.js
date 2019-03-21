@@ -25,7 +25,7 @@ var ModuleList = /** @class */ (function () {
             new maineditor.MainEditorModule(),
             new folder.FolderModule(),
             new xyz.MoveScaleRotatioinModule(),
-            new popmodel.PopModelShowModule(),
+            new materialleft.MaterialLeftModule(),
             new drag.DragModule(),
         ];
         return $arr;

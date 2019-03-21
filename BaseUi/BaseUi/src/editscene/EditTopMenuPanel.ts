@@ -11,8 +11,6 @@
     import TextureManager = Pan3d.TextureManager
     import Rectangle = Pan3d.Rectangle
     import UIAtlas = Pan3d.UIAtlas
-    import LoadManager = Pan3d.LoadManager
-    import ObjDataManager = Pan3d.ObjDataManager
     import Scene_data = Pan3d.Scene_data
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
 
@@ -151,7 +149,7 @@
             var $vo: MenuListData = new MenuListData("窗口", "2")
             $vo.subMenu = new Array;
             $vo.subMenu.push(new MenuListData("场景属性", "21"));
-            $vo.subMenu.push(new MenuListData("载入场景", "22"));
+            $vo.subMenu.push(new MenuListData("属性列表", "22"));
             $vo.subMenu.push(new MenuListData("文件列表", "23"));
             return $vo
         }
@@ -174,6 +172,8 @@
             var menuB: Array<MenuListData> = new Array();
             menuB.push(new MenuListData("保存材质", "1001"));
             menuB.push(new MenuListData("编译材质", "1002"));
+            menuB.push(new MenuListData("关闭材质窗口", "1003"));
+            menuB.push(new MenuListData("返回场景", "1004"));
 
             temp.menuXmlItem = menuB;
             this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
@@ -194,7 +194,7 @@
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW))
                     break
                 case "22":
-                    this.loadExPmap()
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CHANGE_LEFT_PANEL_SHOW))
                     break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
@@ -202,28 +202,17 @@
                 case "1002":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break
+                case "1003":
+                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL));
+                    break
+                case "1004":
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                    break
                 default:
     
                     break
             }
         }
-
-        private loadExPmap(): void {
-            var sceneRes: Pan3d.SceneRes = new Pan3d.SceneRes()
-            sceneRes.readDataFun = () => {
-                console.log(sceneRes)
-             
-                ObjDataManager.getInstance().getObjData(Scene_data.fileRoot + "working/scene007/dae/scene007_01_0.xml", ($objData: ObjData) => {
-                    console.log($objData)
-                });
-               
-            }
-
-            LoadManager.getInstance().load(Scene_data.fileRoot+"pan/expmapinfo.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
-                sceneRes.loadComplete($byte)
-            });
-        }
-    
 
     
         public showMainUi(): void {

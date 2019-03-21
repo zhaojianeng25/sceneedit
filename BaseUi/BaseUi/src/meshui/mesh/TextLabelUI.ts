@@ -69,12 +69,16 @@
         public constructor(  w: number = 64, h: number = 64) {
             super();
             this.textureContext = new TextureContext(w,h)
-           // PropModel.getInstance().propPanle.addBaseMeshUi(this);
             this.ui = this.textureContext.ui
        
         }
         public destory(): void {
-            PropModel.getInstance().propPanle.romveBaseMeshUi(this);
+ 
+            var layUIManager: win.LayUIManager = this.textureContext.perent
+            if (layUIManager) {
+                layUIManager.removeUIContainer(this.textureContext);
+            }
+           
         }
         protected addEvets(): void {
             var $ui: UICompenent = this.ui

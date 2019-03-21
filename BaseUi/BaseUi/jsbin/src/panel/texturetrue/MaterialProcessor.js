@@ -34,7 +34,6 @@ var materialui;
         MaterialEvent.SAVE_MATERIA_PANEL = "SAVE_MATERIA_PANEL"; //
         MaterialEvent.SELECT_MATERIAL_NODE_UI = "SELECT_MATERIAL_NODE_UI"; //
         MaterialEvent.COMPILE_MATERIAL = "COMPILE_MATERIAL"; //
-        MaterialEvent.SCENE_UI_TRUE_MOVE = "SCENE_UI_TRUE_MOVE"; //
         MaterialEvent.INUPT_NEW_MATERIAL_FILE = "CLEAR_MATERIAL_ALL_UI"; //
         return MaterialEvent;
     }(BaseEvent));
@@ -77,31 +76,24 @@ var materialui;
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 3);
-                    ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
-                    if ($materialEvent.data) {
-                        if (this.lastMaterialUrl != $materialEvent.data) { //是上一个材质，就不加载
-                            ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
-                            materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
-                            this.lastMaterialUrl = $materialEvent.data;
-                        }
-                    }
                     editscene.EditTopMenuPanel.getInstance().makeTextureTopMenu();
+                    ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
+                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL));
+                    materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
+                    this.lastMaterialUrl = $materialEvent.data;
                     this.addEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {
                     this.saveMateriaPanel();
                 }
                 if ($materialEvent.type == MaterialEvent.SELECT_MATERIAL_NODE_UI) {
-                    this.selectNodeUi($materialEvent.nodeUi);
+                    this.selectNodeUi($materialEvent.data);
                 }
                 if ($materialEvent.type == MaterialEvent.COMPILE_MATERIAL) {
                     materialui.MaterialCompile.getInstance().compile(materialui.MaterialCtrl.getInstance().nodeList, this.baseMaterialTree);
                 }
-                if ($materialEvent.type == MaterialEvent.SCENE_UI_TRUE_MOVE) {
-                    this.stageMoveTx($materialEvent.v2d);
-                }
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
-                    this.clearAllMaterialUi($materialEvent.materailTree);
+                    this.clearAllMaterialUi($materialEvent.data);
                 }
             }
             if ($event instanceof materialui.MEvent_Material_Connect) {
@@ -441,7 +433,6 @@ var materialui;
                 new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
                 new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),
-                new MaterialEvent(MaterialEvent.SCENE_UI_TRUE_MOVE),
                 new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
                 new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STARTDRAG),
                 new materialui.MEvent_Material_Connect(materialui.MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG),

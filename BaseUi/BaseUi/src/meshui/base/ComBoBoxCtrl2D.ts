@@ -20,7 +20,7 @@
  
 
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this)
-            this.height = 20
+            this.height = 30
         }
         public destory(): void {
             this.textLabelUI.destory()
@@ -63,8 +63,8 @@
 
         public set y(value: number) {
             this._y = value;
-            this.textLabelUI.y = this._y
-            this.comboBoxUi.y = this._y
+            this.textLabelUI.y = this._y+4
+            this.comboBoxUi.y = this._y+6
         }
         public get y(): number {
             return this._y

@@ -74,8 +74,8 @@
 
             this.resize()
 
-            console.log("ui布局完成")
-            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP),"scene.map"); //加载场景
+       //     console.log("ui布局完成")
+         
 
         }
         private hideItemDic: any = {}
@@ -279,7 +279,7 @@
                 case this.leftLine:
                     this.leftWidthNum = this.lastLaoutVec.x + (evt.x - this.lastMousePos.x)
                     this.leftWidthNum = Math.min((Scene_data.stageWidth - this.rightWidthNum) - 100, this.leftWidthNum)
-                    this.leftWidthNum = Math.max(100, this.leftWidthNum);
+                    this.leftWidthNum = Math.max(300, this.leftWidthNum);
                     break
                 case this.rightLine:
                     this.rightWidthNum = this.lastLaoutVec.y - (evt.x - this.lastMousePos.x)

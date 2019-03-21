@@ -25,11 +25,11 @@
         public static SAVE_MATERIA_PANEL: string = "SAVE_MATERIA_PANEL"; //
         public static SELECT_MATERIAL_NODE_UI: string = "SELECT_MATERIAL_NODE_UI"; //
         public static COMPILE_MATERIAL: string = "COMPILE_MATERIAL"; //
-        public static SCENE_UI_TRUE_MOVE: string = "SCENE_UI_TRUE_MOVE"; //
+ 
         public static INUPT_NEW_MATERIAL_FILE: string = "CLEAR_MATERIAL_ALL_UI"; //
-        public nodeUi: BaseMaterialNodeUI
-        public v2d: Vector2D
-        public materailTree: MaterialTree
+  
+ 
+ 
 
     }
     export class MaterialModule extends Module {
@@ -69,27 +69,18 @@
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
                     BaseUiStart.centenPanel.addUIContainer(this.baseWindow)
-                 
-
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().bgwinPanel, 1)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 2)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 3);
- 
+                    editscene.EditTopMenuPanel.getInstance().makeTextureTopMenu();
 
                     ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
-                    if ($materialEvent.data) {
-                        if (this.lastMaterialUrl != $materialEvent.data) { //是上一个材质，就不加载
+                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL));
+            
 
-                            ModuleEventManager.dispatchEvent(new popmodel.PopModelShowEvent(popmodel.PopModelShowEvent.SHOW_POP_MODEL_PANEL));
-                            MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
-                            this.lastMaterialUrl = $materialEvent.data
-
-
-                        }
-                       
-                    }
-
-                    editscene.EditTopMenuPanel.getInstance().makeTextureTopMenu()
+                    MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
+                    this.lastMaterialUrl = $materialEvent.data
+           
 
                     this.addEvents()
                
@@ -100,16 +91,13 @@
                 }
 
                 if ($materialEvent.type == MaterialEvent.SELECT_MATERIAL_NODE_UI) {
-                    this.selectNodeUi($materialEvent.nodeUi)
+                    this.selectNodeUi($materialEvent.data)
                 }
                 if ($materialEvent.type == MaterialEvent.COMPILE_MATERIAL) {
                     MaterialCompile.getInstance().compile(MaterialCtrl.getInstance().nodeList, this.baseMaterialTree)
                 }
-                if ($materialEvent.type == MaterialEvent.SCENE_UI_TRUE_MOVE) {
-                    this.stageMoveTx($materialEvent.v2d)
-                }
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
-                    this.clearAllMaterialUi($materialEvent.materailTree);
+                    this.clearAllMaterialUi($materialEvent.data);
                 }
 
 
@@ -545,14 +533,10 @@
             return [
                 new MaterialEvent(MaterialEvent.INIT_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.SHOW_MATERIA_PANEL),
-           
                 new MaterialEvent(MaterialEvent.SELECT_MATERIAL_NODE_UI),
                 new MaterialEvent(MaterialEvent.SAVE_MATERIA_PANEL),
                 new MaterialEvent(MaterialEvent.COMPILE_MATERIAL),
-                new MaterialEvent(MaterialEvent.SCENE_UI_TRUE_MOVE),
                 new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
-
-
                 new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STARTDRAG),
                 new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_STOPDRAG),
                 new MEvent_Material_Connect(MEvent_Material_Connect.MEVENT_MATERIAL_CONNECT_REMOVELINE),
