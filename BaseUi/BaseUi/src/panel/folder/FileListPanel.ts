@@ -89,7 +89,7 @@
                     case FileVo.PNG:
                         LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE,
                             ($img: any) => {
-                                this.drawFileIconName($img, fileVo.name, $color)
+                                this.tempDown($img, fileVo.name, $color)
                             });
                         break
                     case FileVo.PREFAB:
@@ -116,6 +116,28 @@
 
 
             }
+        }
+        private tempDown($img: any, name: string, $color: string): void {
+            var sceneRes: inputres.SceneRes = new inputres.SceneRes();
+
+            sceneRes.bfun = () => {
+                var imgUrl: string = "working/scene007/scene007_hide/lightuv/build2.jpg"
+                var tbaimg: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + imgUrl)
+                if (tbaimg) { //新加的图
+                    console.log(tbaimg)
+
+                    this.drawFileIconName(tbaimg, name, $color)
+                }
+
+            }
+           
+            Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
+                sceneRes.loadComplete($byte);
+
+            });
+
+
+ 
         }
         private drawFileIconName($img: any, name: string, $color: string): void {
             var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);

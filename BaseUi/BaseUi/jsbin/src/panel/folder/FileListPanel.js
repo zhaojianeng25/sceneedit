@@ -81,7 +81,7 @@ var filelist;
                     case FileVo.JPG:
                     case FileVo.PNG:
                         LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
-                            _this.drawFileIconName($img, fileVo.name, $color);
+                            _this.tempDown($img, fileVo.name, $color);
                         });
                         break;
                     case FileVo.PREFAB:
@@ -104,6 +104,21 @@ var filelist;
                         break;
                 }
             }
+        };
+        FileListName.prototype.tempDown = function ($img, name, $color) {
+            var _this = this;
+            var sceneRes = new inputres.SceneRes();
+            sceneRes.bfun = function () {
+                var imgUrl = "working/scene007/scene007_hide/lightuv/build2.jpg";
+                var tbaimg = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + imgUrl);
+                if (tbaimg) { //新加的图
+                    console.log(tbaimg);
+                    _this.drawFileIconName(tbaimg, name, $color);
+                }
+            };
+            Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, function ($byte) {
+                sceneRes.loadComplete($byte);
+            });
         };
         FileListName.prototype.drawFileIconName = function ($img, name, $color) {
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
