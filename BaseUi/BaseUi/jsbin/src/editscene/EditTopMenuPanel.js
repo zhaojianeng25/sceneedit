@@ -23,6 +23,8 @@ var editscene;
     var TextureManager = Pan3d.TextureManager;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
+    var LoadManager = Pan3d.LoadManager;
+    var ObjDataManager = Pan3d.ObjDataManager;
     var Scene_data = Pan3d.Scene_data;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var MenuListData = /** @class */ (function () {
@@ -128,7 +130,7 @@ var editscene;
             var $vo = new MenuListData("窗口", "2");
             $vo.subMenu = new Array;
             $vo.subMenu.push(new MenuListData("场景属性", "21"));
-            $vo.subMenu.push(new MenuListData("属性列表", "22"));
+            $vo.subMenu.push(new MenuListData("载入场景", "22"));
             $vo.subMenu.push(new MenuListData("文件列表", "23"));
             return $vo;
         };
@@ -169,7 +171,7 @@ var editscene;
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW));
                     break;
                 case "22":
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CHANGE_LEFT_PANEL_SHOW));
+                    this.loadExPmap();
                     break;
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
@@ -180,6 +182,18 @@ var editscene;
                 default:
                     break;
             }
+        };
+        EditTopMenuPanel.prototype.loadExPmap = function () {
+            var sceneRes = new Pan3d.SceneRes();
+            sceneRes.readDataFun = function () {
+                console.log(sceneRes);
+                ObjDataManager.getInstance().getObjData(Scene_data.fileRoot + "working/scene007/dae/scene007_01_0.xml", function ($objData) {
+                    console.log($objData);
+                });
+            };
+            LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, function ($byte) {
+                sceneRes.loadComplete($byte);
+            });
         };
         EditTopMenuPanel.prototype.showMainUi = function () {
             this.clearAll();

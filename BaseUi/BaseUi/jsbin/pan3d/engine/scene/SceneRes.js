@@ -18,6 +18,13 @@ var Pan3d;
         function SceneRes() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        Object.defineProperty(SceneRes.prototype, "readDataFun", {
+            set: function (value) {
+                this._readDataFun = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         SceneRes.prototype.load = function ($url, $completeFun, $progressFun, $readDataFun) {
             var _this = this;
             if (this.sceneData) {
@@ -129,7 +136,7 @@ var Pan3d;
         SceneRes.prototype.loadComplete = function ($byte) {
             //alert(TimeUtil.getTimer()-this.curTime);
             this._byte = new Pan3d.Pan3dByteArray($byte);
-            this._completeFun();
+            this._completeFun && this._completeFun();
             this.applyByteArray();
         };
         SceneRes.prototype.applyByteArray = function () {
@@ -146,7 +153,7 @@ var Pan3d;
             this.read(); //material
             this.read(); //particle;
             this.readScene();
-            this._readDataFun(this.sceneData);
+            this._readDataFun && this._readDataFun(this.sceneData);
         };
         SceneRes.prototype.readScene = function () {
             var types = this._byte.readInt();
