@@ -89,7 +89,7 @@
                     case FileVo.PNG:
                         LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE,
                             ($img: any) => {
-                                this.tempDown($img, fileVo.name, $color)
+                                this.drawFileIconName($img, fileVo.name, $color)
                             });
                         break
                     case FileVo.PREFAB:
