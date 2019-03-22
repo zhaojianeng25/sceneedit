@@ -20,6 +20,7 @@ var Pan3d;
         Scene_data.verticalScene = false;
         Scene_data.effectsLev = 2; //2高配1中配0低配
         Scene_data.camFar = 1000; //镜头最远距离
+        Scene_data.version = 1;
         Scene_data.frameTime = 1000 / 60;
         Scene_data.MAX_NUMBER = 10000000;
         Scene_data.user = 0; //0为小刘，1为pan

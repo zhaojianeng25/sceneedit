@@ -78,6 +78,7 @@ var left;
         ModelShowModel.prototype.makeBuldShader = function ($treeMater) {
             var $buildShader = new left.BuildMaterialShader();
             $buildShader.buildParamAry($treeMater);
+            $treeMater.shader.paramAry = $buildShader.paramAry;
             $buildShader.vertex = $buildShader.getVertexShaderString();
             $buildShader.fragment = $treeMater.shaderStr;
             $buildShader.encode();

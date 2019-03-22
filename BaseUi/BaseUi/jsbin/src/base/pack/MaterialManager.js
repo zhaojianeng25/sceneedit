@@ -44,6 +44,7 @@ var pack;
                     var $materialTree = new materialui.MaterialTree();
                     $materialTree.setData({ data: $temp.data });
                     $materialTree.useNormal = $temp.info.useNormal;
+                    $materialTree.useLightUv = $buildShader.paramAry[2];
                     $materialTree.texList = _this.makeTextList($temp.info.texList);
                     $materialTree.constList = _this.makeConstList($temp.info.constList);
                     $materialTree.fcData = _this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));

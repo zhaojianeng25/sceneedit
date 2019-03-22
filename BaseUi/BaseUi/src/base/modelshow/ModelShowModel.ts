@@ -111,6 +111,7 @@
         private makeBuldShader($treeMater: materialui.MaterialTree): void {
             var $buildShader: BuildMaterialShader = new BuildMaterialShader();
             $buildShader.buildParamAry($treeMater);
+            $treeMater.shader.paramAry = $buildShader.paramAry
             $buildShader.vertex = $buildShader.getVertexShaderString();
             $buildShader.fragment = $treeMater.shaderStr;
             $buildShader.encode();

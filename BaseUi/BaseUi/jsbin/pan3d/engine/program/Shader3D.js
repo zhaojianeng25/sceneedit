@@ -20,6 +20,16 @@ var Pan3d;
             _this.fragment = _this.getFragmentShaderString();
             return _this;
         }
+        Object.defineProperty(Shader3D.prototype, "paramAry", {
+            get: function () {
+                return this._paramAry;
+            },
+            set: function (value) {
+                this._paramAry = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Shader3D.prototype.encode = function () {
             this.vertex = this.getVertexShaderString();
             ////console.log(this.vertex);

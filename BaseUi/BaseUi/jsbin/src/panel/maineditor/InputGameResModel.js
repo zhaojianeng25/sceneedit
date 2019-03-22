@@ -58,11 +58,12 @@ var inputres;
         };
         SceneRes.prototype.saveObjDataToSever = function (objdata, httpUrl) {
             httpUrl = httpUrl.replace(".xml", ".objs");
-            var obj = {};
             var tw = objdata.stride / 4;
+            var obj = {};
+            obj.version = Scene_data.version;
             obj.vertices = this.readChangeBuff(objdata.dataView, 3, 0, tw);
             obj.uvs = this.readChangeBuff(objdata.dataView, 2, 3, tw);
-            obj.lightUvs = this.readChangeBuff(objdata.dataView, 2, 5, tw);
+            obj.lightuvs = this.readChangeBuff(objdata.dataView, 2, 5, tw);
             obj.normals = obj.vertices;
             obj.indexs = objdata.indexs;
             for (var i = 0; i < obj.vertices.length; i++) {
@@ -132,7 +133,7 @@ var inputres;
         ImputGameResModel.prototype.loadSceneByUrl = function () {
             var _this = this;
             this.sceneRes = new SceneRes();
-            this.sceneRes.fileRoot = "just/"; //指定到对应文件夹；
+            this.sceneRes.fileRoot = "fuck/"; //指定到对应文件夹；
             this.sceneRes.bfun = function () {
                 //   console.log("sceneres", sceneRes.sceneData)
                 var buildItem = _this.sceneRes.sceneData.buildItem;
@@ -174,7 +175,7 @@ var inputres;
             var $byte = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh = new pack.PrefabStaticMesh();
             prefabStaticMesh.url = this.sceneRes.fileRoot + name + ".prefab";
-            prefabStaticMesh.objsurl = objsurl.replace(".xml", ".objs");
+            prefabStaticMesh.objsurl = this.sceneRes.fileRoot + objsurl.replace(".xml", ".objs");
             prefabStaticMesh.textureurl = "texture/color.material";
             prefabStaticMesh.paramInfo = [];
             for (var i = 0; i < imgItem.length; i++) {

@@ -21,6 +21,8 @@
         public static vpMatrix: Matrix3D;
         public static camFar: number = 1000; //镜头最远距离
 
+        public static version: number=1
+
 
         public static skyCubeMap: Array<WebGLTexture>;
         public static pubLut: WebGLTexture;

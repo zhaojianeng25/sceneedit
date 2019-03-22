@@ -56,6 +56,7 @@
 
                         $materialTree.setData({ data: $temp.data });
                         $materialTree.useNormal = $temp.info.useNormal;
+                        $materialTree.useLightUv = $buildShader.paramAry[2]
                         $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.constList = this.makeConstList($temp.info.constList);
 

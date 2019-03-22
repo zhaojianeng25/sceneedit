@@ -14,7 +14,15 @@ module Pan3d {
         public program: WebGLProgram;
         public vShader: WebGLShader;
         public fShader: WebGLShader;
-        public paramAry: Array<any>;
+
+        public get paramAry() {
+            return this._paramAry
+        }
+        private _paramAry: Array<any>;
+        public set paramAry(value: Array<any>) {
+            this._paramAry = value
+        }
+
         public localDic: Object;
         constructor() {
             super();

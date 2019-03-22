@@ -49,13 +49,15 @@
         }
         private saveObjDataToSever(objdata: ObjData, httpUrl: string): void {
             httpUrl = httpUrl.replace(".xml", ".objs");
-            var obj: any = {};
             var tw: number = objdata.stride / 4
+            var obj: any = {};
+            obj.version = Scene_data.version
             obj.vertices = this.readChangeBuff(objdata.dataView, 3, 0, tw);
             obj.uvs = this.readChangeBuff(objdata.dataView, 2, 3, tw);
-            obj.lightUvs = this.readChangeBuff(objdata.dataView, 2, 5, tw);
+            obj.lightuvs = this.readChangeBuff(objdata.dataView, 2, 5, tw);
             obj.normals = obj.vertices
             obj.indexs = objdata.indexs
+  
 
             for (var i: number = 0; i < obj.vertices.length; i++) {
                 obj.vertices[i] *= 0.1 //输小;
@@ -124,7 +126,7 @@
         private sceneRes: SceneRes
         public loadSceneByUrl(): void {
             this.sceneRes = new SceneRes();
-            this.sceneRes.fileRoot="just/"  //指定到对应文件夹；
+            this.sceneRes.fileRoot="fuck/"  //指定到对应文件夹；
             this.sceneRes.bfun = () => {
              //   console.log("sceneres", sceneRes.sceneData)
                 var buildItem: Array<any> = this.sceneRes.sceneData.buildItem;
@@ -175,7 +177,7 @@
             var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
          
             prefabStaticMesh.url = this.sceneRes.fileRoot +name + ".prefab"
-            prefabStaticMesh.objsurl = objsurl.replace(".xml",".objs")
+            prefabStaticMesh.objsurl = this.sceneRes.fileRoot+ objsurl.replace(".xml",".objs")
             prefabStaticMesh.textureurl = "texture/color.material"
             prefabStaticMesh.paramInfo = [];
             for (var i: number = 0; i < imgItem.length; i++) {
