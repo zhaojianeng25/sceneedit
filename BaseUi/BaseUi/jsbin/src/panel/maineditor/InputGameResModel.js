@@ -20,7 +20,9 @@ var inputres;
     var SceneRes = /** @class */ (function (_super) {
         __extends(SceneRes, _super);
         function SceneRes() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.sceneResFileRoot = "just/";
+            return _this;
         }
         SceneRes.prototype.readScene = function () {
             _super.prototype.readScene.call(this);
@@ -66,7 +68,7 @@ var inputres;
             for (var i = 0; i < obj.vertices.length; i++) {
                 obj.vertices[i] *= 0.1; //输小;
             }
-            var $file = new File([JSON.stringify(obj)], "expmapinfo.objs");
+            var $file = new File([JSON.stringify(obj)], "temp.objs");
             this.upOssFile($file, httpUrl);
         };
         SceneRes.prototype.refrishDicGroup = function (pathurl) {
@@ -74,12 +76,14 @@ var inputres;
                 console.log("刷新了文件夹目录", pathurl);
             });
         };
-        SceneRes.prototype.upOssFile = function (file, pathurl) {
+        SceneRes.prototype.upOssFile = function (file, httpurl) {
             var _this = this;
-            pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "");
-            console.log(pathurl);
-            pack.FileOssModel.upOssFile(file, pathurl, function () {
-                _this.refrishDicGroup(pathurl);
+            var url = httpurl.replace(Scene_data.fileRoot, ""); //得到相对位置；
+            url = Scene_data.fileRoot + this.sceneResFileRoot + url; //得到http文件位置
+            var ossUrl = url.replace(Scene_data.ossRoot, "");
+            console.log(ossUrl);
+            pack.FileOssModel.upOssFile(file, ossUrl, function () {
+                _this.refrishDicGroup(ossUrl);
             });
         };
         SceneRes.prototype.readObj = function ($srcByte) {
@@ -126,12 +130,53 @@ var inputres;
             return this._instance;
         };
         ImputGameResModel.prototype.loadSceneByUrl = function () {
+            var _this = this;
             var sceneRes = new SceneRes();
+            sceneRes.sceneResFileRoot = "just/"; //指定到对应文件夹；
             sceneRes.bfun = function () {
-                console.log("sceneres", sceneRes);
+                //   console.log("sceneres", sceneRes.sceneData)
+                var buildItem = sceneRes.sceneData.buildItem;
+                for (var i = 0; i < buildItem.length; i++) {
+                    if (buildItem[i].type == 1) {
+                        var objsurl = buildItem[i].objsurl;
+                        var lighturl = buildItem[i].lighturl;
+                        var mainpic = _this.getMainPic(buildItem[i].materialInfoArr);
+                        if (objsurl && lighturl && mainpic) {
+                            console.log(objsurl);
+                            console.log(lighturl);
+                            console.log(mainpic);
+                            console.log(buildItem[i].name);
+                            console.log("------------------");
+                            // this.makePerfabToSever()
+                        }
+                    }
+                }
             };
             LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, function ($byte) {
                 sceneRes.loadComplete($byte);
+            });
+        };
+        //从材质中获取一张图;
+        ImputGameResModel.prototype.getMainPic = function (infoArr) {
+            for (var i = 0; i < infoArr.length; i++) {
+                if (infoArr[i].type == 0) {
+                    return infoArr[i].url;
+                }
+            }
+            return null;
+        };
+        ImputGameResModel.prototype.makePerfabToSever = function () {
+            var $byte = new Pan3d.Pan3dByteArray();
+            var prefabStaticMesh = new pack.PrefabStaticMesh();
+            var $fileUrl = Pan3d.Scene_data.fileRoot + prefabStaticMesh.url;
+            prefabStaticMesh.objsurl = "cccc.objs";
+            prefabStaticMesh.textureurl = "ccc.mect";
+            prefabStaticMesh.paramInfo = [];
+            prefabStaticMesh.url = "deeee.prefab";
+            $byte.writeUTF(JSON.stringify(prefabStaticMesh.getObject()));
+            var $file = new File([$byte.buffer], "temp.prefab");
+            var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            pack.FileOssModel.upOssFile($file, pathurl, function () {
             });
         };
         return ImputGameResModel;

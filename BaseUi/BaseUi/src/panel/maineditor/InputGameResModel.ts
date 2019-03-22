@@ -22,7 +22,6 @@
             $img.url = httpUrl.replace(Scene_data.fileRoot, "");
             $img.src = 'data:image/png;base64,' + Pan3d.Base64.encode(imgAryBuffer);
             var $upfile: File = this.dataURLtoFile($img.src, $img.url);
- 
             this.upOssFile($upfile, httpUrl)
         }
         private dataURLtoFile(dataurl: string, filename: string): File {
@@ -61,9 +60,7 @@
             for (var i: number = 0; i < obj.vertices.length; i++) {
                 obj.vertices[i] *= 0.1 //输小;
             }
-    
-            var $file: File = new File([JSON.stringify(obj)], "expmapinfo.objs");
- 
+            var $file: File = new File([JSON.stringify(obj)], "temp.objs");
             this.upOssFile($file, httpUrl)
         }
         private refrishDicGroup(pathurl: string): void {
@@ -71,12 +68,14 @@
                 console.log("刷新了文件夹目录", pathurl);
             })
         }
-        private upOssFile(file: File, pathurl: string): void {
-            pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "");
-            console.log(pathurl)
-            pack.FileOssModel.upOssFile(file, pathurl, () => {
-
-                this.refrishDicGroup(pathurl)
+        public sceneResFileRoot: string = "just/"
+        private upOssFile(file: File, httpurl: string): void {
+            var url: string = httpurl.replace(Scene_data.fileRoot, "") //得到相对位置；
+            url = Scene_data.fileRoot + this.sceneResFileRoot+url   //得到http文件位置
+            var ossUrl: string = url.replace(Scene_data.ossRoot, "");
+            console.log(ossUrl)
+            pack.FileOssModel.upOssFile(file, ossUrl, () => {
+                this.refrishDicGroup(ossUrl)
             })
         }
         public readObj($srcByte: Pan3dByteArray): void {
@@ -124,14 +123,64 @@
         }
         public loadSceneByUrl(): void {
             var sceneRes: SceneRes = new SceneRes();
+            sceneRes.sceneResFileRoot="just/"  //指定到对应文件夹；
             sceneRes.bfun = () => {
-                console.log("sceneres", sceneRes)
+             //   console.log("sceneres", sceneRes.sceneData)
+                var buildItem: Array<any> = sceneRes.sceneData.buildItem;
+                for (var i: number = 0; i < buildItem.length; i++) {
+                    if (buildItem[i].type == 1) {
+                        var objsurl: string = buildItem[i].objsurl;
+                        var lighturl: string = buildItem[i].lighturl;
+                        var mainpic: string = this.getMainPic(buildItem[i].materialInfoArr)
+              
+
+                        if (objsurl && lighturl && mainpic) {
+                            console.log(objsurl)
+                            console.log(lighturl)
+                            console.log(mainpic)
+                            console.log(buildItem[i].name)
+                            console.log("------------------")
+
+                           // this.makePerfabToSever()
+                        }
+                    }
+                }
+             
+                
             }
             LoadManager.getInstance().load(Scene_data.fileRoot +"pan/expmapinfo.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
                 sceneRes.loadComplete($byte);
             });
- 
         }
+        //从材质中获取一张图;
+        private getMainPic(infoArr: Array<any>): string {
+            for (var i: number = 0; i < infoArr.length; i++) {
+                if (infoArr[i].type == 0) {
+                    return infoArr[i].url
+                }
+            }
+            return null;
+        }
+
+        private makePerfabToSever(): void {
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+            var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + prefabStaticMesh.url
+
+            prefabStaticMesh.objsurl="cccc.objs"
+            prefabStaticMesh.textureurl = "ccc.mect";
+            prefabStaticMesh.paramInfo = [];
+            prefabStaticMesh.url="deeee.prefab"
+
+            $byte.writeUTF(JSON.stringify(prefabStaticMesh.getObject()))
+            var $file: File = new File([$byte.buffer], "temp.prefab");
+            var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            pack.FileOssModel.upOssFile($file, pathurl, () => {
+
+             
+            })
+        }
+
     
    
     }
