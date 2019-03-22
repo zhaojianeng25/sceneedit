@@ -557,6 +557,13 @@
                 case "4":
                     this.creatPefab()
                     break
+                case "5":
+                    pack.FileOssModel.getDisByOss(this.rootFilePath, (value: Array<FileVo>) => {
+                        this.refrishPath(this.rootFilePath)
+                    })
+                   
+             
+                    break
                 case "21":
                     this.deleFile()
                     break

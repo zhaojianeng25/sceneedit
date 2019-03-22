@@ -433,12 +433,18 @@ var filelist;
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
         };
         FileListPanel.prototype.menuBfun = function (value, evt) {
+            var _this = this;
             switch (value.key) {
                 case "1":
                     this.upTempFileToOss();
                     break;
                 case "4":
                     this.creatPefab();
+                    break;
+                case "5":
+                    pack.FileOssModel.getDisByOss(this.rootFilePath, function (value) {
+                        _this.refrishPath(_this.rootFilePath);
+                    });
                     break;
                 case "21":
                     this.deleFile();
