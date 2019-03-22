@@ -21,7 +21,7 @@ var inputres;
         __extends(SceneRes, _super);
         function SceneRes() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.fileRoot = "just/";
+            _this.fileRoot = "ccav/";
             return _this;
         }
         SceneRes.prototype.readScene = function () {
@@ -133,7 +133,7 @@ var inputres;
         ImputGameResModel.prototype.loadSceneByUrl = function () {
             var _this = this;
             this.sceneRes = new SceneRes();
-            this.sceneRes.fileRoot = "fuck/"; //指定到对应文件夹；
+            //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
             this.sceneRes.bfun = function () {
                 //   console.log("sceneres", sceneRes.sceneData)
                 var buildItem = _this.sceneRes.sceneData.buildItem;
@@ -158,13 +158,13 @@ var inputres;
                     }
                 }
             };
-            LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, function ($byte) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + "pan/ccav.txt", LoadManager.BYTE_TYPE, function ($byte) {
                 _this.sceneRes.loadComplete($byte);
             });
         };
         //从材质中获取一张图;
         ImputGameResModel.prototype.getMainPic = function (infoArr) {
-            for (var i = 0; i < infoArr.length; i++) {
+            for (var i = 0; infoArr && i < infoArr.length; i++) {
                 if (infoArr[i].type == 0) {
                     return infoArr[i].url;
                 }
@@ -183,7 +183,7 @@ var inputres;
                 paramVo.id = i;
                 paramVo.type = "tex";
                 paramVo.paramName = imgItem[i].name;
-                paramVo.data = imgItem[i].url;
+                paramVo.data = this.sceneRes.fileRoot + imgItem[i].url;
                 prefabStaticMesh.paramInfo.push(paramVo);
                 //data: "assets/white.jpg"
                 //paramName: "param0"

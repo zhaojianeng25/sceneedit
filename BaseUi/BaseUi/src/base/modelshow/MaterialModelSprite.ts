@@ -121,6 +121,10 @@ module left {
             $objdata.lightuvs = objstr.lightuvs
             $objdata.indexs = objstr.indexs
             $objdata.treNum = $objdata.indexs.length
+
+            for (var i: number = 0; i < $objdata.uvs.length ; i++) {
+               // $objdata.uvs[i] =0
+            }
            
             TBNUtils.processTBN($objdata);
 

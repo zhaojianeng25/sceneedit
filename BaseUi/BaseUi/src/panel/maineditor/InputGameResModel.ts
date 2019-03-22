@@ -70,7 +70,7 @@
                 console.log("刷新了文件夹目录", pathurl);
             })
         }
-        public fileRoot: string = "just/"
+        public fileRoot: string = "ccav/"
         private upOssFile(file: File, httpurl: string): void {
             var url: string = httpurl.replace(Scene_data.fileRoot, "") //得到相对位置；
             url = Scene_data.fileRoot + this.fileRoot+url   //得到http文件位置
@@ -126,7 +126,7 @@
         private sceneRes: SceneRes
         public loadSceneByUrl(): void {
             this.sceneRes = new SceneRes();
-            this.sceneRes.fileRoot="fuck/"  //指定到对应文件夹；
+          //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
             this.sceneRes.bfun = () => {
              //   console.log("sceneres", sceneRes.sceneData)
                 var buildItem: Array<any> = this.sceneRes.sceneData.buildItem;
@@ -157,14 +157,14 @@
              
                 
             }
-            LoadManager.getInstance().load(Scene_data.fileRoot +"pan/expmapinfo.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
+            LoadManager.getInstance().load(Scene_data.fileRoot +"pan/ccav.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
                 this.sceneRes.loadComplete($byte);
             });
         }
 
         //从材质中获取一张图;
         private getMainPic(infoArr: Array<any>): string {
-            for (var i: number = 0; i < infoArr.length; i++) {
+            for (var i: number = 0; infoArr&& i < infoArr.length; i++) {
                 if (infoArr[i].type == 0) {
                     return infoArr[i].url
                 }
@@ -185,7 +185,7 @@
                 paramVo.id = i;
                 paramVo.type = "tex";
                 paramVo.paramName = imgItem[i].name;
-                paramVo.data = imgItem[i].url;
+                paramVo.data = this.sceneRes.fileRoot +  imgItem[i].url;
                 prefabStaticMesh.paramInfo.push(paramVo);
 
                 //data: "assets/white.jpg"
