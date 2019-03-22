@@ -24,6 +24,8 @@
         public hasVertexColor: boolean;
         public usePbr: boolean;
         public useNormal: boolean;
+        public useUv: boolean
+        public useLightUv: boolean
         public roughness: number;
 
         public writeZbuffer: boolean = true;

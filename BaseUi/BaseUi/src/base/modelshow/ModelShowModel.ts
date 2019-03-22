@@ -124,9 +124,8 @@
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
              
-             (<MaterialModelSprite>this.selectShowDisp).material = $temp;
-          //  (<MaterialModelSprite>this.selectShowDisp).material.shader = $buildShader;
-          //  (<MaterialModelSprite>this.selectShowDisp).material.program = $buildShader.program;
+              (<MaterialModelSprite>this.selectShowDisp).material = $temp;
+       
         }
 
 

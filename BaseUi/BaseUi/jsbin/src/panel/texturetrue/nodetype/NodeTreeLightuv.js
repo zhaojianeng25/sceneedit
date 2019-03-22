@@ -14,22 +14,22 @@ var __extends = (this && this.__extends) || (function () {
 var materialui;
 (function (materialui) {
     var Vector2D = Pan3d.Vector2D;
-    var NodeTreeTexCoord = /** @class */ (function (_super) {
-        __extends(NodeTreeTexCoord, _super);
-        function NodeTreeTexCoord() {
+    var NodeTreeLightuv = /** @class */ (function (_super) {
+        __extends(NodeTreeLightuv, _super);
+        function NodeTreeLightuv() {
             var _this = _super.call(this) || this;
             _this.constValue = new Vector2D;
             _this.canDynamic = true;
             return _this;
         }
-        NodeTreeTexCoord.prototype.getComponentID = function ($id) {
+        NodeTreeLightuv.prototype.getComponentID = function ($id) {
             if ($id == 0) {
-                return "uvpos.xy";
+                return "lightuv.xy";
             }
             return null;
         };
-        return NodeTreeTexCoord;
+        return NodeTreeLightuv;
     }(materialui.NodeTree));
-    materialui.NodeTreeTexCoord = NodeTreeTexCoord;
+    materialui.NodeTreeLightuv = NodeTreeLightuv;
 })(materialui || (materialui = {}));
-//# sourceMappingURL=NodeTreeTexCoord.js.map
+//# sourceMappingURL=NodeTreeLightuv.js.map

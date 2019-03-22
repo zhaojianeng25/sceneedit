@@ -11,12 +11,7 @@ var materialui;
     var TextureManager = Pan3d.TextureManager;
     var CompileTwo = /** @class */ (function () {
         function CompileTwo() {
-            this._killID = 0;
             this._timeID = 0;
-            this._fogdataID = 0;
-            this._camposID = 0;
-            this._fogcolorID = 0;
-            this._scalelightmapID = 0;
             this._fcBeginID = 0;
             this.initReg();
             new Vector3D;
@@ -42,7 +37,6 @@ var materialui;
             this.constVec = new Array;
             this.hasTime = false;
             this.useNormal = false;
-            this.noLight = false;
             this.cubeTextItem = null;
             this.initBaseFc();
             this.funNodeStr = "";
@@ -66,9 +60,11 @@ var materialui;
             ;
             $materialTree.useNormal = this.useNormal;
             ;
-            $materialTree.roughness = 0;
-            $materialTree.noLight = this.noLight;
+            $materialTree.useUv = this.useUv;
             ;
+            $materialTree.useLightUv = this.useLightUv;
+            ;
+            $materialTree.roughness = 0;
             return resultStr;
         };
         CompileTwo.prototype.getMaxFc = function () {
@@ -126,6 +122,12 @@ var materialui;
             varyStr += "varying vec2 v0;\n";
             varyStr += "varying highp vec3 vPos;\n";
             varyStr += "uniform vec3 cam3DPos;\n";
+            if (this.useUv) {
+                varyStr += "varying vec2 uvpos;\n";
+            }
+            if (this.useLightUv) {
+                //  varyStr += "varying vec2 lightuvpos;\n";
+            }
             if (this.useNormal) {
                 varyStr += "varying vec3 T;\n";
                 varyStr += "varying vec3 B;\n";
@@ -147,6 +149,7 @@ var materialui;
             }
             var endStr = "\n}";
             var resultStr = perStr + texStr + constStr + varyStr + this.funNodeStr + beginStr + mainStr + endStr;
+            console.log(resultStr);
             return resultStr;
         };
         CompileTwo.prototype.getInputNormal = function () {
@@ -419,6 +422,9 @@ var materialui;
                 case materialui.NodeTree.NORMAL:
                     this.useNormal = true;
                     break;
+                case materialui.NodeTree.TEXCOORD:
+                    this.useUv = true;
+                    break;
                 default:
                     break;
             }
@@ -574,7 +580,6 @@ var materialui;
         };
         CompileTwo.prototype.processOpNode = function ($node) {
             //diffuse
-            this.noLight = $node.noLight;
             var str = "";
             var inputDiffuse = $node.inputVec[0];
             var inputNormal = $node.inputVec[1];
@@ -594,9 +599,7 @@ var materialui;
                     resultStr = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtempLightMap.id;
                     regtempLightMap.hasInit = true;
                 }
-                if (this.noLight) {
-                    str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VEC4 + CompileTwo.LEFT_PARENTH + pNodeDiffuse.getComponentID(inputDiffuse.parentNodeItem.id) + CompileTwo.COMMA + "1.0" + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
-                }
+                str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VEC4 + CompileTwo.LEFT_PARENTH + pNodeDiffuse.getComponentID(inputDiffuse.parentNodeItem.id) + CompileTwo.COMMA + "1.0" + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
                 this.strVec.push(str);
                 pNodeDiffuse.releaseUse();
                 regOp = this.getFragmentTemp(); //输出用临时寄存器

@@ -111,18 +111,15 @@
         private texVec: Array<TexItem>;
         private constVec: Array<ConstItem>;
         private hasTime: boolean;
-  
+
 
         private useNormal: boolean;
-        private noLight: boolean;
+        private useUv: boolean
+        private useLightUv: boolean
+
         private fcNum: number;
 
-        private _killID: number = 0;
         private _timeID: number = 0;
-        private _fogdataID: number = 0;
-        private _camposID: number = 0;
-        private _fogcolorID: number = 0;
-        private _scalelightmapID: number = 0;
         private _fcBeginID: number = 0;
 
         public constructor() {
@@ -153,7 +150,7 @@
             this.constVec = new Array;
             this.hasTime = false;
             this.useNormal = false;
-            this.noLight = false;
+
             this.cubeTextItem = null
             this.initBaseFc();
             this.funNodeStr = ""
@@ -178,9 +175,11 @@
 
             $materialTree.hasTime = this.hasTime;;
             $materialTree.useNormal = this.useNormal;;
+            $materialTree.useUv = this.useUv;;
+            $materialTree.useLightUv = this.useLightUv;;
             $materialTree.roughness = 0;
-            $materialTree.noLight = this.noLight;;
- 
+
+
 
             return resultStr
 
@@ -241,6 +240,14 @@
             varyStr += "varying vec2 v0;\n";
             varyStr += "varying highp vec3 vPos;\n";
             varyStr += "uniform vec3 cam3DPos;\n";
+
+            if (this.useUv) {
+                 varyStr += "varying vec2 uvpos;\n";
+            }
+            if (this.useLightUv) {
+              //  varyStr += "varying vec2 lightuvpos;\n";
+            }
+
             if (this.useNormal) {
                 varyStr += "varying vec3 T;\n";
                 varyStr += "varying vec3 B;\n";
@@ -261,7 +268,7 @@
             }
             var endStr: string = "\n}";
             var resultStr: string = perStr + texStr + constStr + varyStr + this.funNodeStr + beginStr + mainStr + endStr;
-
+            console.log(resultStr)
             return resultStr;
         }
         private getInputNormal(): NodeTreeInputItem {
@@ -312,7 +319,7 @@
             });
             LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, ($img: any, $info: any) => {
 
-             //   texItem.cubeTextWebgl = CubemapLoad.makeTempCubeTextture($img)
+                //   texItem.cubeTextWebgl = CubemapLoad.makeTempCubeTextture($img)
 
 
             });
@@ -370,7 +377,7 @@
             var input: NodeTreeInputItem = $node.inputVec[0];
             var regtex: RegisterItem = this.getFragmentTex(<NodeTreeTex>$node);
             var regtemp: RegisterItem = this.getFragmentTemp();
- 
+
             var resultStr: string;
 
             if (regtemp.hasInit) {
@@ -381,10 +388,10 @@
             }
             if (input.parentNodeItem) {
                 var pNode: NodeTree = input.parentNodeItem.node;
- 
+
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.texture2D + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             } else {
-  
+
                 str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.texture2D + CompileTwo.LEFT_PARENTH + CompileTwo.FS + regtex.id + CompileTwo.COMMA + CompileTwo.VI + this.defaultUvReg.id + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
             }
             if ((<NodeTreeTex>$node).permul) {
@@ -424,7 +431,7 @@
 
             var str: string = ""
             var input0: NodeTreeInputItem = $node.inputVec[0];
-       
+
             var output: NodeTreeOutoutItem = $node.outputVec[0];
             var regtemp: RegisterItem = this.getFragmentTemp();
             var resultStr: string = "";
@@ -475,7 +482,7 @@
             var str: string = ""
             var input0: NodeTreeInputItem = $node.inputVec[0];
             var input1: NodeTreeInputItem = $node.inputVec[1];
- 
+
 
             var pNode0: NodeTree = input0.parentNodeItem.node;
             var pNode1: NodeTree = input1.parentNodeItem.node;
@@ -485,7 +492,7 @@
             var regtemp: RegisterItem = this.getFragmentTemp();
 
             var resultStr: string = "";
- 
+
             if (!regtemp.hasInit && !(input0.type == MaterialItemType.VEC4 || input1.type == MaterialItemType.VEC4)) {//vec4(0,0,0,0)
                 resultStr = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END + CompileTwo.LN;
                 regtemp.hasInit = true;
@@ -497,10 +504,10 @@
                 }
                 str = CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             } else if (output.type == MaterialItemType.FLOAT) {
- 
+
                 str = CompileTwo.FT + regtemp.id + CompileTwo.X + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             } else if (output.type == MaterialItemType.VEC2) {
-  
+
                 str = CompileTwo.FT + regtemp.id + CompileTwo.XY + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
             } else if (output.type == MaterialItemType.VEC3) {
                 str = CompileTwo.FT + regtemp.id + CompileTwo.XYZ + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE;
@@ -562,6 +569,7 @@
                 case NodeTree.TIME:
                     this.processTimeNode($node);
                     break;
+
                 case NodeTree.SIN:
                     this.processStaticNode($node, CompileTwo.SIN);
                     break;
@@ -571,6 +579,11 @@
                 case NodeTree.NORMAL:
                     this.useNormal = true;
                     break;
+                case NodeTree.TEXCOORD:
+                    this.useUv = true;
+                    break;
+
+
                 default:
                     break
             }
@@ -612,9 +625,9 @@
                 str = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtemp.id + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.DEFAULT_VEC4 + CompileTwo.END + CompileTwo.LN;
                 regtemp.hasInit = true;
             }
- 
+
             str += CompileTwo.FT + regtemp.id + CompileTwo.X + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + opCode + CompileTwo.LEFT_PARENTH + pNode.getComponentID(input.parentNodeItem.id) + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
- 
+
             input.hasCompiled = true;
             pNode.releaseUse();
 
@@ -622,7 +635,7 @@
             $node.shaderStr = str;
             this.strVec.push(str);
         }
- 
+
 
         private traceFt(): void {
             return;
@@ -631,7 +644,7 @@
             return "fc[" + this._timeID + "].y";
         }
         private processVec3Node($node: NodeTree): void {
- 
+
             this.setFragmentConst($node);
             this.addConstItem($node);
         }
@@ -740,9 +753,7 @@
 
         private processOpNode($node: NodeTree): void {
             //diffuse
- 
-            this.noLight = (<NodeTreeOP>$node).noLight;
- 
+
 
             var str: string = "";
             var inputDiffuse: NodeTreeInputItem = $node.inputVec[0];
@@ -752,15 +763,15 @@
 
                 this.useNormal = true;
             }
- 
+
 
             var regOp: RegisterItem;
-     
+
 
             this.traceFt();
- 
+
             if (inputDiffuse.parentNodeItem) {//漫反射部分
- 
+
 
                 var pNodeDiffuse: NodeTree = inputDiffuse.parentNodeItem.node;//diffuse输入节点
 
@@ -772,9 +783,9 @@
                     resultStr = CompileTwo.VEC4 + CompileTwo.SPACE + CompileTwo.FT + regtempLightMap.id;
                     regtempLightMap.hasInit = true;
                 }
-                if (this.noLight ) {
-                    str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VEC4 + CompileTwo.LEFT_PARENTH + pNodeDiffuse.getComponentID(inputDiffuse.parentNodeItem.id) + CompileTwo.COMMA + "1.0" + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
-                }
+
+                str = resultStr + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.VEC4 + CompileTwo.LEFT_PARENTH + pNodeDiffuse.getComponentID(inputDiffuse.parentNodeItem.id) + CompileTwo.COMMA + "1.0" + CompileTwo.RIGHT_PARENTH + CompileTwo.END;
+
                 this.strVec.push(str);
                 pNodeDiffuse.releaseUse();
                 regOp = this.getFragmentTemp();//输出用临时寄存器
@@ -815,10 +826,10 @@
                     }
                 }
             }
-            if (  $hasTime  ) {
+            if ($hasTime) {
                 dataID++;
             }
-    
+
             this._fcBeginID = dataID;
 
         }

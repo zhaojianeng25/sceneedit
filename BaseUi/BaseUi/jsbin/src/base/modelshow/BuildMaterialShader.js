@@ -22,18 +22,15 @@ var left;
             return _this;
         }
         BuildMaterialShader.prototype.buildParamAry = function ($material) {
-            this.paramAry = [$material.usePbr, $material.useNormal, $material.hasFresnel,
-                $material.useDynamicIBL, $material.lightProbe, $material.directLight,
-                $material.noLight, $material.fogMode];
+            this.paramAry = [$material.useUv, $material.useNormal, $material.useLightUv];
+            $material.usePbr;
         };
         BuildMaterialShader.prototype.binLocation = function ($context) {
             $context.bindAttribLocation(this.program, 0, "v3Position");
             $context.bindAttribLocation(this.program, 1, "v2CubeTexST");
-            var usePbr = this.paramAry[0];
+            var useUv = this.paramAry[0];
             var useNormal = this.paramAry[1];
-            var lightProbe = this.paramAry[4];
-            var directLight = this.paramAry[5];
-            var noLight = this.paramAry[6];
+            var useLightUv = this.paramAry[2];
             if (useNormal) {
                 $context.bindAttribLocation(this.program, 2, "v3Tangent");
                 $context.bindAttribLocation(this.program, 3, "v3Bitangent");
@@ -41,17 +38,14 @@ var left;
             }
         };
         BuildMaterialShader.prototype.getVertexShaderString = function () {
-            var usePbr = this.paramAry[0];
+            var useUv = this.paramAry[0];
             var useNormal = this.paramAry[1];
-            var hasFresnel = this.paramAry[2];
-            var useDynamicIBL = this.paramAry[3];
-            var lightProbe = this.paramAry[4];
-            var directLight = this.paramAry[5];
-            var noLight = this.paramAry[6];
-            var fogMode = this.paramAry[7];
             var $str = "attribute vec3 v3Position;\n" +
                 "attribute vec2 v2CubeTexST;\n" +
                 "varying vec2 v0;\n";
+            if (useUv) {
+                $str += "varying vec2 uvpos;\n";
+            }
             if (useNormal) {
                 $str +=
                     "attribute vec3 v3Tangent;\n" +
@@ -72,6 +66,9 @@ var left;
                     "v0 = vec2(v2CubeTexST.x, v2CubeTexST.y);\n" +
                     "vec4 vt0= vec4(v3Position, 1.0);\n" +
                     "vt0 = posMatrix3D * vt0;\n";
+            if (useUv) {
+                $str += "uvpos = v2CubeTexST;\n";
+            }
             if (useNormal) {
                 $str +=
                     "T = v3Tangent;\n" +

@@ -55,7 +55,7 @@ module left {
     import TexItem = Pan3d.TexItem
     import MaterialBaseParam = Pan3d.MaterialBaseParam
     import ObjData = Pan3d.ObjData
- 
+    import TimeUtil = Pan3d.TimeUtil
     import MaterialTree = materialui.MaterialTree
    
 
@@ -98,6 +98,15 @@ module left {
             }
        
         }
+        protected setBaseMaterialVc($material: Material): void {
+
+            var t: number = 0;
+            if ($material.hasTime) {
+                t = (TimeUtil.getTimer() - this.time) % 100000 * 0.001;
+            }
+ 
+        }
+       
 
         public readTxtToModel($str: string): void {
             var objstr: any = JSON.parse($str);

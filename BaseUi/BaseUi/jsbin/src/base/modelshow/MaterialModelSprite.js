@@ -62,6 +62,7 @@ var left;
     var Scene_data = Pan3d.Scene_data;
     var TexItem = Pan3d.TexItem;
     var ObjData = Pan3d.ObjData;
+    var TimeUtil = Pan3d.TimeUtil;
     var MaterialModelSprite = /** @class */ (function (_super) {
         __extends(MaterialModelSprite, _super);
         function MaterialModelSprite() {
@@ -101,6 +102,12 @@ var left;
                 Scene_data.context3D.setVa(2, 3, this.objData.tangentBuffer);
                 Scene_data.context3D.setVa(3, 3, this.objData.bitangentBuffer);
                 Scene_data.context3D.setVa(4, 3, this.objData.normalsBuffer);
+            }
+        };
+        MaterialModelSprite.prototype.setBaseMaterialVc = function ($material) {
+            var t = 0;
+            if ($material.hasTime) {
+                t = (TimeUtil.getTimer() - this.time) % 100000 * 0.001;
             }
         };
         MaterialModelSprite.prototype.readTxtToModel = function ($str) {

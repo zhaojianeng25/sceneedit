@@ -1,6 +1,6 @@
 ﻿module materialui {
     import Vector2D = Pan3d.Vector2D
-    export class NodeTreeTexCoord extends NodeTree {
+    export class NodeTreeLightuv extends NodeTree {
         public constValue: Vector2D = new Vector2D;
         public constructor() {
 
@@ -9,7 +9,7 @@
         }
         public getComponentID($id: number): string {
             if ($id == 0) {
-                return "uvpos.xy";
+                return "lightuv.xy";
             }
             return null;
         }
