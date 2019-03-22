@@ -86,6 +86,9 @@ var materialui;
                 case materialui.NodeTree.TEXCOORD:
                     ui = new materialui.TexCoordNodeUI();
                     break;
+                case materialui.NodeTree.TEXCOORDLIGHT:
+                    ui = new materialui.TexLightUvNodeUI();
+                    break;
                 case materialui.NodeTree.PANNER:
                     ui = new materialui.PannerNodeUI();
                     break;

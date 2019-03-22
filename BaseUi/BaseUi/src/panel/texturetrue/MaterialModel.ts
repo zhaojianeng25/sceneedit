@@ -82,6 +82,8 @@
             $vo.subMenu.push(new MenuListData("纹理滚动", "33"));
             $vo.subMenu.push(new MenuListData("Cube纹理", "34"));
             $vo.subMenu.push(new MenuListData("3D贴图", "35"));
+            $vo.subMenu.push(new MenuListData("LightUv", "36"));
+  
 
             return $vo;
         }
@@ -160,6 +162,9 @@
 
                 case "32":
                     this.onTempNode(new TexCoordNodeUI(), evt)
+                    break;
+                case "36":
+                    this.onTempNode(new TexLightUvNodeUI(), evt)
                     break;
                 case "33":
                     this.onTempNode(new PannerNodeUI(), evt)

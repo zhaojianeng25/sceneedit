@@ -51,6 +51,8 @@ var materialui;
             $temp.fcData = $treeMater.fcData;
             $temp.texList = $treeMater.texList;
             $temp.useNormal = $treeMater.useNormal;
+            $temp.useLightUv = $treeMater.useLightUv;
+            $temp.useUv = $treeMater.useUv;
             //$temp.cubeTextItem = $treeMater.cubeTextItem;
             //$temp.usePbr = $treeMater.usePbr;
             //$temp.hasTime = $treeMater.hasTime;

@@ -8,7 +8,7 @@
         }
         public buildParamAry($material: materialui.MaterialTree): void {
             this.paramAry = [$material.useUv, $material.useNormal, $material.useLightUv];
-            $material.usePbr
+ 
         }
         public binLocation($context: WebGLRenderingContext): void {
             $context.bindAttribLocation(this.program, 0, "v3Position");
@@ -17,19 +17,24 @@
             var useUv: boolean = this.paramAry[0];
             var useNormal: boolean = this.paramAry[1];
             var useLightUv: boolean = this.paramAry[2];
-    
 
+            var id: number = 2
 
-            if (useNormal) {
-                $context.bindAttribLocation(this.program, 2, "v3Tangent");
-                $context.bindAttribLocation(this.program, 3, "v3Bitangent");
-                $context.bindAttribLocation(this.program, 4, "v3Normal");
+            if (useLightUv) {
+                $context.bindAttribLocation(this.program, id++, "v2Lightuv");
             }
+            if (useNormal) {
+                $context.bindAttribLocation(this.program, id++, "v3Tangent");
+                $context.bindAttribLocation(this.program, id++, "v3Bitangent");
+                $context.bindAttribLocation(this.program, id++, "v3Normal");
+            }
+
         }
         public getVertexShaderString(): string {
 
             var useUv: boolean = this.paramAry[0];
             var useNormal: boolean = this.paramAry[1];
+            var useLightUv: boolean = this.paramAry[2];
 
 
             var $str: string =
@@ -37,9 +42,15 @@
                 "attribute vec2 v2CubeTexST;\n" +
                 "varying vec2 v0;\n";
 
-            if (useUv) {
-                 $str += "varying vec2 uvpos;\n";
+            if (useLightUv) {
+                $str += "attribute vec2 v2Lightuv;\n";
+                $str += "varying vec2 lightuv;\n";
             }
+
+            if (useUv) {
+                $str += "varying vec2 uvpos;\n";
+            }
+          
           
 
             if (useNormal) {
@@ -67,6 +78,9 @@
           
             if (useUv) {
                 $str += "uvpos = v2CubeTexST;\n";
+            }
+            if (useLightUv) {
+                $str += "lightuv = v2Lightuv;\n";
             }
             if (useNormal) {
                 $str +=

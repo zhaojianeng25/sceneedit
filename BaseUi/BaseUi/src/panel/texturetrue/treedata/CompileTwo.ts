@@ -245,7 +245,7 @@
                  varyStr += "varying vec2 uvpos;\n";
             }
             if (this.useLightUv) {
-              //  varyStr += "varying vec2 lightuvpos;\n";
+                varyStr += "varying vec2 lightuv;\n";
             }
 
             if (this.useNormal) {
@@ -581,6 +581,9 @@
                     break;
                 case NodeTree.TEXCOORD:
                     this.useUv = true;
+                    break;
+                case NodeTree.TEXCOORDLIGHT:
+                    this.useLightUv = true;
                     break;
 
 

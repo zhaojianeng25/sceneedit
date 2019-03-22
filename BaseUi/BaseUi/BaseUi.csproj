@@ -367,6 +367,7 @@
     <TypeScriptCompile Include="src\meshui\view\Vec2PropMeshPanel.ts" />
     <TypeScriptCompile Include="src\meshui\view\Vec3PropMeshPanel.ts" />
     <TypeScriptCompile Include="src\panel\texturetrue\nodetype\NodeTreeLightuv.ts" />
+    <TypeScriptCompile Include="src\panel\texturetrue\view\constnum\TexLightUvNodeUI.ts" />
     <TypeScriptCompile Include="src\TextEditStart.ts" />
     <TypeScriptCompile Include="src\panel\texturetrue\events\MEvent_Material_Connect.ts" />
     <TypeScriptCompile Include="src\panel\texturetrue\MaterialCavasPanel.ts" />

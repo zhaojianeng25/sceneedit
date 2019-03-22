@@ -35,7 +35,8 @@
         public static FLOAT:string = "float";
         public static NORMAL: string = "normal";
         public static TIME: string = "time";
-        public static TEXCOORD:string = "texcoord";
+        public static TEXCOORD: string = "texcoord";
+        public static TEXCOORDLIGHT: string = "texlightuv";
         public static DYNVEC3:string = "dynvec3";
         public static PTCOLOR:string = "ptColor";
         public static VERCOLOR:string = "verColor";

@@ -9,7 +9,7 @@
         }
         public getComponentID($id: number): string {
             if ($id == 0) {
-                return "lightuv.xy";
+                return "v0.xy";
             }
             return null;
         }

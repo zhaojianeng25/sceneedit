@@ -24,7 +24,7 @@ var materialui;
         }
         NodeTreeLightuv.prototype.getComponentID = function ($id) {
             if ($id == 0) {
-                return "lightuv.xy";
+                return "v0.xy";
             }
             return null;
         };

@@ -91,10 +91,14 @@ module left {
         public setMaterialVaIndependent(): void {
             Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
             Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
+            var id: number = 2;
+            if ((<MaterialTree>this.material).useLightUv) {
+                Scene_data.context3D.setVa(id++, 2, this.objData.lightUvBuffer);
+            }
             if (this.material.useNormal) {
-                Scene_data.context3D.setVa(2, 3, this.objData.tangentBuffer);
-                Scene_data.context3D.setVa(3, 3, this.objData.bitangentBuffer);
-                Scene_data.context3D.setVa(4, 3, this.objData.normalsBuffer);
+                Scene_data.context3D.setVa(id++, 3, this.objData.tangentBuffer);
+                Scene_data.context3D.setVa(id++, 3, this.objData.bitangentBuffer);
+                Scene_data.context3D.setVa(id++, 3, this.objData.normalsBuffer);
             }
        
         }
@@ -114,7 +118,7 @@ module left {
             $objdata.vertices = objstr.vertices
             $objdata.normals = objstr.normals
             $objdata.uvs = objstr.uvs
-            $objdata.lightuvs = objstr.lightUvs
+            $objdata.lightuvs = objstr.lightuvs
             $objdata.indexs = objstr.indexs
             $objdata.treNum = $objdata.indexs.length
            

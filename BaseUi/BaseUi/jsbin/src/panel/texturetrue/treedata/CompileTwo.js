@@ -126,7 +126,7 @@ var materialui;
                 varyStr += "varying vec2 uvpos;\n";
             }
             if (this.useLightUv) {
-                //  varyStr += "varying vec2 lightuvpos;\n";
+                varyStr += "varying vec2 lightuv;\n";
             }
             if (this.useNormal) {
                 varyStr += "varying vec3 T;\n";
@@ -424,6 +424,9 @@ var materialui;
                     break;
                 case materialui.NodeTree.TEXCOORD:
                     this.useUv = true;
+                    break;
+                case materialui.NodeTree.TEXCOORDLIGHT:
+                    this.useLightUv = true;
                     break;
                 default:
                     break;

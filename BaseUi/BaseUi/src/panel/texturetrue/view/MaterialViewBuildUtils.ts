@@ -99,6 +99,9 @@
                 case NodeTree.TEXCOORD:
                     ui = new TexCoordNodeUI();
                     break;
+                case NodeTree.TEXCOORDLIGHT:
+                    ui = new TexLightUvNodeUI();
+                    break;
                 case NodeTree.PANNER:
                     ui = new PannerNodeUI();
                     break;

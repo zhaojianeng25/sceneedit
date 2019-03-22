@@ -23,7 +23,6 @@ var left;
         }
         BuildMaterialShader.prototype.buildParamAry = function ($material) {
             this.paramAry = [$material.useUv, $material.useNormal, $material.useLightUv];
-            $material.usePbr;
         };
         BuildMaterialShader.prototype.binLocation = function ($context) {
             $context.bindAttribLocation(this.program, 0, "v3Position");
@@ -31,18 +30,27 @@ var left;
             var useUv = this.paramAry[0];
             var useNormal = this.paramAry[1];
             var useLightUv = this.paramAry[2];
+            var id = 2;
+            if (useLightUv) {
+                $context.bindAttribLocation(this.program, id++, "v2Lightuv");
+            }
             if (useNormal) {
-                $context.bindAttribLocation(this.program, 2, "v3Tangent");
-                $context.bindAttribLocation(this.program, 3, "v3Bitangent");
-                $context.bindAttribLocation(this.program, 4, "v3Normal");
+                $context.bindAttribLocation(this.program, id++, "v3Tangent");
+                $context.bindAttribLocation(this.program, id++, "v3Bitangent");
+                $context.bindAttribLocation(this.program, id++, "v3Normal");
             }
         };
         BuildMaterialShader.prototype.getVertexShaderString = function () {
             var useUv = this.paramAry[0];
             var useNormal = this.paramAry[1];
+            var useLightUv = this.paramAry[2];
             var $str = "attribute vec3 v3Position;\n" +
                 "attribute vec2 v2CubeTexST;\n" +
                 "varying vec2 v0;\n";
+            if (useLightUv) {
+                $str += "attribute vec2 v2Lightuv;\n";
+                $str += "varying vec2 lightuv;\n";
+            }
             if (useUv) {
                 $str += "varying vec2 uvpos;\n";
             }
@@ -68,6 +76,9 @@ var left;
                     "vt0 = posMatrix3D * vt0;\n";
             if (useUv) {
                 $str += "uvpos = v2CubeTexST;\n";
+            }
+            if (useLightUv) {
+                $str += "lightuv = v2Lightuv;\n";
             }
             if (useNormal) {
                 $str +=

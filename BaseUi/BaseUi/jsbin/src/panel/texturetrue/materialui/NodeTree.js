@@ -170,6 +170,7 @@ var materialui;
         NodeTree.NORMAL = "normal";
         NodeTree.TIME = "time";
         NodeTree.TEXCOORD = "texcoord";
+        NodeTree.TEXCOORDLIGHT = "texlightuv";
         NodeTree.DYNVEC3 = "dynvec3";
         NodeTree.PTCOLOR = "ptColor";
         NodeTree.VERCOLOR = "verColor";

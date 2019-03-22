@@ -68,6 +68,7 @@ var materialui;
             $vo.subMenu.push(new MenuListData("纹理滚动", "33"));
             $vo.subMenu.push(new MenuListData("Cube纹理", "34"));
             $vo.subMenu.push(new MenuListData("3D贴图", "35"));
+            $vo.subMenu.push(new MenuListData("LightUv", "36"));
             return $vo;
         };
         MaterialModel.prototype.getOtherListData = function () {
@@ -140,6 +141,9 @@ var materialui;
                     break;
                 case "32":
                     this.onTempNode(new materialui.TexCoordNodeUI(), evt);
+                    break;
+                case "36":
+                    this.onTempNode(new materialui.TexLightUvNodeUI(), evt);
                     break;
                 case "33":
                     this.onTempNode(new materialui.PannerNodeUI(), evt);
