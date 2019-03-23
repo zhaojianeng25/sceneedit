@@ -342,22 +342,17 @@
         public only: boolean = true //标记需要移除
         public static imgBaseDic: any;
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 256, 40), 50);
+            super(FolderName, new Rectangle(0, 0, 256, 40), 48);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
             EditorModel.getInstance().hierarchyListPanel=this
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();
-            var item: Array<UICompenent> = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
-            ]
-            this.setUiListVisibleByItem(item, false)
+
+            this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
+
+     
             this.resize();
             this.loadAssetImg(() => {
                 this.makeItemUiList()
@@ -582,6 +577,7 @@
                 $vo.ossListFile = new OssListFile;
 
                 $vo.ossListFile.name = childItem[i].name;
+                $vo.ossListFile.name = "id_"+i;
 
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;;
@@ -770,14 +766,14 @@
 
         }
         protected changeScrollBar(): void {
-            var th: number = this._uiMask.height - this.a_scroll_bar.height
-            var ty: number = this.a_scroll_bar.y - this._uiMask.y;
-            this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
+            super.changeScrollBar()
+ 
             this.refrishFolder()
         }
         public resize(): void {
             if (this.isCompelet) {
                 this.contentHeight = this.getItemDisNum(EditorModel.getInstance().fileItem) * 20;
+  
             }
             super.resize()
 
@@ -787,13 +783,11 @@
             }
         
         }
-
-       // private fileItem: Array<FolderMeshVo>;
-
-        private moveListTy: number = 0;
+ 
         private refrishFolder(): void {
             if (this.isCompelet) {
-                HierarchyListPanel.listTy = this.moveListTy + this._uiMask.y;
+ 
+                this.listTy = 0 + this.moveListTy
                 this.disChiendren(EditorModel.getInstance().fileItem, 10);
                 var moveTy: number = 0
                 this.moveAllTy(EditorModel.getInstance().fileItem, moveTy)
@@ -829,6 +823,7 @@
         private moveAllTy(arr: Array<FolderMeshVo>, ty: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].cellPos.y += ty;
+        
                 if (arr[i].ossListFile.isOpen) {
                     this.moveAllTy(arr[i].childItem, ty)
                 }
@@ -846,13 +841,13 @@
             }
             return num
         }
-        private static listTy: number
+        private   listTy: number
         private disChiendren(arr: Array<FolderMeshVo>, tx: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].cellPos.x = tx;
-                arr[i].cellPos.y = HierarchyListPanel.listTy
+                arr[i].cellPos.y = this.listTy
                 arr[i].uiScale = 0.5;
-                HierarchyListPanel.listTy += 20;
+                this.listTy += 20;
                 if (arr[i].ossListFile.isOpen) {
                     this.disChiendren(arr[i].childItem, tx + 20)
                 }

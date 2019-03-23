@@ -30,6 +30,7 @@ var win;
             if ($rect === void 0) { $rect = null; }
             if ($move === void 0) { $move = true; }
             var _this = _super.call(this) || this;
+            _this.moveListTy = 0;
             if ($rect) {
                 _this.pageRect = $rect;
             }
@@ -96,6 +97,10 @@ var win;
             this.c_left_line = this._baseTopRender.getComponent("c_left_line");
             this.c_right_line = this._baseTopRender.getComponent("c_left_line");
             this.c_bottom_line = this._baseTopRender.getComponent("b_line_pixe_point");
+            this.c_scroll_bar_bg = this._baseTopRender.getComponent("a_scroll_bar_bg");
+            this.c_scroll_bar = this._closeRender.getComponent("a_scroll_bar");
+            this.c_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            // 
             this.c_win_bg = this._baseMidRender.getComponent("c_win_bg");
             //  this.setUiListVisibleByItem([this.c_win_bg], true)
             this.uiLoadComplete = true;
@@ -108,6 +113,7 @@ var win;
                 this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.c_scroll_bar.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             }
         };
         BaseWindow.prototype.setRect = function (value) {
@@ -152,7 +158,7 @@ var win;
                 this._uiMask.y = 0;
                 this._uiMask.x = 0;
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width;
-                this._uiMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height;
+                this._uiMask.height = this.pageRect.height;
                 this.a_bg.x = 0;
                 this.a_bg.y = 0;
                 this.a_bg.width = this.pageRect.width;
@@ -211,6 +217,18 @@ var win;
                 this.c_bottom_line.y = this.pageRect.height - 1;
                 this.c_bottom_line.width = this.pageRect.width;
                 this.c_bottom_line.height = 1;
+                this.c_scroll_bar_bg.x = this.pageRect.width - this.c_scroll_bar_bg.width - 2;
+                this.c_scroll_bar_bg.y = 0;
+                this.c_scroll_bar_bg.height = this.pageRect.height;
+                if (this.contentHeight > this.pageRect.height) {
+                    this.setUiListVisibleByItem([this.c_scroll_bar], true);
+                    this.c_scroll_bar.x = this.c_scroll_bar_bg.x + 5;
+                    this.c_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight);
+                    this.c_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.c_scroll_bar.height, this.c_scroll_bar.y);
+                }
+                else {
+                    this.setUiListVisibleByItem([this.c_scroll_bar], false);
+                }
             }
             _super.prototype.resize.call(this);
         };
@@ -227,6 +245,9 @@ var win;
                     break;
                 case this.a_scroll_bar:
                     this.lastPagePos = new Vector2D(0, this.a_scroll_bar.y);
+                    break;
+                case this.c_scroll_bar:
+                    this.lastPagePos = new Vector2D(0, this.c_scroll_bar.y);
                     break;
                 default:
                     console.log("nonono");
@@ -260,6 +281,12 @@ var win;
                     //  console.log(this.a_scroll_bar.y)
                     this.changeScrollBar();
                     break;
+                case this.c_scroll_bar:
+                    this.c_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
+                    this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
+                    this.c_scroll_bar.y = Math.min(this.c_scroll_bar.y, this._uiMask.y + this._uiMask.height - this.c_scroll_bar.height);
+                    this.changeScrollBar();
+                    break;
                 default:
                     console.log("nonono");
                     break;
@@ -267,6 +294,10 @@ var win;
             this.resize();
         };
         BaseWindow.prototype.changeScrollBar = function () {
+            this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
+            var th = this._uiMask.height - this.c_scroll_bar.height;
+            var ty = this.c_scroll_bar.y - this._uiMask.y;
+            this.moveListTy = -(this.contentHeight - this._uiMask.height) * (ty / th);
         };
         BaseWindow.maskLevel = 10;
         return BaseWindow;
@@ -280,15 +311,17 @@ var win;
             _this._lostItem = new Array();
             _this.width = UIData.designWidth;
             _this.height = UIData.designHeight;
-            _this.creatBaseRender();
-            _this.addRender(_this._baseRender);
             _this.mathSize($rect, $num);
+            _this._baseRender = new UIRenderComponent;
+            _this.addRender(_this._baseRender);
             _this.initData($classVo, $rect, $num, _this._baseRender);
+            _this.panelInfo = {};
+            _this.panelInfo.classVo = $classVo;
+            _this.panelInfo.rect = $rect;
+            _this.panelInfo.num = $num;
+            _this.oherRender = [];
             return _this;
         }
-        Dis2dBaseWindow.prototype.creatBaseRender = function () {
-            this._baseRender = new UIRenderComponent;
-        };
         //显示单元类, 尺寸，数量
         Dis2dBaseWindow.prototype.initData = function ($classVo, $rect, $num, $render) {
             this._voNum = Math.floor($num);
@@ -356,9 +389,18 @@ var win;
                 this.addChild(empty.ui);
             }
             else {
-                this._lostItem.push($data);
+                this._lostItem.push($data); //原来存放到等待列表
+                //  this.makeOtherRender($data)
             }
             return empty;
+        };
+        //重新创建出显示列表
+        Dis2dBaseWindow.prototype.makeOtherRender = function ($data) {
+            var tempRender = new UIRenderComponent;
+            this.addRender(tempRender);
+            this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
+            this.oherRender.push(tempRender);
+            return this.showTemp($data);
         };
         Dis2dBaseWindow.prototype.clearLostItem = function () {
             for (var i = (this._lostItem.length - 1); i > 0; i--) {
@@ -421,11 +463,6 @@ var win;
                     this._uiItem[i].update();
                 }
             }
-            /*
-            if (this.getUiItemLen() <( this._uiItem.length-1)) {
-                this.playLost()
-            }
-            */
         };
         Dis2dBaseWindow.prototype.getUiItemLen = function () {
             var $num = 0;

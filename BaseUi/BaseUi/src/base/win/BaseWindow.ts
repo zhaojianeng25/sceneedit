@@ -139,8 +139,10 @@
             this.c_left_line = this._baseTopRender.getComponent("c_left_line");
             this.c_right_line = this._baseTopRender.getComponent("c_left_line");
             this.c_bottom_line = this._baseTopRender.getComponent("b_line_pixe_point");
-      
-
+            this.c_scroll_bar_bg = this._baseTopRender.getComponent("a_scroll_bar_bg");
+            this.c_scroll_bar = this._closeRender.getComponent("a_scroll_bar");
+            this.c_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+           // 
 
             this.c_win_bg = this._baseMidRender.getComponent("c_win_bg");
    
@@ -161,12 +163,15 @@
         protected c_left_line: UICompenent
         protected c_right_line: UICompenent
         protected c_bottom_line: UICompenent
+        protected c_scroll_bar_bg: UICompenent
+        protected c_scroll_bar: UICompenent
         
         public removeMoveEvent(): void {
             if (this.uiLoadComplete) {
                 this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_rigth_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
                 this.a_bottom_line.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+                this.c_scroll_bar.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             }
 
         }
@@ -229,9 +234,9 @@
                 this.b_win_close.x = this.pageRect.width - this.b_win_close.width-5
 
                 this._uiMask.y = 0;
-                this._uiMask.x = 0
-                this._uiMask.width = this.pageRect.width - this.a_rigth_line.width
-                this._uiMask.height = this.pageRect.height - this.a_tittle_bg.height - this.a_bottom_line.height
+                this._uiMask.x = 0;
+                this._uiMask.width = this.pageRect.width - this.a_rigth_line.width;
+                this._uiMask.height = this.pageRect.height 
 
                 this.a_bg.x = 0;
                 this.a_bg.y = 0
@@ -316,6 +321,23 @@
                 this.c_bottom_line.y = this.pageRect.height - 1
                 this.c_bottom_line.width = this.pageRect.width
                 this.c_bottom_line.height = 1
+
+                this.c_scroll_bar_bg.x = this.pageRect.width - this.c_scroll_bar_bg.width-2
+                this.c_scroll_bar_bg.y = 0
+                this.c_scroll_bar_bg.height = this.pageRect.height
+
+          
+                if (this.contentHeight > this.pageRect.height) {
+                    this.setUiListVisibleByItem([this.c_scroll_bar], true)
+                    this.c_scroll_bar.x = this.c_scroll_bar_bg.x + 5;
+                    this.c_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight)
+                    this.c_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.c_scroll_bar.height, this.c_scroll_bar.y)
+
+                } else {
+                    this.setUiListVisibleByItem([this.c_scroll_bar], false)
+                }
+
+             
                 
             }
             super.resize()
@@ -343,6 +365,9 @@
                     break
                 case this.a_scroll_bar:
                     this.lastPagePos = new Vector2D(0, this.a_scroll_bar.y)
+                    break
+                case this.c_scroll_bar:
+                    this.lastPagePos = new Vector2D(0, this.c_scroll_bar.y)
                     break
 
                 default:
@@ -390,6 +415,17 @@
                     this.changeScrollBar()
 
                     break
+
+                case this.c_scroll_bar:
+
+                    this.c_scroll_bar.y = this.lastPagePos.y + (evt.y - this.lastMousePos.y);
+                    this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y)
+                    this.c_scroll_bar.y = Math.min(this.c_scroll_bar.y, this._uiMask.y + this._uiMask.height - this.c_scroll_bar.height)
+
+                 
+                    this.changeScrollBar()
+
+                    break
                 default:
                     console.log("nonono")
                     break
@@ -398,7 +434,14 @@
             this.resize()
 
         }
+
+        protected moveListTy: number = 0;
         protected changeScrollBar(): void {
+            this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
+            var th: number = this._uiMask.height - this.c_scroll_bar.height
+            var ty: number = this.c_scroll_bar.y - this._uiMask.y;
+            this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
+ 
         }
 
  
@@ -406,24 +449,32 @@
 
     export class Dis2dBaseWindow extends win.BaseWindow {
         protected _baseRender: UIRenderComponent;
+        protected oherRender: Array<UIRenderComponent>
         public constructor($classVo: any, $rect: Rectangle, $num: number) {
             super();
             this._uiItem = new Array();
             this._lostItem = new Array();
             this.width = UIData.designWidth;
             this.height = UIData.designHeight;
-            this.creatBaseRender()
-            this.addRender(this._baseRender);
+
             this.mathSize($rect, $num)
+
+
+            this._baseRender = new UIRenderComponent;
+            this.addRender(this._baseRender);
             this.initData($classVo, $rect, $num, this._baseRender)
 
+            this.panelInfo = {};
+            this.panelInfo.classVo = $classVo;
+            this.panelInfo.rect = $rect;
+            this.panelInfo.num = $num;
+            this.oherRender=[]
  
         }
-         
-        protected creatBaseRender(): void {
-            this._baseRender = new UIRenderComponent;
+        private panelInfo: any
 
-        }
+        
+     
         //显示单元类, 尺寸，数量
         private initData($classVo: any, $rect: Rectangle, $num: number, $render: UIRenderComponent): void {
             this._voNum = Math.floor($num)
@@ -512,9 +563,18 @@
                 empty.data = $data;
                 this.addChild(empty.ui);
             } else {
-                this._lostItem.push($data)
+                 this._lostItem.push($data)  //原来存放到等待列表
+              //  this.makeOtherRender($data)
             }
             return empty
+        }
+        //重新创建出显示列表
+        private makeOtherRender($data: any): Disp2DBaseText {
+            var tempRender: UIRenderComponent= new UIRenderComponent;
+            this.addRender(tempRender);
+            this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender)
+            this.oherRender.push(tempRender)
+            return this.showTemp($data);
         }
  
         private clearLostItem(): void {
@@ -582,11 +642,7 @@
                     this._uiItem[i].update();
                 }
             }
-            /*
-            if (this.getUiItemLen() <( this._uiItem.length-1)) {
-                this.playLost()
-            }
-            */
+
 
         }
         public getUiItemLen(): number {

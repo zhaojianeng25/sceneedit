@@ -286,10 +286,8 @@ var maineditor;
     var HierarchyListPanel = /** @class */ (function (_super) {
         __extends(HierarchyListPanel, _super);
         function HierarchyListPanel() {
-            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 50) || this;
+            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 48) || this;
             _this.only = true; //标记需要移除
-            // private fileItem: Array<FolderMeshVo>;
-            _this.moveListTy = 0;
             _this.cellBgItem = [];
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
@@ -299,15 +297,7 @@ var maineditor;
         HierarchyListPanel.prototype.loadConfigCom = function () {
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
-            var item = [
-                this.b_bottom_left,
-                this.b_bottom_mid,
-                this.b_bottom_right,
-                this.b_bottom_line_left,
-                this.b_bottom_line_right,
-                this.a_bottom_line,
-            ];
-            this.setUiListVisibleByItem(item, false);
+            this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
             this.resize();
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
@@ -500,6 +490,7 @@ var maineditor;
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
                 $vo.ossListFile.name = childItem[i].name;
+                $vo.ossListFile.name = "id_" + i;
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;
                 ;
@@ -637,9 +628,7 @@ var maineditor;
             }
         };
         HierarchyListPanel.prototype.changeScrollBar = function () {
-            var th = this._uiMask.height - this.a_scroll_bar.height;
-            var ty = this.a_scroll_bar.y - this._uiMask.y;
-            this.moveListTy = -(this.contentHeight - this._uiMask.height) * (ty / th);
+            _super.prototype.changeScrollBar.call(this);
             this.refrishFolder();
         };
         HierarchyListPanel.prototype.resize = function () {
@@ -653,7 +642,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.refrishFolder = function () {
             if (this.isCompelet) {
-                HierarchyListPanel.listTy = this.moveListTy + this._uiMask.y;
+                this.listTy = 0 + this.moveListTy;
                 this.disChiendren(maineditor.EditorModel.getInstance().fileItem, 10);
                 var moveTy = 0;
                 this.moveAllTy(maineditor.EditorModel.getInstance().fileItem, moveTy);
@@ -702,9 +691,9 @@ var maineditor;
             if (tx === void 0) { tx = 0; }
             for (var i = 0; arr && i < arr.length; i++) {
                 arr[i].cellPos.x = tx;
-                arr[i].cellPos.y = HierarchyListPanel.listTy;
+                arr[i].cellPos.y = this.listTy;
                 arr[i].uiScale = 0.5;
-                HierarchyListPanel.listTy += 20;
+                this.listTy += 20;
                 if (arr[i].ossListFile.isOpen) {
                     this.disChiendren(arr[i].childItem, tx + 20);
                 }
