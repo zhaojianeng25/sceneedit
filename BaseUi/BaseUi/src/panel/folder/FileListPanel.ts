@@ -206,7 +206,7 @@
 
         public static imgBaseDic: any
         public constructor() {
-            super(FileListName, new Rectangle(0, 0, 100, 100), 50);
+            super(FileListName, new Rectangle(0, 0, 100, 100), 48);
       
          
  

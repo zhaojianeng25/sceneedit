@@ -171,7 +171,7 @@ var filelist;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
-            return _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 50) || this;
+            return _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 48) || this;
         }
         FileListPanel.prototype.loadConfigCom = function () {
             var _this = this;

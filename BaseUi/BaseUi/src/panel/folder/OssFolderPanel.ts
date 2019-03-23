@@ -111,7 +111,7 @@
 
         public static imgBaseDic: any
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 256, 40), 50);
+            super(FolderName, new Rectangle(0, 0, 256, 40), 48);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
         }
