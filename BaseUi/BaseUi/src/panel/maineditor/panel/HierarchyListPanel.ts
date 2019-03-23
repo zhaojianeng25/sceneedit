@@ -546,7 +546,7 @@
             this.loadBaseSceneUrl()
         }
         private loadBaseSceneUrl(): void {
-            ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP), "scene.map"); //加载场景
+            ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE)); 
         }
         private onRightMenuFun: any
         public onRightMenu($evt: MouseEvent): void {
@@ -695,6 +695,8 @@
 
         public readMapFile(mapUrl: string): void {
             BaseUiStart.mapOpenUrl = mapUrl
+            localStorage.setItem("mapurl", mapUrl);
+
             this.clearSceneAll()
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {

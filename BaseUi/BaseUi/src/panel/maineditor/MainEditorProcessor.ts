@@ -247,7 +247,7 @@
         private maseSceneManager(): void {
             MainEditorProcessor.edItorSceneManager = new EdItorSceneManager();
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
-            MainEditorProcessor.edItorSceneManager.addDisplay(new Pan3d.GridLineSprite());
+          
             MainEditorProcessor.edItorSceneManager.ready = true;
 
         

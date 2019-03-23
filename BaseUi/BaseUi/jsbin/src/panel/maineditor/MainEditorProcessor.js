@@ -220,7 +220,6 @@ var maineditor;
         MainEditorProcessor.prototype.maseSceneManager = function () {
             MainEditorProcessor.edItorSceneManager = new maineditor.EdItorSceneManager();
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
-            MainEditorProcessor.edItorSceneManager.addDisplay(new Pan3d.GridLineSprite());
             MainEditorProcessor.edItorSceneManager.ready = true;
             MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D();
             MainEditorProcessor.edItorSceneManager.cam3D.distance = 100;

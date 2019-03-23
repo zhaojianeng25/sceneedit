@@ -15,6 +15,7 @@
                 [
                     { Type: ReflectionData.TEXT, Label: "场景名字:", FunKey: "mapname", target: this, Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "背景颜色:", FunKey: "bgcolor", target: this, Step: 0.1, Category: "属性" },
+                    { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
 
                     { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                     { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
@@ -24,6 +25,26 @@
                 ];
             return ary;
         }
+        private gridLineSprite: Pan3d.GridLineSprite;
+        private isShowGridLine: boolean = false
+
+        public get gridline(): number {
+            return this.isShowGridLine ? 1 : 0;
+        }
+        public set gridline(value: number) {
+            this.isShowGridLine = value==1
+            if (!this.gridLineSprite) {
+                this.gridLineSprite = new Pan3d.GridLineSprite()
+            }
+            if (this.isShowGridLine) {
+                MainEditorProcessor.edItorSceneManager.addDisplay(this.gridLineSprite);
+            } else {
+                MainEditorProcessor.edItorSceneManager.removeDisplay(this.gridLineSprite);
+            }
+          
+            this.refreshViewValue();
+  
+        }
         private textureChangeInfo(value: Array<any>): void {
         }
         public getParamItem(value: string): any {
@@ -31,6 +52,8 @@
         }
         public set texture(value: Material) {
             this.data.material = value
+
+            this.gridline = 1;
             this.refreshViewValue()
         }
         public get texture(): Material {
@@ -38,18 +61,19 @@
             return this.data.material
         }
         public get mapname() {
-            return "test.map";
+            return BaseUiStart.mapOpenUrl;
         }
     
         public get data(): any {
             return this._data
         }
+
         public set data(value: any) {
             this._data = value
-            this.refreshViewValue()
 
-           // console.log(this._data)
-         
+
+
+            this.refreshViewValue()
         }
         public get campos() {
             return new Vector3D()

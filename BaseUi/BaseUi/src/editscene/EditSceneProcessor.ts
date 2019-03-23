@@ -3,16 +3,15 @@
     import Module = Pan3d.Module;
     import Processor = Pan3d.Processor;
     import BaseProcessor = Pan3d.BaseProcessor;
+    import ModuleEventManager = Pan3d.ModuleEventManager
  
 
 
     export class EditSceneEvent extends BaseEvent {
         public static SHOW_EDITSCENE_PANEL: string = "SHOW_EDITSCENE_PANEL";
- 
         public static EDITE_SCENE_RESIZE: string = "EDITE_SCENE_RESIZE";
-
         public static SHOW_HIDE_EDIT_TEMP_PANEL: string = "SHOW_HIDE_EDIT_TEMP_PANEL";
- 
+        public static EDITE_SCENE_UI_LOAD_COMPLETE: string = "EDITE_SCENE_UI_LOAD_COMPLETE";
 
     }
     export class EditSceneModule extends Module {
@@ -41,7 +40,20 @@
                     win.LayerManager.getInstance().addPanel(this._editScenePanel, 100)
 
                 }
+                if ($editSceneEvent.type == EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE) {
+             
+                    this.initSceneData()
+                }
             }
+        }
+        private initSceneData(): void {
+            var $nameKey = "scene.map"
+            if (localStorage.getItem("mapurl")) {
+                $nameKey = localStorage.getItem("mapurl");
+            }
+            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
+
+           
         }
      
  
@@ -49,6 +61,7 @@
             return [
                 new EditSceneEvent(EditSceneEvent.SHOW_EDITSCENE_PANEL),
                 new EditSceneEvent(EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL),
+                new EditSceneEvent(EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE),
  
             ];
         }

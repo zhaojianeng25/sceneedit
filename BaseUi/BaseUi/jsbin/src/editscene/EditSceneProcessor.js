@@ -16,6 +16,7 @@ var editscene;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var EditSceneEvent = /** @class */ (function (_super) {
         __extends(EditSceneEvent, _super);
         function EditSceneEvent() {
@@ -24,6 +25,7 @@ var editscene;
         EditSceneEvent.SHOW_EDITSCENE_PANEL = "SHOW_EDITSCENE_PANEL";
         EditSceneEvent.EDITE_SCENE_RESIZE = "EDITE_SCENE_RESIZE";
         EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL = "SHOW_HIDE_EDIT_TEMP_PANEL";
+        EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE = "EDITE_SCENE_UI_LOAD_COMPLETE";
         return EditSceneEvent;
     }(BaseEvent));
     editscene.EditSceneEvent = EditSceneEvent;
@@ -60,12 +62,23 @@ var editscene;
                     this._editScenePanel.height = 500;
                     win.LayerManager.getInstance().addPanel(this._editScenePanel, 100);
                 }
+                if ($editSceneEvent.type == EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE) {
+                    this.initSceneData();
+                }
             }
+        };
+        EditSceneProcessor.prototype.initSceneData = function () {
+            var $nameKey = "scene.map";
+            if (localStorage.getItem("mapurl")) {
+                $nameKey = localStorage.getItem("mapurl");
+            }
+            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
         };
         EditSceneProcessor.prototype.listenModuleEvents = function () {
             return [
                 new EditSceneEvent(EditSceneEvent.SHOW_EDITSCENE_PANEL),
                 new EditSceneEvent(EditSceneEvent.SHOW_HIDE_EDIT_TEMP_PANEL),
+                new EditSceneEvent(EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE),
             ];
         };
         return EditSceneProcessor;

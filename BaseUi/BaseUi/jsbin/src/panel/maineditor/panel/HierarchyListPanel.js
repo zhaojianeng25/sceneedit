@@ -471,7 +471,7 @@ var maineditor;
             this.loadBaseSceneUrl();
         };
         HierarchyListPanel.prototype.loadBaseSceneUrl = function () {
-            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), "scene.map"); //加载场景
+            ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE));
         };
         HierarchyListPanel.prototype.onRightMenu = function ($evt) {
             $evt.preventDefault();
@@ -579,6 +579,7 @@ var maineditor;
         HierarchyListPanel.prototype.readMapFile = function (mapUrl) {
             var _this = this;
             BaseUiStart.mapOpenUrl = mapUrl;
+            localStorage.setItem("mapurl", mapUrl);
             this.clearSceneAll();
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE, function ($dtstr) {
                 var $byte = new Pan3d.Pan3dByteArray($dtstr);

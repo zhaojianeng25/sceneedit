@@ -20,6 +20,7 @@ var maineditor;
         __extends(ScenePojectMeshView, _super);
         function ScenePojectMeshView() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.isShowGridLine = false;
             _this._bgcolor = new Vector3D(11, 11, 11);
             return _this;
         }
@@ -28,12 +29,33 @@ var maineditor;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "场景名字:", FunKey: "mapname", target: this, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "背景颜色:", FunKey: "bgcolor", target: this, Step: 0.1, Category: "属性" },
+                { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
                 { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
             ];
             return ary;
         };
+        Object.defineProperty(ScenePojectMeshView.prototype, "gridline", {
+            get: function () {
+                return this.isShowGridLine ? 1 : 0;
+            },
+            set: function (value) {
+                this.isShowGridLine = value == 1;
+                if (!this.gridLineSprite) {
+                    this.gridLineSprite = new Pan3d.GridLineSprite();
+                }
+                if (this.isShowGridLine) {
+                    maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(this.gridLineSprite);
+                }
+                else {
+                    maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(this.gridLineSprite);
+                }
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
         ScenePojectMeshView.prototype.textureChangeInfo = function (value) {
         };
         ScenePojectMeshView.prototype.getParamItem = function (value) {
@@ -46,6 +68,7 @@ var maineditor;
             },
             set: function (value) {
                 this.data.material = value;
+                this.gridline = 1;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -53,7 +76,7 @@ var maineditor;
         });
         Object.defineProperty(ScenePojectMeshView.prototype, "mapname", {
             get: function () {
-                return "test.map";
+                return BaseUiStart.mapOpenUrl;
             },
             enumerable: true,
             configurable: true
@@ -65,7 +88,6 @@ var maineditor;
             set: function (value) {
                 this._data = value;
                 this.refreshViewValue();
-                // console.log(this._data)
             },
             enumerable: true,
             configurable: true
