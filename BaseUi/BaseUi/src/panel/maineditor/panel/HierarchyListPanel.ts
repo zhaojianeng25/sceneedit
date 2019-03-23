@@ -672,19 +672,7 @@
                 dis.material = $materialTree;
             })
         }
-        //private getGroundPos($mouse: Vector2D): Vector3D {
-        //    let $scene = MainEditorProcessor.edItorSceneManager;
-
-        //    var $hipPos: Vector3D = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene)
-
-        //    var triItem: Array<Vector3D> = new Array;
-        //    triItem.push(new Vector3D(0, 0, 0));
-        //    triItem.push(new Vector3D(-100, 0, 100));
-        //    triItem.push(new Vector3D(+100, 0, 100));
-
-        //    return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
-
-        //}
+ 
 
         public clearSceneAll(): void {
 

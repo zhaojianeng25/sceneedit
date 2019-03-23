@@ -276,30 +276,32 @@ var win;
         __extends(Dis2dBaseWindow, _super);
         function Dis2dBaseWindow($classVo, $rect, $num) {
             var _this = _super.call(this) || this;
+            _this._uiItem = new Array();
+            _this._lostItem = new Array();
             _this.width = UIData.designWidth;
             _this.height = UIData.designHeight;
             _this.creatBaseRender();
             _this.addRender(_this._baseRender);
             _this.mathSize($rect, $num);
-            _this.initData($classVo, $rect, $num);
+            _this.initData($classVo, $rect, $num, _this._baseRender);
             return _this;
         }
         Dis2dBaseWindow.prototype.creatBaseRender = function () {
             this._baseRender = new UIRenderComponent;
         };
         //显示单元类, 尺寸，数量
-        Dis2dBaseWindow.prototype.initData = function ($classVo, $rect, $num) {
+        Dis2dBaseWindow.prototype.initData = function ($classVo, $rect, $num, $render) {
             this._voNum = Math.floor($num);
             this._voRect = $rect;
             var kkwA = Math.pow(2, Math.ceil(Math.log($rect.x * $rect.width) / Math.log(2)));
             var kkhB = Math.pow(2, Math.ceil(Math.log($rect.x * $rect.width) / Math.log(2)));
             this._textureRect = new Rectangle(0, 0, kkwA, kkhB);
-            this._baseRender.uiAtlas = new UIAtlas();
-            var $uiAtlas = this._baseRender.uiAtlas;
+            $render.uiAtlas = new UIAtlas();
+            var $uiAtlas = $render.uiAtlas;
             $uiAtlas.configData = new Array();
             $uiAtlas.ctx = UIManager.getInstance().getContext2D(this._textureRect.width, this._textureRect.height, false);
             $uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
-            this.makeBaseUi($classVo);
+            this.makeBaseUi($classVo, $render);
             ;
         };
         Dis2dBaseWindow.prototype.mathSize = function ($rect, $num) {
@@ -315,19 +317,17 @@ var win;
             }
         };
         //根据数量创建单元格UICompenent 并存在数组中，待需要时应用
-        Dis2dBaseWindow.prototype.makeBaseUi = function ($classVo) {
-            var $uiAtlas = this._baseRender.uiAtlas;
-            this._uiItem = new Array();
-            this._lostItem = new Array();
+        Dis2dBaseWindow.prototype.makeBaseUi = function ($classVo, $render) {
+            var $uiAtlas = $render.uiAtlas;
             for (var i = 0; i < this._voRect.x; i++) {
                 for (var j = 0; j < this._voRect.y; j++) {
                     var $disp2DBaseText = new $classVo();
                     this._uiItem.push($disp2DBaseText);
-                    $disp2DBaseText.parent = this._baseRender;
+                    $disp2DBaseText.parent = $render;
                     $disp2DBaseText.voRect = this._voRect;
                     $disp2DBaseText.textureStr = "id_" + i + "_" + j;
                     $uiAtlas.configData.push($uiAtlas.getObject($disp2DBaseText.textureStr, i * this._voRect.width, j * this._voRect.height, this._voRect.width, this._voRect.height, this._textureRect.width, this._textureRect.height));
-                    $disp2DBaseText.ui = this._baseRender.creatBaseComponent($disp2DBaseText.textureStr);
+                    $disp2DBaseText.ui = $render.creatBaseComponent($disp2DBaseText.textureStr);
                     $disp2DBaseText.ui.baseRec = this._voRect.clone();
                 }
             }

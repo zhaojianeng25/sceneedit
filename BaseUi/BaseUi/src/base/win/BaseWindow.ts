@@ -408,19 +408,24 @@
         protected _baseRender: UIRenderComponent;
         public constructor($classVo: any, $rect: Rectangle, $num: number) {
             super();
+            this._uiItem = new Array();
+            this._lostItem = new Array();
             this.width = UIData.designWidth;
             this.height = UIData.designHeight;
             this.creatBaseRender()
             this.addRender(this._baseRender);
             this.mathSize($rect, $num)
-            this.initData($classVo, $rect, $num)
+            this.initData($classVo, $rect, $num, this._baseRender)
+
+ 
         }
+         
         protected creatBaseRender(): void {
             this._baseRender = new UIRenderComponent;
 
         }
         //显示单元类, 尺寸，数量
-        private initData($classVo: any, $rect: Rectangle, $num: number): void {
+        private initData($classVo: any, $rect: Rectangle, $num: number, $render: UIRenderComponent): void {
             this._voNum = Math.floor($num)
             this._voRect = $rect;
 
@@ -432,12 +437,12 @@
 
             this._textureRect = new Rectangle(0, 0, kkwA, kkhB);
 
-            this._baseRender.uiAtlas = new UIAtlas();
-            var $uiAtlas: UIAtlas = this._baseRender.uiAtlas;
+            $render.uiAtlas = new UIAtlas();
+            var $uiAtlas: UIAtlas = $render.uiAtlas;
             $uiAtlas.configData = new Array();
             $uiAtlas.ctx = UIManager.getInstance().getContext2D(this._textureRect.width, this._textureRect.height, false);
             $uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
-            this.makeBaseUi($classVo);
+            this.makeBaseUi($classVo, $render);
             ;
         }
         private mathSize($rect: Rectangle, $num: number): void {
@@ -463,21 +468,20 @@
         protected _lostItem: Array<Pan3d.baseMeshVo>;//没有上传成功的
 
         //根据数量创建单元格UICompenent 并存在数组中，待需要时应用
-        private makeBaseUi($classVo: any): void {
-            var $uiAtlas: UIAtlas = this._baseRender.uiAtlas;
-            this._uiItem = new Array();
-            this._lostItem = new Array();
+        private makeBaseUi($classVo: any, $render: UIRenderComponent): void {
+            var $uiAtlas: UIAtlas = $render.uiAtlas;
+         
 
             for (var i: number = 0; i < this._voRect.x; i++) {
                 for (var j: number = 0; j < this._voRect.y; j++) {
 
                     var $disp2DBaseText: Disp2DBaseText = new $classVo()
                     this._uiItem.push($disp2DBaseText);
-                    $disp2DBaseText.parent = this._baseRender;
+                    $disp2DBaseText.parent = $render;
                     $disp2DBaseText.voRect = this._voRect;
                     $disp2DBaseText.textureStr = "id_" + i + "_" + j;
                     $uiAtlas.configData.push($uiAtlas.getObject($disp2DBaseText.textureStr, i * this._voRect.width, j * this._voRect.height, this._voRect.width, this._voRect.height, this._textureRect.width, this._textureRect.height));
-                    $disp2DBaseText.ui = <UICompenent>this._baseRender.creatBaseComponent($disp2DBaseText.textureStr);
+                    $disp2DBaseText.ui = <UICompenent>$render.creatBaseComponent($disp2DBaseText.textureStr);
 
                     $disp2DBaseText.ui.baseRec = this._voRect.clone();
                 }
@@ -512,6 +516,7 @@
             }
             return empty
         }
+ 
         private clearLostItem(): void {
             for (var i: number = (this._lostItem.length - 1); i > 0; i--) {
                 if (this._lostItem[i].clear) {

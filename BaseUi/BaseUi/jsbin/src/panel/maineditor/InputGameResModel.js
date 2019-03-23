@@ -112,11 +112,13 @@ var inputres;
                 var imgSize = this._byte.readInt();
                 if (url.search(".jpng") != -1) {
                     this.readJpngImg(url);
-                    continue;
+                    console.log("url");
                 }
-                var imgAryBuffer = this._byte.buffer.slice(this._byte.position, this._byte.position + imgSize);
-                this._byte.position += imgSize;
-                this.saveImgToSever(imgAryBuffer, url);
+                else {
+                    var imgAryBuffer = this._byte.buffer.slice(this._byte.position, this._byte.position + imgSize);
+                    this._byte.position += imgSize;
+                    this.saveImgToSever(imgAryBuffer, url);
+                }
                 this.countImg();
             }
         };

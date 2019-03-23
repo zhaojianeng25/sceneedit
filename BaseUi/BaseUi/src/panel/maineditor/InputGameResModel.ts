@@ -108,11 +108,13 @@
                 var imgSize: number = this._byte.readInt();
                 if (url.search(".jpng") != -1) {
                     this.readJpngImg(url);
-                    continue;
+                    console.log("url")
+                } else {
+                    var imgAryBuffer: ArrayBuffer = this._byte.buffer.slice(this._byte.position, this._byte.position + imgSize);
+                    this._byte.position += imgSize;
+                    this.saveImgToSever(imgAryBuffer, url)
                 }
-                var imgAryBuffer: ArrayBuffer = this._byte.buffer.slice(this._byte.position, this._byte.position + imgSize);
-                this._byte.position += imgSize;
-                this.saveImgToSever(imgAryBuffer, url)
+         
                 this.countImg()
             }
         }
