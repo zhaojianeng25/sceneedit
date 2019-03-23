@@ -449,7 +449,7 @@
 
     export class Dis2dBaseWindow extends win.BaseWindow {
         protected _baseRender: UIRenderComponent;
-        protected oherRender: Array<UIRenderComponent>
+    
         public constructor($classVo: any, $rect: Rectangle, $num: number) {
             super();
             this._uiItem = new Array();
@@ -468,7 +468,6 @@
             this.panelInfo.classVo = $classVo;
             this.panelInfo.rect = $rect;
             this.panelInfo.num = $num;
-            this.oherRender=[]
  
         }
         private panelInfo: any
@@ -563,20 +562,21 @@
                 empty.data = $data;
                 this.addChild(empty.ui);
             } else {
-                 this._lostItem.push($data)  //原来存放到等待列表
-              //  this.makeOtherRender($data)
+                // this._lostItem.push($data)  //原来存放到等待列表
+               this.makeOtherRender($data)
             }
             return empty
         }
         //重新创建出显示列表
         private makeOtherRender($data: any): Disp2DBaseText {
             var tempRender: UIRenderComponent= new UIRenderComponent;
-            this.addRender(tempRender);
+            this.addRender(tempRender)
             this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender)
-            this.oherRender.push(tempRender)
             return this.showTemp($data);
         }
- 
+
+   
+      
         private clearLostItem(): void {
             for (var i: number = (this._lostItem.length - 1); i > 0; i--) {
                 if (this._lostItem[i].clear) {

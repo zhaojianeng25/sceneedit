@@ -286,7 +286,7 @@ var maineditor;
     var HierarchyListPanel = /** @class */ (function (_super) {
         __extends(HierarchyListPanel, _super);
         function HierarchyListPanel() {
-            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 48) || this;
+            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 20) || this;
             _this.only = true; //标记需要移除
             _this.cellBgItem = [];
             _this.left = 0;

@@ -281,7 +281,7 @@
             $uiRender.sortnum = this._layer;
             this.renderList.push($uiRender);
             if (this.hasStage) {
-                UIManager.getInstance().addUI($uiRender);
+                this.perent.addUI($uiRender);
             }
         }
         public addRenderAt($uiRender: UIRenderComponent, $idx: number): void {

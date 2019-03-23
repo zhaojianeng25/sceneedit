@@ -319,7 +319,6 @@ var win;
             _this.panelInfo.classVo = $classVo;
             _this.panelInfo.rect = $rect;
             _this.panelInfo.num = $num;
-            _this.oherRender = [];
             return _this;
         }
         //显示单元类, 尺寸，数量
@@ -389,8 +388,8 @@ var win;
                 this.addChild(empty.ui);
             }
             else {
-                this._lostItem.push($data); //原来存放到等待列表
-                //  this.makeOtherRender($data)
+                // this._lostItem.push($data)  //原来存放到等待列表
+                this.makeOtherRender($data);
             }
             return empty;
         };
@@ -399,7 +398,6 @@ var win;
             var tempRender = new UIRenderComponent;
             this.addRender(tempRender);
             this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
-            this.oherRender.push(tempRender);
             return this.showTemp($data);
         };
         Dis2dBaseWindow.prototype.clearLostItem = function () {

@@ -50,7 +50,7 @@
     import CombineReflectionView = prop.CombineReflectionView
 
     import TooXyzPosData = xyz.TooXyzPosData
-
+    import Panel = win.Panel;
     import MenuListData = menutwo.MenuListData
     import SampleFileVo = filelist.SampleFileVo
     
@@ -342,11 +342,14 @@
         public only: boolean = true //标记需要移除
         public static imgBaseDic: any;
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 256, 40), 48);
+            super(FolderName, new Rectangle(0, 0, 256, 40), 20);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
             EditorModel.getInstance().hierarchyListPanel=this
         }
+  
+  
+   
         protected loadConfigCom(): void {
             super.loadConfigCom();
 

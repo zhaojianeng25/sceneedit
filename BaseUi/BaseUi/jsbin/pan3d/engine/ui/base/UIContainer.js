@@ -273,7 +273,7 @@ var Pan3d;
             $uiRender.sortnum = this._layer;
             this.renderList.push($uiRender);
             if (this.hasStage) {
-                Pan3d.UIManager.getInstance().addUI($uiRender);
+                this.perent.addUI($uiRender);
             }
         };
         UIConatiner.prototype.addRenderAt = function ($uiRender, $idx) {
