@@ -530,9 +530,9 @@
 
             this._baseRender.mask = this._uiMask
         
-            for (var i: number = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
-            }
+     
+
+
             document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
      
 
@@ -542,6 +542,15 @@
             document.addEventListener("contextmenu", this.onRightMenuFun)
 
             this.loadBaseSceneUrl()
+        }
+
+
+        public addRender($uiRender: UIRenderComponent): void {
+            super.addRender($uiRender)
+            //这里的监听和之前有冲突之前添加过的 需要优化，暂时没问题
+            for (var i: number = 0; this._uiItem&&i < this._uiItem.length; i++) {
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
+            }
         }
         private loadBaseSceneUrl(): void {
             ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE)); 

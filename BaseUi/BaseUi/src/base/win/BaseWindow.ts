@@ -461,8 +461,8 @@
 
 
             this._baseRender = new UIRenderComponent;
-            this.addRender(this._baseRender);
             this.initData($classVo, $rect, $num, this._baseRender)
+            this.addRender(this._baseRender);
 
             this.panelInfo = {};
             this.panelInfo.classVo = $classVo;
@@ -534,6 +534,8 @@
                     $disp2DBaseText.ui = <UICompenent>$render.creatBaseComponent($disp2DBaseText.textureStr);
 
                     $disp2DBaseText.ui.baseRec = this._voRect.clone();
+
+                    $disp2DBaseText.ui. addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
                 }
 
 
@@ -569,12 +571,12 @@
         }
         //重新创建出显示列表
         private makeOtherRender($data: any): Disp2DBaseText {
-            var tempRender: UIRenderComponent= new UIRenderComponent;
-            this.addRender(tempRender)
+            var tempRender: UIRenderComponent = new UIRenderComponent;
             this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender)
+            this.addRender(tempRender)
             return this.showTemp($data);
         }
-
+  
    
       
         private clearLostItem(): void {

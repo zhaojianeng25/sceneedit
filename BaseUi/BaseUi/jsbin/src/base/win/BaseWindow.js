@@ -313,8 +313,8 @@ var win;
             _this.height = UIData.designHeight;
             _this.mathSize($rect, $num);
             _this._baseRender = new UIRenderComponent;
-            _this.addRender(_this._baseRender);
             _this.initData($classVo, $rect, $num, _this._baseRender);
+            _this.addRender(_this._baseRender);
             _this.panelInfo = {};
             _this.panelInfo.classVo = $classVo;
             _this.panelInfo.rect = $rect;
@@ -361,6 +361,7 @@ var win;
                     $uiAtlas.configData.push($uiAtlas.getObject($disp2DBaseText.textureStr, i * this._voRect.width, j * this._voRect.height, this._voRect.width, this._voRect.height, this._textureRect.width, this._textureRect.height));
                     $disp2DBaseText.ui = $render.creatBaseComponent($disp2DBaseText.textureStr);
                     $disp2DBaseText.ui.baseRec = this._voRect.clone();
+                    $disp2DBaseText.ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
                 }
             }
         };
@@ -396,9 +397,11 @@ var win;
         //重新创建出显示列表
         Dis2dBaseWindow.prototype.makeOtherRender = function ($data) {
             var tempRender = new UIRenderComponent;
-            this.addRender(tempRender);
             this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
+            this.addRender(tempRender);
             return this.showTemp($data);
+        };
+        Dis2dBaseWindow.prototype.itemMouseUp = function (evt) {
         };
         Dis2dBaseWindow.prototype.clearLostItem = function () {
             for (var i = (this._lostItem.length - 1); i > 0; i--) {

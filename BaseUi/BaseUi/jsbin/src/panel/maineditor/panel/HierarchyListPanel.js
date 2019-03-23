@@ -450,15 +450,19 @@ var maineditor;
         HierarchyListPanel.prototype.makeItemUiList = function () {
             var _this = this;
             this._baseRender.mask = this._uiMask;
-            for (var i = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
-            }
             document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
             document.addEventListener("contextmenu", this.onRightMenuFun);
             this.loadBaseSceneUrl();
+        };
+        HierarchyListPanel.prototype.addRender = function ($uiRender) {
+            _super.prototype.addRender.call(this, $uiRender);
+            //这里的监听和之前有冲突之前添加过的 需要优化，暂时没问题
+            for (var i = 0; this._uiItem && i < this._uiItem.length; i++) {
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
+            }
         };
         HierarchyListPanel.prototype.loadBaseSceneUrl = function () {
             ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE));
