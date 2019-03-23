@@ -510,6 +510,12 @@ var maineditor;
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
+                $vo.dis.scaleX = childItem[i].scaleX;
+                $vo.dis.scaleY = childItem[i].scaleY;
+                $vo.dis.scaleZ = childItem[i].scaleZ;
+                $vo.dis.rotationX = childItem[i].rotationX;
+                $vo.dis.rotationY = childItem[i].rotationY;
+                $vo.dis.rotationZ = childItem[i].rotationZ;
                 maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo);
@@ -518,14 +524,25 @@ var maineditor;
         };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var $url = temp.url;
-            var $groundPos = temp.pos;
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.dis = new ModelSprite();
             $vo.dis.setPreFabUrl($url);
-            $vo.dis.x = $groundPos.x;
-            $vo.dis.y = $groundPos.y;
-            $vo.dis.z = $groundPos.z;
+            if (temp.scale) {
+                $vo.dis.x = temp.pos.x;
+                $vo.dis.y = temp.pos.y;
+                $vo.dis.z = temp.pos.z;
+            }
+            if (temp.scale) {
+                $vo.dis.scaleX = temp.scale.x;
+                $vo.dis.scaleY = temp.scale.y;
+                $vo.dis.scaleZ = temp.scale.z;
+            }
+            if (temp.rotation) {
+                $vo.dis.rotationX = temp.rotation.x;
+                $vo.dis.rotationY = temp.rotation.y;
+                $vo.dis.rotationZ = temp.rotation.z;
+            }
             maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
             $vo.ossListFile.name = temp.url;
             $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;
@@ -561,7 +578,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.readMapFile = function (mapUrl) {
             var _this = this;
-            this.mapOpenUrl = mapUrl;
+            BaseUiStart.mapOpenUrl = mapUrl;
             this.clearSceneAll();
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE, function ($dtstr) {
                 var $byte = new Pan3d.Pan3dByteArray($dtstr);
@@ -586,11 +603,12 @@ var maineditor;
                 this.resize();
             }
         };
+        //  public mapOpenUrl: string
         HierarchyListPanel.prototype.saveMap = function () {
             // EditorModel.getInstance().fileItem=[]
             var tempObj = { list: this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem) };
             var $byte = new Pan3d.Pan3dByteArray();
-            var $fileUrl = Pan3d.Scene_data.fileRoot + this.mapOpenUrl;
+            var $fileUrl = Pan3d.Scene_data.fileRoot + BaseUiStart.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
@@ -607,6 +625,12 @@ var maineditor;
                 $obj.x = item[i].dis.x;
                 $obj.y = item[i].dis.y;
                 $obj.z = item[i].dis.z;
+                $obj.scaleX = item[i].dis.scaleX;
+                $obj.scaleY = item[i].dis.scaleY;
+                $obj.scaleZ = item[i].dis.scaleZ;
+                $obj.rotationX = item[i].dis.rotationX;
+                $obj.rotationY = item[i].dis.rotationY;
+                $obj.rotationZ = item[i].dis.rotationZ;
                 $obj.data = item[i].ossListFile.name;
                 if (item[i].childItem) {
                     $obj.childItem = this.getWillSaveItem(item[i].childItem);

@@ -8,6 +8,8 @@ class BaseUiStart extends Pan3d.GameStart {
     public static centenPanel: win.Panel
     public static topPanel: win.Panel
 
+    public static mapOpenUrl: string
+
 
 
     public init(): void {

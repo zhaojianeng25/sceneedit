@@ -61,7 +61,7 @@
   
 
             for (var i: number = 0; i < obj.vertices.length; i++) {
-                obj.vertices[i] *= 0.1 //输小;
+                obj.vertices[i] *= this.scale //输小;
             }
             var $file: File = new File([JSON.stringify(obj)], "temp.objs");
             this.upOssFile($file, httpUrl)
@@ -72,6 +72,7 @@
             })
         }
         public fileRoot: string = "ccav/"
+        public scale: number = 0.1
         private upOssFile(file: File, httpurl: string): void {
             var url: string = httpurl.replace(Scene_data.fileRoot, "") //得到相对位置；
             url = Scene_data.fileRoot + this.fileRoot+url   //得到http文件位置
@@ -125,25 +126,22 @@
             return this._instance;
         }
         private sceneRes: SceneRes;
-        public inputSceneFile(value: File): void {
+        public inputSceneFile($file: File, $fileroot: string): void {
             var $reader: FileReader = new FileReader();
-            $reader.readAsArrayBuffer(value);
+            $reader.readAsArrayBuffer($file);
                 $reader.onload = ($temp: Event) => {
                     if (this.isMapH5File(<ArrayBuffer>$reader.result)) {
                         var arrayBuff: ArrayBuffer = <ArrayBuffer>$reader.result
-                        this.setMapByteMesh(arrayBuff);
-                  
+                        this.setMapByteMesh(arrayBuff, $fileroot);
                     } else {
                         alert("不确定类型");
                     }
-                   
                 }
- 
         }
-        private setMapByteMesh($byte: ArrayBuffer): void {
-  
+        private setMapByteMesh($byte: ArrayBuffer, $fileroot: string): void {
             this.sceneRes = new SceneRes();
-            //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
+            this.sceneRes.fileRoot = $fileroot  //指定到对应文件夹；
+            this.sceneRes.scale =0.1  //指定到对应文件夹；
             this.sceneRes.bfun = () => {
                 //   console.log("sceneres", sceneRes.sceneData)
                 var buildItem: Array<any> = this.sceneRes.sceneData.buildItem;
@@ -159,15 +157,12 @@
                         pramaitam.push({ name: "param1", url: lighturl })
 
                         if (objsurl && lighturl && mainpic) {
-                            console.log(name)
-                            console.log(objsurl)
-                            console.log(lighturl)
-                            console.log(mainpic)
-
-                            console.log("------------------")
-
+                            //console.log(name)
+                            //console.log(objsurl)
+                            //console.log(lighturl)
+                            //console.log(mainpic)
+ 
                             this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i])
-
                         }
                     }
                 }
@@ -175,6 +170,10 @@
 
             }
             this.sceneRes.loadComplete($byte);
+            //加载文件
+            //LoadManager.getInstance().load(Scene_data.fileRoot + "pan/ccav.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
+            //    this.sceneRes.loadComplete($byte);
+            //});
 
         }
         private isMapH5File(arrayBuffer: ArrayBuffer): boolean {
@@ -188,43 +187,6 @@
                 return true
             }
 
-        }
-        public loadSceneByUrl(): void {
-            this.sceneRes = new SceneRes();
-          //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
-            this.sceneRes.bfun = () => {
-             //   console.log("sceneres", sceneRes.sceneData)
-                var buildItem: Array<any> = this.sceneRes.sceneData.buildItem;
-                for (var i: number = 0; i < buildItem.length; i++) {
-                    if (buildItem[i].type == 1) {
-                        var pramaitam: Array<any>=[]
-                        var objsurl: string = buildItem[i].objsurl;
-                        var lighturl: string = buildItem[i].lighturl;
-                        var mainpic: string = this.getMainPic(buildItem[i].materialInfoArr)
-                        var name: string = buildItem[i].name
-
-                        pramaitam.push({ name: "param0", url: mainpic })
-                        pramaitam.push({ name: "param1", url: lighturl })
-
-                        if (objsurl && lighturl && mainpic) {
-                            console.log(name)
-                            console.log(objsurl)
-                            console.log(lighturl)
-                            console.log(mainpic)
-                            
-                            console.log("------------------")
-
-                            this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i])
-        
-                        }
-                    }
-                }
-             
-                
-            }
-            LoadManager.getInstance().load(Scene_data.fileRoot +"pan/ccav.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
-                this.sceneRes.loadComplete($byte);
-            });
         }
 
         //从材质中获取一张图;
@@ -265,7 +227,10 @@
 
                 var obj: any = {}
                 obj.url = prefabStaticMesh.url;
-                obj.pos = new Vector3D();
+                var sceneScale: number = this.sceneRes.scale
+                obj.pos = new Vector3D(buildinfo.x * sceneScale, buildinfo.y * sceneScale, buildinfo.z * sceneScale);
+                obj.scale = new Vector3D(buildinfo.scaleX, buildinfo.scaleY, buildinfo.scaleZ);
+                obj.rotation = new Vector3D(buildinfo.rotationX, buildinfo.rotationY, buildinfo.rotationZ);
                 ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
 
             })

@@ -180,11 +180,14 @@ var editscene;
                     break;
                 case "22":
                 case "23":
-                    inputres.ImputGameResModel.getInstance().loadSceneByUrl();
                     break;
                 case "31":
                     pack.FileOssModel.upTempFileToOss(function ($file) {
-                        inputres.ImputGameResModel.getInstance().inputSceneFile($file);
+                        var idx = BaseUiStart.mapOpenUrl.lastIndexOf(".");
+                        if (idx != -1) {
+                            var mapDic = BaseUiStart.mapOpenUrl.substring(0, idx) + "/";
+                            inputres.ImputGameResModel.getInstance().inputSceneFile($file, mapDic);
+                        }
                     });
                     break;
                 case "1001":

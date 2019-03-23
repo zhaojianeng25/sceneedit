@@ -16,7 +16,6 @@ var inputres;
     var Scene_data = Pan3d.Scene_data;
     var Pan3dByteArray = Pan3d.Pan3dByteArray;
     var ByteArray = Pan3d.Pan3dByteArray;
-    var LoadManager = Pan3d.LoadManager;
     var ObjDataManager = Pan3d.ObjDataManager;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var SceneRes = /** @class */ (function (_super) {
@@ -24,6 +23,7 @@ var inputres;
         function SceneRes() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.fileRoot = "ccav/";
+            _this.scale = 0.1;
             return _this;
         }
         SceneRes.prototype.readScene = function () {
@@ -69,7 +69,7 @@ var inputres;
             obj.normals = obj.vertices;
             obj.indexs = objdata.indexs;
             for (var i = 0; i < obj.vertices.length; i++) {
-                obj.vertices[i] *= 0.1; //输小;
+                obj.vertices[i] *= this.scale; //输小;
             }
             var $file = new File([JSON.stringify(obj)], "temp.objs");
             this.upOssFile($file, httpUrl);
@@ -132,24 +132,25 @@ var inputres;
             }
             return this._instance;
         };
-        ImputGameResModel.prototype.inputSceneFile = function (value) {
+        ImputGameResModel.prototype.inputSceneFile = function ($file, $fileroot) {
             var _this = this;
             var $reader = new FileReader();
-            $reader.readAsArrayBuffer(value);
+            $reader.readAsArrayBuffer($file);
             $reader.onload = function ($temp) {
                 if (_this.isMapH5File($reader.result)) {
                     var arrayBuff = $reader.result;
-                    _this.setMapByteMesh(arrayBuff);
+                    _this.setMapByteMesh(arrayBuff, $fileroot);
                 }
                 else {
                     alert("不确定类型");
                 }
             };
         };
-        ImputGameResModel.prototype.setMapByteMesh = function ($byte) {
+        ImputGameResModel.prototype.setMapByteMesh = function ($byte, $fileroot) {
             var _this = this;
             this.sceneRes = new SceneRes();
-            //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
+            this.sceneRes.fileRoot = $fileroot; //指定到对应文件夹；
+            this.sceneRes.scale = 0.1; //指定到对应文件夹；
             this.sceneRes.bfun = function () {
                 //   console.log("sceneres", sceneRes.sceneData)
                 var buildItem = _this.sceneRes.sceneData.buildItem;
@@ -163,17 +164,20 @@ var inputres;
                         pramaitam.push({ name: "param0", url: mainpic });
                         pramaitam.push({ name: "param1", url: lighturl });
                         if (objsurl && lighturl && mainpic) {
-                            console.log(name);
-                            console.log(objsurl);
-                            console.log(lighturl);
-                            console.log(mainpic);
-                            console.log("------------------");
+                            //console.log(name)
+                            //console.log(objsurl)
+                            //console.log(lighturl)
+                            //console.log(mainpic)
                             _this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i]);
                         }
                     }
                 }
             };
             this.sceneRes.loadComplete($byte);
+            //加载文件
+            //LoadManager.getInstance().load(Scene_data.fileRoot + "pan/ccav.txt", LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
+            //    this.sceneRes.loadComplete($byte);
+            //});
         };
         ImputGameResModel.prototype.isMapH5File = function (arrayBuffer) {
             var $byte = new ByteArray(arrayBuffer);
@@ -187,37 +191,6 @@ var inputres;
                 return true;
             }
         };
-        ImputGameResModel.prototype.loadSceneByUrl = function () {
-            var _this = this;
-            this.sceneRes = new SceneRes();
-            //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
-            this.sceneRes.bfun = function () {
-                //   console.log("sceneres", sceneRes.sceneData)
-                var buildItem = _this.sceneRes.sceneData.buildItem;
-                for (var i = 0; i < buildItem.length; i++) {
-                    if (buildItem[i].type == 1) {
-                        var pramaitam = [];
-                        var objsurl = buildItem[i].objsurl;
-                        var lighturl = buildItem[i].lighturl;
-                        var mainpic = _this.getMainPic(buildItem[i].materialInfoArr);
-                        var name = buildItem[i].name;
-                        pramaitam.push({ name: "param0", url: mainpic });
-                        pramaitam.push({ name: "param1", url: lighturl });
-                        if (objsurl && lighturl && mainpic) {
-                            console.log(name);
-                            console.log(objsurl);
-                            console.log(lighturl);
-                            console.log(mainpic);
-                            console.log("------------------");
-                            _this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i]);
-                        }
-                    }
-                }
-            };
-            LoadManager.getInstance().load(Scene_data.fileRoot + "pan/ccav.txt", LoadManager.BYTE_TYPE, function ($byte) {
-                _this.sceneRes.loadComplete($byte);
-            });
-        };
         //从材质中获取一张图;
         ImputGameResModel.prototype.getMainPic = function (infoArr) {
             for (var i = 0; infoArr && i < infoArr.length; i++) {
@@ -228,6 +201,7 @@ var inputres;
             return null;
         };
         ImputGameResModel.prototype.makePerfabToSever = function (name, objsurl, imgItem, buildinfo) {
+            var _this = this;
             var $byte = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh = new pack.PrefabStaticMesh();
             prefabStaticMesh.url = this.sceneRes.fileRoot + name + ".prefab";
@@ -249,7 +223,10 @@ var inputres;
             pack.FileOssModel.upOssFile($file, pathurl, function () {
                 var obj = {};
                 obj.url = prefabStaticMesh.url;
-                obj.pos = new Vector3D();
+                var sceneScale = _this.sceneRes.scale;
+                obj.pos = new Vector3D(buildinfo.x * sceneScale, buildinfo.y * sceneScale, buildinfo.z * sceneScale);
+                obj.scale = new Vector3D(buildinfo.scaleX, buildinfo.scaleY, buildinfo.scaleZ);
+                obj.rotation = new Vector3D(buildinfo.rotationX, buildinfo.rotationY, buildinfo.rotationZ);
                 ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj);
             });
         };

@@ -205,13 +205,18 @@
                     break
                 case "22":
                 case "23":
-                    inputres.ImputGameResModel.getInstance().loadSceneByUrl()
+            
                     break
                 case "31":
                     pack.FileOssModel.upTempFileToOss(($file: File) => {
- 
-                        inputres.ImputGameResModel.getInstance().inputSceneFile($file)
 
+                        var idx: number = BaseUiStart.mapOpenUrl.lastIndexOf(".");
+                        if (idx != -1) {
+                            var mapDic: string = BaseUiStart.mapOpenUrl.substring(0, idx)+"/"
+                            inputres.ImputGameResModel.getInstance().inputSceneFile($file, mapDic)
+                        }
+         
+ 
                     })
                     break
                 case "1001":

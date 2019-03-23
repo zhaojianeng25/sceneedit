@@ -598,6 +598,15 @@
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
+
+                $vo.dis.scaleX = childItem[i].scaleX;
+                $vo.dis.scaleY = childItem[i].scaleY;
+                $vo.dis.scaleZ = childItem[i].scaleZ;
+                $vo.dis.rotationX = childItem[i].rotationX;
+                $vo.dis.rotationY = childItem[i].rotationY;
+                $vo.dis.rotationZ = childItem[i].rotationZ;
+
+
                 MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
 
 
@@ -614,15 +623,31 @@
 
 
             var $url: string = temp.url
-            var $groundPos: Vector3D = temp.pos;
+ 
 
             var $vo: FolderMeshVo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.dis = new ModelSprite();
             $vo.dis.setPreFabUrl($url)
-            $vo.dis.x = $groundPos.x;
-            $vo.dis.y = $groundPos.y;
-            $vo.dis.z = $groundPos.z;
+        
+
+            if (temp.scale) {
+                $vo.dis.x = temp.pos.x;
+                $vo.dis.y = temp.pos.y;
+                $vo.dis.z = temp.pos.z;
+            }
+            if (temp.scale) {
+                $vo.dis.scaleX = temp.scale.x;
+                $vo.dis.scaleY = temp.scale.y;
+                $vo.dis.scaleZ = temp.scale.z;
+            }
+            if (temp.rotation) {
+                $vo.dis.rotationX = temp.rotation.x;
+                $vo.dis.rotationY = temp.rotation.y;
+                $vo.dis.rotationZ = temp.rotation.z;
+            }
+ 
+
             MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
  
             $vo.ossListFile.name = temp.url;
@@ -669,7 +694,7 @@
         }
 
         public readMapFile(mapUrl: string): void {
-            this.mapOpenUrl = mapUrl
+            BaseUiStart.mapOpenUrl = mapUrl
             this.clearSceneAll()
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
@@ -703,13 +728,13 @@
                 this.resize()
             }
         }
-        public mapOpenUrl: string
+      //  public mapOpenUrl: string
         public saveMap(): void {
            // EditorModel.getInstance().fileItem=[]
  
             var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-            var $fileUrl: string = Pan3d.Scene_data.fileRoot + this.mapOpenUrl;
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + BaseUiStart.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj))
 
             var $file: File = new File([$byte.buffer], "scene.map");
@@ -732,6 +757,13 @@
                 $obj.x = item[i].dis.x
                 $obj.y = item[i].dis.y
                 $obj.z = item[i].dis.z
+                $obj.scaleX = item[i].dis.scaleX
+                $obj.scaleY = item[i].dis.scaleY
+                $obj.scaleZ = item[i].dis.scaleZ
+                $obj.rotationX = item[i].dis.rotationX
+                $obj.rotationY = item[i].dis.rotationY
+                $obj.rotationZ = item[i].dis.rotationZ
+
                 $obj.data = item[i].ossListFile.name
                 if (item[i].childItem) {
                     $obj.childItem = this.getWillSaveItem(item[i].childItem)
