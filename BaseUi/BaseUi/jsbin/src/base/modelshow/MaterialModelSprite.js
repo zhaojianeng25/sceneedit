@@ -123,9 +123,6 @@ var left;
             $objdata.lightuvs = objstr.lightuvs;
             $objdata.indexs = objstr.indexs;
             $objdata.treNum = $objdata.indexs.length;
-            for (var i = 0; i < $objdata.uvs.length; i++) {
-                // $objdata.uvs[i] =0
-            }
             TBNUtils.processTBN($objdata);
             $objdata.vertexBuffer = Scene_data.context3D.uploadBuff3D($objdata.vertices);
             $objdata.uvBuffer = Scene_data.context3D.uploadBuff3D($objdata.uvs);

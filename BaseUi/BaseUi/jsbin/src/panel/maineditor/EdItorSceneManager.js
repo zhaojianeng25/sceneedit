@@ -88,6 +88,15 @@ var maineditor;
             Scene_data.focus3D = lastfocus3D;
             Scene_data.viewMatrx3D = lastViewMatrx3D;
         };
+        EdItorSceneManager.prototype.getGroundPos = function ($mouse) {
+            var $scene = this;
+            var $hipPos = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene);
+            var triItem = new Array;
+            triItem.push(new Vector3D(0, 0, 0));
+            triItem.push(new Vector3D(-100, 0, 100));
+            triItem.push(new Vector3D(+100, 0, 100));
+            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
+        };
         return EdItorSceneManager;
     }(SceneManager));
     maineditor.EdItorSceneManager = EdItorSceneManager;

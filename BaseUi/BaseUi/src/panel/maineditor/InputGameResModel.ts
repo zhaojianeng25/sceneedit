@@ -5,10 +5,11 @@
     import MathClass = Pan3d.MathClass
     import Engine = Pan3d.Engine
     import Pan3dByteArray = Pan3d.Pan3dByteArray;
-    
+    import ByteArray = Pan3d.Pan3dByteArray
     import LoadManager = Pan3d.LoadManager;
     import ObjDataManager = Pan3d.ObjDataManager;
     import TextureManager = Pan3d.TextureManager
+    import ModuleEventManager = Pan3d.ModuleEventManager
 
 
     export class SceneRes extends Pan3d.SceneRes {
@@ -123,7 +124,71 @@
             }
             return this._instance;
         }
-        private sceneRes: SceneRes
+        private sceneRes: SceneRes;
+        public inputSceneFile(value: File): void {
+            var $reader: FileReader = new FileReader();
+            $reader.readAsArrayBuffer(value);
+                $reader.onload = ($temp: Event) => {
+                    if (this.isMapH5File(<ArrayBuffer>$reader.result)) {
+                        var arrayBuff: ArrayBuffer = <ArrayBuffer>$reader.result
+                        this.setMapByteMesh(arrayBuff);
+                  
+                    } else {
+                        alert("不确定类型");
+                    }
+                   
+                }
+ 
+        }
+        private setMapByteMesh($byte: ArrayBuffer): void {
+  
+            this.sceneRes = new SceneRes();
+            //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
+            this.sceneRes.bfun = () => {
+                //   console.log("sceneres", sceneRes.sceneData)
+                var buildItem: Array<any> = this.sceneRes.sceneData.buildItem;
+                for (var i: number = 0; i < buildItem.length; i++) {
+                    if (buildItem[i].type == 1) {
+                        var pramaitam: Array<any> = []
+                        var objsurl: string = buildItem[i].objsurl;
+                        var lighturl: string = buildItem[i].lighturl;
+                        var mainpic: string = this.getMainPic(buildItem[i].materialInfoArr)
+                        var name: string = buildItem[i].name
+
+                        pramaitam.push({ name: "param0", url: mainpic })
+                        pramaitam.push({ name: "param1", url: lighturl })
+
+                        if (objsurl && lighturl && mainpic) {
+                            console.log(name)
+                            console.log(objsurl)
+                            console.log(lighturl)
+                            console.log(mainpic)
+
+                            console.log("------------------")
+
+                            this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i])
+
+                        }
+                    }
+                }
+
+
+            }
+            this.sceneRes.loadComplete($byte);
+
+        }
+        private isMapH5File(arrayBuffer: ArrayBuffer): boolean {
+            var $byte: ByteArray = new ByteArray(arrayBuffer);
+            $byte.position = 0
+            var $version: number = $byte.readInt();
+            var $url: string = $byte.readUTF();
+            if ($url.indexOf("role/") != -1) {
+                return true
+            } else {
+                return true
+            }
+
+        }
         public loadSceneByUrl(): void {
             this.sceneRes = new SceneRes();
           //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
@@ -149,8 +214,8 @@
                             
                             console.log("------------------")
 
-                            this.makePerfabToSever(name, objsurl, pramaitam)
-                           // this.makePerfabToSever()
+                            this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i])
+        
                         }
                     }
                 }
@@ -172,7 +237,7 @@
             return null;
         }
 
-        private makePerfabToSever(name: string, objsurl: string, imgItem: Array<any>): void {
+        private makePerfabToSever(name: string, objsurl: string, imgItem: Array<any>, buildinfo: any): void {
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
          
@@ -187,19 +252,23 @@
                 paramVo.paramName = imgItem[i].name;
                 paramVo.data = this.sceneRes.fileRoot +  imgItem[i].url;
                 prefabStaticMesh.paramInfo.push(paramVo);
-
-                //data: "assets/white.jpg"
-                //paramName: "param0"
-                //type: "tex"
+ 
             }
             var $fileUrl: string = Pan3d.Scene_data.fileRoot  + prefabStaticMesh.url
             $byte.writeUTF(JSON.stringify(prefabStaticMesh.getObject()))
             var $file: File = new File([$byte.buffer], "temp.prefab");
             var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
 
-            console.log(pathurl)
+ 
+            pack.FileOssModel.upOssFile($file, pathurl, () => {
 
-             pack.FileOssModel.upOssFile($file, pathurl, () => { })
+
+                var obj: any = {}
+                obj.url = prefabStaticMesh.url;
+                obj.pos = new Vector3D();
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
+
+            })
         }
 
     

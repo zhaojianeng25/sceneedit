@@ -323,6 +323,28 @@
 
         }
 
+
+ 
+        public static upTempFileToOss(bfun: Function): void {
+            var htmlTxt: HTMLInputElement = <HTMLInputElement>document.createElement('input');
+            htmlTxt.setAttribute('id', '_ef');
+            htmlTxt.setAttribute('type', 'file');
+            htmlTxt.setAttribute("style", 'visibility:hidden');
+            htmlTxt.click();
+            htmlTxt.value;
+            htmlTxt.addEventListener("change", (evt: any) => { changeFile(evt) });
+
+            function changeFile(evt: any): void {
+                for (var i: number = 0; htmlTxt&& i < htmlTxt.files.length && i < 1; i++) {
+                    var simpleFile: File = <File>htmlTxt.files[i];
+                    htmlTxt = null;
+                    bfun(simpleFile)
+                }
+            }
+   
+        }
+
+
     }
 
 }

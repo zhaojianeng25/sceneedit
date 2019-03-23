@@ -263,7 +263,8 @@
             if (this.testSuffix(drag.DragManager.dragSource.url)) {
                 var obj: any = {}
                 obj.url = drag.DragManager.dragSource.url
-                obj.mouse = new Vector2D(evt.data.x, evt.data.y);
+    
+                obj.pos= MainEditorProcessor.edItorSceneManager.getGroundPos(new Vector2D(evt.data.x, evt.data.y))
  
                 ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
             }

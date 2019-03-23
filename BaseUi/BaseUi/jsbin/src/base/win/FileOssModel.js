@@ -286,6 +286,22 @@ var pack;
                 });
             }
         };
+        FileOssModel.upTempFileToOss = function (bfun) {
+            var htmlTxt = document.createElement('input');
+            htmlTxt.setAttribute('id', '_ef');
+            htmlTxt.setAttribute('type', 'file');
+            htmlTxt.setAttribute("style", 'visibility:hidden');
+            htmlTxt.click();
+            htmlTxt.value;
+            htmlTxt.addEventListener("change", function (evt) { changeFile(evt); });
+            function changeFile(evt) {
+                for (var i = 0; htmlTxt && i < htmlTxt.files.length && i < 1; i++) {
+                    var simpleFile = htmlTxt.files[i];
+                    htmlTxt = null;
+                    bfun(simpleFile);
+                }
+            }
+        };
         FileOssModel.indexFileName = "index.hidegroup"; //配置文件名读取这个文件标记为文件夹下的所以
         FileOssModel.isMustUseOssGetDic = false; //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
         FileOssModel.waitItemUpFile = [];

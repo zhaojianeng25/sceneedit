@@ -128,8 +128,16 @@ var editscene;
             var $vo = new MenuListData("窗口", "2");
             $vo.subMenu = new Array;
             $vo.subMenu.push(new MenuListData("场景属性", "21"));
-            $vo.subMenu.push(new MenuListData("属性列表", "22"));
+            $vo.subMenu.push(new MenuListData("测试导入场景", "22"));
             $vo.subMenu.push(new MenuListData("文件列表", "23"));
+            return $vo;
+        };
+        EditTopMenuPanel.prototype.getMenu2 = function () {
+            var $vo = new MenuListData("导入", "3");
+            $vo.subMenu = new Array;
+            $vo.subMenu.push(new MenuListData("导入场景", "31"));
+            $vo.subMenu.push(new MenuListData("导入模型", "32"));
+            $vo.subMenu.push(new MenuListData("导入特效", "33"));
             return $vo;
         };
         EditTopMenuPanel.prototype.makeSceneTopMenu = function () {
@@ -138,7 +146,7 @@ var editscene;
             var menuA = new Array();
             menuA.push(this.getMenu0());
             menuA.push(this.getMenu1());
-            menuA.push(new MenuListData("配置", "2"));
+            menuA.push(this.getMenu2());
             menuA.push(new MenuListData("系统", "3"));
             temp.menuXmlItem = menuA;
             this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
@@ -173,6 +181,11 @@ var editscene;
                 case "22":
                 case "23":
                     inputres.ImputGameResModel.getInstance().loadSceneByUrl();
+                    break;
+                case "31":
+                    pack.FileOssModel.upTempFileToOss(function ($file) {
+                        inputres.ImputGameResModel.getInstance().inputSceneFile($file);
+                    });
                     break;
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));

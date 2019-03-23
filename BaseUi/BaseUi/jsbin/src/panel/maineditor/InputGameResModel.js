@@ -15,8 +15,10 @@ var inputres;
 (function (inputres) {
     var Scene_data = Pan3d.Scene_data;
     var Pan3dByteArray = Pan3d.Pan3dByteArray;
+    var ByteArray = Pan3d.Pan3dByteArray;
     var LoadManager = Pan3d.LoadManager;
     var ObjDataManager = Pan3d.ObjDataManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var SceneRes = /** @class */ (function (_super) {
         __extends(SceneRes, _super);
         function SceneRes() {
@@ -130,6 +132,61 @@ var inputres;
             }
             return this._instance;
         };
+        ImputGameResModel.prototype.inputSceneFile = function (value) {
+            var _this = this;
+            var $reader = new FileReader();
+            $reader.readAsArrayBuffer(value);
+            $reader.onload = function ($temp) {
+                if (_this.isMapH5File($reader.result)) {
+                    var arrayBuff = $reader.result;
+                    _this.setMapByteMesh(arrayBuff);
+                }
+                else {
+                    alert("不确定类型");
+                }
+            };
+        };
+        ImputGameResModel.prototype.setMapByteMesh = function ($byte) {
+            var _this = this;
+            this.sceneRes = new SceneRes();
+            //  this.sceneRes.fileRoot="ccav/"  //指定到对应文件夹；
+            this.sceneRes.bfun = function () {
+                //   console.log("sceneres", sceneRes.sceneData)
+                var buildItem = _this.sceneRes.sceneData.buildItem;
+                for (var i = 0; i < buildItem.length; i++) {
+                    if (buildItem[i].type == 1) {
+                        var pramaitam = [];
+                        var objsurl = buildItem[i].objsurl;
+                        var lighturl = buildItem[i].lighturl;
+                        var mainpic = _this.getMainPic(buildItem[i].materialInfoArr);
+                        var name = buildItem[i].name;
+                        pramaitam.push({ name: "param0", url: mainpic });
+                        pramaitam.push({ name: "param1", url: lighturl });
+                        if (objsurl && lighturl && mainpic) {
+                            console.log(name);
+                            console.log(objsurl);
+                            console.log(lighturl);
+                            console.log(mainpic);
+                            console.log("------------------");
+                            _this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i]);
+                        }
+                    }
+                }
+            };
+            this.sceneRes.loadComplete($byte);
+        };
+        ImputGameResModel.prototype.isMapH5File = function (arrayBuffer) {
+            var $byte = new ByteArray(arrayBuffer);
+            $byte.position = 0;
+            var $version = $byte.readInt();
+            var $url = $byte.readUTF();
+            if ($url.indexOf("role/") != -1) {
+                return true;
+            }
+            else {
+                return true;
+            }
+        };
         ImputGameResModel.prototype.loadSceneByUrl = function () {
             var _this = this;
             this.sceneRes = new SceneRes();
@@ -152,8 +209,7 @@ var inputres;
                             console.log(lighturl);
                             console.log(mainpic);
                             console.log("------------------");
-                            _this.makePerfabToSever(name, objsurl, pramaitam);
-                            // this.makePerfabToSever()
+                            _this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i]);
                         }
                     }
                 }
@@ -171,7 +227,7 @@ var inputres;
             }
             return null;
         };
-        ImputGameResModel.prototype.makePerfabToSever = function (name, objsurl, imgItem) {
+        ImputGameResModel.prototype.makePerfabToSever = function (name, objsurl, imgItem, buildinfo) {
             var $byte = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh = new pack.PrefabStaticMesh();
             prefabStaticMesh.url = this.sceneRes.fileRoot + name + ".prefab";
@@ -185,16 +241,17 @@ var inputres;
                 paramVo.paramName = imgItem[i].name;
                 paramVo.data = this.sceneRes.fileRoot + imgItem[i].url;
                 prefabStaticMesh.paramInfo.push(paramVo);
-                //data: "assets/white.jpg"
-                //paramName: "param0"
-                //type: "tex"
             }
             var $fileUrl = Pan3d.Scene_data.fileRoot + prefabStaticMesh.url;
             $byte.writeUTF(JSON.stringify(prefabStaticMesh.getObject()));
             var $file = new File([$byte.buffer], "temp.prefab");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-            console.log(pathurl);
-            pack.FileOssModel.upOssFile($file, pathurl, function () { });
+            pack.FileOssModel.upOssFile($file, pathurl, function () {
+                var obj = {};
+                obj.url = prefabStaticMesh.url;
+                obj.pos = new Vector3D();
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj);
+            });
         };
         return ImputGameResModel;
     }());

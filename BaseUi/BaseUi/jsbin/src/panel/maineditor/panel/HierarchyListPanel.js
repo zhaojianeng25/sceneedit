@@ -22,7 +22,6 @@ var maineditor;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
     var MouseType = Pan3d.MouseType;
     var Vector2D = Pan3d.Vector2D;
-    var Vector3D = Pan3d.Vector3D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
@@ -519,7 +518,7 @@ var maineditor;
         };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var $url = temp.url;
-            var $groundPos = this.getGroundPos(temp.mouse);
+            var $groundPos = temp.pos;
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.dis = new ModelSprite();
@@ -546,15 +545,15 @@ var maineditor;
                 dis.material = $materialTree;
             });
         };
-        HierarchyListPanel.prototype.getGroundPos = function ($mouse) {
-            var $scene = maineditor.MainEditorProcessor.edItorSceneManager;
-            var $hipPos = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene);
-            var triItem = new Array;
-            triItem.push(new Vector3D(0, 0, 0));
-            triItem.push(new Vector3D(-100, 0, 100));
-            triItem.push(new Vector3D(+100, 0, 100));
-            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
-        };
+        //private getGroundPos($mouse: Vector2D): Vector3D {
+        //    let $scene = MainEditorProcessor.edItorSceneManager;
+        //    var $hipPos: Vector3D = xyz.TooMathHitModel.mathDisplay2Dto3DWorldPos(new Vector2D($mouse.x - $scene.cam3D.cavanRect.x, $mouse.y - $scene.cam3D.cavanRect.y), $scene)
+        //    var triItem: Array<Vector3D> = new Array;
+        //    triItem.push(new Vector3D(0, 0, 0));
+        //    triItem.push(new Vector3D(-100, 0, 100));
+        //    triItem.push(new Vector3D(+100, 0, 100));
+        //    return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
+        //}
         HierarchyListPanel.prototype.clearSceneAll = function () {
             while (maineditor.EditorModel.getInstance().fileItem.length) {
                 this.deleFile(maineditor.EditorModel.getInstance().fileItem, maineditor.EditorModel.getInstance().fileItem[0]);
