@@ -40,9 +40,37 @@ var materialui;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(TimeNodeUI.prototype, "timeValue", {
+            get: function () {
+                return this.nodeTree.timeValue;
+            },
+            set: function (value) {
+                this.nodeTree.timeValue = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        TimeNodeUI.prototype.getData = function () {
+            var obj = _super.prototype.getData.call(this);
+            obj.speed = this._speed;
+            obj.timeValue = this.timeValue;
+            return obj;
+        };
         TimeNodeUI.prototype.setData = function (obj) {
             _super.prototype.setData.call(this, obj);
-            this.speed = obj.speed;
+            if (obj.speed) {
+                this.speed = obj.speed;
+                ;
+            }
+            else {
+                this.speed = 1;
+            }
+            if (obj.timeValue) {
+                this.timeValue = new Vector2D(obj.timeValue.x, obj.timeValue.y);
+            }
+            else {
+                this.timeValue = new Vector2D(1, 1);
+            }
             this.nodeTree.speed = this.speed;
         };
         return TimeNodeUI;

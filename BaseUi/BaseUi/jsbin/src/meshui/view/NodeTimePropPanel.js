@@ -21,7 +21,8 @@ var prop;
         }
         NodeTimePropPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.NumberInput, Label: "x:", FunKey: "constValue", target: this, Step: 0.01 },
+                { Type: prop.ReflectionData.NumberInput, Label: "时间间隔:", FunKey: "timeInterval", target: this, Step: 0.01, Category: "属性" },
+                { Type: prop.ReflectionData.NumberInput, Label: "数值比例:", FunKey: "numScale", target: this, Step: 0.01, Category: "属性" },
             ];
             return ary;
         };
@@ -37,12 +38,23 @@ var prop;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NodeTimePropPanel.prototype, "constValue", {
+        Object.defineProperty(NodeTimePropPanel.prototype, "timeInterval", {
             get: function () {
-                return this.timeNodeUI.speed;
+                return this.timeNodeUI.timeValue.x;
             },
             set: function (value) {
-                this.timeNodeUI.speed = value;
+                this.timeNodeUI.timeValue.x = value;
+                this.changeData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeTimePropPanel.prototype, "numScale", {
+            get: function () {
+                return this.timeNodeUI.timeValue.y;
+            },
+            set: function (value) {
+                this.timeNodeUI.timeValue.y = value;
                 this.changeData();
             },
             enumerable: true,

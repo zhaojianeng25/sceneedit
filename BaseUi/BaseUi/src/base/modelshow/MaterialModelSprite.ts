@@ -65,6 +65,13 @@ module left {
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             var $materialTree: MaterialTree = <MaterialTree>$material
+            if ($materialTree.hasTime) {
+                var timeLen: number = ($materialTree.timeValue.x * 1000);
+                var t: number = (TimeUtil.getTimer() - this.time) % timeLen; //时间间隔
+                t /= timeLen;
+                t *= $materialTree.timeValue.y;  //数值比例
+                Scene_data.context3D.setuniform1f($material.shader, "time", t );
+            }
             Scene_data.context3D.setuniform3f($material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             super.setMaterialVc($material, $mp)
         }
@@ -103,11 +110,11 @@ module left {
        
         }
         protected setBaseMaterialVc($material: Material): void {
-
             var t: number = 0;
             if ($material.hasTime) {
                 t = (TimeUtil.getTimer() - this.time) % 100000 * 0.001;
             }
+            $material.updateTime(t)
  
         }
        

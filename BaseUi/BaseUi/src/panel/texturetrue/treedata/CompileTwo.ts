@@ -110,12 +110,15 @@
         private strVec: Array<string>;
         private texVec: Array<TexItem>;
         private constVec: Array<ConstItem>;
+   
+
         private hasTime: boolean;
-
-
+        private timeSpeed: number;
+        private timeValue: Vector2D
         private useNormal: boolean;
         private useUv: boolean
         private useLightUv: boolean
+ 
 
         private fcNum: number;
 
@@ -173,10 +176,13 @@
             $materialTree.fcData = this.makeFc($materialTree.fcNum);
 
 
-            $materialTree.hasTime = this.hasTime;;
-            $materialTree.useNormal = this.useNormal;;
-            $materialTree.useUv = this.useUv;;
-            $materialTree.useLightUv = this.useLightUv;;
+            $materialTree.hasTime = this.hasTime;
+            $materialTree.timeSpeed = this.timeSpeed;
+            $materialTree.timeValue = this.timeValue;
+            $materialTree.useNormal = this.useNormal;
+            $materialTree.useUv = this.useUv;
+            $materialTree.useLightUv = this.useLightUv;
+             
             $materialTree.roughness = 0;
 
 
@@ -241,6 +247,9 @@
             varyStr += "varying highp vec3 vPos;\n";
             varyStr += "uniform vec3 cam3DPos;\n";
 
+            if (this.hasTime) {
+                varyStr += "uniform float time;\n";
+            }
             if (this.useUv) {
                  varyStr += "varying vec2 uvpos;\n";
             }
@@ -566,9 +575,7 @@
                 case NodeTree.OP:
                     this.processOpNode($node);
                     break;
-                case NodeTree.TIME:
-                    this.processTimeNode($node);
-                    break;
+      
 
                 case NodeTree.SIN:
                     this.processStaticNode($node, CompileTwo.SIN);
@@ -585,7 +592,12 @@
                 case NodeTree.TEXCOORDLIGHT:
                     this.useLightUv = true;
                     break;
-
+                case NodeTree.TIME:
+                   // this.processTimeNode($node);
+                    this.hasTime = true;
+                    this.timeSpeed = (<NodeTreeTime>$node).speed;
+                    this.timeValue = (<NodeTreeTime>$node).timeValue;
+                    break;
 
                 default:
                     break
@@ -824,7 +836,7 @@
                 for (var j: number = 0; j < treelist.length; j++) {
                     var node: NodeTree = treelist[j];
                     if (node.type == NodeTree.OP) {
-                    } else if (node.type == NodeTree.TIME || node.type == NodeTree.PANNER) {
+                    } else if (node.type == NodeTree.TIME  ) {
                         $hasTime = true;
                     }
                 }

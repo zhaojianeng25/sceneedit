@@ -186,6 +186,9 @@
         public setVcFloat($program: Shader3D, $name: string, $m: any) {
             this.renderContext.uniform1fv($program.getWebGLUniformLocation($name), $m);
         }
+        public setuniform1f($program: Shader3D, $name: string, a: number ) {
+            this.renderContext.uniform1f($program.getWebGLUniformLocation($name), a);
+        }
 
         /** ******************************************* end setvc */
         public setuniform3f($program: Shader3D, $name: string, a: number, b: number, c: number) {

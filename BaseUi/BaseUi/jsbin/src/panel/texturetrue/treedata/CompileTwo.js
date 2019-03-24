@@ -57,13 +57,11 @@ var materialui;
             $materialTree.fcNum = this.getMaxFc();
             $materialTree.fcData = this.makeFc($materialTree.fcNum);
             $materialTree.hasTime = this.hasTime;
-            ;
+            $materialTree.timeSpeed = this.timeSpeed;
+            $materialTree.timeValue = this.timeValue;
             $materialTree.useNormal = this.useNormal;
-            ;
             $materialTree.useUv = this.useUv;
-            ;
             $materialTree.useLightUv = this.useLightUv;
-            ;
             $materialTree.roughness = 0;
             return resultStr;
         };
@@ -122,6 +120,9 @@ var materialui;
             varyStr += "varying vec2 v0;\n";
             varyStr += "varying highp vec3 vPos;\n";
             varyStr += "uniform vec3 cam3DPos;\n";
+            if (this.hasTime) {
+                varyStr += "uniform float time;\n";
+            }
             if (this.useUv) {
                 varyStr += "varying vec2 uvpos;\n";
             }
@@ -410,9 +411,6 @@ var materialui;
                 case materialui.NodeTree.OP:
                     this.processOpNode($node);
                     break;
-                case materialui.NodeTree.TIME:
-                    this.processTimeNode($node);
-                    break;
                 case materialui.NodeTree.SIN:
                     this.processStaticNode($node, CompileTwo.SIN);
                     break;
@@ -427,6 +425,12 @@ var materialui;
                     break;
                 case materialui.NodeTree.TEXCOORDLIGHT:
                     this.useLightUv = true;
+                    break;
+                case materialui.NodeTree.TIME:
+                    // this.processTimeNode($node);
+                    this.hasTime = true;
+                    this.timeSpeed = $node.speed;
+                    this.timeValue = $node.timeValue;
                     break;
                 default:
                     break;
@@ -632,7 +636,7 @@ var materialui;
                     var node = treelist[j];
                     if (node.type == materialui.NodeTree.OP) {
                     }
-                    else if (node.type == materialui.NodeTree.TIME || node.type == materialui.NodeTree.PANNER) {
+                    else if (node.type == materialui.NodeTree.TIME) {
                         $hasTime = true;
                     }
                 }

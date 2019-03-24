@@ -22,8 +22,7 @@ var materialui;
         }
         NodeTreeTime.prototype.getComponentID = function ($id) {
             if ($id == 0) {
-                var str = materialui.CompileTwo.FT + this.regResultTemp.id + ".x";
-                return str;
+                return "time";
             }
             return null;
         };

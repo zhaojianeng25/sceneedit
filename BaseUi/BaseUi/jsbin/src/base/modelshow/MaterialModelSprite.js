@@ -71,6 +71,13 @@ var left;
         MaterialModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             var $materialTree = $material;
+            if ($materialTree.hasTime) {
+                var timeLen = ($materialTree.timeValue.x * 1000);
+                var t = (TimeUtil.getTimer() - this.time) % timeLen; //时间间隔
+                t /= timeLen;
+                t *= $materialTree.timeValue.y; //数值比例
+                Scene_data.context3D.setuniform1f($material.shader, "time", t);
+            }
             Scene_data.context3D.setuniform3f($material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             _super.prototype.setMaterialVc.call(this, $material, $mp);
         };
@@ -113,6 +120,7 @@ var left;
             if ($material.hasTime) {
                 t = (TimeUtil.getTimer() - this.time) % 100000 * 0.001;
             }
+            $material.updateTime(t);
         };
         MaterialModelSprite.prototype.readTxtToModel = function ($str) {
             var objstr = JSON.parse($str);

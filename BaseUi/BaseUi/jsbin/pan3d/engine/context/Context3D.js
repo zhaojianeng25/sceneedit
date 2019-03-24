@@ -156,6 +156,9 @@ var Pan3d;
         Context3D.prototype.setVcFloat = function ($program, $name, $m) {
             this.renderContext.uniform1fv($program.getWebGLUniformLocation($name), $m);
         };
+        Context3D.prototype.setuniform1f = function ($program, $name, a) {
+            this.renderContext.uniform1f($program.getWebGLUniformLocation($name), a);
+        };
         /** ******************************************* end setvc */
         Context3D.prototype.setuniform3f = function ($program, $name, a, b, c) {
             this.renderContext.uniform3f($program.getWebGLUniformLocation($name), a, b, c);

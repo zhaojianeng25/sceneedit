@@ -7,8 +7,8 @@
     export class MaterialTree extends Material {
         private _data: any;
         public rendermodel: number = 0;
-        public zbuff: boolean 
-        public pointlight: boolean 
+        public zbuff: boolean
+        public pointlight: boolean
         private _compileData: any;
         private _url: string;
 
@@ -17,7 +17,7 @@
         public cubeTextItem: TextureCube
         public constList: Array<ConstItem> = new Array
         public hasTime: boolean;
-        public timeSpeed: number;
+        public timeValue: Vector2D;
         public blendMode: number;
         public backCull: boolean;
         public killNum: number = 0;
@@ -26,6 +26,7 @@
         public useNormal: boolean;
         public useUv: boolean
         public useLightUv: boolean
+
         public roughness: number;
 
         public writeZbuffer: boolean = true;
@@ -57,35 +58,24 @@
             this.data = value.data;
             this.compileData = value.compileData;
         }
+ 
 
         public clone(): MaterialTree {
             var $temp: MaterialTree = new MaterialTree;
             var $treeMater: MaterialTree = this
-             $temp.data = $treeMater.data
-             $temp.constList = $treeMater.constList
-             $temp.fcNum = $treeMater.fcNum
-             $temp.fcData = $treeMater.fcData;
-             $temp.texList = $treeMater.texList;
+            $temp.data = $treeMater.data
+            $temp.constList = $treeMater.constList
+            $temp.fcNum = $treeMater.fcNum
+            $temp.fcData = $treeMater.fcData;
+            $temp.texList = $treeMater.texList;
             $temp.useNormal = $treeMater.useNormal;
             $temp.useLightUv = $treeMater.useLightUv;
+            $temp.hasTime = $treeMater.hasTime;
+            $temp.timeSpeed = $treeMater.timeSpeed;
+            $temp.timeValue = $treeMater.timeValue;
             $temp.useUv = $treeMater.useUv;
+            
 
-            //$temp.cubeTextItem = $treeMater.cubeTextItem;
-            //$temp.usePbr = $treeMater.usePbr;
-            //$temp.hasTime = $treeMater.hasTime;
-            //$temp.hasVertexColor = $treeMater.hasVertexColor;
-            //$temp.usePbr = $treeMater.usePbr;
-            //$temp.roughness = $treeMater.roughness;
-            //$temp.hasFresnel = $treeMater.hasFresnel;
-            //$temp.useDynamicIBL = $treeMater.useDynamicIBL;
-            //$temp.lightProbe = $treeMater.lightProbe;
-            //$temp.useKill = $treeMater.useKill;
-            //$temp.directLight = $treeMater.directLight;
-            //$temp.noLight = $treeMater.noLight;
-            //$temp.fogMode = $treeMater.fogMode;
-            //$temp.scaleLightMap = $treeMater.scaleLightMap;
-            //$temp.skyBoxTextId = $treeMater.skyBoxTextId;
-            // $temp.hasSkyBox = $treeMater.hasSkyBox;
 
             return $temp
         }
