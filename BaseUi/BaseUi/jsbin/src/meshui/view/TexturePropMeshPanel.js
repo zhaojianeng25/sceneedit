@@ -21,7 +21,7 @@ var prop;
         }
         TexturePropMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.Texturue2DUI, Label: "纹理:", FunKey: "picurl", target: this, Category: "属性" },
+                { Type: prop.ReflectionData.Texturue2DUI, Label: "纹理:", FunKey: "picurl", target: this, Suffix: "jpg|png", Category: "属性" },
                 { Type: prop.ReflectionData.ComboBox, Label: "Wrap:", FunKey: "wrapValue", target: this, Data: [{ name: "repeat", type: 0 }, { name: "clamp", type: 1 }] },
                 { Type: prop.ReflectionData.ComboBox, Label: "Mipmap:", FunKey: "mipmapValue", target: this, Data: [{ name: "no", type: 0 }, { name: "mipnearest", type: 1 }, { name: "miplinear", type: 2 }] },
                 { Type: prop.ReflectionData.ComboBox, Label: "filter:", FunKey: "filterValue", target: this, Data: [{ name: "linear", type: 0 }, { name: "nearest", type: 1 }] },

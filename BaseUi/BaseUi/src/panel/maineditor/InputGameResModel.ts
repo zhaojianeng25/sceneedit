@@ -140,12 +140,18 @@
                     }
                 }
         }
+   
         private setMapByteMesh($byte: ArrayBuffer, $fileroot: string): void {
             this.sceneRes = new SceneRes();
             this.sceneRes.fileRoot = $fileroot  //指定到对应文件夹；
             this.sceneRes.scale =0.1  //指定到对应文件夹；
             this.sceneRes.bfun = () => {
-                //   console.log("sceneres", sceneRes.sceneData)
+
+
+                var baseTextureUrl: string = "baseedit/assets/base/baselight.material";//原始材质位置
+                var toTextureUrl: string = Scene_data.fileRoot.replace(Scene_data.ossRoot, "") + this.sceneRes.fileRoot + "baselight.material"; //对应工程位置
+                pack.FileOssModel.copyFile(toTextureUrl  , baseTextureUrl);
+
                 var buildItem: Array<any> = this.sceneRes.sceneData.buildItem;
                 for (var i: number = 0; i < buildItem.length; i++) {
                     if (buildItem[i].type == 1) {
@@ -205,9 +211,9 @@
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
          
-            prefabStaticMesh.url = this.sceneRes.fileRoot +name + ".prefab"
+            prefabStaticMesh.url = this.sceneRes.fileRoot+"prefab/" +name + ".prefab"  //放到指定路径
             prefabStaticMesh.objsurl = this.sceneRes.fileRoot+ objsurl.replace(".xml",".objs")
-            prefabStaticMesh.textureurl = "texture/color.material"
+            prefabStaticMesh.textureurl = this.sceneRes.fileRoot + "baselight.material";
             prefabStaticMesh.paramInfo = [];
             for (var i: number = 0; i < imgItem.length; i++) {
                 var paramVo: any = {};

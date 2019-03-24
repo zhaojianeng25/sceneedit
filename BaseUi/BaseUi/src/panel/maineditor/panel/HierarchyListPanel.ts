@@ -589,7 +589,7 @@
                 $vo.ossListFile = new OssListFile;
 
                 $vo.ossListFile.name = childItem[i].name;
-                $vo.ossListFile.name = "id_"+i;
+             //   $vo.ossListFile.name = "id_"+i;
 
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;;
