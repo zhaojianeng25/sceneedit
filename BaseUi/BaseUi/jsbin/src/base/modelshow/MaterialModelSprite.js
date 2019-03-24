@@ -93,10 +93,13 @@ var left;
                         Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
                     }
                 }
+                else {
+                    console.log("还没加载好");
+                }
             }
             if ($mp) {
                 for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
+                    if ($mp.dynamicTexList[i].target && $mp.dynamicTexList[i].texture) {
                         Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name, $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
                     }
                 }

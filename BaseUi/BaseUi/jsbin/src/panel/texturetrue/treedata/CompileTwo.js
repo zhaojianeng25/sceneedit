@@ -644,6 +644,7 @@ var materialui;
             if ($hasTime) {
                 dataID++;
             }
+            dataID = 0;
             this._fcBeginID = dataID;
         };
         CompileTwo.SPACE = " ";

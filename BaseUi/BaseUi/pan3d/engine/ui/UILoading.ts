@@ -39,15 +39,15 @@ module Pan3d {
             ui.height = 100;
             ui.x = (UIData.designWidth - ui.width) / 2;
             ui.y = (UIData.designHeight - ui.height) / 2;
-            this.addRender(this._render);
+           // this.addRender(this._render);
 
         }
 
         public show(): void {
-            UIManager.getInstance().addUIContainer(this);
+          //  UIManager.getInstance().addUIContainer(this);
         }
         public hide(): void {
-            UIManager.getInstance().removeUIContainer(this);
+        //    UIManager.getInstance().removeUIContainer(this);
         }
 
     }

@@ -48,13 +48,13 @@ var Pan3d;
             ui.height = 100;
             ui.x = (Pan3d.UIData.designWidth - ui.width) / 2;
             ui.y = (Pan3d.UIData.designHeight - ui.height) / 2;
-            this.addRender(this._render);
+            // this.addRender(this._render);
         };
         UILoading.prototype.show = function () {
-            Pan3d.UIManager.getInstance().addUIContainer(this);
+            //  UIManager.getInstance().addUIContainer(this);
         };
         UILoading.prototype.hide = function () {
-            Pan3d.UIManager.getInstance().removeUIContainer(this);
+            //    UIManager.getInstance().removeUIContainer(this);
         };
         return UILoading;
     }(Pan3d.UIConatiner));
