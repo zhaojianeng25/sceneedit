@@ -20,7 +20,6 @@ var materialui;
         __extends(MaterialTree, _super);
         function MaterialTree() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.rendermodel = 0;
             _this.texList = new Array;
             _this.constList = new Array;
             _this.killNum = 0;

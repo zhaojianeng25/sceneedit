@@ -45,12 +45,10 @@ var pack;
                     $materialTree.setData({ data: $temp.data });
                     $materialTree.useNormal = $temp.info.useNormal;
                     $materialTree.hasTime = $temp.info.hasTime;
-                    if ($temp.info.timeValue) {
+                    if ($materialTree.hasTime) {
                         $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y);
                     }
-                    else {
-                        $materialTree.timeValue = new Vector2D(1, 1);
-                    }
+                    $materialTree.blendMode = $temp.info.blendMode;
                     $materialTree.useLightUv = $buildShader.paramAry[2];
                     $materialTree.texList = _this.makeTextList($temp.info.texList);
                     $materialTree.constList = _this.makeConstList($temp.info.constList);

@@ -72,6 +72,7 @@ var materialui;
                     this.baseWindow = new win.BaseWindow();
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
+                    this.lastMaterialUrl = $materialEvent.data;
                     AppData.centenPanel.addUIContainer(this.baseWindow);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
@@ -79,8 +80,7 @@ var materialui;
                     editscene.EditTopMenuPanel.getInstance().makeTextureTopMenu();
                     ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
                     ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL));
-                    materialui.MaterialModel.getInstance().selectMaterialUrl($materialEvent.data);
-                    this.lastMaterialUrl = $materialEvent.data;
+                    materialui.MaterialModel.getInstance().selectMaterialUrl(this.lastMaterialUrl);
                     this.addEvents();
                 }
                 if ($materialEvent.type == MaterialEvent.SAVE_MATERIA_PANEL) {
@@ -241,6 +241,8 @@ var materialui;
             obj.useNormal = this.baseMaterialTree.useNormal;
             obj.hasTime = this.baseMaterialTree.hasTime;
             obj.timeValue = this.baseMaterialTree.timeValue;
+            obj.blendMode = this.baseMaterialTree.blendMode;
+            obj.backCull = this.baseMaterialTree.backCull;
             obj.texList = this.baseMaterialTree.texList;
             obj.constList = this.baseMaterialTree.constList;
             obj.shaderStr = this.baseMaterialTree.shaderStr;

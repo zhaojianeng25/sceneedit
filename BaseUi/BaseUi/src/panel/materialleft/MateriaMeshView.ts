@@ -19,7 +19,7 @@
             var ary: Array<any> =
                 [
                     {
-                        Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "rendermodel", target: this, Data: [
+                        Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
                             { name: "普通模式", type: 0 },
                             { name: "透明模式", type: 1 },
                             { name: "叠加模式", type: 2 }],
@@ -37,12 +37,11 @@
                 ];
             return ary;
         }
-        public get rendermodel(): number {
-            return this._materialTree.rendermodel
+        public get blendMode(): number {
+            return this._materialTree.blendMode
         }
-        public set rendermodel(value: number) {
-            this._materialTree.rendermodel = value
-
+        public set blendMode(value: number) {
+             this._materialTree.blendMode = value
         }
         public get zbuff(): boolean {
             return this._materialTree.zbuff

@@ -25,7 +25,7 @@ var materialleft;
         MateriaMeshView.prototype.getView = function () {
             var ary = [
                 {
-                    Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "rendermodel", target: this, Data: [
+                    Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
                         { name: "普通模式", type: 0 },
                         { name: "透明模式", type: 1 },
                         { name: "叠加模式", type: 2 }
@@ -40,12 +40,12 @@ var materialleft;
             ];
             return ary;
         };
-        Object.defineProperty(MateriaMeshView.prototype, "rendermodel", {
+        Object.defineProperty(MateriaMeshView.prototype, "blendMode", {
             get: function () {
-                return this._materialTree.rendermodel;
+                return this._materialTree.blendMode;
             },
             set: function (value) {
-                this._materialTree.rendermodel = value;
+                this._materialTree.blendMode = value;
             },
             enumerable: true,
             configurable: true

@@ -53,6 +53,9 @@ var materialui;
         TimeNodeUI.prototype.getData = function () {
             var obj = _super.prototype.getData.call(this);
             obj.speed = this._speed;
+            if (!this.timeValue) {
+                this.timeValue = new Vector2D(1, 1);
+            }
             obj.timeValue = this.timeValue;
             return obj;
         };

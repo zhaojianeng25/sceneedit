@@ -68,6 +68,8 @@
                     this.baseWindow = new win.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
+                    this.lastMaterialUrl = $materialEvent.data
+
                     AppData.centenPanel.addUIContainer(this.baseWindow)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().bgwinPanel, 1)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 2)
@@ -78,8 +80,8 @@
                     ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL));
             
 
-                    MaterialModel.getInstance().selectMaterialUrl($materialEvent.data)
-                    this.lastMaterialUrl = $materialEvent.data
+                    MaterialModel.getInstance().selectMaterialUrl(this.lastMaterialUrl)
+                  
            
 
                     this.addEvents()
@@ -293,6 +295,8 @@
             obj.useNormal = this.baseMaterialTree.useNormal
             obj.hasTime = this.baseMaterialTree.hasTime
             obj.timeValue = this.baseMaterialTree.timeValue
+            obj.blendMode = this.baseMaterialTree.blendMode
+            obj.backCull = this.baseMaterialTree.backCull
 
             obj.texList = this.baseMaterialTree.texList
             obj.constList = this.baseMaterialTree.constList

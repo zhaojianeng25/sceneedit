@@ -36,7 +36,11 @@
         public getData(): Object {
             var obj: any = super.getData();
             obj.speed = this._speed
+            if (!this.timeValue) {
+                this.timeValue = new Vector2D(1, 1);
+            }
             obj.timeValue = this.timeValue
+ 
             return obj;
         }
 
