@@ -21,8 +21,8 @@ var prop;
         }
         Vec2PropMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1 },
-                { Type: prop.ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1 },
+                { Type: prop.ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1, Category: "属性" },
+                { Type: prop.ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
         };
@@ -33,7 +33,6 @@ var prop;
             set: function (value) {
                 this._data = value;
                 this.constVec2NodeUI = this._data;
-                this._ve2d = this.constVec2NodeUI.constValue;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -41,11 +40,10 @@ var prop;
         });
         Object.defineProperty(Vec2PropMeshPanel.prototype, "constXValue", {
             get: function () {
-                return this._ve2d.x;
+                return this.constVec2NodeUI.constValue.x;
             },
             set: function (value) {
-                this._ve2d.x = value;
-                this.constVec2NodeUI.constValue = this._ve2d;
+                this.constVec2NodeUI.constValue.x = value;
                 this.changeData();
             },
             enumerable: true,
@@ -53,11 +51,10 @@ var prop;
         });
         Object.defineProperty(Vec2PropMeshPanel.prototype, "constYValue", {
             get: function () {
-                return this._ve2d.y;
+                return this.constVec2NodeUI.constValue.y;
             },
             set: function (value) {
-                this._ve2d.y = value;
-                this.constVec2NodeUI.constValue = this._ve2d;
+                this.constVec2NodeUI.constValue.y = value;
                 this.changeData();
             },
             enumerable: true,

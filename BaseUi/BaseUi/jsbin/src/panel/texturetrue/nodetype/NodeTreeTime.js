@@ -18,6 +18,7 @@ var materialui;
         function NodeTreeTime() {
             var _this = _super.call(this) || this;
             _this.speed = 1;
+            _this.timeValue = new Vector2D(1, 1);
             return _this;
         }
         NodeTreeTime.prototype.getComponentID = function ($id) {

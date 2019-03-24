@@ -57,7 +57,7 @@
         public set y(value: number) {
             this._y = value;
             this.textLabelUI.y = this._y
-            this.inputTextUi.y = this._y
+            this.inputTextUi.y = this._y+5
         }
         public get y(): number {
             return this._y

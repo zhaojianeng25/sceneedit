@@ -21,7 +21,7 @@ var prop;
         }
         FloatPropMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.NumberInput, Label: "x:", FunKey: "constValue", target: this, Step: 0.01 },
+                { Type: prop.ReflectionData.NumberInput, Label: "值:", FunKey: "constValue", target: this, Step: 0.01, Category: "属性" },
             ];
             return ary;
         };

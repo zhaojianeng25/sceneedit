@@ -24,7 +24,6 @@ var materialui;
             _this.gap = 20;
             _this.width = 162;
             _this.height = 65;
-            _this._constValue = new Vector2D;
             _this.nodeTree = new materialui.NodeTreeVec2;
             _this.nodeTree.ui = _this;
             _this.nodeTree.type = materialui.NodeTree.VEC2;
@@ -35,26 +34,28 @@ var materialui;
         }
         Object.defineProperty(ConstVec2NodeUI.prototype, "constValue", {
             get: function () {
-                return this._constValue;
+                return this.nodeTree.constValue;
             },
             set: function (value) {
-                this._constValue = value;
                 this.nodeTree.constValue = value;
                 this.showDynamic();
             },
             enumerable: true,
             configurable: true
         });
+        ConstVec2NodeUI.prototype.getData = function () {
+            var obj = _super.prototype.getData.call(this);
+            obj.constValue = this.constValue;
+            return obj;
+        };
+        ConstVec2NodeUI.prototype.setData = function (obj) {
+            _super.prototype.setData.call(this, obj);
+            this.constValue = new Vector2D(obj.constValue.x, obj.constValue.y);
+            this.showDynamic();
+        };
         ConstVec2NodeUI.prototype.showDynamic = function () {
-            /*
-            if (nodeTree.isDynamic) {
-                _titleLabel.text = "vec2<" + nodeTree.paramName + ">(" + getNumStr(_constValue.x) + "," + getNumStr(_constValue.y) + ")"
-            } else {
-                _titleLabel.text = "vec2(" + getNumStr(_constValue.x) + "," + getNumStr(_constValue.y) + ")"
-            }
-            */
             if (this.nodeTree.isDynamic) {
-                this.drawTitleToFrame("vec2<" + this.nodeTree.paramName + ">(" + this.getNumStr(this._constValue.x) + "," + this.getNumStr(this._constValue.y) + ")");
+                this.drawTitleToFrame("vec2<" + this.nodeTree.paramName + ">(" + this.getNumStr(this.constValue.x) + "," + this.getNumStr(this.constValue.y) + ")");
             }
             else {
                 this.drawTitleToFrame("vec2(" + this.getNumStr(this.constValue.x) + "," + this.getNumStr(this.constValue.y) + ")");

@@ -1,30 +1,30 @@
 ﻿module materialui {
     import Vector2D = Pan3d.Vector2D
     export class ConstVec2NodeUI extends BaseMaterialNodeUI {
-
         private  outItem: ItemMaterialUI;
-
-        private _constValue: Vector2D;
-
+ 
         public get constValue(): Vector2D {
-            return this._constValue;
+            return (<NodeTreeVec2>this.nodeTree).constValue
         }
         public set constValue(value: Vector2D) {
-            this._constValue = value;
-
+ 
             (<NodeTreeVec2>this.nodeTree).constValue = value;
             this.showDynamic();
         }
+        public getData(): Object {
+            var obj: any = super.getData();
+            obj.constValue = this.constValue;
+            return obj;
+        }
+        public setData(obj: any): void {
+            super.setData(obj);
+            this.constValue= new Vector2D(obj.constValue.x, obj.constValue.y);
+            this.showDynamic();
+        }
         public showDynamic(): void {
-            /*
-            if (nodeTree.isDynamic) {
-                _titleLabel.text = "vec2<" + nodeTree.paramName + ">(" + getNumStr(_constValue.x) + "," + getNumStr(_constValue.y) + ")"
-            } else {
-                _titleLabel.text = "vec2(" + getNumStr(_constValue.x) + "," + getNumStr(_constValue.y) + ")"
-            }
-            */
+          
             if (this.nodeTree.isDynamic) {
-                this.drawTitleToFrame("vec2<" + this.nodeTree.paramName + ">(" + this.getNumStr(this._constValue.x) + "," + this.getNumStr(this._constValue.y) + ")")
+                this.drawTitleToFrame("vec2<" + this.nodeTree.paramName + ">(" + this.getNumStr(this.constValue.x) + "," + this.getNumStr(this.constValue.y) + ")")
             } else {
                 this.drawTitleToFrame("vec2(" + this.getNumStr(this.constValue.x) + "," + this.getNumStr(this.constValue.y)  + ")")
             }
@@ -44,7 +44,7 @@
             this.width = 162;
             this.height = 65;
 
-            this._constValue = new Vector2D;
+ 
 
             this.nodeTree = new NodeTreeVec2;
             this.nodeTree.ui = this;

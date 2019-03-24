@@ -7,7 +7,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.NumberInput, Label: "x:", FunKey: "constValue", target: this,  Step: 0.01 },
+                    { Type: ReflectionData.NumberInput, Label: "值:", FunKey: "constValue", target: this, Step: 0.01, Category: "属性" },
 
                 ];
             return ary;

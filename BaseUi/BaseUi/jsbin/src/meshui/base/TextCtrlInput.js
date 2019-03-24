@@ -71,7 +71,7 @@ var prop;
             set: function (value) {
                 this._y = value;
                 this.textLabelUI.y = this._y;
-                this.inputTextUi.y = this._y;
+                this.inputTextUi.y = this._y + 5;
             },
             enumerable: true,
             configurable: true
