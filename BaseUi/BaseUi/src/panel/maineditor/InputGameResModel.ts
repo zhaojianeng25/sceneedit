@@ -66,10 +66,32 @@
             var $file: File = new File([JSON.stringify(obj)], "temp.objs");
             this.upOssFile($file, httpUrl)
         }
-        private refrishDicGroup(pathurl: string): void {
-            pack.FileOssModel.getDisByOss(pathurl, () => {
-                console.log("刷新了文件夹目录", pathurl);
-            })
+        private needRefrishArr: Array<string> = []
+
+        private   getPerentPath(value: string): string {
+            var idex: number = value.lastIndexOf("/")
+            if (idex != -1) {
+                value = value.substr(0, idex + 1)
+            } else {
+                value = ""
+            }
+            return value
+        }
+        private addNeedReedRerishDic(pathurl: string): void {
+            pathurl = this.getPerentPath(pathurl);
+            if (this.needRefrishArr.indexOf(pathurl) == -1) {
+                this.needRefrishArr.push(pathurl)
+            }
+        }
+        public reFrishArrByOney(): void {
+            if (this.needRefrishArr.length) {
+                var pathurl:string= this.needRefrishArr.pop()
+                pack.FileOssModel.getDisByOss(pathurl, () => {
+                    console.log("刷新了文件夹目录", pathurl);
+
+                    this.reFrishArrByOney()
+                })
+            }
         }
         public fileRoot: string = "ccav/"
         public scale: number = 0.1
@@ -77,11 +99,11 @@
             var url: string = httpurl.replace(Scene_data.fileRoot, "") //得到相对位置；
             url = Scene_data.fileRoot + this.fileRoot+url   //得到http文件位置
             var ossUrl: string = url.replace(Scene_data.ossRoot, "");
-            console.log(ossUrl)
-            pack.FileOssModel.upOssFile(file, ossUrl, () => {
-                this.refrishDicGroup(ossUrl)
-            })
+            this.addNeedReedRerishDic(ossUrl)
+
+            pack.FileOssModel.upOssFile(file, ossUrl, () => { })
         }
+        
         public readObj($srcByte: Pan3dByteArray): void {
             var objNum: number = $srcByte.readInt();
             for (var i: number = 0; i < objNum; i++) {
@@ -146,7 +168,7 @@
             this.sceneRes.fileRoot = $fileroot  //指定到对应文件夹；
             this.sceneRes.scale =0.1  //指定到对应文件夹；
             this.sceneRes.bfun = () => {
-
+               
 
                 var baseTextureUrl: string = "baseedit/assets/base/baselight.material";//原始材质位置
                 var toTextureUrl: string = Scene_data.fileRoot.replace(Scene_data.ossRoot, "") + this.sceneRes.fileRoot + "baselight.material"; //对应工程位置
@@ -164,17 +186,22 @@
                         pramaitam.push({ name: "param0", url: mainpic })
                         pramaitam.push({ name: "param1", url: lighturl })
 
-                        if (objsurl && lighturl && mainpic) {
+                        if (objsurl) {
                             //console.log(name)
                             //console.log(objsurl)
                             //console.log(lighturl)
                             //console.log(mainpic)
- 
+                            if (!mainpic) {
+                                mainpic = "assets/base/base.jpg"
+                            }
+                            if (!lighturl) {
+                                lighturl = "assets/base/white.jpg"
+                            }
                             this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i])
                         }
                     }
                 }
-
+                this.sceneRes.reFrishArrByOney();
 
             }
             this.sceneRes.loadComplete($byte);

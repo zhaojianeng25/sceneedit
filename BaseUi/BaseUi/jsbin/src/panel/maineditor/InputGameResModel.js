@@ -22,6 +22,7 @@ var inputres;
         __extends(SceneRes, _super);
         function SceneRes() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.needRefrishArr = [];
             _this.fileRoot = "ccav/";
             _this.scale = 0.1;
             return _this;
@@ -74,20 +75,38 @@ var inputres;
             var $file = new File([JSON.stringify(obj)], "temp.objs");
             this.upOssFile($file, httpUrl);
         };
-        SceneRes.prototype.refrishDicGroup = function (pathurl) {
-            pack.FileOssModel.getDisByOss(pathurl, function () {
-                console.log("刷新了文件夹目录", pathurl);
-            });
+        SceneRes.prototype.getPerentPath = function (value) {
+            var idex = value.lastIndexOf("/");
+            if (idex != -1) {
+                value = value.substr(0, idex + 1);
+            }
+            else {
+                value = "";
+            }
+            return value;
+        };
+        SceneRes.prototype.addNeedReedRerishDic = function (pathurl) {
+            pathurl = this.getPerentPath(pathurl);
+            if (this.needRefrishArr.indexOf(pathurl) == -1) {
+                this.needRefrishArr.push(pathurl);
+            }
+        };
+        SceneRes.prototype.reFrishArrByOney = function () {
+            var _this = this;
+            if (this.needRefrishArr.length) {
+                var pathurl = this.needRefrishArr.pop();
+                pack.FileOssModel.getDisByOss(pathurl, function () {
+                    console.log("刷新了文件夹目录", pathurl);
+                    _this.reFrishArrByOney();
+                });
+            }
         };
         SceneRes.prototype.upOssFile = function (file, httpurl) {
-            var _this = this;
             var url = httpurl.replace(Scene_data.fileRoot, ""); //得到相对位置；
             url = Scene_data.fileRoot + this.fileRoot + url; //得到http文件位置
             var ossUrl = url.replace(Scene_data.ossRoot, "");
-            console.log(ossUrl);
-            pack.FileOssModel.upOssFile(file, ossUrl, function () {
-                _this.refrishDicGroup(ossUrl);
-            });
+            this.addNeedReedRerishDic(ossUrl);
+            pack.FileOssModel.upOssFile(file, ossUrl, function () { });
         };
         SceneRes.prototype.readObj = function ($srcByte) {
             var objNum = $srcByte.readInt();
@@ -167,15 +186,22 @@ var inputres;
                         var name = buildItem[i].name;
                         pramaitam.push({ name: "param0", url: mainpic });
                         pramaitam.push({ name: "param1", url: lighturl });
-                        if (objsurl && lighturl && mainpic) {
+                        if (objsurl) {
                             //console.log(name)
                             //console.log(objsurl)
                             //console.log(lighturl)
                             //console.log(mainpic)
+                            if (!mainpic) {
+                                mainpic = "assets/base/base.jpg";
+                            }
+                            if (!lighturl) {
+                                lighturl = "assets/base/white.jpg";
+                            }
                             _this.makePerfabToSever(name, objsurl, pramaitam, buildItem[i]);
                         }
                     }
                 }
+                _this.sceneRes.reFrishArrByOney();
             };
             this.sceneRes.loadComplete($byte);
             //加载文件
