@@ -227,7 +227,7 @@
 
         }
 
-        public static uploadFile($file: File, $filename: string, $bfun: Function = null): void {
+        private static uploadFile($file: File, $filename: string, $bfun: Function = null): void {
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(() => {
                     FileOssModel.ossWrapper.multipartUpload($filename, $file).then(function (result) {
@@ -246,6 +246,34 @@
                 });
             }
             console.log("上传文件==>", $filename)
+
+        }
+
+        public static copyFile(toUrl: string,srcoueUrl: string, $bfun: Function = null): void {
+            if (!FileOssModel.ossWrapper) {
+                this.makeOssWrapper(() => {
+                    FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {
+                         console.log(result);
+                        $bfun && $bfun()
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+
+                })
+            } else {
+                console.log(FileOssModel.ossWrapper.copy)
+              
+                FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {
+                      console.log(result);
+                    $bfun && $bfun()
+                }).catch(function (err) {
+                    console.log(err);
+                });
+           
+
+            }
+
+
 
         }
 

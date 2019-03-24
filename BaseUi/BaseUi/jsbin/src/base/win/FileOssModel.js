@@ -223,6 +223,28 @@ var pack;
             }
             console.log("上传文件==>", $filename);
         };
+        FileOssModel.copyFile = function (toUrl, srcoueUrl, $bfun) {
+            if ($bfun === void 0) { $bfun = null; }
+            if (!FileOssModel.ossWrapper) {
+                this.makeOssWrapper(function () {
+                    FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {
+                        console.log(result);
+                        $bfun && $bfun();
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+                });
+            }
+            else {
+                console.log(FileOssModel.ossWrapper.copy);
+                FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {
+                    console.log(result);
+                    $bfun && $bfun();
+                }).catch(function (err) {
+                    console.log(err);
+                });
+            }
+        };
         FileOssModel.WEB_SEVER_EVENT_AND_BACK = function (webname, postStr, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
             webname = webname.replace(/\s+/g, "");

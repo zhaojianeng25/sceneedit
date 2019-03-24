@@ -554,15 +554,14 @@
                 case "1":
                     this.upTempFileToOss()
                     break
+                case "3":
+                    this.creatTexture()
+                    break;
                 case "4":
                     this.creatPefab()
                     break
                 case "5":
-                    pack.FileOssModel.getDisByOss(this.rootFilePath, (value: Array<FileVo>) => {
-                        this.refrishPath(this.rootFilePath)
-                    })
-                   
-             
+                    this.refrishIndexGroup(this.rootFilePath)
                     break
                 case "21":
                     this.deleFile()
@@ -572,31 +571,26 @@
                     break
             }
         }
-        private creatPefab(): void {
-
-            console.log("ccav")
-
-            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-
-            var tempObj: any = {}
-            tempObj.name = "temp.prefab";
-            tempObj.textureurl = "texture/5.material"
-            tempObj.objsurl = "ccsss.objs"
-
-
-            $byte.writeUTF(JSON.stringify(tempObj))
-            var $file: File = new File([$byte.buffer], "其他.prefab");
-
-
+        private creatTexture(): void {
+            //复制文件
+            var baseTextureUrl: string = "baseedit/assets/base/base.material";
             var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
-            console.log(pathurl + $file.name);
-
-            pack.FileOssModel.upOssFile($file, pathurl + $file.name, () => {
-                console.log("文件上传成功");
-
-                this.refrishPath(this.rootFilePath)
+            pack.FileOssModel.copyFile(pathurl + "base.material", baseTextureUrl, () => {
+                this.refrishIndexGroup(this.rootFilePath)
+            });
+        }
+        private refrishIndexGroup(url: string): void {
+            pack.FileOssModel.getDisByOss(url, (value: Array<FileVo>) => {
+                this.refrishPath(url)
             })
-
+        }
+        private creatPefab(): void {
+                 //复制文件
+            var basePrefabUrl: string = "baseedit/assets/base/base.prefab";
+            var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            pack.FileOssModel.copyFile(pathurl + "base.prefab", basePrefabUrl, () => {
+                this.refrishIndexGroup(this.rootFilePath)
+            });
 
             
         }
@@ -606,10 +600,9 @@
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
                         pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
-                            pack.FileOssModel.getDisByOss(this.rootFilePath, () => {
-                                this.refrishPath(this.rootFilePath)
-                                console.log("删除成功")
-                            })
+                            this.refrishIndexGroup(this.rootFilePath)
+                            console.log("删除成功")
+
                         })
                     }
                 }

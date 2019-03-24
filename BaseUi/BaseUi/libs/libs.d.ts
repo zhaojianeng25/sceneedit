@@ -26,6 +26,7 @@ declare namespace OSS {
     export class Wrapper {
         constructor(data?: any);
         multipartUpload: any;
+        copy: any
         list: any;
         delete: any
         deleteMulti: any

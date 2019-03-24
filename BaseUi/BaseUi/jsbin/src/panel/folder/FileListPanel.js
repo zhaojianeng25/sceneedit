@@ -433,18 +433,18 @@ var filelist;
             ModuleEventManager.dispatchEvent(new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU), temp);
         };
         FileListPanel.prototype.menuBfun = function (value, evt) {
-            var _this = this;
             switch (value.key) {
                 case "1":
                     this.upTempFileToOss();
+                    break;
+                case "3":
+                    this.creatTexture();
                     break;
                 case "4":
                     this.creatPefab();
                     break;
                 case "5":
-                    pack.FileOssModel.getDisByOss(this.rootFilePath, function (value) {
-                        _this.refrishPath(_this.rootFilePath);
-                    });
+                    this.refrishIndexGroup(this.rootFilePath);
                     break;
                 case "21":
                     this.deleFile();
@@ -454,21 +454,28 @@ var filelist;
                     break;
             }
         };
+        FileListPanel.prototype.creatTexture = function () {
+            var _this = this;
+            //复制文件
+            var baseTextureUrl = "baseedit/assets/base/base.material";
+            var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            pack.FileOssModel.copyFile(pathurl + "base.material", baseTextureUrl, function () {
+                _this.refrishIndexGroup(_this.rootFilePath);
+            });
+        };
+        FileListPanel.prototype.refrishIndexGroup = function (url) {
+            var _this = this;
+            pack.FileOssModel.getDisByOss(url, function (value) {
+                _this.refrishPath(url);
+            });
+        };
         FileListPanel.prototype.creatPefab = function () {
             var _this = this;
-            console.log("ccav");
-            var $byte = new Pan3d.Pan3dByteArray();
-            var tempObj = {};
-            tempObj.name = "temp.prefab";
-            tempObj.textureurl = "texture/5.material";
-            tempObj.objsurl = "ccsss.objs";
-            $byte.writeUTF(JSON.stringify(tempObj));
-            var $file = new File([$byte.buffer], "其他.prefab");
+            //复制文件
+            var basePrefabUrl = "baseedit/assets/base/base.prefab";
             var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
-            console.log(pathurl + $file.name);
-            pack.FileOssModel.upOssFile($file, pathurl + $file.name, function () {
-                console.log("文件上传成功");
-                _this.refrishPath(_this.rootFilePath);
+            pack.FileOssModel.copyFile(pathurl + "base.prefab", basePrefabUrl, function () {
+                _this.refrishIndexGroup(_this.rootFilePath);
             });
         };
         FileListPanel.prototype.deleFile = function () {
@@ -478,10 +485,8 @@ var filelist;
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
                         pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
-                            pack.FileOssModel.getDisByOss(_this.rootFilePath, function () {
-                                _this.refrishPath(_this.rootFilePath);
-                                console.log("删除成功");
-                            });
+                            _this.refrishIndexGroup(_this.rootFilePath);
+                            console.log("删除成功");
                         });
                     }
                 }

@@ -535,7 +535,7 @@
 
                     $disp2DBaseText.ui.baseRec = this._voRect.clone();
 
-                    $disp2DBaseText.ui. addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
+                   // $disp2DBaseText.ui. addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
                 }
 
 
