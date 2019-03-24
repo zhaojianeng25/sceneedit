@@ -15,7 +15,7 @@ var xyz;
         };
         TooMathHitModel.testHitModel = function (display3D, scene, mouseV2) {
             if (!display3D || !display3D.objData) {
-                return false;
+                return null;
             }
             var objData = display3D.objData;
             var mat = scene.cam3D.cameraMatrix.clone();
@@ -50,12 +50,15 @@ var xyz;
                     var planeNomal = Vector3D.calTriNormal(A, B, C, true);
                     var camNorm = Vector3D.getNrmByTwoVect(Vector3D.getProjPosition(planeNomal, camPos, [A, B, C]), camPos);
                     if (Vector3D.dotMulVector(planeNomal, camNorm) > 0) {
-                        return true;
+                        var D = A.add(B).add(C);
+                        D.scaleBy(3);
+                        D = scene.cam3D.cameraMatrix.transformVector(D);
+                        return D.z;
                     }
                     // console.log("------------------", Vector3D.dotMulVector(new Vector3D(0, -1, 0), new Vector3D(0, -1, 0)))
                 }
             }
-            return false;
+            return 0;
         };
         //获取镜头前指定距离3D坐标点
         TooMathHitModel.getCamFontDistent = function (scene, mouseV2, $depht) {

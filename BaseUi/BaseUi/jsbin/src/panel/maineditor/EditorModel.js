@@ -41,11 +41,19 @@ var maineditor;
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
         };
         EditorModel.prototype.mouseHitSprite = function (item, mouseVect2d, selectArr) {
+            var nearDis;
+            var selectModel;
             for (var i = 0; i < item.length; i++) {
                 var hit = xyz.TooMathHitModel.testHitModel(item[i].dis, item[i].dis._scene, mouseVect2d);
-                if (hit) {
-                    selectArr.push(item[i]);
+                if (hit > 0) {
+                    if (!nearDis || hit < nearDis) {
+                        nearDis = hit;
+                        selectModel = item[i];
+                    }
                 }
+            }
+            if (selectModel) {
+                selectArr.push(selectModel);
             }
         };
         EditorModel.prototype.selectModel = function (mouseVect2d) {

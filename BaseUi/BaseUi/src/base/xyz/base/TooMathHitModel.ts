@@ -23,9 +23,9 @@
             return viewMatrx3D
 
         }
-        public static testHitModel(display3D: Display3D, scene: SceneManager, mouseV2: Vector2D): boolean {
+        public static testHitModel(display3D: Display3D, scene: SceneManager, mouseV2: Vector2D): number {
             if (!display3D || !display3D.objData) {
-                return false;
+                return null;
             }
             var objData: ObjData = display3D.objData
 
@@ -72,14 +72,17 @@
                     var camNorm: Vector3D = Vector3D.getNrmByTwoVect(Vector3D.getProjPosition(planeNomal, camPos, [A, B, C]), camPos)
 
                     if (Vector3D.dotMulVector(planeNomal, camNorm) > 0) {
-                        return true;
+                        var D: Vector3D = A.add(B).add(C);
+                        D.scaleBy(3);
+                        D = scene.cam3D.cameraMatrix.transformVector(D)
+                        return D.z;
                     }
  
                    // console.log("------------------", Vector3D.dotMulVector(new Vector3D(0, -1, 0), new Vector3D(0, -1, 0)))
                  
                 }
             }
-            return false
+            return 0
         }
         //获取镜头前指定距离3D坐标点
         public static getCamFontDistent(scene: SceneManager, mouseV2: Vector2D, $depht: number): Vector3D {

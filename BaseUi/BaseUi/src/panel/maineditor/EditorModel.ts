@@ -45,13 +45,23 @@
         }
         public fileItem: Array<FolderMeshVo>;
 
-        private mouseHitSprite(item: Array<FolderMeshVo>, mouseVect2d: Vector2D,selectArr: Array<FolderMeshVo>): void {
+        private mouseHitSprite(item: Array<FolderMeshVo>, mouseVect2d: Vector2D, selectArr: Array<FolderMeshVo>): void {
+
+            var nearDis: number;
+            var selectModel: FolderMeshVo;
             for (var i: number = 0; i < item.length; i++) {
-                var hit: boolean = xyz.TooMathHitModel.testHitModel(item[i].dis, item[i].dis._scene, mouseVect2d);
-                if (hit) {
-                    selectArr.push(item[i])
+                var hit: number = xyz.TooMathHitModel.testHitModel(item[i].dis, item[i].dis._scene, mouseVect2d);
+                if (hit>0) {
+                    if (!nearDis || hit<nearDis ) {
+                        nearDis = hit
+                        selectModel= item[i]
+                    } 
                 }
             }
+            if (selectModel) {
+                selectArr.push(selectModel)
+            }
+ 
         }
         public selectModel(mouseVect2d: Vector2D): Array<FolderMeshVo> {
             var tempItem: Array<FolderMeshVo>=[]

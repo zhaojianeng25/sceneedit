@@ -42,7 +42,7 @@
             
         }
         public testHitTemp(display3D: any, v2d: Vector2D, vec: Array<Vector3D>): void {
-            var hit: boolean = TooMathHitModel.testHitModel(display3D, this._scene, v2d);
+            var hit: number = TooMathHitModel.testHitModel(display3D, this._scene, v2d);
             display3D.colorVect = hit ? vec[0] : vec[1];
 
         }
