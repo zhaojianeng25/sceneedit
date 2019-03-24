@@ -311,7 +311,7 @@
                 return
             }
 
-            if ($evt.x > BaseUiStart.centenPanel.x && $evt.x < BaseUiStart.rightPanel.x) {
+            if ($evt.x > AppData.centenPanel.x && $evt.x < AppData.rightPanel.x) {
                 var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
                 if (!$slectUi) {
                     var $p: Vector3D = this.getCamForntPos($evt.wheelDelta * 0.1)

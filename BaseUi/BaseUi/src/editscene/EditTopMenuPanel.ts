@@ -100,7 +100,7 @@
             this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
             this.addRenderAt(this._bottomRender, 0);
  
-            BaseUiStart.topPanel.addUIContainer(this)
+            AppData.topPanel.addUIContainer(this)
 
         }
         private winBg: UICompenent
@@ -210,9 +210,9 @@
                 case "31":
                     pack.FileOssModel.upTempFileToOss(($file: File) => {
 
-                        var idx: number = BaseUiStart.mapOpenUrl.lastIndexOf(".");
+                        var idx: number = AppData.mapOpenUrl.lastIndexOf(".");
                         if (idx != -1) {
-                            var mapDic: string = BaseUiStart.mapOpenUrl.substring(0, idx)+"/"
+                            var mapDic: string = AppData.mapOpenUrl.substring(0, idx)+"/"
                             inputres.ImputGameResModel.getInstance().inputSceneFile($file, mapDic)
                         }
          

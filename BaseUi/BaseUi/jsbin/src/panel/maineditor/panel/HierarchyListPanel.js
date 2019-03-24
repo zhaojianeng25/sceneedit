@@ -564,12 +564,13 @@ var maineditor;
         };
         HierarchyListPanel.prototype.readMapFile = function (mapUrl) {
             var _this = this;
-            BaseUiStart.mapOpenUrl = mapUrl;
+            AppData.mapOpenUrl = mapUrl;
             localStorage.setItem("mapurl", mapUrl);
             this.clearSceneAll();
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE, function ($dtstr) {
                 var $byte = new Pan3d.Pan3dByteArray($dtstr);
                 var $fileObj = JSON.parse($byte.readUTF());
+                _this._sceneProjectVo = new maineditor.SceneProjectVo($fileObj);
                 var $item = _this.wirteItem($fileObj.list);
                 for (var i = 0; i < $item.length; i++) {
                     maineditor.EditorModel.getInstance().fileItem.push($item[i]);
@@ -577,7 +578,7 @@ var maineditor;
                 _this.isCompelet = true;
                 _this.refrishFolder();
                 _this.resize();
-                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), $fileObj);
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), _this._sceneProjectVo);
             });
         };
         HierarchyListPanel.prototype.selectModelEvet = function (tempItem, isshift) {
@@ -593,9 +594,11 @@ var maineditor;
         //  public mapOpenUrl: string
         HierarchyListPanel.prototype.saveMap = function () {
             // EditorModel.getInstance().fileItem=[]
-            var tempObj = { list: this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem) };
+            //  var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
+            var tempObj = this._sceneProjectVo.getSaveObj();
+            tempObj.list = this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem);
             var $byte = new Pan3d.Pan3dByteArray();
-            var $fileUrl = Pan3d.Scene_data.fileRoot + BaseUiStart.mapOpenUrl;
+            var $fileUrl = Pan3d.Scene_data.fileRoot + AppData.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");

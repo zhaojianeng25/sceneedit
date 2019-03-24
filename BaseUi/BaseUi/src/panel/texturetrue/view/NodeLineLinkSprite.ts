@@ -173,7 +173,7 @@ module materialui {
       
  
 
-                Scene_data.context3D.setVc4fv(this.shader, "posMove", [BaseUiStart.stagePos.x, BaseUiStart.stagePos.y, 0, 0]);
+                Scene_data.context3D.setVc4fv(this.shader, "posMove", [AppData.stagePos.x, AppData.stagePos.y, 0, 0]);
    
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", $m.m);
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
@@ -236,12 +236,12 @@ module materialui {
         }
 		
         public globalToLocal($v: Vector2D): Vector2D {
-            var p: Vector2D = new Vector2D($v.x - BaseUiStart.stagePos.x, $v.y - BaseUiStart.stagePos.y)
+            var p: Vector2D = new Vector2D($v.x - AppData.stagePos.x, $v.y - AppData.stagePos.y)
             return p
 
         }
         public getMouse($v: InteractiveEvent): Vector2D {
-            var p: Vector2D = new Vector2D(($v.x / MtlUiData.Scale - BaseUiStart.stagePos.x), $v.y / MtlUiData.Scale - BaseUiStart.stagePos.y )
+            var p: Vector2D = new Vector2D(($v.x / MtlUiData.Scale - AppData.stagePos.x), $v.y / MtlUiData.Scale - AppData.stagePos.y )
             return p
 
         }

@@ -207,7 +207,7 @@
             for (var i: number = 0; i < this.lineItemA.length; i++) {
                 var $tempA: UICompenent = this.lineItemA[i];
                 $tempA.x = 0;
-                $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * MtlUiData.Scale) % (speedNum);
+                $tempA.y = i * speedNum + (AppData.stagePos.y * MtlUiData.Scale) % (speedNum);
                 $tempA.width = Scene_data.stageWidth
                 $tempA.height = 1;
 
@@ -218,7 +218,7 @@
             var speedNum: number = MtlUiData.Scale * 20
             for (var i: number = 0; i < this.lineItemB.length; i++) {
                 var $tempB: UICompenent = this.lineItemB[i];
-                $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * MtlUiData.Scale) % (speedNum);
+                $tempB.x = i * speedNum + (AppData.stagePos.x * MtlUiData.Scale) % (speedNum);
                 $tempB.y = 0
                 $tempB.width = 1;
                 $tempB.height = Scene_data.stageHeight
@@ -231,7 +231,7 @@
             for (var i: number = 0; i < this.lineItemBigA.length; i++) {
                 var $tempA: UICompenent = this.lineItemBigA[i];
                 $tempA.x = 0;
-                $tempA.y = i * speedNum + (BaseUiStart.stagePos.y * MtlUiData.Scale) % (speedNum);
+                $tempA.y = i * speedNum + (AppData.stagePos.y * MtlUiData.Scale) % (speedNum);
                 $tempA.width = Scene_data.stageWidth
                 $tempA.height = 2;
 
@@ -243,7 +243,7 @@
             var speedNum: number = MtlUiData.Scale * 20 * 8
             for (var i: number = 0; i < this.lineItemBigB.length; i++) {
                 var $tempB: UICompenent = this.lineItemBigB[i];
-                $tempB.x = i * speedNum + (BaseUiStart.stagePos.x * MtlUiData.Scale) % (speedNum);
+                $tempB.x = i * speedNum + (AppData.stagePos.x * MtlUiData.Scale) % (speedNum);
                 $tempB.y = 0
                 $tempB.width = 1;
                 $tempB.height = Scene_data.stageHeight

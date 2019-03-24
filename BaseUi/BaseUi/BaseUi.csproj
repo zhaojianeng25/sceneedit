@@ -28,7 +28,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="libs\tween\TweenLite.d.ts" />
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
-    <TypeScriptCompile Include="src\BaseUiStart.ts" />
+    <TypeScriptCompile Include="src\AppData.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragManager.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragProcessor.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragPanel.ts" />
@@ -334,6 +334,7 @@
     <TypeScriptCompile Include="src\base\modelshow\ModelShowModel.ts" />
     <TypeScriptCompile Include="src\base\modelshow\RoleMaterialShader.ts" />
     <TypeScriptCompile Include="src\base\modelshow\SceneRenderToTextrue.ts" />
+    <TypeScriptCompile Include="src\panel\maineditor\vo\SceneProjectVo.ts" />
     <TypeScriptCompile Include="src\panel\materialleft\MateriaMeshView.ts" />
     <TypeScriptCompile Include="src\panel\materialleft\MaterialLeftPanel.ts" />
     <TypeScriptCompile Include="src\panel\materialleft\MaterialLeftProcessor.ts" />

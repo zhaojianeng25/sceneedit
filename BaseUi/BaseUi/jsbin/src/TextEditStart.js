@@ -10,7 +10,7 @@ var TextEditStart = /** @class */ (function () {
             requestAnimationFrame(TextEditStart.step);
         }
         TextEditStart.resetSize();
-        var game = new BaseUiStart();
+        var game = new AppData();
         game.init();
     };
     TextEditStart.resetSize = function () {

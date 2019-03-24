@@ -11,12 +11,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var BaseUiStart = /** @class */ (function (_super) {
-    __extends(BaseUiStart, _super);
-    function BaseUiStart() {
+var AppData = /** @class */ (function (_super) {
+    __extends(AppData, _super);
+    function AppData() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    BaseUiStart.prototype.init = function () {
+    AppData.prototype.init = function () {
         var _this = this;
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         //  Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "upfile/shadertree/";
@@ -27,7 +27,7 @@ var BaseUiStart = /** @class */ (function (_super) {
         var uiAtlas = new Pan3d.UIAtlas();
         uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
     };
-    BaseUiStart.prototype.loadConfigCom = function () {
+    AppData.prototype.loadConfigCom = function () {
         var _this = this;
         win.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
@@ -38,9 +38,9 @@ var BaseUiStart = /** @class */ (function (_super) {
         Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL)); //显示场景编辑
         Pan3d.UIData.resize = function () { _this.resize(); }; //更尺寸变化
     };
-    BaseUiStart.prototype.resize = function () {
+    AppData.prototype.resize = function () {
         Pan3d.UIData.Scale = 1;
     };
-    return BaseUiStart;
+    return AppData;
 }(Pan3d.GameStart));
-//# sourceMappingURL=BaseUiStart.js.map
+//# sourceMappingURL=AppData.js.map

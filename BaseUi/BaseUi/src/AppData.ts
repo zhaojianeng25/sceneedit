@@ -1,6 +1,6 @@
 ﻿
 
-class BaseUiStart extends Pan3d.GameStart {
+class AppData extends Pan3d.GameStart {
     public static stagePos: Pan3d.Vector2D;
     public static altKey: boolean;
 

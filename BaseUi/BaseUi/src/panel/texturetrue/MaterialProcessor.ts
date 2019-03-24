@@ -61,14 +61,14 @@
             
 
                     MaterialModel.getInstance().makePanle();
-                    BaseUiStart.stagePos = new Vector2D();
+                    AppData.stagePos = new Vector2D();
                     BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
 
                     this.baseWindow = new win.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
-                    BaseUiStart.centenPanel.addUIContainer(this.baseWindow)
+                    AppData.centenPanel.addUIContainer(this.baseWindow)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().bgwinPanel, 1)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 2)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 3);
@@ -175,7 +175,7 @@
                 return
             }
 
-            if (!BaseUiStart.centenPanel.rect.isHitByPoint($evt.x, $evt.y)) {
+            if (!AppData.centenPanel.rect.isHitByPoint($evt.x, $evt.y)) {
                 return;
             }
 
@@ -209,7 +209,7 @@
                 }
             }
 
-            this.stageMoveTx(new Vector2D(-BaseUiStart.stagePos.x, - BaseUiStart.stagePos.y))
+            this.stageMoveTx(new Vector2D(-AppData.stagePos.x, - AppData.stagePos.y))
             MtlUiData.Scale = 1;
 
             MaterialCtrl.getInstance().initData();
@@ -239,10 +239,10 @@
             }
             if ($rect) {
                 var pageRect: Rectangle = new Rectangle()
-                pageRect.x = BaseUiStart.centenPanel.rect.x;
-                pageRect.y = BaseUiStart.centenPanel.rect.y+15;
-                pageRect.width = BaseUiStart.centenPanel.rect.width;
-                pageRect.height = BaseUiStart.centenPanel.rect.height-40;
+                pageRect.x = AppData.centenPanel.rect.x;
+                pageRect.y = AppData.centenPanel.rect.y+15;
+                pageRect.width = AppData.centenPanel.rect.width;
+                pageRect.height = AppData.centenPanel.rect.height-40;
 
                 $rect.width = ($rect.width - $rect.x)+180
                 $rect.height = ($rect.height - $rect.y)+200
@@ -350,7 +350,7 @@
             if (!this.hasStage) {
                 return
             }
-            BaseUiStart.altKey = $evt.altKey
+            AppData.altKey = $evt.altKey
             switch ($evt.keyCode) {
         
                 case KeyboardType.Delete:
@@ -443,7 +443,7 @@
         }
 
         public onKeyUp($evt: KeyboardEvent): void {
-            BaseUiStart.altKey = $evt.altKey
+            AppData.altKey = $evt.altKey
         }
         private _isMidelMouse: boolean
         private onMouse($e: MouseEvent): void {
@@ -485,7 +485,7 @@
                 return
             }
 
-            if ($evt.x > BaseUiStart.centenPanel.x && $evt.x < BaseUiStart.rightPanel.x) {
+            if ($evt.x > AppData.centenPanel.x && $evt.x < AppData.rightPanel.x) {
                 var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
                 if (!$slectUi || $slectUi.parent instanceof BaseMaterialNodeUI || $slectUi.parent instanceof MaterialCavasPanel) {
                     this.changeScalePanle($evt)
@@ -496,7 +496,7 @@
         }
         private changeScalePanle($evt: MouseWheelEvent): void {
 
-            var $v2d: Vector2D = new Vector2D(($evt.x - BaseUiStart.stagePos.x), ($evt.y - BaseUiStart.stagePos.y))
+            var $v2d: Vector2D = new Vector2D(($evt.x - AppData.stagePos.x), ($evt.y - AppData.stagePos.y))
             var tx: number = $evt.x / MtlUiData.Scale
             var ty: number = $evt.y / MtlUiData.Scale
             var $oldScale: number = MtlUiData.Scale
@@ -513,8 +513,8 @@
 
 
         private stageMoveTx($txy: Vector2D): void {
-            BaseUiStart.stagePos.x += $txy.x;
-            BaseUiStart.stagePos.y += $txy.y;
+            AppData.stagePos.x += $txy.x;
+            AppData.stagePos.y += $txy.y;
 
             var $containerList: Array<UIConatiner> = MaterialCtrl.getInstance().nodeUiPanel._containerList
             for (var i: number = 0; i < $containerList.length; i++) {

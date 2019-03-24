@@ -163,7 +163,7 @@ var materialui;
                 Scene_data.context3D.setVa(0, 4, this.objData.vertexBuffer);
                 var $m = new Matrix3D;
                 $m.appendScale(2 / Scene_data.stageWidth * materialui.MtlUiData.Scale, -2 / Scene_data.stageHeight * materialui.MtlUiData.Scale, 1);
-                Scene_data.context3D.setVc4fv(this.shader, "posMove", [BaseUiStart.stagePos.x, BaseUiStart.stagePos.y, 0, 0]);
+                Scene_data.context3D.setVc4fv(this.shader, "posMove", [AppData.stagePos.x, AppData.stagePos.y, 0, 0]);
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", $m.m);
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }
@@ -210,11 +210,11 @@ var materialui;
             $line.remove();
         };
         MaterialLineContainer.prototype.globalToLocal = function ($v) {
-            var p = new Vector2D($v.x - BaseUiStart.stagePos.x, $v.y - BaseUiStart.stagePos.y);
+            var p = new Vector2D($v.x - AppData.stagePos.x, $v.y - AppData.stagePos.y);
             return p;
         };
         MaterialLineContainer.prototype.getMouse = function ($v) {
-            var p = new Vector2D(($v.x / materialui.MtlUiData.Scale - BaseUiStart.stagePos.x), $v.y / materialui.MtlUiData.Scale - BaseUiStart.stagePos.y);
+            var p = new Vector2D(($v.x / materialui.MtlUiData.Scale - AppData.stagePos.x), $v.y / materialui.MtlUiData.Scale - AppData.stagePos.y);
             return p;
         };
         MaterialLineContainer.prototype.onMouseUp = function (event) {

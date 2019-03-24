@@ -20,7 +20,6 @@ var maineditor;
         __extends(ScenePojectMeshView, _super);
         function ScenePojectMeshView() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.isShowGridLine = false;
             _this._bgcolor = new Vector3D(11, 11, 11);
             return _this;
         }
@@ -38,19 +37,19 @@ var maineditor;
         };
         Object.defineProperty(ScenePojectMeshView.prototype, "gridline", {
             get: function () {
-                return this.isShowGridLine ? 1 : 0;
-            },
-            set: function (value) {
-                this.isShowGridLine = value == 1;
-                if (!this.gridLineSprite) {
-                    this.gridLineSprite = new Pan3d.GridLineSprite();
+                if (!ScenePojectMeshView.gridLineSprite) {
+                    ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite();
                 }
-                if (this.isShowGridLine) {
-                    maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(this.gridLineSprite);
+                if (this.sceneProjectVo.gildline) {
+                    maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite);
                 }
                 else {
-                    maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(this.gridLineSprite);
+                    maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(ScenePojectMeshView.gridLineSprite);
                 }
+                return this.sceneProjectVo.gildline ? 1 : 0;
+            },
+            set: function (value) {
+                this.sceneProjectVo.gildline = value == 1;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -63,12 +62,22 @@ var maineditor;
         };
         Object.defineProperty(ScenePojectMeshView.prototype, "texture", {
             get: function () {
-                //console.log("材质", this.data.material)
-                return this.data.material;
+                var _this = this;
+                if (this.sceneProjectVo.material) {
+                    return this.sceneProjectVo.material;
+                }
+                else {
+                    if (this.sceneProjectVo.textureurl) {
+                        pack.MaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, function ($materialTree) {
+                            _this.sceneProjectVo.material = $materialTree;
+                            _this.refreshViewValue();
+                        });
+                    }
+                    return null;
+                }
             },
             set: function (value) {
-                this.data.material = value;
-                this.gridline = 1;
+                this.sceneProjectVo.material = value;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -76,7 +85,7 @@ var maineditor;
         });
         Object.defineProperty(ScenePojectMeshView.prototype, "mapname", {
             get: function () {
-                return BaseUiStart.mapOpenUrl;
+                return AppData.mapOpenUrl;
             },
             enumerable: true,
             configurable: true
@@ -87,6 +96,7 @@ var maineditor;
             },
             set: function (value) {
                 this._data = value;
+                this.sceneProjectVo = value;
                 this.refreshViewValue();
             },
             enumerable: true,

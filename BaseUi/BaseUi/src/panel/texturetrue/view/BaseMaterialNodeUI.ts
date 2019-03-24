@@ -247,7 +247,7 @@
 
             var $itemMaterialUI: ItemMaterialUI = this.getPointFrameTagetFoItemVec($mouseEvt.target);
        
-            if (BaseUiStart.altKey) {
+            if (AppData.altKey) {
                 $itemMaterialUI.removeAllLine();
                 return;
             }

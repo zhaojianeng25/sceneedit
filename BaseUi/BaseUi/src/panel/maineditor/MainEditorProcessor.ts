@@ -68,7 +68,7 @@
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
 
-                    BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                    AppData.centenPanel.addUIContainer(this._editScenePanel);
              
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
    
@@ -133,20 +133,12 @@
                 }
             }
         }
-        private scenePojectMapData: any;
+        private sceneProjectVo: SceneProjectVo;
         private showScnePojectView(value: any): void {
-            if (value) {
-                this.scenePojectMapData = value
-            }
+            this.sceneProjectVo = value
             var _cenePojectMeshView: ScenePojectMeshView = new ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
-            _cenePojectMeshView.data  =   this.scenePojectMapData;
+            _cenePojectMeshView.data = this.sceneProjectVo;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
- 
-
-            pack.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", ($materialTree: materialui.MaterialTree) => {
-               _cenePojectMeshView.texture = $materialTree;
-            })
- 
 
         }
    
@@ -274,8 +266,8 @@
     
             }
  
-            if (this._editScenePanel && BaseUiStart.centenPanel) {
-                var rect: Rectangle = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width , BaseUiStart.centenPanel.rect.height);
+            if (this._editScenePanel && AppData.centenPanel) {
+                var rect: Rectangle = new Rectangle(AppData.centenPanel.rect.x, AppData.centenPanel.rect.y, AppData.centenPanel.rect.width , AppData.centenPanel.rect.height);
                 this._editScenePanel.panelEventChanger(rect)
             }
         }

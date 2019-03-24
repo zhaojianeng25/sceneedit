@@ -181,7 +181,7 @@ var materialui;
         };
         BaseMaterialNodeUI.prototype.clikUiEvent = function ($mouseEvt) {
             var $itemMaterialUI = this.getPointFrameTagetFoItemVec($mouseEvt.target);
-            if (BaseUiStart.altKey) {
+            if (AppData.altKey) {
                 $itemMaterialUI.removeAllLine();
                 return;
             }

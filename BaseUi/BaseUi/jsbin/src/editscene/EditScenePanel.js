@@ -64,7 +64,7 @@ var editscene;
             temp.width = 450;
             temp.height = 10;
             this.addChild(temp);
-            BaseUiStart.centenPanel = temp;
+            AppData.centenPanel = temp;
         };
         EditScenePanel.prototype.addRight = function () {
             var temp = new Panel(true);
@@ -74,7 +74,7 @@ var editscene;
             temp.width = 450;
             temp.height = 500;
             this.addChild(temp);
-            BaseUiStart.rightPanel = temp;
+            AppData.rightPanel = temp;
         };
         EditScenePanel.prototype.addTop = function () {
             var tempPanel = new Panel(false);
@@ -83,7 +83,7 @@ var editscene;
             tempPanel.width = 450;
             tempPanel.height = 30;
             this.addChild(tempPanel);
-            BaseUiStart.topPanel = tempPanel;
+            AppData.topPanel = tempPanel;
         };
         EditScenePanel.prototype.addLeft = function () {
             var temp = new editscene.EditLeftPanel(true);

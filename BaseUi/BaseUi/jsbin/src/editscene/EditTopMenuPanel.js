@@ -83,7 +83,7 @@ var editscene;
             _this._bottomRender.uiAtlas = new UIAtlas();
             _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
             _this.addRenderAt(_this._bottomRender, 0);
-            BaseUiStart.topPanel.addUIContainer(_this);
+            AppData.topPanel.addUIContainer(_this);
             return _this;
         }
         EditTopMenuPanel.getInstance = function () {
@@ -183,9 +183,9 @@ var editscene;
                     break;
                 case "31":
                     pack.FileOssModel.upTempFileToOss(function ($file) {
-                        var idx = BaseUiStart.mapOpenUrl.lastIndexOf(".");
+                        var idx = AppData.mapOpenUrl.lastIndexOf(".");
                         if (idx != -1) {
-                            var mapDic = BaseUiStart.mapOpenUrl.substring(0, idx) + "/";
+                            var mapDic = AppData.mapOpenUrl.substring(0, idx) + "/";
                             inputres.ImputGameResModel.getInstance().inputSceneFile($file, mapDic);
                         }
                     });

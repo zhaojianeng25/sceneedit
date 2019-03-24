@@ -66,13 +66,13 @@ var materialui;
                 var $materialEvent = $event;
                 if ($materialEvent.type == MaterialEvent.INIT_MATERIA_PANEL) {
                     materialui.MaterialModel.getInstance().makePanle();
-                    BaseUiStart.stagePos = new Vector2D();
+                    AppData.stagePos = new Vector2D();
                     materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
                     this.baseWindow = new win.BaseWindow();
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
-                    BaseUiStart.centenPanel.addUIContainer(this.baseWindow);
+                    AppData.centenPanel.addUIContainer(this.baseWindow);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 3);
@@ -148,7 +148,7 @@ var materialui;
             if (!this.hasStage) {
                 return;
             }
-            if (!BaseUiStart.centenPanel.rect.isHitByPoint($evt.x, $evt.y)) {
+            if (!AppData.centenPanel.rect.isHitByPoint($evt.x, $evt.y)) {
                 return;
             }
             materialui.MaterialModel.getInstance().mekeMaterialRightMenu($evt);
@@ -177,7 +177,7 @@ var materialui;
                     this.delUI($temp);
                 }
             }
-            this.stageMoveTx(new Vector2D(-BaseUiStart.stagePos.x, -BaseUiStart.stagePos.y));
+            this.stageMoveTx(new Vector2D(-AppData.stagePos.x, -AppData.stagePos.y));
             materialui.MtlUiData.Scale = 1;
             materialui.MaterialCtrl.getInstance().initData();
             this.baseMaterialTree = $materailTree;
@@ -206,10 +206,10 @@ var materialui;
             }
             if ($rect) {
                 var pageRect = new Rectangle();
-                pageRect.x = BaseUiStart.centenPanel.rect.x;
-                pageRect.y = BaseUiStart.centenPanel.rect.y + 15;
-                pageRect.width = BaseUiStart.centenPanel.rect.width;
-                pageRect.height = BaseUiStart.centenPanel.rect.height - 40;
+                pageRect.x = AppData.centenPanel.rect.x;
+                pageRect.y = AppData.centenPanel.rect.y + 15;
+                pageRect.width = AppData.centenPanel.rect.width;
+                pageRect.height = AppData.centenPanel.rect.height - 40;
                 $rect.width = ($rect.width - $rect.x) + 180;
                 $rect.height = ($rect.height - $rect.y) + 200;
                 //重新载入的材质适配到可显示位置
@@ -280,7 +280,7 @@ var materialui;
             if (!this.hasStage) {
                 return;
             }
-            BaseUiStart.altKey = $evt.altKey;
+            AppData.altKey = $evt.altKey;
             switch ($evt.keyCode) {
                 case KeyboardType.Delete:
                     var $selectUi = this.getSelUI();
@@ -358,7 +358,7 @@ var materialui;
             return null;
         };
         MaterialProcessor.prototype.onKeyUp = function ($evt) {
-            BaseUiStart.altKey = $evt.altKey;
+            AppData.altKey = $evt.altKey;
         };
         MaterialProcessor.prototype.onMouse = function ($e) {
             if (!this.hasStage) {
@@ -393,7 +393,7 @@ var materialui;
             if (!this.hasStage) {
                 return;
             }
-            if ($evt.x > BaseUiStart.centenPanel.x && $evt.x < BaseUiStart.rightPanel.x) {
+            if ($evt.x > AppData.centenPanel.x && $evt.x < AppData.rightPanel.x) {
                 var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi || $slectUi.parent instanceof materialui.BaseMaterialNodeUI || $slectUi.parent instanceof materialui.MaterialCavasPanel) {
                     this.changeScalePanle($evt);
@@ -401,7 +401,7 @@ var materialui;
             }
         };
         MaterialProcessor.prototype.changeScalePanle = function ($evt) {
-            var $v2d = new Vector2D(($evt.x - BaseUiStart.stagePos.x), ($evt.y - BaseUiStart.stagePos.y));
+            var $v2d = new Vector2D(($evt.x - AppData.stagePos.x), ($evt.y - AppData.stagePos.y));
             var tx = $evt.x / materialui.MtlUiData.Scale;
             var ty = $evt.y / materialui.MtlUiData.Scale;
             var $oldScale = materialui.MtlUiData.Scale;
@@ -413,8 +413,8 @@ var materialui;
             this.stageMoveTx(new Vector2D(-tx * $se / materialui.MtlUiData.Scale, -ty * $se / materialui.MtlUiData.Scale));
         };
         MaterialProcessor.prototype.stageMoveTx = function ($txy) {
-            BaseUiStart.stagePos.x += $txy.x;
-            BaseUiStart.stagePos.y += $txy.y;
+            AppData.stagePos.x += $txy.x;
+            AppData.stagePos.y += $txy.y;
             var $containerList = materialui.MaterialCtrl.getInstance().nodeUiPanel._containerList;
             for (var i = 0; i < $containerList.length; i++) {
                 var $uiConatiner = $containerList[i];

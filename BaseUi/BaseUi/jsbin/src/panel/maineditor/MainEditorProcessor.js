@@ -79,7 +79,7 @@ var maineditor;
                     this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
-                    BaseUiStart.centenPanel.addUIContainer(this._editScenePanel);
+                    AppData.centenPanel.addUIContainer(this._editScenePanel);
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                     Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel);
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
@@ -125,15 +125,10 @@ var maineditor;
             }
         };
         MainEditorProcessor.prototype.showScnePojectView = function (value) {
-            if (value) {
-                this.scenePojectMapData = value;
-            }
+            this.sceneProjectVo = value;
             var _cenePojectMeshView = new maineditor.ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
-            _cenePojectMeshView.data = this.scenePojectMapData;
+            _cenePojectMeshView.data = this.sceneProjectVo;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
-            pack.MaterialManager.getInstance().getMaterialByUrl("texture/color.material", function ($materialTree) {
-                _cenePojectMeshView.texture = $materialTree;
-            });
         };
         MainEditorProcessor.prototype.addEvents = function () {
             var _this = this;
@@ -233,8 +228,8 @@ var maineditor;
                 var rect = new Rectangle(EditLeftPanel.leftPanel.rect.x, EditLeftPanel.leftPanel.rect.y, EditLeftPanel.leftPanel.rect.width, EditLeftPanel.leftPanel.rect.height);
                 this._hierarchyListPanel.setRect(rect);
             }
-            if (this._editScenePanel && BaseUiStart.centenPanel) {
-                var rect = new Rectangle(BaseUiStart.centenPanel.rect.x, BaseUiStart.centenPanel.rect.y, BaseUiStart.centenPanel.rect.width, BaseUiStart.centenPanel.rect.height);
+            if (this._editScenePanel && AppData.centenPanel) {
+                var rect = new Rectangle(AppData.centenPanel.rect.x, AppData.centenPanel.rect.y, AppData.centenPanel.rect.width, AppData.centenPanel.rect.height);
                 this._editScenePanel.panelEventChanger(rect);
             }
         };

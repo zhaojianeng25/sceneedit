@@ -688,27 +688,33 @@
                 this.deleFile(EditorModel.getInstance().fileItem,EditorModel.getInstance().fileItem[0])
             }
         }
-
+        private _sceneProjectVo: SceneProjectVo
         public readMapFile(mapUrl: string): void {
-            BaseUiStart.mapOpenUrl = mapUrl
+            AppData.mapOpenUrl = mapUrl
             localStorage.setItem("mapurl", mapUrl);
-
             this.clearSceneAll()
+
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
+
+
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
-                    var $fileObj: any = JSON.parse($byte.readUTF())
+                    var $fileObj: any = JSON.parse($byte.readUTF());
+
+                    this._sceneProjectVo = new SceneProjectVo($fileObj)
+
 
                     var $item: Array<FolderMeshVo> = this.wirteItem($fileObj.list)
                     for (var i: number = 0; i < $item.length; i++) {
                         EditorModel.getInstance().fileItem.push($item[i]);
                     }
+
                     this.isCompelet = true;
                     this.refrishFolder();
                     this.resize()
  
                 
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), $fileObj)
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), this._sceneProjectVo)
 
                 });
 
@@ -730,9 +736,14 @@
         public saveMap(): void {
            // EditorModel.getInstance().fileItem=[]
  
-            var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
+          //  var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
+
+            var tempObj: any = this._sceneProjectVo.getSaveObj()
+            tempObj.list = this.getWillSaveItem(EditorModel.getInstance().fileItem);
+
+
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-            var $fileUrl: string = Pan3d.Scene_data.fileRoot + BaseUiStart.mapOpenUrl;
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + AppData.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj))
 
             var $file: File = new File([$byte.buffer], "scene.map");

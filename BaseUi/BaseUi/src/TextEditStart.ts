@@ -10,7 +10,7 @@
         }
 
         TextEditStart.resetSize();
-        let game = new BaseUiStart();
+        let game = new AppData();
         game.init();
 
     }

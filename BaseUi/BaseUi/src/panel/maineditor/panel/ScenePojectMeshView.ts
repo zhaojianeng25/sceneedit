@@ -25,23 +25,23 @@
                 ];
             return ary;
         }
-        private gridLineSprite: Pan3d.GridLineSprite;
-        private isShowGridLine: boolean = false
-
+        private static gridLineSprite: Pan3d.GridLineSprite;
         public get gridline(): number {
-            return this.isShowGridLine ? 1 : 0;
+            if (!ScenePojectMeshView.gridLineSprite) {
+                ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite()
+            }
+            if (this.sceneProjectVo.gildline) {
+                MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite);
+            } else {
+                MainEditorProcessor.edItorSceneManager.removeDisplay(ScenePojectMeshView.gridLineSprite);
+            }
+            return this.sceneProjectVo.gildline ? 1 : 0
+
         }
         public set gridline(value: number) {
-            this.isShowGridLine = value==1
-            if (!this.gridLineSprite) {
-                this.gridLineSprite = new Pan3d.GridLineSprite()
-            }
-            if (this.isShowGridLine) {
-                MainEditorProcessor.edItorSceneManager.addDisplay(this.gridLineSprite);
-            } else {
-                MainEditorProcessor.edItorSceneManager.removeDisplay(this.gridLineSprite);
-            }
-          
+         
+            this.sceneProjectVo.gildline = value == 1;
+ 
             this.refreshViewValue();
   
         }
@@ -50,18 +50,30 @@
         public getParamItem(value: string): any {
             return null
         }
-        public set texture(value: Material) {
-            this.data.material = value
-
-            this.gridline = 1;
+   
+        public set texture(value: materialui.MaterialTree) {
+            this.sceneProjectVo.material = value
+           
+           
             this.refreshViewValue()
         }
-        public get texture(): Material {
-            //console.log("材质", this.data.material)
-            return this.data.material
+        public get texture(): materialui.MaterialTree {
+            if (this.sceneProjectVo.material) {
+                return this.sceneProjectVo.material
+            } else {
+                if (this.sceneProjectVo.textureurl) {
+                    pack.MaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
+                        this.sceneProjectVo.material = $materialTree;
+                        this.refreshViewValue()
+                    })
+                }
+                return null
+            }
+
+         
         }
         public get mapname() {
-            return BaseUiStart.mapOpenUrl;
+            return AppData.mapOpenUrl;
         }
     
         public get data(): any {
@@ -70,11 +82,10 @@
 
         public set data(value: any) {
             this._data = value
-
-
-
-            this.refreshViewValue()
+            this.sceneProjectVo = value;
+            this.refreshViewValue();
         }
+        private sceneProjectVo: SceneProjectVo
         public get campos() {
             return new Vector3D()
         }

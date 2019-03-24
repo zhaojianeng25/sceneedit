@@ -6,7 +6,7 @@ var prop;
             this.propPanle = new prop.UiMeshSprite();
             this.propPanle.x = 500;
             this.propPanle.y = 100;
-            BaseUiStart.rightPanel.addChild(this.propPanle);
+            AppData.rightPanel.addChild(this.propPanle);
         }
         PropModel.getInstance = function () {
             if (!this._instance) {

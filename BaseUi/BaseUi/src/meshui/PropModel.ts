@@ -21,7 +21,7 @@
             this.propPanle = new UiMeshSprite();
             this.propPanle.x = 500
             this.propPanle.y = 100;
-            BaseUiStart.rightPanel.addChild(this.propPanle)
+            AppData.rightPanel.addChild(this.propPanle)
 
         }
         public propPanle: UiMeshSprite;
