@@ -13,9 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Vector2D = Pan3d.Vector2D;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Scene_data = Pan3d.Scene_data;
     var LabelTextFont = Pan3d.LabelTextFont;
     var TextAlign = Pan3d.TextAlign;
     var InputTextUi = /** @class */ (function (_super) {
@@ -26,33 +23,70 @@ var prop;
             return _super.call(this, w, h) || this;
         }
         InputTextUi.prototype.initView = function () {
+            this.setInputTxtPos();
             this.addEvets();
         };
+        InputTextUi.prototype.destory = function () {
+            if (this.chatHtmlInput) {
+                document.body.removeChild(this.chatHtmlInput);
+                this.chatHtmlInput = null;
+            }
+            _super.prototype.destory.call(this);
+        };
+        InputTextUi.prototype.setInputTxtPos = function () {
+            var _this = this;
+            if (!this.chatHtmlInput) {
+                this.chatHtmlInput = document.createElement("input");
+                this.chatHtmlInput.style.position = "absolute";
+                this.chatHtmlInput.style["z-index"] = 100;
+                //this.chatHtmlInput.style.background = "transparent"
+                this.chatHtmlInput.style.color = "#000000";
+                document.body.appendChild(this.chatHtmlInput);
+                this.chatHtmlInput.addEventListener("change", function (cevt) { _this.changeInputTxt(cevt); });
+            }
+            this.chatHtmlInput.style.left = 0 + "px";
+            this.chatHtmlInput.style.top = 0 + "px";
+            var tw = 40;
+            var th = 20;
+            this.chatHtmlInput.style.fontSize = String(12) + "px";
+            this.chatHtmlInput.style.width = String(tw) + "px";
+            this.chatHtmlInput.style.height = String(th) + "px";
+            this.chatHtmlInput.value = "99.99";
+            this.resize();
+        };
+        InputTextUi.prototype.changeInputTxt = function (evt) {
+            var $agalStr = this.chatHtmlInput.value;
+            var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
+            $reflectionEvet.data = $agalStr;
+            this.dispatchEvent($reflectionEvet);
+        };
+        InputTextUi.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            this.chatHtmlInput.style.left = (this.textureContext.left + this.x - 10) + "px";
+            this.chatHtmlInput.style.top = (this.textureContext.top + this.y - 5) + "px";
+            if (this.chatHtmlInput.value == "99") {
+                console.log("hre");
+            }
+            // console.log(this.chatHtmlInput.hidden)
+        };
+        Object.defineProperty(InputTextUi.prototype, "visible", {
+            set: function (value) {
+                this.chatHtmlInput.hidden = !value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(InputTextUi.prototype, "text", {
             set: function (value) {
                 LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
+                this.chatHtmlInput.value = value;
             },
             enumerable: true,
             configurable: true
         });
         InputTextUi.prototype.butClik = function (evt) {
             console.log("clik");
-            this.addStageMoveEvets(evt);
-        };
-        InputTextUi.prototype.addStageMoveEvets = function ($e) {
-            this.mouseXY = new Vector2D($e.x, $e.y);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.onMove, this);
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.onUp, this);
-        };
-        InputTextUi.prototype.onMove = function ($e) {
-            var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
-            $reflectionEvet.data = $e.x - this.mouseXY.x;
-            this.dispatchEvent($reflectionEvet);
-            this.mouseXY = new Vector2D($e.x, $e.y);
-        };
-        InputTextUi.prototype.onUp = function ($e) {
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.onMove, this);
-            Scene_data.uiStage.removeEventListener(InteractiveEvent.Up, this.onUp, this);
+            // this.addStageMoveEvets(evt)
         };
         return InputTextUi;
     }(prop.TextLabelUI));

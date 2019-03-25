@@ -32,13 +32,17 @@ var win;
             enumerable: true,
             configurable: true
         });
+        Sprite.prototype.onAdd = function () { };
+        Sprite.prototype.onRemove = function () { };
         Sprite.prototype.addChild = function (value) {
             value.perent = this;
+            value.onAdd();
             this.children.push(value);
         };
         Sprite.prototype.removeChild = function (value) {
             var idx = this.children.indexOf(value);
             if (idx != -1) {
+                value.onRemove();
                 this.children.splice(idx, 1);
             }
         };

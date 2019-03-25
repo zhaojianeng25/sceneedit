@@ -68,6 +68,12 @@ var prop;
             }
             this.uiItem = [];
         };
+        MaterialParamUi.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            for (var i = 0; i < this.uiItem.length; i++) {
+                this.uiItem[i].resize();
+            }
+        };
         Object.defineProperty(MaterialParamUi.prototype, "data", {
             get: function () {
                 return this._data;

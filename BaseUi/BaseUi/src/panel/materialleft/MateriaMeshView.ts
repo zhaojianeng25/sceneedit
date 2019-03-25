@@ -58,6 +58,7 @@
 
         }
 
+    
         private _materialTree: materialui.MaterialTree
         public set data(value: any) {
             this._data = value;

@@ -61,6 +61,16 @@ var prop;
             _this.ui = _this.textureContext.ui;
             return _this;
         }
+        Object.defineProperty(BaseMeshUi.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         BaseMeshUi.prototype.destory = function () {
             var layUIManager = this.textureContext.perent;
             if (layUIManager) {

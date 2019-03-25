@@ -59,7 +59,9 @@ var prop;
         ComBoBoxCtrl2D.prototype.refreshViewValue = function () {
             if (this.FunKey) {
                 var $i = this.target[this.FunKey];
-                this.comboBoxUi.text = this.comboxListTxt[$i].name;
+                if (this.comboxListTxt[$i]) {
+                    this.comboBoxUi.text = this.comboxListTxt[$i].name;
+                }
             }
         };
         Object.defineProperty(ComBoBoxCtrl2D.prototype, "x", {

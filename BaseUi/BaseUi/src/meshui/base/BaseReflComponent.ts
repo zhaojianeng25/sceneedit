@@ -40,7 +40,16 @@
         }
         public set label(value: string) {
             this._label = value
-        
+
+        }
+
+        public get visible() {
+            return this._visible;
+        }
+        private _visible: boolean
+        public set visible(value: boolean) {
+            this._visible = value
+
         }
         public set data(value: any) {
             this._data = value;

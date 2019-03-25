@@ -53,8 +53,17 @@
             this.textY.destory();
             this.textZ.destory();
 
-
+        
   
+        }
+        public set visible(value: boolean) {
+
+
+
+            this.inputTextUiX.visible = value
+            this.inputTextUiY.visible = value
+            this.inputTextUiZ.visible = value
+
         }
         public set data(value: any) {
             this._data = value;
@@ -64,20 +73,17 @@
         public get data(): any {
             return this._data
         }
-        private getSpeedNum(value: number): number {
-            console.log(value ,this.KeyStep, value * this.KeyStep)
-            return value * this.KeyStep
-        }
+  
         private inputTextUiXchange($evt: ReflectionEvet): void {
-            this._v3d.x += this.getSpeedNum($evt.data);
+            this._v3d.x = Number($evt.data);
             this.changeV3d()
         }
         private inputTextUiYchange($evt: ReflectionEvet): void {
-            this._v3d.y += this.getSpeedNum($evt.data);
+            this._v3d.y = Number($evt.data);
             this.changeV3d()
         }
         private inputTextUiZchange($evt: ReflectionEvet): void {
-            this._v3d.z += this.getSpeedNum($evt.data);
+            this._v3d.z = Number($evt.data);
             this.changeV3d()
         }
         private changeV3d(): void {
@@ -115,6 +121,12 @@
             this.inputTextUiY.x = this._x + 155;
             this.inputTextUiZ.x = this._x + 225;
 
+        }
+        public resize(): void {
+            super.resize()
+            this.inputTextUiX.resize();
+            this.inputTextUiY.resize();
+            this.inputTextUiZ.resize();
         }
   
         public get x(): number {

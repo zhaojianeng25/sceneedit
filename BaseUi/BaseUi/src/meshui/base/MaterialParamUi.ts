@@ -69,6 +69,12 @@
 
 
         }
+        public resize(): void {
+            super.resize()
+            for (var i: number = 0; i < this.uiItem.length; i++) {
+                this.uiItem[i].resize();
+            }
+        }
         public set data(value: any) {
             this._data = value;
 

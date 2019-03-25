@@ -51,7 +51,14 @@
  
             this.height = 100 + this._materialTreeMc.height
            
-           
+ 
+        }
+        public resize(): void {
+            super.resize()
+            if (this._materialTreeMc) {
+                this._materialTreeMc.resize();
+          
+            }
         }
         protected searchClik(evt: Pan3d.InteractiveEvent): void {
             console.log(this.textureTree.url)

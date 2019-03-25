@@ -72,6 +72,14 @@
             this.ui = this.textureContext.ui
        
         }
+        public get visible() {
+            return this._visible;
+        }
+        private _visible: boolean
+        public set visible(value: boolean) {
+            this._visible = value
+
+        }
         public destory(): void {
  
             var layUIManager: win.LayUIManager = this.textureContext.perent
@@ -87,7 +95,7 @@
         protected butClik(evt: InteractiveEvent): void {
 
         }
-        protected resize(): void {
+        public resize(): void {
             this.ui.x = this._x
             this.ui.y = this._y
        

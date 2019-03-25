@@ -16,6 +16,21 @@
                 this.metaViewItem[i].resize();
             }
         }
+
+        public onAdd(): void {
+            for (var i: number = 0; i < this.metaViewItem.length; i++) {
+                this.metaViewItem[i].onAdd()
+            }
+        }
+
+        public onRemove(): void {
+            for (var i: number = 0; i < this.metaViewItem.length; i++) {
+                this.metaViewItem[i].onRemove()
+          
+            }
+        }
+     
+     
         public addBaseMeshUi(value: BaseMeshUi) {
             this.addUIContainer(value.textureContext)
             this.resize();

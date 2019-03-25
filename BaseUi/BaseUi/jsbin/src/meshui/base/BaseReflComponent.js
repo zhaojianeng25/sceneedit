@@ -26,6 +26,16 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(BaseReflComponent.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(BaseReflComponent.prototype, "data", {
             get: function () {
                 return this._data;

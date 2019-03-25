@@ -15,7 +15,9 @@
         }
         public perent: Sprite;
         protected children: Array<Sprite>;
- 
+        public onAdd(): void { }
+
+        public onRemove(): void { }
         public constructor() {
             super();
             this.rect = new Rectangle(0, 0, 250, 250)
@@ -23,11 +25,13 @@
         }
         public addChild(value: Sprite): void {
             value.perent = this;
+            value.onAdd()
             this.children.push(value);
         }
         public removeChild(value: Sprite): void {
             var idx: number = this.children.indexOf(value)
             if (idx != -1) {
+                value.onRemove()
                 this.children.splice(idx, 1)
             }
            

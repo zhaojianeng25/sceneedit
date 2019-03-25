@@ -19,6 +19,15 @@
             this.textLabelUI.destory()
             this.inputTextUi.destory()
         }
+       
+        public set visible(value: boolean) {
+
+
+            this.inputTextUi.visible = value
+        
+           
+      
+        }
         public set data(value: any) {
             this._data = value;
 
@@ -27,9 +36,8 @@
             return this._data
         }
         private onChangeInput($evt: ReflectionEvet): void {
-           
-
-            this.target[this.FunKey] = this.target[this.FunKey] + this.KeyStep * Number($evt.data);
+ 
+            this.target[this.FunKey] =  Number($evt.data);
             this.changFun && this.changFun(this);
             this.refreshViewValue();
                
@@ -42,8 +50,7 @@
 
         }
         public getNumStr(num: number): string {
-            var n: number = Math.floor(num * 100) / 100;
-            return n.toString();
+            return num.toString();
         }
         public set x(value: number) {
             this._x = value;

@@ -49,7 +49,10 @@
         public refreshViewValue(): void {
             if (this.FunKey) {
                 var $i: number = this.target[this.FunKey]
-                this.comboBoxUi.text = this.comboxListTxt[$i].name
+                if (this.comboxListTxt[$i]) {
+                    this.comboBoxUi.text = this.comboxListTxt[$i].name
+                }
+             
             }
         }
         public set x(value: number) {

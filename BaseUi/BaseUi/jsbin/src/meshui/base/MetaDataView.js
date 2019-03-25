@@ -13,6 +13,18 @@ var prop;
             //  this.propPanle = prop.PropModel.getInstance().propPanle;
             this.creat(this.getView());
         }
+        MetaDataView.prototype.onAdd = function () {
+            console.log("onRemove");
+            for (var i = 0; this.ui && i < this.ui.length; i++) {
+                this.ui[i].visible = true;
+            }
+        };
+        MetaDataView.prototype.onRemove = function () {
+            console.log("onRemove");
+            for (var i = 0; this.ui && i < this.ui.length; i++) {
+                this.ui[i].visible = false;
+            }
+        };
         Object.defineProperty(MetaDataView.prototype, "top", {
             get: function () {
                 return this._top;

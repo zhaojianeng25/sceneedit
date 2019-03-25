@@ -50,6 +50,15 @@ var prop;
             this.textY.destory();
             this.textZ.destory();
         };
+        Object.defineProperty(Vec3dCtrlUI.prototype, "visible", {
+            set: function (value) {
+                this.inputTextUiX.visible = value;
+                this.inputTextUiY.visible = value;
+                this.inputTextUiZ.visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Vec3dCtrlUI.prototype, "data", {
             get: function () {
                 return this._data;
@@ -61,20 +70,16 @@ var prop;
             enumerable: true,
             configurable: true
         });
-        Vec3dCtrlUI.prototype.getSpeedNum = function (value) {
-            console.log(value, this.KeyStep, value * this.KeyStep);
-            return value * this.KeyStep;
-        };
         Vec3dCtrlUI.prototype.inputTextUiXchange = function ($evt) {
-            this._v3d.x += this.getSpeedNum($evt.data);
+            this._v3d.x = Number($evt.data);
             this.changeV3d();
         };
         Vec3dCtrlUI.prototype.inputTextUiYchange = function ($evt) {
-            this._v3d.y += this.getSpeedNum($evt.data);
+            this._v3d.y = Number($evt.data);
             this.changeV3d();
         };
         Vec3dCtrlUI.prototype.inputTextUiZchange = function ($evt) {
-            this._v3d.z += this.getSpeedNum($evt.data);
+            this._v3d.z = Number($evt.data);
             this.changeV3d();
         };
         Vec3dCtrlUI.prototype.changeV3d = function () {
@@ -115,6 +120,12 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        Vec3dCtrlUI.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            this.inputTextUiX.resize();
+            this.inputTextUiY.resize();
+            this.inputTextUiZ.resize();
+        };
         Object.defineProperty(Vec3dCtrlUI.prototype, "y", {
             get: function () {
                 return this._y;

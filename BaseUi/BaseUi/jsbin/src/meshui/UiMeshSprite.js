@@ -35,6 +35,16 @@ var prop;
                 this.metaViewItem[i].resize();
             }
         };
+        UiMeshSprite.prototype.onAdd = function () {
+            for (var i = 0; i < this.metaViewItem.length; i++) {
+                this.metaViewItem[i].onAdd();
+            }
+        };
+        UiMeshSprite.prototype.onRemove = function () {
+            for (var i = 0; i < this.metaViewItem.length; i++) {
+                this.metaViewItem[i].onRemove();
+            }
+        };
         UiMeshSprite.prototype.addBaseMeshUi = function (value) {
             this.addUIContainer(value.textureContext);
             this.resize();

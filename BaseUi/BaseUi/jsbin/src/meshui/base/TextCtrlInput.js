@@ -30,6 +30,13 @@ var prop;
             this.textLabelUI.destory();
             this.inputTextUi.destory();
         };
+        Object.defineProperty(TextCtrlInput.prototype, "visible", {
+            set: function (value) {
+                this.inputTextUi.visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(TextCtrlInput.prototype, "data", {
             get: function () {
                 return this._data;
@@ -41,7 +48,7 @@ var prop;
             configurable: true
         });
         TextCtrlInput.prototype.onChangeInput = function ($evt) {
-            this.target[this.FunKey] = this.target[this.FunKey] + this.KeyStep * Number($evt.data);
+            this.target[this.FunKey] = Number($evt.data);
             this.changFun && this.changFun(this);
             this.refreshViewValue();
         };
@@ -49,8 +56,7 @@ var prop;
             this.inputTextUi.text = this.getNumStr(this.target[this.FunKey]);
         };
         TextCtrlInput.prototype.getNumStr = function (num) {
-            var n = Math.floor(num * 100) / 100;
-            return n.toString();
+            return num.toString();
         };
         Object.defineProperty(TextCtrlInput.prototype, "x", {
             get: function () {

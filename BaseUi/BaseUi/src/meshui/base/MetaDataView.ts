@@ -6,6 +6,22 @@
         public y: number = 0;
         protected _data: any;
         protected _top: number = 0
+
+
+        public onAdd(): void {
+            console.log("onRemove")
+            for (var i: number = 0; this.ui && i < this.ui.length; i++) {
+                this.ui[i].visible = true
+            }
+        }
+
+        public onRemove(): void {
+
+            console.log("onRemove")
+            for (var i: number = 0; this.ui && i < this.ui.length; i++) {
+                this.ui[i].visible = false
+            }
+        }
      
         public set top(value: number) {
             this._top = value;
