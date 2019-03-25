@@ -286,7 +286,7 @@ var maineditor;
     var HierarchyListPanel = /** @class */ (function (_super) {
         __extends(HierarchyListPanel, _super);
         function HierarchyListPanel() {
-            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 20) || this;
+            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 400, 40), 20) || this;
             _this.only = true; //标记需要移除
             _this.cellBgItem = [];
             _this.left = 0;
@@ -488,12 +488,15 @@ var maineditor;
             }
             return null;
         };
+        HierarchyListPanel.prototype.getNameByPath = function (value) {
+            return value.substr(value.lastIndexOf("/") + 1, value.length);
+        };
         HierarchyListPanel.prototype.wirteItem = function (childItem) {
             var $item = new Array;
             for (var i = 0; childItem && i < childItem.length; i++) {
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.name = childItem[i].name;
+                $vo.ossListFile.name = this.getNameByPath(childItem[i].name);
                 //   $vo.ossListFile.name = "id_"+i;
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;

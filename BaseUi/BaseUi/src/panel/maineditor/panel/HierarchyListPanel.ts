@@ -342,7 +342,7 @@
         public only: boolean = true //标记需要移除
         public static imgBaseDic: any;
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 256, 40), 20);
+            super(FolderName, new Rectangle(0, 0, 400, 40), 20);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
             EditorModel.getInstance().hierarchyListPanel=this
@@ -580,6 +580,9 @@
             }
             return null
         }
+        private getNameByPath(value: string): string {
+            return value.substr(value.lastIndexOf("/") + 1, value.length)
+        }
 
         private wirteItem(childItem: Array<any>): Array<FolderMeshVo> {
             var $item: Array<FolderMeshVo> = new Array
@@ -588,7 +591,7 @@
                 var $vo: FolderMeshVo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
 
-                $vo.ossListFile.name = childItem[i].name;
+                $vo.ossListFile.name = this.getNameByPath( childItem[i].name);
              //   $vo.ossListFile.name = "id_"+i;
 
                 $vo.ossListFile.type = childItem[i].type;
