@@ -29,6 +29,7 @@
     <TypeScriptCompile Include="libs\tween\TweenLite.d.ts" />
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\AppData.ts" />
+    <TypeScriptCompile Include="src\editscene\ChangeNameModel.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragManager.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragProcessor.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragPanel.ts" />

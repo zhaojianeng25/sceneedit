@@ -74,10 +74,20 @@
     export class FileListName extends Disp2DBaseText {
         public fileListMeshVo: FileListMeshVo
 
+
+        private lastSelect: boolean = true
         public makeData(): void {
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
-             
+
+                if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select) {
+                    return;
+                } else {
+                    this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
+                }
+
+               
+
                 var $color: string = "[9c9c9c]"
                 if (this.fileListMeshVo.fileXmlVo.data.select) {
                     $color = "[ffffff]";
@@ -110,8 +120,6 @@
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color)
                         break
-
-                        
                 }
 
 
@@ -566,9 +574,51 @@
                 case "21":
                     this.deleFile()
                     break
+                case "22":
+                    this.changeFileName()
+       
+                    break
                 default:
                     console.log("没处理对象",value.key)
                     break
+            }
+        }
+        public changeFileName(): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var $vo: FileListName = <FileListName>this._uiItem[i]
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.fileListMeshVo.fileXmlVo.data.select) {
+                        var rect: Rectangle = new Rectangle()
+                        rect.x = $vo.ui.x + this.left;
+                        rect.y = $vo.ui.y + this.top;
+                        rect.x += 5;
+                        rect.y += 45;
+                        rect.width = 60
+                        rect.height = 20
+                        var basePath: string = $vo.fileListMeshVo.fileXmlVo.data.path
+                        editscene.ChangeNameModel.getInstance().changeName(rect, $vo.fileListMeshVo.fileXmlVo.data.name, (value: string) => {
+   
+                            if (value.length) {
+                                console.log("准备修改名字")
+                                var toPath: string = basePath.substr(0, basePath.lastIndexOf("/") + 1);
+                                toPath = toPath + value
+                                console.log(basePath)
+                                console.log(toPath)
+                       
+                                pack.FileOssModel.copyFile(toPath, basePath, () => {
+                                    pack.FileOssModel.deleFile(basePath, () => {
+                                        this.refrishIndexGroup(this.rootFilePath)
+
+                                    })
+                                })
+                            }
+                        })
+
+
+                    
+                    }
+                }
+
             }
         }
         private creatTexture(): void {

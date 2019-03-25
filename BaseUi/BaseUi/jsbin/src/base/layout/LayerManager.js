@@ -64,6 +64,9 @@ var win;
             return null;
         };
         LayerManager.prototype.mouseEvetData = function (evt, point) {
+            if (LayerManager.isHideMouseEvent) {
+                return;
+            }
             var tf = false;
             for (var i = this.children.length - 1; i >= 0; i--) {
                 if (!tf) {

@@ -87,9 +87,12 @@
 
 
         }
-   
+        public static isHideMouseEvent: boolean
         public mouseEvetData(evt: InteractiveEvent, point: Vector2D): boolean  //true为有UI对象 flash为没有
         {
+            if (LayerManager.isHideMouseEvent) {
+                return
+            }
             var tf: boolean = false;
             for (var i: number = this.children.length - 1; i >= 0; i--) {
                 if (!tf) {

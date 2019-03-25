@@ -65,12 +65,20 @@ var filelist;
     var FileListName = /** @class */ (function (_super) {
         __extends(FileListName, _super);
         function FileListName() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.lastSelect = true;
+            return _this;
         }
         FileListName.prototype.makeData = function () {
             var _this = this;
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
+                if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select) {
+                    return;
+                }
+                else {
+                    this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
+                }
                 var $color = "[9c9c9c]";
                 if (this.fileListMeshVo.fileXmlVo.data.select) {
                     $color = "[ffffff]";
@@ -449,9 +457,44 @@ var filelist;
                 case "21":
                     this.deleFile();
                     break;
+                case "22":
+                    this.changeFileName();
+                    break;
                 default:
                     console.log("没处理对象", value.key);
                     break;
+            }
+        };
+        FileListPanel.prototype.changeFileName = function () {
+            var _this = this;
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.fileListMeshVo.fileXmlVo.data.select) {
+                        var rect = new Rectangle();
+                        rect.x = $vo.ui.x + this.left;
+                        rect.y = $vo.ui.y + this.top;
+                        rect.x += 5;
+                        rect.y += 45;
+                        rect.width = 60;
+                        rect.height = 20;
+                        var basePath = $vo.fileListMeshVo.fileXmlVo.data.path;
+                        editscene.ChangeNameModel.getInstance().changeName(rect, $vo.fileListMeshVo.fileXmlVo.data.name, function (value) {
+                            if (value.length) {
+                                console.log("准备修改名字");
+                                var toPath = basePath.substr(0, basePath.lastIndexOf("/") + 1);
+                                toPath = toPath + value;
+                                console.log(basePath);
+                                console.log(toPath);
+                                pack.FileOssModel.copyFile(toPath, basePath, function () {
+                                    pack.FileOssModel.deleFile(basePath, function () {
+                                        _this.refrishIndexGroup(_this.rootFilePath);
+                                    });
+                                });
+                            }
+                        });
+                    }
+                }
             }
         };
         FileListPanel.prototype.creatTexture = function () {

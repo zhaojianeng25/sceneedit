@@ -52,7 +52,6 @@ var prop;
             this.chatHtmlInput.style.width = String(tw) + "px";
             this.chatHtmlInput.style.height = String(th) + "px";
             this.chatHtmlInput.value = "99.99";
-            this.resize();
         };
         InputTextUi.prototype.changeInputTxt = function (evt) {
             var $agalStr = this.chatHtmlInput.value;
