@@ -73,12 +73,11 @@ var filelist;
             var _this = this;
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
-                if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select) {
+                if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select && this.lastName == this.fileListMeshVo.fileXmlVo.data.name) {
                     return;
                 }
-                else {
-                    this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
-                }
+                this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
+                this.lastName = this.fileListMeshVo.fileXmlVo.data.name;
                 var $color = "[9c9c9c]";
                 if (this.fileListMeshVo.fileXmlVo.data.select) {
                     $color = "[ffffff]";

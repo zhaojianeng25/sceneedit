@@ -590,6 +590,7 @@ var materialui;
             var str = "";
             var inputDiffuse = $node.inputVec[0];
             var inputNormal = $node.inputVec[1];
+            var inputAlpha = $node.inputVec[3];
             if (inputNormal.parentNodeItem) {
                 this.useNormal = true;
             }
@@ -621,7 +622,14 @@ var materialui;
                 regtempLightMap.inUse = false;
             }
             str = "";
-            str = CompileTwo.FT + regOp.id + CompileTwo.W + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.ONE_FLOAT + CompileTwo.END;
+            if (inputAlpha.parentNodeItem) { //漫反射部分
+                var pNodeAlpha = inputAlpha.parentNodeItem.node; //diffuse输入节点
+                str = CompileTwo.FT + regOp.id + CompileTwo.W + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNodeAlpha.getComponentID(inputAlpha.parentNodeItem.id) + CompileTwo.END;
+                pNodeAlpha.releaseUse();
+            }
+            else {
+                str = CompileTwo.FT + regOp.id + CompileTwo.W + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.ONE_FLOAT + CompileTwo.END;
+            }
             this.strVec.push(str);
             str = "";
             str = CompileTwo.FO + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + CompileTwo.FT + regOp.id + CompileTwo.END;

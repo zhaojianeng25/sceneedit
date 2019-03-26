@@ -76,15 +76,18 @@
 
 
         private lastSelect: boolean = true
+        private lastName: string
         public makeData(): void {
             this.fileListMeshVo = this.data;
             if (this.fileListMeshVo) {
 
-                if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select) {
+                if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select && this.lastName == this.fileListMeshVo.fileXmlVo.data.name) {
                     return;
-                } else {
-                    this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
-                }
+                }  
+
+                this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
+                this.lastName = this.fileListMeshVo.fileXmlVo.data.name;
+
 
                
 
