@@ -233,7 +233,9 @@
             }
             return null;
         }
-
+        private getNameByPath(value: string): string {
+            return value.substr(value.lastIndexOf("/") + 1, value.length)
+        }
         private makePerfabToSever(name: string, objsurl: string, imgItem: Array<any>, buildinfo: any): void {
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
@@ -261,6 +263,7 @@
 
 
                 var obj: any = {}
+                obj.name = this.getNameByPath(prefabStaticMesh.url)
                 obj.url = prefabStaticMesh.url;
                 var sceneScale: number = this.sceneRes.scale
                 obj.pos = new Vector3D(buildinfo.x * sceneScale, buildinfo.y * sceneScale, buildinfo.z * sceneScale);
