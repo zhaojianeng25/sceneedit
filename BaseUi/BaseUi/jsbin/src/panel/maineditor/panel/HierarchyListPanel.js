@@ -337,6 +337,23 @@ var maineditor;
         HierarchyListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
+        HierarchyListPanel.prototype.changeFileName = function ($vo) {
+            if ($vo.folderMeshVo && $vo.ui) {
+                var name = $vo.folderMeshVo.ossListFile.name;
+                var rect = new Rectangle();
+                rect.x = $vo.ui.x + this.left;
+                rect.y = $vo.ui.y + this.top;
+                rect.x += 30;
+                rect.y += 0;
+                rect.width = name.length * 8;
+                rect.height = 20;
+                editscene.ChangeNameModel.getInstance().changeName(rect, name, function (value) {
+                    $vo.folderMeshVo.ossListFile.name = value;
+                    $vo.makeData();
+                    console.log($vo);
+                });
+            }
+        };
         HierarchyListPanel.prototype.makeFileFloadMenu = function ($evt) {
             var _this = this;
             var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_RIGHT_MENU);
@@ -358,6 +375,9 @@ var maineditor;
                         Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
                         this.refrishFolder();
                     }
+                    break;
+                case "2":
+                    this.changeFileName(this.selectFolderMeshVo);
                     break;
                 default:
                     break;
@@ -488,23 +508,20 @@ var maineditor;
             }
             return null;
         };
-        HierarchyListPanel.prototype.getNameByPath = function (value) {
-            return value.substr(value.lastIndexOf("/") + 1, value.length);
-        };
         HierarchyListPanel.prototype.wirteItem = function (childItem) {
             var $item = new Array;
             for (var i = 0; childItem && i < childItem.length; i++) {
                 var $vo = new FolderMeshVo;
                 $vo.ossListFile = new OssListFile;
-                $vo.ossListFile.name = this.getNameByPath(childItem[i].name);
-                //   $vo.ossListFile.name = "id_"+i;
+                $vo.ossListFile.name = childItem[i].name;
+                $vo.ossListFile.url = childItem[i].url;
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;
                 ;
                 $vo.cellPos = new Vector2D();
                 this.showTemp($vo);
                 $vo.dis = new ModelSprite();
-                $vo.dis.setPreFabUrl(childItem[i].data);
+                $vo.dis.setPreFabUrl(childItem[i].url);
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
@@ -542,7 +559,8 @@ var maineditor;
                 $vo.dis.rotationZ = temp.rotation.z;
             }
             maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
-            $vo.ossListFile.name = temp.url;
+            $vo.ossListFile.name = temp.name;
+            $vo.ossListFile.url = temp.url;
             $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;
             $vo.ossListFile.treeSelect = false;
             $vo.cellPos = new Vector2D();
@@ -615,6 +633,7 @@ var maineditor;
                 var $obj = {};
                 $obj.type = item[i].ossListFile.type;
                 $obj.name = item[i].ossListFile.name;
+                $obj.url = item[i].ossListFile.url;
                 $obj.x = item[i].dis.x;
                 $obj.y = item[i].dis.y;
                 $obj.z = item[i].dis.z;

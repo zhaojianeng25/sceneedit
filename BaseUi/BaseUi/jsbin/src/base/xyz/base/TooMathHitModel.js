@@ -15,9 +15,10 @@ var xyz;
         };
         TooMathHitModel.testHitModel = function (display3D, scene, mouseV2) {
             if (!display3D || !display3D.objData) {
-                return null;
+                return 0;
             }
             var objData = display3D.objData;
+            var clik3dVect = TooMathHitModel.getCamFontDistent(scene, mouseV2, 100); //鼠标前面的3D坐标
             var mat = scene.cam3D.cameraMatrix.clone();
             var viewMatrx3D = scene.viewMatrx3D.clone();
             mat.append(viewMatrx3D);
@@ -28,34 +29,30 @@ var xyz;
                 var A = new Vector3D(objData.vertices[a * 3 + 0], objData.vertices[a * 3 + 1], objData.vertices[a * 3 + 2]);
                 var B = new Vector3D(objData.vertices[b * 3 + 0], objData.vertices[b * 3 + 1], objData.vertices[b * 3 + 2]);
                 var C = new Vector3D(objData.vertices[c * 3 + 0], objData.vertices[c * 3 + 1], objData.vertices[c * 3 + 2]);
-                if (Vector3D.distance(A, B) == 0 || Vector3D.distance(A, C) == 0 || Vector3D.distance(B, C) == 0) {
-                    continue;
-                }
                 A = display3D.posMatrix.transformVector(A);
                 B = display3D.posMatrix.transformVector(B);
                 C = display3D.posMatrix.transformVector(C);
+                if (Vector3D.distance(A, B) == 0 || Vector3D.distance(A, C) == 0 || Vector3D.distance(B, C) == 0) {
+                    console.log("有为零的点");
+                    continue;
+                }
                 TestTriangle.baseTri.p1 = this.math3DWorldtoDisplay2DPos(A, mat, scene.cam3D.cavanRect);
                 TestTriangle.baseTri.p2 = this.math3DWorldtoDisplay2DPos(B, mat, scene.cam3D.cavanRect);
                 TestTriangle.baseTri.p3 = this.math3DWorldtoDisplay2DPos(C, mat, scene.cam3D.cavanRect);
                 if (TestTriangle.baseTri.checkPointIn(mouseV2)) {
                     var camPos = new Vector3D(scene.cam3D.x, scene.cam3D.y, scene.cam3D.z);
-                    /*
-                    camPos.x = 1;
-                    camPos.y = 10;
-                    camPos.z = 0.2;
-                    A = new Vector3D(0, 0, 0);
-                    B = new Vector3D(1, 0, 0);
-                    C = new Vector3D(0, 0, 1);
-                    */
-                    var planeNomal = Vector3D.calTriNormal(A, B, C, true);
-                    var camNorm = Vector3D.getNrmByTwoVect(Vector3D.getProjPosition(planeNomal, camPos, [A, B, C]), camPos);
-                    if (Vector3D.dotMulVector(planeNomal, camNorm) > 0) {
-                        var D = A.add(B).add(C);
-                        D.scaleBy(3);
-                        D = scene.cam3D.cameraMatrix.transformVector(D);
-                        return D.z;
+                    var hitPos = Pan3d.MathUtil.getLinePlaneInterectPointByTri(camPos, clik3dVect, [A, B, C]);
+                    A = scene.cam3D.cameraMatrix.transformVector(A);
+                    B = scene.cam3D.cameraMatrix.transformVector(B);
+                    C = scene.cam3D.cameraMatrix.transformVector(C);
+                    if (A.z < 0 || B.z < 0 || C.z < 0) {
+                        continue;
                     }
-                    // console.log("------------------", Vector3D.dotMulVector(new Vector3D(0, -1, 0), new Vector3D(0, -1, 0)))
+                    hitPos = scene.cam3D.cameraMatrix.transformVector(hitPos);
+                    var deph = hitPos.z;
+                    if (deph > 0) {
+                        return deph;
+                    }
                 }
             }
             return 0;

@@ -230,6 +230,9 @@ var inputres;
             }
             return null;
         };
+        ImputGameResModel.prototype.getNameByPath = function (value) {
+            return value.substr(value.lastIndexOf("/") + 1, value.length);
+        };
         ImputGameResModel.prototype.makePerfabToSever = function (name, objsurl, imgItem, buildinfo) {
             var _this = this;
             var $byte = new Pan3d.Pan3dByteArray();
@@ -252,6 +255,7 @@ var inputres;
             var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.upOssFile($file, pathurl, function () {
                 var obj = {};
+                obj.name = _this.getNameByPath(prefabStaticMesh.url);
                 obj.url = prefabStaticMesh.url;
                 var sceneScale = _this.sceneRes.scale;
                 obj.pos = new Vector3D(buildinfo.x * sceneScale, buildinfo.y * sceneScale, buildinfo.z * sceneScale);

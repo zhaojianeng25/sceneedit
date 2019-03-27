@@ -81,8 +81,8 @@
             var $p0: Vector3D;
             var $p1: Vector3D;
             var $num: number
-            var $indexLen: number = $objData.vertices.length / 3
-            for (var i: number = 0; i < 360; i++) {
+ 
+            for (var i: number = 0; i < 300; i++) {
                 $m.identity();
                 $m.appendRotation(i, $axis)
                 $p0 = $m.transformVector(A)
@@ -94,8 +94,8 @@
                 $objData.uvs.push($colorId, $colorId)
                 if (i != 0) {
                     $num = i - 1
-                    $objData.indexs.push($indexLen + $num * 2 + 0, $indexLen + $num * 2 + 1, $indexLen + $num * 2 + 2)
-                    $objData.indexs.push($indexLen + $num * 2 + 2, $indexLen + $num * 2 + 1, $indexLen + $num * 2 + 3)
+            
+                    $objData.indexs.push(  $num * 2 + 2,  $num * 2 + 1,  $num * 2 + 3)
                 }
   
             }

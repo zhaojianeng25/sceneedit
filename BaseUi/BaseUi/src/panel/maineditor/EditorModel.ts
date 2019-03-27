@@ -51,7 +51,7 @@
             var selectModel: FolderMeshVo;
             for (var i: number = 0; i < item.length; i++) {
                 var hit: number = xyz.TooMathHitModel.testHitModel(item[i].dis, item[i].dis._scene, mouseVect2d);
-                if (hit>0) {
+                if (hit!=0) {
                     if (!nearDis || hit<nearDis ) {
                         nearDis = hit
                         selectModel= item[i]
@@ -59,7 +59,10 @@
                 }
             }
             if (selectModel) {
+                console.log(nearDis)
                 selectArr.push(selectModel)
+
+                console.log("-----------------------")
             }
  
         }

@@ -11,7 +11,7 @@
         public _statceType: number;
         public constructor() {
             super();
-            this._statceType = TooMathMoveUint.MOVE_ROUTATION
+            this._statceType = TooMathMoveUint.MOVE_NULL
             this._tooMoveLevel = new TooMoveLevel(this);
             this._tooRotationLevel = new TooRotationLevel(this);
        

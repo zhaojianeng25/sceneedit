@@ -203,6 +203,7 @@ var maineditor;
             if (this.testSuffix(drag.DragManager.dragSource.url)) {
                 var obj = {};
                 obj.url = drag.DragManager.dragSource.url;
+                obj.name = "新对象";
                 obj.pos = maineditor.MainEditorProcessor.edItorSceneManager.getGroundPos(new Vector2D(evt.data.x, evt.data.y));
                 ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj);
             }

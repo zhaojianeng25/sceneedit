@@ -45,7 +45,7 @@ var maineditor;
             var selectModel;
             for (var i = 0; i < item.length; i++) {
                 var hit = xyz.TooMathHitModel.testHitModel(item[i].dis, item[i].dis._scene, mouseVect2d);
-                if (hit > 0) {
+                if (hit != 0) {
                     if (!nearDis || hit < nearDis) {
                         nearDis = hit;
                         selectModel = item[i];
@@ -53,7 +53,9 @@ var maineditor;
                 }
             }
             if (selectModel) {
+                console.log(nearDis);
                 selectArr.push(selectModel);
+                console.log("-----------------------");
             }
         };
         EditorModel.prototype.selectModel = function (mouseVect2d) {

@@ -19,7 +19,7 @@ var xyz;
         __extends(MoveScaleRotationLevel, _super);
         function MoveScaleRotationLevel() {
             var _this = _super.call(this) || this;
-            _this._statceType = xyz.TooMathMoveUint.MOVE_ROUTATION;
+            _this._statceType = xyz.TooMathMoveUint.MOVE_NULL;
             _this._tooMoveLevel = new xyz.TooMoveLevel(_this);
             _this._tooRotationLevel = new xyz.TooRotationLevel(_this);
             return _this;
