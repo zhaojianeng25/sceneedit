@@ -58,7 +58,9 @@
             this.xyzPosData.x = value.x
             this.xyzPosData.y = value.y
             this.xyzPosData.z = value.z
-            this.xyzPosData.upChangeToAll();
+          
+            this.xyzPosData.changeModelMatrix3d();
+            this.xyzPosData.upRootMatrix3DToItem();
         }
         public get rotation(): Vector3D {
             return new Vector3D(this.xyzPosData.rotationX, this.xyzPosData.rotationY, this.xyzPosData.rotationZ)
@@ -67,7 +69,9 @@
             this.xyzPosData.rotationX = value.x
             this.xyzPosData.rotationY = value.y
             this.xyzPosData.rotationZ = value.z
-            this.xyzPosData.upChangeToAll();
+
+            this.xyzPosData.changeModelMatrix3d();
+            this.xyzPosData.upRootMatrix3DToItem();
         }
         public get scale(): Vector3D {
             return new Vector3D(this.xyzPosData.scaleX, this.xyzPosData.scaleY, this.xyzPosData.scaleZ)
@@ -76,7 +80,8 @@
             this.xyzPosData.scaleX = value.x
             this.xyzPosData.scaleY = value.y
             this.xyzPosData.scaleZ = value.z
-            this.xyzPosData.upChangeToAll();
+            this.xyzPosData.changeModelMatrix3d();
+            this.xyzPosData.upRootMatrix3DToItem();
         }
 
 

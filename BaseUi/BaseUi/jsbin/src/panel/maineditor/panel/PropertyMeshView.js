@@ -66,7 +66,8 @@ var maineditor;
                 this.xyzPosData.x = value.x;
                 this.xyzPosData.y = value.y;
                 this.xyzPosData.z = value.z;
-                this.xyzPosData.upChangeToAll();
+                this.xyzPosData.changeModelMatrix3d();
+                this.xyzPosData.upRootMatrix3DToItem();
             },
             enumerable: true,
             configurable: true
@@ -79,7 +80,8 @@ var maineditor;
                 this.xyzPosData.rotationX = value.x;
                 this.xyzPosData.rotationY = value.y;
                 this.xyzPosData.rotationZ = value.z;
-                this.xyzPosData.upChangeToAll();
+                this.xyzPosData.changeModelMatrix3d();
+                this.xyzPosData.upRootMatrix3DToItem();
             },
             enumerable: true,
             configurable: true
@@ -92,7 +94,8 @@ var maineditor;
                 this.xyzPosData.scaleX = value.x;
                 this.xyzPosData.scaleY = value.y;
                 this.xyzPosData.scaleZ = value.z;
-                this.xyzPosData.upChangeToAll();
+                this.xyzPosData.changeModelMatrix3d();
+                this.xyzPosData.upRootMatrix3DToItem();
             },
             enumerable: true,
             configurable: true

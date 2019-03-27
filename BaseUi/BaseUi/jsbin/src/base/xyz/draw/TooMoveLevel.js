@@ -148,6 +148,14 @@ var xyz;
             if (this.parent.xyzMoveData) {
                 this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
             }
+            this.posMatrix.identityScale();
+            //this.modelItem[i].x = M.position.x;
+            // this.modelItem[i].y = M.position.y;
+            // this.modelItem[i].z = M.position.z;
+            // var ro: Vector3D = M.toEulerAngles();
+            // this.modelItem[i].rotationX = ro.x * 180 / Math.PI;
+            // this.modelItem[i].rotationY = ro.y * 180 / Math.PI;
+            // this.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
             this._boxA.posMatrix = this.posMatrix.clone();
             this._boxA.posMatrix.prependTranslation(line50, 0, 0);
             this._boxB.posMatrix = this.posMatrix.clone();

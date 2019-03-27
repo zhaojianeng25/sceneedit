@@ -22,11 +22,8 @@
             var focuV3d: Vector3D = new Vector3D
             if (this._xyzMoveData) {
                 this._xyzMoveData.modeMatrx3D.identity()
-                this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);
-                this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationX, Vector3D.X_AXIS);
-                this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationY, Vector3D.Y_AXIS);
-                this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationZ, Vector3D.Z_AXIS);
-                this._xyzMoveData.modeMatrx3D.appendTranslation(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z)
+
+                this._xyzMoveData.changeModelMatrix3d()
 
                 //console.log(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z)
 
@@ -67,12 +64,7 @@
                 this._statceType = TooMathMoveUint.MOVE_XYZ
             }
             this._xyzMoveData.modeMatrx3D = new Matrix3D;
-            this._xyzMoveData.modeMatrx3D.appendScale(this._xyzMoveData.scaleX, this._xyzMoveData.scaleY, this._xyzMoveData.scaleY);
-            this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationX, Vector3D.X_AXIS);
-            this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationY, Vector3D.Y_AXIS);
-            this._xyzMoveData.modeMatrx3D.appendRotation(this._xyzMoveData.rotationZ, Vector3D.Z_AXIS);
-            this._xyzMoveData.modeMatrx3D.appendTranslation(this._xyzMoveData.x, this._xyzMoveData.y, this._xyzMoveData.z)
-         
+            this._xyzMoveData.changeModelMatrix3d();
  
         }
 
@@ -115,7 +107,7 @@
         }
         private upChange(): void {
             if (this.xyzMoveData) {
-                this.xyzMoveData.upChangeToAll()
+                this.xyzMoveData.upRootMatrix3DToItem()
                 this.xyzMoveData.dataUpDate && this.xyzMoveData.dataUpDate();
     
             }

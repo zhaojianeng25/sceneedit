@@ -339,7 +339,17 @@
             b[8] = this.m[10];
         }
 
-
+        public identityScale(): void {
+      
+            var M: Matrix3D = new Matrix3D
+            var ro: Vector3D = this.toEulerAngles();
+            M.appendRotation(ro.x * 180 / Math.PI, Vector3D.X_AXIS);
+            M.appendRotation(ro.y * 180 / Math.PI, Vector3D.Y_AXIS);
+            M.appendRotation(ro.z * 180 / Math.PI, Vector3D.Z_AXIS);
+            M.appendTranslation(this.position.x,this.position.y, this.position.z)
+            this.m = M.m;
+         
+        }
         public identityPostion(): void {
             this.m[12] = 0
             this.m[13] = 0

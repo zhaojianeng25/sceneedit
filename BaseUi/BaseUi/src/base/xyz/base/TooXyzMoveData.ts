@@ -4,7 +4,7 @@
     import Display3D = Pan3d.Display3D
 
 
-    export class TooXyzPosData extends Object3D {
+    export class TooXyzPosData  {
         public id: number;
         public type: number;
         public oldx: number;
@@ -17,7 +17,31 @@
         public oldscale_y: number = 1;
         public oldscale_z: number = 1;
 
- 
+        public x: number;
+        public y: number;
+        public z: number;
+
+        public scaleX: number;
+        public scaleY: number;
+        public scaleZ: number;
+
+        public rotationX: number;
+        public rotationY: number;
+        public rotationZ: number;
+
+
+        public changeModelMatrix3d(): void {
+
+            this.updateMatrix()
+        }
+        public updateMatrix(): void {
+            this.modeMatrx3D = new Matrix3D;
+            this.modeMatrx3D.appendScale(this.scaleX, this.scaleY, this.scaleZ);
+            this.modeMatrx3D.appendRotation(this.rotationX, Vector3D.X_AXIS);
+            this.modeMatrx3D.appendRotation(this.rotationY, Vector3D.Y_AXIS);
+            this.modeMatrx3D.appendRotation(this.rotationZ, Vector3D.Z_AXIS);
+            this.modeMatrx3D.appendTranslation(this.x, this.y, this.z)
+        }
 
         public modeMatrx3D: Matrix3D
         public dataItem: Array<TooXyzPosData>//复制出来胡数据
@@ -25,6 +49,8 @@
  
         public dataChangeFun: Function
         public dataUpDate: Function
+
+   
 
         public static getTemapXyzPosData(_id: number, _x: number, _y: number, _z: number): TooXyzPosData {
             var tempXyz: TooXyzPosData = new TooXyzPosData()
@@ -35,33 +61,27 @@
             tempXyz.type = 1
             return tempXyz;
         }
-        public upChangeToAll(): void {
+  
+        public upRootMatrix3DToItem(): void {
+            var inM: Matrix3D = this.modeMatrx3D.clone();
+            inM.invert();
             for (var i: number = 0; i < this.modelItem.length; i++) {
                 var M: Matrix3D = this.modeMatrx3D.clone();
                 M.prepend(this.dataItem[i].modeMatrx3D);
-                this.modelItem[i].x = M.position.x;
-                this.modelItem[i].y = M.position.y;
-                this.modelItem[i].z = M.position.z;
-
-                var ro: Vector3D = M.toEulerAngles();
-                this.modelItem[i].rotationX = ro.x * 180 / Math.PI;
-                this.modelItem[i].rotationY = ro.y * 180 / Math.PI;
-                this.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
+                this.modelItem[i].posMatrix.m = M.m;
+                this.dataUpDate();
             }
-            
         }
 
 
         public static getBase($arr: Array<Display3D>, isCenten: boolean = false): TooXyzPosData {
             var baseXyz: TooXyzPosData = new TooXyzPosData()
+            baseXyz.scaleX = 1;
+            baseXyz.scaleY = 1;
+            baseXyz.scaleZ = 1;
             baseXyz.dataItem = []
             baseXyz.modelItem = []
-            //baseXyz.x = 0
-            //baseXyz.y = 0
-            //baseXyz.z = 0
-            //baseXyz.rotationX =0
-            //baseXyz.rotationY =0
-            //baseXyz.rotationZ = 0
+
             if (isCenten) { //所有对象中间
                 for (var i: number = 0; i < $arr.length; i++) {
                     baseXyz.x += $arr[i].x
@@ -92,19 +112,13 @@
 
             baseXyz.updateMatrix();
 
- 
+            var inM: Matrix3D = baseXyz.modeMatrx3D.clone();
+            inM.invert()
 
             for (var j: number = 0; j < $arr.length; j++) {
-       
-               // var m: Matrix3D = $arr[j].posMatrix.clone();
                 var tempXyz: TooXyzPosData = new TooXyzPosData;
                 tempXyz.modeMatrx3D = $arr[j].posMatrix.clone(); //存放相对
-                var inM: Matrix3D = baseXyz.posMatrix.clone();
-                inM.invert()
                 tempXyz.modeMatrx3D.prepend(inM)
- 
-           
-                
 
                 baseXyz.dataItem.push(tempXyz)
                 baseXyz.modelItem.push($arr[j])

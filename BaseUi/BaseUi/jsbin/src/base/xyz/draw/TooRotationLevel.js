@@ -146,6 +146,7 @@ var xyz;
             if (this.parent.xyzMoveData) {
                 this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
             }
+            this.posMatrix.identityScale();
             this._roundA.posMatrix = this.posMatrix.clone();
             this._roundB.posMatrix = this.posMatrix.clone();
             this._roundB.posMatrix.prependRotation(90, Vector3D.Z_AXIS);

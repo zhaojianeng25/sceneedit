@@ -187,8 +187,8 @@
             if (this.parent.xyzMoveData) {
                 this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
             }
-
-
+            this.posMatrix.identityScale()
+ 
             this._roundA.posMatrix = this.posMatrix.clone();
  
 

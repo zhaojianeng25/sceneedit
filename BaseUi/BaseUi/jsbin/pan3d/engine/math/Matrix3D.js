@@ -277,6 +277,15 @@ var Pan3d;
             b[7] = this.m[9];
             b[8] = this.m[10];
         };
+        Matrix3D.prototype.identityScale = function () {
+            var M = new Matrix3D;
+            var ro = this.toEulerAngles();
+            M.appendRotation(ro.x * 180 / Math.PI, Pan3d.Vector3D.X_AXIS);
+            M.appendRotation(ro.y * 180 / Math.PI, Pan3d.Vector3D.Y_AXIS);
+            M.appendRotation(ro.z * 180 / Math.PI, Pan3d.Vector3D.Z_AXIS);
+            M.appendTranslation(this.position.x, this.position.y, this.position.z);
+            this.m = M.m;
+        };
         Matrix3D.prototype.identityPostion = function () {
             this.m[12] = 0;
             this.m[13] = 0;
