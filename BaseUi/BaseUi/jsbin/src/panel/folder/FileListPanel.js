@@ -229,8 +229,20 @@ var filelist;
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
+        Object.defineProperty(FileListPanel.prototype, "lastfileDonwInfo", {
+            get: function () {
+                return this._lastfileDonwInfo;
+            },
+            set: function (value) {
+                console.log(value);
+                this._lastfileDonwInfo = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         FileListPanel.prototype.fileMouseDown = function (evt) {
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
+            console.log(this.lastfileDonwInfo);
             if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
                 console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer());
                 if (this.lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000)) {
@@ -244,6 +256,7 @@ var filelist;
             else {
                 this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
             }
+            console.log(this.lastfileDonwInfo);
             this.makeDragData(evt);
         };
         FileListPanel.prototype.makeDragData = function (evt) {
@@ -279,6 +292,7 @@ var filelist;
         };
         FileListPanel.prototype.stageMouseMove = function (evt) {
             this.lastfileDonwInfo = null;
+            console.log("移动了");
         };
         FileListPanel.prototype.fileDuboclik = function (evt) {
             var vo = this.getItemVoByUi(evt.target);
@@ -418,6 +432,7 @@ var filelist;
             var menuA = new Array();
             menuA.push(new MenuListData("删除文件", "21"));
             menuA.push(new MenuListData("重命名", "22"));
+            menuA.push(new MenuListData("下载文件", "23"));
             temp.menuXmlItem = menuA;
             temp.info = {};
             temp.info.bfun = function (value, evt) { _this.menuBfun(value, evt); };
@@ -459,9 +474,23 @@ var filelist;
                 case "22":
                     this.changeFileName();
                     break;
+                case "23":
+                    this.downFile();
+                    break;
                 default:
                     console.log("没处理对象", value.key);
                     break;
+            }
+        };
+        FileListPanel.prototype.downFile = function () {
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var $vo = this._uiItem[i];
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.fileListMeshVo.fileXmlVo.data.select) {
+                        var basePath = $vo.fileListMeshVo.fileXmlVo.data.path;
+                        window.open(Scene_data.ossRoot + basePath);
+                    }
+                }
             }
         };
         FileListPanel.prototype.changeFileName = function () {

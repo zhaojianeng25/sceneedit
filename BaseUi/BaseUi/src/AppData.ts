@@ -10,7 +10,15 @@ class AppData extends Pan3d.GameStart {
 
     public static mapOpenUrl: string
 
-
+    public static getPerentPath(value: string): string {
+        var idex: number = value.lastIndexOf("/")
+        if (idex != -1) {
+            value = value.substr(0, idex + 1)
+        } else {
+            value = ""
+        }
+        return value
+    }
 
     public init(): void {
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";

@@ -362,6 +362,7 @@ var maineditor;
             var menuA = new Array();
             menuA.push(new MenuListData("删除文件", "1"));
             menuA.push(new MenuListData("重命名", "2"));
+            menuA.push(new MenuListData("查找文件", "3"));
             temp.menuXmlItem = menuA;
             temp.info = {};
             temp.info.bfun = function (value, evt) { _this.menuBfun(value, evt); };
@@ -378,6 +379,12 @@ var maineditor;
                     break;
                 case "2":
                     this.changeFileName(this.selectFolderMeshVo);
+                    break;
+                case "3":
+                    console.log(this.selectFolderMeshVo.folderMeshVo.ossListFile.url);
+                    var pathurl = Pan3d.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url;
+                    pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "");
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), AppData.getPerentPath(pathurl));
                     break;
                 default:
                     break;

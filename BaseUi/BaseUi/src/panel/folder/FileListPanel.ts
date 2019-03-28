@@ -291,15 +291,19 @@
             super.update(t);
 
         }
-        private lastfileDonwInfo: any;
+        private _lastfileDonwInfo: any;
+        private set lastfileDonwInfo(value) {
+            console.log(value)
+            this._lastfileDonwInfo = value
+        }
+        private get lastfileDonwInfo(): any {
+            return this._lastfileDonwInfo
+        }
  
         protected fileMouseDown(evt: InteractiveEvent): void {
-    
-       
+
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-
-         
-
+            console.log(this.lastfileDonwInfo)
                 if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
                     console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer())
                     if (this.lastfileDonwInfo.tm >( Pan3d.TimeUtil.getTimer()-1000)) {
@@ -312,9 +316,11 @@
                     this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
                 }
          
+            console.log(this.lastfileDonwInfo)
 
             this.makeDragData(evt);
         }
+
         private makeDragData(evt: InteractiveEvent): void {
             var event: MouseEvent = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y })
             var vo: FileListName = this.getItemVoByUi(evt.target)
@@ -355,6 +361,8 @@
         protected stageMouseMove(evt: InteractiveEvent): void {
        
             this.lastfileDonwInfo = null
+            console.log("移动了")
+
 
         }
         private fileDuboclik(evt: InteractiveEvent): void {
@@ -531,6 +539,7 @@
             var menuA: Array<MenuListData> = new Array();
             menuA.push(new MenuListData("删除文件", "21"));
             menuA.push(new MenuListData("重命名", "22"));
+            menuA.push(new MenuListData("下载文件", "23"));
 
             temp.menuXmlItem = menuA;
             temp.info = {};
@@ -579,11 +588,28 @@
                     break
                 case "22":
                     this.changeFileName()
-       
+
+                    break
+                case "23":
+                    this.downFile()
+
                     break
                 default:
                     console.log("没处理对象",value.key)
                     break
+            }
+        }
+        public downFile(): void {
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var $vo: FileListName = <FileListName>this._uiItem[i]
+                if ($vo.fileListMeshVo && $vo.ui) {
+                    if ($vo.fileListMeshVo.fileXmlVo.data.select) {
+                        var basePath: string = $vo.fileListMeshVo.fileXmlVo.data.path
+
+                        window.open(Scene_data.ossRoot + basePath) 
+                        
+                    }
+                }
             }
         }
         public changeFileName(): void {

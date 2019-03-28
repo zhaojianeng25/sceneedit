@@ -16,6 +16,16 @@ var AppData = /** @class */ (function (_super) {
     function AppData() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    AppData.getPerentPath = function (value) {
+        var idex = value.lastIndexOf("/");
+        if (idex != -1) {
+            value = value.substr(0, idex + 1);
+        }
+        else {
+            value = "";
+        }
+        return value;
+    };
     AppData.prototype.init = function () {
         var _this = this;
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";

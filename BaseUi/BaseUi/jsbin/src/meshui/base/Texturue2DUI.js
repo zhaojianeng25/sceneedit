@@ -41,7 +41,7 @@ var prop;
         Texturue2DUI.prototype.searchFileByPath = function (value) {
             var pathurl = Pan3d.Scene_data.fileRoot + value;
             pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "");
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), this.getPerentPath(pathurl));
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), AppData.getPerentPath(pathurl));
         };
         Texturue2DUI.prototype.getPerentPath = function (value) {
             var idex = value.lastIndexOf("/");
