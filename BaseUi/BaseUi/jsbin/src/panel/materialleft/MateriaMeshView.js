@@ -26,9 +26,10 @@ var materialleft;
             var ary = [
                 {
                     Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
-                        { name: "普通模式", type: 0 },
-                        { name: "透明模式", type: 1 },
-                        { name: "叠加模式", type: 2 }
+                        { name: "无模式", type: 0 },
+                        { name: "普通模式", type: 1 },
+                        { name: "透明模式", type: 2 },
+                        { name: "叠加模式", type: 3 }
                     ],
                     Category: "设置"
                 },

@@ -96,7 +96,7 @@ var ossfolder;
     var OssFolderPanel = /** @class */ (function (_super) {
         __extends(OssFolderPanel, _super);
         function OssFolderPanel() {
-            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 40), 48) || this;
+            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 22), 48) || this;
             _this.folderCellHeight = 20;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
