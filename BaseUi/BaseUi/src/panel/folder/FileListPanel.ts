@@ -293,7 +293,7 @@
         }
         private _lastfileDonwInfo: any;
         private set lastfileDonwInfo(value) {
-            console.log(value)
+     
             this._lastfileDonwInfo = value
         }
         private get lastfileDonwInfo(): any {
@@ -361,7 +361,7 @@
         protected stageMouseMove(evt: InteractiveEvent): void {
        
             this.lastfileDonwInfo = null
-            console.log("移动了")
+            //console.log("移动了")
 
 
         }

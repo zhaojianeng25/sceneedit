@@ -234,7 +234,6 @@ var filelist;
                 return this._lastfileDonwInfo;
             },
             set: function (value) {
-                console.log(value);
                 this._lastfileDonwInfo = value;
             },
             enumerable: true,
@@ -292,7 +291,7 @@ var filelist;
         };
         FileListPanel.prototype.stageMouseMove = function (evt) {
             this.lastfileDonwInfo = null;
-            console.log("移动了");
+            //console.log("移动了")
         };
         FileListPanel.prototype.fileDuboclik = function (evt) {
             var vo = this.getItemVoByUi(evt.target);

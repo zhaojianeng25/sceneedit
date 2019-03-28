@@ -664,11 +664,11 @@
             return $item
 
         }
-      
+ 
  
         public inputPrefabToScene(temp: any): void {
 
-
+         
             var $url: string = temp.url
  
 
@@ -695,7 +695,7 @@
             }
  
 
-            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+            MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
  
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
@@ -751,14 +751,18 @@
 
                     this.isCompelet = true;
                     this.refrishFolder();
-                    this.resize()
- 
+                    this.resize();
+
+                 
                 
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), this._sceneProjectVo)
+               
 
                 });
 
+           
         }
+  
 
     
         public selectModelEvet(tempItem: Array<FolderMeshVo>, isshift: boolean = false): void {

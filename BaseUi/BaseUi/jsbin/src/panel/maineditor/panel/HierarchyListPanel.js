@@ -565,7 +565,7 @@ var maineditor;
                 $vo.dis.rotationY = temp.rotation.y;
                 $vo.dis.rotationZ = temp.rotation.z;
             }
-            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+            maineditor.MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
             $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;

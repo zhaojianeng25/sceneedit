@@ -332,6 +332,7 @@
             if (this._displaySpriteList.indexOf($display) != -1) {
                 return;
             }
+            $display._scene = this
             $display.addStage();
             for (var i: number = 0; i < this._displaySpriteList.length; i++) {
                 if (this._displaySpriteList[i].materialUrl == $display.materialUrl) {

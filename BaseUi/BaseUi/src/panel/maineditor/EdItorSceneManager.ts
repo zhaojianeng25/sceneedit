@@ -1,5 +1,5 @@
 ﻿module maineditor {
-    import SceneManager = Pan3d.SceneManager
+    import SceneManager = layapan.LayaOverride2dSceneManager
     import Scene_data = Pan3d.Scene_data
     import TimeUtil = Pan3d.TimeUtil
     import MathClass = Pan3d.MathClass
@@ -79,11 +79,13 @@
             Scene_data.viewMatrx3D = this.viewMatrx3D;
             MathClass.updateVp()
  
-   
-            Scene_data.context3D._contextSetTest.clear();
+  
             if (isNaN(this._time)) {
                 this._time = TimeUtil.getTimer();
             }
+            Scene_data.context3D._contextSetTest.clear();
+            this.particleManager.updateTime();
+            this.skillManager.update()
             if (this._ready) {
                 Scene_data.context3D.cullFaceBack(true);
                 Scene_data.context3D.setWriteDepth(true);
@@ -92,12 +94,20 @@
                 this.updateSpriteDisplay();
                 this.updateMovieDisplay();
                 Scene_data.context3D.setWriteDepth(false);
+
+                Pan3d.Scene_data.context3D.setWriteDepth(false);
+                this.particleManager.update();
             }
+
+
+
             Scene_data.cam3D = lastCam3D;
             Scene_data.focus3D = lastfocus3D;
             Scene_data.viewMatrx3D = lastViewMatrx3D;
-        }
 
+       
+        }
+     
         public getGroundPos($mouse: Vector2D): Vector3D {
             let $scene = this
 
@@ -110,6 +120,32 @@
 
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
 
+        }
+
+        public playLyf($url: string, $pos: Pan3d.Vector3D, $r: number = 0): void {
+
+            this.groupDataManager.scene = this
+            this.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + $url, (groupRes: Pan3d.GroupRes) => {
+                for (var i: number = 0; i < groupRes.dataAry.length; i++) {
+                    var item: Pan3d.GroupItem = groupRes.dataAry[i];
+                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle: Pan3d.CombineParticle = this.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
+                        $particle.x = $pos.x;
+                        $particle.y = $pos.y;
+                        $particle.z = $pos.z;
+                        $particle.rotationY = $r;
+                        //$particle.scaleX = 0.1
+                        //$particle.scaleY = 0.1
+                        //$particle.scaleZ = 0.1
+
+                        this.particleManager.addParticle($particle);
+                      //  $particle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.onPlayCom, this);
+ 
+                    } else {
+                        console.log("播放的不是单纯特效");
+                    }
+                }
+            })
         }
 
     }

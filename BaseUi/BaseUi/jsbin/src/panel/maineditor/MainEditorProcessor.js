@@ -32,6 +32,7 @@ var maineditor;
         MainEditorEvent.INIT_MAIN_EDITOR_PANEL = "INIT_MAIN_EDITOR_PANEL";
         MainEditorEvent.SHOW_MAIN_EDITOR_PANEL = "SHOW_MAIN_EDITOR_PANEL";
         MainEditorEvent.INPUT_PREFAB_TO_SCENE = "INPUT_PREFAB_TO_SCENE";
+        MainEditorEvent.INPUT_LYF_TO_SCENE = "INPUT_LYF_TO_SCENE";
         MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER = "SAVE_SCENE_MAP_TO_SEVER";
         MainEditorEvent.CLEAR_SCENE_MAP_ALL = "CLEAR_SCENE_MAP_ALL";
         MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW = "SHOW_SCENE_POJECT_MESH_VIEW";
@@ -86,6 +87,9 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data);
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.INPUT_LYF_TO_SCENE) {
+                    MainEditorProcessor.edItorSceneManager.playLyf($mainEditorEvent.data.url, new Vector3D());
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
                     this.showScnePojectView($mainEditorEvent.data);
@@ -238,6 +242,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
+                new MainEditorEvent(MainEditorEvent.INPUT_LYF_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),
                 new MainEditorEvent(MainEditorEvent.CLEAR_SCENE_MAP_ALL),

@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var SceneManager = Pan3d.SceneManager;
+    var SceneManager = layapan.LayaOverride2dSceneManager;
     var Scene_data = Pan3d.Scene_data;
     var TimeUtil = Pan3d.TimeUtil;
     var MathClass = Pan3d.MathClass;
@@ -72,10 +72,12 @@ var maineditor;
             Scene_data.focus3D = this.focus3D;
             Scene_data.viewMatrx3D = this.viewMatrx3D;
             MathClass.updateVp();
-            Scene_data.context3D._contextSetTest.clear();
             if (isNaN(this._time)) {
                 this._time = TimeUtil.getTimer();
             }
+            Scene_data.context3D._contextSetTest.clear();
+            this.particleManager.updateTime();
+            this.skillManager.update();
             if (this._ready) {
                 Scene_data.context3D.cullFaceBack(true);
                 Scene_data.context3D.setWriteDepth(true);
@@ -84,6 +86,8 @@ var maineditor;
                 this.updateSpriteDisplay();
                 this.updateMovieDisplay();
                 Scene_data.context3D.setWriteDepth(false);
+                Pan3d.Scene_data.context3D.setWriteDepth(false);
+                this.particleManager.update();
             }
             Scene_data.cam3D = lastCam3D;
             Scene_data.focus3D = lastfocus3D;
@@ -97,6 +101,31 @@ var maineditor;
             triItem.push(new Vector3D(-100, 0, 100));
             triItem.push(new Vector3D(+100, 0, 100));
             return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
+        };
+        EdItorSceneManager.prototype.playLyf = function ($url, $pos, $r) {
+            var _this = this;
+            if ($r === void 0) { $r = 0; }
+            this.groupDataManager.scene = this;
+            this.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + $url, function (groupRes) {
+                for (var i = 0; i < groupRes.dataAry.length; i++) {
+                    var item = groupRes.dataAry[i];
+                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle = _this.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
+                        $particle.x = $pos.x;
+                        $particle.y = $pos.y;
+                        $particle.z = $pos.z;
+                        $particle.rotationY = $r;
+                        //$particle.scaleX = 0.1
+                        //$particle.scaleY = 0.1
+                        //$particle.scaleZ = 0.1
+                        _this.particleManager.addParticle($particle);
+                        //  $particle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.onPlayCom, this);
+                    }
+                    else {
+                        console.log("播放的不是单纯特效");
+                    }
+                }
+            });
         };
         return EdItorSceneManager;
     }(SceneManager));
