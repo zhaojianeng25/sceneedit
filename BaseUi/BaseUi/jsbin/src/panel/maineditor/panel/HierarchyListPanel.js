@@ -538,7 +538,7 @@ var maineditor;
                 $vo.dis.rotationX = childItem[i].rotationX;
                 $vo.dis.rotationY = childItem[i].rotationY;
                 $vo.dis.rotationZ = childItem[i].rotationZ;
-                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+                maineditor.MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo);
             }

@@ -71,6 +71,9 @@ var left;
         MaterialModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             var $materialTree = $material;
+            Scene_data.context3D.setBlendParticleFactors($materialTree.blendMode);
+            Scene_data.context3D.setDepthTest($materialTree.zbuff);
+            Scene_data.context3D.setWriteDepth($materialTree.writeZbuffer);
             if ($materialTree.hasTime) {
                 var timeLen = ($materialTree.timeValue.x * 1000);
                 var t = (TimeUtil.getTimer() - this.time) % timeLen; //时间间隔

@@ -49,6 +49,8 @@ var pack;
                         $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y);
                     }
                     $materialTree.blendMode = $temp.info.blendMode;
+                    $materialTree.writeZbuffer = $temp.info.writeZbuffer;
+                    $materialTree.zbuff = $temp.info.zbuff;
                     $materialTree.useLightUv = $buildShader.paramAry[2];
                     $materialTree.texList = _this.makeTextList($temp.info.texList);
                     $materialTree.constList = _this.makeConstList($temp.info.constList);

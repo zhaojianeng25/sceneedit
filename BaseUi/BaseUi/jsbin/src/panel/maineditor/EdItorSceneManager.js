@@ -32,6 +32,7 @@ var maineditor;
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(20 / 255, 20 / 255, 20 / 255, 1.0);
+            // gl.clearColor(0,0,0,0);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
             gl.enable(gl.DEPTH_TEST);

@@ -26,14 +26,14 @@ var materialleft;
             var ary = [
                 {
                     Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
-                        { name: "无模式", type: 0 },
-                        { name: "普通模式", type: 1 },
-                        { name: "透明模式", type: 2 },
-                        { name: "叠加模式", type: 3 }
+                        { name: "普通模式", type: 0 },
+                        { name: "透明模式", type: 1 },
+                        { name: "叠加模式", type: 2 }
                     ],
                     Category: "设置"
                 },
-                { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "zbuff", target: this, Category: "设置" },
+                { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "testzbuff", target: this, Category: "设置" },
+                { Type: ReflectionData.CheckBox, Label: "写入深度:", FunKey: "writeZbuffer", target: this, Category: "设置" },
                 { Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this, Category: "设置" },
                 { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
@@ -51,12 +51,22 @@ var materialleft;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MateriaMeshView.prototype, "zbuff", {
+        Object.defineProperty(MateriaMeshView.prototype, "testzbuff", {
             get: function () {
                 return this._materialTree.zbuff;
             },
             set: function (value) {
                 this._materialTree.zbuff = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MateriaMeshView.prototype, "writeZbuffer", {
+            get: function () {
+                return this._materialTree.writeZbuffer;
+            },
+            set: function (value) {
+                this._materialTree.writeZbuffer = value;
             },
             enumerable: true,
             configurable: true

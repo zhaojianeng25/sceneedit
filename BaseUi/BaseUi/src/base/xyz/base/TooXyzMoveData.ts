@@ -68,6 +68,17 @@
             for (var i: number = 0; i < this.modelItem.length; i++) {
                 var M: Matrix3D = this.modeMatrx3D.clone();
                 M.prepend(this.dataItem[i].modeMatrx3D);
+
+                this.modelItem[i].x = M.position.x
+                this.modelItem[i].y = M.position.y
+                this.modelItem[i].z = M.position.z
+
+                var outVec3d: Vector3D = M.toEulerAngles();
+                outVec3d.scaleBy(180 / Math.PI)
+                this.modelItem[i].rotationX = outVec3d.x
+                this.modelItem[i].rotationY = outVec3d.y
+                this.modelItem[i].rotationZ = outVec3d.z
+
                 this.modelItem[i].posMatrix.m = M.m;
                 this.dataUpDate();
             }

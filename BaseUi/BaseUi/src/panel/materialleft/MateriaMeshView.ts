@@ -20,15 +20,16 @@
                 [
                     {
                         Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
-                            { name: "无模式", type: 0 },
-                            { name: "普通模式", type: 1 },
-                            { name: "透明模式", type: 2 },
-                            { name: "叠加模式", type: 3 }],
+             
+                            { name: "普通模式", type: 0 },
+                            { name: "透明模式", type: 1 },
+                            { name: "叠加模式", type: 2 }],
                         Category: "设置"
                     },
 
              
-                    { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "zbuff", target: this, Category: "设置" },
+                    { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "testzbuff", target: this, Category: "设置" },
+                    { Type: ReflectionData.CheckBox, Label: "写入深度:", FunKey: "writeZbuffer", target: this, Category: "设置" },
                     {  Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this,   Category: "设置"  },
 
                     { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
@@ -44,11 +45,19 @@
         public set blendMode(value: number) {
              this._materialTree.blendMode = value
         }
-        public get zbuff(): boolean {
+        public get testzbuff(): boolean {
             return this._materialTree.zbuff
         }
-        public set zbuff(value: boolean) {
+        public set testzbuff(value: boolean) {
             this._materialTree.zbuff = value
+
+        }
+
+        public get writeZbuffer(): boolean {
+            return this._materialTree.writeZbuffer;
+        }
+        public set writeZbuffer(value: boolean) {
+            this._materialTree.writeZbuffer = value;
 
         }
         public get pointlight(): boolean {

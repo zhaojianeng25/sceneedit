@@ -62,6 +62,9 @@
                         }
             
                         $materialTree.blendMode = $temp.info.blendMode;
+                        $materialTree.writeZbuffer = $temp.info.writeZbuffer;
+                        $materialTree.zbuff = $temp.info.zbuff;
+ 
                         $materialTree.useLightUv = $buildShader.paramAry[2]
                         $materialTree.texList = this.makeTextList($temp.info.texList);
                         $materialTree.constList = this.makeConstList($temp.info.constList);

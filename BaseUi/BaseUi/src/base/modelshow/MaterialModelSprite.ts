@@ -65,6 +65,11 @@ module left {
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             var $materialTree: MaterialTree = <MaterialTree>$material
+
+            Scene_data.context3D.setBlendParticleFactors($materialTree.blendMode);
+            Scene_data.context3D.setDepthTest($materialTree.zbuff);
+            Scene_data.context3D.setWriteDepth($materialTree.writeZbuffer);
+ 
             if ($materialTree.hasTime) {
                 var timeLen: number = ($materialTree.timeValue.x * 1000);
                 var t: number = (TimeUtil.getTimer() - this.time) % timeLen; //时间间隔

@@ -295,7 +295,9 @@
             obj.useNormal = this.baseMaterialTree.useNormal
             obj.hasTime = this.baseMaterialTree.hasTime
             obj.timeValue = this.baseMaterialTree.timeValue
-            obj.blendMode = this.baseMaterialTree.blendMode
+            obj.writeZbuffer = this.baseMaterialTree.writeZbuffer
+            obj.zbuff = this.baseMaterialTree.zbuff
+
             obj.backCull = this.baseMaterialTree.backCull
 
             obj.texList = this.baseMaterialTree.texList
