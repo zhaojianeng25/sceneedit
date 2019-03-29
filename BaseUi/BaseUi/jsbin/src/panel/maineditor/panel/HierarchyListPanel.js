@@ -240,6 +240,9 @@ var maineditor;
                     case maineditor.HierarchyNodeType.Light:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_point16"], 30, 5, 26, 32);
                         break;
+                    case maineditor.HierarchyNodeType.Particle:
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["particle_16x"], 30, 5, 26, 32);
+                        break;
                     case maineditor.HierarchyNodeType.Folder:
                         if (this.folderMeshVo.ossListFile.isOpen) {
                             this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_FolderOpen_dark"], 15, 2, 18, 16);
@@ -311,6 +314,7 @@ var maineditor;
             item.push("profeb_16");
             item.push("icon_point16");
             item.push("water_plane16");
+            item.push("particle_16x");
             var finishNum = 0;
             for (var i = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], function () {
@@ -523,9 +527,20 @@ var maineditor;
                 ;
                 $vo.cellPos = new Vector2D();
                 this.showTemp($vo);
-                var $mode = new ModelSprite();
-                $mode.setPreFabUrl(childItem[i].url);
-                $vo.dis = $mode;
+                switch ($vo.ossListFile.type) {
+                    case maineditor.HierarchyNodeType.Prefab:
+                        var prefabSprite = new ModelSprite();
+                        prefabSprite.setPreFabUrl(childItem[i].url);
+                        $vo.dis = prefabSprite;
+                        break;
+                    case maineditor.HierarchyNodeType.Particle:
+                        var lyfSprite = new maineditor.LyfSpriteDisplay();
+                        lyfSprite.addLyfByUrl(childItem[i].url);
+                        $vo.dis = lyfSprite;
+                        break;
+                    default:
+                        break;
+                }
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
@@ -546,29 +561,20 @@ var maineditor;
             var lyfSprite = new maineditor.LyfSpriteDisplay();
             lyfSprite.addLyfByUrl(temp.url);
             maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(lyfSprite);
-            /*
-
-            var $vo: FolderMeshVo = new FolderMeshVo;
+            var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
-      
-            $vo.dis = lyfSprite
-  
-            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
-
+            $vo.dis = lyfSprite;
+            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
-            $vo.ossListFile.type = HierarchyNodeType.Prefab;
+            $vo.ossListFile.type = maineditor.HierarchyNodeType.Particle;
             $vo.ossListFile.treeSelect = false;
             $vo.cellPos = new Vector2D();
-
             this.showTemp($vo);
-
-            EditorModel.getInstance().fileItem.push($vo);
+            maineditor.EditorModel.getInstance().fileItem.push($vo);
             this.isCompelet = true;
             this.refrishFolder();
-            this.resize()
-
-            */
+            this.resize();
         };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var $url = temp.url;

@@ -23,6 +23,9 @@ var Pan3d;
             return _this;
             //this.lightMapTexture = TextureManager.getInstance().defaultLightMap;
         }
+        Display3DSprite.prototype.getSocket = function (socketName, resultMatrix) {
+            resultMatrix = this.posMatrix.clone();
+        };
         Object.defineProperty(Display3DSprite.prototype, "aabbVect", {
             get: function () {
                 if (!this._aabbVect) {

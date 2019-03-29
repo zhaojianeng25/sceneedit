@@ -41,7 +41,14 @@ var xyz;
                 this.modelItem[i].rotationX = outVec3d.x;
                 this.modelItem[i].rotationY = outVec3d.y;
                 this.modelItem[i].rotationZ = outVec3d.z;
+                //this.modelItem[i].scaleX = this.scaleX * this.dataItem[i].scaleX;
+                //this.modelItem[i].scaleY = this.scaleY * this.dataItem[i].scaleY;
+                //this.modelItem[i].scaleZ = this.scaleZ * this.dataItem[i].scaleZ;
+                this.modelItem[i].scaleX = this.scaleX;
+                this.modelItem[i].scaleY = this.scaleY;
+                this.modelItem[i].scaleZ = this.scaleZ;
                 this.modelItem[i].posMatrix.m = M.m;
+                console.log(M.m);
                 this.dataUpDate();
             }
         };
@@ -74,6 +81,9 @@ var xyz;
                 baseXyz.x = $arr[0].x;
                 baseXyz.y = $arr[0].y;
                 baseXyz.z = $arr[0].z;
+                baseXyz.scaleX = $arr[0].scaleX;
+                baseXyz.scaleY = $arr[0].scaleX;
+                baseXyz.scaleZ = $arr[0].scaleZ;
                 baseXyz.rotationX = $arr[0].rotationX;
                 baseXyz.rotationY = $arr[0].rotationY;
                 baseXyz.rotationZ = $arr[0].rotationZ;
@@ -85,6 +95,9 @@ var xyz;
                 var tempXyz = new TooXyzPosData;
                 tempXyz.modeMatrx3D = $arr[j].posMatrix.clone(); //存放相对
                 tempXyz.modeMatrx3D.prepend(inM);
+                tempXyz.scaleX = $arr[j].scaleX;
+                tempXyz.scaleY = $arr[j].scaleY;
+                tempXyz.scaleZ = $arr[j].scaleZ;
                 baseXyz.dataItem.push(tempXyz);
                 baseXyz.modelItem.push($arr[j]);
             }

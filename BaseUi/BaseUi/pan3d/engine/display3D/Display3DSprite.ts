@@ -1,5 +1,5 @@
 ﻿module Pan3d {
-    export class Display3DSprite extends Display3D {
+    export class Display3DSprite extends Display3D implements IBind  {
 
         public isPerspective: boolean
         public name: string;
@@ -39,6 +39,10 @@
 
         public dynamic: boolean = false;
 
+        public getSocket(socketName: string, resultMatrix: Matrix3D): void {
+            resultMatrix = this.posMatrix.clone();
+        }
+ 
         constructor() {
             super();
 
