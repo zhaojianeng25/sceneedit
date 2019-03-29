@@ -89,7 +89,7 @@ var maineditor;
                     this._hierarchyListPanel.inputPrefabToScene($mainEditorEvent.data);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_LYF_TO_SCENE) {
-                    MainEditorProcessor.edItorSceneManager.playLyf($mainEditorEvent.data.url, new Vector3D());
+                    this._hierarchyListPanel.inputLyfToScene($mainEditorEvent.data);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
                     this.showScnePojectView($mainEditorEvent.data);

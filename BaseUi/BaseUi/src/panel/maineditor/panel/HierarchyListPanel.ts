@@ -142,9 +142,7 @@
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }
         }
-        public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
-            super.setMaterialVc($material, $mp)
-        }
+     
         private _prefab: PrefabStaticMesh;
         public get prefab(): PrefabStaticMesh {
             return this._prefab
@@ -243,7 +241,7 @@
         public ossListFile: OssListFile
         public childItem: Array<FolderMeshVo>
         public needDraw: boolean;
-        public dis: ModelSprite;
+        public dis: Display3D;
         public cellPos: Vector2D
 
         public constructor() {
@@ -533,7 +531,7 @@
                 vo.ossListFile.treeSelect = true
                 disItem.push(vo.dis)
 
-                selctprefab=  vo.dis.prefab
+                selctprefab =( <ModelSprite>vo.dis).prefab
             }
             var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
             this.showMeshView(data, selctprefab)
@@ -637,10 +635,11 @@
 
 
                 this.showTemp($vo);
- 
-                $vo.dis = new ModelSprite();
-                $vo.dis.setPreFabUrl(childItem[i].url)
 
+                var $mode = new ModelSprite();
+         
+                $mode.setPreFabUrl(childItem[i].url)
+                $vo.dis = $mode
 
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
@@ -654,7 +653,7 @@
                 $vo.dis.rotationZ = childItem[i].rotationZ;
 
 
-                MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
+                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
 
 
                 $vo.childItem = this.wirteItem(childItem[i].children);
@@ -664,7 +663,44 @@
             return $item
 
         }
+        public inputLyfToScene(temp: any): void {
+           // MainEditorProcessor.edItorSceneManager.playLyf(temp.url, new Vector3D())
  
+
+
+      
+
+      
+            var lyfSprite: LyfSpriteDisplay = new LyfSpriteDisplay();
+            lyfSprite.addLyfByUrl(temp.url)
+            MainEditorProcessor.edItorSceneManager.addDisplay(lyfSprite);
+
+
+            /*
+
+            var $vo: FolderMeshVo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+      
+            $vo.dis = lyfSprite
+  
+            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+
+            $vo.ossListFile.name = temp.name;
+            $vo.ossListFile.url = temp.url;
+            $vo.ossListFile.type = HierarchyNodeType.Prefab;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
+
+            this.showTemp($vo);
+
+            EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize()
+
+            */
+        }
+    
  
         public inputPrefabToScene(temp: any): void {
 
@@ -674,8 +710,12 @@
 
             var $vo: FolderMeshVo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
-            $vo.dis = new ModelSprite();
-            $vo.dis.setPreFabUrl($url)
+
+
+            var $mode = new ModelSprite();
+
+            $mode.setPreFabUrl($url)
+            $vo.dis = $mode
         
 
             if (temp.scale) {
@@ -693,9 +733,7 @@
                 $vo.dis.rotationY = temp.rotation.y;
                 $vo.dis.rotationZ = temp.rotation.z;
             }
- 
-
-            MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
+            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
  
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;

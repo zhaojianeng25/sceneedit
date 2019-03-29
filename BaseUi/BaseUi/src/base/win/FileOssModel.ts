@@ -20,6 +20,7 @@
         public static TXT: string = "txt";
         public static OBJS: string = "objs";
         public static MAP: string = "map";
+        public static LYF: string = "lyf";
 
 
 

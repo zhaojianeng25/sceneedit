@@ -98,10 +98,6 @@ var maineditor;
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }
         };
-        ModelSprite.prototype.setMaterialVc = function ($material, $mp) {
-            if ($mp === void 0) { $mp = null; }
-            _super.prototype.setMaterialVc.call(this, $material, $mp);
-        };
         Object.defineProperty(ModelSprite.prototype, "prefab", {
             get: function () {
                 return this._prefab;
@@ -527,8 +523,9 @@ var maineditor;
                 ;
                 $vo.cellPos = new Vector2D();
                 this.showTemp($vo);
-                $vo.dis = new ModelSprite();
-                $vo.dis.setPreFabUrl(childItem[i].url);
+                var $mode = new ModelSprite();
+                $mode.setPreFabUrl(childItem[i].url);
+                $vo.dis = $mode;
                 $vo.dis.x = childItem[i].x;
                 $vo.dis.y = childItem[i].y;
                 $vo.dis.z = childItem[i].z;
@@ -538,18 +535,48 @@ var maineditor;
                 $vo.dis.rotationX = childItem[i].rotationX;
                 $vo.dis.rotationY = childItem[i].rotationY;
                 $vo.dis.rotationZ = childItem[i].rotationZ;
-                maineditor.MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
+                maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
                 $vo.childItem = this.wirteItem(childItem[i].children);
                 $item.push($vo);
             }
             return $item;
         };
+        HierarchyListPanel.prototype.inputLyfToScene = function (temp) {
+            // MainEditorProcessor.edItorSceneManager.playLyf(temp.url, new Vector3D())
+            var lyfSprite = new maineditor.LyfSpriteDisplay();
+            lyfSprite.addLyfByUrl(temp.url);
+            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(lyfSprite);
+            /*
+
+            var $vo: FolderMeshVo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+      
+            $vo.dis = lyfSprite
+  
+            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+
+            $vo.ossListFile.name = temp.name;
+            $vo.ossListFile.url = temp.url;
+            $vo.ossListFile.type = HierarchyNodeType.Prefab;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
+
+            this.showTemp($vo);
+
+            EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize()
+
+            */
+        };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var $url = temp.url;
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
-            $vo.dis = new ModelSprite();
-            $vo.dis.setPreFabUrl($url);
+            var $mode = new ModelSprite();
+            $mode.setPreFabUrl($url);
+            $vo.dis = $mode;
             if (temp.scale) {
                 $vo.dis.x = temp.pos.x;
                 $vo.dis.y = temp.pos.y;
@@ -565,7 +592,7 @@ var maineditor;
                 $vo.dis.rotationY = temp.rotation.y;
                 $vo.dis.rotationZ = temp.rotation.z;
             }
-            maineditor.MainEditorProcessor.edItorSceneManager.addSpriteDisplay($vo.dis);
+            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
             $vo.ossListFile.type = maineditor.HierarchyNodeType.Prefab;

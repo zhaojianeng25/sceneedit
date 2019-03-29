@@ -43,6 +43,7 @@
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
+    <TypeScriptCompile Include="src\panel\maineditor\vo\LyfSpriteDisplay.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\LayaSceneBaseChar.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\LayaSceneChar.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\overridebase\LayaOverride2dEngine.ts" />
