@@ -52,6 +52,10 @@ module Pan3d {
             if (!this.isCanUseMouseEvent()) {
                 return
             }
+            if ($e.button == 2) {
+                return
+            }
+
             var evt: InteractiveEvent;
             var point: Vector2D = new Vector2D();
             if ($e instanceof MouseEvent) {

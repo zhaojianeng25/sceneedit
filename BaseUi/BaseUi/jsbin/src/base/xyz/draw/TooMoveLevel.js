@@ -146,9 +146,14 @@ var xyz;
             var line50 = 20;
             ;
             if (this.parent.xyzMoveData) {
-                this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
+                this.posMatrix.identity();
+                var perentM = this.parent.xyzMoveData.modeMatrx3D.clone();
+                var dis = Vector3D.distance(perentM.position, this._scene.cam3D);
+                dis = this._scene.cam3D.cameraMatrix.transformVector(perentM.position).z;
+                perentM.prependScale(dis / 80, dis / 80, dis / 80);
+                this.posMatrix.append(perentM);
             }
-            this.posMatrix.identityScale();
+            // this.posMatrix.identityScale()
             //this.modelItem[i].x = M.position.x;
             // this.modelItem[i].y = M.position.y;
             // this.modelItem[i].z = M.position.z;

@@ -5,12 +5,21 @@
     import Scene_data = Pan3d.Scene_data;
     import LabelTextFont = Pan3d.LabelTextFont
     import TextAlign = Pan3d.TextAlign
+    import MouseType = Pan3d.MouseType
 
 
     export class InputTextUi extends TextLabelUI{
 
         public constructor(w: number = 64, h: number = 64) {
             super(w, h);
+            this.onHtmlInputMouseDownFun = ($evt: MouseEvent) => { this.onHtmlInputMouseDown($evt) }
+        }
+        private onHtmlInputMouseDown($e: MouseEvent): void {
+            if ($e.target != this.chatHtmlInput) {
+                this.chatHtmlInput.hidden = true
+                document.removeEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+            } 
+  
         }
         protected initView(): void {
 
@@ -35,6 +44,7 @@
                 this.chatHtmlInput.style.color = "#000000";
                 document.body.appendChild(this.chatHtmlInput);
                 this.chatHtmlInput.addEventListener("change", (cevt: any) => { this.changeInputTxt(cevt) });
+    
             }
 
             this.chatHtmlInput.style.left = 0 + "px";
@@ -45,12 +55,11 @@
             this.chatHtmlInput.style.width = String(tw) + "px";
             this.chatHtmlInput.style.height = String(th) + "px";
             this.chatHtmlInput.value  = "99.99"
-
+            this.chatHtmlInput.hidden = true
          
         }
         
         private changeInputTxt(evt: any): void {
-
             var $agalStr: string = this.chatHtmlInput.value
             var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
             $reflectionEvet.data = $agalStr;
@@ -60,30 +69,31 @@
 
         public resize(): void {
             super.resize()
-         
-            
             this.chatHtmlInput.style.left = (this.textureContext.left + this.x-10) + "px";
             this.chatHtmlInput.style.top = (this.textureContext.top + this.y - 5) + "px";
-         
-
-            if (this.chatHtmlInput.value == "99") {
-                console.log("hre")
-            }
-           // console.log(this.chatHtmlInput.hidden)
+    
+      
         }
 
         public  set visible(value: boolean) {
-             this.chatHtmlInput.hidden = !value
+            //this.chatHtmlInput.hidden = !value
+            //this.chatHtmlInput.hidden = true
         }
         public set text(value: string) {
             LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
 
             this.chatHtmlInput.value = value
         }
+        private onHtmlInputMouseDownFun: any
         protected butClik(evt: InteractiveEvent): void {
-            console.log("clik")
-    
-           // this.addStageMoveEvets(evt)
+
+          
+
+            this.chatHtmlInput.hidden = false
+            setTimeout(() => { this.chatHtmlInput.focus(); }, 1)
+
+            document.addEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+ 
         }
         /*
         private mouseXY: Vector2D;

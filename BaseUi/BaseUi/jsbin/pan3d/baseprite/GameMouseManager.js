@@ -51,6 +51,9 @@ var Pan3d;
             if (!this.isCanUseMouseEvent()) {
                 return;
             }
+            if ($e.button == 2) {
+                return;
+            }
             var evt;
             var point = new Pan3d.Vector2D();
             if ($e instanceof MouseEvent) {

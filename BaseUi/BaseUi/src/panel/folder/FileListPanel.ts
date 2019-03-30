@@ -628,8 +628,12 @@
                         rect.y += 45;
                         rect.width = 60
                         rect.height = 20
+                        var nameStr: string = $vo.fileListMeshVo.fileXmlVo.data.name
+                        var receet: TextMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(nameStr,14)
+                        rect.width = receet.width  +20
+
                         var basePath: string = $vo.fileListMeshVo.fileXmlVo.data.path
-                        editscene.ChangeNameModel.getInstance().changeName(rect, $vo.fileListMeshVo.fileXmlVo.data.name, (value: string) => {
+                        editscene.ChangeNameModel.getInstance().changeName(rect, nameStr, (value: string) => {
    
                             if (value.length) {
                                 console.log("准备修改名字")
@@ -682,11 +686,18 @@
                 var $vo: FileListName = <FileListName>this._uiItem[i]
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
-                        pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
-                            this.refrishIndexGroup(this.rootFilePath)
-                            console.log("删除成功")
 
-                        })
+                        var truthBeTold = window.confirm("是否确定要删除选取的对象。");
+                        if (truthBeTold) {
+                            pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
+                                this.refrishIndexGroup(this.rootFilePath)
+                                console.log("删除成功")
+
+                            })
+                        } else {
+
+                        }
+                     
                     }
                 }
 

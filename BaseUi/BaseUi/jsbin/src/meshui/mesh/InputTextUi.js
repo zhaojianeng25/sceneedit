@@ -15,13 +15,22 @@ var prop;
 (function (prop) {
     var LabelTextFont = Pan3d.LabelTextFont;
     var TextAlign = Pan3d.TextAlign;
+    var MouseType = Pan3d.MouseType;
     var InputTextUi = /** @class */ (function (_super) {
         __extends(InputTextUi, _super);
         function InputTextUi(w, h) {
             if (w === void 0) { w = 64; }
             if (h === void 0) { h = 64; }
-            return _super.call(this, w, h) || this;
+            var _this = _super.call(this, w, h) || this;
+            _this.onHtmlInputMouseDownFun = function ($evt) { _this.onHtmlInputMouseDown($evt); };
+            return _this;
         }
+        InputTextUi.prototype.onHtmlInputMouseDown = function ($e) {
+            if ($e.target != this.chatHtmlInput) {
+                this.chatHtmlInput.hidden = true;
+                document.removeEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+            }
+        };
         InputTextUi.prototype.initView = function () {
             this.setInputTxtPos();
             this.addEvets();
@@ -52,6 +61,7 @@ var prop;
             this.chatHtmlInput.style.width = String(tw) + "px";
             this.chatHtmlInput.style.height = String(th) + "px";
             this.chatHtmlInput.value = "99.99";
+            this.chatHtmlInput.hidden = true;
         };
         InputTextUi.prototype.changeInputTxt = function (evt) {
             var $agalStr = this.chatHtmlInput.value;
@@ -63,14 +73,11 @@ var prop;
             _super.prototype.resize.call(this);
             this.chatHtmlInput.style.left = (this.textureContext.left + this.x - 10) + "px";
             this.chatHtmlInput.style.top = (this.textureContext.top + this.y - 5) + "px";
-            if (this.chatHtmlInput.value == "99") {
-                console.log("hre");
-            }
-            // console.log(this.chatHtmlInput.hidden)
         };
         Object.defineProperty(InputTextUi.prototype, "visible", {
             set: function (value) {
-                this.chatHtmlInput.hidden = !value;
+                //this.chatHtmlInput.hidden = !value
+                //this.chatHtmlInput.hidden = true
             },
             enumerable: true,
             configurable: true
@@ -84,8 +91,10 @@ var prop;
             configurable: true
         });
         InputTextUi.prototype.butClik = function (evt) {
-            console.log("clik");
-            // this.addStageMoveEvets(evt)
+            var _this = this;
+            this.chatHtmlInput.hidden = false;
+            setTimeout(function () { _this.chatHtmlInput.focus(); }, 1);
+            document.addEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
         };
         return InputTextUi;
     }(prop.TextLabelUI));

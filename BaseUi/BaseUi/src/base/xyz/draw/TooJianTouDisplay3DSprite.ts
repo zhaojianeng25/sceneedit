@@ -82,7 +82,7 @@
             var $p1: Vector3D;
             var $num: number
  
-            for (var i: number = 0; i < 300; i++) {
+            for (var i: number = 0; i < 359; i++) {
                 $m.identity();
                 $m.appendRotation(i, $axis)
                 $p0 = $m.transformVector(A)

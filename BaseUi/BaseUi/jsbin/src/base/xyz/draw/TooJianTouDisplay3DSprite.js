@@ -81,7 +81,7 @@ var xyz;
             var $p0;
             var $p1;
             var $num;
-            for (var i = 0; i < 300; i++) {
+            for (var i = 0; i < 359; i++) {
                 $m.identity();
                 $m.appendRotation(i, $axis);
                 $p0 = $m.transformVector(A);

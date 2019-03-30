@@ -416,6 +416,12 @@
                 rect.y += 0;
                 rect.width = name.length *8
                 rect.height = 20
+
+
+                var receet: TextMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(name,14)
+                rect.width = receet.width +20 
+
+           
                 editscene.ChangeNameModel.getInstance().changeName(rect, name, (value: string) => {
 
                     $vo.folderMeshVo.ossListFile.name = value;

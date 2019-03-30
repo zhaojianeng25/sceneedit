@@ -509,8 +509,11 @@ var filelist;
                         rect.y += 45;
                         rect.width = 60;
                         rect.height = 20;
+                        var nameStr = $vo.fileListMeshVo.fileXmlVo.data.name;
+                        var receet = editscene.ChangeNameModel.getInstance().getTextMetrics(nameStr, 14);
+                        rect.width = receet.width + 20;
                         var basePath = $vo.fileListMeshVo.fileXmlVo.data.path;
-                        editscene.ChangeNameModel.getInstance().changeName(rect, $vo.fileListMeshVo.fileXmlVo.data.name, function (value) {
+                        editscene.ChangeNameModel.getInstance().changeName(rect, nameStr, function (value) {
                             if (value.length) {
                                 console.log("准备修改名字");
                                 var toPath = basePath.substr(0, basePath.lastIndexOf("/") + 1);
@@ -558,10 +561,15 @@ var filelist;
                 var $vo = this._uiItem[i];
                 if ($vo.fileListMeshVo && $vo.ui) {
                     if ($vo.fileListMeshVo.fileXmlVo.data.select) {
-                        pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
-                            _this.refrishIndexGroup(_this.rootFilePath);
-                            console.log("删除成功");
-                        });
+                        var truthBeTold = window.confirm("是否确定要删除选取的对象。");
+                        if (truthBeTold) {
+                            pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
+                                _this.refrishIndexGroup(_this.rootFilePath);
+                                console.log("删除成功");
+                            });
+                        }
+                        else {
+                        }
                     }
                 }
             }
