@@ -29,13 +29,14 @@
     <TypeScriptCompile Include="libs\tween\TweenLite.d.ts" />
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\AppData.ts" />
+    <TypeScriptCompile Include="src\base\pack\PackObjDataManager.ts" />
     <TypeScriptCompile Include="src\editscene\ChangeNameModel.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragManager.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragProcessor.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragPanel.ts" />
     <TypeScriptCompile Include="src\editscene\drag\DragSource.ts" />
-    <TypeScriptCompile Include="src\base\pack\MaterialManager.ts" />
-    <TypeScriptCompile Include="src\base\pack\PrefabManager.ts" />
+    <TypeScriptCompile Include="src\base\pack\PackMaterialManager.ts" />
+    <TypeScriptCompile Include="src\base\pack\PackPrefabManager.ts" />
     <TypeScriptCompile Include="src\base\layout\LayBaseTab.ts" />
     <TypeScriptCompile Include="src\base\layout\LayerManager.ts" />
     <TypeScriptCompile Include="src\base\layout\LayoutbaseBg.ts" />

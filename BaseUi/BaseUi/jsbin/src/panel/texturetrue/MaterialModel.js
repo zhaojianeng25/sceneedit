@@ -24,7 +24,7 @@ var materialui;
             materialui.MaterialCtrl.getInstance().bgwinPanel.addUIContainer(new materialui.MaterialCavasPanel());
         };
         MaterialModel.prototype.selectMaterialUrl = function (url) {
-            pack.MaterialManager.getInstance().getMaterialByUrl(url, function ($materialTree) {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(url, function ($materialTree) {
                 ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INUPT_NEW_MATERIAL_FILE), $materialTree);
             });
         };

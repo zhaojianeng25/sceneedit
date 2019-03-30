@@ -104,24 +104,16 @@ var maineditor;
                 return this._prefab;
             },
             set: function (value) {
-                var _this = this;
                 this._prefab = value;
-                LoadManager.getInstance().load(Scene_data.fileRoot + this._prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
-                    _this.readTxtToModel($modelxml);
-                });
-                pack.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, function ($materialTree) {
-                    _this.material = $materialTree;
-                    _this.meshParamInfo();
-                });
-                this._prefab.addEventListener(BaseEvent.COMPLETE, this.prefabComplete, this);
+                this._prefab.addEventListener(BaseEvent.COMPLETE, this.meshParamInfo, this);
+                this.meshParamInfo();
             },
             enumerable: true,
             configurable: true
         });
-        ModelSprite.prototype.prefabComplete = function () {
-            this.meshParamInfo();
-        };
         ModelSprite.prototype.meshParamInfo = function () {
+            this.material = this._prefab.material;
+            this.objData = this._prefab.objData;
             if (this.material) {
                 if (this._prefab.paramInfo) {
                     this.materialParam = new MaterialBaseParam;
@@ -177,7 +169,7 @@ var maineditor;
         };
         ModelSprite.prototype.setPreFabUrl = function (url) {
             var _this = this;
-            pack.PrefabManager.getInstance().getPrefabByUrl(url, function (value) {
+            pack.PackPrefabManager.getInstance().getPrefabByUrl(url, function (value) {
                 _this.prefab = value;
             });
         };
@@ -644,7 +636,7 @@ var maineditor;
             LoadManager.getInstance().load(Scene_data.fileRoot + prefab.objsurl, LoadManager.XML_TYPE, function ($modelxml) {
                 dis.readTxtToModel($modelxml);
             });
-            pack.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, function ($materialTree) {
                 dis.material = $materialTree;
             });
         };

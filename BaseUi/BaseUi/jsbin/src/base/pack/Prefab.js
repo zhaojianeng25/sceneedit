@@ -22,7 +22,6 @@ var pack;
         Prefab.prototype.getName = function () {
             return "prefab";
         };
-        ;
         return Prefab;
     }(EventDispatcher));
     pack.Prefab = Prefab;

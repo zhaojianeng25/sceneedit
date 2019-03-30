@@ -6,18 +6,18 @@ var pack;
     var TexItem = Pan3d.TexItem;
     var TextureManager = Pan3d.TextureManager;
     var TextureRes = Pan3d.TextureRes;
-    var MaterialManager = /** @class */ (function () {
-        function MaterialManager() {
+    var PackMaterialManager = /** @class */ (function () {
+        function PackMaterialManager() {
             this.dic = {};
             this.loadDic = {};
         }
-        MaterialManager.getInstance = function () {
+        PackMaterialManager.getInstance = function () {
             if (!this._instance) {
-                this._instance = new MaterialManager();
+                this._instance = new PackMaterialManager();
             }
             return this._instance;
         };
-        MaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
+        PackMaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
             var _this = this;
             if (this.dic[$url]) { //有了就反回
                 bfun(this.dic[$url]);
@@ -65,7 +65,7 @@ var pack;
                     console.log($buildShader.fragment);
                     console.log("----------buildShader------------");
                     */
-                    console.log("材质加载完成", $url);
+                    //    console.log("材质加载完成", $url)
                     $materialTree.url = $url;
                     if (!_this.dic[$url]) {
                         _this.dic[$url] = $materialTree;
@@ -79,7 +79,7 @@ var pack;
                 this.loadDic[$url].push(bfun);
             }
         };
-        MaterialManager.prototype.makeConstList = function (item) {
+        PackMaterialManager.prototype.makeConstList = function (item) {
             var constList = [];
             for (var i = 0; i < item.length; i++) {
                 var temp = new ConstItem();
@@ -93,7 +93,7 @@ var pack;
             }
             return constList;
         };
-        MaterialManager.prototype.makeFc = function (constVec, infofcData) {
+        PackMaterialManager.prototype.makeFc = function (constVec, infofcData) {
             var fcData = new Float32Array(infofcData.length);
             for (var i = 0; i < infofcData.length; i++) {
                 fcData[i] = Number(infofcData[i]);
@@ -103,7 +103,7 @@ var pack;
             }
             return fcData;
         };
-        MaterialManager.prototype.loadTextureRes = function (texItem) {
+        PackMaterialManager.prototype.loadTextureRes = function (texItem) {
             if (texItem.type == TexItem.CUBEMAP) {
                 LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
                     texItem.textureRes = new TextureRes;
@@ -116,7 +116,7 @@ var pack;
                 });
             }
         };
-        MaterialManager.prototype.makeTextList = function (item) {
+        PackMaterialManager.prototype.makeTextList = function (item) {
             var texList = new Array;
             for (var i = 0; i < item.length; i++) {
                 var texItem = new TexItem;
@@ -132,8 +132,8 @@ var pack;
             }
             return texList;
         };
-        return MaterialManager;
+        return PackMaterialManager;
     }());
-    pack.MaterialManager = MaterialManager;
+    pack.PackMaterialManager = PackMaterialManager;
 })(pack || (pack = {}));
-//# sourceMappingURL=MaterialManager.js.map
+//# sourceMappingURL=PackMaterialManager.js.map

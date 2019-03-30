@@ -57,6 +57,7 @@ var filelist;
             },
             set: function (value) {
                 this.prefabStaticMesh.material = value;
+                console.log("变化了");
                 this.refreshViewValue();
             },
             enumerable: true,

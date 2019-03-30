@@ -409,7 +409,7 @@
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
   
-                            pack.PrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
+                            pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
                                 var tempview: PrefabMeshView = new PrefabMeshView(prop.PropModel.getInstance().propPanle)
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);

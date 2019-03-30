@@ -329,7 +329,7 @@ var filelist;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
-                            pack.PrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
+                            pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempview = new filelist.PrefabMeshView(prop.PropModel.getInstance().propPanle);
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);

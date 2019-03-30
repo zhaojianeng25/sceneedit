@@ -45,6 +45,7 @@
 
         public set texture(value: Material) {
             this.prefabStaticMesh.material = value
+            console.log("变化了")
             this.refreshViewValue()
         }
         public get texture(): Material {

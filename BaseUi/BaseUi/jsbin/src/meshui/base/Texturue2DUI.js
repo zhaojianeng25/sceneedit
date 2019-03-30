@@ -61,7 +61,7 @@ var prop;
             else {
                 if (this.texturePicUi.url.indexOf(".material") != -1) {
                     console.log("是材质");
-                    pack.MaterialManager.getInstance().getMaterialByUrl(this.texturePicUi.url, function ($materialTree) {
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this.texturePicUi.url, function ($materialTree) {
                         console.log($materialTree);
                         //是地址
                         _this.target[_this.FunKey] = $materialTree;

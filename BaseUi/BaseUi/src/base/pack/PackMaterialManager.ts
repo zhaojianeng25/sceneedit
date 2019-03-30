@@ -9,12 +9,12 @@
     import TextureRes = Pan3d.TextureRes
 
 
-    export class MaterialManager {
+    export class PackMaterialManager {
 
-        private static _instance: MaterialManager;
-        public static getInstance(): MaterialManager {
+        private static _instance: PackMaterialManager;
+        public static getInstance(): PackMaterialManager {
             if (!this._instance) {
-                this._instance = new MaterialManager();
+                this._instance = new PackMaterialManager();
             }
             return this._instance;
         }
@@ -72,8 +72,6 @@
                         $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
                         $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
 
-
-
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
                         /*
@@ -83,7 +81,7 @@
                         console.log($buildShader.fragment);
                         console.log("----------buildShader------------");
                         */
-                        console.log("材质加载完成", $url)
+                    //    console.log("材质加载完成", $url)
                         $materialTree.url = $url
 
                         if (!this.dic[$url]) {

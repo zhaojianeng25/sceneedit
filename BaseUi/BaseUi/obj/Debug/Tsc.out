@@ -2,6 +2,8 @@ E:\github\sceneEdit\BaseUi\BaseUi\jsbin\pan3d\engine\utils\Base64.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\pan3d\engine\utils\Base64.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\AppData.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\AppData.js.map
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackObjDataManager.js
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackObjDataManager.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\ChangeNameModel.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\ChangeNameModel.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\drag\DragManager.js
@@ -12,10 +14,10 @@ E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\drag\DragPanel.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\drag\DragPanel.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\drag\DragSource.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\drag\DragSource.js.map
-E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\MaterialManager.js
-E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\MaterialManager.js.map
-E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PrefabManager.js
-E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PrefabManager.js.map
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackMaterialManager.js
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackMaterialManager.js.map
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackPrefabManager.js
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackPrefabManager.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\layout\LayBaseTab.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\layout\LayBaseTab.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\layout\LayerManager.js

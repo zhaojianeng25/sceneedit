@@ -33,7 +33,7 @@
 
         public selectMaterialUrl(url: string): void {
         
-            pack.MaterialManager.getInstance().getMaterialByUrl( url, ($materialTree: materialui.MaterialTree) => {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl( url, ($materialTree: materialui.MaterialTree) => {
  
                 ModuleEventManager.dispatchEvent(new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE) ,$materialTree);
             

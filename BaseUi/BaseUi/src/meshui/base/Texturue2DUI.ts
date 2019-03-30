@@ -55,7 +55,7 @@
                 if (this.texturePicUi.url.indexOf(".material") != -1) {
                     console.log("是材质")
 
-                    pack.MaterialManager.getInstance().getMaterialByUrl(this.texturePicUi.url, ($materialTree: materialui.MaterialTree) => {
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this.texturePicUi.url, ($materialTree: materialui.MaterialTree) => {
                         console.log($materialTree);
                         //是地址
                         this.target[this.FunKey] = $materialTree

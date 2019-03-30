@@ -150,20 +150,12 @@
         }
         public set prefab(value: PrefabStaticMesh) {
             this._prefab = value
-            LoadManager.getInstance().load(Scene_data.fileRoot + this._prefab.objsurl, LoadManager.XML_TYPE,
-                ($modelxml: string) => {
-                    this.readTxtToModel($modelxml);
-                });
-            pack.MaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
-                this.material = $materialTree;
-                this.meshParamInfo();
-            })
-            this._prefab.addEventListener(BaseEvent.COMPLETE, this.prefabComplete, this);
-        }
-        private prefabComplete(): void {
+            this._prefab.addEventListener(BaseEvent.COMPLETE, this.meshParamInfo, this);
             this.meshParamInfo();
         }
         private meshParamInfo(): void {
+            this.material = this._prefab.material;
+            this.objData = this._prefab.objData;
             if (this.material) {
                 if (this._prefab.paramInfo) {
                     this.materialParam = new MaterialBaseParam;
@@ -177,7 +169,6 @@
                         } else {
                             this.makeParamValue(tempInfo)
                         }
-                         
                     }
                 }
             }
@@ -225,7 +216,7 @@
  
         }
         public setPreFabUrl(url: string): void {
-            pack.PrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
+            pack.PackPrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
                 this.prefab = value
             })
         }
@@ -803,7 +794,7 @@
                 ($modelxml: string) => {
                     dis.readTxtToModel($modelxml);
                 });
-            pack.MaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                 dis.material = $materialTree;
             })
         }
