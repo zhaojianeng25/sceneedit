@@ -386,15 +386,30 @@ var Pan3d;
             this.renderContext.deleteProgram(shader.program);
         };
         Context3D.prototype.cullFaceBack = function (tf) {
-            if (this._contextSetTest.testCull(tf)) {
-                return;
+            var gl = this.renderContext;
+            if (tf) { //反面渲染
+                gl.enable(gl.CULL_FACE);
+                if (gl.getParameter(gl.CULL_FACE_MODE) != gl.FRONT) {
+                    gl.cullFace(gl.FRONT);
+                }
             }
-            if (tf) {
-                this.renderContext.enable(this.renderContext.CULL_FACE);
-                this.renderContext.cullFace(this.renderContext.FRONT);
+            else { //正面渲染
+                gl.enable(gl.CULL_FACE);
+                if (gl.getParameter(gl.CULL_FACE_MODE) != gl.BACK) {
+                    gl.cullFace(gl.BACK);
+                }
             }
-            else {
-                this.renderContext.disable(this.renderContext.CULL_FACE);
+        };
+        Context3D.prototype.setCullFaceModel = function (value) {
+            if (value = 0) { //正面渲染
+                this.cullFaceBack(false);
+            }
+            else if (value = 1) { //正面渲染
+                this.cullFaceBack(true);
+            }
+            else if (value = 2) { //正反面渲染
+                var gl = this.renderContext;
+                gl.enable(gl.CULL_FACE);
             }
         };
         Context3D.prototype.clearTest = function () {

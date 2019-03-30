@@ -25,6 +25,7 @@ var maineditor;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var LoadManager = Pan3d.LoadManager;
+    var KeyboardType = Pan3d.KeyboardType;
     var Shader3D = Pan3d.Shader3D;
     var MaterialBaseParam = Pan3d.MaterialBaseParam;
     var ProgrmaManager = Pan3d.ProgrmaManager;
@@ -482,7 +483,36 @@ var maineditor;
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
             document.addEventListener("contextmenu", this.onRightMenuFun);
+            if (!this.onKeyDownFun) {
+                this.onKeyDownFun = function ($evt) { _this.onKeyDown($evt); };
+            }
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun);
             this.loadBaseSceneUrl();
+        };
+        HierarchyListPanel.prototype.onKeyDown = function ($evt) {
+            if (maineditor.EditorModel.getInstance().selectItem && maineditor.EditorModel.getInstance().selectItem.length == 1) {
+                var selectVo = maineditor.EditorModel.getInstance().selectItem[0];
+                var idex = maineditor.EditorModel.getInstance().fileItem.indexOf(selectVo);
+                if ($evt.ctrlKey) {
+                    switch ($evt.keyCode) {
+                        case KeyboardType.Up:
+                            if (idex > 0) {
+                                maineditor.EditorModel.getInstance().fileItem.splice(idex, 1);
+                                maineditor.EditorModel.getInstance().fileItem.splice(idex - 1, 0, selectVo);
+                            }
+                            console.log("向上");
+                            break;
+                        case KeyboardType.Down:
+                            if (idex < maineditor.EditorModel.getInstance().fileItem.length - 2) {
+                                maineditor.EditorModel.getInstance().fileItem.splice(idex, 1);
+                                maineditor.EditorModel.getInstance().fileItem.splice(idex + 1, 0, selectVo);
+                            }
+                            console.log("向下");
+                            break;
+                    }
+                }
+                this.refrishFolder();
+            }
         };
         HierarchyListPanel.prototype.addRender = function ($uiRender) {
             _super.prototype.addRender.call(this, $uiRender);

@@ -297,6 +297,8 @@
             obj.timeValue = this.baseMaterialTree.timeValue
             obj.writeZbuffer = this.baseMaterialTree.writeZbuffer
             obj.zbuff = this.baseMaterialTree.zbuff
+            obj.blendMode = this.baseMaterialTree.blendMode
+            
 
             obj.backCull = this.baseMaterialTree.backCull
 

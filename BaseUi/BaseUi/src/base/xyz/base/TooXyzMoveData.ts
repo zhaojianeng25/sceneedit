@@ -63,6 +63,7 @@
         }
   
         public upRootMatrix3DToItem(): void {
+      
             var inM: Matrix3D = this.modeMatrx3D.clone();
             inM.invert();
             for (var i: number = 0; i < this.modelItem.length; i++) {
@@ -78,20 +79,17 @@
                 this.modelItem[i].rotationX = outVec3d.x
                 this.modelItem[i].rotationY = outVec3d.y
                 this.modelItem[i].rotationZ = outVec3d.z
-
-             
-                //this.modelItem[i].scaleX = this.scaleX * this.dataItem[i].scaleX;
-                //this.modelItem[i].scaleY = this.scaleY * this.dataItem[i].scaleY;
-                //this.modelItem[i].scaleZ = this.scaleZ * this.dataItem[i].scaleZ;
-
-                this.modelItem[i].scaleX = this.scaleX 
-                this.modelItem[i].scaleY = this.scaleY 
-                this.modelItem[i].scaleZ = this.scaleZ
+ 
+                //this.modelItem[i].scaleX = this.scaleX 
+                //this.modelItem[i].scaleY = this.scaleY 
+                //this.modelItem[i].scaleZ = this.scaleZ
 
                 this.modelItem[i].posMatrix.m = M.m;
-                console.log(M.m)
+   
                 this.dataUpDate();
             }
+
+           
         }
 
 

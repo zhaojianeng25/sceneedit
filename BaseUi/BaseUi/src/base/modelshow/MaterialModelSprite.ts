@@ -65,7 +65,7 @@ module left {
         }
         public setMaterialVc($material: Material, $mp: MaterialBaseParam = null): void {
             var $materialTree: MaterialTree = <MaterialTree>$material
-
+            $materialTree.backCull = false
             Scene_data.context3D.setBlendParticleFactors($materialTree.blendMode);
             Scene_data.context3D.setDepthTest($materialTree.zbuff);
             Scene_data.context3D.setWriteDepth($materialTree.writeZbuffer);

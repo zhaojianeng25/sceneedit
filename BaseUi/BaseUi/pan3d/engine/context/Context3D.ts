@@ -112,7 +112,7 @@
         }
 
         public setBlendParticleFactors(type: number): void {
-
+            
             if (this._contextSetTest.testBlend(type)) {
                 return;
             }
@@ -426,16 +426,33 @@
         }
 
         public cullFaceBack(tf: boolean): void {
-            if (this._contextSetTest.testCull(tf)) {
-                return;
+ 
+            var gl: WebGLRenderingContext = this.renderContext;
+            if (tf) { //反面渲染
+                gl.enable(gl.CULL_FACE);
+                if (gl.getParameter(gl.CULL_FACE_MODE) != gl.FRONT) {
+                    gl.cullFace(gl.FRONT);
+                }
+    
+            } else { //正面渲染
+                gl.enable(gl.CULL_FACE);
+                if (gl.getParameter(gl.CULL_FACE_MODE) != gl.BACK) {
+                    gl.cullFace(gl.BACK);
+                }
             }
-            if (tf) {
-                this.renderContext.enable(this.renderContext.CULL_FACE);
-                this.renderContext.cullFace(this.renderContext.FRONT);
-            } else {
-                this.renderContext.disable(this.renderContext.CULL_FACE);
+
+        }
+        public setCullFaceModel(value: number): void {
+            if (value = 0) {  //正面渲染
+                this.cullFaceBack(false)
+            } else if (value = 1) {  //正面渲染
+                this.cullFaceBack(true)
+            } else if (value = 2) {  //正反面渲染
+                var gl: WebGLRenderingContext = this.renderContext;
+                gl.enable(gl.CULL_FACE);
             }
         }
+
 
      
 

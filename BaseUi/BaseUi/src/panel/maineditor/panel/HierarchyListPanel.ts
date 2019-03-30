@@ -24,6 +24,7 @@
     import Scene_data = Pan3d.Scene_data
     import TextureManager = Pan3d.TextureManager
     import LoadManager = Pan3d.LoadManager
+    import KeyboardType = Pan3d.KeyboardType
 
     import Display3DSprite = Pan3d.Display3DSprite
 
@@ -580,7 +581,42 @@
             }
             document.addEventListener("contextmenu", this.onRightMenuFun)
 
+
+            if (!this.onKeyDownFun) {
+                this.onKeyDownFun = ($evt: KeyboardEvent) => { this.onKeyDown($evt) };
+            }
+
+            document.addEventListener(MouseType.KeyDown, this.onKeyDownFun)
+
             this.loadBaseSceneUrl()
+        }
+        private onKeyDownFun: any;
+        private onKeyDown($evt: KeyboardEvent): void {
+            if (EditorModel.getInstance().selectItem && EditorModel.getInstance().selectItem.length == 1) {
+                var selectVo: FolderMeshVo = EditorModel.getInstance().selectItem[0]
+                var idex: number=  EditorModel.getInstance().fileItem.indexOf(selectVo)
+                if ($evt.ctrlKey) {
+                    switch ($evt.keyCode) {
+                        case KeyboardType.Up:
+                            if (idex > 0) {
+                                EditorModel.getInstance().fileItem.splice(idex, 1)
+                                EditorModel.getInstance().fileItem.splice(idex -1, 0, selectVo)
+                            }
+                             console.log("向上")
+                            break
+                        case KeyboardType.Down:
+                            if (idex < EditorModel.getInstance().fileItem.length-2) {
+                                EditorModel.getInstance().fileItem.splice(idex, 1)
+                                EditorModel.getInstance().fileItem.splice(idex +1, 0, selectVo)
+                            }
+                            console.log("向下")
+                            break
+
+                    }
+                }
+                this.refrishFolder();
+            }
+            
         }
 
 

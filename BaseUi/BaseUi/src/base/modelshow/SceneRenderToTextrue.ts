@@ -66,9 +66,8 @@ module left {
             this.renderContext.clearColor(20 / 255, 20 / 255, 20 / 255, 1.0);
             this.renderContext.clearDepth(1.0);
             this.renderContext.clearStencil(0.0);
-            this.renderContext.enable(this.renderContext.DEPTH_TEST);
+ 
             this.renderContext.depthMask(true);
-            this.renderContext.enable(this.renderContext.BLEND);
             this.renderContext.frontFace(this.renderContext.CW);
             this.renderContext.clear(this.renderContext.COLOR_BUFFER_BIT | this.renderContext.DEPTH_BUFFER_BIT | this.renderContext.STENCIL_BUFFER_BIT);
 

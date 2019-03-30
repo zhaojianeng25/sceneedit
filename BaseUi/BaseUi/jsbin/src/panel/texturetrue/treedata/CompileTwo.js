@@ -623,8 +623,11 @@ var materialui;
             }
             str = "";
             if (inputAlpha.parentNodeItem) { //漫反射部分
+                str += CompileTwo.FT + regOp.id + CompileTwo.XYZ + "=" + CompileTwo.FT + regOp.id + CompileTwo.XYZ + "*" + CompileTwo.FT + regOp.id + CompileTwo.W + CompileTwo.END;
+                str += CompileTwo.LN;
                 var pNodeAlpha = inputAlpha.parentNodeItem.node; //diffuse输入节点
-                str = CompileTwo.FT + regOp.id + CompileTwo.W + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNodeAlpha.getComponentID(inputAlpha.parentNodeItem.id) + CompileTwo.END;
+                str += CompileTwo.FT + regOp.id + CompileTwo.W + CompileTwo.SPACE + CompileTwo.EQU + CompileTwo.SPACE + pNodeAlpha.getComponentID(inputAlpha.parentNodeItem.id) + CompileTwo.END;
+                // str = CompileTwo.FT + regOp.id +"=" + CompileTwo.FT + regOp.id +"*"+ pNodeAlpha.getComponentID(inputAlpha.parentNodeItem.id) + CompileTwo.END;
                 pNodeAlpha.releaseUse();
             }
             else {

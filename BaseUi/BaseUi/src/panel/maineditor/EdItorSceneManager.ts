@@ -93,9 +93,8 @@
                 this.updateStaticDiplay();
                 this.updateSpriteDisplay();
                 this.updateMovieDisplay();
-                Scene_data.context3D.setWriteDepth(false);
-
-                Pan3d.Scene_data.context3D.setWriteDepth(false);
+                Scene_data.context3D.setWriteDepth(true);
+                Scene_data.context3D.setDepthTest(true);
                 this.particleManager.update();
             }
 
