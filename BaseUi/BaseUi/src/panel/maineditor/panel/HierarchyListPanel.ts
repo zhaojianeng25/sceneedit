@@ -154,8 +154,18 @@
             this.meshParamInfo();
         }
         private meshParamInfo(): void {
-            this.material = this._prefab.material;
-            this.objData = this._prefab.objData;
+            if (this._prefab.objsurl) {
+                pack.PackObjDataManager.getInstance().getObjDataByUrl(this._prefab.objsurl, (value: ObjData) => {
+                    this._prefab.objData = value
+                    this.objData = value;
+                })
+            }
+            if (this._prefab.textureurl) {
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
+                    this._prefab.material = $materialTree;
+                    this.material = $materialTree;
+                })
+            }
             if (this.material) {
                 if (this._prefab.paramInfo) {
                     this.materialParam = new MaterialBaseParam;

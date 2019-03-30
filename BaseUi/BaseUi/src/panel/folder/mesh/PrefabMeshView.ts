@@ -22,11 +22,12 @@
         private textureChangeInfo(value: Array<any>): void {
             this.prefabStaticMesh.paramInfo = value;
             this.saveToSever()
-
-            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+            this.chuangeData()
 
         }
-
+        private chuangeData(): void {
+            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+        }
         public getParamItem(value: string): any {
             for (var i: number = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
                 if (this.prefabStaticMesh.paramInfo[i].paramName == value) {
@@ -45,7 +46,6 @@
 
         public set texture(value: Material) {
             this.prefabStaticMesh.material = value
-            console.log("变化了")
             this.refreshViewValue()
         }
         public get texture(): Material {
@@ -54,6 +54,7 @@
         public set objsurl(value: string) {
             this.prefabStaticMesh.objsurl = value
             this.saveToSever()
+            this.chuangeData()
         }
         public get objsurl(): string {
             return this.prefabStaticMesh.objsurl

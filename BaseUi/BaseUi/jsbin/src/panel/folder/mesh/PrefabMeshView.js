@@ -32,6 +32,9 @@ var filelist;
         PrefabMeshView.prototype.textureChangeInfo = function (value) {
             this.prefabStaticMesh.paramInfo = value;
             this.saveToSever();
+            this.chuangeData();
+        };
+        PrefabMeshView.prototype.chuangeData = function () {
             this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
         };
         PrefabMeshView.prototype.getParamItem = function (value) {
@@ -57,7 +60,6 @@ var filelist;
             },
             set: function (value) {
                 this.prefabStaticMesh.material = value;
-                console.log("变化了");
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -70,6 +72,7 @@ var filelist;
             set: function (value) {
                 this.prefabStaticMesh.objsurl = value;
                 this.saveToSever();
+                this.chuangeData();
             },
             enumerable: true,
             configurable: true

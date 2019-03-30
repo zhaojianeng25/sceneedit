@@ -112,8 +112,19 @@ var maineditor;
             configurable: true
         });
         ModelSprite.prototype.meshParamInfo = function () {
-            this.material = this._prefab.material;
-            this.objData = this._prefab.objData;
+            var _this = this;
+            if (this._prefab.objsurl) {
+                pack.PackObjDataManager.getInstance().getObjDataByUrl(this._prefab.objsurl, function (value) {
+                    _this._prefab.objData = value;
+                    _this.objData = value;
+                });
+            }
+            if (this._prefab.textureurl) {
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(this._prefab.textureurl, function ($materialTree) {
+                    _this._prefab.material = $materialTree;
+                    _this.material = $materialTree;
+                });
+            }
             if (this.material) {
                 if (this._prefab.paramInfo) {
                     this.materialParam = new MaterialBaseParam;
