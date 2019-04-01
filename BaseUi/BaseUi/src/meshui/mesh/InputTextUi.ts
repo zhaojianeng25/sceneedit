@@ -16,8 +16,11 @@
         }
         private onHtmlInputMouseDown($e: MouseEvent): void {
             if ($e.target != this.chatHtmlInput) {
-                this.chatHtmlInput.hidden = true
+                if (this.chatHtmlInput) {
+                    this.chatHtmlInput.hidden = true
+                }
                 document.removeEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+
             } 
   
         }
@@ -87,12 +90,13 @@
         private onHtmlInputMouseDownFun: any
         protected butClik(evt: InteractiveEvent): void {
 
-          
+            if (this.chatHtmlInput.hidden) {
+               // console.log("添加事件")
+                this.chatHtmlInput.hidden = false
+                setTimeout(() => { this.chatHtmlInput.focus(); }, 1)
+                document.addEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+            }
 
-            this.chatHtmlInput.hidden = false
-            setTimeout(() => { this.chatHtmlInput.focus(); }, 1)
-
-            document.addEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
  
         }
         /*
