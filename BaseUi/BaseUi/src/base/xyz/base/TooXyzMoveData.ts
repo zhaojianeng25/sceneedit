@@ -29,6 +29,7 @@
         public rotationY: number;
         public rotationZ: number;
 
+        public baseMatrix3D: Matrix3D
 
         public changeModelMatrix3d(): void {
 
@@ -45,7 +46,7 @@
 
         public modeMatrx3D: Matrix3D
         public dataItem: Array<TooXyzPosData>//复制出来胡数据
-        public modelItem: Array<Display3D>; //存放基础模型
+        public spriteItem: Array<Display3D>; //存放基础模型
  
         public dataChangeFun: Function
         public dataUpDate: Function
@@ -63,12 +64,11 @@
         }
   
         public upRootMatrix3DToItem(): void {
-      
-            var inM: Matrix3D = this.modeMatrx3D.clone();
-            inM.invert();
-            for (var i: number = 0; i < this.modelItem.length; i++) {
-                var M: Matrix3D = this.modeMatrx3D.clone();
-                M.prepend(this.dataItem[i].modeMatrx3D);
+
+             this.updateMatrix();
+        
+            for (var i: number = 0; i < this.spriteItem.length; i++) {
+          
 
                 /*
                 this.modelItem[i].x = M.position.x;
@@ -91,11 +91,42 @@
                 this.modelItem[i].scaleZ = scale.z
 
                 */
- 
-                this.modelItem[i].posMatrix.m = M.m;
+      /*
+           
+               
 
+            
+           
+                var a: Matrix3D = this.modeMatrx3D.clone();
+                var b: Matrix3D = this.dataItem[i].modeMatrx3D.clone();
+                a.prepend(b);
+               */
+                console.log(this.modeMatrx3D.position)
+
+                var a: Matrix3D = this.baseMatrix3D.clone();
+                var b: Matrix3D = this.modeMatrx3D.clone();
+                a.invert();
+                var c: Matrix3D = b.clone();
+                c.prepend(a)
+                c.prepend(this.dataItem[i].baseMatrix3D)
  
-                this.dataUpDate();
+    
+
+                var M = c.clone();
+                var scale: Vector3D = M.getScaling();
+                this.spriteItem[i].scaleX = scale.x
+                this.spriteItem[i].scaleY = scale.y
+                this.spriteItem[i].scaleZ = scale.z
+                var outVec3d: Vector3D = M.toEulerAngles();
+                this.spriteItem[i].rotationX = outVec3d.x
+                this.spriteItem[i].rotationY = outVec3d.y
+                this.spriteItem[i].rotationZ = outVec3d.z
+                this.spriteItem[i].x = M.position.x;
+                this.spriteItem[i].y = M.position.y;
+                this.spriteItem[i].z = M.position.z;
+                this.spriteItem[i].posMatrix = c;
+ 
+                 this.dataUpDate();
             }
 
            
@@ -104,72 +135,73 @@
 
 
         public static getBase($arr: Array<Display3D>, isCenten: boolean = false): TooXyzPosData {
-            var baseXyz: TooXyzPosData = new TooXyzPosData()
-            baseXyz.scaleX = 1;
-            baseXyz.scaleY = 1;
-            baseXyz.scaleZ = 1;
-            baseXyz.dataItem = []
-            baseXyz.modelItem = []
+            var rootData: TooXyzPosData = new TooXyzPosData()
+            rootData.scaleX = 1;
+            rootData.scaleY = 1;
+            rootData.scaleZ = 1;
+            rootData.dataItem = []
+            rootData.spriteItem = []
 
-            if (isCenten) { //所有对象中间
-                for (var i: number = 0; i < $arr.length; i++) {
-                    baseXyz.x += $arr[i].x
-                    baseXyz.y += $arr[i].y
-                    baseXyz.z += $arr[i].z
-                    baseXyz.rotationX += $arr[i].rotationX
-                    baseXyz.rotationY += $arr[i].rotationY
-                    baseXyz.rotationZ += $arr[i].rotationZ
-
-                }
-
-                baseXyz.x /= $arr.length
-                baseXyz.y /= $arr.length
-                baseXyz.z /= $arr.length
-                baseXyz.rotationX /= $arr.length
-                baseXyz.rotationY /= $arr.length
-                baseXyz.rotationZ /= $arr.length
-            } else {
+       
                 //第一个对象
-                baseXyz.x = $arr[0].x
-                baseXyz.y = $arr[0].y
-                baseXyz.z = $arr[0].z
-                baseXyz.scaleX = $arr[0].scaleX
-                baseXyz.scaleY = $arr[0].scaleX
-                baseXyz.scaleZ = $arr[0].scaleZ
-                baseXyz.rotationX = $arr[0].rotationX
-                baseXyz.rotationY = $arr[0].rotationY
-                baseXyz.rotationZ = $arr[0].rotationZ
-            }
+                rootData.x = $arr[0].x
+                rootData.y = $arr[0].y
+                rootData.z = $arr[0].z
+                rootData.scaleX = $arr[0].scaleX
+                rootData.scaleY = $arr[0].scaleY
+                rootData.scaleZ = $arr[0].scaleZ
+                rootData.rotationX = $arr[0].rotationX
+                rootData.rotationY = $arr[0].rotationY
+            rootData.rotationZ = $arr[0].rotationZ
+
+
+            //rootData.x = 10
+            //rootData.y =10
+            //rootData.z =10
+            //rootData.scaleX = $arr[0].scaleX
+            //rootData.scaleY = $arr[0].scaleY
+            //rootData.scaleZ = $arr[0].scaleZ
+            //rootData.rotationX =40
+            //rootData.rotationY = 40
+            //rootData.rotationZ = 40
+        
           
 
-            baseXyz.updateMatrix();
+            rootData.updateMatrix();
+            rootData.baseMatrix3D = rootData.modeMatrx3D.clone()
 
-            var inM: Matrix3D = baseXyz.modeMatrx3D.clone();
+            var inM: Matrix3D = rootData.modeMatrx3D.clone();
             inM.invert()
             for (var j: number = 0; j < $arr.length; j++) {
-                var tempXyz: TooXyzPosData = new TooXyzPosData;
-                tempXyz.modeMatrx3D = $arr[j].posMatrix.clone(); //存放相对
-                tempXyz.modeMatrx3D.prepend(inM);
-              //  tempXyz.scaleX = $arr[j].scaleX;
-                //tempXyz.scaleY = $arr[j].scaleY;
-                //tempXyz.scaleZ = $arr[j].scaleZ;
+                var tempData: TooXyzPosData = new TooXyzPosData;
+              //  tempData.modeMatrx3D = $arr[j].posMatrix.clone(); //存放相对
+               // tempData.modeMatrx3D.prepend(inM);
 
-                //tempXyz.x = $arr[j].x - baseXyz.x;
-                //tempXyz.y = $arr[j].y - baseXyz.y;
-                //tempXyz.z = $arr[j].z - baseXyz.z;
 
-                //tempXyz.rotationX = $arr[j].rotationX - baseXyz.rotationX;
-                //tempXyz.rotationY = $arr[j].rotationY - baseXyz.rotationY;
-                //tempXyz.rotationZ = $arr[j].rotationZ - baseXyz.rotationZ;
+                tempData.baseMatrix3D = $arr[j].posMatrix.clone();
 
-                baseXyz.dataItem.push(tempXyz)
-                baseXyz.modelItem.push($arr[j])
+                tempData.scaleX = $arr[j].scaleX;
+                tempData.scaleY = $arr[j].scaleY;
+                tempData.scaleZ = $arr[j].scaleZ;
+
+                tempData.x = $arr[j].x 
+                tempData.y = $arr[j].y 
+                tempData.z = $arr[j].z
+
+                tempData.rotationX = $arr[j].rotationX  
+                tempData.rotationY = $arr[j].rotationY  
+                tempData.rotationZ = $arr[j].rotationZ 
+
+                rootData.dataItem.push(tempData)
+                rootData.spriteItem.push($arr[j])
+
+ 
+  
             }
 
+ 
 
-
-
-            return baseXyz
+            return rootData
         }
     }
     

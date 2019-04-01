@@ -95,6 +95,9 @@
             return this._rotationX
         }
         public set rotationY(value: number) {
+            if (isNaN(value)) {
+                console.log("有错")
+            }
             this._rotationY = value;
             this.updateMatrix();
             this.updateRotationMatrix();

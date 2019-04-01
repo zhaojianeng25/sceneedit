@@ -327,7 +327,7 @@
 
         }
 
-        public getRotaion(b: Float32Array): void {
+        public getRotaionM33(b: Float32Array): void {
             b[0] = this.m[0];
             b[1] = this.m[1];
             b[2] = this.m[2];
@@ -340,15 +340,15 @@
         }
 
         public identityScale(): void {
-      
+      /*
             var M: Matrix3D = new Matrix3D
             var ro: Vector3D = this.toEulerAngles();
-            M.appendRotation(ro.x * 180 / Math.PI, Vector3D.X_AXIS);
-            M.appendRotation(ro.y * 180 / Math.PI, Vector3D.Y_AXIS);
-            M.appendRotation(ro.z * 180 / Math.PI, Vector3D.Z_AXIS);
+            M.appendRotation(ro.x , Vector3D.X_AXIS);
+            M.appendRotation(ro.y , Vector3D.Y_AXIS);
+            M.appendRotation(ro.z , Vector3D.Z_AXIS);
             M.appendTranslation(this.position.x,this.position.y, this.position.z)
             this.m = M.m;
-         
+         */
         }
         public identityPostion(): void {
             this.m[12] = 0
@@ -592,24 +592,58 @@
             a[15] = t * g + v * m + w * q + x * b;
             return a
         }
-        public toEulerAngles(target: Vector3D = null): Vector3D {
-            var $q: Quaternion = new Quaternion();
+        public toEulerAngles( ): Vector3D {
+             var $q: Quaternion = new Quaternion();
             $q.fromMatrix(this)
-            return $q.toEulerAngles(target);
-        }
-        public getScale(): Vector3D {
-            var otherM = new Matrix3D();
-            var rot: Vector3D = this.toEulerAngles()
-            otherM.appendRotation(rot.x, Vector3D.X_AXIS);
-            otherM.appendRotation(rot.y, Vector3D.Y_AXIS);
-            otherM.appendRotation(rot.z, Vector3D.Z_AXIS);
-            otherM.appendTranslation(this.position.x, this.position.y, this.position.z)
-            otherM.invert();
-            var tempM: Matrix3D = this.clone();
-            tempM.append(otherM);
-            return new Vector3D(this.m[0], this.m[5], this[10])
+            var v3d: Vector3D =  $q.toEulerAngles()
+            v3d.scaleBy(180 / Math.PI)
+            return v3d;
         }
 
+        public getRotationing(): Vector3D {
+            var out: Array<number> = [0, 0, 0, 0]
+            let scaling: Vector3D = this.getScaling();
+            let is1 = 1 / scaling.x;
+            let is2 = 1 / scaling.y;
+            let is3 = 1 / scaling.z;
+            let sm11 = this.m[0] * is1;
+            let sm12 = this.m[1] * is2;
+            let sm13 = this.m[2] * is3;
+            let sm21 = this.m[4] * is1;
+            let sm22 = this.m[5] * is2;
+            let sm23 = this.m[6] * is3;
+            let sm31 = this.m[8] * is1;
+            let sm32 = this.m[9] * is2;
+            let sm33 = this.m[10] * is3;
+            let ccav = sm11 + sm22 + sm33;
+            let S = 0;
+            if (ccav > 0) {
+                S = Math.sqrt(ccav + 1.0) * 2;
+                out[3] = 0.25 * S;
+                out[0] = (sm23 - sm32) / S;
+                out[1] = (sm31 - sm13) / S;
+                out[2] = (sm12 - sm21) / S;
+            } else if ((sm11 > sm22) && (sm11 > sm33)) {
+                S = Math.sqrt(1.0 + sm11 - sm22 - sm33) * 2;
+                out[3] = (sm23 - sm32) / S;
+                out[0] = 0.25 * S;
+                out[1] = (sm12 + sm21) / S;
+                out[2] = (sm31 + sm13) / S;
+            } else if (sm22 > sm33) {
+                S = Math.sqrt(1.0 + sm22 - sm11 - sm33) * 2;
+                out[3] = (sm31 - sm13) / S;
+                out[0] = (sm12 + sm21) / S;
+                out[1] = 0.25 * S;
+                out[2] = (sm23 + sm32) / S;
+            } else {
+                S = Math.sqrt(1.0 + sm33 - sm11 - sm22) * 2;
+                out[3] = (sm12 - sm21) / S;
+                out[0] = (sm31 + sm13) / S;
+                out[1] = (sm23 + sm32) / S;
+                out[2] = 0.25 * S;
+            }
+            return new Vector3D(out[0], out[1], out[2], out[3]);
+        }
         public getScaling(): Vector3D {
          //   http://glmatrix.net/
             let m11 = this.m[0];

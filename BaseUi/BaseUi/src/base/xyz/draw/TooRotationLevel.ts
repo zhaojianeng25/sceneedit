@@ -163,7 +163,7 @@
                     $m.prepend($addM)
 
                     var outVec3d: Vector3D = $m.toEulerAngles();
-                    outVec3d.scaleBy(180 / Math.PI)
+                 //   console.log(outVec3d)
                     _xyzMoveData.rotationX = outVec3d.x
                     _xyzMoveData.rotationY = outVec3d.y
                     _xyzMoveData.rotationZ = outVec3d.z

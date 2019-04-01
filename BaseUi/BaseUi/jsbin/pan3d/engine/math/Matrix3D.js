@@ -266,7 +266,7 @@ var Pan3d;
             b[8] = this.m[10];
             return b;
         };
-        Matrix3D.prototype.getRotaion = function (b) {
+        Matrix3D.prototype.getRotaionM33 = function (b) {
             b[0] = this.m[0];
             b[1] = this.m[1];
             b[2] = this.m[2];
@@ -278,13 +278,15 @@ var Pan3d;
             b[8] = this.m[10];
         };
         Matrix3D.prototype.identityScale = function () {
-            var M = new Matrix3D;
-            var ro = this.toEulerAngles();
-            M.appendRotation(ro.x * 180 / Math.PI, Pan3d.Vector3D.X_AXIS);
-            M.appendRotation(ro.y * 180 / Math.PI, Pan3d.Vector3D.Y_AXIS);
-            M.appendRotation(ro.z * 180 / Math.PI, Pan3d.Vector3D.Z_AXIS);
-            M.appendTranslation(this.position.x, this.position.y, this.position.z);
-            this.m = M.m;
+            /*
+                  var M: Matrix3D = new Matrix3D
+                  var ro: Vector3D = this.toEulerAngles();
+                  M.appendRotation(ro.x , Vector3D.X_AXIS);
+                  M.appendRotation(ro.y , Vector3D.Y_AXIS);
+                  M.appendRotation(ro.z , Vector3D.Z_AXIS);
+                  M.appendTranslation(this.position.x,this.position.y, this.position.z)
+                  this.m = M.m;
+               */
         };
         Matrix3D.prototype.identityPostion = function () {
             this.m[12] = 0;
@@ -503,23 +505,59 @@ var Pan3d;
             a[15] = t * g + v * m + w * q + x * b;
             return a;
         };
-        Matrix3D.prototype.toEulerAngles = function (target) {
-            if (target === void 0) { target = null; }
+        Matrix3D.prototype.toEulerAngles = function () {
             var $q = new Pan3d.Quaternion();
             $q.fromMatrix(this);
-            return $q.toEulerAngles(target);
+            var v3d = $q.toEulerAngles();
+            v3d.scaleBy(180 / Math.PI);
+            return v3d;
         };
-        Matrix3D.prototype.getScale = function () {
-            var otherM = new Matrix3D();
-            var rot = this.toEulerAngles();
-            otherM.appendRotation(rot.x, Pan3d.Vector3D.X_AXIS);
-            otherM.appendRotation(rot.y, Pan3d.Vector3D.Y_AXIS);
-            otherM.appendRotation(rot.z, Pan3d.Vector3D.Z_AXIS);
-            otherM.appendTranslation(this.position.x, this.position.y, this.position.z);
-            otherM.invert();
-            var tempM = this.clone();
-            tempM.append(otherM);
-            return new Pan3d.Vector3D(this.m[0], this.m[5], this[10]);
+        Matrix3D.prototype.getRotationing = function () {
+            var out = [0, 0, 0, 0];
+            var scaling = this.getScaling();
+            var is1 = 1 / scaling.x;
+            var is2 = 1 / scaling.y;
+            var is3 = 1 / scaling.z;
+            var sm11 = this.m[0] * is1;
+            var sm12 = this.m[1] * is2;
+            var sm13 = this.m[2] * is3;
+            var sm21 = this.m[4] * is1;
+            var sm22 = this.m[5] * is2;
+            var sm23 = this.m[6] * is3;
+            var sm31 = this.m[8] * is1;
+            var sm32 = this.m[9] * is2;
+            var sm33 = this.m[10] * is3;
+            var ccav = sm11 + sm22 + sm33;
+            var S = 0;
+            if (ccav > 0) {
+                S = Math.sqrt(ccav + 1.0) * 2;
+                out[3] = 0.25 * S;
+                out[0] = (sm23 - sm32) / S;
+                out[1] = (sm31 - sm13) / S;
+                out[2] = (sm12 - sm21) / S;
+            }
+            else if ((sm11 > sm22) && (sm11 > sm33)) {
+                S = Math.sqrt(1.0 + sm11 - sm22 - sm33) * 2;
+                out[3] = (sm23 - sm32) / S;
+                out[0] = 0.25 * S;
+                out[1] = (sm12 + sm21) / S;
+                out[2] = (sm31 + sm13) / S;
+            }
+            else if (sm22 > sm33) {
+                S = Math.sqrt(1.0 + sm22 - sm11 - sm33) * 2;
+                out[3] = (sm31 - sm13) / S;
+                out[0] = (sm12 + sm21) / S;
+                out[1] = 0.25 * S;
+                out[2] = (sm23 + sm32) / S;
+            }
+            else {
+                S = Math.sqrt(1.0 + sm33 - sm11 - sm22) * 2;
+                out[3] = (sm12 - sm21) / S;
+                out[0] = (sm31 + sm13) / S;
+                out[1] = (sm23 + sm32) / S;
+                out[2] = 0.25 * S;
+            }
+            return new Pan3d.Vector3D(out[0], out[1], out[2], out[3]);
         };
         Matrix3D.prototype.getScaling = function () {
             //   http://glmatrix.net/

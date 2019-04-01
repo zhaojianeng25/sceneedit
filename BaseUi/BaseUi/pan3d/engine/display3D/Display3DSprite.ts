@@ -533,7 +533,7 @@
                 this._rotationMatrix.appendRotation(this._rotationY, Vector3D.Y_AXIS);
                 this._rotationMatrix.appendRotation(this._rotationZ, Vector3D.Z_AXIS);
                 if (this._rotationData) {
-                    this._rotationMatrix.getRotaion(this._rotationData);
+                    this._rotationMatrix.getRotaionM33(this._rotationData);
                 }
             }
             catch (err) {

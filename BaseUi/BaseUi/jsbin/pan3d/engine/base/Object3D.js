@@ -126,6 +126,9 @@ var Pan3d;
                 return this._rotationY;
             },
             set: function (value) {
+                if (isNaN(value)) {
+                    console.log("有错");
+                }
                 this._rotationY = value;
                 this.updateMatrix();
                 this.updateRotationMatrix();
