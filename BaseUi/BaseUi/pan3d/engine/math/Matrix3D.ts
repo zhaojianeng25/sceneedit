@@ -597,6 +597,37 @@
             $q.fromMatrix(this)
             return $q.toEulerAngles(target);
         }
+        public getScale(): Vector3D {
+            var otherM = new Matrix3D();
+            var rot: Vector3D = this.toEulerAngles()
+            otherM.appendRotation(rot.x, Vector3D.X_AXIS);
+            otherM.appendRotation(rot.y, Vector3D.Y_AXIS);
+            otherM.appendRotation(rot.z, Vector3D.Z_AXIS);
+            otherM.appendTranslation(this.position.x, this.position.y, this.position.z)
+            otherM.invert();
+            var tempM: Matrix3D = this.clone();
+            tempM.append(otherM);
+            return new Vector3D(this.m[0], this.m[5], this[10])
+        }
+
+        public getScaling(): Vector3D {
+         //   http://glmatrix.net/
+            let m11 = this.m[0];
+            let m12 = this.m[1];
+            let m13 = this.m[2];
+            let m21 = this.m[4];
+            let m22 = this.m[5];
+            let m23 = this.m[6];
+            let m31 = this.m[8];
+            let m32 = this.m[9];
+            let m33 = this.m[10];
+
+            var a: number = Math.sqrt(m11 * m11 + m12 * m12 + m13 * m13);
+            var b: number = Math.sqrt(m21 * m21 + m22 * m22 + m23 * m23);
+            var c: number= Math.sqrt(m31 * m31 + m32 * m32 + m33 * m33);
+
+            return new Vector3D(a, b, c);
+        }
 
 
     }

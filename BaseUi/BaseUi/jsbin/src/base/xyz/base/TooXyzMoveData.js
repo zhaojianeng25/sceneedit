@@ -33,17 +33,27 @@ var xyz;
             for (var i = 0; i < this.modelItem.length; i++) {
                 var M = this.modeMatrx3D.clone();
                 M.prepend(this.dataItem[i].modeMatrx3D);
+                /*
                 this.modelItem[i].x = M.position.x;
                 this.modelItem[i].y = M.position.y;
                 this.modelItem[i].z = M.position.z;
-                var outVec3d = M.toEulerAngles();
-                outVec3d.scaleBy(180 / Math.PI);
-                this.modelItem[i].rotationX = outVec3d.x;
-                this.modelItem[i].rotationY = outVec3d.y;
-                this.modelItem[i].rotationZ = outVec3d.z;
-                //this.modelItem[i].scaleX = this.scaleX 
-                //this.modelItem[i].scaleY = this.scaleY 
-                //this.modelItem[i].scaleZ = this.scaleZ
+
+                console.log(M.position)
+
+                var outVec3d: Vector3D = M.toEulerAngles();
+                outVec3d.scaleBy(180 / Math.PI)
+                this.modelItem[i].rotationX = outVec3d.x
+                this.modelItem[i].rotationY = outVec3d.y
+                this.modelItem[i].rotationZ = outVec3d.z
+  
+
+                var scale: Vector3D = M.getScale();
+
+                this.modelItem[i].scaleX = scale.x
+                this.modelItem[i].scaleY = scale.y
+                this.modelItem[i].scaleZ = scale.z
+
+                */
                 this.modelItem[i].posMatrix.m = M.m;
                 this.dataUpDate();
             }
@@ -91,9 +101,15 @@ var xyz;
                 var tempXyz = new TooXyzPosData;
                 tempXyz.modeMatrx3D = $arr[j].posMatrix.clone(); //存放相对
                 tempXyz.modeMatrx3D.prepend(inM);
-                tempXyz.scaleX = $arr[j].scaleX;
-                tempXyz.scaleY = $arr[j].scaleY;
-                tempXyz.scaleZ = $arr[j].scaleZ;
+                //  tempXyz.scaleX = $arr[j].scaleX;
+                //tempXyz.scaleY = $arr[j].scaleY;
+                //tempXyz.scaleZ = $arr[j].scaleZ;
+                //tempXyz.x = $arr[j].x - baseXyz.x;
+                //tempXyz.y = $arr[j].y - baseXyz.y;
+                //tempXyz.z = $arr[j].z - baseXyz.z;
+                //tempXyz.rotationX = $arr[j].rotationX - baseXyz.rotationX;
+                //tempXyz.rotationY = $arr[j].rotationY - baseXyz.rotationY;
+                //tempXyz.rotationZ = $arr[j].rotationZ - baseXyz.rotationZ;
                 baseXyz.dataItem.push(tempXyz);
                 baseXyz.modelItem.push($arr[j]);
             }

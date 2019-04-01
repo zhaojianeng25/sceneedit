@@ -27,7 +27,9 @@ var prop;
         }
         InputTextUi.prototype.onHtmlInputMouseDown = function ($e) {
             if ($e.target != this.chatHtmlInput) {
-                this.chatHtmlInput.hidden = true;
+                if (this.chatHtmlInput) {
+                    this.chatHtmlInput.hidden = true;
+                }
                 document.removeEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
             }
         };
@@ -92,9 +94,12 @@ var prop;
         });
         InputTextUi.prototype.butClik = function (evt) {
             var _this = this;
-            this.chatHtmlInput.hidden = false;
-            setTimeout(function () { _this.chatHtmlInput.focus(); }, 1);
-            document.addEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+            if (this.chatHtmlInput.hidden) {
+                // console.log("添加事件")
+                this.chatHtmlInput.hidden = false;
+                setTimeout(function () { _this.chatHtmlInput.focus(); }, 1);
+                document.addEventListener(MouseType.MouseDown, this.onHtmlInputMouseDownFun);
+            }
         };
         return InputTextUi;
     }(prop.TextLabelUI));

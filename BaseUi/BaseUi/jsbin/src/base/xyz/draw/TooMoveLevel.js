@@ -148,6 +148,7 @@ var xyz;
             if (this.parent.xyzMoveData) {
                 this.posMatrix.identity();
                 var perentM = this.parent.xyzMoveData.modeMatrx3D.clone();
+                perentM.identityScale();
                 var dis = Vector3D.distance(perentM.position, this._scene.cam3D);
                 dis = this._scene.cam3D.cameraMatrix.transformVector(perentM.position).z;
                 perentM.prependScale(dis / 80, dis / 80, dis / 80);

@@ -509,6 +509,34 @@ var Pan3d;
             $q.fromMatrix(this);
             return $q.toEulerAngles(target);
         };
+        Matrix3D.prototype.getScale = function () {
+            var otherM = new Matrix3D();
+            var rot = this.toEulerAngles();
+            otherM.appendRotation(rot.x, Pan3d.Vector3D.X_AXIS);
+            otherM.appendRotation(rot.y, Pan3d.Vector3D.Y_AXIS);
+            otherM.appendRotation(rot.z, Pan3d.Vector3D.Z_AXIS);
+            otherM.appendTranslation(this.position.x, this.position.y, this.position.z);
+            otherM.invert();
+            var tempM = this.clone();
+            tempM.append(otherM);
+            return new Pan3d.Vector3D(this.m[0], this.m[5], this[10]);
+        };
+        Matrix3D.prototype.getScaling = function () {
+            //   http://glmatrix.net/
+            var m11 = this.m[0];
+            var m12 = this.m[1];
+            var m13 = this.m[2];
+            var m21 = this.m[4];
+            var m22 = this.m[5];
+            var m23 = this.m[6];
+            var m31 = this.m[8];
+            var m32 = this.m[9];
+            var m33 = this.m[10];
+            var a = Math.sqrt(m11 * m11 + m12 * m12 + m13 * m13);
+            var b = Math.sqrt(m21 * m21 + m22 * m22 + m23 * m23);
+            var c = Math.sqrt(m31 * m31 + m32 * m32 + m33 * m33);
+            return new Pan3d.Vector3D(a, b, c);
+        };
         Matrix3D.tempM = new Matrix3D();
         return Matrix3D;
     }());
