@@ -22,9 +22,11 @@
     import Scene_data = Pan3d.Scene_data
     import LoadManager = Pan3d.LoadManager
     import TextureManager = Pan3d.TextureManager
+    import MouseType=Pan3d.MouseType
 
     import DragSource = drag.DragSource;
     import DragManager = drag.DragManager;
+ 
 
     import FileVo = pack.FileVo;
     import FileModel = pack.FileOssModel;
@@ -228,20 +230,8 @@
         protected loadConfigCom(): void {
             super.loadConfigCom();
             this._baseRender.mask = this._uiMask
-            var item: Array<UICompenent> = [
-                this.a_scroll_bar_bg,
-                this.a_tittle_bg,
-                this.a_bg,
-                 this.b_bottom_left,
-              //  this.b_bottom_mid,
-                //this.b_bottom_right,
-               //  this.b_bottom_line_left,
-                //this.b_bottom_line_right,
-     
-              
-            ]
-            this.setUiListVisibleByItem(item, false)
-         
+ 
+            this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
 
             this.resize()
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -251,6 +241,48 @@
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
             })
+
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+        }
+        public onMouseWheel($evt: MouseWheelEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                if (this.contentHeight > this._uiMask.height) {
+                    this.c_scroll_bar.y += $evt.deltaY / 30;
+                    this.changeScrollBar();
+                    this.resize();
+                }
+            }
+
+        }
+        //protected changeScrollBar(): void {
+        //    this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
+        //    var th: number = this._uiMask.height - this.c_scroll_bar.height
+        //    var ty: number = this.c_scroll_bar.y - this._uiMask.y;
+        //    this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
+
+        //}
+        private get isCanToDo(): boolean { //false为可以操作
+
+            if (this && this.hasStage) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+        private onMouseWheelFun: any
+        public resize(): void {
+            this.resetSampleFilePos();
+            if (this.uiLoadComplete) {
+                this.contentHeight = this.getcontentHeight()
+            }
+            super.resize();
         }
 
         private loadAssetImg(bfun: Function): void {
@@ -477,7 +509,7 @@
                     $vo.pos = new Vector3D(i * 64, 40, 0);
                     this.fileItem.push($vo);
                 }
-                this.resetSampleFilePos()
+                this.resize();
             })
 
         }
@@ -741,7 +773,7 @@
     
         private resetSampleFilePos(): void {
             var w: number = Math.round((this.pageRect.width-50)  / 100);
-            var moveTy: number = 0
+            var moveTy: number = this.moveListTy;
             for (var i: number = 0; this.fileItem&& i < this.fileItem.length; i++) {
                 var vo: FileListMeshVo = this.fileItem[i];
                 vo.uiScale = 0.7
@@ -749,14 +781,16 @@
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy
             }
 
+        
+        }
+        private getcontentHeight(): number {
             if (this.uiLoadComplete && this.fileItem) {
- 
-                var isVisible: boolean = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy)
-  
-                this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible)
-
-
+                var w: number = Math.round((this.pageRect.width - 50) / 100);
+                return Math.round(this.fileItem.length / w) * 70
+            } else {
+                return 0
             }
+
         }
 
         private fileItem: Array<FileListMeshVo>

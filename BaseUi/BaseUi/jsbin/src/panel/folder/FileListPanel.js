@@ -25,6 +25,7 @@ var filelist;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var TextureManager = Pan3d.TextureManager;
+    var MouseType = Pan3d.MouseType;
     var DragSource = drag.DragSource;
     var DragManager = drag.DragManager;
     var FileVo = pack.FileVo;
@@ -187,19 +188,54 @@ var filelist;
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
-            var item = [
-                this.a_scroll_bar_bg,
-                this.a_tittle_bg,
-                this.a_bg,
-                this.b_bottom_left,
-            ];
-            this.setUiListVisibleByItem(item, false);
+            this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
             this.resize();
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
             });
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+        };
+        FileListPanel.prototype.onMouseWheel = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
+            }
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                if (this.contentHeight > this._uiMask.height) {
+                    this.c_scroll_bar.y += $evt.deltaY / 30;
+                    this.changeScrollBar();
+                    this.resize();
+                }
+            }
+        };
+        Object.defineProperty(FileListPanel.prototype, "isCanToDo", {
+            //protected changeScrollBar(): void {
+            //    this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
+            //    var th: number = this._uiMask.height - this.c_scroll_bar.height
+            //    var ty: number = this.c_scroll_bar.y - this._uiMask.y;
+            //    this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
+            //}
+            get: function () {
+                if (this && this.hasStage) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        FileListPanel.prototype.resize = function () {
+            this.resetSampleFilePos();
+            if (this.uiLoadComplete) {
+                this.contentHeight = this.getcontentHeight();
+            }
+            _super.prototype.resize.call(this);
         };
         FileListPanel.prototype.loadAssetImg = function (bfun) {
             FileListPanel.imgBaseDic = {};
@@ -383,7 +419,7 @@ var filelist;
                     $vo.pos = new Vector3D(i * 64, 40, 0);
                     _this.fileItem.push($vo);
                 }
-                _this.resetSampleFilePos();
+                _this.resize();
             });
         };
         FileListPanel.prototype.getItemVoByUi = function (ui) {
@@ -603,16 +639,21 @@ var filelist;
         };
         FileListPanel.prototype.resetSampleFilePos = function () {
             var w = Math.round((this.pageRect.width - 50) / 100);
-            var moveTy = 0;
+            var moveTy = this.moveListTy;
             for (var i = 0; this.fileItem && i < this.fileItem.length; i++) {
                 var vo = this.fileItem[i];
                 vo.uiScale = 0.7;
                 vo.pos.x = i % w * 100;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy;
             }
+        };
+        FileListPanel.prototype.getcontentHeight = function () {
             if (this.uiLoadComplete && this.fileItem) {
-                var isVisible = this.pageRect.height < (Math.round(this.fileItem.length / w) * 70 + moveTy);
-                this.setUiListVisibleByItem([this.a_scroll_bar_bg], isVisible);
+                var w = Math.round((this.pageRect.width - 50) / 100);
+                return Math.round(this.fileItem.length / w) * 70;
+            }
+            else {
+                return 0;
             }
         };
         FileListPanel.prototype.getCharNameMeshVo = function (value) {
