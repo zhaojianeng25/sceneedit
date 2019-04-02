@@ -72,6 +72,10 @@ var editscene;
             if (localStorage.getItem("mapurl")) {
                 $nameKey = localStorage.getItem("mapurl");
             }
+            if (getUrlParam("mapurl")) {
+                $nameKey = getUrlParam("mapurl");
+                console.log($nameKey);
+            }
             ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
         };
         EditSceneProcessor.prototype.listenModuleEvents = function () {

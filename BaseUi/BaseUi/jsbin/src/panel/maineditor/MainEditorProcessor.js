@@ -96,6 +96,10 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
+                    var stateObject = { id: 1 };
+                    var title = "";
+                    var newUrl = "index.html?mapurl=" + $mainEditorEvent.data;
+                    history.pushState(null, title, newUrl);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
                     if (this._hierarchyListPanel) {
