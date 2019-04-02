@@ -71,6 +71,7 @@ var xyz;
                 this.pointItem = [A, B, C];
                 this.lastMatrix3d = this.parent.xyzMoveData.modeMatrx3D.clone();
                 this.lastMousePosV3d = this.getMouseHitPanelPos(mouseVect2d);
+                this.lastScaleV3d = new Vector3D(this.parent.xyzMoveData.scaleX, this.parent.xyzMoveData.scaleY, this.parent.xyzMoveData.scaleZ);
             }
         };
         TooScaleLevel.prototype.onMouseUp = function (mouseVect2d) {
@@ -109,12 +110,19 @@ var xyz;
                             isTrue = false;
                             break;
                     }
-                    var $m = this.lastMatrix3d.clone();
-                    $m.prependTranslation(addPos.x, addPos.y, addPos.z);
-                    var pos = $m.position;
-                    this.parent.xyzMoveData.x = pos.x;
-                    this.parent.xyzMoveData.y = pos.y;
-                    this.parent.xyzMoveData.z = pos.z;
+                    console.log(addPos);
+                    this.parent.xyzMoveData.scaleX = this.lastScaleV3d.x + addPos.x / 10;
+                    this.parent.xyzMoveData.scaleY = this.lastScaleV3d.y + addPos.y / 10;
+                    this.parent.xyzMoveData.scaleZ = this.lastScaleV3d.z + addPos.z / 10;
+                    /*
+                    var $m: Matrix3D = this.lastMatrix3d.clone()
+                    $m.prependTranslation(addPos.x, addPos.y, addPos.z)
+                    var pos: Vector3D = $m.position
+                    this.parent.xyzMoveData.x = pos.x
+                    this.parent.xyzMoveData.y = pos.y
+                    this.parent.xyzMoveData.z = pos.z
+
+                    */
                 }
             }
             return isTrue;

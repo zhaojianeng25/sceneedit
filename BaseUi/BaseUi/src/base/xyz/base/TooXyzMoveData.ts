@@ -68,41 +68,7 @@
              this.updateMatrix();
         
             for (var i: number = 0; i < this.spriteItem.length; i++) {
-          
-
-                /*
-                this.modelItem[i].x = M.position.x;
-                this.modelItem[i].y = M.position.y;
-                this.modelItem[i].z = M.position.z;
-
-                console.log(M.position)
-
-                var outVec3d: Vector3D = M.toEulerAngles();
-                outVec3d.scaleBy(180 / Math.PI)
-                this.modelItem[i].rotationX = outVec3d.x
-                this.modelItem[i].rotationY = outVec3d.y
-                this.modelItem[i].rotationZ = outVec3d.z
-  
-
-                var scale: Vector3D = M.getScale();
-
-                this.modelItem[i].scaleX = scale.x
-                this.modelItem[i].scaleY = scale.y
-                this.modelItem[i].scaleZ = scale.z
-
-                */
-      /*
-           
-               
-
-            
-           
-                var a: Matrix3D = this.modeMatrx3D.clone();
-                var b: Matrix3D = this.dataItem[i].modeMatrx3D.clone();
-                a.prepend(b);
-               */
-                console.log(this.modeMatrx3D.position)
-
+    
                 var a: Matrix3D = this.baseMatrix3D.clone();
                 var b: Matrix3D = this.modeMatrx3D.clone();
                 a.invert();
@@ -117,15 +83,23 @@
                 this.spriteItem[i].scaleX = scale.x
                 this.spriteItem[i].scaleY = scale.y
                 this.spriteItem[i].scaleZ = scale.z
-                var outVec3d: Vector3D = M.toEulerAngles();
+                var outVec3d: Vector3D = M.toEulerAngles(); //欧拉角
+                outVec3d = M.getRotationing()   //新矩阵方法
+                outVec3d.scaleBy(180 / Math.PI);
+
+
                 this.spriteItem[i].rotationX = outVec3d.x
                 this.spriteItem[i].rotationY = outVec3d.y
                 this.spriteItem[i].rotationZ = outVec3d.z
                 this.spriteItem[i].x = M.position.x;
                 this.spriteItem[i].y = M.position.y;
                 this.spriteItem[i].z = M.position.z;
+
+
+      
+
                 this.spriteItem[i].posMatrix = c;
- 
+
                  this.dataUpDate();
             }
 
@@ -144,15 +118,16 @@
 
        
                 //第一个对象
-                rootData.x = $arr[0].x
-                rootData.y = $arr[0].y
-                rootData.z = $arr[0].z
-                rootData.scaleX = $arr[0].scaleX
-                rootData.scaleY = $arr[0].scaleY
-                rootData.scaleZ = $arr[0].scaleZ
-                rootData.rotationX = $arr[0].rotationX
-                rootData.rotationY = $arr[0].rotationY
+            rootData.x = $arr[0].x
+            rootData.y = $arr[0].y
+            rootData.z = $arr[0].z
+            rootData.scaleX = $arr[0].scaleX
+            rootData.scaleY = $arr[0].scaleY
+            rootData.scaleZ = $arr[0].scaleZ
+            rootData.rotationX = $arr[0].rotationX
+            rootData.rotationY = $arr[0].rotationY
             rootData.rotationZ = $arr[0].rotationZ
+
 
 
             //rootData.x = 10

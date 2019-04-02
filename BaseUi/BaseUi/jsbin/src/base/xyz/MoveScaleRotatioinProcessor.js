@@ -182,11 +182,13 @@ var xyz;
             else {
                 switch ($e.buttons) {
                     case 4:
-                        var $v = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
-                        this.selectScene.cam3D.x = this.mouseInfo.oldPosx + (this._middleMoveVe.x - $v.x);
-                        this.selectScene.cam3D.y = this.mouseInfo.oldPosy + (this._middleMoveVe.y - $v.y);
-                        this.selectScene.cam3D.z = this.mouseInfo.oldPosz + (this._middleMoveVe.z - $v.z);
-                        MathUtil.MathCam(this.selectScene.cam3D);
+                        if (!this.cancalAltKey) { //防止刚才是中键锁定旋转，忽然跳转到中键盘移动
+                            var $v = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
+                            this.selectScene.cam3D.x = this.mouseInfo.oldPosx + (this._middleMoveVe.x - $v.x);
+                            this.selectScene.cam3D.y = this.mouseInfo.oldPosy + (this._middleMoveVe.y - $v.y);
+                            this.selectScene.cam3D.z = this.mouseInfo.oldPosz + (this._middleMoveVe.z - $v.z);
+                            MathUtil.MathCam(this.selectScene.cam3D);
+                        }
                         break;
                     case 2:
                         this.selectScene.cam3D.rotationX = this.mouseInfo.old_rotation_x - ($e.y - this.mouseInfo.last_mouse_y);
@@ -228,6 +230,12 @@ var xyz;
                 case 0:
                     break;
                 case 1:
+                    if ($e.altKey) {
+                        this.cancalAltKey = true; //设置如果是中建移动，ALT取消后，不执行中键移动
+                    }
+                    else {
+                        this.cancalAltKey = false;
+                    }
                     this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y)); //中键按下的3D坐标
                     this.selectVec = new Vector3D(0, 0, 0);
                     if (this.moveScaleRotationLevel.xyzMoveData) {
@@ -285,6 +293,9 @@ var xyz;
         MoveScaleRotatioinProcessor.prototype.onKeyUp = function ($e) {
             if (!this.isCanToDo) {
                 return;
+            }
+            if ($e.keyCode == 4) {
+                this.cancalAltKey = true;
             }
         };
         MoveScaleRotatioinProcessor.prototype.onMouseWheel = function ($evt) {

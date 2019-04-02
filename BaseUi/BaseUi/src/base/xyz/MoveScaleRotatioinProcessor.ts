@@ -138,7 +138,11 @@
         private B: Matrix3D = new Matrix3D;
         private C: Matrix3D = new Matrix3D;
         private baseCamData: Object3D;
-        private disMatrix3D: Matrix3D = new Matrix3D
+        private disMatrix3D: Matrix3D = new Matrix3D;
+
+
+       
+
         private onMouseMove($e: MouseEvent): void {
             if (!this.isCanToDo) {
                 return
@@ -150,7 +154,6 @@
                         if (this.baseCamData) {
                             var nx: number = -($e.x - this.mouseInfo.last_mouse_x);
                             var ny: number = -($e.y - this.mouseInfo.last_mouse_y)
-
                             var $m: Matrix3D = this.B.clone();
                             var $Cinvert: Matrix3D = this.C.clone();
                             $Cinvert.invert();
@@ -168,10 +171,7 @@
 
                             MathUtil.MathCam(this.selectScene.cam3D)
 
-                       
                         }
-
-
 
                         break;
                     default:
@@ -180,11 +180,15 @@
             } else {
                 switch ($e.buttons) {
                     case 4:
-                        var $v: Vector3D = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
-                        this.selectScene.cam3D.x = this.mouseInfo.oldPosx + (this._middleMoveVe.x - $v.x);
-                        this.selectScene.cam3D.y = this.mouseInfo.oldPosy + (this._middleMoveVe.y - $v.y);
-                        this.selectScene.cam3D.z = this.mouseInfo.oldPosz + (this._middleMoveVe.z - $v.z);
-                        MathUtil.MathCam(this.selectScene.cam3D)
+                        if (!this.cancalAltKey) {  //防止刚才是中键锁定旋转，忽然跳转到中键盘移动
+                            var $v: Vector3D = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y));
+                            this.selectScene.cam3D.x = this.mouseInfo.oldPosx + (this._middleMoveVe.x - $v.x);
+                            this.selectScene.cam3D.y = this.mouseInfo.oldPosy + (this._middleMoveVe.y - $v.y);
+                            this.selectScene.cam3D.z = this.mouseInfo.oldPosz + (this._middleMoveVe.z - $v.z);
+                            MathUtil.MathCam(this.selectScene.cam3D)
+                        }
+      
+
                         break;
                     case 2:
                         this.selectScene.cam3D.rotationX = this.mouseInfo.old_rotation_x - ($e.y - this.mouseInfo.last_mouse_y);
@@ -241,6 +245,14 @@
                 case 0:
                     break;
                 case 1:
+               
+
+                    if ($e.altKey) {
+                        this.cancalAltKey = true //设置如果是中建移动，ALT取消后，不执行中键移动
+                    } else {
+                        this.cancalAltKey = false
+                    }
+
                     this._middleMoveVe = this.mouseHitInWorld3D(new Vector2D($e.x, $e.y)); //中键按下的3D坐标
                     this.selectVec = new Vector3D(0, 0, 0);
                     if (this.moveScaleRotationLevel.xyzMoveData) {
@@ -277,6 +289,7 @@
             if (!this.isCanToDo) {
                 return
             }
+ 
             this.moveScaleRotationLevel.onMouseUp($e);
         }
         private onKeyDown($e: KeyboardEvent): void {
@@ -301,12 +314,15 @@
                     break
             }
         }
+        private cancalAltKey: boolean
         private onKeyUp($e: KeyboardEvent): void {
             if (!this.isCanToDo) {
                 return
             }
-      
-
+            if ($e.keyCode==4) {
+                this.cancalAltKey=true
+            }
+ 
         }
 
         public onMouseWheel($evt: MouseWheelEvent): void {
