@@ -135,11 +135,18 @@ var filelist;
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-            var $textMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+            // var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+            var outStr = name.split(".")[0];
+            var $textMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(outStr, 14);
+            var twoLine = false;
+            console.log($textMetrics.width);
+            if ($textMetrics.width > 70) {
+                twoLine = true;
+            }
             if (this.fileListMeshVo.fileXmlVo.data.select) {
                 this.parent.uiAtlas.ctx.fillStyle = "rgba(255,255,255,0.1)";
                 ; // text color
-                if ($textMetrics.width > 70) {
+                if (twoLine) {
                     this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 3);
                 }
                 else {
@@ -156,8 +163,7 @@ var filelist;
                 th = Math.min($img.height * 1.5, drawPicRect.height);
             }
             this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th);
-            var outStr = name.split(".")[0];
-            if ($textMetrics.width > 70) {
+            if (twoLine) {
                 var inset = Math.floor(outStr.length * (2 / 5));
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 15, 0 - 2, 60, TextAlign.CENTER);
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 15, 0 - 2, 78, TextAlign.CENTER);
@@ -654,7 +660,7 @@ var filelist;
         };
         FileListPanel.prototype.resetSampleFilePos = function () {
             var w = Math.round((this.pageRect.width - 50) / 100);
-            var moveTy = this.moveListTy;
+            var moveTy = this.moveListTy + 10;
             for (var i = 0; this.fileItem && i < this.fileItem.length; i++) {
                 var vo = this.fileItem[i];
                 vo.uiScale = 0.7;

@@ -7,7 +7,7 @@
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI(128, 32);
-            this.infoLabelUi = new TextLabelUI(128, 32);
+            this.infoLabelUi = new TextLabelUI(256, 32);
 
             this.propPanle.addBaseMeshUi(this.textLabelUI)
             this.propPanle.addBaseMeshUi(this.infoLabelUi)

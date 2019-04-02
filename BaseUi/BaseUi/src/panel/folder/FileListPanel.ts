@@ -157,13 +157,19 @@
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
-            var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+           // var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+            var outStr: string = name.split(".")[0];
+            var $textMetrics: TextMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(outStr, 14)
 
-
+            var twoLine: boolean = false
+            console.log($textMetrics.width)
+            if ($textMetrics.width > 70) {
+                twoLine=true
+            }  
             if (this.fileListMeshVo.fileXmlVo.data.select) {
                 this.parent.uiAtlas.ctx.fillStyle = "rgba(255,255,255,0.1)";; // text color
 
-                if ($textMetrics.width > 70) {
+                if (twoLine) {
                     this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 3);
                 } else {
                     this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 10);
@@ -187,10 +193,10 @@
             this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th)
 
 
-            var outStr: string = name.split(".")[0];
+          
  
 
-            if ($textMetrics.width > 70) {
+            if (twoLine) {
                 var inset: number = Math.floor(outStr.length * (2 / 5))
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 15, 0-2 , 60, TextAlign.CENTER)
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substring(inset, outStr.length), 15, 0-2 , 78, TextAlign.CENTER)
@@ -789,7 +795,7 @@
     
         private resetSampleFilePos(): void {
             var w: number = Math.round((this.pageRect.width-50)  / 100);
-            var moveTy: number = this.moveListTy;
+            var moveTy: number = this.moveListTy+10;
             for (var i: number = 0; this.fileItem&& i < this.fileItem.length; i++) {
                 var vo: FileListMeshVo = this.fileItem[i];
                 vo.uiScale = 0.7

@@ -47,7 +47,7 @@ var filelist;
         };
         Object.defineProperty(PrefabMeshView.prototype, "prebaburl", {
             get: function () {
-                return this.prefabStaticMesh.url;
+                return AppData.getFileName(this.prefabStaticMesh.url);
             },
             set: function (value) {
             },

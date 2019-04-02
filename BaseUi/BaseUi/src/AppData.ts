@@ -19,6 +19,13 @@ class AppData extends Pan3d.GameStart {
         }
         return value
     }
+    public static getFileName(value: string): string {
+        var idex: number = value.lastIndexOf("/")
+
+      //  console.log(value.substring(idex + 1, value.length))
+        return value.substring(idex + 1, value.length)
+      
+    }
 
     public init(): void {
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";

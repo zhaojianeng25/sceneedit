@@ -23,9 +23,9 @@ var prop;
         }
         Texturue2DUI.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI(64, 16);
-            this.textureUrlText = new prop.TextLabelUI(128, 16);
+            this.textureUrlText = new prop.TextLabelUI(200, 16);
             this.texturePicUi = new prop.TexturePicUi();
-            this.searchIcon = new prop.BaseMeshUi(26, 26);
+            this.searchIcon = new prop.BaseMeshUi(20, 20);
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.textureUrlText);
             this.propPanle.addBaseMeshUi(this.texturePicUi);

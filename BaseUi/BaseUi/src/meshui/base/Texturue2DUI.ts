@@ -12,9 +12,9 @@
 
         protected initView(): void {
             this.textLabelUI = new TextLabelUI(64, 16)
-            this.textureUrlText = new TextLabelUI(128,16)
+            this.textureUrlText = new TextLabelUI(200,16)
             this.texturePicUi = new TexturePicUi()
-            this.searchIcon = new BaseMeshUi(26, 26);
+            this.searchIcon = new BaseMeshUi(20, 20);
 
             this.propPanle.addBaseMeshUi(this.textLabelUI)
             this.propPanle.addBaseMeshUi(this.textureUrlText)

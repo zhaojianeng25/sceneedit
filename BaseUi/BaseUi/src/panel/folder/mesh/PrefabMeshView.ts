@@ -37,11 +37,10 @@
             return null
         }
         public set prebaburl(value: string) {
- 
- 
+
         }
         public get prebaburl(): string {
-            return this.prefabStaticMesh.url
+            return AppData.getFileName(this.prefabStaticMesh.url)
         }
 
         public set texture(value: Material) {

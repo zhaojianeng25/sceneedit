@@ -26,6 +26,11 @@ var AppData = /** @class */ (function (_super) {
         }
         return value;
     };
+    AppData.getFileName = function (value) {
+        var idex = value.lastIndexOf("/");
+        //  console.log(value.substring(idex + 1, value.length))
+        return value.substring(idex + 1, value.length);
+    };
     AppData.prototype.init = function () {
         var _this = this;
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
