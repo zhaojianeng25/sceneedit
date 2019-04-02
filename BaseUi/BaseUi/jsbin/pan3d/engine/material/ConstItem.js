@@ -64,7 +64,6 @@ var Pan3d;
         };
         ConstItem.prototype.setDynamic = function ($dynamic) {
             try {
-                console.log($dynamic.currentValue, $dynamic.targetOffset);
                 this.vecNum.set($dynamic.currentValue, $dynamic.targetOffset);
             }
             catch (err) {
