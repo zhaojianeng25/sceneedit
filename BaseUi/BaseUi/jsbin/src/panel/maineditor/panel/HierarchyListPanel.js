@@ -411,10 +411,8 @@ var maineditor;
                     this.changeFileName(this.selectFolderMeshVo);
                     break;
                 case "3":
-                    console.log(this.selectFolderMeshVo.folderMeshVo.ossListFile.url);
                     var pathurl = Pan3d.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url;
-                    pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "");
-                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), AppData.getPerentPath(pathurl));
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""));
                     break;
                 default:
                     break;

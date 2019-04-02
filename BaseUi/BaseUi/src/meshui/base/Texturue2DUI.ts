@@ -34,8 +34,8 @@
         }
         protected searchFileByPath(value: string): void {
             var pathurl: string = Pan3d.Scene_data.fileRoot + value;
-            pathurl = pathurl.replace(Pan3d.Scene_data.ossRoot, "")
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), AppData.getPerentPath(pathurl))
+  
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
         }
         private getPerentPath(value: string): string {
             var idex: number = value.lastIndexOf("/")

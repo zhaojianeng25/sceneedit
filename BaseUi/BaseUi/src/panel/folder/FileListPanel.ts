@@ -90,9 +90,6 @@
                 this.lastSelect = this.fileListMeshVo.fileXmlVo.data.select;
                 this.lastName = this.fileListMeshVo.fileXmlVo.data.name;
 
-
-               
-
                 var $color: string = "[9c9c9c]"
                 if (this.fileListMeshVo.fileXmlVo.data.select) {
                     $color = "[ffffff]";
@@ -160,6 +157,21 @@
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
+            var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+
+
+            if (this.fileListMeshVo.fileXmlVo.data.select) {
+                this.parent.uiAtlas.ctx.fillStyle = "rgba(255,255,255,0.1)";; // text color
+
+                if ($textMetrics.width > 70) {
+                    this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 3);
+                } else {
+                    this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 10);
+                }
+           
+            }
+      
+
             var drawPicRect: Rectangle = new Rectangle(18, 1, 64, 64)
             var tw: number = drawPicRect.width;
             var th: number = drawPicRect.height;
@@ -171,12 +183,11 @@
                 th = Math.min($img.height * 1.5, drawPicRect.height);
             }
 
+          
             this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th)
 
 
             var outStr: string = name.split(".")[0];
-
-            var $textMetrics: TextMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
  
 
             if ($textMetrics.width > 70) {
@@ -488,17 +499,19 @@
             }
         }
         private rootFilePath: string;
-        public refrishPath(pathstr: string): void {
-            this.rootFilePath = pathstr
+        public refrishPath(filePath: string): void {
+            console.log("刷新目录", filePath)
+            this.rootFilePath = AppData.getPerentPath(filePath)
             this.moveListTy = 0;
-            //this.a_path_tittle_txt.x = 10
-            //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll()
-            pack.FileOssModel.getFolderArr(pathstr, (value: Array<FileVo>) => {
+            pack.FileOssModel.getFolderArr(this.rootFilePath, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
                     var sampleFile: SampleFileVo = new SampleFileVo;
                     sampleFile.id = i;
                     sampleFile.data = value[i]
+                    if (sampleFile.data.path == filePath) {
+                        sampleFile.data.select = true;
+                    }
                     var $vo: FileListMeshVo = this.getCharNameMeshVo(sampleFile);
                     $vo.pos = new Vector3D(i * 64, 40, 0);
                     this.fileItem.push($vo);

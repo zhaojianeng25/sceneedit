@@ -135,6 +135,17 @@ var filelist;
             var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
             this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
             this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+            var $textMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
+            if (this.fileListMeshVo.fileXmlVo.data.select) {
+                this.parent.uiAtlas.ctx.fillStyle = "rgba(255,255,255,0.1)";
+                ; // text color
+                if ($textMetrics.width > 70) {
+                    this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 3);
+                }
+                else {
+                    this.parent.uiAtlas.ctx.fillRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight - 10);
+                }
+            }
             var drawPicRect = new Rectangle(18, 1, 64, 64);
             var tw = drawPicRect.width;
             var th = drawPicRect.height;
@@ -146,7 +157,6 @@ var filelist;
             }
             this.parent.uiAtlas.ctx.drawImage($img, drawPicRect.x + (drawPicRect.width - tw) / 2, drawPicRect.y + (drawPicRect.height - th) / 2, tw, th);
             var outStr = name.split(".")[0];
-            var $textMetrics = Pan3d.TextRegExp.getTextMetrics(this.parent.uiAtlas.ctx, outStr);
             if ($textMetrics.width > 70) {
                 var inset = Math.floor(outStr.length * (2 / 5));
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, $color + outStr.substr(0, inset), 15, 0 - 2, 60, TextAlign.CENTER);
@@ -398,18 +408,20 @@ var filelist;
                 vo.destory();
             }
         };
-        FileListPanel.prototype.refrishPath = function (pathstr) {
+        FileListPanel.prototype.refrishPath = function (filePath) {
             var _this = this;
-            this.rootFilePath = pathstr;
+            console.log("刷新目录", filePath);
+            this.rootFilePath = AppData.getPerentPath(filePath);
             this.moveListTy = 0;
-            //this.a_path_tittle_txt.x = 10
-            //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll();
-            pack.FileOssModel.getFolderArr(pathstr, function (value) {
+            pack.FileOssModel.getFolderArr(this.rootFilePath, function (value) {
                 for (var i = 0; i < value.length; i++) {
                     var sampleFile = new SampleFileVo;
                     sampleFile.id = i;
                     sampleFile.data = value[i];
+                    if (sampleFile.data.path == filePath) {
+                        sampleFile.data.select = true;
+                    }
                     var $vo = _this.getCharNameMeshVo(sampleFile);
                     $vo.pos = new Vector3D(i * 64, 40, 0);
                     _this.fileItem.push($vo);
