@@ -48,7 +48,7 @@
          
         }
         private readBaseModel(): void {
-            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE,
+            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE,
                 ($modelxml: string) => {
                     left.ModelShowModel.getInstance().readTxtToModelBy($modelxml)
   

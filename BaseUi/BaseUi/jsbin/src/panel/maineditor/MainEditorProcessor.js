@@ -129,7 +129,9 @@ var maineditor;
             }
         };
         MainEditorProcessor.prototype.showScnePojectView = function (value) {
-            this.sceneProjectVo = value;
+            if (value) {
+                this.sceneProjectVo = value;
+            }
             var _cenePojectMeshView = new maineditor.ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
             _cenePojectMeshView.data = this.sceneProjectVo;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);

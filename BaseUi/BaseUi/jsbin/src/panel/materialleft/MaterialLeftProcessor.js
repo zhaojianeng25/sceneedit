@@ -70,7 +70,7 @@ var materialleft;
             }
         };
         MaterialLeftProcessor.prototype.readBaseModel = function () {
-            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2_objs.txt", LoadManager.XML_TYPE, function ($modelxml) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + "objs/model_2.objs", LoadManager.XML_TYPE, function ($modelxml) {
                 left.ModelShowModel.getInstance().readTxtToModelBy($modelxml);
             });
         };

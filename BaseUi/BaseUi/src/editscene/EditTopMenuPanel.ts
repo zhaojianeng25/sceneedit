@@ -201,22 +201,23 @@
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.CLEAR_SCENE_MAP_ALL))
                     break
                 case "21":
-               
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW))
                     break
                 case "22":
+              
+                    break
                 case "23":
             
                     break
                 case "31":
+                     //解析地图
                     pack.FileOssModel.upTempFileToOss(($file: File) => {
-
                         var idx: number = AppData.mapOpenUrl.lastIndexOf(".");
                         if (idx != -1) {
                             var mapDic: string = AppData.mapOpenUrl.substring(0, idx)+"/"
                             inputres.ImputGameResModel.getInstance().inputSceneFile($file, mapDic)
                         }
-         
- 
+
                     })
                     break
                 case "1001":

@@ -142,7 +142,11 @@
         }
         private sceneProjectVo: SceneProjectVo;
         private showScnePojectView(value: any): void {
-            this.sceneProjectVo = value
+            if (value) {
+                this.sceneProjectVo = value
+            }
+       
+        
             var _cenePojectMeshView: ScenePojectMeshView = new ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
             _cenePojectMeshView.data = this.sceneProjectVo;
             prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
