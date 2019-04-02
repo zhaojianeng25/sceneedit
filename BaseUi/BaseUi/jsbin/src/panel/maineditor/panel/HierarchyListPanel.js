@@ -158,8 +158,16 @@ var maineditor;
             }
             var constItem = new DynamicBaseConstItem();
             constItem.setTargetInfo(target, targetName, obj.type);
-            if (obj.type == "vec3") {
-                constItem.setCurrentVal(obj.data.x, obj.data.y, obj.data.z);
+            switch (obj.type) {
+                case "vec3":
+                    constItem.setCurrentVal(obj.data.x, obj.data.y, obj.data.z);
+                    break;
+                case "vec2":
+                    constItem.setCurrentVal(obj.data.x, obj.data.y);
+                    break;
+                case "float":
+                    constItem.setCurrentVal(obj.data);
+                    break;
             }
             this.materialParam.dynamicConstList.push(constItem);
         };

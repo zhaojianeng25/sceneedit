@@ -162,7 +162,7 @@
             var $textMetrics: TextMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(outStr, 14)
 
             var twoLine: boolean = false
-            console.log($textMetrics.width)
+ 
             if ($textMetrics.width > 70) {
                 twoLine=true
             }  

@@ -20,7 +20,7 @@
         private _wrap: number//0 reapte,1 clamp
         private _mipmap: number;// 0=disable、1=nearest、2=linear
         private _filter: number;// 0=linear1=nearest、
-        private _permul: boolean;
+     
 
         private a_texture_pic_frame: FrameCompenent
 
@@ -33,7 +33,7 @@
             this._wrap = 0;
             this._mipmap = 0;
             this._filter = 0;
-            this._permul = false;
+         
 
 
             this.nodeTree = new NodeTreeTex;
@@ -97,7 +97,7 @@
             vo.wrap = this._wrap;
             vo.mipmap = this._mipmap;
             vo.filter = this._filter;
-            vo.permul = this._permul;
+            vo.permul = false;
             this.drawPicBmp()
 
         }
@@ -132,7 +132,7 @@
             obj.wrap = this.wrap;
             obj.mipmap = this.mipmap;
             obj.filter = this.filter;
-            obj.permul = this.permul;
+            obj.permul = (<NodeTreeTex>this.nodeTree).permul
             return obj;
         }
         public get wrap(): number {
@@ -146,11 +146,11 @@
             return this._filter;
         }
         public get permul(): boolean {
-            return this._permul;
+            return (<NodeTreeTex>this.nodeTree).permul;
         }
 
         public set permul(value: boolean) {
-            this._permul = value;
+         
             (<NodeTreeTex>this.nodeTree).permul = value;
         }
         public set filter(value: number) {

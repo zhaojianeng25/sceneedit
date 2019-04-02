@@ -27,7 +27,6 @@ var materialui;
             _this._wrap = 0;
             _this._mipmap = 0;
             _this._filter = 0;
-            _this._permul = false;
             _this.nodeTree = new materialui.NodeTreeTex;
             _this.nodeTree.ui = _this;
             _this.nodeTree.type = materialui.NodeTree.TEX;
@@ -74,7 +73,7 @@ var materialui;
             vo.wrap = this._wrap;
             vo.mipmap = this._mipmap;
             vo.filter = this._filter;
-            vo.permul = this._permul;
+            vo.permul = false;
             this.drawPicBmp();
         };
         TextureSampleNodeUI.prototype.drawPicBmp = function () {
@@ -109,7 +108,7 @@ var materialui;
             obj.wrap = this.wrap;
             obj.mipmap = this.mipmap;
             obj.filter = this.filter;
-            obj.permul = this.permul;
+            obj.permul = this.nodeTree.permul;
             return obj;
         };
         Object.defineProperty(TextureSampleNodeUI.prototype, "wrap", {
@@ -147,10 +146,9 @@ var materialui;
         });
         Object.defineProperty(TextureSampleNodeUI.prototype, "permul", {
             get: function () {
-                return this._permul;
+                return this.nodeTree.permul;
             },
             set: function (value) {
-                this._permul = value;
                 this.nodeTree.permul = value;
             },
             enumerable: true,

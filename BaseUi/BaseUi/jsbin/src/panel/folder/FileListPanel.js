@@ -139,7 +139,6 @@ var filelist;
             var outStr = name.split(".")[0];
             var $textMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(outStr, 14);
             var twoLine = false;
-            console.log($textMetrics.width);
             if ($textMetrics.width > 70) {
                 twoLine = true;
             }

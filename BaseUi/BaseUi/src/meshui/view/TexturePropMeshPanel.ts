@@ -63,6 +63,8 @@
 
         public set permulValue(value: number) {
             (<materialui.NodeTreeTex>this.textureSampleNodeUI.nodeTree).permul = Boolean(value);
+
+
         }
         public get permulValue(): number {
             if ((<materialui.NodeTreeTex>this.textureSampleNodeUI.nodeTree).permul) {
