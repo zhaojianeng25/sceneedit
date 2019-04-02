@@ -74,6 +74,7 @@
             $temp.timeSpeed = $treeMater.timeSpeed;
             $temp.timeValue = $treeMater.timeValue;
             $temp.useUv = $treeMater.useUv;
+            $temp.blendMode = $treeMater.blendMode;
             
 
 

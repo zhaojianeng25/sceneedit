@@ -124,6 +124,12 @@
             console.log("----------fragment------------");
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
+
+
+            //将本来材质对象设置为新的效果
+
+            $treeMater.shader = $buildShader;
+            $treeMater.program = $buildShader.program;
              
               (<MaterialModelSprite>this.selectShowDisp).material = $temp;
        

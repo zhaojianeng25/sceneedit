@@ -87,6 +87,7 @@
             this.changeV3d()
         }
         private changeV3d(): void {
+         
             this.target[this.FunKey] = this._v3d;
             this.changFun && this.changFun(this);
             this.refreshViewValue();

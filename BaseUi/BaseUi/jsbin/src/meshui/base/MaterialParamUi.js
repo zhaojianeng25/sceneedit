@@ -36,9 +36,15 @@ var prop;
                 if (item[i].type == materialui.NodeTree.VEC3) {
                     tempBaseReflComponent = new prop.Vec3ColorCtrlUI(this.propPanle);
                     tempBaseReflComponent.KeyStep = 0.01;
+                    if (isNaN(item[i].data.x) || isNaN(item[i].data.y) || isNaN(item[i].data.z)) {
+                        item[i].data = new Vector3D();
+                    }
                 }
                 if (item[i].type == materialui.NodeTree.FLOAT) {
                     tempBaseReflComponent = new prop.TextCtrlInput(this.propPanle);
+                    if (isNaN(item[i].data)) {
+                        item[i].data = 1;
+                    }
                 }
                 if (tempBaseReflComponent) {
                     tempBaseReflComponent.FunKey = "data";

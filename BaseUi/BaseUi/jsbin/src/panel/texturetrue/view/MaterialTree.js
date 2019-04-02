@@ -55,6 +55,7 @@ var materialui;
             $temp.timeSpeed = $treeMater.timeSpeed;
             $temp.timeValue = $treeMater.timeValue;
             $temp.useUv = $treeMater.useUv;
+            $temp.blendMode = $treeMater.blendMode;
             return $temp;
         };
         Object.defineProperty(MaterialTree.prototype, "compileData", {

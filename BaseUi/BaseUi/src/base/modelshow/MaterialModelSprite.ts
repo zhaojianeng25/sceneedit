@@ -78,7 +78,13 @@ module left {
                 Scene_data.context3D.setuniform1f($material.shader, "time", t );
             }
             Scene_data.context3D.setuniform3f($material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
-            super.setMaterialVc($material, $mp)
+
+            $material.update(t);
+            if ($mp) {
+                $mp.update();
+            }
+            Scene_data.context3D.setVc4fv($material.shader, "fc", $material.fcData);
+
         }
         public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
             var texVec: Array<TexItem> = $material.texList;
