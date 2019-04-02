@@ -10,20 +10,22 @@
     import LineDisplaySprite = Pan3d.LineDisplaySprite
 
 
-    export class TooMoveLevel extends TooBaseModelLevel {
-        private _boxA: TooJianTouDisplay3DSprite;
-        private _boxB: TooJianTouDisplay3DSprite;
-        private _boxC: TooJianTouDisplay3DSprite;
+    export class TooScaleLevel extends TooBaseModelLevel {
+        private _boxA: TooBoxDisplay3DSprite;
+        private _boxB: TooBoxDisplay3DSprite;
+        private _boxC: TooBoxDisplay3DSprite;
+
+
         private _lineA: TooLineTri3DSprite
         private _lineB: TooLineTri3DSprite
         private _lineC: TooLineTri3DSprite
- 
+
         constructor(value: MoveScaleRotationLevel) {
             super(value);
-            
-            this._boxA = new TooJianTouDisplay3DSprite();
-            this._boxB = new TooJianTouDisplay3DSprite();
-            this._boxC = new TooJianTouDisplay3DSprite();
+
+            this._boxA = new TooBoxDisplay3DSprite();
+            this._boxB = new TooBoxDisplay3DSprite();
+            this._boxC = new TooBoxDisplay3DSprite();
 
             this._lineA = new TooLineTri3DSprite();
             this._lineB = new TooLineTri3DSprite();
@@ -32,21 +34,21 @@
             this._boxA.colorVect = new Vector3D(1, 0, 0);
             this._boxB.colorVect = new Vector3D(0, 1, 0);
             this._boxC.colorVect = new Vector3D(0, 0, 1);
- 
+
 
         }
         public isHit(mouseVect2d: Vector2D): void {
 
-      
+
             this.testHitTemp(this._boxA, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(1, 0, 0)]);
             this.testHitTemp(this._boxB, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 1, 0)]);
             this.testHitTemp(this._boxC, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 0, 1)]);
 
-        
-        }
- 
 
-     
+        }
+
+
+
 
         public onMouseDown(mouseVect2d: Vector2D): void {
 
@@ -86,7 +88,7 @@
                 this.lastMatrix3d = this.parent.xyzMoveData.modeMatrx3D.clone()
                 this.lastMousePosV3d = this.getMouseHitPanelPos(mouseVect2d)
             }
-        
+
         }
         private lastMatrix3d: Matrix3D
         private pointItem: Array<Vector3D>
@@ -110,10 +112,10 @@
             var isTrue: boolean //是否有执行
             if (this.selectId > 0) {
                 if (this.lastMousePosV3d) {
- 
-                    var pos: Vector3D= this.getMouseHitPanelPos(mouseVect2d)
+
+                    var pos: Vector3D = this.getMouseHitPanelPos(mouseVect2d)
                     var addPos: Vector3D = new Vector3D()
-  
+
                     switch (this.selectId) {
                         case 1:
                             addPos.x = pos.x - this.lastMousePosV3d.x
@@ -122,7 +124,7 @@
                         case 2:
                             addPos.y = pos.y - this.lastMousePosV3d.y
                             isTrue = true
-                           break
+                            break
                         case 3:
                             addPos.z = pos.z - this.lastMousePosV3d.z
                             isTrue = true
@@ -137,9 +139,9 @@
                     this.parent.xyzMoveData.x = pos.x
                     this.parent.xyzMoveData.y = pos.y
                     this.parent.xyzMoveData.z = pos.z
- 
+
                 }
-              
+
             }
             return isTrue
         }
@@ -153,7 +155,7 @@
             switch (this.selectId) {
                 case 1:
                     B = new Vector3D(1, 0, 0);
-                    C = new Vector3D(0, 0,1);
+                    C = new Vector3D(0, 0, 1);
                     break
                 case 2:
                     B = new Vector3D(0, 1, 0);
@@ -171,12 +173,12 @@
         }
 
 
-     
+
         public update(): void {
             super.update()
- 
+
             var line50: number = 20;;
-  
+
             if (this.parent.xyzMoveData) {
                 this.posMatrix.identity()
                 var perentM: Matrix3D = this.parent.xyzMoveData.modeMatrx3D.clone()
@@ -194,32 +196,32 @@
                 dis = this._scene.cam3D.cameraMatrix.transformVector(perentM.position).z
                 perentM.prependScale(dis / 80, dis / 80, dis / 80);
 
-         
+
                 this.posMatrix.append(perentM);
             }
 
-          // this.posMatrix.identityScale()
-       
+            // this.posMatrix.identityScale()
 
-               //this.modelItem[i].x = M.position.x;
-               // this.modelItem[i].y = M.position.y;
-               // this.modelItem[i].z = M.position.z;
 
-               // var ro: Vector3D = M.toEulerAngles();
-               // this.modelItem[i].rotationX = ro.x * 180 / Math.PI;
-               // this.modelItem[i].rotationY = ro.y * 180 / Math.PI;
-               // this.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
-        
+            //this.modelItem[i].x = M.position.x;
+            // this.modelItem[i].y = M.position.y;
+            // this.modelItem[i].z = M.position.z;
+
+            // var ro: Vector3D = M.toEulerAngles();
+            // this.modelItem[i].rotationX = ro.x * 180 / Math.PI;
+            // this.modelItem[i].rotationY = ro.y * 180 / Math.PI;
+            // this.modelItem[i].rotationZ = ro.z * 180 / Math.PI;
+
 
             this._boxA.posMatrix = this.posMatrix.clone();
             this._boxA.posMatrix.prependTranslation(line50, 0, 0);
-         
+
 
             this._boxB.posMatrix = this.posMatrix.clone();
             this._boxB.posMatrix.prependTranslation(0, line50, 0);
             this._boxB.posMatrix.prependRotation(90, Vector3D.Z_AXIS);
 
-                ;
+            ;
             this._boxC.posMatrix = this.posMatrix.clone();
             this._boxC.posMatrix.prependTranslation(0, 0, line50);
             this._boxC.posMatrix.prependRotation(-90, Vector3D.Y_AXIS);
@@ -232,7 +234,7 @@
 
             this._lineC.posMatrix = this.posMatrix.clone();
             this._lineC.posMatrix.prependRotation(-90, Vector3D.Y_AXIS);
-         
+
 
 
             Scene_data.context3D.cullFaceBack(false);
@@ -248,8 +250,8 @@
             this._lineB.update();
             this._lineC.update();
 
-      
-            
+
+
 
         }
 

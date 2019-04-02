@@ -8,12 +8,14 @@
       
         private _tooMoveLevel: TooMoveLevel;
         private _tooRotationLevel: TooRotationLevel;
+        private _tooScaleLevel: TooScaleLevel;
         public _statceType: number;
         public constructor() {
             super();
             this._statceType = TooMathMoveUint.MOVE_NULL
             this._tooMoveLevel = new TooMoveLevel(this);
             this._tooRotationLevel = new TooRotationLevel(this);
+            this._tooScaleLevel = new TooScaleLevel(this)
        
         }
         public lookLenToFocu: number
@@ -38,6 +40,9 @@
                 case TooMathMoveUint.MOVE_ROUTATION:
                     this._tooRotationLevel.update()
                     break
+                case TooMathMoveUint.MOVE_SCALE:
+                    this._tooScaleLevel.update()
+                    break
                 default:
                     break
             }
@@ -48,6 +53,7 @@
             super.addStage()
             this._tooMoveLevel._scene = this._scene;
             this._tooRotationLevel._scene = this._scene;
+            this._tooScaleLevel._scene = this._scene;
         }
         public   dataUpDate(): void {
         }
@@ -78,6 +84,9 @@
                     case TooMathMoveUint.MOVE_ROUTATION:
                         this._tooRotationLevel.isHit(mouseVect2d)
                         break
+                    case TooMathMoveUint.MOVE_SCALE:
+                        this._tooScaleLevel.isHit(mouseVect2d)
+                        break
                     default:
                         break
                 }
@@ -91,6 +100,9 @@
                             break
                         case TooMathMoveUint.MOVE_ROUTATION:
                             needUpData = this._tooRotationLevel.onMouseMove(mouseVect2d)
+                            break
+                        case TooMathMoveUint.MOVE_SCALE:
+                            needUpData = this._tooScaleLevel.onMouseMove(mouseVect2d)
                             break
                         default:
                
@@ -121,6 +133,9 @@
                 case TooMathMoveUint.MOVE_ROUTATION:
                     this._tooRotationLevel.onMouseUp(mouseVect2d)
                     break
+                case TooMathMoveUint.MOVE_SCALE:
+                    this._tooScaleLevel.onMouseUp(mouseVect2d)
+                    break
                 default:
                     break
             }
@@ -133,6 +148,11 @@
             this._xyzMoveData.oldx = this._xyzMoveData.x
             this._xyzMoveData.oldy = this._xyzMoveData.y
             this._xyzMoveData.oldz = this._xyzMoveData.z
+
+            this._xyzMoveData.oldscale_x = this._xyzMoveData.scaleX
+            this._xyzMoveData.oldscale_y = this._xyzMoveData.scaleY
+            this._xyzMoveData.oldscale_z = this._xyzMoveData.scaleZ
+
             this._xyzMoveData.oldangle_x = this._xyzMoveData.rotationX;
             this._xyzMoveData.oldangle_y = this._xyzMoveData.rotationY;
             this._xyzMoveData.oldangle_z = this._xyzMoveData.rotationZ;
@@ -147,9 +167,9 @@
                     case TooMathMoveUint.MOVE_ROUTATION:
                         this._tooRotationLevel.onMouseDown(mouseVect2d)
                         break
-
-
-              
+                    case TooMathMoveUint.MOVE_SCALE:
+                        this._tooScaleLevel.onMouseDown(mouseVect2d)
+                        break
                     default:
                         break
                 }

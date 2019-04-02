@@ -143,10 +143,19 @@ var xyz;
         };
         TooRotationLevel.prototype.update = function () {
             _super.prototype.update.call(this);
+            this.posMatrix.identity();
             if (this.parent.xyzMoveData) {
-                this.posMatrix.append(this.parent.xyzMoveData.modeMatrx3D);
+                var perentM = this.parent.xyzMoveData.modeMatrx3D.clone();
+                perentM = new Matrix3D;
+                perentM.appendRotation(this.parent.xyzMoveData.rotationX, Vector3D.X_AXIS);
+                perentM.appendRotation(this.parent.xyzMoveData.rotationY, Vector3D.Y_AXIS);
+                perentM.appendRotation(this.parent.xyzMoveData.rotationZ, Vector3D.Z_AXIS);
+                perentM.appendTranslation(this.parent.xyzMoveData.x, this.parent.xyzMoveData.y, this.parent.xyzMoveData.z);
+                var dis = Vector3D.distance(perentM.position, this._scene.cam3D);
+                dis = this._scene.cam3D.cameraMatrix.transformVector(perentM.position).z;
+                perentM.prependScale(dis / 80, dis / 80, dis / 80);
+                this.posMatrix.append(perentM);
             }
-            this.posMatrix.identityScale();
             this._roundA.posMatrix = this.posMatrix.clone();
             this._roundB.posMatrix = this.posMatrix.clone();
             this._roundB.posMatrix.prependRotation(90, Vector3D.Z_AXIS);

@@ -15,13 +15,13 @@ var xyz;
 (function (xyz) {
     var Matrix3D = Pan3d.Matrix3D;
     var Scene_data = Pan3d.Scene_data;
-    var TooMoveLevel = /** @class */ (function (_super) {
-        __extends(TooMoveLevel, _super);
-        function TooMoveLevel(value) {
+    var TooScaleLevel = /** @class */ (function (_super) {
+        __extends(TooScaleLevel, _super);
+        function TooScaleLevel(value) {
             var _this = _super.call(this, value) || this;
-            _this._boxA = new xyz.TooJianTouDisplay3DSprite();
-            _this._boxB = new xyz.TooJianTouDisplay3DSprite();
-            _this._boxC = new xyz.TooJianTouDisplay3DSprite();
+            _this._boxA = new xyz.TooBoxDisplay3DSprite();
+            _this._boxB = new xyz.TooBoxDisplay3DSprite();
+            _this._boxC = new xyz.TooBoxDisplay3DSprite();
             _this._lineA = new xyz.TooLineTri3DSprite();
             _this._lineB = new xyz.TooLineTri3DSprite();
             _this._lineC = new xyz.TooLineTri3DSprite();
@@ -30,12 +30,12 @@ var xyz;
             _this._boxC.colorVect = new Vector3D(0, 0, 1);
             return _this;
         }
-        TooMoveLevel.prototype.isHit = function (mouseVect2d) {
+        TooScaleLevel.prototype.isHit = function (mouseVect2d) {
             this.testHitTemp(this._boxA, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(1, 0, 0)]);
             this.testHitTemp(this._boxB, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 1, 0)]);
             this.testHitTemp(this._boxC, mouseVect2d, [new Vector3D(1, 1, 1), new Vector3D(0, 0, 1)]);
         };
-        TooMoveLevel.prototype.onMouseDown = function (mouseVect2d) {
+        TooScaleLevel.prototype.onMouseDown = function (mouseVect2d) {
             if (xyz.TooMathHitModel.testHitModel(this._boxA, this._scene, mouseVect2d)) {
                 this.selectId = 1;
             }
@@ -73,11 +73,11 @@ var xyz;
                 this.lastMousePosV3d = this.getMouseHitPanelPos(mouseVect2d);
             }
         };
-        TooMoveLevel.prototype.onMouseUp = function (mouseVect2d) {
+        TooScaleLevel.prototype.onMouseUp = function (mouseVect2d) {
             this.lastMousePosV3d = null;
             this.selectId = 0;
         };
-        TooMoveLevel.prototype.getMouseHitPanelPos = function (mouseVect2d) {
+        TooScaleLevel.prototype.getMouseHitPanelPos = function (mouseVect2d) {
             var clik3dVect = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
             var cam3d = new Vector3D(this._scene.cam3D.x, this._scene.cam3D.y, this._scene.cam3D.z);
             var pos = Pan3d.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
@@ -86,7 +86,7 @@ var xyz;
             pos = $m.transformVector(pos);
             return pos;
         };
-        TooMoveLevel.prototype.onMouseMove = function (mouseVect2d) {
+        TooScaleLevel.prototype.onMouseMove = function (mouseVect2d) {
             var isTrue; //是否有执行
             if (this.selectId > 0) {
                 if (this.lastMousePosV3d) {
@@ -119,7 +119,7 @@ var xyz;
             }
             return isTrue;
         };
-        TooMoveLevel.prototype.getMouseHitPos = function (mouseVect2d) {
+        TooScaleLevel.prototype.getMouseHitPos = function (mouseVect2d) {
             var pos = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100);
             var A = new Vector3D(0, 0, 0);
             var B;
@@ -142,7 +142,7 @@ var xyz;
             }
             return Vector3D.getPointPedalInPlane(pos, A, B, C);
         };
-        TooMoveLevel.prototype.update = function () {
+        TooScaleLevel.prototype.update = function () {
             _super.prototype.update.call(this);
             var line50 = 20;
             ;
@@ -191,8 +191,8 @@ var xyz;
             this._lineB.update();
             this._lineC.update();
         };
-        return TooMoveLevel;
+        return TooScaleLevel;
     }(xyz.TooBaseModelLevel));
-    xyz.TooMoveLevel = TooMoveLevel;
+    xyz.TooScaleLevel = TooScaleLevel;
 })(xyz || (xyz = {}));
-//# sourceMappingURL=TooMoveLevel.js.map
+//# sourceMappingURL=TooScaleLevel.js.map

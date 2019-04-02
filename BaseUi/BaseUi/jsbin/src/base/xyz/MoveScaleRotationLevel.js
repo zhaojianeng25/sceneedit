@@ -22,6 +22,7 @@ var xyz;
             _this._statceType = xyz.TooMathMoveUint.MOVE_NULL;
             _this._tooMoveLevel = new xyz.TooMoveLevel(_this);
             _this._tooRotationLevel = new xyz.TooRotationLevel(_this);
+            _this._tooScaleLevel = new xyz.TooScaleLevel(_this);
             return _this;
         }
         MoveScaleRotationLevel.prototype.update = function () {
@@ -39,6 +40,9 @@ var xyz;
                 case xyz.TooMathMoveUint.MOVE_ROUTATION:
                     this._tooRotationLevel.update();
                     break;
+                case xyz.TooMathMoveUint.MOVE_SCALE:
+                    this._tooScaleLevel.update();
+                    break;
                 default:
                     break;
             }
@@ -47,6 +51,7 @@ var xyz;
             _super.prototype.addStage.call(this);
             this._tooMoveLevel._scene = this._scene;
             this._tooRotationLevel._scene = this._scene;
+            this._tooScaleLevel._scene = this._scene;
         };
         MoveScaleRotationLevel.prototype.dataUpDate = function () {
         };
@@ -79,6 +84,9 @@ var xyz;
                     case xyz.TooMathMoveUint.MOVE_ROUTATION:
                         this._tooRotationLevel.isHit(mouseVect2d);
                         break;
+                    case xyz.TooMathMoveUint.MOVE_SCALE:
+                        this._tooScaleLevel.isHit(mouseVect2d);
+                        break;
                     default:
                         break;
                 }
@@ -92,6 +100,9 @@ var xyz;
                             break;
                         case xyz.TooMathMoveUint.MOVE_ROUTATION:
                             needUpData = this._tooRotationLevel.onMouseMove(mouseVect2d);
+                            break;
+                        case xyz.TooMathMoveUint.MOVE_SCALE:
+                            needUpData = this._tooScaleLevel.onMouseMove(mouseVect2d);
                             break;
                         default:
                             break;
@@ -117,6 +128,9 @@ var xyz;
                 case xyz.TooMathMoveUint.MOVE_ROUTATION:
                     this._tooRotationLevel.onMouseUp(mouseVect2d);
                     break;
+                case xyz.TooMathMoveUint.MOVE_SCALE:
+                    this._tooScaleLevel.onMouseUp(mouseVect2d);
+                    break;
                 default:
                     break;
             }
@@ -128,6 +142,9 @@ var xyz;
             this._xyzMoveData.oldx = this._xyzMoveData.x;
             this._xyzMoveData.oldy = this._xyzMoveData.y;
             this._xyzMoveData.oldz = this._xyzMoveData.z;
+            this._xyzMoveData.oldscale_x = this._xyzMoveData.scaleX;
+            this._xyzMoveData.oldscale_y = this._xyzMoveData.scaleY;
+            this._xyzMoveData.oldscale_z = this._xyzMoveData.scaleZ;
             this._xyzMoveData.oldangle_x = this._xyzMoveData.rotationX;
             this._xyzMoveData.oldangle_y = this._xyzMoveData.rotationY;
             this._xyzMoveData.oldangle_z = this._xyzMoveData.rotationZ;
@@ -139,6 +156,9 @@ var xyz;
                         break;
                     case xyz.TooMathMoveUint.MOVE_ROUTATION:
                         this._tooRotationLevel.onMouseDown(mouseVect2d);
+                        break;
+                    case xyz.TooMathMoveUint.MOVE_SCALE:
+                        this._tooScaleLevel.onMouseDown(mouseVect2d);
                         break;
                     default:
                         break;
