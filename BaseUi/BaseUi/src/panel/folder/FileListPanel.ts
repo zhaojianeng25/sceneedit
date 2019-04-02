@@ -258,15 +258,8 @@
                     this.resize();
                 }
             }
-
         }
-        //protected changeScrollBar(): void {
-        //    this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
-        //    var th: number = this._uiMask.height - this.c_scroll_bar.height
-        //    var ty: number = this.c_scroll_bar.y - this._uiMask.y;
-        //    this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
-
-        //}
+  
         private get isCanToDo(): boolean { //false为可以操作
 
             if (this && this.hasStage) {
@@ -276,7 +269,7 @@
             }
 
         }
-        private onMouseWheelFun: any
+     
         public resize(): void {
             this.resetSampleFilePos();
             if (this.uiLoadComplete) {
@@ -497,6 +490,7 @@
         private rootFilePath: string;
         public refrishPath(pathstr: string): void {
             this.rootFilePath = pathstr
+            this.moveListTy = 0;
             //this.a_path_tittle_txt.x = 10
             //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll()
@@ -511,6 +505,15 @@
                 }
                 this.resize();
             })
+
+        }
+         public addRender($uiRender: UIRenderComponent): void {
+            super.addRender($uiRender)
+            //这里的监听和之前有冲突之前添加过的 需要优化，暂时没问题
+             for (var i: number = 0; this._uiItem&&i < this._uiItem.length; i++) {
+                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.fileMouseDown, this);
+                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.fileMouseUp, this);
+             }
 
         }
         private getItemVoByUi(ui: UICompenent): FileListName {

@@ -213,12 +213,6 @@ var filelist;
             }
         };
         Object.defineProperty(FileListPanel.prototype, "isCanToDo", {
-            //protected changeScrollBar(): void {
-            //    this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
-            //    var th: number = this._uiMask.height - this.c_scroll_bar.height
-            //    var ty: number = this.c_scroll_bar.y - this._uiMask.y;
-            //    this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
-            //}
             get: function () {
                 if (this && this.hasStage) {
                     return true;
@@ -407,6 +401,7 @@ var filelist;
         FileListPanel.prototype.refrishPath = function (pathstr) {
             var _this = this;
             this.rootFilePath = pathstr;
+            this.moveListTy = 0;
             //this.a_path_tittle_txt.x = 10
             //LabelTextFont.writeSingleLabel(this._topRender.uiAtlas, this.a_path_tittle_txt.skinName, ColorType.White9A683F + pathstr, 12, Pan3d.TextAlign.LEFT)
             this.clearListAll();
@@ -421,6 +416,14 @@ var filelist;
                 }
                 _this.resize();
             });
+        };
+        FileListPanel.prototype.addRender = function ($uiRender) {
+            _super.prototype.addRender.call(this, $uiRender);
+            //这里的监听和之前有冲突之前添加过的 需要优化，暂时没问题
+            for (var i = 0; this._uiItem && i < this._uiItem.length; i++) {
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.fileMouseDown, this);
+                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.fileMouseUp, this);
+            }
         };
         FileListPanel.prototype.getItemVoByUi = function (ui) {
             for (var i = 0; i < this._uiItem.length; i++) {

@@ -355,10 +355,7 @@
    
         protected loadConfigCom(): void {
             super.loadConfigCom();
-
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
-
-     
             this.resize();
             this.loadAssetImg(() => {
                 this.makeItemUiList()
@@ -366,6 +363,29 @@
 
               //  console.log("图片加载完")
             })
+
+       
+        }
+        private get isCanToDo(): boolean { //false为可以操作
+
+            if (this && this.hasStage) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+        public onMouseWheel($evt: MouseWheelEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                if (this.contentHeight > this._uiMask.height) {
+                    this.c_scroll_bar.y += $evt.deltaY / 30;
+                    this.changeScrollBar();
+                    this.resize();
+                }
+            }
         }
         private _cellBgRender: UIRenderComponent
         private loadAssetImg(bfun: Function): void {
@@ -566,34 +586,22 @@
                 }
             }
         }
-        public onPanellMouseWheel($evt: MouseWheelEvent): void {
-            var $slectUi: UICompenent = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
-            if ($slectUi && $slectUi.parent == this) {
-
-            }
-        }
+ 
         private isCompelet: boolean
         protected makeItemUiList(): void {
-
             this._baseRender.mask = this._uiMask
-        
-     
-
-
-            document.addEventListener(MouseType.MouseWheel, ($evt: MouseWheelEvent) => { this.onPanellMouseWheel($evt) });
-     
-
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = ($evt: MouseEvent) => { this.onRightMenu($evt) };
             }
             document.addEventListener("contextmenu", this.onRightMenuFun)
-
-
             if (!this.onKeyDownFun) {
                 this.onKeyDownFun = ($evt: KeyboardEvent) => { this.onKeyDown($evt) };
             }
-
             document.addEventListener(MouseType.KeyDown, this.onKeyDownFun)
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
 
             this.loadBaseSceneUrl()
         }

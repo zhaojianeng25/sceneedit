@@ -308,6 +308,30 @@ var maineditor;
                 //  console.log("图片加载完")
             });
         };
+        Object.defineProperty(HierarchyListPanel.prototype, "isCanToDo", {
+            get: function () {
+                if (this && this.hasStage) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        HierarchyListPanel.prototype.onMouseWheel = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
+            }
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                if (this.contentHeight > this._uiMask.height) {
+                    this.c_scroll_bar.y += $evt.deltaY / 30;
+                    this.changeScrollBar();
+                    this.resize();
+                }
+            }
+        };
         HierarchyListPanel.prototype.loadAssetImg = function (bfun) {
             HierarchyListPanel.imgBaseDic = {};
             var item = [];
@@ -475,15 +499,9 @@ var maineditor;
                 }
             }
         };
-        HierarchyListPanel.prototype.onPanellMouseWheel = function ($evt) {
-            var $slectUi = UIManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
-            if ($slectUi && $slectUi.parent == this) {
-            }
-        };
         HierarchyListPanel.prototype.makeItemUiList = function () {
             var _this = this;
             this._baseRender.mask = this._uiMask;
-            document.addEventListener(MouseType.MouseWheel, function ($evt) { _this.onPanellMouseWheel($evt); });
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
             }
@@ -492,6 +510,10 @@ var maineditor;
                 this.onKeyDownFun = function ($evt) { _this.onKeyDown($evt); };
             }
             document.addEventListener(MouseType.KeyDown, this.onKeyDownFun);
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
             this.loadBaseSceneUrl();
         };
         HierarchyListPanel.prototype.onKeyDown = function ($evt) {

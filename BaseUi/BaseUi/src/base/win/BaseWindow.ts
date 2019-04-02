@@ -26,7 +26,7 @@
 
 
         private useMoseMove: boolean
-
+        protected onMouseWheelFun: any
         public constructor($rect: Rectangle = null, $move: boolean = true) {
             super();
 
