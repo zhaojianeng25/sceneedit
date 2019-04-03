@@ -17,6 +17,7 @@ var maineditor;
     var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var Shader3D = Pan3d.Shader3D;
+    var TimeUtil = Pan3d.TimeUtil;
     var UiModelViewShder = /** @class */ (function (_super) {
         __extends(UiModelViewShder, _super);
         function UiModelViewShder() {
@@ -80,7 +81,9 @@ gl_FragColor = ft2;
     var UiModelViewRender = /** @class */ (function (_super) {
         __extends(UiModelViewRender, _super);
         function UiModelViewRender() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.time = 0;
+            return _this;
         }
         UiModelViewRender.prototype.initData = function () {
             this._uiList = new Array;
@@ -100,23 +103,49 @@ gl_FragColor = ft2;
                 this.renderData2[i * 4 + 3] = 0;
             }
         };
-        Object.defineProperty(UiModelViewRender.prototype, "textureurl", {
+        Object.defineProperty(UiModelViewRender.prototype, "sceneProjectVo", {
             set: function (value) {
-                var _this = this;
-                pack.PackMaterialManager.getInstance().getMaterialByUrl(value, function ($materialTree) {
-                    _this.materialTree = $materialTree;
-                    var tempShader = new UiModelViewShder;
-                    tempShader.fragment = _this.materialTree.shader.fragment;
-                    tempShader.encode();
-                    _this.uiProLocation = Scene_data.context3D.getLocation(tempShader.program, "ui");
-                    _this.ui2ProLocation = Scene_data.context3D.getLocation(tempShader.program, "ui2");
-                    _this.shader = tempShader;
-                    _this.materialTree.shader = tempShader; //这里将材质设置到材质对象中，会有可能物件，人物，场景都引用。可能需要规避
-                });
+                if (value) {
+                    if (this._sceneProjectVo) {
+                        this._sceneProjectVo.removeEventListener(Pan3d.BaseEvent.COMPLETE, this.sceneProjectUpData, this);
+                    }
+                    this._sceneProjectVo = value;
+                    this._sceneProjectVo.addEventListener(Pan3d.BaseEvent.COMPLETE, this.sceneProjectUpData, this);
+                    this.sceneProjectUpData();
+                }
             },
             enumerable: true,
             configurable: true
         });
+        UiModelViewRender.prototype.sceneProjectUpData = function () {
+            var _this = this;
+            console.log("修改");
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(this._sceneProjectVo.textureurl, function ($materialTree) {
+                _this.materialTree = $materialTree;
+                var tempShader = new UiModelViewShder;
+                tempShader.fragment = _this.materialTree.shader.fragment;
+                tempShader.encode();
+                _this.uiProLocation = Scene_data.context3D.getLocation(tempShader.program, "ui");
+                _this.ui2ProLocation = Scene_data.context3D.getLocation(tempShader.program, "ui2");
+                _this.shader = tempShader;
+                _this.materialTree.shader = tempShader; //这里将材质设置到材质对象中，会有可能物件，人物，场景都引用。可能需要规避
+            });
+        };
+        UiModelViewRender.prototype.setMaterialVc = function ($material, $mp) {
+            if ($mp === void 0) { $mp = null; }
+            if ($material.fcNum <= 0) {
+                return;
+            }
+            var t = 0;
+            if ($material.hasTime) {
+                t = (TimeUtil.getTimer() - this.time) % 100000 * 0.001;
+            }
+            $material.update(t);
+            if ($mp) {
+                $mp.update();
+            }
+            Scene_data.context3D.setVc4fv(this.shader, "fc", $material.fcData);
+        };
         UiModelViewRender.prototype.update = function () {
             if (this.visible && this._uiList.length) {
                 Scene_data.context3D.setBlendParticleFactors(this.blenderMode);
@@ -127,7 +156,7 @@ gl_FragColor = ft2;
                 Scene_data.context3D.setVa(1, 3, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "fs0", this.texture, 0);
                 if (this.materialTree) {
-                    Scene_data.context3D.setVc4fv(this.shader, "fc", this.materialTree.fcData);
+                    this.setMaterialVc(this.materialTree, this._sceneProjectVo.materialParam);
                 }
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }

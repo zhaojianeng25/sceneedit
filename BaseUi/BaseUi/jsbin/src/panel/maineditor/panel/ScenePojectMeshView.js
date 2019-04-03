@@ -56,8 +56,20 @@ var maineditor;
             configurable: true
         });
         ScenePojectMeshView.prototype.textureChangeInfo = function (value) {
+            this.sceneProjectVo.paramInfo = value;
+            this.sceneProjectVo.materialParam = new Pan3d.MaterialBaseParam;
+            this.sceneProjectVo.materialParam.material = this.sceneProjectVo.material;
+            pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.sceneProjectVo.materialParam, this.sceneProjectVo.paramInfo);
         };
+        //private chuangeData(): void {
+        //    this.sceneProjectVo.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+        //}
         ScenePojectMeshView.prototype.getParamItem = function (value) {
+            for (var i = 0; this.sceneProjectVo.paramInfo && i < this.sceneProjectVo.paramInfo.length; i++) {
+                if (this.sceneProjectVo.paramInfo[i].paramName == value) {
+                    return this.sceneProjectVo.paramInfo[i].data;
+                }
+            }
             return null;
         };
         Object.defineProperty(ScenePojectMeshView.prototype, "texture", {
@@ -78,6 +90,7 @@ var maineditor;
             },
             set: function (value) {
                 this.sceneProjectVo.material = value;
+                this.sceneProjectVo.textureurl = this.sceneProjectVo.material.url;
                 this.refreshViewValue();
             },
             enumerable: true,

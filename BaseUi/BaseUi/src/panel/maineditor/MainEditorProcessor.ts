@@ -45,7 +45,7 @@
         public getName(): string {
             return "MainEditorProcessor";
         }
-        private _editScenePanel: MainEditorPanel;
+        private _mainEditorPanel: MainEditorPanel;
         public static edItorSceneManager: EdItorSceneManager
 
     
@@ -54,8 +54,8 @@
                 this._hierarchyListPanel = new HierarchyListPanel();
             }
 
-            if (!this._editScenePanel) {
-                this._editScenePanel = new MainEditorPanel();
+            if (!this._mainEditorPanel) {
+                this._mainEditorPanel = new MainEditorPanel();
             }
 
         }
@@ -69,11 +69,11 @@
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
 
-                    AppData.centenPanel.addUIContainer(this._editScenePanel);
+                    AppData.centenPanel.addUIContainer(this._mainEditorPanel);
              
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
    
-                    Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel)
+                    Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._mainEditorPanel)
  
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu()
  
@@ -90,7 +90,7 @@
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
                     this.showScnePojectView($mainEditorEvent.data);
 
-                    this._editScenePanel.sceneProjectVo=$mainEditorEvent.data
+                    this._mainEditorPanel.sceneProjectVo=$mainEditorEvent.data
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
 
@@ -240,7 +240,7 @@
         private onKeyUp($e: KeyboardEvent): void {
         }
         private get isCanToDo(): boolean { //不能操作
-            if (this._editScenePanel.hasStage) {
+            if (this._mainEditorPanel.hasStage) {
                 return true;
             } else {
                 return false;
@@ -283,9 +283,9 @@
     
             }
  
-            if (this._editScenePanel && AppData.centenPanel) {
+            if (this._mainEditorPanel && AppData.centenPanel) {
                 var rect: Rectangle = new Rectangle(AppData.centenPanel.rect.x, AppData.centenPanel.rect.y, AppData.centenPanel.rect.width , AppData.centenPanel.rect.height);
-                this._editScenePanel.panelEventChanger(rect)
+                this._mainEditorPanel.panelEventChanger(rect)
             }
         }
     

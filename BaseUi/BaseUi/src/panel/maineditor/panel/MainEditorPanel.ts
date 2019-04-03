@@ -49,10 +49,7 @@
 
         }
         public set sceneProjectVo(value: SceneProjectVo) {
-            if (value) {
-                this._sceneViewRender.textureurl = value.textureurl;
-            }
-         
+            this._sceneViewRender.sceneProjectVo = value
         }
         
         private _sceneViewRender: UiModelViewRender;

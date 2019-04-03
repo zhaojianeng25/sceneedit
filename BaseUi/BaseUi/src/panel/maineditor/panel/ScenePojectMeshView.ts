@@ -2,6 +2,7 @@
     import Scene_data = Pan3d.Scene_data;
     import Vector3D = Pan3d.Vector3D;
     import Material = Pan3d.Material
+    import MaterialTree = materialui.MaterialTree
     import PrefabStaticMesh = pack.PrefabStaticMesh
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
@@ -9,7 +10,7 @@
 
     export class ScenePojectMeshView extends MetaDataView {
 
- 
+
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
@@ -31,54 +32,63 @@
                 ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite()
             }
             if (this.sceneProjectVo.gildline) {
-                MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite,0);
-              
+                MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
             } else {
                 MainEditorProcessor.edItorSceneManager.removeDisplay(ScenePojectMeshView.gridLineSprite);
             }
             return this.sceneProjectVo.gildline ? 1 : 0
-
         }
         public set gridline(value: number) {
-         
             this.sceneProjectVo.gildline = value == 1;
- 
             this.refreshViewValue();
-  
+
         }
         private textureChangeInfo(value: Array<any>): void {
+            this.sceneProjectVo.paramInfo = value;
+
+            this.sceneProjectVo.materialParam= new Pan3d.MaterialBaseParam;
+            this.sceneProjectVo.materialParam.material = this.sceneProjectVo.material
+             pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.sceneProjectVo.materialParam, this.sceneProjectVo.paramInfo);
+ 
         }
+        //private chuangeData(): void {
+        //    this.sceneProjectVo.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+        //}
         public getParamItem(value: string): any {
+            for (var i: number = 0; this.sceneProjectVo.paramInfo && i < this.sceneProjectVo.paramInfo.length; i++) {
+                if (this.sceneProjectVo.paramInfo[i].paramName == value) {
+                    return this.sceneProjectVo.paramInfo[i].data
+                }
+            }
             return null
         }
-   
-        public set texture(value: materialui.MaterialTree) {
+
+        public set texture(value: MaterialTree) {
             this.sceneProjectVo.material = value
-           
-           
+            this.sceneProjectVo.textureurl = this.sceneProjectVo.material.url
             this.refreshViewValue()
         }
-        public get texture(): materialui.MaterialTree {
+        public get texture(): MaterialTree {
             if (this.sceneProjectVo.material) {
                 return this.sceneProjectVo.material
             } else {
                 if (this.sceneProjectVo.textureurl) {
 
-                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, ($materialTree: MaterialTree) => {
                         this.sceneProjectVo.material = $materialTree;
                         this.refreshViewValue()
                     })
-               
+
                 }
                 return null
             }
 
-         
+
         }
         public get mapname() {
             return AppData.mapOpenUrl;
         }
-    
+
         public get data(): any {
             return this._data
         }
@@ -95,7 +105,7 @@
         public set campos(value: Vector3D) {
 
         }
-        private _bgcolor: Vector3D = new Vector3D(11,11,11)
+        private _bgcolor: Vector3D = new Vector3D(11, 11, 11)
         public get bgcolor() {
             return this._bgcolor
         }
@@ -103,12 +113,12 @@
             this._bgcolor = value
         }
         public get camrotation() {
-            return new Vector3D( )
+            return new Vector3D()
         }
         public set camrotation(value: Vector3D) {
-       
+
         }
-    
+
 
 
     }

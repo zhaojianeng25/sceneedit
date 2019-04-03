@@ -67,8 +67,8 @@ var maineditor;
             if (!this._hierarchyListPanel) {
                 this._hierarchyListPanel = new maineditor.HierarchyListPanel();
             }
-            if (!this._editScenePanel) {
-                this._editScenePanel = new maineditor.MainEditorPanel();
+            if (!this._mainEditorPanel) {
+                this._mainEditorPanel = new maineditor.MainEditorPanel();
             }
         };
         MainEditorProcessor.prototype.receivedModuleEvent = function ($event) {
@@ -80,9 +80,9 @@ var maineditor;
                     this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
-                    AppData.centenPanel.addUIContainer(this._editScenePanel);
+                    AppData.centenPanel.addUIContainer(this._mainEditorPanel);
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
-                    Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._editScenePanel);
+                    Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._mainEditorPanel);
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
@@ -93,7 +93,7 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
                     this.showScnePojectView($mainEditorEvent.data);
-                    this._editScenePanel.sceneProjectVo = $mainEditorEvent.data;
+                    this._mainEditorPanel.sceneProjectVo = $mainEditorEvent.data;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
@@ -208,7 +208,7 @@ var maineditor;
         };
         Object.defineProperty(MainEditorProcessor.prototype, "isCanToDo", {
             get: function () {
-                if (this._editScenePanel.hasStage) {
+                if (this._mainEditorPanel.hasStage) {
                     return true;
                 }
                 else {
@@ -239,9 +239,9 @@ var maineditor;
                 var rect = new Rectangle(EditLeftPanel.leftPanel.rect.x, EditLeftPanel.leftPanel.rect.y, EditLeftPanel.leftPanel.rect.width, EditLeftPanel.leftPanel.rect.height);
                 this._hierarchyListPanel.setRect(rect);
             }
-            if (this._editScenePanel && AppData.centenPanel) {
+            if (this._mainEditorPanel && AppData.centenPanel) {
                 var rect = new Rectangle(AppData.centenPanel.rect.x, AppData.centenPanel.rect.y, AppData.centenPanel.rect.width, AppData.centenPanel.rect.height);
-                this._editScenePanel.panelEventChanger(rect);
+                this._mainEditorPanel.panelEventChanger(rect);
             }
         };
         MainEditorProcessor.prototype.listenModuleEvents = function () {

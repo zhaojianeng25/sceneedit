@@ -27,10 +27,7 @@ var maineditor;
     var LoadManager = Pan3d.LoadManager;
     var KeyboardType = Pan3d.KeyboardType;
     var Shader3D = Pan3d.Shader3D;
-    var MaterialBaseParam = Pan3d.MaterialBaseParam;
     var ProgrmaManager = Pan3d.ProgrmaManager;
-    var DynamicBaseTexItem = Pan3d.DynamicBaseTexItem;
-    var DynamicBaseConstItem = Pan3d.DynamicBaseConstItem;
     var BaseEvent = Pan3d.BaseEvent;
     var CombineReflectionView = prop.CombineReflectionView;
     var TooXyzPosData = xyz.TooXyzPosData;
@@ -127,64 +124,11 @@ var maineditor;
             }
             if (this.material) {
                 if (this._prefab.paramInfo) {
-                    this.materialParam = new MaterialBaseParam;
+                    this.materialParam = new Pan3d.MaterialBaseParam;
                     this.materialParam.material = this.material;
-                    this.materialParam.dynamicTexList = [];
-                    this.materialParam.dynamicConstList = [];
-                    for (var i = 0; i < this._prefab.paramInfo.length; i++) {
-                        var tempInfo = this._prefab.paramInfo[i];
-                        if (tempInfo.type == "tex") {
-                            this.mekeParamTexture(tempInfo);
-                        }
-                        else {
-                            this.makeParamValue(tempInfo);
-                        }
-                    }
+                    pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this._prefab.paramInfo);
                 }
             }
-        };
-        ModelSprite.prototype.makeParamValue = function (obj) {
-            var constList = this.material.constList;
-            var targetName = obj.paramName;
-            var target = null;
-            for (var j = 0; j < constList.length; j++) {
-                if (targetName == constList[j].paramName0
-                    || targetName == constList[j].paramName1
-                    || targetName == constList[j].paramName2
-                    || targetName == constList[j].paramName3) {
-                    target = constList[j];
-                    break;
-                }
-            }
-            var constItem = new DynamicBaseConstItem();
-            constItem.setTargetInfo(target, targetName, obj.type);
-            switch (obj.type) {
-                case "vec3":
-                    constItem.setCurrentVal(obj.data.x, obj.data.y, obj.data.z);
-                    break;
-                case "vec2":
-                    constItem.setCurrentVal(obj.data.x, obj.data.y);
-                    break;
-                case "float":
-                    constItem.setCurrentVal(obj.data);
-                    break;
-            }
-            this.materialParam.dynamicConstList.push(constItem);
-        };
-        ModelSprite.prototype.mekeParamTexture = function (obj) {
-            var texList = this.material.texList;
-            var texItem = new DynamicBaseTexItem();
-            texItem.paramName = obj.paramName;
-            for (var i = 0; i < texList.length; i++) {
-                if (texItem.paramName == texList[i].paramName) {
-                    texItem.target = texList[i];
-                    break;
-                }
-            }
-            TextureManager.getInstance().getTexture(Scene_data.fileRoot + obj.data, function ($textres) {
-                texItem.textureRes = $textres;
-            });
-            this.materialParam.dynamicTexList.push(texItem);
         };
         ModelSprite.prototype.setPreFabUrl = function (url) {
             var _this = this;

@@ -33,9 +33,7 @@ var maineditor;
         }
         Object.defineProperty(MainEditorPanel.prototype, "sceneProjectVo", {
             set: function (value) {
-                if (value) {
-                    this._sceneViewRender.textureurl = value.textureurl;
-                }
+                this._sceneViewRender.sceneProjectVo = value;
             },
             enumerable: true,
             configurable: true
