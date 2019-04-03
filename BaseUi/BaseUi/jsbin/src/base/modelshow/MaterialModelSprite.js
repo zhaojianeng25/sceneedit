@@ -71,7 +71,6 @@ var left;
         MaterialModelSprite.prototype.setMaterialVc = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             var $materialTree = $material;
-            $materialTree.backCull = false;
             Scene_data.context3D.setBlendParticleFactors($materialTree.blendMode);
             Scene_data.context3D.setDepthTest($materialTree.zbuff);
             Scene_data.context3D.setWriteDepth($materialTree.writeZbuffer);

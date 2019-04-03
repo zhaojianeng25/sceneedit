@@ -94,7 +94,7 @@ var Pan3d;
         };
         Context3D.prototype.setBlendParticleFactors = function (type) {
             if (this._contextSetTest.testBlend(type)) {
-                return;
+                // return;
             }
             switch (type) {
                 case 0:

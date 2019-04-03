@@ -17,6 +17,18 @@ var pack;
             }
             return this._instance;
         };
+        PackMaterialManager.prototype.replaceMaterialByUrl = function ($url) {
+            var _this = this;
+            LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($dtstr) {
+                var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                $byte.position = 0;
+                var $temp = JSON.parse($byte.readUTF());
+                if (_this.dic[$url]) { //有了就反回
+                    var $materialTree = _this.dic[$url];
+                    $materialTree.setData({ data: $temp.data }); //这里只更新材质数据结构，为了编辑时能用到最新数据
+                }
+            });
+        };
         PackMaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
             var _this = this;
             if (this.dic[$url]) { //有了就反回

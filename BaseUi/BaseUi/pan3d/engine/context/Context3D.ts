@@ -114,7 +114,7 @@
         public setBlendParticleFactors(type: number): void {
             
             if (this._contextSetTest.testBlend(type)) {
-                return;
+               // return;
             }
 
             switch (type) {

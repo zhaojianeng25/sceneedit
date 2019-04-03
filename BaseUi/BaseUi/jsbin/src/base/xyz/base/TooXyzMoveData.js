@@ -11,8 +11,11 @@ var xyz;
             this.updateMatrix();
         };
         TooXyzPosData.prototype.updateMatrix = function () {
-            this.modeMatrx3D = new Matrix3D;
-            this.modeMatrx3D.appendScale(this.scaleX, this.scaleY, this.scaleZ);
+            if (!this.modeMatrx3D) {
+                this.modeMatrx3D = new Matrix3D;
+            }
+            this.modeMatrx3D.identity();
+            // this.modeMatrx3D.appendScale(this.scaleX, this.scaleY, this.scaleZ);
             this.modeMatrx3D.appendRotation(this.rotationX, Vector3D.X_AXIS);
             this.modeMatrx3D.appendRotation(this.rotationY, Vector3D.Y_AXIS);
             this.modeMatrx3D.appendRotation(this.rotationZ, Vector3D.Z_AXIS);
@@ -27,33 +30,100 @@ var xyz;
             tempXyz.type = 1;
             return tempXyz;
         };
+        TooXyzPosData.prototype.getEulerAngles = function (quat) {
+            var x, y, z, qx, qy, qz, qw, a2;
+            qx = quat[0];
+            qy = quat[1];
+            qz = quat[2];
+            qw = quat[3];
+            a2 = 2 * (qw * qy - qx * qz);
+            if (a2 <= -0.99999) {
+                x = 2 * Math.atan2(qx, qw);
+                y = -Math.PI / 2;
+                z = 0;
+            }
+            else if (a2 >= 0.99999) {
+                x = 2 * Math.atan2(qx, qw);
+                y = Math.PI / 2;
+                z = 0;
+            }
+            else {
+                x = Math.atan2(2 * (qw * qx + qy * qz), 1 - 2 * (qx * qx + qy * qy));
+                y = Math.asin(a2);
+                z = Math.atan2(2 * (qw * qz + qx * qy), 1 - 2 * (qy * qy + qz * qz));
+            }
+            return [x, y, z];
+        };
         TooXyzPosData.prototype.upRootMatrix3DToItem = function () {
             this.updateMatrix();
             for (var i = 0; i < this.spriteItem.length; i++) {
-                var a = this.baseMatrix3D.clone();
-                var b = this.modeMatrx3D.clone();
-                a.invert();
-                var c = b.clone();
-                c.prepend(a);
-                c.prepend(this.dataItem[i].baseMatrix3D);
-                var M = c.clone();
-                var scale = M.getScaling();
-                this.spriteItem[i].scaleX = scale.x;
-                this.spriteItem[i].scaleY = scale.y;
-                this.spriteItem[i].scaleZ = scale.z;
-                var outVec3d = M.toEulerAngles(); //欧拉角
-                outVec3d = M.getRotationing(); //新矩阵方法
-                outVec3d.scaleBy(180 / Math.PI);
-                this.spriteItem[i].rotationX = outVec3d.x;
-                this.spriteItem[i].rotationY = outVec3d.y;
-                this.spriteItem[i].rotationZ = outVec3d.z;
+                this.spriteItem[i].scaleX = this.dataItem[i].scaleX * this.scaleX;
+                this.spriteItem[i].scaleY = this.dataItem[i].scaleY * this.scaleY;
+                this.spriteItem[i].scaleZ = this.dataItem[i].scaleZ * this.scaleZ;
+                //var a: Matrix3D = this.baseMatrix3D.clone();
+                //var b: Matrix3D = this.modeMatrx3D.clone();
+                //a.invert();
+                //var c: Matrix3D = b.clone();
+                //c.prepend(a)
+                //c.prepend(this.dataItem[i].baseMatrix3D)
+                var M = this.modeMatrx3D.clone();
                 this.spriteItem[i].x = M.position.x;
                 this.spriteItem[i].y = M.position.y;
                 this.spriteItem[i].z = M.position.z;
-                this.spriteItem[i].posMatrix = c;
+                var r = M.toEulerAngles(); //欧拉角
+                this.spriteItem[i].rotationX = r.x;
+                this.spriteItem[i].rotationY = r.y;
+                this.spriteItem[i].rotationZ = r.z;
                 this.dataUpDate();
             }
+            console.log("--------------");
         };
+        /*
+        public upRootMatrix3DToItem(): void {
+
+             this.updateMatrix();
+        
+            for (var i: number = 0; i < this.spriteItem.length; i++) {
+    
+                var a: Matrix3D = this.baseMatrix3D.clone();
+                var b: Matrix3D = this.modeMatrx3D.clone();
+                a.invert();
+                var c: Matrix3D = b.clone();
+                c.prepend(a)
+                c.prepend(this.dataItem[i].baseMatrix3D)
+
+                var M = this.modeMatrx3D.clone();
+                var s: Vector3D = M.getScaling();
+                this.spriteItem[i].scaleX = s.x
+                this.spriteItem[i].scaleY = s.y
+                this.spriteItem[i].scaleZ = s.z
+
+                this.spriteItem[i].x = M.position.x;
+                this.spriteItem[i].y = M.position.y;
+                this.spriteItem[i].z = M.position.z;
+
+                var MR: Matrix3D = M.clone();
+        
+                MR.appendScale(1/s.x, 1/s.y, 1/s.z);
+                MR.appendTranslation(-M.position.x, -M.position.y, -M.position.z)
+       
+                var r: Vector3D = MR.toEulerAngles(); //欧拉角
+                this.spriteItem[i].rotationX = r.x
+                this.spriteItem[i].rotationY = r.y
+                this.spriteItem[i].rotationZ = r.z
+       
+ 
+
+              this.spriteItem[i].posMatrix = this.modeMatrx3D.clone();
+
+                 this.dataUpDate();
+            }
+            console.log("--------------")
+
+           
+        }
+
+        */
         TooXyzPosData.getBase = function ($arr, isCenten) {
             if (isCenten === void 0) { isCenten = false; }
             var rootData = new TooXyzPosData();
@@ -90,9 +160,9 @@ var xyz;
                 //  tempData.modeMatrx3D = $arr[j].posMatrix.clone(); //存放相对
                 // tempData.modeMatrx3D.prepend(inM);
                 tempData.baseMatrix3D = $arr[j].posMatrix.clone();
-                tempData.scaleX = $arr[j].scaleX;
-                tempData.scaleY = $arr[j].scaleY;
-                tempData.scaleZ = $arr[j].scaleZ;
+                tempData.scaleX = $arr[j].scaleX / rootData.scaleX;
+                tempData.scaleY = $arr[j].scaleY / rootData.scaleY;
+                tempData.scaleZ = $arr[j].scaleZ / rootData.scaleZ;
                 tempData.x = $arr[j].x;
                 tempData.y = $arr[j].y;
                 tempData.z = $arr[j].z;

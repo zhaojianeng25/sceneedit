@@ -245,25 +245,21 @@
             var $file: File = new File([$byte.buffer], "ossfile.txt");
 
 
-     
-
-
             var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
             var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathUrl)
             pack.FileOssModel.upOssFile($file, pathurl, () => {
                 console.log("材质上传成功");
+
+                pack.PackMaterialManager.getInstance().replaceMaterialByUrl($url);
             })
             //    this.upOssFile($file, "shadertree/texturelist/" + this.fileid + ".txt", () => {
             //        console.log("文件上传成功");
             //})
 
-
-
-         
-              
-
         }
+      
+
         public selectFileById(value: number): void {
 
            

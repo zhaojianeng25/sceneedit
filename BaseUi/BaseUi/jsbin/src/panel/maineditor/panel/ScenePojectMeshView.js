@@ -41,7 +41,7 @@ var maineditor;
                     ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite();
                 }
                 if (this.sceneProjectVo.gildline) {
-                    maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite);
+                    maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
                 }
                 else {
                     maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(ScenePojectMeshView.gridLineSprite);

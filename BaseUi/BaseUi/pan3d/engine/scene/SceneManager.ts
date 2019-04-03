@@ -309,11 +309,15 @@
 
         }
 
-        public addDisplay($display: Display3D): void {
+        public addDisplay($display: Display3D, idx: number = -1): void {
             if (this._displayList.indexOf($display) != -1) {
                 return;
             }
-            this._displayList.push($display);
+            if (idx >= 0) {
+                this._displayList.splice(idx, 0, $display);
+            } else {
+                this._displayList.push($display);
+            }
             $display._scene = this
             $display.addStage();
         }

@@ -31,7 +31,8 @@
                 ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite()
             }
             if (this.sceneProjectVo.gildline) {
-                MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite);
+                MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite,0);
+              
             } else {
                 MainEditorProcessor.edItorSceneManager.removeDisplay(ScenePojectMeshView.gridLineSprite);
             }
