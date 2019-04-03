@@ -5,13 +5,18 @@
 
         public gildline: boolean
         public material: materialui.MaterialTree
-        public textureurl: string = "assets/base/base.material";
+        public textureurl: string ;
         public constructor(value: any) {
             this.meshObj(value)
         }
         public meshObj(value: any): void {
             for (var key in value) {
                  this[key] = value[key]
+            }
+            if (this.textureurl) {
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(this.textureurl, ($materialTree: materialui.MaterialTree) => {
+                    this.material = $materialTree;
+                })
             }
         }
         public getSaveObj(): any {

@@ -37,158 +37,30 @@
     import Sprite = win.Sprite
     import Panel = win.Panel
 
-    export class BloomUiShader extends Shader3D {
-        static BloomUiShader: string = "BloomUiShader";
-        constructor() {
-            super();
-
-        }
-        binLocation($context: WebGLRenderingContext): void {
-            $context.bindAttribLocation(this.program, 0, "v3Pos");
-            $context.bindAttribLocation(this.program, 1, "v2uv");
-        }
-        getVertexShaderString(): string {
-            var $str: string =
-                "attribute vec3 v3Pos;" +
-                "attribute vec3 v2uv;" +
-
-                "uniform vec4 ui[50];" +
-                "uniform vec4 ui2[50];" +
-
-                "varying vec2 v_texCoord;" +
-
-                "void main(void)" +
-                "{" +
-                "   vec4 data = ui2[int(v2uv.z)];" +
-                "   v_texCoord = vec2(v2uv.x * data.x + data.z, v2uv.y * data.y + data.w);" +
-                "   data = ui[int(v2uv.z)];" +
-                "   vec3 pos = vec3(0.0,0.0,0.0);" +
-                "   pos.xy = v3Pos.xy * data.zw * 2.0;" +
-                "   pos.x += data.x * 2.0 - 1.0;" +
-                "   pos.y += -data.y * 2.0 + 1.0;" +
-                "   vec4 vt0= vec4(pos, 1.0);" +
-                "   gl_Position = vt0;" +
-                "}"
-            return $str
-
-
-        }
-        getFragmentShaderString(): string {
-            var $str: string =
-                " precision mediump float;\n" +
-                "uniform sampler2D s_texture;\n" +
-                "varying vec2 v_texCoord;\n" +
-                "uniform vec3 uScale;\n" +
-                "uniform vec3 uBias;\n" +
-                "vec3 ii(vec3 c){vec3 ij=sqrt(c);\n" +
-                "return(ij-ij*c)+c*(0.4672*c+vec3(0.5328));\n" +
-                "}void main(void){\n" +
-
-                "vec4 ik=texture2D(s_texture,v_texCoord);\n" +
-                "vec3 c=ik.xyz;\n" +
-                "c=c*uScale+uBias;\n" +
-
-                "gl_FragColor.xyz=ii(c);\n" +
-                "gl_FragColor=vec4(ik.x,ik.y,ik.z,1.0);\n" +
-
-
-                "}"
-            return $str
-
-        }
-
-    }
-
-    export class modelShowRender extends UIRenderOnlyPicComponent {
-        public constructor() {
-            super();
-
-        }
-        protected uiProLocation: WebGLUniformLocation;
-        protected ui2ProLocation: WebGLUniformLocation;
-        protected initData(): void {
-            this._uiList = new Array;
-
-            this.objData = new ObjData();
-            ProgrmaManager.getInstance().registe(BloomUiShader.BloomUiShader, new BloomUiShader)
-            this.shader = ProgrmaManager.getInstance().getProgram(BloomUiShader.BloomUiShader);
-            this.program = this.shader.program;
-
-            this.uiProLocation = Scene_data.context3D.getLocation(this.program, "ui")
-            this.ui2ProLocation = Scene_data.context3D.getLocation(this.program, "ui2")
-
-
-
-        }
-        public makeRenderDataVc($vcId: number): void {
-            super.makeRenderDataVc($vcId);
-            for (var i: number = 0; i < this.renderData2.length / 4; i++) {
-                this.renderData2[i * 4 + 0] = 1;
-                this.renderData2[i * 4 + 1] = -1;
-                this.renderData2[i * 4 + 2] = 0;
-                this.renderData2[i * 4 + 3] = 0;
-            }
-        }
-
-        public update(): void {
-
-
-            if (!this.visible || this._uiList.length == 0) {
-                if (this.modelRenderList && this.modelRenderList.length) {
-
-                } else {
-                    return
-                }
-
-            }
-            Scene_data.context3D.setBlendParticleFactors(this.blenderMode);
-            Scene_data.context3D.setProgram(this.program);
-            this.setVc()
-            Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-            Scene_data.context3D.setVa(1, 3, this.objData.uvBuffer);
-            this.setTextureToGpu()
-
-            Scene_data.context3D.setVc3fv(this.shader, "uScale", [3.51284, 3.51284, 3.51284]);
-            Scene_data.context3D.setVc3fv(this.shader, "uScale", [1, 1, 1]);
-            Scene_data.context3D.setVc3fv(this.shader, "uBias", [0, 0, 0]);
-
-            Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-            if (this.modelRenderList) {
-                for (var i: number = 0; i < this.modelRenderList.length; i++) {
-                    this.modelRenderList[i].update();
-                }
-            }
-        }
-    }
-
+    
 
     export class MainEditorPanel extends win.BaseWindow {
 
         public constructor() {
             super();
             this.pageRect = new Rectangle(0, 0, 500, 500)
-          
-
-            this._sceneViewRender = new modelShowRender();
+            this._sceneViewRender = new UiModelViewRender();
             this.addRender(this._sceneViewRender)
 
-
-       
-        
-      
         }
- 
-
- 
-        private _sceneViewRender: UIRenderOnlyPicComponent;
-
+        public set sceneProjectVo(value: SceneProjectVo) {
+            if (value) {
+                this._sceneViewRender.textureurl = value.textureurl;
+            }
+         
+        }
+        
+        private _sceneViewRender: UiModelViewRender;
         protected loadConfigCom(): void {
             super.loadConfigCom();
  
             this.initView()
 
- 
- 
             this.uiLoadComplete = true
             this.refrishSize()
 

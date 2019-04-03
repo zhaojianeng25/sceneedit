@@ -845,14 +845,9 @@
 
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
-
-
                     var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                     var $fileObj: any = JSON.parse($byte.readUTF());
-
                     this._sceneProjectVo = new SceneProjectVo($fileObj)
-
-
                     var $item: Array<FolderMeshVo> = this.wirteItem($fileObj.list)
                     for (var i: number = 0; i < $item.length; i++) {
                         EditorModel.getInstance().fileItem.push($item[i]);

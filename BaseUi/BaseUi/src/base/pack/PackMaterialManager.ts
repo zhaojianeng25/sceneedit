@@ -60,6 +60,7 @@
                         }
                         $buildShader.vertex = $buildShader.getVertexShaderString();
                         $buildShader.fragment = $temp.info.shaderStr;
+                        
 
 
                         $buildShader.encode();

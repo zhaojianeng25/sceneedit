@@ -93,6 +93,7 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW) {
                     this.showScnePojectView($mainEditorEvent.data);
+                    this._editScenePanel.sceneProjectVo = $mainEditorEvent.data;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);

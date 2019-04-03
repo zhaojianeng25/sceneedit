@@ -15,126 +15,31 @@ var maineditor;
 (function (maineditor) {
     var Rectangle = Pan3d.Rectangle;
     var Vector2D = Pan3d.Vector2D;
-    var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var ModuleEventManager = Pan3d.ModuleEventManager;
-    var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var Shader3D = Pan3d.Shader3D;
     var MouseType = Pan3d.MouseType;
     var MathUtil = Pan3d.MathUtil;
     var PanDragEvent = drag.PanDragEvent;
-    var BloomUiShader = /** @class */ (function (_super) {
-        __extends(BloomUiShader, _super);
-        function BloomUiShader() {
-            return _super.call(this) || this;
-        }
-        BloomUiShader.prototype.binLocation = function ($context) {
-            $context.bindAttribLocation(this.program, 0, "v3Pos");
-            $context.bindAttribLocation(this.program, 1, "v2uv");
-        };
-        BloomUiShader.prototype.getVertexShaderString = function () {
-            var $str = "attribute vec3 v3Pos;" +
-                "attribute vec3 v2uv;" +
-                "uniform vec4 ui[50];" +
-                "uniform vec4 ui2[50];" +
-                "varying vec2 v_texCoord;" +
-                "void main(void)" +
-                "{" +
-                "   vec4 data = ui2[int(v2uv.z)];" +
-                "   v_texCoord = vec2(v2uv.x * data.x + data.z, v2uv.y * data.y + data.w);" +
-                "   data = ui[int(v2uv.z)];" +
-                "   vec3 pos = vec3(0.0,0.0,0.0);" +
-                "   pos.xy = v3Pos.xy * data.zw * 2.0;" +
-                "   pos.x += data.x * 2.0 - 1.0;" +
-                "   pos.y += -data.y * 2.0 + 1.0;" +
-                "   vec4 vt0= vec4(pos, 1.0);" +
-                "   gl_Position = vt0;" +
-                "}";
-            return $str;
-        };
-        BloomUiShader.prototype.getFragmentShaderString = function () {
-            var $str = " precision mediump float;\n" +
-                "uniform sampler2D s_texture;\n" +
-                "varying vec2 v_texCoord;\n" +
-                "uniform vec3 uScale;\n" +
-                "uniform vec3 uBias;\n" +
-                "vec3 ii(vec3 c){vec3 ij=sqrt(c);\n" +
-                "return(ij-ij*c)+c*(0.4672*c+vec3(0.5328));\n" +
-                "}void main(void){\n" +
-                "vec4 ik=texture2D(s_texture,v_texCoord);\n" +
-                "vec3 c=ik.xyz;\n" +
-                "c=c*uScale+uBias;\n" +
-                "gl_FragColor.xyz=ii(c);\n" +
-                "gl_FragColor=vec4(ik.x,ik.y,ik.z,1.0);\n" +
-                "}";
-            return $str;
-        };
-        BloomUiShader.BloomUiShader = "BloomUiShader";
-        return BloomUiShader;
-    }(Shader3D));
-    maineditor.BloomUiShader = BloomUiShader;
-    var modelShowRender = /** @class */ (function (_super) {
-        __extends(modelShowRender, _super);
-        function modelShowRender() {
-            return _super.call(this) || this;
-        }
-        modelShowRender.prototype.initData = function () {
-            this._uiList = new Array;
-            this.objData = new ObjData();
-            ProgrmaManager.getInstance().registe(BloomUiShader.BloomUiShader, new BloomUiShader);
-            this.shader = ProgrmaManager.getInstance().getProgram(BloomUiShader.BloomUiShader);
-            this.program = this.shader.program;
-            this.uiProLocation = Scene_data.context3D.getLocation(this.program, "ui");
-            this.ui2ProLocation = Scene_data.context3D.getLocation(this.program, "ui2");
-        };
-        modelShowRender.prototype.makeRenderDataVc = function ($vcId) {
-            _super.prototype.makeRenderDataVc.call(this, $vcId);
-            for (var i = 0; i < this.renderData2.length / 4; i++) {
-                this.renderData2[i * 4 + 0] = 1;
-                this.renderData2[i * 4 + 1] = -1;
-                this.renderData2[i * 4 + 2] = 0;
-                this.renderData2[i * 4 + 3] = 0;
-            }
-        };
-        modelShowRender.prototype.update = function () {
-            if (!this.visible || this._uiList.length == 0) {
-                if (this.modelRenderList && this.modelRenderList.length) {
-                }
-                else {
-                    return;
-                }
-            }
-            Scene_data.context3D.setBlendParticleFactors(this.blenderMode);
-            Scene_data.context3D.setProgram(this.program);
-            this.setVc();
-            Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-            Scene_data.context3D.setVa(1, 3, this.objData.uvBuffer);
-            this.setTextureToGpu();
-            Scene_data.context3D.setVc3fv(this.shader, "uScale", [3.51284, 3.51284, 3.51284]);
-            Scene_data.context3D.setVc3fv(this.shader, "uScale", [1, 1, 1]);
-            Scene_data.context3D.setVc3fv(this.shader, "uBias", [0, 0, 0]);
-            Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-            if (this.modelRenderList) {
-                for (var i = 0; i < this.modelRenderList.length; i++) {
-                    this.modelRenderList[i].update();
-                }
-            }
-        };
-        return modelShowRender;
-    }(UIRenderOnlyPicComponent));
-    maineditor.modelShowRender = modelShowRender;
     var MainEditorPanel = /** @class */ (function (_super) {
         __extends(MainEditorPanel, _super);
         function MainEditorPanel() {
             var _this = _super.call(this) || this;
             _this.suffix = "prefab|lyf";
             _this.pageRect = new Rectangle(0, 0, 500, 500);
-            _this._sceneViewRender = new modelShowRender();
+            _this._sceneViewRender = new maineditor.UiModelViewRender();
             _this.addRender(_this._sceneViewRender);
             return _this;
         }
+        Object.defineProperty(MainEditorPanel.prototype, "sceneProjectVo", {
+            set: function (value) {
+                if (value) {
+                    this._sceneViewRender.textureurl = value.textureurl;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         MainEditorPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.initView();

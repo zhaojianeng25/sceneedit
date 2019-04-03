@@ -63,12 +63,12 @@
                 return this.sceneProjectVo.material
             } else {
                 if (this.sceneProjectVo.textureurl) {
-                    /*
-                    pack.MaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
+
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
                         this.sceneProjectVo.material = $materialTree;
                         this.refreshViewValue()
                     })
-                    */
+               
                 }
                 return null
             }

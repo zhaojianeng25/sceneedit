@@ -34,13 +34,13 @@ var AppData = /** @class */ (function (_super) {
     AppData.prototype.init = function () {
         var _this = this;
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-        //  Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "upfile/shadertree/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
         ModuleList.startup(); //启动所有模块
         Pan3d.UIData.Scale = 1;
         var uiAtlas = new Pan3d.UIAtlas();
         uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
+        Pan3d.TextureManager.getInstance().getImgResByurl(Pan3d.Scene_data.fileRoot + "icon/base.jpg"); //预备加载一下，其实可以不必要
     };
     AppData.prototype.loadConfigCom = function () {
         var _this = this;

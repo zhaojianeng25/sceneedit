@@ -62,17 +62,16 @@ var maineditor;
         };
         Object.defineProperty(ScenePojectMeshView.prototype, "texture", {
             get: function () {
+                var _this = this;
                 if (this.sceneProjectVo.material) {
                     return this.sceneProjectVo.material;
                 }
                 else {
                     if (this.sceneProjectVo.textureurl) {
-                        /*
-                        pack.MaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
-                            this.sceneProjectVo.material = $materialTree;
-                            this.refreshViewValue()
-                        })
-                        */
+                        pack.PackMaterialManager.getInstance().getMaterialByUrl(this.sceneProjectVo.textureurl, function ($materialTree) {
+                            _this.sceneProjectVo.material = $materialTree;
+                            _this.refreshViewValue();
+                        });
                     }
                     return null;
                 }

@@ -29,7 +29,6 @@ class AppData extends Pan3d.GameStart {
 
     public init(): void {
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-      //  Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "upfile/shadertree/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
       
@@ -37,12 +36,10 @@ class AppData extends Pan3d.GameStart {
 
         Pan3d.UIData.Scale = 1
 
-
-      
-    
-
         var uiAtlas: Pan3d.UIAtlas = new  Pan3d.UIAtlas();
         uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
+        Pan3d.TextureManager.getInstance().getImgResByurl(Pan3d.Scene_data.fileRoot + "icon/base.jpg"); //预备加载一下，其实可以不必要
+
 
     }
     private loadConfigCom(): void {
