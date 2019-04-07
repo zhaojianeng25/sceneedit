@@ -29,6 +29,25 @@ var pack;
                 }
             });
         };
+        PackMaterialManager.prototype.makeRoleShader = function ($materialTree, $temp) {
+            var $roleShader = new left.RoleMaterialShader();
+            if ($temp.info.paramAry) {
+                $roleShader.paramAry = [];
+                for (var i = 0; i < $temp.info.paramAry.length; i++) {
+                    $roleShader.paramAry.push($temp.info.paramAry[i]);
+                }
+            }
+            else {
+                $roleShader.paramAry = [false, false, false, false, false, false, false, false, false, false];
+            }
+            $roleShader.vertex = $roleShader.getVertexShaderString();
+            $roleShader.fragment = $temp.info.shaderStr;
+            $roleShader.encode();
+            console.log($roleShader);
+            $materialTree.shader = $roleShader;
+            $materialTree.program = $roleShader.program;
+            $materialTree.roleShader = $roleShader;
+        };
         PackMaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
             var _this = this;
             if (this.dic[$url]) { //有了就反回
@@ -54,6 +73,7 @@ var pack;
                     $buildShader.fragment = $temp.info.shaderStr;
                     $buildShader.encode();
                     var $materialTree = new materialui.MaterialTree();
+                    _this.makeRoleShader($materialTree, $temp);
                     $materialTree.setData({ data: $temp.data });
                     $materialTree.useNormal = $temp.info.useNormal;
                     $materialTree.hasTime = $temp.info.hasTime;
@@ -70,6 +90,7 @@ var pack;
                     $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
                     $materialTree.shader = $buildShader;
                     $materialTree.program = $buildShader.program;
+                    $materialTree.modelShader = $buildShader;
                     /*
                     console.log("----------vertex------------");
                     console.log($buildShader.vertex);

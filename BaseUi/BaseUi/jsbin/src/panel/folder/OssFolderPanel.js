@@ -204,7 +204,6 @@ var ossfolder;
                 for (var i = 0; i < $folderMeshVo.childItem.length; i++) {
                     var $vo = $folderMeshVo.childItem[i];
                     $vo.destory();
-                    console.log("移除", $vo);
                     this.clearChildern($vo);
                 }
             }

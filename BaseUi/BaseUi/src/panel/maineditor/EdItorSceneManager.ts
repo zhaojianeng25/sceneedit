@@ -86,7 +86,10 @@
             Scene_data.context3D._contextSetTest.clear();
             this.particleManager.updateTime();
             this.skillManager.update()
+
             if (this._ready) {
+                this.updateMovieFrame()
+
                 Scene_data.context3D.cullFaceBack(true);
                 Scene_data.context3D.setWriteDepth(true);
                 Scene_data.context3D.setDepthTest(true);

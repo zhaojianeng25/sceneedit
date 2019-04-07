@@ -2,6 +2,7 @@
     import TexItem = Pan3d.TexItem
     import TextureCube = Pan3d.TextureCube
     import Material = Pan3d.Material
+    import Shader3D = Pan3d.Shader3D
 
     import ConstItem = Pan3d.ConstItem
     export class MaterialTree extends Material {
@@ -47,6 +48,8 @@
         public fcIDAry: Array<number> = new Array;//[]
 
 
+        public modelShader: Shader3D
+        public roleShader: Shader3D
 
         public get data(): any {
             return this._data;

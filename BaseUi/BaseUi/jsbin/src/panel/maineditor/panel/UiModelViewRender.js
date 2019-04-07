@@ -119,7 +119,6 @@ gl_FragColor = ft2;
         });
         UiModelViewRender.prototype.sceneProjectUpData = function () {
             var _this = this;
-            console.log("修改");
             pack.PackMaterialManager.getInstance().getMaterialByUrl(this._sceneProjectVo.textureurl, function ($materialTree) {
                 _this.materialTree = $materialTree;
                 var tempShader = new UiModelViewShder;

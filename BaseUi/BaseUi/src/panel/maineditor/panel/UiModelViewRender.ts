@@ -151,7 +151,7 @@ gl_FragColor = ft2;
             }
         }
         private sceneProjectUpData(): void {
-            console.log("修改")
+  
             pack.PackMaterialManager.getInstance().getMaterialByUrl(this._sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
                 this.materialTree = $materialTree;
                 var tempShader: UiModelViewShder = new UiModelViewShder;

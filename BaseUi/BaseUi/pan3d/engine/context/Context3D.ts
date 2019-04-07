@@ -480,7 +480,7 @@
             var a: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))
             var b: number = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)))
             if (this.width != a || this.height != b) {
-                console.log("改变FBO尺寸",a,b)
+                //console.log("改变FBO尺寸",a,b)
                 this.makeSize(a, b)
             } 
         }

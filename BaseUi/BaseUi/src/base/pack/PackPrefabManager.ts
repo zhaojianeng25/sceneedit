@@ -41,7 +41,7 @@
         public makeMaterialBaseParam(materialParam: MaterialBaseParam, paramInfo: Array<any>): void {
             materialParam.dynamicConstList = []
             materialParam.dynamicTexList = []
-            for (var i: number = 0; i < paramInfo.length; i++) {
+            for (var i: number = 0; paramInfo&& i < paramInfo.length; i++) {
                 var tempInfo: any = paramInfo[i];
                 if (tempInfo.type == "tex") {
                     this.mekeParamTexture(tempInfo, materialParam)

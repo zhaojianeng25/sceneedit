@@ -242,8 +242,6 @@
                 for (var i: number = 0; i < $folderMeshVo.childItem.length; i++) {
                     var $vo: FolderMeshVo = $folderMeshVo.childItem[i];
                     $vo.destory();
-                    console.log("移除", $vo)
-
                     this.clearChildern($vo)
                 }
             }

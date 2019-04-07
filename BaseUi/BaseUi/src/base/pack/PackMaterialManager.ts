@@ -7,6 +7,7 @@
     import TexItem = Pan3d.TexItem
     import TextureManager = Pan3d.TextureManager;
     import TextureRes = Pan3d.TextureRes
+    
 
 
     export class PackMaterialManager {
@@ -36,6 +37,25 @@
                 });
 
         }
+        private makeRoleShader($materialTree: materialui.MaterialTree, $temp: any): void {
+            var $roleShader: left.RoleMaterialShader = new left.RoleMaterialShader();
+            if ($temp.info.paramAry) {
+                $roleShader.paramAry = []
+                for (var i: number = 0; i < $temp.info.paramAry.length; i++) {
+                    $roleShader.paramAry.push($temp.info.paramAry[i])
+                }
+            } else {
+                $roleShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
+            }
+            $roleShader.vertex = $roleShader.getVertexShaderString();
+            $roleShader.fragment = $temp.info.shaderStr;
+            $roleShader.encode();
+            console.log($roleShader)
+
+            $materialTree.shader = $roleShader;
+            $materialTree.program = $roleShader.program;
+            $materialTree.roleShader = $roleShader;
+        }
         public getMaterialByUrl($url: string, bfun: Function): void {
 
             if (this.dic[$url]) { //有了就反回
@@ -49,6 +69,8 @@
                         var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                         $byte.position = 0
                         var $temp: any = JSON.parse($byte.readUTF());
+              
+
                         var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
                         if ($temp.info.paramAry) {
                             $buildShader.paramAry = []
@@ -60,13 +82,14 @@
                         }
                         $buildShader.vertex = $buildShader.getVertexShaderString();
                         $buildShader.fragment = $temp.info.shaderStr;
-                        
-
-
                         $buildShader.encode();
 
-
+                       
+ 
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
+
+                        this.makeRoleShader($materialTree,$temp)
+
 
                         $materialTree.setData({ data: $temp.data });
                         $materialTree.useNormal = $temp.info.useNormal;
@@ -88,6 +111,8 @@
 
                         $materialTree.shader = $buildShader;
                         $materialTree.program = $buildShader.program;
+
+                        $materialTree.modelShader = $buildShader;
                         /*
                         console.log("----------vertex------------");
                         console.log($buildShader.vertex);
@@ -96,8 +121,8 @@
                         console.log("----------buildShader------------");
                         */
                     //    console.log("材质加载完成", $url)
-                        $materialTree.url = $url
 
+                        $materialTree.url = $url
                         if (!this.dic[$url]) {
                             this.dic[$url] = $materialTree;
                         }

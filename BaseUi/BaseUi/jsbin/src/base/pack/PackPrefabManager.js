@@ -29,7 +29,7 @@ var pack;
         PackPrefabManager.prototype.makeMaterialBaseParam = function (materialParam, paramInfo) {
             materialParam.dynamicConstList = [];
             materialParam.dynamicTexList = [];
-            for (var i = 0; i < paramInfo.length; i++) {
+            for (var i = 0; paramInfo && i < paramInfo.length; i++) {
                 var tempInfo = paramInfo[i];
                 if (tempInfo.type == "tex") {
                     this.mekeParamTexture(tempInfo, materialParam);
