@@ -50,10 +50,8 @@
             $roleShader.vertex = $roleShader.getVertexShaderString();
             $roleShader.fragment = $temp.info.shaderStr;
             $roleShader.encode();
-            console.log($roleShader)
-
-            $materialTree.shader = $roleShader;
-            $materialTree.program = $roleShader.program;
+ 
+      
             $materialTree.roleShader = $roleShader;
         }
         public getMaterialByUrl($url: string, bfun: Function): void {
@@ -88,7 +86,7 @@
  
                         var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
 
-                        this.makeRoleShader($materialTree,$temp)
+                     
 
 
                         $materialTree.setData({ data: $temp.data });
@@ -123,6 +121,10 @@
                     //    console.log("材质加载完成", $url)
 
                         $materialTree.url = $url
+
+                        this.makeRoleShader($materialTree, $temp)
+
+
                         if (!this.dic[$url]) {
                             this.dic[$url] = $materialTree;
                         }
@@ -130,6 +132,7 @@
                             this.loadDic[$url].pop()($materialTree);
                         }
 
+                   
                     });
             } else {
                 this.loadDic[$url].push(bfun)

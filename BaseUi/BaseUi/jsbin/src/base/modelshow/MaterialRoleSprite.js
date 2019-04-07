@@ -92,6 +92,9 @@ var left;
                 }
             }
         };
+        MaterialRoleSprite.prototype.setMeshVc = function ($mesh) {
+            _super.prototype.setMeshVc.call(this, $mesh);
+        };
         MaterialRoleSprite.prototype.setVcMatrix = function ($mesh) {
             Scene_data.context3D.setuniform3f($mesh.material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             _super.prototype.setVcMatrix.call(this, $mesh);

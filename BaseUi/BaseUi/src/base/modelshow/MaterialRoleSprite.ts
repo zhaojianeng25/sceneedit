@@ -60,6 +60,7 @@
             }
 
             this._curentFrame = float2int(this._actionTime / (Scene_data.frameTime * 1));
+
             if (this._curentFrame >= cutLen) {
                 if (this._completeState == 0) {
                     this._actionTime = 0;
@@ -77,6 +78,11 @@
             }
         }
 
+        public setMeshVc($mesh: MeshData): void {
+
+            super.setMeshVc($mesh);
+          
+        }
 
         public setVcMatrix($mesh: MeshData): void {
             Scene_data.context3D.setuniform3f($mesh.material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);

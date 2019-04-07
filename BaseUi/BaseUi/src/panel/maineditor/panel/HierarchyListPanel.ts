@@ -817,10 +817,9 @@
         private addTempRole(): void {
             var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
             MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
-
             pack.PackMaterialManager.getInstance().getMaterialByUrl("base.material", (materialTree: materialui.MaterialTree) => {
-              
-
+                materialTree.shader = materialTree.roleShader;
+                materialTree.program = materialTree.shader.program;
                 role.material = materialTree;
                 
             })

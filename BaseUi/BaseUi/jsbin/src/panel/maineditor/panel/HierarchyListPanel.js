@@ -660,6 +660,8 @@ var maineditor;
             var role = new left.MaterialRoleSprite();
             maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
             pack.PackMaterialManager.getInstance().getMaterialByUrl("base.material", function (materialTree) {
+                materialTree.shader = materialTree.roleShader;
+                materialTree.program = materialTree.shader.program;
                 role.material = materialTree;
             });
             LoadManager.getInstance().load("https://webpan.oss-cn-shanghai.aliyuncs.com/upfile/shadertree/texturelist/role_6_str.txt", LoadManager.XML_TYPE, function ($str) {
