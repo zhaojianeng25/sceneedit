@@ -59,7 +59,7 @@
     import Panel = win.Panel;
     import MenuListData = menutwo.MenuListData
     import SampleFileVo = filelist.SampleFileVo
-    
+
 
 
     export class TestDiplay3dShader extends Shader3D {
@@ -88,7 +88,7 @@
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
                 "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = vpMatrix3D * vt0;" +
- 
+
                 "   gl_Position = vt0;" +
                 "}"
             return $str
@@ -148,7 +148,7 @@
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }
         }
-     
+
         private _prefab: PrefabStaticMesh;
         public get prefab(): PrefabStaticMesh {
             return this._prefab
@@ -175,25 +175,25 @@
                 if (this._prefab.paramInfo) {
                     this.materialParam = new Pan3d.MaterialBaseParam;
                     this.materialParam.material = this.material;
-                    pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam,this._prefab.paramInfo);
+                    pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this._prefab.paramInfo);
                 }
             }
 
         }
-     
+
         public setPreFabUrl(url: string): void {
             pack.PackPrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
                 this.prefab = value
             })
         }
-        
+
 
 
     }
 
     export class OssListFile extends HierarchyFileNode {
-  
- 
+
+
     }
     export class FolderMeshVo extends Pan3d.baseMeshVo {
         public ossListFile: OssListFile
@@ -211,7 +211,7 @@
         }
 
         public destory(): void {
-         
+
             this.needDraw = null;
             this.clear = true
         }
@@ -235,7 +235,7 @@
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, "[9c9c9c]" + this.folderMeshVo.ossListFile.name, 24, 70, 10, TextAlign.LEFT)
 
 
-                var uiScaleVo: number=2
+                var uiScaleVo: number = 2
 
                 if (this.folderMeshVo.ossListFile.children || this.folderMeshVo.ossListFile.type == HierarchyNodeType.Folder) {
                     if (this.folderMeshVo.ossListFile.isOpen) {
@@ -304,11 +304,11 @@
             super(FolderName, new Rectangle(0, 0, 400, 40), 20);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
-            EditorModel.getInstance().hierarchyListPanel=this
+            EditorModel.getInstance().hierarchyListPanel = this
         }
-  
-  
-   
+
+
+
         protected loadConfigCom(): void {
             super.loadConfigCom();
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
@@ -317,10 +317,10 @@
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
 
-              //  console.log("图片加载完")
+                //  console.log("图片加载完")
             })
 
-       
+
         }
         private get isCanToDo(): boolean { //false为可以操作
 
@@ -355,7 +355,7 @@
             item.push("icon_point16");
             item.push("water_plane16");
             item.push("particle_16x");
-            
+
             var finishNum: number = 0
             for (var i: number = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], () => {
@@ -388,16 +388,16 @@
                 var rect: Rectangle = new Rectangle()
                 rect.x = $vo.ui.x + this.left;
                 rect.y = $vo.ui.y + this.top;
-                rect.x +=30;
+                rect.x += 30;
                 rect.y += 0;
-                rect.width = name.length *8
+                rect.width = name.length * 8
                 rect.height = 20
 
 
-                var receet: TextMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(name,14)
-                rect.width = receet.width +20 
+                var receet: TextMetrics = editscene.ChangeNameModel.getInstance().getTextMetrics(name, 14)
+                rect.width = receet.width + 20
 
-           
+
                 editscene.ChangeNameModel.getInstance().changeName(rect, name, (value: string) => {
 
                     $vo.folderMeshVo.ossListFile.name = value;
@@ -407,8 +407,8 @@
                 })
 
 
- 
-       
+
+
             }
         }
         private makeFileFloadMenu($evt: MouseEvent): void {
@@ -444,7 +444,7 @@
 
                     var pathurl: string = Pan3d.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url
                     Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
-                
+
                     break
                 default:
 
@@ -456,7 +456,7 @@
             if (idx == -1) {
                 console.log("没找到需要到子目录找")
             } else {
-                item.splice(idx,1)
+                item.splice(idx, 1)
                 MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
                 this.clearTemp(vo)
             }
@@ -484,11 +484,11 @@
             if ($clikVo) {
                 this.hidefileItemBg(EditorModel.getInstance().fileItem);
                 $clikVo.folderMeshVo.ossListFile.treeSelect = true
-           
+
 
                 EditorModel.getInstance().selectItem = [$clikVo.folderMeshVo];
-      
-                this.showXyzMove( );
+
+                this.showXyzMove();
             }
             this.refrishFolder();
             this.resize()
@@ -506,10 +506,10 @@
                 B.data = selctprefab;
                 _combineReflectionView.addView(B)
             }
-             prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
-          
+            prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
+
         }
-        private showXyzMove( ): void {
+        private showXyzMove(): void {
             var disItem: Array<Display3D> = []
             var selctprefab: PrefabStaticMesh
             for (var i: number = 0; i < EditorModel.getInstance().selectItem.length; i++) {
@@ -517,14 +517,14 @@
                 vo.ossListFile.treeSelect = true
                 disItem.push(vo.dis)
 
-                selctprefab =( <ModelSprite>vo.dis).prefab
+                selctprefab = (<ModelSprite>vo.dis).prefab
             }
             var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
             this.showMeshView(data, selctprefab)
 
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }
-    
+
         private hidefileItemBg(arr: Array<FolderMeshVo>): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].ossListFile.treeSelect = false;
@@ -540,7 +540,7 @@
                 }
             }
         }
- 
+
         private isCompelet: boolean
         protected makeItemUiList(): void {
             this._baseRender.mask = this._uiMask
@@ -563,20 +563,20 @@
         private onKeyDown($evt: KeyboardEvent): void {
             if (EditorModel.getInstance().selectItem && EditorModel.getInstance().selectItem.length == 1) {
                 var selectVo: FolderMeshVo = EditorModel.getInstance().selectItem[0]
-                var idex: number=  EditorModel.getInstance().fileItem.indexOf(selectVo)
+                var idex: number = EditorModel.getInstance().fileItem.indexOf(selectVo)
                 if ($evt.ctrlKey) {
                     switch ($evt.keyCode) {
                         case KeyboardType.Up:
                             if (idex > 0) {
                                 EditorModel.getInstance().fileItem.splice(idex, 1)
-                                EditorModel.getInstance().fileItem.splice(idex -1, 0, selectVo)
+                                EditorModel.getInstance().fileItem.splice(idex - 1, 0, selectVo)
                             }
-                             console.log("向上")
+                            console.log("向上")
                             break
                         case KeyboardType.Down:
-                            if (idex < EditorModel.getInstance().fileItem.length-2) {
+                            if (idex < EditorModel.getInstance().fileItem.length - 2) {
                                 EditorModel.getInstance().fileItem.splice(idex, 1)
-                                EditorModel.getInstance().fileItem.splice(idex +1, 0, selectVo)
+                                EditorModel.getInstance().fileItem.splice(idex + 1, 0, selectVo)
                             }
                             console.log("向下")
                             break
@@ -585,19 +585,19 @@
                 }
                 this.refrishFolder();
             }
-            
+
         }
 
 
         public addRender($uiRender: UIRenderComponent): void {
             super.addRender($uiRender)
             //这里的监听和之前有冲突之前添加过的 需要优化，暂时没问题
-            for (var i: number = 0; this._uiItem&&i < this._uiItem.length; i++) {
+            for (var i: number = 0; this._uiItem && i < this._uiItem.length; i++) {
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.itemMouseUp, this);
             }
         }
         private loadBaseSceneUrl(): void {
-            ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE)); 
+            ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_UI_LOAD_COMPLETE));
         }
         private onRightMenuFun: any
         public onRightMenu($evt: MouseEvent): void {
@@ -624,7 +624,7 @@
             }
             return null
         }
-    
+
 
         private wirteItem(childItem: Array<any>): Array<FolderMeshVo> {
             var $item: Array<FolderMeshVo> = new Array
@@ -634,8 +634,8 @@
                 $vo.ossListFile = new OssListFile;
 
                 $vo.ossListFile.name = childItem[i].name;
-                $vo.ossListFile.url =  childItem[i].url
-  
+                $vo.ossListFile.url = childItem[i].url
+
 
                 $vo.ossListFile.type = childItem[i].type;
                 $vo.ossListFile.treeSelect = childItem[i].treeSelect;;
@@ -651,7 +651,7 @@
                         var prefabSprite = new ModelSprite();
                         prefabSprite.setPreFabUrl(childItem[i].url);
                         $vo.dis = prefabSprite;
-        
+
                         break
                     case HierarchyNodeType.Particle:
                         var lyfSprite = new LyfSpriteDisplay();
@@ -686,22 +686,22 @@
 
         }
         public inputLyfToScene(temp: any): void {
-           // MainEditorProcessor.edItorSceneManager.playLyf(temp.url, new Vector3D())
- 
+            // MainEditorProcessor.edItorSceneManager.playLyf(temp.url, new Vector3D())
 
 
-      
 
-      
+
+
+
             var lyfSprite: LyfSpriteDisplay = new LyfSpriteDisplay();
             lyfSprite.addLyfByUrl(temp.url)
             MainEditorProcessor.edItorSceneManager.addDisplay(lyfSprite);
 
- 
+
             var $vo: FolderMeshVo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.dis = lyfSprite
-  
+
             MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
 
             $vo.ossListFile.name = temp.name;
@@ -716,15 +716,15 @@
             this.isCompelet = true;
             this.refrishFolder();
             this.resize()
- 
+
         }
-    
- 
+
+
         public inputPrefabToScene(temp: any): void {
 
-         
+
             var $url: string = temp.url
- 
+
 
             var $vo: FolderMeshVo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
@@ -734,7 +734,7 @@
 
             $mode.setPreFabUrl($url)
             $vo.dis = $mode
-        
+
 
             if (temp.scale) {
                 $vo.dis.x = temp.pos.x;
@@ -752,7 +752,7 @@
                 $vo.dis.rotationZ = temp.rotation.z;
             }
             MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
- 
+
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
             $vo.ossListFile.type = HierarchyNodeType.Prefab;
@@ -776,12 +776,12 @@
                 dis.material = $materialTree;
             })
         }
- 
+
 
         public clearSceneAll(): void {
 
             while (EditorModel.getInstance().fileItem.length) {
-                this.deleFile(EditorModel.getInstance().fileItem,EditorModel.getInstance().fileItem[0])
+                this.deleFile(EditorModel.getInstance().fileItem, EditorModel.getInstance().fileItem[0])
             }
         }
         private _sceneProjectVo: SceneProjectVo
@@ -804,79 +804,77 @@
                     this.refrishFolder();
                     this.resize();
 
-                 
-                
+
+
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), this._sceneProjectVo)
 
                     this.addTempRole();
 
                 });
 
-           
+
         }
         private addTempRole(): void {
             var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
             MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
-            pack.PackMaterialManager.getInstance().getMaterialByUrl("base.material", (materialTree: materialui.MaterialTree) => {
-                materialTree.shader = materialTree.roleShader;
-                materialTree.program = materialTree.shader.program;
-                role.material = materialTree;
-                
-            })
-            LoadManager.getInstance().load("https://webpan.oss-cn-shanghai.aliyuncs.com/upfile/shadertree/texturelist/role_6_str.txt", LoadManager.XML_TYPE,
-                    ($str: string) => {
-                        var temp: any = JSON.parse($str);
-                        console.log(temp)
 
-                        var $skinMesh: SkinMesh = new SkinMesh();
-                        $skinMesh.meshAry = new Array()
-                        for (var i: number = 0; i < temp.meshAry.length; i++) {
-                            var $meshData: MeshData = new MeshData()
-                            $meshData.vertices = temp.meshAry[i].vertices
-                            $meshData.uvs = temp.meshAry[i].uvs
-                            $meshData.tangents = temp.meshAry[i].tangents
-                            $meshData.bitangents = temp.meshAry[i].bitangents
-                            $meshData.boneIDAry = temp.meshAry[i].boneIDAry
-                            $meshData.boneWeightAry = temp.meshAry[i].boneWeightAry
-                            
-                            $meshData.normals = temp.meshAry[i].normals
-                            $meshData.indexs = temp.meshAry[i].indexs
+            LoadManager.getInstance().load(Scene_data.fileRoot + "pefab/role_base.zzw", LoadManager.XML_TYPE,
+                ($str: string) => {
+                    var temp: any = JSON.parse($str);
+                    console.log(temp)
+                    var $skinMesh: SkinMesh = new SkinMesh();
+                    $skinMesh.meshAry = new Array()
+                    for (var i: number = 0; i < temp.meshAry.length; i++) {
+                        var $meshData: MeshData = new MeshData()
+                        $meshData.vertices = temp.meshAry[i].vertices
+                        $meshData.uvs = temp.meshAry[i].uvs
+                        $meshData.tangents = temp.meshAry[i].tangents
+                        $meshData.bitangents = temp.meshAry[i].bitangents
+                        $meshData.boneIDAry = temp.meshAry[i].boneIDAry
+                        $meshData.boneWeightAry = temp.meshAry[i].boneWeightAry
 
-                            $meshData.stride = temp.meshAry[i].stride;
+                        $meshData.normals = temp.meshAry[i].normals
+                        $meshData.indexs = temp.meshAry[i].indexs
 
-                            $meshData.uid = temp.meshAry[i].uid;
-                  
-                            $meshData.treNum = temp.meshAry[i]._treNum;
+                        $meshData.stride = temp.meshAry[i].stride;
 
-                         //   $meshData.treNum =400*3
+                        $meshData.uid = temp.meshAry[i].uid;
 
-                            $meshData.uvsOffsets = temp.meshAry[i].uvsOffsets;
-                            $meshData.tangentsOffsets = temp.meshAry[i].tangentsOffsets;
-                            $meshData.bitangentsOffsets = temp.meshAry[i].bitangentsOffsets;
-                            $meshData.normalsOffsets = temp.meshAry[i].normalsOffsets;
-                            $meshData.boneIDOffsets = temp.meshAry[i].boneIDOffsets;
-                            $meshData.boneWeightOffsets = temp.meshAry[i].boneWeightOffsets;
+                        $meshData.treNum = temp.meshAry[i]._treNum;
 
-                            this.makeBufToRole($meshData);
-                            $meshData.compressBuffer = true
-                           // this.materialRoleSprite.skinMesh.meshAry[i] = $meshData;
-                            $skinMesh.meshAry.push($meshData)
-                        }
-                        var $animDic: any = {};
-                        for (var key in temp.animDic) {
-                           // var $temp: AnimData = temp.animDic[key];
-                            var $animData: AnimData = new AnimData
-                            $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDic(temp.animDic[key].meshBoneQPAryDic);
+                        //   $meshData.treNum =400*3
 
-                            $animDic[key] = $animData;
-                        }
-                         role.skinMesh = $skinMesh
-                        role.animDic = $animDic
+                        $meshData.uvsOffsets = temp.meshAry[i].uvsOffsets;
+                        $meshData.tangentsOffsets = temp.meshAry[i].tangentsOffsets;
+                        $meshData.bitangentsOffsets = temp.meshAry[i].bitangentsOffsets;
+                        $meshData.normalsOffsets = temp.meshAry[i].normalsOffsets;
+                        $meshData.boneIDOffsets = temp.meshAry[i].boneIDOffsets;
+                        $meshData.boneWeightOffsets = temp.meshAry[i].boneWeightOffsets;
+
+                        this.makeBufToRole($meshData);
+                        $meshData.compressBuffer = true
+                        // this.materialRoleSprite.skinMesh.meshAry[i] = $meshData;
+                        $skinMesh.meshAry.push($meshData)
+                    }
+                    var $animDic: any = {};
+                    for (var key in temp.animDic) {
+                        // var $temp: AnimData = temp.animDic[key];
+                        var $animData: AnimData = new AnimData
+                        $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDic(temp.animDic[key].meshBoneQPAryDic);
+
+                        $animDic[key] = $animData;
+                    }
+                    role.skinMesh = $skinMesh
+                    role.animDic = $animDic
 
 
-             
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(temp.textureurl, (materialTree: materialui.MaterialTree) => {
+                        materialTree.shader = materialTree.roleShader;
+                        materialTree.program = materialTree.shader.program;
+                        role.material = materialTree;
+                    })
                 });
-     
+
 
         }
         private getFloat32ArrayByArr(obj: any): Float32Array {
@@ -947,11 +945,11 @@
 
 
         }
-  
 
-    
+
+
         public selectModelEvet(tempItem: Array<FolderMeshVo>, isshift: boolean = false): void {
- 
+
             if (tempItem.length) {
                 this.hidefileItemBg(EditorModel.getInstance().fileItem);
                 EditorModel.getInstance().addSelctItem(tempItem, isshift);
@@ -961,11 +959,11 @@
                 this.resize()
             }
         }
-      //  public mapOpenUrl: string
+        //  public mapOpenUrl: string
         public saveMap(): void {
-           // EditorModel.getInstance().fileItem=[]
- 
-          //  var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
+            // EditorModel.getInstance().fileItem=[]
+
+            //  var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
 
             var tempObj: any = this._sceneProjectVo.getSaveObj()
             tempObj.list = this.getWillSaveItem(EditorModel.getInstance().fileItem);
@@ -977,7 +975,7 @@
 
             var $file: File = new File([$byte.buffer], "scene.map");
             var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-            
+
             pack.FileOssModel.upOssFile($file, pathurl, () => {
 
                 console.log("上传完成")
@@ -1020,13 +1018,13 @@
         }
         protected changeScrollBar(): void {
             super.changeScrollBar()
- 
+
             this.refrishFolder()
         }
         public resize(): void {
             if (this.isCompelet) {
                 this.contentHeight = this.getItemDisNum(EditorModel.getInstance().fileItem) * 20;
-  
+
             }
             super.resize()
 
@@ -1034,12 +1032,12 @@
                 this.cellBgItem[i].width = this.pageRect.width
 
             }
-        
+
         }
- 
+
         private refrishFolder(): void {
             if (this.isCompelet) {
- 
+
                 this.listTy = 0 + this.moveListTy
                 this.disChiendren(EditorModel.getInstance().fileItem, 10);
                 var moveTy: number = 0
@@ -1066,17 +1064,17 @@
                     ui.x = 0
                     ui.width = this.pageRect.width
                     ui.height = 20
- 
+
                     this.cellBgItem.push(ui);
                 }
 
             }
-        
+
         }
         private moveAllTy(arr: Array<FolderMeshVo>, ty: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].cellPos.y += ty;
-        
+
                 if (arr[i].ossListFile.isOpen) {
                     this.moveAllTy(arr[i].childItem, ty)
                 }
@@ -1094,7 +1092,7 @@
             }
             return num
         }
-        private   listTy: number
+        private listTy: number
         private disChiendren(arr: Array<FolderMeshVo>, tx: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].cellPos.x = tx;

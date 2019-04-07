@@ -659,12 +659,7 @@ var maineditor;
             var _this = this;
             var role = new left.MaterialRoleSprite();
             maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
-            pack.PackMaterialManager.getInstance().getMaterialByUrl("base.material", function (materialTree) {
-                materialTree.shader = materialTree.roleShader;
-                materialTree.program = materialTree.shader.program;
-                role.material = materialTree;
-            });
-            LoadManager.getInstance().load("https://webpan.oss-cn-shanghai.aliyuncs.com/upfile/shadertree/texturelist/role_6_str.txt", LoadManager.XML_TYPE, function ($str) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + "pefab/role_base.zzw", LoadManager.XML_TYPE, function ($str) {
                 var temp = JSON.parse($str);
                 console.log(temp);
                 var $skinMesh = new SkinMesh();
@@ -703,6 +698,11 @@ var maineditor;
                 }
                 role.skinMesh = $skinMesh;
                 role.animDic = $animDic;
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(temp.textureurl, function (materialTree) {
+                    materialTree.shader = materialTree.roleShader;
+                    materialTree.program = materialTree.shader.program;
+                    role.material = materialTree;
+                });
             });
         };
         HierarchyListPanel.prototype.getFloat32ArrayByArr = function (obj) {

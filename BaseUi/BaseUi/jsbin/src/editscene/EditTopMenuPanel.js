@@ -23,6 +23,7 @@ var editscene;
     var TextureManager = Pan3d.TextureManager;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
+    var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var MenuListData = /** @class */ (function () {
@@ -138,6 +139,7 @@ var editscene;
             $vo.subMenu.push(new MenuListData("导入场景", "31"));
             $vo.subMenu.push(new MenuListData("导入模型", "32"));
             $vo.subMenu.push(new MenuListData("导入特效", "33"));
+            $vo.subMenu.push(new MenuListData("临时修改", "34"));
             return $vo;
         };
         EditTopMenuPanel.prototype.makeSceneTopMenu = function () {
@@ -192,6 +194,9 @@ var editscene;
                         }
                     });
                     break;
+                case "34":
+                    this.changeZZW();
+                    break;
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
                     break;
@@ -206,6 +211,19 @@ var editscene;
                 default:
                     break;
             }
+        };
+        EditTopMenuPanel.prototype.changeZZW = function () {
+            var $url = "pefab/role_base.zzw";
+            LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.XML_TYPE, function ($str) {
+                var temp = JSON.parse($str);
+                temp.textureurl = "base.material";
+                var $file = new File([JSON.stringify(temp)], "ossfile.txt");
+                var pathUrl = Pan3d.Scene_data.fileRoot + $url;
+                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($file, pathurl, function () {
+                    console.log("上传成功");
+                });
+            });
         };
         EditTopMenuPanel.prototype.showMainUi = function () {
             this.clearAll();

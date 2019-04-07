@@ -11,6 +11,7 @@
     import TextureManager = Pan3d.TextureManager
     import Rectangle = Pan3d.Rectangle
     import UIAtlas = Pan3d.UIAtlas
+    import LoadManager = Pan3d.LoadManager
     import Scene_data = Pan3d.Scene_data
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
 
@@ -159,6 +160,7 @@
             $vo.subMenu.push(new MenuListData("导入场景", "31"));
             $vo.subMenu.push(new MenuListData("导入模型", "32"));
             $vo.subMenu.push(new MenuListData("导入特效", "33"));
+            $vo.subMenu.push(new MenuListData("临时修改", "34"));
             return $vo
         }
         public makeSceneTopMenu(): void {
@@ -220,6 +222,9 @@
 
                     })
                     break
+                case "34":
+                    this.changeZZW()
+                    break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
                     break
@@ -227,7 +232,7 @@
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
                     break
                 case "1003":
-                    
+               
                     break
                 case "1004":
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
@@ -236,6 +241,22 @@
     
                     break
             }
+        }
+        private changeZZW(): void {
+            var $url: string = "pefab/role_base.zzw"
+            LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.XML_TYPE,
+                ($str: string) => {
+                    var temp: any = JSON.parse($str);
+                     temp.textureurl = "base.material";
+                    var $file: File = new File([JSON.stringify(temp)], "ossfile.txt");
+                    var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
+                    var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+ 
+                    pack.FileOssModel.upOssFile($file, pathurl, () => {
+                        console.log("上传成功");
+                    })
+
+                });
         }
 
 
