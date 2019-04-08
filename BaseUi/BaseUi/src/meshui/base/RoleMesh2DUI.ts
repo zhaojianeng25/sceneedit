@@ -158,7 +158,6 @@
             if (this.FunKey) {
 
                 this._skinMesh = this.target[this.FunKey]
-
                 this.textLabelUI.label="部分"
                 this.comboBoxUi.text = "mesh_" + this.selectMeshId
 

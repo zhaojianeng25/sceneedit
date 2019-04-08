@@ -189,6 +189,7 @@ var left;
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.skinMesh.meshAry[i].materialParam, this.skinMesh.meshAry[i].paramInfo);
                 }
             }
+            this.play(this.roleStaticMesh.animPlayKey, 0);
         };
         return MaterialRoleSprite;
     }(Display3dMovie));

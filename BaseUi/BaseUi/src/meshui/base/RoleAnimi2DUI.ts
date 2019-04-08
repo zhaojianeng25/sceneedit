@@ -102,60 +102,49 @@
         protected comboBoxUiDown($evt: InteractiveEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_COMBOX_MENU);
             $rightMenuEvet.posv2d = new Vector2D(this.comboBoxUi.ui.absoluteX, this.comboBoxUi.ui.absoluteY + 20);
-
             var arrItem: Array<any> = []
-
             for (var keyStr in this._animDic) {
                 arrItem.push({ name: keyStr, type: arrItem.length })
             }
 
-            $rightMenuEvet.comboxData = arrItem
+            $rightMenuEvet.comboxData = arrItem;
             $rightMenuEvet.comboxFun = (value: number) => { this.selectFun(value) }
             ModuleEventManager.dispatchEvent($rightMenuEvet);
         }
         protected selectFun(value: number): void {
-            var skipId: number=0
+            var skipId: number = 0
+            var vo: pack.RoleStaticMesh = this.target.data
             for (var keyStr in this._animDic) {
+                vo.animPlayKey = keyStr;
                 if (skipId == value) {
-                    this.selectAnimKey = keyStr;
                     break;
                 }
                 skipId++
-           
             }
+
+            vo.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
             this.refreshViewValue();
         }
-
-        public set data(value: any) {
-            this._data = value;
-
-
-        }
-        public get data(): any {
-            return this._data
-        }
-        private selectAnimKey: string
+ 
+     //   private selectAnimKey: string
         public refreshViewValue(): void {
             if (this.FunKey) {
-
                 this._animDic = this.target[this.FunKey]
 
-                if (!this.selectAnimKey) {
+                var vo: pack.RoleStaticMesh = this.target.data
+                if (!vo.animPlayKey) {
                     for (var keyStr in this._animDic) {
-                        this.selectAnimKey = keyStr
+                        vo.animPlayKey = keyStr
                         break;
                     }
                 }
-                if (!this._animDic[this.selectAnimKey].url) {
-                    this._animDic[this.selectAnimKey].url = this.selectAnimKey+".md5anim"
+                if (!this._animDic[vo.animPlayKey].url) {
+                    this._animDic[vo.animPlayKey].url = vo.animPlayKey+".md5anim"
                 }
-            
                 this.textLabelUI.label = "部分";
-                this.comboBoxUi.text = this.selectAnimKey;
+                this.comboBoxUi.text = vo.animPlayKey;
                 this.md5animPicUi.url = "icon/txt_64x.png";
-                this.md5animUrlText.label = this._animDic[this.selectAnimKey].url;
-
-            
+                this.md5animUrlText.label = this._animDic[vo.animPlayKey].url;
 
             }
         }

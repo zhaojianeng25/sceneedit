@@ -4,7 +4,8 @@
  
         public skinMesh: any
         public animDic: any
- 
+
+        public animPlayKey: string
  
         public constructor() {
             super();
