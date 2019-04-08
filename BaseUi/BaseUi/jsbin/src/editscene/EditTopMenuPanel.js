@@ -230,10 +230,10 @@ var editscene;
                 return false;
             }
         };
-        EditTopMenuPanel.prototype.inputH5roleRes = function (simpleFile) {
+        EditTopMenuPanel.prototype.inputH5roleRes = function (soureFile) {
             var _this = this;
             var $reader = new FileReader();
-            $reader.readAsArrayBuffer(simpleFile);
+            $reader.readAsArrayBuffer(soureFile);
             $reader.onload = function ($temp) {
                 if (_this.isRoleFile($reader.result)) {
                     var role = new left.MaterialRoleSprite();
@@ -242,11 +242,12 @@ var editscene;
                     var $roleStr = pack.RoleChangeModel.getInstance().getChangeRoleStr();
                     if ($roleStr) {
                         var $file = new File([$roleStr], "ossfile.txt");
-                        var $url = "pefab/pan_base.zzw";
-                        var pathUrl = Pan3d.Scene_data.fileRoot + $url;
-                        var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                        console.log(soureFile.name);
+                        var baseRoot = AppData.getPerentPath(AppData.rootFilePath);
+                        console.log(baseRoot);
+                        var pathurl = baseRoot + soureFile.name.replace(".txt", ".zzw");
                         pack.FileOssModel.upOssFile($file, pathurl, function () {
-                            console.log("上传成功");
+                            console.log("上传成功", pathurl);
                         });
                     }
                     else {

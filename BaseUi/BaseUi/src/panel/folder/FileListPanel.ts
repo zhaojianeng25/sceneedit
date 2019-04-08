@@ -510,13 +510,15 @@
                 vo.destory()
             }
         }
-        private rootFilePath: string;
+     //   private rootFilePath: string;
         public refrishPath(filePath: string): void {
             console.log("刷新目录", filePath)
-            this.rootFilePath = AppData.getPerentPath(filePath)
+            AppData.rootFilePath = AppData.getPerentPath(filePath)
+
+ 
             this.moveListTy = 0;
             this.clearListAll()
-            pack.FileOssModel.getFolderArr(this.rootFilePath, (value: Array<FileVo>) => {
+            pack.FileOssModel.getFolderArr(AppData.rootFilePath, (value: Array<FileVo>) => {
                 for (var i: number = 0; i < value.length; i++) {
                     var sampleFile: SampleFileVo = new SampleFileVo;
                     sampleFile.id = i;
@@ -645,7 +647,7 @@
                     this.creatPefab()
                     break
                 case "5":
-                    this.refrishIndexGroup(this.rootFilePath)
+                    this.refrishIndexGroup(AppData.rootFilePath)
                     break
                 case "21":
                     this.deleFile()
@@ -704,7 +706,7 @@
                        
                                 pack.FileOssModel.copyFile(toPath, basePath, () => {
                                     pack.FileOssModel.deleFile(basePath, () => {
-                                        this.refrishIndexGroup(this.rootFilePath)
+                                        this.refrishIndexGroup(AppData.rootFilePath)
 
                                     })
                                 })
@@ -721,9 +723,9 @@
         private creatTexture(): void {
             //复制文件
             var baseTextureUrl: string = "baseedit/assets/base/base.material";
-            var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl: string = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.copyFile(pathurl + "base.material", baseTextureUrl, () => {
-                this.refrishIndexGroup(this.rootFilePath)
+                this.refrishIndexGroup(AppData.rootFilePath)
             });
         }
         private refrishIndexGroup(url: string): void {
@@ -734,9 +736,9 @@
         private creatPefab(): void {
                  //复制文件
             var basePrefabUrl: string = "baseedit/assets/base/base.prefab";
-            var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl: string = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.copyFile(pathurl + "base.prefab", basePrefabUrl, () => {
-                this.refrishIndexGroup(this.rootFilePath)
+                this.refrishIndexGroup(AppData.rootFilePath)
             });
 
             
@@ -750,7 +752,7 @@
                         var truthBeTold = window.confirm("是否确定要删除选取的对象。");
                         if (truthBeTold) {
                             pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, () => {
-                                this.refrishIndexGroup(this.rootFilePath)
+                                this.refrishIndexGroup(AppData.rootFilePath)
                                 console.log("删除成功")
 
                             })
@@ -780,15 +782,15 @@
             for (var i: number = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
                 var simpleFile: File = <File>this._inputHtmlSprite.files[i];
                 console.log(simpleFile)
-                console.log(this.rootFilePath)
-                var pathurl: string = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+                console.log(AppData.rootFilePath)
+                var pathurl: string = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
                 console.log(pathurl + simpleFile.name);
 
                 pack.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, () => {
                     console.log("文件上传成功");
          
                     pack.FileOssModel.getDisByOss(pathurl, () => {
-                        this.refrishPath(this.rootFilePath)
+                        this.refrishPath(AppData.rootFilePath)
                     })
 
                  

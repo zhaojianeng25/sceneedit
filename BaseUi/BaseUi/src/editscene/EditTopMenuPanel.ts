@@ -261,9 +261,9 @@
 
         }
 
-        private inputH5roleRes(simpleFile: File): void {
+        private inputH5roleRes(soureFile: File): void {
             var $reader: FileReader = new FileReader();
-            $reader.readAsArrayBuffer(simpleFile);
+            $reader.readAsArrayBuffer(soureFile);
             $reader.onload = ($temp: Event) => {
                 if (this.isRoleFile(<ArrayBuffer>$reader.result)) {
                     var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
@@ -273,12 +273,14 @@
                     var $roleStr: string = pack. RoleChangeModel.getInstance().getChangeRoleStr();
                     if ($roleStr) {
                         var $file: File = new File([$roleStr], "ossfile.txt");
+                        console.log(soureFile.name)
+                        var baseRoot: string = AppData.getPerentPath(AppData.rootFilePath)
+                        console.log(baseRoot)
 
-                        var $url: string = "pefab/pan_base.zzw"
-                        var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
-                        var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+        
+                        var pathurl: string = baseRoot + soureFile.name.replace(".txt", ".zzw");
                         pack.FileOssModel.upOssFile($file, pathurl, () => {
-                            console.log("上传成功");
+                            console.log("上传成功", pathurl);
                         })
                      
                     } else {

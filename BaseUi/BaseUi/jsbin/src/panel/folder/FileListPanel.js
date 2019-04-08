@@ -417,13 +417,14 @@ var filelist;
                 vo.destory();
             }
         };
+        //   private rootFilePath: string;
         FileListPanel.prototype.refrishPath = function (filePath) {
             var _this = this;
             console.log("刷新目录", filePath);
-            this.rootFilePath = AppData.getPerentPath(filePath);
+            AppData.rootFilePath = AppData.getPerentPath(filePath);
             this.moveListTy = 0;
             this.clearListAll();
-            pack.FileOssModel.getFolderArr(this.rootFilePath, function (value) {
+            pack.FileOssModel.getFolderArr(AppData.rootFilePath, function (value) {
                 for (var i = 0; i < value.length; i++) {
                     var sampleFile = new SampleFileVo;
                     sampleFile.id = i;
@@ -529,7 +530,7 @@ var filelist;
                     this.creatPefab();
                     break;
                 case "5":
-                    this.refrishIndexGroup(this.rootFilePath);
+                    this.refrishIndexGroup(AppData.rootFilePath);
                     break;
                 case "21":
                     this.deleFile();
@@ -582,7 +583,7 @@ var filelist;
                                 console.log(toPath);
                                 pack.FileOssModel.copyFile(toPath, basePath, function () {
                                     pack.FileOssModel.deleFile(basePath, function () {
-                                        _this.refrishIndexGroup(_this.rootFilePath);
+                                        _this.refrishIndexGroup(AppData.rootFilePath);
                                     });
                                 });
                             }
@@ -595,9 +596,9 @@ var filelist;
             var _this = this;
             //复制文件
             var baseTextureUrl = "baseedit/assets/base/base.material";
-            var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.copyFile(pathurl + "base.material", baseTextureUrl, function () {
-                _this.refrishIndexGroup(_this.rootFilePath);
+                _this.refrishIndexGroup(AppData.rootFilePath);
             });
         };
         FileListPanel.prototype.refrishIndexGroup = function (url) {
@@ -610,9 +611,9 @@ var filelist;
             var _this = this;
             //复制文件
             var basePrefabUrl = "baseedit/assets/base/base.prefab";
-            var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.copyFile(pathurl + "base.prefab", basePrefabUrl, function () {
-                _this.refrishIndexGroup(_this.rootFilePath);
+                _this.refrishIndexGroup(AppData.rootFilePath);
             });
         };
         FileListPanel.prototype.deleFile = function () {
@@ -624,7 +625,7 @@ var filelist;
                         var truthBeTold = window.confirm("是否确定要删除选取的对象。");
                         if (truthBeTold) {
                             pack.FileOssModel.deleFile($vo.fileListMeshVo.fileXmlVo.data.path, function () {
-                                _this.refrishIndexGroup(_this.rootFilePath);
+                                _this.refrishIndexGroup(AppData.rootFilePath);
                                 console.log("删除成功");
                             });
                         }
@@ -649,13 +650,13 @@ var filelist;
             for (var i = 0; i < this._inputHtmlSprite.files.length && i < 1; i++) {
                 var simpleFile = this._inputHtmlSprite.files[i];
                 console.log(simpleFile);
-                console.log(this.rootFilePath);
-                var pathurl = this.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+                console.log(AppData.rootFilePath);
+                var pathurl = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
                 console.log(pathurl + simpleFile.name);
                 pack.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, function () {
                     console.log("文件上传成功");
                     pack.FileOssModel.getDisByOss(pathurl, function () {
-                        _this.refrishPath(_this.rootFilePath);
+                        _this.refrishPath(AppData.rootFilePath);
                     });
                 });
             }

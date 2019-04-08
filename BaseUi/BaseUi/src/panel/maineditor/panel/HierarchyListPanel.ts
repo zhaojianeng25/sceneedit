@@ -248,6 +248,9 @@
                     case HierarchyNodeType.Prefab:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["profeb_16"], 30, 5, 26, 32)
                         break
+                    case HierarchyNodeType.Role:
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["zzw_16x"], 30, 5, 26, 32)
+                        break
                     case HierarchyNodeType.Light:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_point16"], 30, 5, 26, 32)
                         break
@@ -355,6 +358,7 @@
             item.push("icon_point16");
             item.push("water_plane16");
             item.push("particle_16x");
+            item.push("zzw_16x");
 
             var finishNum: number = 0
             for (var i: number = 0; i < item.length; i++) {
@@ -652,11 +656,20 @@
                         prefabSprite.setPreFabUrl(childItem[i].url);
                         $vo.dis = prefabSprite;
 
+                        MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
                         break
                     case HierarchyNodeType.Particle:
                         var lyfSprite = new LyfSpriteDisplay();
                         lyfSprite.addLyfByUrl(childItem[i].url);
                         $vo.dis = lyfSprite;
+
+                        MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+                        break
+                    case HierarchyNodeType.Role:
+                        var roleSprite = new left.MaterialRoleSprite();
+                        pack.RoleChangeModel.getInstance().changeRoleModel(childItem[i].url, roleSprite)
+                        $vo.dis = roleSprite;
+                        MainEditorProcessor.edItorSceneManager.addMovieDisplay(roleSprite);
                         break
                     default:
                         break
@@ -675,7 +688,6 @@
                 $vo.dis.rotationZ = childItem[i].rotationZ;
 
 
-                MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
 
 
                 $vo.childItem = this.wirteItem(childItem[i].children);
@@ -686,20 +698,36 @@
 
         }
         public inputZzwToScene(temp: any): void {
-            console.log(temp)
+     
 
             var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
             MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
             pack.RoleChangeModel.getInstance().changeRoleModel(temp.url, role)
 
+
+
+            var $vo: FolderMeshVo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+            $vo.dis = role
+
+ 
+
+            $vo.ossListFile.name = temp.name;
+            $vo.ossListFile.url = temp.url;
+            $vo.ossListFile.type = HierarchyNodeType.Role;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
+
+            this.showTemp($vo);
+
+            EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize()
+
         }
         public inputLyfToScene(temp: any): void {
-            // MainEditorProcessor.edItorSceneManager.playLyf(temp.url, new Vector3D())
-
-
-
-
-
+ 
 
             var lyfSprite: LyfSpriteDisplay = new LyfSpriteDisplay();
             lyfSprite.addLyfByUrl(temp.url)

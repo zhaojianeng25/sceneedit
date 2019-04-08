@@ -8,7 +8,8 @@ class AppData extends Pan3d.GameStart {
     public static centenPanel: win.Panel
     public static topPanel: win.Panel
 
-    public static mapOpenUrl: string
+    public static mapOpenUrl: string;
+    public static rootFilePath: string;
 
     public static getPerentPath(value: string): string {
         var idex: number = value.lastIndexOf("/")
