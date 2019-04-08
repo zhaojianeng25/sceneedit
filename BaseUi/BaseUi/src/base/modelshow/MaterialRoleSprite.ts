@@ -6,6 +6,7 @@
     import TexItem = Pan3d.TexItem
     import AnimData = Pan3d.AnimData
     import SkinMesh = Pan3d.SkinMesh
+    import BaseEvent = Pan3d.BaseEvent
     import Pan3dByteArray = Pan3d.Pan3dByteArray
     import Scene_data = Pan3d.Scene_data
     import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
@@ -13,14 +14,7 @@
     import LoadManager = Pan3d.LoadManager
     export class MaterialRoleSprite extends Display3dMovie {
         public update(): void {
-            if (this._skinMesh) {
-                if (this.material) {
-                    for (var i: number = 0; i < this._skinMesh.meshAry.length; i++) {
-                        this._skinMesh.meshAry[i].material = this.material
-                        this._skinMesh.meshAry[i].materialParam = null
-                    }
-                }
-            }
+   
             super.update();
         }
         public get skinMesh(): SkinMesh {
@@ -79,11 +73,7 @@
             }
         }
 
-        public setMeshVc($mesh: MeshData): void {
-
-            super.setMeshVc($mesh);
-          
-        }
+   
 
         public setVcMatrix($mesh: MeshData): void {
             Scene_data.context3D.setuniform3f($mesh.material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
@@ -92,16 +82,19 @@
         public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
             var texVec: Array<TexItem> = $material.texList;
             for (var i: number = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
                 if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    if (texVec[i].type == TexItem.CUBEMAP) {
+                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    } else {
+                        Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    }
+                } else {
+                    console.log("还没加载好")
                 }
             }
             if ($mp) {
                 for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
+                    if ($mp.dynamicTexList[i].target && $mp.dynamicTexList[i].texture) {
                         Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name,
                             $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
                     }
@@ -175,11 +168,9 @@
             this.skinMesh = $skinMesh
             this.animDic = $animDic
 
-
-
-
+ 
         }
-        protected getmeshBoneQPAryDic($arr: Array<DualQuatFloat32Array>): Dictionary {
+        private getmeshBoneQPAryDic($arr: Array<DualQuatFloat32Array>): Dictionary {
             var item: Dictionary = new Dictionary([])
             var a1: Array<Array<DualQuatFloat32Array>> = new Array;
             a1.push($arr)
@@ -193,9 +184,22 @@
                 this.skinMesh = this.roleStaticMesh.skinMesh
                 this.animDic = this.roleStaticMesh.animDic
                 this.material = this.roleStaticMesh.material;
-
+                this.roleStaticMesh.addEventListener(BaseEvent.COMPLETE, this.meshParamInfo, this);
+                this.meshParamInfo();
             })
         }
+        private meshParamInfo(): void {
+ 
+            if (this.roleStaticMesh.paramInfo) {
+                this.materialParam = new Pan3d.MaterialBaseParam;
+                pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this.roleStaticMesh.paramInfo);
+                for (var i: number = 0; i < this.skinMesh.meshAry.length; i++) {
+                    this.skinMesh.meshAry[i].materialParam = this.materialParam;
+                }
+            }
+
+        }
+
     }
 
    

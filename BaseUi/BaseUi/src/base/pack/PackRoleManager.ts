@@ -125,6 +125,7 @@
                     ($str: string) => {
                         var temp: any = JSON.parse($str);
                         var tempRoleStatemesh: RoleStaticMesh = new RoleStaticMesh();
+                        tempRoleStatemesh.url = $url;
                     
                         var $skinMesh: SkinMesh = new SkinMesh();
                         $skinMesh.meshAry = new Array()
@@ -176,9 +177,12 @@
                         tempRoleStatemesh.textureurl = temp.textureurl
                         pack.PackMaterialManager.getInstance().getMaterialByUrl(tempRoleStatemesh.textureurl, ($materialTree: materialui.MaterialTree) => {
                             tempRoleStatemesh.material = $materialTree;
-
                             $materialTree.shader = $materialTree.roleShader;
                             $materialTree.program = $materialTree.shader.program;
+
+                            for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
+                                tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree
+                            }
 
 
                             this.playBfun(tempRoleStatemesh, $url)

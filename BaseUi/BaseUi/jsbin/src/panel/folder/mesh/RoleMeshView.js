@@ -23,8 +23,7 @@ var filelist;
         RoleMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型" },
-                { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "模型" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "模型" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "材质" },
             ];
             return ary;
@@ -45,9 +44,9 @@ var filelist;
             }
             return null;
         };
-        Object.defineProperty(RoleMeshView.prototype, "prebaburl", {
+        Object.defineProperty(RoleMeshView.prototype, "roleurl", {
             get: function () {
-                return "";
+                return this._roleStaticMesh.url;
             },
             set: function (value) {
             },
@@ -65,18 +64,6 @@ var filelist;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(RoleMeshView.prototype, "objsurl", {
-            get: function () {
-                return "0111";
-            },
-            set: function (value) {
-                this._roleStaticMesh.objsurl = value;
-                this.saveToSever();
-                this.chuangeData();
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(RoleMeshView.prototype, "data", {
             get: function () {
                 return this._data;
@@ -90,7 +77,6 @@ var filelist;
             configurable: true
         });
         RoleMeshView.prototype.saveToSever = function () {
-            this.lastTm = Pan3d.TimeUtil.getTimer();
         };
         return RoleMeshView;
     }(MetaDataView));

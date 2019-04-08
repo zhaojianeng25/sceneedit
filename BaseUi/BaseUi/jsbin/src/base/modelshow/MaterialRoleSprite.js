@@ -18,6 +18,7 @@ var left;
     var TexItem = Pan3d.TexItem;
     var AnimData = Pan3d.AnimData;
     var SkinMesh = Pan3d.SkinMesh;
+    var BaseEvent = Pan3d.BaseEvent;
     var Scene_data = Pan3d.Scene_data;
     var Dictionary = Pan3d.Dictionary;
     var MaterialRoleSprite = /** @class */ (function (_super) {
@@ -26,14 +27,6 @@ var left;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         MaterialRoleSprite.prototype.update = function () {
-            if (this._skinMesh) {
-                if (this.material) {
-                    for (var i = 0; i < this._skinMesh.meshAry.length; i++) {
-                        this._skinMesh.meshAry[i].material = this.material;
-                        this._skinMesh.meshAry[i].materialParam = null;
-                    }
-                }
-            }
             _super.prototype.update.call(this);
         };
         Object.defineProperty(MaterialRoleSprite.prototype, "skinMesh", {
@@ -92,9 +85,6 @@ var left;
                 }
             }
         };
-        MaterialRoleSprite.prototype.setMeshVc = function ($mesh) {
-            _super.prototype.setMeshVc.call(this, $mesh);
-        };
         MaterialRoleSprite.prototype.setVcMatrix = function ($mesh) {
             Scene_data.context3D.setuniform3f($mesh.material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             _super.prototype.setVcMatrix.call(this, $mesh);
@@ -103,16 +93,21 @@ var left;
             if ($mp === void 0) { $mp = null; }
             var texVec = $material.texList;
             for (var i = 0; i < texVec.length; i++) {
-                if (texVec[i].type == TexItem.CUBEMAP) {
-                    Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
-                }
                 if (texVec[i].texture) {
-                    Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    if (texVec[i].type == TexItem.CUBEMAP) {
+                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    }
+                    else {
+                        Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
+                    }
+                }
+                else {
+                    console.log("还没加载好");
                 }
             }
             if ($mp) {
                 for (i = 0; i < $mp.dynamicTexList.length; i++) {
-                    if ($mp.dynamicTexList[i].target) {
+                    if ($mp.dynamicTexList[i].target && $mp.dynamicTexList[i].texture) {
                         Scene_data.context3D.setRenderTexture($material.shader, $mp.dynamicTexList[i].target.name, $mp.dynamicTexList[i].texture, $mp.dynamicTexList[i].target.id);
                     }
                 }
@@ -182,7 +177,18 @@ var left;
                 _this.skinMesh = _this.roleStaticMesh.skinMesh;
                 _this.animDic = _this.roleStaticMesh.animDic;
                 _this.material = _this.roleStaticMesh.material;
+                _this.roleStaticMesh.addEventListener(BaseEvent.COMPLETE, _this.meshParamInfo, _this);
+                _this.meshParamInfo();
             });
+        };
+        MaterialRoleSprite.prototype.meshParamInfo = function () {
+            if (this.roleStaticMesh.paramInfo) {
+                this.materialParam = new Pan3d.MaterialBaseParam;
+                pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this.roleStaticMesh.paramInfo);
+                for (var i = 0; i < this.skinMesh.meshAry.length; i++) {
+                    this.skinMesh.meshAry[i].materialParam = this.materialParam;
+                }
+            }
         };
         return MaterialRoleSprite;
     }(Display3dMovie));

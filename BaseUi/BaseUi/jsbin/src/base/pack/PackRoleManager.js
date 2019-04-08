@@ -93,6 +93,7 @@ var pack;
                 LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.XML_TYPE, function ($str) {
                     var temp = JSON.parse($str);
                     var tempRoleStatemesh = new RoleStaticMesh();
+                    tempRoleStatemesh.url = $url;
                     var $skinMesh = new SkinMesh();
                     $skinMesh.meshAry = new Array();
                     for (var i = 0; i < temp.meshAry.length; i++) {
@@ -134,6 +135,9 @@ var pack;
                         tempRoleStatemesh.material = $materialTree;
                         $materialTree.shader = $materialTree.roleShader;
                         $materialTree.program = $materialTree.shader.program;
+                        for (var i = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
+                            tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree;
+                        }
                         _this.playBfun(tempRoleStatemesh, $url);
                     });
                 });

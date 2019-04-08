@@ -13,8 +13,8 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型" },
-                    { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "模型" },
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "模型" },
+          
 
                     { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "材质" },
                 ];
@@ -37,11 +37,11 @@
             }
             return null
         }
-        public set prebaburl(value: string) {
+        public set roleurl(value: string) {
 
         }
-        public get prebaburl(): string {
-            return ""
+        public get roleurl(): string {
+            return this._roleStaticMesh.url
         }
 
         public set texture(value: Material) {
@@ -51,14 +51,7 @@
         public get texture(): Material {
             return this._roleStaticMesh.material
         }
-        public set objsurl(value: string) {
-            this._roleStaticMesh.objsurl = value
-            this.saveToSever()
-            this.chuangeData()
-        }
-        public get objsurl(): string {
-            return "0111"
-        }
+  
 
         public set data(value: any) {
             this._data = value;
@@ -68,16 +61,9 @@
         public get data(): any {
             return this._data
         }
-
-
-        private isSaveNow: boolean;
-        private lastTm: number
-        private saveTm: number
-        public saveToSever(): void {
-            this.lastTm = Pan3d.TimeUtil.getTimer()
-    
  
-
+        public saveToSever(): void {
+     
         }
 
 
