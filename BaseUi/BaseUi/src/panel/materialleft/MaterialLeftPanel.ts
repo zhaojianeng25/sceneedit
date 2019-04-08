@@ -347,7 +347,7 @@
                         $reader.onload = ($temp: Event) => {
                             if (this.isRoleFile(<ArrayBuffer>$reader.result)) {
                                 console.log("是角色", simpleFile.name)
-                                pack.RoleChangeModel.getInstance().loadLocalFile(<ArrayBuffer>$reader.result)
+                                pack.RoleChangeModel.getInstance().loadLocalFile(<ArrayBuffer>$reader.result, null)
                                 left.SceneRenderToTextrue.getInstance().viweLHnumber = 1000
                             } else {
                                 alert("不确定类型");

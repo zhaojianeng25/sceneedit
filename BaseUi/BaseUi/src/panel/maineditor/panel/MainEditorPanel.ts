@@ -115,7 +115,7 @@
             }
 
         }
-        public suffix: string="prefab|lyf"
+        public suffix: string ="prefab|lyf|zzw"
         private testSuffix(value: string): boolean {
             if (!this.suffix) {
                 return;
@@ -140,6 +140,9 @@
                 } 
                 if (drag.DragManager.dragSource.url.indexOf(".prefab") != -1) {
                     ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
+                }
+                if (drag.DragManager.dragSource.url.indexOf(".zzw") != -1) {
+                    ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_ZZW_TO_SCENE), obj)
                 }
 
               

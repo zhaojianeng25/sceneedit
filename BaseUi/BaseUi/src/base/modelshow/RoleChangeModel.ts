@@ -236,22 +236,18 @@
             return this._instance;
         }
         private materialRoleSprite: left.MaterialRoleSprite
-        private makeMaterialRoleSprite(): void {
-      
-            this.materialRoleSprite = left.ModelShowModel.getInstance().roleSprite;
-            left.ModelShowModel.getInstance().selectShowDisp = this.materialRoleSprite;
+
+        public changeRoleModel(zzwUrl: string, roleDis: left.MaterialRoleSprite): void {
+
+            this.materialRoleSprite = roleDis;
+            this.loadWebRole(zzwUrl);
         }
-        public changeRoleModel(id: number): void {
-            this.makeMaterialRoleSprite()
-            this.loadWebRole(id);
-        }
-        public loadLocalFile(arrayBuffer: ArrayBuffer): void {
-            this.makeMaterialRoleSprite()
+        public loadLocalFile(arrayBuffer: ArrayBuffer, roleDis: left.MaterialRoleSprite): void {
+            this.materialRoleSprite = roleDis;
             var $roleRes: RoleChangeRes = new RoleChangeRes();
             $roleRes.loadComplete(arrayBuffer);
             this.makeMeshData($roleRes);
-
-            ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            this.loatMaterialTree("base.material");
         }
         public makeBufToRole(meshData: MeshData): void {
             var len: number = (meshData.vertices.length / 3) * meshData.stride
@@ -348,6 +344,7 @@
                 var temp: any = {};
                 temp.meshAry = this.materialRoleSprite.skinMesh.meshAry;
                 temp.animDic = this.materialRoleSprite.animDic;
+                temp.textureurl = "base.material";
                 var $str: string = JSON.stringify(temp);
                 return $str
             } else {
@@ -388,10 +385,17 @@
 
             return item
         }
-        private loadWebRole($id: number): void {
+        private loatMaterialTree(textureurl: string): void {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(textureurl, (materialTree: materialui.MaterialTree) => {
+                materialTree.shader = materialTree.roleShader;
+                materialTree.program = materialTree.shader.program;
+                this.materialRoleSprite.material = materialTree;
+            })
+        }
+        private loadWebRole(zzwUrl: string): void {
         
 
-            LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/role_" + $id + "_str.txt", LoadManager.XML_TYPE,
+            LoadManager.getInstance().load(Scene_data.fileRoot + zzwUrl, LoadManager.XML_TYPE,
                     ($str: string) => {
                         var temp: any = JSON.parse($str);
                         console.log(temp)
@@ -440,11 +444,10 @@
                         }
 
                         this.materialRoleSprite.skinMesh = $skinMesh
-           
                         this.materialRoleSprite.animDic = $animDic
 
-
-                        ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+                        this.loatMaterialTree(temp.textureurl)
+ 
                 });
         }
 

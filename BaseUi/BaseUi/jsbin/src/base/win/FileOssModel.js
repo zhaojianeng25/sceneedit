@@ -31,6 +31,7 @@ var pack;
         FileVo.OBJS = "objs";
         FileVo.MAP = "map";
         FileVo.LYF = "lyf";
+        FileVo.ZZW = "zzw";
         return FileVo;
     }());
     pack.FileVo = FileVo;

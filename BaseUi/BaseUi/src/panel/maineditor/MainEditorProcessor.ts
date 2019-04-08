@@ -22,6 +22,7 @@
         public static INIT_MAIN_EDITOR_PANEL: string = "INIT_MAIN_EDITOR_PANEL";  
         public static SHOW_MAIN_EDITOR_PANEL: string = "SHOW_MAIN_EDITOR_PANEL";  
         public static INPUT_PREFAB_TO_SCENE: string = "INPUT_PREFAB_TO_SCENE";  
+        public static INPUT_ZZW_TO_SCENE: string = "INPUT_ZZW_TO_SCENE";  
         public static INPUT_LYF_TO_SCENE: string = "INPUT_LYF_TO_SCENE";  
         public static SAVE_SCENE_MAP_TO_SEVER: string = "SAVE_SCENE_MAP_TO_SEVER";  
         public static CLEAR_SCENE_MAP_ALL: string = "CLEAR_SCENE_MAP_ALL";  
@@ -84,6 +85,10 @@
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_LYF_TO_SCENE) {
                     this._hierarchyListPanel.inputLyfToScene($mainEditorEvent.data)
+
+                }
+                if ($mainEditorEvent.type == MainEditorEvent.INPUT_ZZW_TO_SCENE) {
+                    this._hierarchyListPanel.inputZzwToScene($mainEditorEvent.data)
 
                 }
            
@@ -296,6 +301,7 @@
                 new MainEditorEvent(MainEditorEvent.INIT_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.SHOW_MAIN_EDITOR_PANEL),
                 new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE),
+                new MainEditorEvent(MainEditorEvent.INPUT_ZZW_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.INPUT_LYF_TO_SCENE),
                 new MainEditorEvent(MainEditorEvent.SAVE_SCENE_MAP_TO_SEVER),
                 new MainEditorEvent(MainEditorEvent.SCENE_SELECT_SPRITE_DOWN),

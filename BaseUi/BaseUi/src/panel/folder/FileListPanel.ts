@@ -122,10 +122,15 @@
                     case FileVo.LYF:
                         this.drawFileIconName(FileListPanel.imgBaseDic["lyf_64x"], fileVo.name, $color)
                         break
+                    case FileVo.ZZW:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["zzw_64x"], fileVo.name, $color)
+                        break
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color)
                         break
                 }
+
+
 
 
             }
@@ -304,6 +309,7 @@
             item.push("txt_64x");
             item.push("objs_64x");
             item.push("lyf_64x");
+            item.push("zzw_64x");
             item.push("map_64x");
             
 

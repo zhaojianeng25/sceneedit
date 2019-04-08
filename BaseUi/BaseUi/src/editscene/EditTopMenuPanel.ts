@@ -11,6 +11,7 @@
     import TextureManager = Pan3d.TextureManager
     import Rectangle = Pan3d.Rectangle
     import UIAtlas = Pan3d.UIAtlas
+    import ByteArray = Pan3d.Pan3dByteArray
     import LoadManager = Pan3d.LoadManager
     import Scene_data = Pan3d.Scene_data
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
@@ -222,8 +223,13 @@
 
                     })
                     break
+                case "32":
+                    pack.FileOssModel.upTempFileToOss(($file: File) => {
+                        this.inputH5roleRes($file)
+                    })
+                    break
                 case "34":
-                    this.changeZZW()
+                 
                     break
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
@@ -240,6 +246,48 @@
                 default:
     
                     break
+            }
+        }
+        private isRoleFile(arrayBuffer: ArrayBuffer): boolean {
+            var $byte: ByteArray = new ByteArray(arrayBuffer);
+            $byte.position = 0
+            var $version: number = $byte.readInt();
+            var $url: string = $byte.readUTF();
+            if ($url.indexOf("role/") != -1) {
+                return true
+            } else {
+                return false
+            }
+
+        }
+
+        private inputH5roleRes(simpleFile: File): void {
+            var $reader: FileReader = new FileReader();
+            $reader.readAsArrayBuffer(simpleFile);
+            $reader.onload = ($temp: Event) => {
+                if (this.isRoleFile(<ArrayBuffer>$reader.result)) {
+                    var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
+                    maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
+                    pack.RoleChangeModel.getInstance().loadLocalFile(<ArrayBuffer>$reader.result, role)
+
+                    var $roleStr: string = pack. RoleChangeModel.getInstance().getChangeRoleStr();
+                    if ($roleStr) {
+                        var $file: File = new File([$roleStr], "ossfile.txt");
+
+                        var $url: string = "pefab/pan_base.zzw"
+                        var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
+                        var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                        pack.FileOssModel.upOssFile($file, pathurl, () => {
+                            console.log("上传成功");
+                        })
+                     
+                    } else {
+                        console.log("没有可上传mesh数据");
+                    }
+             
+                } else {
+                    alert("不确定类型,需要角色文件role/");
+                }
             }
         }
         private changeZZW(): void {

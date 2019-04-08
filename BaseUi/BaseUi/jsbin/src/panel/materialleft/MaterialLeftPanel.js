@@ -270,7 +270,7 @@ var materialleft;
                         $reader.onload = function ($temp) {
                             if (_this.isRoleFile($reader.result)) {
                                 console.log("是角色", simpleFile.name);
-                                pack.RoleChangeModel.getInstance().loadLocalFile($reader.result);
+                                pack.RoleChangeModel.getInstance().loadLocalFile($reader.result, null);
                                 left.SceneRenderToTextrue.getInstance().viweLHnumber = 1000;
                             }
                             else {

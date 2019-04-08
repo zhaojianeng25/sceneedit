@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var pack;
 (function (pack) {
-    var ModuleEventManager = Pan3d.ModuleEventManager;
     var RoleRes = Pan3d.RoleRes;
     var SkinMesh = Pan3d.SkinMesh;
     var BaseRes = Pan3d.BaseRes;
@@ -207,20 +206,16 @@ var pack;
             }
             return this._instance;
         };
-        RoleChangeModel.prototype.makeMaterialRoleSprite = function () {
-            this.materialRoleSprite = left.ModelShowModel.getInstance().roleSprite;
-            left.ModelShowModel.getInstance().selectShowDisp = this.materialRoleSprite;
+        RoleChangeModel.prototype.changeRoleModel = function (zzwUrl, roleDis) {
+            this.materialRoleSprite = roleDis;
+            this.loadWebRole(zzwUrl);
         };
-        RoleChangeModel.prototype.changeRoleModel = function (id) {
-            this.makeMaterialRoleSprite();
-            this.loadWebRole(id);
-        };
-        RoleChangeModel.prototype.loadLocalFile = function (arrayBuffer) {
-            this.makeMaterialRoleSprite();
+        RoleChangeModel.prototype.loadLocalFile = function (arrayBuffer, roleDis) {
+            this.materialRoleSprite = roleDis;
             var $roleRes = new RoleChangeRes();
             $roleRes.loadComplete(arrayBuffer);
             this.makeMeshData($roleRes);
-            ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            this.loatMaterialTree("base.material");
         };
         RoleChangeModel.prototype.makeBufToRole = function (meshData) {
             var len = (meshData.vertices.length / 3) * meshData.stride;
@@ -294,6 +289,7 @@ var pack;
                 var temp = {};
                 temp.meshAry = this.materialRoleSprite.skinMesh.meshAry;
                 temp.animDic = this.materialRoleSprite.animDic;
+                temp.textureurl = "base.material";
                 var $str = JSON.stringify(temp);
                 return $str;
             }
@@ -332,9 +328,17 @@ var pack;
             }
             return item;
         };
-        RoleChangeModel.prototype.loadWebRole = function ($id) {
+        RoleChangeModel.prototype.loatMaterialTree = function (textureurl) {
             var _this = this;
-            LoadManager.getInstance().load(Scene_data.fileRoot + "texturelist/role_" + $id + "_str.txt", LoadManager.XML_TYPE, function ($str) {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(textureurl, function (materialTree) {
+                materialTree.shader = materialTree.roleShader;
+                materialTree.program = materialTree.shader.program;
+                _this.materialRoleSprite.material = materialTree;
+            });
+        };
+        RoleChangeModel.prototype.loadWebRole = function (zzwUrl) {
+            var _this = this;
+            LoadManager.getInstance().load(Scene_data.fileRoot + zzwUrl, LoadManager.XML_TYPE, function ($str) {
                 var temp = JSON.parse($str);
                 console.log(temp);
                 var $skinMesh = new SkinMesh();
@@ -373,7 +377,7 @@ var pack;
                 }
                 _this.materialRoleSprite.skinMesh = $skinMesh;
                 _this.materialRoleSprite.animDic = $animDic;
-                ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+                _this.loatMaterialTree(temp.textureurl);
             });
         };
         return RoleChangeModel;

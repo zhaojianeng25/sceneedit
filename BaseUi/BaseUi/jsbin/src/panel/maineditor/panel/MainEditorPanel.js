@@ -25,7 +25,7 @@ var maineditor;
         __extends(MainEditorPanel, _super);
         function MainEditorPanel() {
             var _this = _super.call(this) || this;
-            _this.suffix = "prefab|lyf";
+            _this.suffix = "prefab|lyf|zzw";
             _this.pageRect = new Rectangle(0, 0, 500, 500);
             _this._sceneViewRender = new maineditor.UiModelViewRender();
             _this.addRender(_this._sceneViewRender);
@@ -113,6 +113,9 @@ var maineditor;
                 }
                 if (drag.DragManager.dragSource.url.indexOf(".prefab") != -1) {
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj);
+                }
+                if (drag.DragManager.dragSource.url.indexOf(".zzw") != -1) {
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INPUT_ZZW_TO_SCENE), obj);
                 }
             }
         };

@@ -21,6 +21,7 @@
         public static OBJS: string = "objs";
         public static MAP: string = "map";
         public static LYF: string = "lyf";
+        public static ZZW: string = "zzw";
 
 
 

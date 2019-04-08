@@ -23,6 +23,7 @@ var editscene;
     var TextureManager = Pan3d.TextureManager;
     var Rectangle = Pan3d.Rectangle;
     var UIAtlas = Pan3d.UIAtlas;
+    var ByteArray = Pan3d.Pan3dByteArray;
     var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
     var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
@@ -169,6 +170,7 @@ var editscene;
             this.showMainUi();
         };
         EditTopMenuPanel.prototype.menuBfun = function (value, evt) {
+            var _this = this;
             console.log(value.key);
             switch (value.key) {
                 case "11":
@@ -194,8 +196,12 @@ var editscene;
                         }
                     });
                     break;
+                case "32":
+                    pack.FileOssModel.upTempFileToOss(function ($file) {
+                        _this.inputH5roleRes($file);
+                    });
+                    break;
                 case "34":
-                    this.changeZZW();
                     break;
                 case "1001":
                     ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SAVE_MATERIA_PANEL));
@@ -211,6 +217,46 @@ var editscene;
                 default:
                     break;
             }
+        };
+        EditTopMenuPanel.prototype.isRoleFile = function (arrayBuffer) {
+            var $byte = new ByteArray(arrayBuffer);
+            $byte.position = 0;
+            var $version = $byte.readInt();
+            var $url = $byte.readUTF();
+            if ($url.indexOf("role/") != -1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        EditTopMenuPanel.prototype.inputH5roleRes = function (simpleFile) {
+            var _this = this;
+            var $reader = new FileReader();
+            $reader.readAsArrayBuffer(simpleFile);
+            $reader.onload = function ($temp) {
+                if (_this.isRoleFile($reader.result)) {
+                    var role = new left.MaterialRoleSprite();
+                    maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
+                    pack.RoleChangeModel.getInstance().loadLocalFile($reader.result, role);
+                    var $roleStr = pack.RoleChangeModel.getInstance().getChangeRoleStr();
+                    if ($roleStr) {
+                        var $file = new File([$roleStr], "ossfile.txt");
+                        var $url = "pefab/pan_base.zzw";
+                        var pathUrl = Pan3d.Scene_data.fileRoot + $url;
+                        var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                        pack.FileOssModel.upOssFile($file, pathurl, function () {
+                            console.log("上传成功");
+                        });
+                    }
+                    else {
+                        console.log("没有可上传mesh数据");
+                    }
+                }
+                else {
+                    alert("不确定类型,需要角色文件role/");
+                }
+            };
         };
         EditTopMenuPanel.prototype.changeZZW = function () {
             var $url = "pefab/role_base.zzw";
