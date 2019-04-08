@@ -10,6 +10,7 @@
     import Scene_data = Pan3d.Scene_data
     import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
     import Dictionary = Pan3d.Dictionary
+    import LoadManager = Pan3d.LoadManager
     export class MaterialRoleSprite extends Display3dMovie {
         public update(): void {
             if (this._skinMesh) {
@@ -178,12 +179,24 @@
 
 
         }
-        private getmeshBoneQPAryDic($arr: Array<DualQuatFloat32Array>): Dictionary {
+        protected getmeshBoneQPAryDic($arr: Array<DualQuatFloat32Array>): Dictionary {
             var item: Dictionary = new Dictionary([])
             var a1: Array<Array<DualQuatFloat32Array>> = new Array;
             a1.push($arr)
             item[0] = a1;
             return item
         }
+        public roleStaticMesh: pack.RoleStaticMesh
+        public setRoleZwwUrl(url: string): void {
+            pack.PackRoleManager.getInstance().getRoleZzwByUrl(url, (value: pack.RoleStaticMesh) => {
+                this.roleStaticMesh = value;
+                this.skinMesh = this.roleStaticMesh.skinMesh
+                this.animDic = this.roleStaticMesh.animDic
+                this.material = this.roleStaticMesh.material;
+
+            })
+        }
     }
+
+   
 }

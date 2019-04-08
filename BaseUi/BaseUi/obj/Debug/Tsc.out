@@ -4,6 +4,10 @@ E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\AppData.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\AppData.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackObjDataManager.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackObjDataManager.js.map
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackRoleManager.js
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackRoleManager.js.map
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\RoleStaticMesh.js
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\RoleStaticMesh.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\xyz\draw\TooBoxDisplay3DSprite.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\xyz\draw\TooBoxDisplay3DSprite.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\xyz\draw\TooScaleLevel.js
@@ -36,6 +40,8 @@ E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\layout\Sprite.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\layout\Sprite.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\EditLeftPanel.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\editscene\EditLeftPanel.js.map
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\RoleMeshView.js
+E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\RoleMeshView.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\maineditor\panel\UiModelViewRender.js
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\maineditor\panel\UiModelViewRender.js.map
 E:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\maineditor\vo\LyfSpriteDisplay.js

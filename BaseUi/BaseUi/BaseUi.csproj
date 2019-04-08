@@ -30,6 +30,8 @@
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\AppData.ts" />
     <TypeScriptCompile Include="src\base\pack\PackObjDataManager.ts" />
+    <TypeScriptCompile Include="src\base\pack\PackRoleManager.ts" />
+    <TypeScriptCompile Include="src\base\pack\RoleStaticMesh.ts" />
     <TypeScriptCompile Include="src\base\xyz\draw\TooBoxDisplay3DSprite.ts" />
     <TypeScriptCompile Include="src\base\xyz\draw\TooScaleLevel.ts" />
     <TypeScriptCompile Include="src\editscene\ChangeNameModel.ts" />
@@ -46,6 +48,7 @@
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
+    <TypeScriptCompile Include="src\panel\folder\mesh\RoleMeshView.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\UiModelViewRender.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\vo\LyfSpriteDisplay.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\LayaSceneBaseChar.ts" />

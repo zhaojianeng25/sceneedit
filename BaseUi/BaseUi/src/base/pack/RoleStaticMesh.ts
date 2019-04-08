@@ -2,6 +2,11 @@
 
     export class RoleStaticMesh extends Prefab {
         public paramInfo: Array<any>;
+
+        public skinMesh: any
+        public animDic: any
+        public material: any
+
  
         public constructor() {
             super();

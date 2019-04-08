@@ -175,6 +175,15 @@ var left;
             item[0] = a1;
             return item;
         };
+        MaterialRoleSprite.prototype.setRoleZwwUrl = function (url) {
+            var _this = this;
+            pack.PackRoleManager.getInstance().getRoleZzwByUrl(url, function (value) {
+                _this.roleStaticMesh = value;
+                _this.skinMesh = _this.roleStaticMesh.skinMesh;
+                _this.animDic = _this.roleStaticMesh.animDic;
+                _this.material = _this.roleStaticMesh.material;
+            });
+        };
         return MaterialRoleSprite;
     }(Display3dMovie));
     left.MaterialRoleSprite = MaterialRoleSprite;

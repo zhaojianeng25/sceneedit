@@ -237,7 +237,7 @@
         }
         private materialRoleSprite: left.MaterialRoleSprite
 
-        public changeRoleModel(zzwUrl: string, roleDis: left.MaterialRoleSprite): void {
+        private changeRoleModel(zzwUrl: string, roleDis: left.MaterialRoleSprite): void {
 
             this.materialRoleSprite = roleDis;
             this.loadWebRole(zzwUrl);

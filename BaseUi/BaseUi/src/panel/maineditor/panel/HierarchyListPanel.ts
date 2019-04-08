@@ -515,6 +515,8 @@
                     break
                 case HierarchyNodeType.Role:
                     var C: filelist.RoleMeshView = new filelist.RoleMeshView(propanle);
+                    C.data = (<left.MaterialRoleSprite>$vo.dis).roleStaticMesh;
+                    
                     _combineReflectionView.addView(C);
            
             
@@ -680,7 +682,12 @@
                         break
                     case HierarchyNodeType.Role:
                         var roleSprite = new left.MaterialRoleSprite();
-                        pack.RoleChangeModel.getInstance().changeRoleModel(childItem[i].url, roleSprite)
+                      //  roleSprite.loadWebRole(childItem[i].url)
+
+                        roleSprite.setRoleZwwUrl(childItem[i].url)
+
+
+                     //   pack.RoleChangeModel.getInstance().changeRoleModel(childItem[i].url, roleSprite)
                         $vo.dis = roleSprite;
                         MainEditorProcessor.edItorSceneManager.addMovieDisplay(roleSprite);
                         break
@@ -714,8 +721,9 @@
      
 
             var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
+            role.setRoleZwwUrl(temp.url)
             MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
-            pack.RoleChangeModel.getInstance().changeRoleModel(temp.url, role)
+          //  pack.RoleChangeModel.getInstance().changeRoleModel(temp.url, role)
 
 
 

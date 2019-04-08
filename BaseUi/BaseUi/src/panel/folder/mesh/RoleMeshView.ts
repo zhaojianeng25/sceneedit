@@ -9,7 +9,7 @@
 
 
     export class RoleMeshView extends MetaDataView {
-        private prefabStaticMesh: RoleStaticMesh
+        private _roleStaticMesh: RoleStaticMesh
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
@@ -21,18 +21,18 @@
             return ary;
         }
         private textureChangeInfo(value: Array<any>): void {
-            this.prefabStaticMesh.paramInfo = value;
+            this._roleStaticMesh.paramInfo = value;
             this.saveToSever()
             this.chuangeData()
 
         }
         private chuangeData(): void {
-            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+            this._roleStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
         }
         public getParamItem(value: string): any {
-            for (var i: number = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
-                if (this.prefabStaticMesh.paramInfo[i].paramName == value) {
-                    return this.prefabStaticMesh.paramInfo[i].data
+            for (var i: number = 0; this._roleStaticMesh.paramInfo && i < this._roleStaticMesh.paramInfo.length; i++) {
+                if (this._roleStaticMesh.paramInfo[i].paramName == value) {
+                    return this._roleStaticMesh.paramInfo[i].data
                 }
             }
             return null
@@ -45,14 +45,14 @@
         }
 
         public set texture(value: Material) {
-            this.prefabStaticMesh.material = value
+            this._roleStaticMesh.material = value
             this.refreshViewValue()
         }
         public get texture(): Material {
-            return null
+            return this._roleStaticMesh.material
         }
         public set objsurl(value: string) {
-            this.prefabStaticMesh.objsurl = value
+            this._roleStaticMesh.objsurl = value
             this.saveToSever()
             this.chuangeData()
         }
@@ -62,7 +62,7 @@
 
         public set data(value: any) {
             this._data = value;
-            this.prefabStaticMesh = this._data
+            this._roleStaticMesh = this._data
             this.refreshViewValue()
         }
         public get data(): any {
@@ -75,41 +75,8 @@
         private saveTm: number
         public saveToSever(): void {
             this.lastTm = Pan3d.TimeUtil.getTimer()
-            // this.isSaveNow = true
-
-            if (!this.isSaveNow) {
-                this.isSaveNow = true
-                this.saveTm = this.lastTm;
-
-                var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-                var $fileUrl: string = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url
-                console.log(this.prefabStaticMesh.material)
-
-
-                this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
-
-                $byte.writeUTF(JSON.stringify(this.prefabStaticMesh.getObject()))
-
-
-                console.log($fileUrl)
-                var $file: File = new File([$byte.buffer], "cc.prefab");
-                var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-                pack.FileOssModel.upOssFile($file, pathurl, () => {
-
-                    if (this.lastTm != this.saveTm) {
-                        console.log("不是最后一次，所以需要再存一次")
-                        Pan3d.TimeUtil.addTimeOut(1000, () => {
-                            this.isSaveNow = false
-                            this.saveToSever();
-                        })
-                    } else {
-                        this.isSaveNow = false
-                        console.log("更新Prafab完成", pathurl + $file.name);
-                    }
-                })
-            } else {
-                console.log("正在处理保存")
-            }
+    
+ 
 
         }
 

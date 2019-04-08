@@ -426,6 +426,7 @@ var maineditor;
                     break;
                 case maineditor.HierarchyNodeType.Role:
                     var C = new filelist.RoleMeshView(propanle);
+                    C.data = $vo.dis.roleStaticMesh;
                     _combineReflectionView.addView(C);
                     break;
                 default:
@@ -561,7 +562,9 @@ var maineditor;
                         break;
                     case maineditor.HierarchyNodeType.Role:
                         var roleSprite = new left.MaterialRoleSprite();
-                        pack.RoleChangeModel.getInstance().changeRoleModel(childItem[i].url, roleSprite);
+                        //  roleSprite.loadWebRole(childItem[i].url)
+                        roleSprite.setRoleZwwUrl(childItem[i].url);
+                        //   pack.RoleChangeModel.getInstance().changeRoleModel(childItem[i].url, roleSprite)
                         $vo.dis = roleSprite;
                         maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(roleSprite);
                         break;
@@ -584,8 +587,9 @@ var maineditor;
         };
         HierarchyListPanel.prototype.inputZzwToScene = function (temp) {
             var role = new left.MaterialRoleSprite();
+            role.setRoleZwwUrl(temp.url);
             maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
-            pack.RoleChangeModel.getInstance().changeRoleModel(temp.url, role);
+            //  pack.RoleChangeModel.getInstance().changeRoleModel(temp.url, role)
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.dis = role;

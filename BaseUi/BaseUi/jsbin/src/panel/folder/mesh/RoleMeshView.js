@@ -30,17 +30,17 @@ var filelist;
             return ary;
         };
         RoleMeshView.prototype.textureChangeInfo = function (value) {
-            this.prefabStaticMesh.paramInfo = value;
+            this._roleStaticMesh.paramInfo = value;
             this.saveToSever();
             this.chuangeData();
         };
         RoleMeshView.prototype.chuangeData = function () {
-            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
+            this._roleStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
         };
         RoleMeshView.prototype.getParamItem = function (value) {
-            for (var i = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
-                if (this.prefabStaticMesh.paramInfo[i].paramName == value) {
-                    return this.prefabStaticMesh.paramInfo[i].data;
+            for (var i = 0; this._roleStaticMesh.paramInfo && i < this._roleStaticMesh.paramInfo.length; i++) {
+                if (this._roleStaticMesh.paramInfo[i].paramName == value) {
+                    return this._roleStaticMesh.paramInfo[i].data;
                 }
             }
             return null;
@@ -56,10 +56,10 @@ var filelist;
         });
         Object.defineProperty(RoleMeshView.prototype, "texture", {
             get: function () {
-                return null;
+                return this._roleStaticMesh.material;
             },
             set: function (value) {
-                this.prefabStaticMesh.material = value;
+                this._roleStaticMesh.material = value;
                 this.refreshViewValue();
             },
             enumerable: true,
@@ -70,7 +70,7 @@ var filelist;
                 return "0111";
             },
             set: function (value) {
-                this.prefabStaticMesh.objsurl = value;
+                this._roleStaticMesh.objsurl = value;
                 this.saveToSever();
                 this.chuangeData();
             },
@@ -83,44 +83,14 @@ var filelist;
             },
             set: function (value) {
                 this._data = value;
-                this.prefabStaticMesh = this._data;
+                this._roleStaticMesh = this._data;
                 this.refreshViewValue();
             },
             enumerable: true,
             configurable: true
         });
         RoleMeshView.prototype.saveToSever = function () {
-            var _this = this;
             this.lastTm = Pan3d.TimeUtil.getTimer();
-            // this.isSaveNow = true
-            if (!this.isSaveNow) {
-                this.isSaveNow = true;
-                this.saveTm = this.lastTm;
-                var $byte = new Pan3d.Pan3dByteArray();
-                var $fileUrl = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url;
-                console.log(this.prefabStaticMesh.material);
-                this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
-                $byte.writeUTF(JSON.stringify(this.prefabStaticMesh.getObject()));
-                console.log($fileUrl);
-                var $file = new File([$byte.buffer], "cc.prefab");
-                var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
-                pack.FileOssModel.upOssFile($file, pathurl, function () {
-                    if (_this.lastTm != _this.saveTm) {
-                        console.log("不是最后一次，所以需要再存一次");
-                        Pan3d.TimeUtil.addTimeOut(1000, function () {
-                            _this.isSaveNow = false;
-                            _this.saveToSever();
-                        });
-                    }
-                    else {
-                        _this.isSaveNow = false;
-                        console.log("更新Prafab完成", pathurl + $file.name);
-                    }
-                });
-            }
-            else {
-                console.log("正在处理保存");
-            }
         };
         return RoleMeshView;
     }(MetaDataView));
