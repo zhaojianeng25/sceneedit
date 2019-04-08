@@ -150,11 +150,9 @@
                             $meshData.boneIDOffsets = temp.meshAry[i].boneIDOffsets;
                             $meshData.boneWeightOffsets = temp.meshAry[i].boneWeightOffsets;
                             */
-
                             for (var strKey in temp.meshAry[i]) {
                                 $meshData[strKey] = temp.meshAry[i][strKey];
                             }
-
                             this.makeBufToRole($meshData);
                             $meshData.compressBuffer = true
                             $skinMesh.meshAry.push($meshData)
@@ -165,22 +163,14 @@
                             $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDiccctv(temp.animDic[key].meshBoneQPAryDic);
                             $animDic[key] = $animData;
                         }
-                        tempRoleStatemesh.skinMesh = $skinMesh
-                        tempRoleStatemesh.animDic = $animDic
-                        tempRoleStatemesh.textureurl = temp.textureurl
-                        pack.PackMaterialManager.getInstance().getMaterialByUrl(tempRoleStatemesh.textureurl, ($materialTree: materialui.MaterialTree) => {
-                            tempRoleStatemesh.material = $materialTree;
-                            $materialTree.shader = $materialTree.roleShader;
-                            $materialTree.program = $materialTree.shader.program;
-                            for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
-                                tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree
-                                tempRoleStatemesh.skinMesh.meshAry[i].textureurl = tempRoleStatemesh.textureurl;
-                            }
-                            this.playBfun(tempRoleStatemesh, $url)
-                        })
+                        tempRoleStatemesh.skinMesh = $skinMesh;
+                        tempRoleStatemesh.animDic = $animDic;
 
-
-
+                        for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
+                            this.loadMeshArrBy(tempRoleStatemesh.skinMesh.meshAry, i, () => {
+                                this.playBfun(tempRoleStatemesh, $url);
+                            })
+                        }
 
                 });
             } else {
@@ -188,6 +178,27 @@
             }
 
 
+        }
+
+        private loadMeshArrBy(value: Array<any>, i: number, bfun: Function): void {
+            if (value[i].textureurl) {
+                value[i].textureurl = "base.material" //设计默认
+            }
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].textureurl, ($materialTree: materialui.MaterialTree) => {
+                $materialTree.shader = $materialTree.roleShader;
+                $materialTree.program = $materialTree.shader.program;
+                value[i].material = $materialTree
+                var isFinish: boolean = true
+                for (var j: number = 0; j < value.length; j++) {
+                    if (!value[j].material) {
+                        isFinish = false;
+                    }
+                }
+                if (isFinish) {
+                    bfun()
+                   // console.log("所有材质加载完成,只回一次")
+                }
+            })
         }
 
 

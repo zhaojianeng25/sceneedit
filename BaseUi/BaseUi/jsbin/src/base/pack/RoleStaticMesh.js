@@ -20,10 +20,7 @@ var pack;
         }
         RoleStaticMesh.prototype.getObject = function () {
             var obj = {};
-            obj.material = this.material;
             obj.name = this.getName();
-            obj.paramInfo = this.paramInfo;
-            obj.textureurl = this.textureurl;
             return obj;
         };
         return RoleStaticMesh;

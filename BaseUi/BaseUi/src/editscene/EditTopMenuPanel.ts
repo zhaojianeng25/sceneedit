@@ -269,20 +269,16 @@
                     var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
                     maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
                     pack.RoleChangeModel.getInstance().loadLocalFile(<ArrayBuffer>$reader.result, role)
-
                     var $roleStr: string = pack. RoleChangeModel.getInstance().getChangeRoleStr();
                     if ($roleStr) {
                         var $file: File = new File([$roleStr], "ossfile.txt");
                         console.log(soureFile.name)
                         var baseRoot: string = AppData.getPerentPath(AppData.rootFilePath)
                         console.log(baseRoot)
-
-        
                         var pathurl: string = baseRoot + soureFile.name.replace(".txt", ".zzw");
                         pack.FileOssModel.upOssFile($file, pathurl, () => {
                             console.log("上传成功", pathurl);
                         })
-                     
                     } else {
                         console.log("没有可上传mesh数据");
                     }

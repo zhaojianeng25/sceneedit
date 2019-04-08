@@ -133,22 +133,36 @@ var pack;
                     }
                     tempRoleStatemesh.skinMesh = $skinMesh;
                     tempRoleStatemesh.animDic = $animDic;
-                    tempRoleStatemesh.textureurl = temp.textureurl;
-                    pack.PackMaterialManager.getInstance().getMaterialByUrl(tempRoleStatemesh.textureurl, function ($materialTree) {
-                        tempRoleStatemesh.material = $materialTree;
-                        $materialTree.shader = $materialTree.roleShader;
-                        $materialTree.program = $materialTree.shader.program;
-                        for (var i = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
-                            tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree;
-                            tempRoleStatemesh.skinMesh.meshAry[i].textureurl = tempRoleStatemesh.textureurl;
-                        }
-                        _this.playBfun(tempRoleStatemesh, $url);
-                    });
+                    for (var i = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
+                        _this.loadMeshArrBy(tempRoleStatemesh.skinMesh.meshAry, i, function () {
+                            _this.playBfun(tempRoleStatemesh, $url);
+                        });
+                    }
                 });
             }
             else {
                 this.loadDic[$url].push(bfun);
             }
+        };
+        PackRoleManager.prototype.loadMeshArrBy = function (value, i, bfun) {
+            if (value[i].textureurl) {
+                value[i].textureurl = "base.material"; //设计默认
+            }
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].textureurl, function ($materialTree) {
+                $materialTree.shader = $materialTree.roleShader;
+                $materialTree.program = $materialTree.shader.program;
+                value[i].material = $materialTree;
+                var isFinish = true;
+                for (var j = 0; j < value.length; j++) {
+                    if (!value[j].material) {
+                        isFinish = false;
+                    }
+                }
+                if (isFinish) {
+                    bfun();
+                    // console.log("所有材质加载完成,只回一次")
+                }
+            });
         };
         return PackRoleManager;
     }());

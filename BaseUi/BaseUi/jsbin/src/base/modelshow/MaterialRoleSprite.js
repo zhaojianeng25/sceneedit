@@ -184,9 +184,8 @@ var left;
         MaterialRoleSprite.prototype.meshParamInfo = function () {
             for (var i = 0; i < this.skinMesh.meshAry.length; i++) {
                 if (this.skinMesh.meshAry[i].material && this.skinMesh.meshAry[i].paramInfo) {
-                    console.log("已有对象，自己处理就行");
                     this.skinMesh.meshAry[i].materialParam = new Pan3d.MaterialBaseParam;
-                    this.skinMesh.meshAry[i].materialParam.material = this.material;
+                    this.skinMesh.meshAry[i].materialParam.material = this.skinMesh.meshAry[i].material;
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.skinMesh.meshAry[i].materialParam, this.skinMesh.meshAry[i].paramInfo);
                 }
             }
