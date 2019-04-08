@@ -126,28 +126,22 @@
                         var temp: any = JSON.parse($str);
                         var tempRoleStatemesh: RoleStaticMesh = new RoleStaticMesh();
                         tempRoleStatemesh.url = $url;
-                    
                         var $skinMesh: SkinMesh = new SkinMesh();
-                        $skinMesh.meshAry = new Array()
+                        $skinMesh.meshAry = new Array();
                         for (var i: number = 0; i < temp.meshAry.length; i++) {
                             var $meshData: MeshData = new MeshData()
+                            /*
                             $meshData.vertices = temp.meshAry[i].vertices
                             $meshData.uvs = temp.meshAry[i].uvs
                             $meshData.tangents = temp.meshAry[i].tangents
                             $meshData.bitangents = temp.meshAry[i].bitangents
                             $meshData.boneIDAry = temp.meshAry[i].boneIDAry
                             $meshData.boneWeightAry = temp.meshAry[i].boneWeightAry
-
                             $meshData.normals = temp.meshAry[i].normals
                             $meshData.indexs = temp.meshAry[i].indexs
-
                             $meshData.stride = temp.meshAry[i].stride;
-
                             $meshData.uid = temp.meshAry[i].uid;
-
                             $meshData.treNum = temp.meshAry[i]._treNum;
-
-                            //   $meshData.treNum =400*3
 
                             $meshData.uvsOffsets = temp.meshAry[i].uvsOffsets;
                             $meshData.tangentsOffsets = temp.meshAry[i].tangentsOffsets;
@@ -155,36 +149,33 @@
                             $meshData.normalsOffsets = temp.meshAry[i].normalsOffsets;
                             $meshData.boneIDOffsets = temp.meshAry[i].boneIDOffsets;
                             $meshData.boneWeightOffsets = temp.meshAry[i].boneWeightOffsets;
+                            */
+
+                            for (var strKey in temp.meshAry[i]) {
+                                $meshData[strKey] = temp.meshAry[i][strKey];
+                            }
 
                             this.makeBufToRole($meshData);
                             $meshData.compressBuffer = true
-                            // this.materialRoleSprite.skinMesh.meshAry[i] = $meshData;
                             $skinMesh.meshAry.push($meshData)
                         }
                         var $animDic: any = {};
                         for (var key in temp.animDic) {
-                            // var $temp: AnimData = temp.animDic[key];
                             var $animData: AnimData = new AnimData
                             $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDiccctv(temp.animDic[key].meshBoneQPAryDic);
-
                             $animDic[key] = $animData;
                         }
-
                         tempRoleStatemesh.skinMesh = $skinMesh
                         tempRoleStatemesh.animDic = $animDic
-
-
                         tempRoleStatemesh.textureurl = temp.textureurl
                         pack.PackMaterialManager.getInstance().getMaterialByUrl(tempRoleStatemesh.textureurl, ($materialTree: materialui.MaterialTree) => {
                             tempRoleStatemesh.material = $materialTree;
                             $materialTree.shader = $materialTree.roleShader;
                             $materialTree.program = $materialTree.shader.program;
-
                             for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
                                 tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree
                                 tempRoleStatemesh.skinMesh.meshAry[i].textureurl = tempRoleStatemesh.textureurl;
                             }
- 
                             this.playBfun(tempRoleStatemesh, $url)
                         })
 

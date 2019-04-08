@@ -98,32 +98,35 @@ var pack;
                     $skinMesh.meshAry = new Array();
                     for (var i = 0; i < temp.meshAry.length; i++) {
                         var $meshData = new MeshData();
-                        $meshData.vertices = temp.meshAry[i].vertices;
-                        $meshData.uvs = temp.meshAry[i].uvs;
-                        $meshData.tangents = temp.meshAry[i].tangents;
-                        $meshData.bitangents = temp.meshAry[i].bitangents;
-                        $meshData.boneIDAry = temp.meshAry[i].boneIDAry;
-                        $meshData.boneWeightAry = temp.meshAry[i].boneWeightAry;
-                        $meshData.normals = temp.meshAry[i].normals;
-                        $meshData.indexs = temp.meshAry[i].indexs;
+                        /*
+                        $meshData.vertices = temp.meshAry[i].vertices
+                        $meshData.uvs = temp.meshAry[i].uvs
+                        $meshData.tangents = temp.meshAry[i].tangents
+                        $meshData.bitangents = temp.meshAry[i].bitangents
+                        $meshData.boneIDAry = temp.meshAry[i].boneIDAry
+                        $meshData.boneWeightAry = temp.meshAry[i].boneWeightAry
+                        $meshData.normals = temp.meshAry[i].normals
+                        $meshData.indexs = temp.meshAry[i].indexs
                         $meshData.stride = temp.meshAry[i].stride;
                         $meshData.uid = temp.meshAry[i].uid;
                         $meshData.treNum = temp.meshAry[i]._treNum;
-                        //   $meshData.treNum =400*3
+
                         $meshData.uvsOffsets = temp.meshAry[i].uvsOffsets;
                         $meshData.tangentsOffsets = temp.meshAry[i].tangentsOffsets;
                         $meshData.bitangentsOffsets = temp.meshAry[i].bitangentsOffsets;
                         $meshData.normalsOffsets = temp.meshAry[i].normalsOffsets;
                         $meshData.boneIDOffsets = temp.meshAry[i].boneIDOffsets;
                         $meshData.boneWeightOffsets = temp.meshAry[i].boneWeightOffsets;
+                        */
+                        for (var strKey in temp.meshAry[i]) {
+                            $meshData[strKey] = temp.meshAry[i][strKey];
+                        }
                         _this.makeBufToRole($meshData);
                         $meshData.compressBuffer = true;
-                        // this.materialRoleSprite.skinMesh.meshAry[i] = $meshData;
                         $skinMesh.meshAry.push($meshData);
                     }
                     var $animDic = {};
                     for (var key in temp.animDic) {
-                        // var $temp: AnimData = temp.animDic[key];
                         var $animData = new AnimData;
                         $animData.meshBoneQPAryDic = _this.getmeshBoneQPAryDiccctv(temp.animDic[key].meshBoneQPAryDic);
                         $animDic[key] = $animData;
