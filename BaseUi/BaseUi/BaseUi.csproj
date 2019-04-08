@@ -48,6 +48,7 @@
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
+    <TypeScriptCompile Include="src\meshui\base\RoleAnimi2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleMesh2DUI.ts" />
     <TypeScriptCompile Include="src\panel\folder\mesh\RoleMeshView.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\UiModelViewRender.ts" />

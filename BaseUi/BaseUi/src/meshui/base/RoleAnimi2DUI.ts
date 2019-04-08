@@ -3,6 +3,7 @@
     import Scene_data = Pan3d.Scene_data
     import SkinMesh = Pan3d.SkinMesh
     import Material = Pan3d.Material
+    import AnimData = Pan3d.AnimData
     import InteractiveEvent = Pan3d.InteractiveEvent
     import ModuleEventManager = Pan3d.ModuleEventManager
 
@@ -17,8 +18,8 @@
         protected md5searchIcon: BaseMeshUi
 
 
- 
-        private _skinMesh: SkinMesh
+
+        private _animDic: Object
  
 
         protected initView(): void {
@@ -104,8 +105,8 @@
 
             var arrItem: Array<any> = []
 
-            for (var i: number = 0; i < this._skinMesh.meshAry.length; i++) {
-                arrItem.push({ name: "anim_" + i, type: i })
+            for (var keyStr in this._animDic) {
+                arrItem.push({ name: keyStr, type: arrItem.length })
             }
 
             $rightMenuEvet.comboxData = arrItem
@@ -113,7 +114,15 @@
             ModuleEventManager.dispatchEvent($rightMenuEvet);
         }
         protected selectFun(value: number): void {
-            this.selectMeshId = value
+            var skipId: number=0
+            for (var keyStr in this._animDic) {
+                if (skipId == value) {
+                    this.selectAnimKey = keyStr;
+                    break;
+                }
+                skipId++
+           
+            }
             this.refreshViewValue();
         }
 
@@ -125,17 +134,26 @@
         public get data(): any {
             return this._data
         }
-        private selectMeshId: number = 0
+        private selectAnimKey: string
         public refreshViewValue(): void {
             if (this.FunKey) {
 
-                this._skinMesh = this.target[this.FunKey]
+                this._animDic = this.target[this.FunKey]
 
-                this.textLabelUI.label = "部分"
-                this.comboBoxUi.text = "anim_" + this.selectMeshId
-
-                this.md5animPicUi.url = "icon/txt_64x.png"
-                this.md5animUrlText.label = "ccav.md5anim"
+                if (!this.selectAnimKey) {
+                    for (var keyStr in this._animDic) {
+                        this.selectAnimKey = keyStr
+                        break;
+                    }
+                }
+                if (!this._animDic[this.selectAnimKey].url) {
+                    this._animDic[this.selectAnimKey].url = this.selectAnimKey+".md5anim"
+                }
+            
+                this.textLabelUI.label = "部分";
+                this.comboBoxUi.text = this.selectAnimKey;
+                this.md5animPicUi.url = "icon/txt_64x.png";
+                this.md5animUrlText.label = this._animDic[this.selectAnimKey].url;
 
             
 

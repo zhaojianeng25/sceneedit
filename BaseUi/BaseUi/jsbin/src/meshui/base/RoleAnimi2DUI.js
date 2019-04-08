@@ -18,9 +18,7 @@ var prop;
     var RoleAnimi2DUI = /** @class */ (function (_super) {
         __extends(RoleAnimi2DUI, _super);
         function RoleAnimi2DUI() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.selectMeshId = 0;
-            return _this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         RoleAnimi2DUI.prototype.initView = function () {
             _super.prototype.initView.call(this);
@@ -81,15 +79,22 @@ var prop;
             var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_COMBOX_MENU);
             $rightMenuEvet.posv2d = new Vector2D(this.comboBoxUi.ui.absoluteX, this.comboBoxUi.ui.absoluteY + 20);
             var arrItem = [];
-            for (var i = 0; i < this._skinMesh.meshAry.length; i++) {
-                arrItem.push({ name: "anim_" + i, type: i });
+            for (var keyStr in this._animDic) {
+                arrItem.push({ name: keyStr, type: arrItem.length });
             }
             $rightMenuEvet.comboxData = arrItem;
             $rightMenuEvet.comboxFun = function (value) { _this.selectFun(value); };
             ModuleEventManager.dispatchEvent($rightMenuEvet);
         };
         RoleAnimi2DUI.prototype.selectFun = function (value) {
-            this.selectMeshId = value;
+            var skipId = 0;
+            for (var keyStr in this._animDic) {
+                if (skipId == value) {
+                    this.selectAnimKey = keyStr;
+                    break;
+                }
+                skipId++;
+            }
             this.refreshViewValue();
         };
         Object.defineProperty(RoleAnimi2DUI.prototype, "data", {
@@ -104,11 +109,20 @@ var prop;
         });
         RoleAnimi2DUI.prototype.refreshViewValue = function () {
             if (this.FunKey) {
-                this._skinMesh = this.target[this.FunKey];
+                this._animDic = this.target[this.FunKey];
+                if (!this.selectAnimKey) {
+                    for (var keyStr in this._animDic) {
+                        this.selectAnimKey = keyStr;
+                        break;
+                    }
+                }
+                if (!this._animDic[this.selectAnimKey].url) {
+                    this._animDic[this.selectAnimKey].url = this.selectAnimKey + ".md5anim";
+                }
                 this.textLabelUI.label = "部分";
-                this.comboBoxUi.text = "anim_" + this.selectMeshId;
+                this.comboBoxUi.text = this.selectAnimKey;
                 this.md5animPicUi.url = "icon/txt_64x.png";
-                this.md5animUrlText.label = "ccav.md5anim";
+                this.md5animUrlText.label = this._animDic[this.selectAnimKey].url;
             }
         };
         return RoleAnimi2DUI;
