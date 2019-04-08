@@ -36,6 +36,7 @@
         public static Texturue2DUI: string = "Texturue2DUI";
         public static MaterialPicUi: string = "MaterialPicUi";
         public static RoleMesh2DUI: string = "RoleMesh2DUI";
+        public static RoleAnim2DUI: string = "RoleAnim2DUI";
 
         
         public static AgalFunUI: string = "AgalFunUI";

@@ -138,6 +138,10 @@
             if (type == ReflectionData.RoleMesh2DUI) {
                 return this.getRoleMesh2DUI(obj);
             }
+            if (type == ReflectionData.RoleAnim2DUI) {
+                return this.getRoleAnimi2DUI(obj);
+            }
+            
             if (type == ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
@@ -228,12 +232,23 @@
         public getRoleMesh2DUI($obj: Object): RoleMesh2DUI {
             var $texturue2DUI: RoleMesh2DUI = new RoleMesh2DUI(this.propPanle)
             $texturue2DUI.label = $obj[ReflectionData.Key_Label];
-         //   $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
+            //   $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
             $texturue2DUI.changFun = $obj["changFun"];
             $texturue2DUI.target = this
             return $texturue2DUI;
         }
+
+        public getRoleAnimi2DUI($obj: Object): RoleAnimi2DUI {
+            var $roleAnimi2DUI: RoleAnimi2DUI = new RoleAnimi2DUI(this.propPanle)
+            $roleAnimi2DUI.label = $obj[ReflectionData.Key_Label];
+            //   $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
+            $roleAnimi2DUI.FunKey = $obj[ReflectionData.FunKey];
+            $roleAnimi2DUI.changFun = $obj["changFun"];
+            $roleAnimi2DUI.target = this
+            return $roleAnimi2DUI;
+        }
+
 
         
         public getNumComponent($obj: Object): TextCtrlInput {

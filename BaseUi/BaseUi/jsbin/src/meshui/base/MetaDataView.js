@@ -127,6 +127,9 @@ var prop;
             if (type == prop.ReflectionData.RoleMesh2DUI) {
                 return this.getRoleMesh2DUI(obj);
             }
+            if (type == prop.ReflectionData.RoleAnim2DUI) {
+                return this.getRoleAnimi2DUI(obj);
+            }
             if (type == prop.ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
@@ -224,6 +227,15 @@ var prop;
             $texturue2DUI.changFun = $obj["changFun"];
             $texturue2DUI.target = this;
             return $texturue2DUI;
+        };
+        MetaDataView.prototype.getRoleAnimi2DUI = function ($obj) {
+            var $roleAnimi2DUI = new prop.RoleAnimi2DUI(this.propPanle);
+            $roleAnimi2DUI.label = $obj[prop.ReflectionData.Key_Label];
+            //   $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
+            $roleAnimi2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
+            $roleAnimi2DUI.changFun = $obj["changFun"];
+            $roleAnimi2DUI.target = this;
+            return $roleAnimi2DUI;
         };
         MetaDataView.prototype.getNumComponent = function ($obj) {
             var $textCtrlInput = new prop.TextCtrlInput(this.propPanle);

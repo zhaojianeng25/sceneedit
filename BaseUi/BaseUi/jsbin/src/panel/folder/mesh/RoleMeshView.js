@@ -24,14 +24,14 @@ var filelist;
             var _this = this;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
-                { Type: ReflectionData.ComboBox, Label: "动作:", FunKey: "action", target: this, Data: [{ name: "state", type: 0 }, { name: "walk", type: 1 }], Category: "action" },
+                { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "action" },
                 { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "mesh" },
             ];
             return ary;
         };
-        Object.defineProperty(RoleMeshView.prototype, "skinMesh", {
+        Object.defineProperty(RoleMeshView.prototype, "animDic", {
             get: function () {
-                return this._roleStaticMesh.skinMesh;
+                return this._roleStaticMesh.animDic;
             },
             set: function (value) {
                 this.refreshViewValue();
@@ -39,9 +39,9 @@ var filelist;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(RoleMeshView.prototype, "action", {
+        Object.defineProperty(RoleMeshView.prototype, "skinMesh", {
             get: function () {
-                return 1;
+                return this._roleStaticMesh.skinMesh;
             },
             set: function (value) {
                 this.refreshViewValue();

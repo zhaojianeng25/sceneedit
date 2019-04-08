@@ -15,7 +15,9 @@
                 [
                     { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
           
-                    { Type: ReflectionData.ComboBox, Label: "动作:", FunKey: "action", target: this, Data: [{ name: "state", type: 0 }, { name: "walk", type: 1 }], Category: "action" },
+            
+                    { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "md5mesh", Category: "action" },
+
 
 
                     { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "md5mesh", Category: "mesh" },
@@ -26,8 +28,16 @@
             return ary;
         }
 
+        public set animDic(value: Array<any>) {
+
+            this.refreshViewValue()
+        }
+        public get animDic(): Array<any> {
+            return this._roleStaticMesh.animDic
+        }
+
         public set skinMesh(value: Array<any>) {
-   
+
             this.refreshViewValue()
         }
         public get skinMesh(): Array<any> {
@@ -35,14 +45,7 @@
         }
 
 
-        public get action(): number {
-            return 1
-        }
-        public set action(value: number) {
-      
-            this.refreshViewValue();
-
-        }
+     
       
 
         private textureChangeInfo(value: Array<any>): void {
