@@ -498,33 +498,46 @@
             this.resize()
 
         }
-        private showMeshView(value: TooXyzPosData, selctprefab: PrefabStaticMesh): void {
+        private showMeshView(value: TooXyzPosData, $vo: FolderMeshVo): void {
             let propanle = prop.PropModel.getInstance().propPanle
             var _combineReflectionView = new CombineReflectionView(propanle);
             var A: PropertyMeshView = new PropertyMeshView(propanle)
             A.data = value;
-            _combineReflectionView.addView(A)
+            _combineReflectionView.addView(A);
+ 
+          
 
-            if (selctprefab) {
-                var B: filelist.PrefabMeshView = new filelist.PrefabMeshView(propanle)
-                B.data = selctprefab;
-                _combineReflectionView.addView(B)
+            switch ($vo.ossListFile.type) {
+                case HierarchyNodeType.Prefab:
+                    var B: filelist.PrefabMeshView = new filelist.PrefabMeshView(propanle)
+                    B.data = (<ModelSprite>$vo.dis).prefab;
+                    _combineReflectionView.addView(B)
+                    break
+                case HierarchyNodeType.Role:
+                    var C: filelist.RoleMeshView = new filelist.RoleMeshView(propanle);
+                    _combineReflectionView.addView(C);
+           
+            
+                    break
+                default:
+                    break
+
             }
             prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
 
         }
         private showXyzMove(): void {
             var disItem: Array<Display3D> = []
-            var selctprefab: PrefabStaticMesh
+            var selctprefab: FolderMeshVo
             for (var i: number = 0; i < EditorModel.getInstance().selectItem.length; i++) {
                 var vo: FolderMeshVo = EditorModel.getInstance().selectItem[i]
                 vo.ossListFile.treeSelect = true
                 disItem.push(vo.dis)
-
-                selctprefab = (<ModelSprite>vo.dis).prefab
+                selctprefab = vo
             }
             var data: TooXyzPosData = TooXyzPosData.getBase(disItem)
             this.showMeshView(data, selctprefab)
+
 
             Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }

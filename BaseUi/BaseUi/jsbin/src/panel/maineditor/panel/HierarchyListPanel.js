@@ -412,16 +412,24 @@ var maineditor;
             this.refrishFolder();
             this.resize();
         };
-        HierarchyListPanel.prototype.showMeshView = function (value, selctprefab) {
+        HierarchyListPanel.prototype.showMeshView = function (value, $vo) {
             var propanle = prop.PropModel.getInstance().propPanle;
             var _combineReflectionView = new CombineReflectionView(propanle);
             var A = new maineditor.PropertyMeshView(propanle);
             A.data = value;
             _combineReflectionView.addView(A);
-            if (selctprefab) {
-                var B = new filelist.PrefabMeshView(propanle);
-                B.data = selctprefab;
-                _combineReflectionView.addView(B);
+            switch ($vo.ossListFile.type) {
+                case maineditor.HierarchyNodeType.Prefab:
+                    var B = new filelist.PrefabMeshView(propanle);
+                    B.data = $vo.dis.prefab;
+                    _combineReflectionView.addView(B);
+                    break;
+                case maineditor.HierarchyNodeType.Role:
+                    var C = new filelist.RoleMeshView(propanle);
+                    _combineReflectionView.addView(C);
+                    break;
+                default:
+                    break;
             }
             prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
         };
@@ -432,7 +440,7 @@ var maineditor;
                 var vo = maineditor.EditorModel.getInstance().selectItem[i];
                 vo.ossListFile.treeSelect = true;
                 disItem.push(vo.dis);
-                selctprefab = vo.dis.prefab;
+                selctprefab = vo;
             }
             var data = TooXyzPosData.getBase(disItem);
             this.showMeshView(data, selctprefab);
