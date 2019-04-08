@@ -32,6 +32,7 @@ var prop;
         ReflectionData.Btn = "Btn";
         ReflectionData.Texturue2DUI = "Texturue2DUI";
         ReflectionData.MaterialPicUi = "MaterialPicUi";
+        ReflectionData.RoleMesh2DUI = "RoleMesh2DUI";
         ReflectionData.AgalFunUI = "AgalFunUI";
         ReflectionData.Vec3Color = "Vec3Color";
         ReflectionData.UserView = "userView";

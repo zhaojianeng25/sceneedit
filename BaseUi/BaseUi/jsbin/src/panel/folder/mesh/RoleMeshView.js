@@ -23,11 +23,32 @@ var filelist;
         RoleMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "模型" },
-                { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "材质" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
+                { Type: ReflectionData.ComboBox, Label: "动作:", FunKey: "action", target: this, Data: [{ name: "state", type: 0 }, { name: "walk", type: 1 }], Category: "action" },
+                { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "mesh" },
             ];
             return ary;
         };
+        Object.defineProperty(RoleMeshView.prototype, "skinMesh", {
+            get: function () {
+                return this._roleStaticMesh.skinMesh;
+            },
+            set: function (value) {
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RoleMeshView.prototype, "action", {
+            get: function () {
+                return 1;
+            },
+            set: function (value) {
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
         RoleMeshView.prototype.textureChangeInfo = function (value) {
             this._roleStaticMesh.paramInfo = value;
             this.saveToSever();

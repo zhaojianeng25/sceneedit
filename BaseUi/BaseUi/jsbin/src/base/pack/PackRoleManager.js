@@ -137,6 +137,7 @@ var pack;
                         $materialTree.program = $materialTree.shader.program;
                         for (var i = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
                             tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree;
+                            tempRoleStatemesh.skinMesh.meshAry[i].textureurl = tempRoleStatemesh.textureurl;
                         }
                         _this.playBfun(tempRoleStatemesh, $url);
                     });

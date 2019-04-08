@@ -1,0 +1,187 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var prop;
+(function (prop) {
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var RoleMesh2DUI = /** @class */ (function (_super) {
+        __extends(RoleMesh2DUI, _super);
+        function RoleMesh2DUI() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.selectMeshId = 0;
+            return _this;
+        }
+        RoleMesh2DUI.prototype.initView = function () {
+            _super.prototype.initView.call(this);
+            this.textLabelUI = new prop.TextLabelUI();
+            this.comboBoxUi = new prop.ComboBoxUi();
+            this.md5meshUrlText = new prop.TextLabelUI(200, 16);
+            this.md5meshPicUi = new prop.TexturePicUi();
+            this.md5searchIcon = new prop.BaseMeshUi(20, 20);
+            this.textureUrlText = new prop.TextLabelUI(200, 16);
+            this.texturePicUi = new prop.TexturePicUi();
+            this.texturesearchIcon = new prop.BaseMeshUi(20, 20);
+            this.propPanle.addBaseMeshUi(this.textLabelUI);
+            this.propPanle.addBaseMeshUi(this.comboBoxUi);
+            this.propPanle.addBaseMeshUi(this.md5meshUrlText);
+            this.propPanle.addBaseMeshUi(this.md5meshPicUi);
+            this.propPanle.addBaseMeshUi(this.md5searchIcon);
+            this.propPanle.addBaseMeshUi(this.textureUrlText);
+            this.propPanle.addBaseMeshUi(this.texturePicUi);
+            this.propPanle.addBaseMeshUi(this.texturesearchIcon);
+            this.drawUrlImgToUi(this.md5searchIcon.ui, "icon/search.png");
+            this.drawUrlImgToUi(this.texturesearchIcon.ui, "icon/search.png");
+            this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
+            this.height = 200;
+        };
+        RoleMesh2DUI.prototype.destory = function () {
+            this.textLabelUI.destory();
+            this.comboBoxUi.destory();
+            this.md5meshUrlText.destory();
+            this.md5meshPicUi.destory();
+            this.md5searchIcon.destory();
+            this.textureUrlText.destory();
+            this.texturePicUi.destory();
+            this.texturesearchIcon.destory();
+            if (this._materialTreeMc) {
+                this._materialTreeMc.destory();
+            }
+            _super.prototype.destory.call(this);
+        };
+        Object.defineProperty(RoleMesh2DUI.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this._x = value;
+                this.textLabelUI.x = this._x + 0;
+                this.comboBoxUi.x = this._x + 75;
+                this.md5meshUrlText.x = this._x + 60;
+                this.md5meshPicUi.x = this._x + 60;
+                this.md5searchIcon.x = this._x + 150;
+                this.texturePicUi.x = this._x + 60;
+                this.textureUrlText.x = this._x + 60;
+                this.texturesearchIcon.x = this._x + 150;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RoleMesh2DUI.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this._y = value;
+                this.textLabelUI.y = this._y + 4;
+                this.comboBoxUi.y = this._y + 6;
+                this.md5meshUrlText.y = this._y + 100;
+                this.md5meshPicUi.y = this._y + 35;
+                this.md5searchIcon.y = this._y + 40;
+                this.texturePicUi.y = this._y + 35 + 110;
+                this.textureUrlText.y = this._y + 105 + 110;
+                this.texturesearchIcon.y = this._y + 40 + 110;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        RoleMesh2DUI.prototype.comboBoxUiDown = function ($evt) {
+            var _this = this;
+            var $rightMenuEvet = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_COMBOX_MENU);
+            $rightMenuEvet.posv2d = new Vector2D(this.comboBoxUi.ui.absoluteX, this.comboBoxUi.ui.absoluteY + 20);
+            var arrItem = [];
+            for (var i = 0; i < this._skinMesh.meshAry.length; i++) {
+                arrItem.push({ name: "mesh_" + i, type: i });
+            }
+            $rightMenuEvet.comboxData = arrItem;
+            $rightMenuEvet.comboxFun = function (value) { _this.selectFun(value); };
+            ModuleEventManager.dispatchEvent($rightMenuEvet);
+        };
+        RoleMesh2DUI.prototype.selectFun = function (value) {
+            this.selectMeshId = value;
+            this.refreshViewValue();
+        };
+        Object.defineProperty(RoleMesh2DUI.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            set: function (value) {
+                this._data = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        RoleMesh2DUI.prototype.refreshViewValue = function () {
+            if (this.FunKey) {
+                this._skinMesh = this.target[this.FunKey];
+                this.textLabelUI.label = "部分";
+                this.comboBoxUi.text = "mesh_" + this.selectMeshId;
+                this.md5meshPicUi.url = "icon/txt_64x.png";
+                this.md5meshUrlText.label = "ccav.md5mesh";
+                var tempObj = this._skinMesh.meshAry[this.selectMeshId];
+                if (tempObj) {
+                    this.texturePicUi.url = tempObj.textureurl;
+                    this.textureUrlText.label = tempObj.textureurl;
+                    this.textureTree = tempObj.material;
+                    this.showMaterialParamUi();
+                }
+            }
+        };
+        RoleMesh2DUI.prototype.paramChange = function (item) {
+            this.changFun(item);
+        };
+        RoleMesh2DUI.prototype.showMaterialParamUi = function () {
+            var _this = this;
+            if (!this._materialTreeMc) {
+                this._materialTreeMc = new prop.MaterialParamUi(prop.PropModel.getInstance().propPanle);
+                this._materialTreeMc.changFun = function (value) { _this.paramChange(value); };
+            }
+            this._materialTreeMc.setData(this.makeTempInfo(this.textureTree));
+            this._materialTreeMc.y = this._y + 240;
+            this.height = 240 + this._materialTreeMc.height;
+        };
+        RoleMesh2DUI.prototype.makeTempInfo = function ($materialTree) {
+            var item = [];
+            for (var i = 0; i < $materialTree.data.length; i++) {
+                if ($materialTree.data[i].data.isDynamic) {
+                    var temp;
+                    if ($materialTree.data[i].type == materialui.NodeTree.TEX) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.url;
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.VEC3) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.constValue;
+                    }
+                    if ($materialTree.data[i].type == materialui.NodeTree.FLOAT) {
+                        temp = {};
+                        temp.data = $materialTree.data[i].data.constValue;
+                    }
+                    if (temp) {
+                        temp.type = $materialTree.data[i].type;
+                        temp.paramName = $materialTree.data[i].data.paramName;
+                        var tempValue = this.target.getParamItem(temp.paramName); //如果有对象替换纹理中的
+                        if (tempValue) {
+                            temp.data = tempValue;
+                        }
+                        item.push(temp);
+                    }
+                }
+            }
+            return item;
+        };
+        return RoleMesh2DUI;
+    }(prop.BaseReflComponent));
+    prop.RoleMesh2DUI = RoleMesh2DUI;
+})(prop || (prop = {}));
+//# sourceMappingURL=RoleMesh2DUI.js.map

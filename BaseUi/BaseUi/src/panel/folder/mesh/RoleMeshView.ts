@@ -13,13 +13,38 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "模型" },
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
           
+                    { Type: ReflectionData.ComboBox, Label: "动作:", FunKey: "action", target: this, Data: [{ name: "state", type: 0 }, { name: "walk", type: 1 }], Category: "action" },
 
-                    { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "材质" },
+
+                    { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "md5mesh", Category: "mesh" },
+
+
+                    //{ Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "mesh" },
                 ];
             return ary;
         }
+
+        public set skinMesh(value: Array<any>) {
+   
+            this.refreshViewValue()
+        }
+        public get skinMesh(): Array<any> {
+            return this._roleStaticMesh.skinMesh
+        }
+
+
+        public get action(): number {
+            return 1
+        }
+        public set action(value: number) {
+      
+            this.refreshViewValue();
+
+        }
+      
+
         private textureChangeInfo(value: Array<any>): void {
             this._roleStaticMesh.paramInfo = value;
             this.saveToSever()

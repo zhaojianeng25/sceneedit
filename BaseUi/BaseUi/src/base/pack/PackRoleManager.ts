@@ -182,9 +182,9 @@
 
                             for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
                                 tempRoleStatemesh.skinMesh.meshAry[i].material = $materialTree
+                                tempRoleStatemesh.skinMesh.meshAry[i].textureurl = tempRoleStatemesh.textureurl;
                             }
-
-
+ 
                             this.playBfun(tempRoleStatemesh, $url)
                         })
 

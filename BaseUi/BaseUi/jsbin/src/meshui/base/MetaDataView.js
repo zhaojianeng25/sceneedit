@@ -124,6 +124,9 @@ var prop;
             if (type == prop.ReflectionData.MaterialPicUi) {
                 return this.getMaterialPicUi(obj);
             }
+            if (type == prop.ReflectionData.RoleMesh2DUI) {
+                return this.getRoleMesh2DUI(obj);
+            }
             if (type == prop.ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
@@ -208,6 +211,15 @@ var prop;
             var $texturue2DUI = new prop.Material2DUI(this.propPanle);
             $texturue2DUI.label = $obj[prop.ReflectionData.Key_Label];
             $texturue2DUI.suffix = $obj[prop.ReflectionData.Key_Suffix];
+            $texturue2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
+            $texturue2DUI.changFun = $obj["changFun"];
+            $texturue2DUI.target = this;
+            return $texturue2DUI;
+        };
+        MetaDataView.prototype.getRoleMesh2DUI = function ($obj) {
+            var $texturue2DUI = new prop.RoleMesh2DUI(this.propPanle);
+            $texturue2DUI.label = $obj[prop.ReflectionData.Key_Label];
+            //   $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
             $texturue2DUI.FunKey = $obj[prop.ReflectionData.FunKey];
             $texturue2DUI.changFun = $obj["changFun"];
             $texturue2DUI.target = this;

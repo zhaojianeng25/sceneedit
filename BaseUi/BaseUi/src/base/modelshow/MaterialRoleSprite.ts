@@ -192,6 +192,7 @@
  
             if (this.roleStaticMesh.paramInfo) {
                 this.materialParam = new Pan3d.MaterialBaseParam;
+                this.materialParam.material = this.skinMesh.meshAry[0].material;
                 pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this.roleStaticMesh.paramInfo);
                 for (var i: number = 0; i < this.skinMesh.meshAry.length; i++) {
                     this.skinMesh.meshAry[i].materialParam = this.materialParam;

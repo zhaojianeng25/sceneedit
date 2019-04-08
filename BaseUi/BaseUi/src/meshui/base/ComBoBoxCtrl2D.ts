@@ -6,8 +6,8 @@
 
     export class ComBoBoxCtrl2D extends BaseReflComponent {
 
-        private textLabelUI: TextLabelUI;
-        private comboBoxUi: ComboBoxUi;
+        protected textLabelUI: TextLabelUI;
+        protected comboBoxUi: ComboBoxUi;
 
   
 
@@ -35,14 +35,14 @@
             return this._data
         }
         private comboxListTxt: Array<any>;
-        private comboBoxUiDown($evt: InteractiveEvent): void {
+        protected comboBoxUiDown($evt: InteractiveEvent): void {
             var $rightMenuEvet: menutwo.MenuTwoEvent = new menutwo.MenuTwoEvent(menutwo.MenuTwoEvent.SHOW_COMBOX_MENU);
             $rightMenuEvet.posv2d = new Vector2D(this.comboBoxUi.ui.absoluteX, this.comboBoxUi.ui.absoluteY + 20);
             $rightMenuEvet.comboxData = this.data;
             $rightMenuEvet.comboxFun = (value: number) => { this.selectFun(value)}
             ModuleEventManager.dispatchEvent($rightMenuEvet);
         }
-        private selectFun(value: number): void {
+        protected selectFun(value: number): void {
             this.target[this.FunKey] = value;
             this.refreshViewValue();
         }

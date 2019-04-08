@@ -135,7 +135,9 @@
             if (type == ReflectionData.MaterialPicUi) {
                 return this.getMaterialPicUi(obj);
             }
-            
+            if (type == ReflectionData.RoleMesh2DUI) {
+                return this.getRoleMesh2DUI(obj);
+            }
             if (type == ReflectionData.ComboBox) {
                 return this.getComboBox(obj);
             }
@@ -223,6 +225,17 @@
             $texturue2DUI.target = this
             return $texturue2DUI;
         }
+        public getRoleMesh2DUI($obj: Object): RoleMesh2DUI {
+            var $texturue2DUI: RoleMesh2DUI = new RoleMesh2DUI(this.propPanle)
+            $texturue2DUI.label = $obj[ReflectionData.Key_Label];
+         //   $texturue2DUI.suffix = $obj[ReflectionData.Key_Suffix];
+            $texturue2DUI.FunKey = $obj[ReflectionData.FunKey];
+            $texturue2DUI.changFun = $obj["changFun"];
+            $texturue2DUI.target = this
+            return $texturue2DUI;
+        }
+
+        
         public getNumComponent($obj: Object): TextCtrlInput {
             var $textCtrlInput: TextCtrlInput = new TextCtrlInput(this.propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
