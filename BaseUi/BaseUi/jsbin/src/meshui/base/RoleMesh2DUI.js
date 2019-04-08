@@ -138,6 +138,10 @@ var prop;
             }
         };
         RoleMesh2DUI.prototype.paramChange = function (item) {
+            var tempObj = this._skinMesh.meshAry[this.selectMeshId];
+            if (tempObj) {
+                tempObj.paramInfo = item;
+            }
             this.changFun(item);
         };
         RoleMesh2DUI.prototype.showMaterialParamUi = function () {
@@ -149,6 +153,17 @@ var prop;
             this._materialTreeMc.setData(this.makeTempInfo(this.textureTree));
             this._materialTreeMc.y = this._y + 240;
             this.height = 240 + this._materialTreeMc.height;
+        };
+        RoleMesh2DUI.prototype.getParamItem = function (value) {
+            var tempObj = this._skinMesh.meshAry[this.selectMeshId];
+            if (tempObj) {
+                for (var i = 0; tempObj.paramInfo && i < tempObj.paramInfo.length; i++) {
+                    if (tempObj.paramInfo[i].paramName == value) {
+                        return tempObj.paramInfo[i].data;
+                    }
+                }
+            }
+            return null;
         };
         RoleMesh2DUI.prototype.makeTempInfo = function ($materialTree) {
             var item = [];
@@ -170,7 +185,7 @@ var prop;
                     if (temp) {
                         temp.type = $materialTree.data[i].type;
                         temp.paramName = $materialTree.data[i].data.paramName;
-                        var tempValue = this.target.getParamItem(temp.paramName); //如果有对象替换纹理中的
+                        var tempValue = this.getParamItem(temp.paramName); //如果有对象替换纹理中的
                         if (tempValue) {
                             temp.data = tempValue;
                         }

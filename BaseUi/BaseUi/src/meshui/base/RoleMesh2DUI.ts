@@ -180,7 +180,13 @@
 
         private _materialTreeMc: MaterialParamUi
         public paramChange(item: Array<any>): void {
+ 
+            var tempObj: any = this._skinMesh.meshAry[this.selectMeshId]
+            if (tempObj) {
+                tempObj.paramInfo = item
+            }
             this.changFun(item)
+
         }
         private showMaterialParamUi(): void {
             if (!this._materialTreeMc) {
@@ -192,9 +198,18 @@
             this._materialTreeMc.y = this._y + 240;
             this.height = 240 + this._materialTreeMc.height;
 
-
         }
-
+        public getParamItem(value: string): any {
+            var tempObj: any = this._skinMesh.meshAry[this.selectMeshId]
+            if (tempObj) {
+                for (var i: number = 0; tempObj.paramInfo && i < tempObj.paramInfo.length; i++) {
+                    if (tempObj.paramInfo[i].paramName == value) {
+                        return tempObj.paramInfo[i].data
+                    }
+                }
+            }
+            return null;
+        }
         private makeTempInfo($materialTree: materialui.MaterialTree): Array<any> {
 
             var item: Array<any> = []
@@ -216,7 +231,7 @@
                     if (temp) {
                         temp.type = $materialTree.data[i].type;
                         temp.paramName = $materialTree.data[i].data.paramName;
-                        var tempValue: any = this.target.getParamItem(temp.paramName);//如果有对象替换纹理中的
+                        var tempValue: any = this.getParamItem(temp.paramName);//如果有对象替换纹理中的
                         if (tempValue) {
                             temp.data = tempValue;
                         }

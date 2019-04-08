@@ -46,7 +46,7 @@
       
 
         private textureChangeInfo(value: Array<any>): void {
-            this._roleStaticMesh.paramInfo = value;
+            //this._roleStaticMesh.paramInfo = value;
             this.saveToSever()
             this.chuangeData()
 
@@ -54,14 +54,7 @@
         private chuangeData(): void {
             this._roleStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
         }
-        public getParamItem(value: string): any {
-            for (var i: number = 0; this._roleStaticMesh.paramInfo && i < this._roleStaticMesh.paramInfo.length; i++) {
-                if (this._roleStaticMesh.paramInfo[i].paramName == value) {
-                    return this._roleStaticMesh.paramInfo[i].data
-                }
-            }
-            return null
-        }
+   
         public set roleurl(value: string) {
 
         }
@@ -86,9 +79,41 @@
         public get data(): any {
             return this._data
         }
- 
+
+        public getChangeRoleStr(): string {
+            if (this._roleStaticMesh.skinMesh) {
+                var temp: any = {};
+                temp.meshAry = this._roleStaticMesh.skinMesh.meshAry;
+                temp.animDic = this._roleStaticMesh.animDic;
+                temp.textureurl = "base.material";
+                var $str: string = JSON.stringify(temp);
+                return $str
+            } else {
+                return null
+            }
+        }
+
+
         public saveToSever(): void {
+
+            var $roleStr: string = this.getChangeRoleStr()
      
+            if ($roleStr) {
+                var $file: File = new File([$roleStr], "ossfile.txt");
+    
+
+                var pathUrl: string = Pan3d.Scene_data.fileRoot + this._roleStaticMesh.url
+                var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+
+           
+                pack.FileOssModel.upOssFile($file, pathurl, () => {
+                    console.log("上传成功", pathurl);
+                })
+
+            } else {
+                console.log("没有可上传mesh数据");
+            }
+
         }
 
 

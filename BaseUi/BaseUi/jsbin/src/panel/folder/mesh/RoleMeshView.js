@@ -50,20 +50,12 @@ var filelist;
             configurable: true
         });
         RoleMeshView.prototype.textureChangeInfo = function (value) {
-            this._roleStaticMesh.paramInfo = value;
+            //this._roleStaticMesh.paramInfo = value;
             this.saveToSever();
             this.chuangeData();
         };
         RoleMeshView.prototype.chuangeData = function () {
             this._roleStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
-        };
-        RoleMeshView.prototype.getParamItem = function (value) {
-            for (var i = 0; this._roleStaticMesh.paramInfo && i < this._roleStaticMesh.paramInfo.length; i++) {
-                if (this._roleStaticMesh.paramInfo[i].paramName == value) {
-                    return this._roleStaticMesh.paramInfo[i].data;
-                }
-            }
-            return null;
         };
         Object.defineProperty(RoleMeshView.prototype, "roleurl", {
             get: function () {
@@ -97,7 +89,32 @@ var filelist;
             enumerable: true,
             configurable: true
         });
+        RoleMeshView.prototype.getChangeRoleStr = function () {
+            if (this._roleStaticMesh.skinMesh) {
+                var temp = {};
+                temp.meshAry = this._roleStaticMesh.skinMesh.meshAry;
+                temp.animDic = this._roleStaticMesh.animDic;
+                temp.textureurl = "base.material";
+                var $str = JSON.stringify(temp);
+                return $str;
+            }
+            else {
+                return null;
+            }
+        };
         RoleMeshView.prototype.saveToSever = function () {
+            var $roleStr = this.getChangeRoleStr();
+            if ($roleStr) {
+                var $file = new File([$roleStr], "ossfile.txt");
+                var pathUrl = Pan3d.Scene_data.fileRoot + this._roleStaticMesh.url;
+                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($file, pathurl, function () {
+                    console.log("上传成功", pathurl);
+                });
+            }
+            else {
+                console.log("没有可上传mesh数据");
+            }
         };
         return RoleMeshView;
     }(MetaDataView));

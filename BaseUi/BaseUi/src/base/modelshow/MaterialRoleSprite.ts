@@ -190,15 +190,17 @@
         }
         private meshParamInfo(): void {
  
-            if (this.roleStaticMesh.paramInfo) {
-                this.materialParam = new Pan3d.MaterialBaseParam;
-                this.materialParam.material = this.skinMesh.meshAry[0].material;
-                pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this.roleStaticMesh.paramInfo);
-                for (var i: number = 0; i < this.skinMesh.meshAry.length; i++) {
-                    this.skinMesh.meshAry[i].materialParam = this.materialParam;
-                }
-            }
+ 
+            for (var i: number = 0; i < this.skinMesh.meshAry.length; i++) {
+                if (this.skinMesh.meshAry[i].material && (<any>this.skinMesh.meshAry[i]).paramInfo) {
+                    console.log("已有对象，自己处理就行")
+                    this.skinMesh.meshAry[i].materialParam = new Pan3d.MaterialBaseParam;
+                    this.skinMesh.meshAry[i].materialParam.material = this.material
+                    pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.skinMesh.meshAry[i].materialParam,( <any>this.skinMesh.meshAry[i]).paramInfo);
 
+                } 
+
+            }
         }
 
     }
