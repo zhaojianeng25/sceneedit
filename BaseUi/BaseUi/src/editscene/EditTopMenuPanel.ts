@@ -269,6 +269,8 @@
                     var role: left.MaterialRoleSprite = new left.MaterialRoleSprite();
                     maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(role);
                     pack.RoleChangeModel.getInstance().loadLocalFile(<ArrayBuffer>$reader.result, role)
+
+                    
                     var $roleStr: string = pack. RoleChangeModel.getInstance().getChangeRoleStr();
                     if ($roleStr) {
                         var $file: File = new File([$roleStr], "ossfile.txt");

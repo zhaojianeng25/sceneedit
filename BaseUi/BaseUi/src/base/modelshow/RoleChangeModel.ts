@@ -344,7 +344,9 @@
                 var temp: any = {};
                 temp.meshAry = this.materialRoleSprite.skinMesh.meshAry;
                 temp.animDic = this.materialRoleSprite.animDic;
-                temp.textureurl = "base.material";
+                for (var i: number = 0; i < temp.meshAry.length; i++) {
+                    temp.meshAry[i].textureurl = "base.material";
+                }
                 var $str: string = JSON.stringify(temp);
                 return $str
             } else {
