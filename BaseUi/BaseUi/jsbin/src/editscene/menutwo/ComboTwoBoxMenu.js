@@ -19,14 +19,14 @@ var menutwo;
     var ComboTwoBoxMenu = /** @class */ (function (_super) {
         __extends(ComboTwoBoxMenu, _super);
         function ComboTwoBoxMenu() {
-            return _super.call(this, menutwo.LabelTxtVo, new Rectangle(0, 0, 70, 20), 10) || this;
+            return _super.call(this, menutwo.LabelTxtVo, new Rectangle(0, 0, 70, 20), 20) || this;
         }
         ComboTwoBoxMenu.prototype.showComboBoxList = function ($comboxData, $comBoxFun) {
             this._comboxData = $comboxData;
             this._comBoxFun = $comBoxFun;
             this.clearAll();
             for (var i = 0; i < this._comboxData.length; i++) {
-                console.log(this._comboxData);
+                // console.log(this._comboxData)
                 var vo = new menutwo.MenuListData(String(this._comboxData[i].name), String(this._comboxData[i].type));
                 this.showTempMenu(vo, i);
             }

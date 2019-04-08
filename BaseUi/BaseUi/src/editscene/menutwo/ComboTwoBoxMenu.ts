@@ -19,7 +19,7 @@
     export class ComboTwoBoxMenu extends Dis2DUIContianerPanel {
 
         public constructor() {
-            super(LabelTxtVo, new Rectangle(0, 0, 70, 20), 10);
+            super(LabelTxtVo, new Rectangle(0, 0, 70, 20), 20);
 
         }
     
@@ -31,7 +31,7 @@
 
             this.clearAll();
             for (var i: number = 0; i < this._comboxData.length; i++) {
-                console.log(this._comboxData)
+               // console.log(this._comboxData)
                 var vo: MenuListData = new MenuListData(String(this._comboxData[i].name), String(this._comboxData[i].type))
                 this.showTempMenu(vo,i)
         

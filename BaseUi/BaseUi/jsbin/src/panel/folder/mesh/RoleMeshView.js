@@ -24,10 +24,14 @@ var filelist;
             var _this = this;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
-                { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "action" },
+                { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: function () { _this.animChange(); }, target: this, Suffix: "md5mesh", Category: "action" },
                 { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "mesh" },
             ];
             return ary;
+        };
+        RoleMeshView.prototype.animChange = function () {
+            this.saveToSever();
+            this.chuangeData();
         };
         Object.defineProperty(RoleMeshView.prototype, "animDic", {
             get: function () {
@@ -94,7 +98,8 @@ var filelist;
                 var temp = {};
                 temp.meshAry = this._roleStaticMesh.skinMesh.meshAry;
                 temp.animDic = this._roleStaticMesh.animDic;
-                temp.textureurl = "base.material";
+                temp.animPlayKey = this._roleStaticMesh.animPlayKey;
+                //  temp.textureurl = "base.material";
                 var $str = JSON.stringify(temp);
                 return $str;
             }
@@ -103,17 +108,33 @@ var filelist;
             }
         };
         RoleMeshView.prototype.saveToSever = function () {
-            var $roleStr = this.getChangeRoleStr();
-            if ($roleStr) {
+            var _this = this;
+            this.lastTm = Pan3d.TimeUtil.getTimer();
+            // this.isSaveNow = true
+            if (!this.isSaveNow) {
+                this.isSaveNow = true;
+                this.saveTm = this.lastTm;
+                var $roleStr = this.getChangeRoleStr();
                 var $file = new File([$roleStr], "ossfile.txt");
                 var pathUrl = Pan3d.Scene_data.fileRoot + this._roleStaticMesh.url;
                 var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                console.log("提交上传ing...", pathurl);
                 pack.FileOssModel.upOssFile($file, pathurl, function () {
-                    console.log("上传成功", pathurl);
+                    if (_this.lastTm != _this.saveTm) {
+                        console.log("不是最后一次，所以需要再存一次");
+                        Pan3d.TimeUtil.addTimeOut(1000, function () {
+                            _this.isSaveNow = false;
+                            _this.saveToSever();
+                        });
+                    }
+                    else {
+                        _this.isSaveNow = false;
+                        console.log("更新角色完成", pathurl + $file.name);
+                    }
                 });
             }
             else {
-                console.log("没有可上传mesh数据");
+                console.log("正在处理保存");
             }
         };
         return RoleMeshView;

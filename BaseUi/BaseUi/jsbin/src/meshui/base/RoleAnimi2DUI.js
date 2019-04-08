@@ -96,7 +96,8 @@ var prop;
                 }
                 skipId++;
             }
-            vo.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
+            this.changFun();
+            //vo.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
             this.refreshViewValue();
         };
         //   private selectAnimKey: string

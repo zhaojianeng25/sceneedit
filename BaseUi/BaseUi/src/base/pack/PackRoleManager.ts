@@ -126,6 +126,7 @@
                         var temp: any = JSON.parse($str);
                         var tempRoleStatemesh: RoleStaticMesh = new RoleStaticMesh();
                         tempRoleStatemesh.url = $url;
+                        tempRoleStatemesh.animPlayKey = temp.animPlayKey;
                         var $skinMesh: SkinMesh = new SkinMesh();
                         $skinMesh.meshAry = new Array();
                         for (var i: number = 0; i < temp.meshAry.length; i++) {
