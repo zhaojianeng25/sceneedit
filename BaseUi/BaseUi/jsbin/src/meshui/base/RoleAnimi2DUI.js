@@ -69,14 +69,26 @@ var prop;
         };
         RoleAnimi2DUI.prototype.deleIconDown = function ($evt) {
             var vo = this.target.data;
-            if (vo.animDic[vo.animPlayKey]) {
-                var truthBeTold = window.confirm("是否确定要删除动作" + vo.animPlayKey);
-                if (truthBeTold) {
-                    delete (vo.animDic[vo.animPlayKey]);
-                    vo.animPlayKey = null;
-                    this.refreshViewValue();
+            if (this.getObjKeyLen(vo.animDic) > 1) {
+                if (vo.animDic[vo.animPlayKey]) {
+                    var truthBeTold = window.confirm("是否确定要删除动作" + vo.animPlayKey);
+                    if (truthBeTold) {
+                        delete (vo.animDic[vo.animPlayKey]);
+                        vo.animPlayKey = null;
+                        this.refreshViewValue();
+                    }
                 }
             }
+            else {
+                alert("最后一个动作不可以删除");
+            }
+        };
+        RoleAnimi2DUI.prototype.getObjKeyLen = function (obj) {
+            var len = 0;
+            for (var keyStr in obj) {
+                len++;
+            }
+            return len;
         };
         RoleAnimi2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
