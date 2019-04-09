@@ -139,26 +139,7 @@
 
         }
 
-        //public saveToSever(): void {
-
-        //    var $roleStr: string = this.getChangeRoleStr()
-     
-        //    if ($roleStr) {
-        //        var $file: File = new File([$roleStr], "ossfile.txt");
-     
-        //        var pathUrl: string = Pan3d.Scene_data.fileRoot + this._roleStaticMesh.url
-        //        var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
-
-        //        console.log("提交上传ing...", pathurl);
-        //        pack.FileOssModel.upOssFile($file, pathurl, () => {
-        //            console.log("上传成功", pathurl);
-        //        })
-
-        //    } else {
-        //        console.log("没有可上传mesh数据");
-        //    }
-
-        //}
+    
 
 
     }

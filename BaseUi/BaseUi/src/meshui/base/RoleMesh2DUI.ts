@@ -3,6 +3,8 @@
     import Scene_data = Pan3d.Scene_data
     import SkinMesh = Pan3d.SkinMesh
     import Material = Pan3d.Material
+    import MeshData = Pan3d.MeshData
+    import LoadManager = Pan3d.LoadManager
     import InteractiveEvent = Pan3d.InteractiveEvent
     import ModuleEventManager = Pan3d.ModuleEventManager
 
@@ -10,7 +12,7 @@
 
         protected textLabelUI: TextLabelUI;
         protected comboBoxUi: ComboBoxUi;
-
+        protected deleIcon: BaseMeshUi
 
         protected md5meshUrlText: TextLabelUI;
         protected md5meshPicUi: TexturePicUi
@@ -30,10 +32,14 @@
 
             this.textLabelUI = new TextLabelUI();
             this.comboBoxUi = new ComboBoxUi();
+            this.deleIcon = new BaseMeshUi(16, 16);
 
 
             this.md5meshUrlText = new TextLabelUI(200, 16)
             this.md5meshPicUi = new TexturePicUi()
+            this.md5meshPicUi.suffix = "md5mesh";
+            this.md5meshPicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.drawInMeshUrl, this)
+
             this.md5searchIcon = new BaseMeshUi(20, 20);
 
 
@@ -43,6 +49,7 @@
 
             this.propPanle.addBaseMeshUi(this.textLabelUI)
             this.propPanle.addBaseMeshUi(this.comboBoxUi)
+            this.propPanle.addBaseMeshUi(this.deleIcon);
  
 
             this.propPanle.addBaseMeshUi(this.md5meshUrlText);
@@ -58,11 +65,47 @@
 
             this.drawUrlImgToUi(this.md5searchIcon.ui, "icon/search.png")
             this.drawUrlImgToUi(this.texturesearchIcon.ui, "icon/search.png")
+            this.drawUrlImgToUi(this.deleIcon.ui, "icon/deleticon.png")
  
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this)
+            this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this)
 
             this.height = 200;
  
+        }
+        protected deleIconDown($evt: InteractiveEvent): void {
+            this._skinMesh.meshAry.splice(this.selectMeshId, 1)
+            this.changFun();
+  
+        }
+     
+        private drawInMeshUrl(): void {
+      
+            var meshUrl: string = this.md5meshPicUi.url
+            LoadManager.getInstance().load(Scene_data.fileRoot + meshUrl, LoadManager.XML_TYPE, ($meshstr: any) => {
+                var $md5Srite: left.LocalMd5MoveSprite = new left.LocalMd5MoveSprite()
+                $md5Srite.addLocalMeshByStr($meshstr);
+                var rolesprite: left.MaterialRoleSprite = new left.MaterialRoleSprite();
+                rolesprite.changeRoleWeb($md5Srite);
+
+                var tempMesh: any = rolesprite.skinMesh.meshAry[0];
+                tempMesh.materialUrl = "base.material" //设计默认
+
+                tempMesh.md5meshurl = meshUrl;
+
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(tempMesh.materialUrl, ($materialTree: materialui.MaterialTree) => {
+                    $materialTree.shader = $materialTree.roleShader;
+                    $materialTree.program = $materialTree.shader.program;
+                    tempMesh.material = $materialTree;
+                    this._skinMesh.meshAry.push(tempMesh);
+                    this.refreshViewValue();
+                })
+
+                
+              
+           
+                
+            });
         }
         public destory(): void {
             this.textLabelUI.destory()
@@ -92,6 +135,7 @@
 
             this.textLabelUI.x = this._x + 0;
             this.comboBoxUi.x = this._x + 75;
+            this.deleIcon.x = this._x + 150;
 
             this.md5meshUrlText.x = this._x + 60;
             this.md5meshPicUi.x = this._x + 60
@@ -115,6 +159,7 @@
 
             this.textLabelUI.y = this._y + 4
             this.comboBoxUi.y = this._y + 6
+            this.deleIcon.y = this._y + 6;
 
             this.md5meshUrlText.y = this._y  +100
             this.md5meshPicUi.y = this._y  +35
@@ -162,13 +207,13 @@
                 this.comboBoxUi.text = "mesh_" + this.selectMeshId
 
                 this.md5meshPicUi.url = "icon/txt_64x.png"
-                this.md5meshUrlText.label = "ccav.md5mesh"
+        
  
                 var tempObj: any = this._skinMesh.meshAry[this.selectMeshId]
                 if (tempObj) {
-                    this.texturePicUi.url = tempObj.textureurl
-                    this.textureUrlText.label = tempObj.textureurl
-
+                    this.md5meshUrlText.label = tempObj.md5meshurl;
+                    this.texturePicUi.url = tempObj.materialUrl
+                    this.textureUrlText.label = tempObj.materialUrl
                     this.textureTree = tempObj.material
                     this.showMaterialParamUi()
                 }

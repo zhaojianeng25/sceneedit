@@ -110,6 +110,9 @@ var prop;
             },
             set: function (value) {
                 this._url = value;
+                if (!this._url) {
+                    this._url = "";
+                }
                 var picUrl = this._url;
                 if (this._url.indexOf(".material") != -1) {
                     picUrl = "icon/marterial_64x.png";
@@ -118,6 +121,9 @@ var prop;
                     picUrl = "icon/objs_64x.png";
                 }
                 if (this._url.indexOf(".md5anim") != -1) {
+                    picUrl = "icon/txt_64x.png";
+                }
+                if (this._url.indexOf(".md5mesh") != -1) {
                     picUrl = "icon/txt_64x.png";
                 }
                 var $img = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl);

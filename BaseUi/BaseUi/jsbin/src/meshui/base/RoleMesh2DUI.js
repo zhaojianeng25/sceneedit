@@ -13,6 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var RoleMesh2DUI = /** @class */ (function (_super) {
@@ -26,14 +28,18 @@ var prop;
             _super.prototype.initView.call(this);
             this.textLabelUI = new prop.TextLabelUI();
             this.comboBoxUi = new prop.ComboBoxUi();
+            this.deleIcon = new prop.BaseMeshUi(16, 16);
             this.md5meshUrlText = new prop.TextLabelUI(200, 16);
             this.md5meshPicUi = new prop.TexturePicUi();
+            this.md5meshPicUi.suffix = "md5mesh";
+            this.md5meshPicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.drawInMeshUrl, this);
             this.md5searchIcon = new prop.BaseMeshUi(20, 20);
             this.textureUrlText = new prop.TextLabelUI(200, 16);
             this.texturePicUi = new prop.TexturePicUi();
             this.texturesearchIcon = new prop.BaseMeshUi(20, 20);
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.comboBoxUi);
+            this.propPanle.addBaseMeshUi(this.deleIcon);
             this.propPanle.addBaseMeshUi(this.md5meshUrlText);
             this.propPanle.addBaseMeshUi(this.md5meshPicUi);
             this.propPanle.addBaseMeshUi(this.md5searchIcon);
@@ -42,8 +48,34 @@ var prop;
             this.propPanle.addBaseMeshUi(this.texturesearchIcon);
             this.drawUrlImgToUi(this.md5searchIcon.ui, "icon/search.png");
             this.drawUrlImgToUi(this.texturesearchIcon.ui, "icon/search.png");
+            this.drawUrlImgToUi(this.deleIcon.ui, "icon/deleticon.png");
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
+            this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this);
             this.height = 200;
+        };
+        RoleMesh2DUI.prototype.deleIconDown = function ($evt) {
+            this._skinMesh.meshAry.splice(this.selectMeshId, 1);
+            this.changFun();
+        };
+        RoleMesh2DUI.prototype.drawInMeshUrl = function () {
+            var _this = this;
+            var meshUrl = this.md5meshPicUi.url;
+            LoadManager.getInstance().load(Scene_data.fileRoot + meshUrl, LoadManager.XML_TYPE, function ($meshstr) {
+                var $md5Srite = new left.LocalMd5MoveSprite();
+                $md5Srite.addLocalMeshByStr($meshstr);
+                var rolesprite = new left.MaterialRoleSprite();
+                rolesprite.changeRoleWeb($md5Srite);
+                var tempMesh = rolesprite.skinMesh.meshAry[0];
+                tempMesh.materialUrl = "base.material"; //设计默认
+                tempMesh.md5meshurl = meshUrl;
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(tempMesh.materialUrl, function ($materialTree) {
+                    $materialTree.shader = $materialTree.roleShader;
+                    $materialTree.program = $materialTree.shader.program;
+                    tempMesh.material = $materialTree;
+                    _this._skinMesh.meshAry.push(tempMesh);
+                    _this.refreshViewValue();
+                });
+            });
         };
         RoleMesh2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
@@ -67,6 +99,7 @@ var prop;
                 this._x = value;
                 this.textLabelUI.x = this._x + 0;
                 this.comboBoxUi.x = this._x + 75;
+                this.deleIcon.x = this._x + 150;
                 this.md5meshUrlText.x = this._x + 60;
                 this.md5meshPicUi.x = this._x + 60;
                 this.md5searchIcon.x = this._x + 150;
@@ -85,6 +118,7 @@ var prop;
                 this._y = value;
                 this.textLabelUI.y = this._y + 4;
                 this.comboBoxUi.y = this._y + 6;
+                this.deleIcon.y = this._y + 6;
                 this.md5meshUrlText.y = this._y + 100;
                 this.md5meshPicUi.y = this._y + 35;
                 this.md5searchIcon.y = this._y + 40;
@@ -127,11 +161,11 @@ var prop;
                 this.textLabelUI.label = "部分";
                 this.comboBoxUi.text = "mesh_" + this.selectMeshId;
                 this.md5meshPicUi.url = "icon/txt_64x.png";
-                this.md5meshUrlText.label = "ccav.md5mesh";
                 var tempObj = this._skinMesh.meshAry[this.selectMeshId];
                 if (tempObj) {
-                    this.texturePicUi.url = tempObj.textureurl;
-                    this.textureUrlText.label = tempObj.textureurl;
+                    this.md5meshUrlText.label = tempObj.md5meshurl;
+                    this.texturePicUi.url = tempObj.materialUrl;
+                    this.textureUrlText.label = tempObj.materialUrl;
                     this.textureTree = tempObj.material;
                     this.showMaterialParamUi();
                 }

@@ -160,12 +160,10 @@
                         }
                         var $animDic: any = {};
                         for (var key in temp.animDic) {
-                        
                                 var $animData: AnimData = new AnimData
                                 $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDic(temp.animDic[key].meshBoneQPAryDic);
                                 $animDic[key] = $animData;
-               
-                     
+
                         }
                         tempRoleStatemesh.skinMesh = $skinMesh;
                         tempRoleStatemesh.animDic = $animDic;
@@ -185,10 +183,10 @@
         }
 
         private loadMeshArrBy(value: Array<any>, i: number, bfun: Function): void {
-            if (value[i].textureurl) {
-                value[i].textureurl = "base.material" //设计默认
+            if (value[i].materialUrl) {
+                value[i].materialUrl = "base.material" //设计默认
             }
-            pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].textureurl, ($materialTree: materialui.MaterialTree) => {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].materialUrl, ($materialTree: materialui.MaterialTree) => {
                 $materialTree.shader = $materialTree.roleShader;
                 $materialTree.program = $materialTree.shader.program;
                 value[i].material = $materialTree

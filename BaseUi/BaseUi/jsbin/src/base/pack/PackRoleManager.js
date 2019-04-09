@@ -146,10 +146,10 @@ var pack;
             }
         };
         PackRoleManager.prototype.loadMeshArrBy = function (value, i, bfun) {
-            if (value[i].textureurl) {
-                value[i].textureurl = "base.material"; //设计默认
+            if (value[i].materialUrl) {
+                value[i].materialUrl = "base.material"; //设计默认
             }
-            pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].textureurl, function ($materialTree) {
+            pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].materialUrl, function ($materialTree) {
                 $materialTree.shader = $materialTree.roleShader;
                 $materialTree.program = $materialTree.shader.program;
                 value[i].material = $materialTree;
