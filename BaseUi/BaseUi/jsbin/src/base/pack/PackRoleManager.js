@@ -63,7 +63,7 @@ var pack;
             }
             return temp;
         };
-        PackRoleManager.prototype.getmeshBoneQPAryDiccctv = function ($arr) {
+        PackRoleManager.prototype.getmeshBoneQPAryDic = function ($arr) {
             var item = new Dictionary([]);
             for (var key in $arr) {
                 var a1 = new Array;
@@ -129,7 +129,7 @@ var pack;
                     var $animDic = {};
                     for (var key in temp.animDic) {
                         var $animData = new AnimData;
-                        $animData.meshBoneQPAryDic = _this.getmeshBoneQPAryDiccctv(temp.animDic[key].meshBoneQPAryDic);
+                        $animData.meshBoneQPAryDic = _this.getmeshBoneQPAryDic(temp.animDic[key].meshBoneQPAryDic);
                         $animDic[key] = $animData;
                     }
                     tempRoleStatemesh.skinMesh = $skinMesh;

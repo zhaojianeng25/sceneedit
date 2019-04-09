@@ -88,7 +88,7 @@
             }
             return temp
         }
-        protected getmeshBoneQPAryDiccctv($arr: any): Dictionary {
+        protected getmeshBoneQPAryDic($arr: any): Dictionary {
             var item: Dictionary = new Dictionary([])
             for (var key in $arr) {
                 var a1: Array<Array<DualQuatFloat32Array>> = new Array;
@@ -160,9 +160,12 @@
                         }
                         var $animDic: any = {};
                         for (var key in temp.animDic) {
-                            var $animData: AnimData = new AnimData
-                            $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDiccctv(temp.animDic[key].meshBoneQPAryDic);
-                            $animDic[key] = $animData;
+                        
+                                var $animData: AnimData = new AnimData
+                                $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDic(temp.animDic[key].meshBoneQPAryDic);
+                                $animDic[key] = $animData;
+               
+                     
                         }
                         tempRoleStatemesh.skinMesh = $skinMesh;
                         tempRoleStatemesh.animDic = $animDic;

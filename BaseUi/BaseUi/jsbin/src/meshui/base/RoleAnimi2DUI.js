@@ -23,18 +23,33 @@ var prop;
         RoleAnimi2DUI.prototype.initView = function () {
             _super.prototype.initView.call(this);
             this.textLabelUI = new prop.TextLabelUI();
-            this.comboBoxUi = new prop.ComboBoxUi();
-            this.md5animUrlText = new prop.TextLabelUI(200, 16);
+            this.comboBoxUi = new prop.ComboBoxUi(80, 20);
+            this.deleIcon = new prop.BaseMeshUi(16, 16);
+            this.md5animUrlText = new prop.TextLabelUI(100, 16);
             this.md5animPicUi = new prop.TexturePicUi();
             this.md5searchIcon = new prop.BaseMeshUi(20, 20);
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.comboBoxUi);
+            this.propPanle.addBaseMeshUi(this.deleIcon);
             this.propPanle.addBaseMeshUi(this.md5animUrlText);
             this.propPanle.addBaseMeshUi(this.md5animPicUi);
             this.propPanle.addBaseMeshUi(this.md5searchIcon);
             this.drawUrlImgToUi(this.md5searchIcon.ui, "icon/search.png");
+            this.drawUrlImgToUi(this.deleIcon.ui, "icon/deleticon.png");
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
+            this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this);
             this.height = 150;
+        };
+        RoleAnimi2DUI.prototype.deleIconDown = function ($evt) {
+            var vo = this.target.data;
+            if (vo.animDic[vo.animPlayKey]) {
+                var truthBeTold = window.confirm("是否确定要删除动作" + vo.animPlayKey);
+                if (truthBeTold) {
+                    delete (vo.animDic[vo.animPlayKey]);
+                    vo.animPlayKey = null;
+                    this.refreshViewValue();
+                }
+            }
         };
         RoleAnimi2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
@@ -52,6 +67,7 @@ var prop;
                 this._x = value;
                 this.textLabelUI.x = this._x + 0;
                 this.comboBoxUi.x = this._x + 75;
+                this.deleIcon.x = this._x + 150;
                 this.md5animUrlText.x = this._x + 60;
                 this.md5animPicUi.x = this._x + 60;
                 this.md5searchIcon.x = this._x + 150;
@@ -67,6 +83,7 @@ var prop;
                 this._y = value;
                 this.textLabelUI.y = this._y + 4;
                 this.comboBoxUi.y = this._y + 6;
+                this.deleIcon.y = this._y + 6;
                 this.md5animUrlText.y = this._y + 100;
                 this.md5animPicUi.y = this._y + 35;
                 this.md5searchIcon.y = this._y + 40;

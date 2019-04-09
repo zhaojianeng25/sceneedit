@@ -18,8 +18,10 @@ var prop;
     var TextAlign = Pan3d.TextAlign;
     var ComboBoxUi = /** @class */ (function (_super) {
         __extends(ComboBoxUi, _super);
-        function ComboBoxUi() {
-            return _super.call(this) || this;
+        function ComboBoxUi(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 30; }
+            return _super.call(this, w, h) || this;
         }
         ComboBoxUi.prototype.initView = function () {
             this.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);

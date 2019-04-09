@@ -7,8 +7,8 @@
     export class ComboBoxUi extends TextLabelUI {
 
 
-        public constructor() {
-            super();
+        public constructor(w: number = 128, h: number = 30) {
+            super(w, h);
         }
         protected initView(): void {
             this.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
