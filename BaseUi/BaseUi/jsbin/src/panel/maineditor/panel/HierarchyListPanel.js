@@ -688,7 +688,15 @@ var maineditor;
                 _this.resize();
                 ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_SCENE_POJECT_MESH_VIEW), _this._sceneProjectVo);
                 //  this.addTempRole();
+                //  this.addBasrole()
             });
+        };
+        HierarchyListPanel.prototype.addBasrole = function () {
+            left.LocalMd5MoveSprite;
+            var webmd5Sprite = new md5list.Md5MoveSprite();
+            webmd5Sprite.setMd5url("2/body.md5mesh", "2/stand.md5anim", "white.jpg");
+            maineditor.MainEditorProcessor.edItorSceneManager.addSpriteDisplay(webmd5Sprite);
+            console.log(webmd5Sprite);
         };
         HierarchyListPanel.prototype.selectModelEvet = function (tempItem, isshift) {
             if (isshift === void 0) { isshift = false; }

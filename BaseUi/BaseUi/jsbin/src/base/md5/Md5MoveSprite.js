@@ -35,7 +35,7 @@ var md5list;
         }
         Md5MoveSprite.prototype.loadBodyMesh = function () {
             var _this = this;
-            LoadManager.getInstance().load("res/" + this.bodyUrl, LoadManager.XML_TYPE, function ($str) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + this.bodyUrl, LoadManager.XML_TYPE, function ($str) {
                 _this.md5MeshData = new md5list.Md5Analysis().addMesh($str);
                 new md5list.MeshImportSort().processMesh(_this.md5MeshData);
                 _this.md5objData = new md5list.MeshToObjUtils().getObj(_this.md5MeshData);
@@ -48,7 +48,7 @@ var md5list;
             this.bodyUrl = $bodyurl;
             this.animUrl = $animurl;
             if ($picurl) {
-                TextureManager.getInstance().getTexture("res/" + $picurl, function ($texture) {
+                TextureManager.getInstance().getTexture(Scene_data.fileRoot + $picurl, function ($texture) {
                     _this.uvTextureRes = $texture;
                 });
             }
@@ -56,7 +56,7 @@ var md5list;
         };
         Md5MoveSprite.prototype.loadAnimFrame = function () {
             var _this = this;
-            LoadManager.getInstance().load("res/" + this.animUrl, LoadManager.XML_TYPE, function ($str) {
+            LoadManager.getInstance().load(Scene_data.fileRoot + this.animUrl, LoadManager.XML_TYPE, function ($str) {
                 var $matrixAry = new md5list.Md5animAnalysis().addAnim($str);
                 _this.frameQuestArr = new Array;
                 for (var i = 0; i < $matrixAry.length; i++) {

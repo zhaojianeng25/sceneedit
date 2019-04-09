@@ -3,9 +3,15 @@
     import Scene_data = Pan3d.Scene_data
     import SkinMesh = Pan3d.SkinMesh
     import Material = Pan3d.Material
+    import Matrix3D = Pan3d.Matrix3D
+    import Quaternion = Pan3d.Quaternion
     import AnimData = Pan3d.AnimData
+    import LoadManager = Pan3d.LoadManager
+    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
     import InteractiveEvent = Pan3d.InteractiveEvent
     import ModuleEventManager = Pan3d.ModuleEventManager
+
+    import Md5animAnalysis = md5list.Md5animAnalysis
 
     export class RoleAnimi2DUI extends BaseReflComponent {
 
@@ -65,14 +71,29 @@
 
         }
         private drawInAnimUrl(): void {
-            console.log("新加动作", this.md5animPicUi.url)
-
-           
-
+            var meshUrl: string = "pan/2.md5mesh"   //需要mesh信息才能编译动作
+            LoadManager.getInstance().load(Scene_data.fileRoot + meshUrl, LoadManager.XML_TYPE, ($meshstr: any) => {
+                var $md5Srite: left.LocalMd5MoveSprite = new left.LocalMd5MoveSprite()
+                $md5Srite.addLocalMeshByStr($meshstr)
+                LoadManager.getInstance().load(Scene_data.fileRoot + this.md5animPicUi.url, LoadManager.XML_TYPE, (anistr: any) => {
+                    $md5Srite.addLocalAdimByStr(anistr)
+                    var animfilename: string = AppData.getFileName(this.md5animPicUi.url)
+                    animfilename = animfilename.split(".")[0]
+                    var rolesprite: left.MaterialRoleSprite = new left.MaterialRoleSprite();
+                    rolesprite.changeRoleWeb($md5Srite);
+                    var vo: pack.RoleStaticMesh = this.target.data
+                    for (var keyStr in rolesprite.animDic) { //只会有一个关键动作。  stand .需要优化可读性
+                        vo.animDic[animfilename] = rolesprite.animDic[keyStr]
+                    }
+                    vo.animPlayKey = animfilename;
+                    this.refreshViewValue()
+                    this.changFun()
+                    console.log("准备获取新的动作数据", vo.animPlayKey);
+                });
+            });
         }
         protected deleIconDown($evt: InteractiveEvent): void {
             var vo: pack.RoleStaticMesh = this.target.data
-      
             if (vo.animDic[vo.animPlayKey]) {
                 var truthBeTold = window.confirm("是否确定要删除动作" + vo.animPlayKey);
                 if (truthBeTold) {

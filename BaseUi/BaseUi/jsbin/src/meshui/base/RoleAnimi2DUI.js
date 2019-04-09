@@ -13,6 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var RoleAnimi2DUI = /** @class */ (function (_super) {
@@ -43,7 +45,27 @@ var prop;
             this.height = 150;
         };
         RoleAnimi2DUI.prototype.drawInAnimUrl = function () {
-            console.log("新加动作", this.md5animPicUi.url);
+            var _this = this;
+            var meshUrl = "pan/2.md5mesh"; //需要mesh信息才能编译动作
+            LoadManager.getInstance().load(Scene_data.fileRoot + meshUrl, LoadManager.XML_TYPE, function ($meshstr) {
+                var $md5Srite = new left.LocalMd5MoveSprite();
+                $md5Srite.addLocalMeshByStr($meshstr);
+                LoadManager.getInstance().load(Scene_data.fileRoot + _this.md5animPicUi.url, LoadManager.XML_TYPE, function (anistr) {
+                    $md5Srite.addLocalAdimByStr(anistr);
+                    var animfilename = AppData.getFileName(_this.md5animPicUi.url);
+                    animfilename = animfilename.split(".")[0];
+                    var rolesprite = new left.MaterialRoleSprite();
+                    rolesprite.changeRoleWeb($md5Srite);
+                    var vo = _this.target.data;
+                    for (var keyStr in rolesprite.animDic) { //只会有一个关键动作。  stand .需要优化可读性
+                        vo.animDic[animfilename] = rolesprite.animDic[keyStr];
+                    }
+                    vo.animPlayKey = animfilename;
+                    _this.refreshViewValue();
+                    _this.changFun();
+                    console.log("准备获取新的动作数据", vo.animPlayKey);
+                });
+            });
         };
         RoleAnimi2DUI.prototype.deleIconDown = function ($evt) {
             var vo = this.target.data;

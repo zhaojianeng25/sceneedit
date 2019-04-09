@@ -26,7 +26,7 @@ module md5list {
         public md5MeshData: Md5MeshData;
         public md5objData: ObjData;
         protected loadBodyMesh(): void {
-            LoadManager.getInstance().load("res/" + this.bodyUrl, LoadManager.XML_TYPE, ($str: any) => {
+            LoadManager.getInstance().load(Scene_data.fileRoot + this.bodyUrl, LoadManager.XML_TYPE, ($str: any) => {
                 this.md5MeshData = new Md5Analysis().addMesh($str);
                 new MeshImportSort().processMesh(this.md5MeshData);
                 this.md5objData = new MeshToObjUtils().getObj(this.md5MeshData);
@@ -40,7 +40,7 @@ module md5list {
             this.bodyUrl = $bodyurl;
             this.animUrl = $animurl;
             if ($picurl) {
-                TextureManager.getInstance().getTexture("res/" + $picurl, ($texture: TextureRes) => {
+                TextureManager.getInstance().getTexture(Scene_data.fileRoot + $picurl, ($texture: TextureRes) => {
                     this.uvTextureRes = $texture;
                 });
             }
@@ -48,7 +48,7 @@ module md5list {
         }
         public frameQuestArr: Array<DualQuatFloat32Array>;
         protected loadAnimFrame(): void {
-            LoadManager.getInstance().load("res/"  + this.animUrl, LoadManager.XML_TYPE, ($str: any) => {
+            LoadManager.getInstance().load(Scene_data.fileRoot  + this.animUrl, LoadManager.XML_TYPE, ($str: any) => {
                 var $matrixAry: Array<Array<Matrix3D>> = new Md5animAnalysis().addAnim($str);
                 this.frameQuestArr = new Array;
                 for (var i: number = 0; i < $matrixAry.length; i++) {

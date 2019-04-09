@@ -867,9 +867,21 @@
 
                  //  this.addTempRole();
 
+                  //  this.addBasrole()
+
                 });
 
 
+        }
+        private addBasrole(): void {
+            left.LocalMd5MoveSprite
+            let webmd5Sprite = new md5list.Md5MoveSprite();
+
+            webmd5Sprite.setMd5url("2/body.md5mesh", "2/stand.md5anim", "white.jpg")
+
+            MainEditorProcessor.edItorSceneManager.addSpriteDisplay(webmd5Sprite);
+
+            console.log(webmd5Sprite)
         }
        
     
