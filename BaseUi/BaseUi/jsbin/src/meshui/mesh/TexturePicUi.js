@@ -117,6 +117,9 @@ var prop;
                 if (this._url.indexOf(".objs") != -1) {
                     picUrl = "icon/objs_64x.png";
                 }
+                if (this._url.indexOf(".md5anim") != -1) {
+                    picUrl = "icon/txt_64x.png";
+                }
                 var $img = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl);
                 var $uiRender = this.textureContext.ui.uiRender;
                 if ($img) {

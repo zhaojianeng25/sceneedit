@@ -113,6 +113,12 @@ var filelist;
                     case FileVo.ZZW:
                         this.drawFileIconName(FileListPanel.imgBaseDic["zzw_64x"], fileVo.name, $color);
                         break;
+                    case FileVo.MD5ANIM:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["md5anim_64x"], fileVo.name, $color);
+                        break;
+                    case FileVo.MD5MESH:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["md5mesh_64x"], fileVo.name, $color);
+                        break;
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color);
                         break;
@@ -260,6 +266,8 @@ var filelist;
             item.push("lyf_64x");
             item.push("zzw_64x");
             item.push("map_64x");
+            item.push("md5anim_64x");
+            item.push("md5mesh_64x");
             var finishNum = 0;
             for (var i = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], function () {

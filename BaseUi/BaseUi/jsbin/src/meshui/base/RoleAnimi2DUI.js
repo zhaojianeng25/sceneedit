@@ -27,6 +27,8 @@ var prop;
             this.deleIcon = new prop.BaseMeshUi(16, 16);
             this.md5animUrlText = new prop.TextLabelUI(100, 16);
             this.md5animPicUi = new prop.TexturePicUi();
+            this.md5animPicUi.suffix = "md5anim";
+            this.md5animPicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.drawInAnimUrl, this);
             this.md5searchIcon = new prop.BaseMeshUi(20, 20);
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.comboBoxUi);
@@ -39,6 +41,9 @@ var prop;
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
             this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this);
             this.height = 150;
+        };
+        RoleAnimi2DUI.prototype.drawInAnimUrl = function () {
+            console.log("新加动作", this.md5animPicUi.url);
         };
         RoleAnimi2DUI.prototype.deleIconDown = function ($evt) {
             var vo = this.target.data;

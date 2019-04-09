@@ -36,6 +36,9 @@
 
             this.md5animUrlText = new TextLabelUI(100, 16)
             this.md5animPicUi = new TexturePicUi()
+            this.md5animPicUi.suffix = "md5anim";
+            this.md5animPicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.drawInAnimUrl, this)
+         
             this.md5searchIcon = new BaseMeshUi(20, 20);
  
 
@@ -56,8 +59,15 @@
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this)
 
             this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this)
+   
 
             this.height = 150;
+
+        }
+        private drawInAnimUrl(): void {
+            console.log("新加动作", this.md5animPicUi.url)
+
+           
 
         }
         protected deleIconDown($evt: InteractiveEvent): void {

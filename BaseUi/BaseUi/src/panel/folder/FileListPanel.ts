@@ -125,11 +125,17 @@
                     case FileVo.ZZW:
                         this.drawFileIconName(FileListPanel.imgBaseDic["zzw_64x"], fileVo.name, $color)
                         break
+                    case FileVo.MD5ANIM:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["md5anim_64x"], fileVo.name, $color)
+                        break
+                    case FileVo.MD5MESH:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["md5mesh_64x"], fileVo.name, $color)
+                        break
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color)
                         break
                 }
-
+ 
 
 
 
@@ -311,8 +317,10 @@
             item.push("lyf_64x");
             item.push("zzw_64x");
             item.push("map_64x");
+            item.push("md5anim_64x");
+            item.push("md5mesh_64x");
             
-
+            
 
             var finishNum: number = 0
             for (var i: number = 0; i < item.length; i++) {
