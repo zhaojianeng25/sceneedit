@@ -124,6 +124,7 @@
         public destory(): void {
             this.textLabelUI.destory()
             this.comboBoxUi.destory()
+            this.deleIcon.destory()
 
             this.md5meshUrlText.destory()
             this.md5meshPicUi.destory()

@@ -152,6 +152,7 @@
         public destory(): void {
             this.textLabelUI.destory()
             this.comboBoxUi.destory()
+            this.deleIcon.destory()
 
             this.md5animUrlText.destory()
             this.md5animPicUi.destory()

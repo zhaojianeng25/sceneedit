@@ -24,6 +24,13 @@
                 this.waitLoadUrl.push($url);
             }
         }
+        public removeStage(): void {
+            var scene: EdItorSceneManager = <EdItorSceneManager>this._scene;
+            while (scene&&this.particleItem.length) {
+                scene.particleManager.removeParticle(this.particleItem.pop());
+            }
+            super.removeStage()
+        }
         public addStage(): void {
             super.addStage()
             while (this.waitLoadUrl.length) {

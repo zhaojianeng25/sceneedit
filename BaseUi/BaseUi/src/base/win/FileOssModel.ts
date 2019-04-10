@@ -22,6 +22,7 @@
         public static MAP: string = "map";
         public static LYF: string = "lyf";
         public static ZZW: string = "zzw";
+        public static SKILL: string = "skill";
         public static MD5ANIM: string = "md5anim";
         public static MD5MESH: string = "md5mesh";
 

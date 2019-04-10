@@ -131,6 +131,9 @@
                     case FileVo.MD5MESH:
                         this.drawFileIconName(FileListPanel.imgBaseDic["md5mesh_64x"], fileVo.name, $color)
                         break
+                    case FileVo.SKILL:
+                        this.drawFileIconName(FileListPanel.imgBaseDic["skill_64x"], fileVo.name, $color)
+                        break
                     default:
                         this.drawFileIconName(FileListPanel.imgBaseDic["icon_Folder_64x"], fileVo.name, $color)
                         break
@@ -317,6 +320,7 @@
             item.push("lyf_64x");
             item.push("zzw_64x");
             item.push("map_64x");
+            item.push("skill_64x");
             item.push("md5anim_64x");
             item.push("md5mesh_64x");
             
@@ -404,6 +408,7 @@
                             dsragSource.icon = "icon/objs_64x.png"
                             break
                         default:
+                            dsragSource.icon = "icon/objs_64x.png"
                             break;
                     }
 

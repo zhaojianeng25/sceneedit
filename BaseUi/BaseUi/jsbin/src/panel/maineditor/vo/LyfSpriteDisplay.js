@@ -34,6 +34,13 @@ var maineditor;
                 this.waitLoadUrl.push($url);
             }
         };
+        LyfSpriteDisplay.prototype.removeStage = function () {
+            var scene = this._scene;
+            while (scene && this.particleItem.length) {
+                scene.particleManager.removeParticle(this.particleItem.pop());
+            }
+            _super.prototype.removeStage.call(this);
+        };
         LyfSpriteDisplay.prototype.addStage = function () {
             _super.prototype.addStage.call(this);
             while (this.waitLoadUrl.length) {

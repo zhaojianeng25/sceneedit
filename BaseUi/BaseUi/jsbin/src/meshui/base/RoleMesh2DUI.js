@@ -91,6 +91,7 @@ var prop;
         RoleMesh2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
             this.comboBoxUi.destory();
+            this.deleIcon.destory();
             this.md5meshUrlText.destory();
             this.md5meshPicUi.destory();
             this.md5searchIcon.destory();

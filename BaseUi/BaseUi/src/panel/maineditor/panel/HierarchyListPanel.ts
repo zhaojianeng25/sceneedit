@@ -7,8 +7,10 @@
     import InteractiveEvent = Pan3d.InteractiveEvent
     import TextAlign = Pan3d.TextAlign
     import Rectangle = Pan3d.Rectangle
+    import Display3dMovie = Pan3d.Display3dMovie
     import ModuleEventManager = Pan3d.ModuleEventManager
     import UIManager = Pan3d.UIManager
+    import CombineParticle = Pan3d.CombineParticle
     import LabelTextFont = Pan3d.LabelTextFont
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     import Disp2DBaseText = Pan3d.Disp2DBaseText
@@ -461,7 +463,22 @@
                 console.log("没找到需要到子目录找")
             } else {
                 item.splice(idx, 1)
-                MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+
+                switch (vo.ossListFile.type) {
+                    case HierarchyNodeType.Prefab:
+                        MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                        break
+                    case HierarchyNodeType.Particle:
+                        MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                        break
+                    case HierarchyNodeType.Role:
+                        MainEditorProcessor.edItorSceneManager.removeMovieDisplay(<Display3dMovie>(vo.dis));
+                        break
+                    default:
+                        break
+
+                }
+             
                 this.clearTemp(vo)
             }
             this.refrishFolder();

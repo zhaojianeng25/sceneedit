@@ -32,6 +32,7 @@ var pack;
         FileVo.MAP = "map";
         FileVo.LYF = "lyf";
         FileVo.ZZW = "zzw";
+        FileVo.SKILL = "skill";
         FileVo.MD5ANIM = "md5anim";
         FileVo.MD5MESH = "md5mesh";
         return FileVo;

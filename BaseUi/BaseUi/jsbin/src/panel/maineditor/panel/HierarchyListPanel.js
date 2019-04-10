@@ -381,7 +381,19 @@ var maineditor;
             }
             else {
                 item.splice(idx, 1);
-                maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                switch (vo.ossListFile.type) {
+                    case maineditor.HierarchyNodeType.Prefab:
+                        maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                        break;
+                    case maineditor.HierarchyNodeType.Particle:
+                        maineditor.MainEditorProcessor.edItorSceneManager.removeDisplay(vo.dis);
+                        break;
+                    case maineditor.HierarchyNodeType.Role:
+                        maineditor.MainEditorProcessor.edItorSceneManager.removeMovieDisplay((vo.dis));
+                        break;
+                    default:
+                        break;
+                }
                 this.clearTemp(vo);
             }
             this.refrishFolder();

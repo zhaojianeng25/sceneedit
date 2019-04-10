@@ -124,6 +124,7 @@ var prop;
         RoleAnimi2DUI.prototype.destory = function () {
             this.textLabelUI.destory();
             this.comboBoxUi.destory();
+            this.deleIcon.destory();
             this.md5animUrlText.destory();
             this.md5animPicUi.destory();
             this.md5searchIcon.destory();
