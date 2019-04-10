@@ -562,9 +562,7 @@ var maineditor;
                         break;
                     case maineditor.HierarchyNodeType.Role:
                         var roleSprite = new left.MaterialRoleSprite();
-                        //  roleSprite.loadWebRole(childItem[i].url)
                         roleSprite.setRoleZwwUrl(childItem[i].url);
-                        //   pack.RoleChangeModel.getInstance().changeRoleModel(childItem[i].url, roleSprite)
                         $vo.dis = roleSprite;
                         maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(roleSprite);
                         break;

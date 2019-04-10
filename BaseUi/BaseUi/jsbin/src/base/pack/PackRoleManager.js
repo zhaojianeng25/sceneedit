@@ -134,10 +134,15 @@ var pack;
                     }
                     tempRoleStatemesh.skinMesh = $skinMesh;
                     tempRoleStatemesh.animDic = $animDic;
-                    for (var i = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
-                        _this.loadMeshArrBy(tempRoleStatemesh.skinMesh.meshAry, i, function () {
-                            _this.playBfun(tempRoleStatemesh, $url);
-                        });
+                    if (tempRoleStatemesh.skinMesh.meshAry.length) {
+                        for (var i = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
+                            _this.loadMeshArrBy(tempRoleStatemesh.skinMesh.meshAry, i, function () {
+                                _this.playBfun(tempRoleStatemesh, $url);
+                            });
+                        }
+                    }
+                    else {
+                        _this.playBfun(tempRoleStatemesh, $url); //没有mesh时就不需要处理里面的材质对象
                     }
                 });
             }

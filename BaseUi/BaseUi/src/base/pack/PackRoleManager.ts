@@ -163,16 +163,19 @@
                                 var $animData: AnimData = new AnimData
                                 $animData.meshBoneQPAryDic = this.getmeshBoneQPAryDic(temp.animDic[key].meshBoneQPAryDic);
                                 $animDic[key] = $animData;
-
                         }
                         tempRoleStatemesh.skinMesh = $skinMesh;
                         tempRoleStatemesh.animDic = $animDic;
-
-                        for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
-                            this.loadMeshArrBy(tempRoleStatemesh.skinMesh.meshAry, i, () => {
-                                this.playBfun(tempRoleStatemesh, $url);
-                            })
+                        if (tempRoleStatemesh.skinMesh.meshAry.length) {
+                            for (var i: number = 0; i < tempRoleStatemesh.skinMesh.meshAry.length; i++) {
+                                this.loadMeshArrBy(tempRoleStatemesh.skinMesh.meshAry, i, () => {
+                                    this.playBfun(tempRoleStatemesh, $url);
+                                })
+                            }
+                        } else {
+                            this.playBfun(tempRoleStatemesh, $url); //没有mesh时就不需要处理里面的材质对象
                         }
+                  
 
                 });
             } else {

@@ -63,7 +63,12 @@ var filelist;
         };
         Object.defineProperty(RoleMeshView.prototype, "roleurl", {
             get: function () {
-                return this._roleStaticMesh.url;
+                if (this._roleStaticMesh) {
+                    return this._roleStaticMesh.url;
+                }
+                else {
+                    return null;
+                }
             },
             set: function (value) {
             },

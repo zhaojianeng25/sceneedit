@@ -198,13 +198,18 @@ var prop;
                         break;
                     }
                 }
-                if (!this._animDic[vo.animPlayKey].url) {
-                    this._animDic[vo.animPlayKey].url = vo.animPlayKey + ".md5anim";
+                if (this._animDic[vo.animPlayKey]) {
+                    if (!this._animDic[vo.animPlayKey].url) {
+                        this._animDic[vo.animPlayKey].url = vo.animPlayKey + ".md5anim";
+                    }
+                    this.textLabelUI.label = "部分";
+                    this.comboBoxUi.text = vo.animPlayKey;
+                    this.md5animPicUi.url = "icon/txt_64x.png";
+                    this.md5animUrlText.label = this._animDic[vo.animPlayKey].url;
                 }
-                this.textLabelUI.label = "部分";
-                this.comboBoxUi.text = vo.animPlayKey;
-                this.md5animPicUi.url = "icon/txt_64x.png";
-                this.md5animUrlText.label = this._animDic[vo.animPlayKey].url;
+                else {
+                    console.log("没有动作对象");
+                }
             }
         };
         return RoleAnimi2DUI;

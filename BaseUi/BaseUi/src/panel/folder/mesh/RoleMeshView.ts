@@ -67,7 +67,12 @@
 
         }
         public get roleurl(): string {
-            return this._roleStaticMesh.url
+            if (this._roleStaticMesh) {
+                return this._roleStaticMesh.url
+            } else {
+                return null
+            }
+
         }
 
         public set texture(value: Material) {
