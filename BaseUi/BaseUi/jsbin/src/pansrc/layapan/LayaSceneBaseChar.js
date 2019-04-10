@@ -71,6 +71,12 @@ var layapan;
                 _super.prototype.updateMaterialMesh.call(this, $mesh);
             }
         };
+        LayaSceneBaseChar.prototype.playSkill = function ($skill) {
+            var $scene = this._scene;
+            this._walkPath = null;
+            $scene.skillManager.playSkill($skill);
+            this.skillVo = $skill;
+        };
         LayaSceneBaseChar.prototype.setMaterialTextureAlpha = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             //透明的时候只显示一个主材质贴图

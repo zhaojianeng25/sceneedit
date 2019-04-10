@@ -113,6 +113,12 @@ var left;
                 }
             }
         };
+        MaterialRoleSprite.prototype.playSkill = function ($skill) {
+            var $scene = this._scene;
+            this._walkPath = null;
+            $scene.skillManager.playSkill($skill);
+            this.skillVo = $skill;
+        };
         MaterialRoleSprite.prototype.setVaCompress = function ($mesh) {
             var tf = Scene_data.context3D.pushVa($mesh.vertexBuffer);
             if (tf) {

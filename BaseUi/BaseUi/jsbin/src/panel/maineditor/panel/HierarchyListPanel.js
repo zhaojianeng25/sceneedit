@@ -643,7 +643,7 @@ var maineditor;
             maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
-            $vo.ossListFile.type = maineditor.HierarchyNodeType.Particle;
+            $vo.ossListFile.type = maineditor.HierarchyNodeType.SKILL;
             $vo.ossListFile.treeSelect = false;
             $vo.cellPos = new Vector2D();
             this.showTemp($vo);

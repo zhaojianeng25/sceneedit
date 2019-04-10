@@ -11,7 +11,12 @@
     import Scene_data = Pan3d.Scene_data
     import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
     import Dictionary = Pan3d.Dictionary
-    import LoadManager = Pan3d.LoadManager
+    import Skill = Pan3d.Skill
+
+    import OverrideSkill = layapan.OverrideSkill
+    import LayaOverride2dSceneManager = layapan.LayaOverride2dSceneManager
+
+    
     export class MaterialRoleSprite extends Display3dMovie {
         public update(): void {
    
@@ -101,7 +106,15 @@
                 }
             }
         }
+        public skillVo: Skill;
+        protected _walkPath: Array<Vector3D>;
+        public playSkill($skill: Skill): void {
 
+            var $scene: LayaOverride2dSceneManager = <LayaOverride2dSceneManager>this._scene;
+            this._walkPath = null;
+            $scene.skillManager.playSkill(<OverrideSkill>$skill);
+            this.skillVo = $skill;
+        }
         public setVaCompress($mesh: MeshData): void {
             var tf: boolean = Scene_data.context3D.pushVa($mesh.vertexBuffer);
             if (tf) {

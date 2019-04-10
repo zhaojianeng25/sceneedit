@@ -19,6 +19,7 @@ module layapan {
 
     import Display3DSprite = Pan3d.Display3DSprite
     import ShadowManager = Pan3d.ShadowManager
+    import Skill = Pan3d.Skill
     
  
   
@@ -63,7 +64,15 @@ module layapan {
                 super.updateMaterialMesh($mesh);
             }
         }
+        public skillVo: Skill;
+        protected _walkPath: Array<Vector3D>;
+        public playSkill($skill: Skill): void {
 
+            var $scene: LayaOverride2dSceneManager = <LayaOverride2dSceneManager>this._scene;
+            this._walkPath = null;
+            $scene.skillManager.playSkill(<OverrideSkill>$skill);
+            this.skillVo = $skill;
+        }
         public setMaterialTextureAlpha($material: Material, $mp: MaterialBaseParam = null): void {
             //透明的时候只显示一个主材质贴图
             var texVec: Array<TexItem> = $material.texList;

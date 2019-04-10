@@ -7,12 +7,37 @@
     export class SkillSpriteDisplay extends Display3DSprite {
         public constructor() {
             super()
+            this.waitLoadUrl = []
+        }
+        private waitLoadUrl: Array<string>;
+        public addSkillByUrl($url): void {
+            if (this._scene) {
+                this.loadTempByUrl($url)
+            } else {
+                this.waitLoadUrl.push($url);
+            }
  
         }
-        public addSkillByUrl(value): void {
+        public addStage(): void {
+            super.addStage()
+            while (this.waitLoadUrl.length) {
+                this.loadTempByUrl(this.waitLoadUrl.pop());
+            }
+        }
+ 
+        private loadTempByUrl(value: string): void {
 
-            console.log("value", value)
+            var tempScene: EdItorSceneManager =< EdItorSceneManager > this._scene
 
+            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
+            var mainChar: left.MaterialRoleSprite = new left.MaterialRoleSprite();
+            tempScene.addMovieDisplay(mainChar)
+            if ($skill) {
+                $skill.reset();
+                $skill.isDeath = false;
+            }
+            mainChar.playSkill($skill)
+ 
         }
  
     }

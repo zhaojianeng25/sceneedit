@@ -40,7 +40,7 @@
 
         public static  Particle: number = 11;
         public static  Role: number = 12;
-        public static  NavMesh: number = 13;
+        public static  SKILL: number = 13;
         public static  Ground: number = 14;
 
         

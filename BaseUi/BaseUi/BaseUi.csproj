@@ -53,6 +53,7 @@
     <TypeScriptCompile Include="src\panel\folder\mesh\RoleMeshView.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\panel\UiModelViewRender.ts" />
     <TypeScriptCompile Include="src\panel\maineditor\vo\LyfSpriteDisplay.ts" />
+    <TypeScriptCompile Include="src\panel\maineditor\vo\SkillSpriteDisplay.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\LayaSceneBaseChar.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\LayaSceneChar.ts" />
     <TypeScriptCompile Include="src\pansrc\layapan\overridebase\LayaOverride2dEngine.ts" />

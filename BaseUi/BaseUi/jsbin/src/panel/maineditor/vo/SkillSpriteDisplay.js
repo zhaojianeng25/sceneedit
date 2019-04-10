@@ -17,10 +17,34 @@ var maineditor;
     var SkillSpriteDisplay = /** @class */ (function (_super) {
         __extends(SkillSpriteDisplay, _super);
         function SkillSpriteDisplay() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.waitLoadUrl = [];
+            return _this;
         }
-        SkillSpriteDisplay.prototype.addSkillByUrl = function (value) {
-            console.log("value", value);
+        SkillSpriteDisplay.prototype.addSkillByUrl = function ($url) {
+            if (this._scene) {
+                this.loadTempByUrl($url);
+            }
+            else {
+                this.waitLoadUrl.push($url);
+            }
+        };
+        SkillSpriteDisplay.prototype.addStage = function () {
+            _super.prototype.addStage.call(this);
+            while (this.waitLoadUrl.length) {
+                this.loadTempByUrl(this.waitLoadUrl.pop());
+            }
+        };
+        SkillSpriteDisplay.prototype.loadTempByUrl = function (value) {
+            var tempScene = this._scene;
+            var $skill = tempScene.skillManager.getSkill(value, "skill_0022");
+            var mainChar = new left.MaterialRoleSprite();
+            tempScene.addMovieDisplay(mainChar);
+            if ($skill) {
+                $skill.reset();
+                $skill.isDeath = false;
+            }
+            mainChar.playSkill($skill);
         };
         return SkillSpriteDisplay;
     }(Display3DSprite));

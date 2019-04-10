@@ -28,7 +28,7 @@ var maineditor;
         HierarchyNodeType.ParallelLight = 9;
         HierarchyNodeType.Particle = 11;
         HierarchyNodeType.Role = 12;
-        HierarchyNodeType.NavMesh = 13;
+        HierarchyNodeType.SKILL = 13;
         HierarchyNodeType.Ground = 14;
         return HierarchyNodeType;
     }());

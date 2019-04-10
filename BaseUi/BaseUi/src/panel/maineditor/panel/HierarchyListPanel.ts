@@ -806,7 +806,7 @@
 
             $vo.ossListFile.name = temp.name;
             $vo.ossListFile.url = temp.url;
-            $vo.ossListFile.type = HierarchyNodeType.Particle;
+            $vo.ossListFile.type = HierarchyNodeType.SKILL;
             $vo.ossListFile.treeSelect = false;
             $vo.cellPos = new Vector2D();
 
