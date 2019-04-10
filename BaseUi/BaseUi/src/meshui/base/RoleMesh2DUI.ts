@@ -45,6 +45,8 @@
 
             this.textureUrlText = new TextLabelUI(200, 16)
             this.texturePicUi = new TexturePicUi()
+            this.texturePicUi.suffix = "material";
+            this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.drawInTextureUrl, this)
             this.texturesearchIcon = new BaseMeshUi(20, 20);
 
             this.propPanle.addBaseMeshUi(this.textLabelUI)
@@ -77,6 +79,18 @@
             this._skinMesh.meshAry.splice(this.selectMeshId, 1)
             this.changFun();
   
+        }
+        
+        private drawInTextureUrl(): void {
+    
+            var tempObj: any = this._skinMesh.meshAry[this.selectMeshId]
+            if (tempObj) {
+                console.log(tempObj);
+                tempObj.materialUrl = this.texturePicUi.url
+                this.refreshViewValue()
+
+                this.changFun();
+            }
         }
      
         private drawInMeshUrl(): void {

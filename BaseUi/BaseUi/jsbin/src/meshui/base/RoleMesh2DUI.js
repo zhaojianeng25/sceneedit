@@ -36,6 +36,8 @@ var prop;
             this.md5searchIcon = new prop.BaseMeshUi(20, 20);
             this.textureUrlText = new prop.TextLabelUI(200, 16);
             this.texturePicUi = new prop.TexturePicUi();
+            this.texturePicUi.suffix = "material";
+            this.texturePicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.drawInTextureUrl, this);
             this.texturesearchIcon = new prop.BaseMeshUi(20, 20);
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.comboBoxUi);
@@ -56,6 +58,15 @@ var prop;
         RoleMesh2DUI.prototype.deleIconDown = function ($evt) {
             this._skinMesh.meshAry.splice(this.selectMeshId, 1);
             this.changFun();
+        };
+        RoleMesh2DUI.prototype.drawInTextureUrl = function () {
+            var tempObj = this._skinMesh.meshAry[this.selectMeshId];
+            if (tempObj) {
+                console.log(tempObj);
+                tempObj.materialUrl = this.texturePicUi.url;
+                this.refreshViewValue();
+                this.changFun();
+            }
         };
         RoleMesh2DUI.prototype.drawInMeshUrl = function () {
             var _this = this;

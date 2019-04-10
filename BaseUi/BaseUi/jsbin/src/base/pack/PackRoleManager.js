@@ -146,8 +146,8 @@ var pack;
             }
         };
         PackRoleManager.prototype.loadMeshArrBy = function (value, i, bfun) {
-            if (value[i].materialUrl) {
-                value[i].materialUrl = "base.material"; //设计默认
+            if (!value[i].materialUrl) {
+                value[i].materialUrl = "assets/base/base.material"; //设计默认材质路径
             }
             pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].materialUrl, function ($materialTree) {
                 $materialTree.shader = $materialTree.roleShader;

@@ -183,8 +183,8 @@
         }
 
         private loadMeshArrBy(value: Array<any>, i: number, bfun: Function): void {
-            if (value[i].materialUrl) {
-                value[i].materialUrl = "base.material" //设计默认
+            if (!value[i].materialUrl) {
+                value[i].materialUrl = "assets/base/base.material" //设计默认材质路径
             }
             pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].materialUrl, ($materialTree: materialui.MaterialTree) => {
                 $materialTree.shader = $materialTree.roleShader;
