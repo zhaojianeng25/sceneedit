@@ -633,6 +633,25 @@ var maineditor;
             this.refrishFolder();
             this.resize();
         };
+        HierarchyListPanel.prototype.inputSkillToScene = function (temp) {
+            var skillSprite = new maineditor.SkillSpriteDisplay();
+            skillSprite.addSkillByUrl(temp.url);
+            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(skillSprite);
+            var $vo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+            $vo.dis = skillSprite;
+            maineditor.MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+            $vo.ossListFile.name = temp.name;
+            $vo.ossListFile.url = temp.url;
+            $vo.ossListFile.type = maineditor.HierarchyNodeType.Particle;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
+            this.showTemp($vo);
+            maineditor.EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize();
+        };
         HierarchyListPanel.prototype.inputPrefabToScene = function (temp) {
             var $url = temp.url;
             var $vo = new FolderMeshVo;

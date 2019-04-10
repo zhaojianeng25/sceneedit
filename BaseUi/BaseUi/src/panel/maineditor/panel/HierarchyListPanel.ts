@@ -763,7 +763,7 @@
 
         }
         public inputLyfToScene(temp: any): void {
- 
+
 
             var lyfSprite: LyfSpriteDisplay = new LyfSpriteDisplay();
             lyfSprite.addLyfByUrl(temp.url)
@@ -773,6 +773,34 @@
             var $vo: FolderMeshVo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.dis = lyfSprite
+
+            MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
+
+            $vo.ossListFile.name = temp.name;
+            $vo.ossListFile.url = temp.url;
+            $vo.ossListFile.type = HierarchyNodeType.Particle;
+            $vo.ossListFile.treeSelect = false;
+            $vo.cellPos = new Vector2D();
+
+            this.showTemp($vo);
+
+            EditorModel.getInstance().fileItem.push($vo);
+            this.isCompelet = true;
+            this.refrishFolder();
+            this.resize()
+
+        }
+        public inputSkillToScene(temp: any): void {
+
+
+            var skillSprite: SkillSpriteDisplay = new SkillSpriteDisplay();
+            skillSprite.addSkillByUrl(temp.url)
+            MainEditorProcessor.edItorSceneManager.addDisplay(skillSprite);
+
+
+            var $vo: FolderMeshVo = new FolderMeshVo;
+            $vo.ossListFile = new OssListFile;
+            $vo.dis = skillSprite
 
             MainEditorProcessor.edItorSceneManager.addDisplay($vo.dis);
 

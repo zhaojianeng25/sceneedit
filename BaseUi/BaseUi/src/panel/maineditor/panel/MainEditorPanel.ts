@@ -115,7 +115,7 @@
             }
 
         }
-        public suffix: string ="prefab|lyf|zzw"
+        public suffix: string ="prefab|lyf|zzw|skill"
         private testSuffix(value: string): boolean {
             if (!this.suffix) {
                 return;
@@ -135,8 +135,11 @@
                 obj.name = "新对象";
                 obj.pos = MainEditorProcessor.edItorSceneManager.getGroundPos(new Vector2D(evt.data.x, evt.data.y))
 
-                if (drag.DragManager.dragSource.url.indexOf(".lyf")!=-1) {
+                if (drag.DragManager.dragSource.url.indexOf(".lyf") != -1) {
                     ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_LYF_TO_SCENE), obj)
+                } 
+                if (drag.DragManager.dragSource.url.indexOf(".skill") != -1) {
+                    ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_SKILL_TO_SCENE), obj)
                 } 
                 if (drag.DragManager.dragSource.url.indexOf(".prefab") != -1) {
                     ModuleEventManager.dispatchEvent(new MainEditorEvent(MainEditorEvent.INPUT_PREFAB_TO_SCENE), obj)
