@@ -30,6 +30,7 @@
             var tempScene: EdItorSceneManager =< EdItorSceneManager > this._scene
 
             var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
+    
             var mainChar: left.MaterialRoleSprite = new left.MaterialRoleSprite();
             tempScene.addMovieDisplay(mainChar)
             if ($skill) {
