@@ -27,17 +27,19 @@
  
         private loadTempByUrl(value: string): void {
 
-            var tempScene: EdItorSceneManager =< EdItorSceneManager > this._scene
+            var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
 
-            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
-    
-            var mainChar: left.MaterialRoleSprite = new left.MaterialRoleSprite();
+            var mainChar: layapan.LayaSceneChar = new layapan.LayaSceneChar();
+            mainChar.setRoleUrl("role/ssqx.txt");
             tempScene.addMovieDisplay(mainChar)
+ 
+            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
             if ($skill) {
                 $skill.reset();
                 $skill.isDeath = false;
             }
             mainChar.playSkill($skill)
+ 
  
         }
  

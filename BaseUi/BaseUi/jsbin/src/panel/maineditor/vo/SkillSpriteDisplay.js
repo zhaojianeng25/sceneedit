@@ -37,9 +37,10 @@ var maineditor;
         };
         SkillSpriteDisplay.prototype.loadTempByUrl = function (value) {
             var tempScene = this._scene;
-            var $skill = tempScene.skillManager.getSkill(value, "skill_0022");
-            var mainChar = new left.MaterialRoleSprite();
+            var mainChar = new layapan.LayaSceneChar();
+            mainChar.setRoleUrl("role/ssqx.txt");
             tempScene.addMovieDisplay(mainChar);
+            var $skill = tempScene.skillManager.getSkill(value, "skill_0022");
             if ($skill) {
                 $skill.reset();
                 $skill.isDeath = false;
