@@ -48,7 +48,7 @@ var maineditor;
             var _this = this;
             this._sceneViewRender.uiAtlas = this._tRender.uiAtlas;
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
-            TextureManager.getInstance().getTexture("res/shuangdaonv.jpg", function ($texture) {
+            TextureManager.getInstance().getTexture("res/white.jpg", function ($texture) {
                 _this._sceneViewRender.textureRes = $texture;
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             });

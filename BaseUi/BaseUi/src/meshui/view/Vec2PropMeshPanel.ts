@@ -8,6 +8,8 @@
                 [
                     { Type: ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1, Category: "属性" },
                     { Type: ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1, Category: "属性" },
+
+
                 ];
             return ary;
         }

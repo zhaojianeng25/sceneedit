@@ -66,7 +66,7 @@
         private initView(): void {
             this._sceneViewRender.uiAtlas = this._tRender.uiAtlas
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
-            TextureManager.getInstance().getTexture("res/shuangdaonv.jpg", ($texture: TextureRes) => {
+            TextureManager.getInstance().getTexture("res/white.jpg", ($texture: TextureRes) => {
                 this._sceneViewRender.textureRes = $texture;
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
             });
