@@ -21,11 +21,22 @@ var prop;
         }
         Vec2PropMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.NumberInput, Label: "x:", FunKey: "constXValue", target: this, Step: 0.1, Category: "属性" },
-                { Type: prop.ReflectionData.NumberInput, Label: "y:", FunKey: "constYValue", target: this, Step: 0.1, Category: "属性" },
+                { Type: prop.ReflectionData.Vec2, Label: "xy:", FunKey: "vec2data", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
         };
+        Object.defineProperty(Vec2PropMeshPanel.prototype, "vec2data", {
+            get: function () {
+                return this.constVec2NodeUI.constValue;
+            },
+            set: function (value) {
+                this.constVec2NodeUI.constValue = value;
+                this.changeData();
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Vec2PropMeshPanel.prototype, "data", {
             get: function () {
                 return this._data;
@@ -34,28 +45,6 @@ var prop;
                 this._data = value;
                 this.constVec2NodeUI = this._data;
                 this.refreshViewValue();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Vec2PropMeshPanel.prototype, "constXValue", {
-            get: function () {
-                return this.constVec2NodeUI.constValue.x;
-            },
-            set: function (value) {
-                this.constVec2NodeUI.constValue.x = value;
-                this.changeData();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Vec2PropMeshPanel.prototype, "constYValue", {
-            get: function () {
-                return this.constVec2NodeUI.constValue.y;
-            },
-            set: function (value) {
-                this.constVec2NodeUI.constValue.y = value;
-                this.changeData();
             },
             enumerable: true,
             configurable: true

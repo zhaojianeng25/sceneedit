@@ -41,6 +41,7 @@
         
         public static AgalFunUI: string = "AgalFunUI";
         public static Vec3Color: string = "Vec3Color";
+        public static Vec2Prama: string = "Vec2Prama";
         public static UserView: string = "userView";
 
         public static FunKey: string = "FunKey";

@@ -154,6 +154,9 @@
             if (type == ReflectionData.Vec3) {
                 return this.getVec3(obj);
             }
+            if (type == ReflectionData.Vec2) {
+                return this.getVec2(obj);
+            }
             if (type == ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
@@ -175,6 +178,18 @@
         }
         public getVec3($obj: Object): Vec3dCtrlUI {
             var $textCtrlInput: Vec3dCtrlUI = new Vec3dCtrlUI(this.propPanle)
+            $textCtrlInput.label = $obj[ReflectionData.Key_Label];
+            $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
+            if ($obj[ReflectionData.Key_Step]) {
+                $textCtrlInput.KeyStep = $obj[ReflectionData.Key_Step];
+            } else {
+                $textCtrlInput.KeyStep = 1
+            }
+            $textCtrlInput.target = this
+            return $textCtrlInput;
+        }
+        public getVec2($obj: Object): Vec2PrameCtrlUI {
+            var $textCtrlInput: Vec2PrameCtrlUI = new Vec2PrameCtrlUI(this.propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
             if ($obj[ReflectionData.Key_Step]) {

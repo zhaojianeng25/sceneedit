@@ -142,6 +142,9 @@ var prop;
             if (type == prop.ReflectionData.Vec3) {
                 return this.getVec3(obj);
             }
+            if (type == prop.ReflectionData.Vec2) {
+                return this.getVec2(obj);
+            }
             if (type == prop.ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
@@ -163,6 +166,19 @@ var prop;
         };
         MetaDataView.prototype.getVec3 = function ($obj) {
             var $textCtrlInput = new prop.Vec3dCtrlUI(this.propPanle);
+            $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
+            $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            if ($obj[prop.ReflectionData.Key_Step]) {
+                $textCtrlInput.KeyStep = $obj[prop.ReflectionData.Key_Step];
+            }
+            else {
+                $textCtrlInput.KeyStep = 1;
+            }
+            $textCtrlInput.target = this;
+            return $textCtrlInput;
+        };
+        MetaDataView.prototype.getVec2 = function ($obj) {
+            var $textCtrlInput = new prop.Vec2PrameCtrlUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
             if ($obj[prop.ReflectionData.Key_Step]) {

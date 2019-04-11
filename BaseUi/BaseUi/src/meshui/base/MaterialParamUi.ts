@@ -31,6 +31,13 @@
                         item[i].data = new Vector3D();
                     }
                 }
+                if (item[i].type == materialui.NodeTree.VEC2) {
+                    tempBaseReflComponent = new Vec2PrameCtrlUI(this.propPanle);
+                    tempBaseReflComponent.KeyStep = 0.01;
+                    if (isNaN(item[i].data.x) || isNaN(item[i].data.y)) {
+                        item[i].data = new Vector2D();
+                    }
+                }
                 if (item[i].type == materialui.NodeTree.FLOAT) {
                     tempBaseReflComponent = new TextCtrlInput(this.propPanle);
                     if (isNaN(item[i].data)) {
@@ -109,6 +116,12 @@
                 this.uiItem[i].y = this.y + ty
 
                 if (this.uiItem[i] instanceof Vec3ColorCtrlUI) {
+                    ty += 50
+                    this.uiItem[i].x = 50
+                    this.height += 50
+                }
+
+                if (this.uiItem[i] instanceof Vec2PrameCtrlUI) {
                     ty += 50
                     this.uiItem[i].x = 50
                     this.height += 50

@@ -36,6 +36,7 @@ var prop;
         ReflectionData.RoleAnim2DUI = "RoleAnim2DUI";
         ReflectionData.AgalFunUI = "AgalFunUI";
         ReflectionData.Vec3Color = "Vec3Color";
+        ReflectionData.Vec2Prama = "Vec2Prama";
         ReflectionData.UserView = "userView";
         ReflectionData.FunKey = "FunKey";
         ReflectionData.Number = "Number";
