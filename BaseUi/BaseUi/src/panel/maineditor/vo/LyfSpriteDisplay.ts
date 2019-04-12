@@ -37,9 +37,11 @@
                 this.loadTempByUrl(this.waitLoadUrl.pop());
             }
         }
+
         private particleItem: Array<CombineParticle>
         private loadTempByUrl(value: string): void {
 
+       
             var scene: EdItorSceneManager = <EdItorSceneManager>this._scene;
             scene.groupDataManager.scene = scene;
             scene.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + value, (groupRes: Pan3d.GroupRes) => {

@@ -19,6 +19,7 @@ var maineditor;
         function SkillSpriteDisplay() {
             var _this = _super.call(this) || this;
             _this.waitLoadUrl = [];
+            _this.roleChar = new layapan.LayaSceneChar();
             return _this;
         }
         SkillSpriteDisplay.prototype.addSkillByUrl = function ($url) {
@@ -36,16 +37,25 @@ var maineditor;
             }
         };
         SkillSpriteDisplay.prototype.loadTempByUrl = function (value) {
-            var tempScene = this._scene;
-            var mainChar = new layapan.LayaSceneChar();
-            mainChar.setRoleUrl("role/ssqx.txt");
-            tempScene.addMovieDisplay(mainChar);
-            var $skill = tempScene.skillManager.getSkill(value, "skill_0022");
+            var _this = this;
+            pack.PackSkillManager.getInstance().getPrefabByUrl(value, function (temp) {
+                _this.skillStaticMesh = temp;
+                _this.skillStaticMesh.roleUrl = "role/ssqx.txt";
+                _this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt";
+                var tempScene = _this._scene;
+                _this.roleChar.setRoleUrl(_this.skillStaticMesh.roleUrl);
+                tempScene.addMovieDisplay(_this.roleChar);
+            });
+            /*
+ 
+            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
             if ($skill) {
                 $skill.reset();
                 $skill.isDeath = false;
             }
-            mainChar.playSkill($skill);
+            mainChar.playSkill($skill)
+
+*/
         };
         return SkillSpriteDisplay;
     }(Display3DSprite));

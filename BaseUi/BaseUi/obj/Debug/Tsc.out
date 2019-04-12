@@ -6,8 +6,12 @@ D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackObjDataManager.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackObjDataManager.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackRoleManager.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackRoleManager.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackSkillManager.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\PackSkillManager.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\RoleStaticMesh.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\RoleStaticMesh.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\SkillStatcMesh.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\pack\SkillStatcMesh.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\xyz\draw\TooBoxDisplay3DSprite.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\xyz\draw\TooBoxDisplay3DSprite.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\base\xyz\draw\TooScaleLevel.js
@@ -48,6 +52,8 @@ D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\meshui\base\Vec2PrameCtrlUI.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\meshui\base\Vec2PrameCtrlUI.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\RoleMeshView.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\RoleMeshView.js.map
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\SkillMeshView.js
+D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\folder\mesh\SkillMeshView.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\maineditor\panel\UiModelViewRender.js
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\maineditor\panel\UiModelViewRender.js.map
 D:\github\sceneEdit\BaseUi\BaseUi\jsbin\src\panel\maineditor\vo\LyfSpriteDisplay.js

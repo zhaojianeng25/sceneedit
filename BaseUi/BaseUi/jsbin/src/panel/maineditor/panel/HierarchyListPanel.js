@@ -196,6 +196,9 @@ var maineditor;
                     case maineditor.HierarchyNodeType.Role:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["zzw_16x"], 30, 5, 26, 32);
                         break;
+                    case maineditor.HierarchyNodeType.SKILL:
+                        this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["skill_16x"], 30, 5, 26, 32);
+                        break;
                     case maineditor.HierarchyNodeType.Light:
                         this.parent.uiAtlas.ctx.drawImage(HierarchyListPanel.imgBaseDic["icon_point16"], 30, 5, 26, 32);
                         break;
@@ -299,6 +302,7 @@ var maineditor;
             item.push("water_plane16");
             item.push("particle_16x");
             item.push("zzw_16x");
+            item.push("skill_16x");
             var finishNum = 0;
             for (var i = 0; i < item.length; i++) {
                 this.loadTempOne(item[i], function () {
@@ -440,6 +444,11 @@ var maineditor;
                     var C = new filelist.RoleMeshView(propanle);
                     C.data = $vo.dis.roleStaticMesh;
                     _combineReflectionView.addView(C);
+                    break;
+                case maineditor.HierarchyNodeType.SKILL:
+                    var D = new filelist.SkillMeshView(propanle);
+                    D.data = $vo.dis.skillStaticMesh;
+                    _combineReflectionView.addView(D);
                     break;
                 default:
                     break;
@@ -721,7 +730,6 @@ var maineditor;
             });
         };
         HierarchyListPanel.prototype.addBasrole = function () {
-            left.LocalMd5MoveSprite;
             var webmd5Sprite = new md5list.Md5MoveSprite();
             webmd5Sprite.setMd5url("2/body.md5mesh", "2/stand.md5anim", "white.jpg");
             maineditor.MainEditorProcessor.edItorSceneManager.addSpriteDisplay(webmd5Sprite);
