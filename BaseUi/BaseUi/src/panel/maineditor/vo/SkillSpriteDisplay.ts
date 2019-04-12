@@ -12,6 +12,22 @@
 
             this.roleChar = new layapan.LayaSceneChar();
         }
+        public updateMatrix(): void {
+            super.updateMatrix()
+
+            this.roleChar.x = this.x
+            this.roleChar.y = this.y
+            this.roleChar.z = this.z
+
+            //this.roleChar.scaleX = 1
+            //this.roleChar.scaleY =1
+            //this.roleChar.scaleZ = 1
+
+            this.roleChar.rotationX = this.rotationX
+            this.roleChar.rotationY = this.rotationY
+            this.roleChar.rotationZ = this.rotationZ
+ 
+        }
         private waitLoadUrl: Array<string>;
         public addSkillByUrl($url): void {
             if (this._scene) {
@@ -26,32 +42,43 @@
             while (this.waitLoadUrl.length) {
                 this.loadTempByUrl(this.waitLoadUrl.pop());
             }
+
+         
         }
         public skillStaticMesh: pack.SkillStatcMesh;
         private roleChar: layapan.LayaSceneChar 
 
 
+        private skipNum: number=0
         private playNextSkill(): void {
 
-            var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
-            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, "skill_0022")
-            if ($skill) {
-                $skill.reset();
-                $skill.isDeath = false;
+            var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene;
+
+
+            var skillNameItem: Array<string> = [];
+ 
+            for (var tempKey in Pan3d.SkillManager.getInstance()._skillDic) {
+                var keyStr: string = tempKey;
+                if (keyStr.indexOf(this.skillStaticMesh.skillUrl) != -1) {
+                    var skillname: string = keyStr.replace(this.skillStaticMesh.skillUrl, "");
+                    skillNameItem.push(skillname)
+                }
             }
-
-            $skill.configFixEffect(this.roleChar);
-   
-
-            tempScene.skillManager.playSkill($skill);
-
+            if (skillNameItem.length) {
+                var playName: string=  skillNameItem[this.skipNum % skillNameItem.length]
+                var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName)   //skill_0022
+                if ($skill) {
+                    $skill.reset();
+                    $skill.isDeath = false;
+                }
+                $skill.configFixEffect(this.roleChar);
+                tempScene.skillManager.playSkill($skill);
+                this.skipNum++
+            }
             Pan3d.TimeUtil.addTimeOut(5 * 1000, () => {
-
                 this.playNextSkill();
             })
-
-            console.log("播放技能", $skill)
-
+ 
         }
         private loadTempByUrl(value: string): void {
 
@@ -67,6 +94,12 @@
                 var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
                 this.roleChar.setRoleUrl(this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(this.roleChar)
+
+              
+                var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene;
+
+                tempScene.skillManager.preLoadSkill(this.skillStaticMesh.skillUrl);
+           
 
                 this.playNextSkill()
 

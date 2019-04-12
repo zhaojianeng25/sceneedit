@@ -18,10 +18,23 @@ var maineditor;
         __extends(SkillSpriteDisplay, _super);
         function SkillSpriteDisplay() {
             var _this = _super.call(this) || this;
+            _this.skipNum = 0;
             _this.waitLoadUrl = [];
             _this.roleChar = new layapan.LayaSceneChar();
             return _this;
         }
+        SkillSpriteDisplay.prototype.updateMatrix = function () {
+            _super.prototype.updateMatrix.call(this);
+            this.roleChar.x = this.x;
+            this.roleChar.y = this.y;
+            this.roleChar.z = this.z;
+            //this.roleChar.scaleX = 1
+            //this.roleChar.scaleY =1
+            //this.roleChar.scaleZ = 1
+            this.roleChar.rotationX = this.rotationX;
+            this.roleChar.rotationY = this.rotationY;
+            this.roleChar.rotationZ = this.rotationZ;
+        };
         SkillSpriteDisplay.prototype.addSkillByUrl = function ($url) {
             if (this._scene) {
                 this.loadTempByUrl($url);
@@ -39,17 +52,28 @@ var maineditor;
         SkillSpriteDisplay.prototype.playNextSkill = function () {
             var _this = this;
             var tempScene = this._scene;
-            var $skill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, "skill_0022");
-            if ($skill) {
-                $skill.reset();
-                $skill.isDeath = false;
+            var skillNameItem = [];
+            for (var tempKey in Pan3d.SkillManager.getInstance()._skillDic) {
+                var keyStr = tempKey;
+                if (keyStr.indexOf(this.skillStaticMesh.skillUrl) != -1) {
+                    var skillname = keyStr.replace(this.skillStaticMesh.skillUrl, "");
+                    skillNameItem.push(skillname);
+                }
             }
-            $skill.configFixEffect(this.roleChar);
-            tempScene.skillManager.playSkill($skill);
+            if (skillNameItem.length) {
+                var playName = skillNameItem[this.skipNum % skillNameItem.length];
+                var $skill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName); //skill_0022
+                if ($skill) {
+                    $skill.reset();
+                    $skill.isDeath = false;
+                }
+                $skill.configFixEffect(this.roleChar);
+                tempScene.skillManager.playSkill($skill);
+                this.skipNum++;
+            }
             Pan3d.TimeUtil.addTimeOut(5 * 1000, function () {
                 _this.playNextSkill();
             });
-            console.log("播放技能", $skill);
         };
         SkillSpriteDisplay.prototype.loadTempByUrl = function (value) {
             var _this = this;
@@ -61,6 +85,8 @@ var maineditor;
                 var tempScene = _this._scene;
                 _this.roleChar.setRoleUrl(_this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(_this.roleChar);
+                var tempScene = _this._scene;
+                tempScene.skillManager.preLoadSkill(_this.skillStaticMesh.skillUrl);
                 _this.playNextSkill();
             });
             /*

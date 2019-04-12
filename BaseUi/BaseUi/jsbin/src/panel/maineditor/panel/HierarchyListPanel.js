@@ -587,6 +587,12 @@ var maineditor;
                         $vo.dis = roleSprite;
                         maineditor.MainEditorProcessor.edItorSceneManager.addMovieDisplay(roleSprite);
                         break;
+                    case maineditor.HierarchyNodeType.SKILL:
+                        var skillsprite = new maineditor.SkillSpriteDisplay();
+                        skillsprite.addSkillByUrl(childItem[i].url);
+                        $vo.dis = skillsprite;
+                        maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(skillsprite);
+                        break;
                     default:
                         break;
                 }

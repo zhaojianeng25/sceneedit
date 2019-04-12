@@ -710,12 +710,17 @@
                         break
                     case HierarchyNodeType.Role:
                         var roleSprite = new left.MaterialRoleSprite();
- 
-
                         roleSprite.setRoleZwwUrl(childItem[i].url)
- 
                         $vo.dis = roleSprite;
                         MainEditorProcessor.edItorSceneManager.addMovieDisplay(roleSprite);
+                        break
+                    case HierarchyNodeType.SKILL:
+                        var skillsprite = new maineditor.SkillSpriteDisplay();
+                        skillsprite.addSkillByUrl(childItem[i].url)
+                        $vo.dis = skillsprite;
+                        MainEditorProcessor.edItorSceneManager.addDisplay(skillsprite);
+
+                  
                         break
                     default:
                         break
