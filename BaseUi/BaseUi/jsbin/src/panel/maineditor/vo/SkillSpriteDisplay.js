@@ -36,24 +36,35 @@ var maineditor;
                 this.loadTempByUrl(this.waitLoadUrl.pop());
             }
         };
+        SkillSpriteDisplay.prototype.playNextSkill = function () {
+            var _this = this;
+            var tempScene = this._scene;
+            var $skill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, "skill_0022");
+            if ($skill) {
+                $skill.reset();
+                $skill.isDeath = false;
+            }
+            $skill.configFixEffect(this.roleChar);
+            tempScene.skillManager.playSkill($skill);
+            Pan3d.TimeUtil.addTimeOut(5 * 1000, function () {
+                _this.playNextSkill();
+            });
+            console.log("播放技能", $skill);
+        };
         SkillSpriteDisplay.prototype.loadTempByUrl = function (value) {
             var _this = this;
             pack.PackSkillManager.getInstance().getPrefabByUrl(value, function (temp) {
                 _this.skillStaticMesh = temp;
                 _this.skillStaticMesh.roleUrl = "role/ssqx.txt";
                 _this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt";
+                _this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt";
                 var tempScene = _this._scene;
                 _this.roleChar.setRoleUrl(_this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(_this.roleChar);
+                _this.playNextSkill();
             });
             /*
  
-            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
-            if ($skill) {
-                $skill.reset();
-                $skill.isDeath = false;
-            }
-            mainChar.playSkill($skill)
 
 */
         };

@@ -29,6 +29,30 @@
         }
         public skillStaticMesh: pack.SkillStatcMesh;
         private roleChar: layapan.LayaSceneChar 
+
+
+        private playNextSkill(): void {
+
+            var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
+            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, "skill_0022")
+            if ($skill) {
+                $skill.reset();
+                $skill.isDeath = false;
+            }
+
+            $skill.configFixEffect(this.roleChar);
+   
+
+            tempScene.skillManager.playSkill($skill);
+
+            Pan3d.TimeUtil.addTimeOut(5 * 1000, () => {
+
+                this.playNextSkill();
+            })
+
+            console.log("播放技能", $skill)
+
+        }
         private loadTempByUrl(value: string): void {
 
  
@@ -36,22 +60,21 @@
                 this.skillStaticMesh = temp;
                 this.skillStaticMesh.roleUrl = "role/ssqx.txt"
                 this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt"
+                this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt"
+
+                
  
                 var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
                 this.roleChar.setRoleUrl(this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(this.roleChar)
+
+                this.playNextSkill()
 
             })
 
  
             /*
  
-            var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(value, "skill_0022")
-            if ($skill) {
-                $skill.reset();
-                $skill.isDeath = false;
-            }
-            mainChar.playSkill($skill)
 
 */
  
