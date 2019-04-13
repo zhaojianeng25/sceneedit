@@ -10,7 +10,7 @@
             super()
             this.waitLoadUrl = []
 
-            this.roleChar = new layapan.LayaSceneChar();
+            this.roleChar = new left.MaterialRoleSprite();
         }
         public updateMatrix(): void {
             super.updateMatrix()
@@ -46,7 +46,7 @@
          
         }
         public skillStaticMesh: pack.SkillStatcMesh;
-        private roleChar: layapan.LayaSceneChar 
+        private roleChar: left.MaterialRoleSprite
 
 
         private skipNum: number=0
@@ -85,22 +85,19 @@
  
             pack.PackSkillManager.getInstance().getPrefabByUrl(value, (temp: SkillStatcMesh) => {
                 this.skillStaticMesh = temp;
-                this.skillStaticMesh.roleUrl = "role/ssqx.txt"
-                this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt"
+                this.skillStaticMesh.roleUrl = "pefab/上杉谦信/ssqx.zzw"
+          //      this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt"
                 this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt"
 
                 
  
                 var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
-                this.roleChar.setRoleUrl(this.skillStaticMesh.roleUrl);
+                this.roleChar.setRoleZwwUrl(this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(this.roleChar)
-
+                this.roleChar.scale=0.3
               
                 var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene;
-
                 tempScene.skillManager.preLoadSkill(this.skillStaticMesh.skillUrl);
-           
-
                 this.playNextSkill()
 
             })

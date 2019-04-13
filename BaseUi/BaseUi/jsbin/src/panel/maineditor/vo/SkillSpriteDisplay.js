@@ -20,7 +20,7 @@ var maineditor;
             var _this = _super.call(this) || this;
             _this.skipNum = 0;
             _this.waitLoadUrl = [];
-            _this.roleChar = new layapan.LayaSceneChar();
+            _this.roleChar = new left.MaterialRoleSprite();
             return _this;
         }
         SkillSpriteDisplay.prototype.updateMatrix = function () {
@@ -79,12 +79,13 @@ var maineditor;
             var _this = this;
             pack.PackSkillManager.getInstance().getPrefabByUrl(value, function (temp) {
                 _this.skillStaticMesh = temp;
-                _this.skillStaticMesh.roleUrl = "role/ssqx.txt";
-                _this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt";
+                _this.skillStaticMesh.roleUrl = "pefab/上杉谦信/ssqx.zzw";
+                //      this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt"
                 _this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt";
                 var tempScene = _this._scene;
-                _this.roleChar.setRoleUrl(_this.skillStaticMesh.roleUrl);
+                _this.roleChar.setRoleZwwUrl(_this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(_this.roleChar);
+                _this.roleChar.scale = 0.3;
                 var tempScene = _this._scene;
                 tempScene.skillManager.preLoadSkill(_this.skillStaticMesh.skillUrl);
                 _this.playNextSkill();

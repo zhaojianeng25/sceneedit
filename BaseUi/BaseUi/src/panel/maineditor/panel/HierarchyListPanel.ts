@@ -717,6 +717,7 @@
                     case HierarchyNodeType.SKILL:
                         var skillsprite = new maineditor.SkillSpriteDisplay();
                         skillsprite.addSkillByUrl(childItem[i].url)
+
                         $vo.dis = skillsprite;
                         MainEditorProcessor.edItorSceneManager.addDisplay(skillsprite);
 
