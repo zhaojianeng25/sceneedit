@@ -436,19 +436,35 @@ var maineditor;
             _combineReflectionView.addView(A);
             switch ($vo.ossListFile.type) {
                 case maineditor.HierarchyNodeType.Prefab:
-                    var B = new filelist.PrefabMeshView(propanle);
-                    B.data = $vo.dis.prefab;
-                    _combineReflectionView.addView(B);
+                    if ($vo.dis.prefab) {
+                        var B = new filelist.PrefabMeshView(propanle);
+                        B.data = $vo.dis.prefab;
+                        _combineReflectionView.addView(B);
+                    }
+                    else {
+                        console.log("还没准备虚");
+                    }
                     break;
                 case maineditor.HierarchyNodeType.Role:
-                    var C = new filelist.RoleMeshView(propanle);
-                    C.data = $vo.dis.roleStaticMesh;
-                    _combineReflectionView.addView(C);
+                    console.log($vo.dis.roleStaticMesh);
+                    if ($vo.dis.roleStaticMesh) {
+                        var C = new filelist.RoleMeshView(propanle);
+                        C.data = $vo.dis.roleStaticMesh;
+                        _combineReflectionView.addView(C);
+                    }
+                    else {
+                        console.log("还没准备虚");
+                    }
                     break;
                 case maineditor.HierarchyNodeType.SKILL:
-                    var D = new filelist.SkillMeshView(propanle);
-                    D.data = $vo.dis.skillStaticMesh;
-                    _combineReflectionView.addView(D);
+                    if ($vo.dis.skillStaticMesh) {
+                        var D = new filelist.SkillMeshView(propanle);
+                        D.data = $vo.dis.skillStaticMesh;
+                        _combineReflectionView.addView(D);
+                    }
+                    else {
+                        console.log("还没准备虚");
+                    }
                     break;
                 default:
                     break;

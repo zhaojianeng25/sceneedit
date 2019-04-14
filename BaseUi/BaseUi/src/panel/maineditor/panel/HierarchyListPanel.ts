@@ -531,22 +531,38 @@
 
             switch ($vo.ossListFile.type) {
                 case HierarchyNodeType.Prefab:
-                    var B: filelist.PrefabMeshView = new filelist.PrefabMeshView(propanle)
-                    B.data = (<ModelSprite>$vo.dis).prefab;
-                    _combineReflectionView.addView(B)
+                    if ((<ModelSprite>$vo.dis).prefab) {
+                        var B: filelist.PrefabMeshView = new filelist.PrefabMeshView(propanle)
+                        B.data = (<ModelSprite>$vo.dis).prefab;
+                        _combineReflectionView.addView(B)
+                    } else {
+                        console.log("还没准备虚")
+                    }
                     break
                 case HierarchyNodeType.Role:
-                    var C: filelist.RoleMeshView = new filelist.RoleMeshView(propanle);
-                    C.data = (<left.MaterialRoleSprite>$vo.dis).roleStaticMesh;
+                    console.log((<left.MaterialRoleSprite>$vo.dis).roleStaticMesh)
+                    if ((<left.MaterialRoleSprite>$vo.dis).roleStaticMesh) {
+                        var C: filelist.RoleMeshView = new filelist.RoleMeshView(propanle);
+                        C.data = (<left.MaterialRoleSprite>$vo.dis).roleStaticMesh;
 
-                    _combineReflectionView.addView(C);
+                        _combineReflectionView.addView(C);
+                    } else {
+                        console.log("还没准备虚")
+           
+                    }
 
 
                     break
                 case HierarchyNodeType.SKILL:
-                    var D: filelist.SkillMeshView = new filelist.SkillMeshView(propanle);
-                    D.data = (<maineditor.SkillSpriteDisplay>$vo.dis).skillStaticMesh;
-                    _combineReflectionView.addView(D);
+                    if ((<maineditor.SkillSpriteDisplay>$vo.dis).skillStaticMesh) {
+                        var D: filelist.SkillMeshView = new filelist.SkillMeshView(propanle);
+                        D.data = (<maineditor.SkillSpriteDisplay>$vo.dis).skillStaticMesh;
+                        _combineReflectionView.addView(D);
+                    } else {
+                        console.log("还没准备虚")
+
+                    }
+            
  
                     break
                 default:
