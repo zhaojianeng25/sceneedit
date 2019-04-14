@@ -131,10 +131,14 @@
             if (this._url.indexOf(".txt") != -1) {
                 picUrl = "icon/txt_64x.png"
             }  
+            if (this._url.indexOf(".zzw") != -1) {
+                picUrl = "icon/zzw_64x.png"
+            }  
             if (this._url.indexOf(".md5mesh") != -1) {
                 picUrl = "icon/txt_64x.png"
             }  
 
+     
 
             var $img: any = TextureManager.getInstance().getImgResByurl(Scene_data.fileRoot + picUrl)
             var $uiRender: UIRenderComponent = this.textureContext.ui.uiRender

@@ -126,6 +126,9 @@ var prop;
                 if (this._url.indexOf(".txt") != -1) {
                     picUrl = "icon/txt_64x.png";
                 }
+                if (this._url.indexOf(".zzw") != -1) {
+                    picUrl = "icon/zzw_64x.png";
+                }
                 if (this._url.indexOf(".md5mesh") != -1) {
                     picUrl = "icon/txt_64x.png";
                 }
