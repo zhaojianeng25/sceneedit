@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var filelist;
 (function (filelist) {
+    var Scene_data = Pan3d.Scene_data;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
     var SkillMeshView = /** @class */ (function (_super) {
@@ -25,9 +26,19 @@ var filelist;
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "filename", target: this, Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "角色:", FunKey: "roleurl", Suffix: "zzw", target: this, Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "技能:", FunKey: "skillurl", Suffix: "txt", target: this, Category: "属性" },
+                { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [] },
             ];
             return ary;
         };
+        Object.defineProperty(SkillMeshView.prototype, "actionname", {
+            get: function () {
+                return 0;
+            },
+            set: function (value) {
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(SkillMeshView.prototype, "filename", {
             get: function () {
                 return this._skillStaticMesh.url;
@@ -69,10 +80,31 @@ var filelist;
                 this._data = value;
                 this._skillStaticMesh = value;
                 this.refreshViewValue();
+                this.mashSkillActionInfo();
             },
             enumerable: true,
             configurable: true
         });
+        SkillMeshView.prototype.mashSkillActionInfo = function () {
+            var _this = this;
+            Pan3d.ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + this._skillStaticMesh.skillUrl, function ($skillRes) {
+                for (var i = 0; i < _this.ui.length; i++) {
+                    var tempUi = _this.ui[i];
+                    if (tempUi instanceof prop.ComBoBoxCtrl2D) {
+                        var dataItem = [];
+                        for (var acKey in $skillRes.data) {
+                            dataItem.push({ name: acKey, type: dataItem.length });
+                        }
+                        tempUi.data = dataItem;
+                        tempUi.refreshViewValue();
+                    }
+                }
+            });
+        };
+        SkillMeshView.prototype.categoryClikUp = function (value) {
+            _super.prototype.categoryClikUp.call(this, value);
+            this.mashSkillActionInfo();
+        };
         SkillMeshView.prototype.saveToSever = function () {
             var _this = this;
             this.lastTm = Pan3d.TimeUtil.getTimer();

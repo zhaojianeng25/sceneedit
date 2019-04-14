@@ -17,10 +17,20 @@
 
                     { Type: ReflectionData.Texturue2DUI, Label: "角色:", FunKey: "roleurl", Suffix: "zzw", target: this, Category: "属性" },
                     { Type: ReflectionData.Texturue2DUI, Label: "技能:", FunKey: "skillurl", Suffix: "txt", target: this, Category: "属性" },
+
+                    { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [] },
   
                 ];
             return ary;
         }
+        public set actionname(value: number) {
+
+        }
+        public get actionname(): number {
+            return 0
+
+        }
+
         public set filename(value: string) {
 
         }
@@ -33,7 +43,9 @@
             this.saveToSever()
             this.refreshViewValue()
 
+
         }
+  
         public get roleurl(): string {
             return this._skillStaticMesh.roleUrl
 
@@ -49,11 +61,39 @@
         }
         public set data(value: any) {
             this._data = value;
+            this._skillStaticMesh = value;
 
-            this._skillStaticMesh = value
- 
+   
             this.refreshViewValue()
+
+            this.mashSkillActionInfo()
         }
+        private mashSkillActionInfo(): void {
+ 
+            Pan3d.ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + this._skillStaticMesh.skillUrl, ($skillRes: Pan3d.SkillRes) => {
+      
+                for (var i: number=0; i < this.ui.length; i++) {
+                    var tempUi: prop.ComBoBoxCtrl2D = this.ui[i] as prop.ComBoBoxCtrl2D
+                    if (tempUi instanceof prop.ComBoBoxCtrl2D) {
+                        var dataItem: Array<any> = []
+                        for (var acKey in $skillRes.data) {
+                            dataItem.push({ name: acKey, type: dataItem.length })
+                        }
+                        tempUi.data = dataItem
+                        tempUi.refreshViewValue();
+                    }
+                }
+           
+            });
+
+        }
+
+        public categoryClikUp(value: string): void {
+            super.categoryClikUp(value);
+
+            this.mashSkillActionInfo()
+        }
+  
         public get data(): any {
             return this._data
         }

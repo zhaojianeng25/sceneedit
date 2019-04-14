@@ -66,7 +66,7 @@ var left;
             for (var i = 0; i < this._skinMesh.meshAry.length; i++) {
                 cutLen = animData.getBoneQPAryByMesh(this._skinMesh.meshAry[i])[0].length;
             }
-            this._curentFrame = float2int(this._actionTime / (Scene_data.frameTime * 1.5));
+            this._curentFrame = float2int(this._actionTime / (Scene_data.frameTime * 2));
             if (this._curentFrame >= cutLen) {
                 if (this._completeState == 0) {
                     this._actionTime = 0;
