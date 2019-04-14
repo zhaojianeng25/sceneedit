@@ -397,6 +397,20 @@ var filelist;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
                             });
                             break;
+                        case FileVo.ZZW:
+                            pack.PackRoleManager.getInstance().getRoleZzwByUrl(fileUrl, function (value) {
+                                var tempRoleView = new filelist.RoleMeshView(prop.PropModel.getInstance().propPanle);
+                                tempRoleView.data = value;
+                                prop.PropModel.getInstance().showPefabMesh(tempRoleView);
+                            });
+                            break;
+                        case FileVo.SKILL:
+                            pack.PackSkillManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
+                                var tempSkilView = new filelist.SkillMeshView(prop.PropModel.getInstance().propPanle);
+                                tempSkilView.data = value;
+                                prop.PropModel.getInstance().showPefabMesh(tempSkilView);
+                            });
+                            break;
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);
                             break;

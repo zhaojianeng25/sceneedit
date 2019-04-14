@@ -75,7 +75,7 @@
                 tempScene.skillManager.playSkill($skill);
                 this.skipNum++
             }
-            Pan3d.TimeUtil.addTimeOut(5 * 1000, () => {
+            Pan3d.TimeUtil.addTimeOut(2 * 1000, () => {
                 this.playNextSkill();
             })
 

@@ -469,11 +469,28 @@
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
-  
+
                             pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
                                 var tempview: PrefabMeshView = new PrefabMeshView(prop.PropModel.getInstance().propPanle)
                                 tempview.data = value;
                                 prop.PropModel.getInstance().showPefabMesh(tempview);
+                            })
+                            break;
+
+                        case FileVo.ZZW:
+
+                            pack.PackRoleManager.getInstance().getRoleZzwByUrl(fileUrl, (value: pack.RoleStaticMesh) => {
+                                var tempRoleView: RoleMeshView = new RoleMeshView(prop.PropModel.getInstance().propPanle)
+                                tempRoleView.data = value;
+                                prop.PropModel.getInstance().showPefabMesh(tempRoleView);
+                            })
+                            break;
+                        case FileVo.SKILL:
+
+                            pack.PackSkillManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.SkillStatcMesh) => {
+                                var tempSkilView: SkillMeshView = new SkillMeshView(prop.PropModel.getInstance().propPanle)
+                                tempSkilView.data = value;
+                                prop.PropModel.getInstance().showPefabMesh(tempSkilView);
                             })
                             break;
 
