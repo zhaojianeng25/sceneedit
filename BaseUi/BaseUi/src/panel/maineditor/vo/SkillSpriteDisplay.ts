@@ -26,7 +26,7 @@
             this.roleChar.rotationX = this.rotationX
             this.roleChar.rotationY = this.rotationY
             this.roleChar.rotationZ = this.rotationZ
- 
+
         }
         private waitLoadUrl: Array<string>;
         public addSkillByUrl($url): void {
@@ -35,7 +35,7 @@
             } else {
                 this.waitLoadUrl.push($url);
             }
- 
+
         }
         public addStage(): void {
             super.addStage()
@@ -43,20 +43,20 @@
                 this.loadTempByUrl(this.waitLoadUrl.pop());
             }
 
-         
+
         }
         public skillStaticMesh: pack.SkillStatcMesh;
         private roleChar: left.MaterialRoleSprite
 
 
-        private skipNum: number=0
+        private skipNum: number = 0
         private playNextSkill(): void {
 
             var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene;
 
 
             var skillNameItem: Array<string> = [];
- 
+
             for (var tempKey in Pan3d.SkillManager.getInstance()._skillDic) {
                 var keyStr: string = tempKey;
                 if (keyStr.indexOf(this.skillStaticMesh.skillUrl) != -1) {
@@ -65,7 +65,7 @@
                 }
             }
             if (skillNameItem.length) {
-                var playName: string=  skillNameItem[this.skipNum % skillNameItem.length]
+                var playName: string = skillNameItem[this.skipNum % skillNameItem.length]
                 var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName)   //skill_0022
                 if ($skill) {
                     $skill.reset();
@@ -78,38 +78,29 @@
             Pan3d.TimeUtil.addTimeOut(5 * 1000, () => {
                 this.playNextSkill();
             })
- 
+
         }
         private loadTempByUrl(value: string): void {
 
- 
+
             pack.PackSkillManager.getInstance().getPrefabByUrl(value, (temp: SkillStatcMesh) => {
                 this.skillStaticMesh = temp;
-                this.skillStaticMesh.roleUrl = "pefab/上杉谦信/ssqx.zzw"
-          //      this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt"
-                this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt"
-
-                
+                //      this.skillStaticMesh.roleUrl = "pefab/上杉谦信/ssqx.zzw"
+                //     this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt"
  
                 var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene
                 this.roleChar.setRoleZwwUrl(this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(this.roleChar)
-                this.roleChar.scale=0.3
-              
+                this.roleChar.scale = 0.3
+
                 var tempScene: EdItorSceneManager = <EdItorSceneManager>this._scene;
                 tempScene.skillManager.preLoadSkill(this.skillStaticMesh.skillUrl);
                 this.playNextSkill()
 
             })
-
- 
-            /*
  
 
-*/
- 
- 
         }
- 
+
     }
 }

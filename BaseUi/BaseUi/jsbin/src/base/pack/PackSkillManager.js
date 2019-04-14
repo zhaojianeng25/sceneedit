@@ -2,7 +2,6 @@ var pack;
 (function (pack) {
     var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
-    var Pan3dByteArray = Pan3d.Pan3dByteArray;
     var PackSkillManager = /** @class */ (function () {
         function PackSkillManager() {
             this.dic = {};
@@ -29,8 +28,8 @@ var pack;
             }
             if (!this.loadDic[$url]) { //创建加载队列
                 this.loadDic[$url] = [bfun];
-                LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($byte) {
-                    var $obj = JSON.parse(new Pan3dByteArray($byte).readUTF());
+                LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.XML_TYPE, function ($str) {
+                    var $obj = JSON.parse($str);
                     var $skillmesh = new pack.SkillStatcMesh();
                     for (var key in $obj) {
                         $skillmesh[key] = $obj[key];

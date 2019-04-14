@@ -79,9 +79,8 @@ var maineditor;
             var _this = this;
             pack.PackSkillManager.getInstance().getPrefabByUrl(value, function (temp) {
                 _this.skillStaticMesh = temp;
-                _this.skillStaticMesh.roleUrl = "pefab/上杉谦信/ssqx.zzw";
-                //      this.skillStaticMesh.skillUrl = "pefab/技能/ssqx.txt"
-                _this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt";
+                //      this.skillStaticMesh.roleUrl = "pefab/上杉谦信/ssqx.zzw"
+                //     this.skillStaticMesh.skillUrl = "skill/上杉谦信_byte.txt"
                 var tempScene = _this._scene;
                 _this.roleChar.setRoleZwwUrl(_this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(_this.roleChar);
@@ -90,10 +89,6 @@ var maineditor;
                 tempScene.skillManager.preLoadSkill(_this.skillStaticMesh.skillUrl);
                 _this.playNextSkill();
             });
-            /*
- 
-
-*/
         };
         return SkillSpriteDisplay;
     }(Display3DSprite));

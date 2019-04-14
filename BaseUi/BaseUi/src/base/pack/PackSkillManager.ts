@@ -28,8 +28,8 @@
             }
             if (!this.loadDic[$url]) { //创建加载队列
                 this.loadDic[$url] = [bfun]
-                LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, ($byte: any) => {
-                    var $obj: any = JSON.parse(new Pan3dByteArray($byte).readUTF())
+                LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.XML_TYPE, ($str: any) => {
+                    var $obj: any = JSON.parse($str);
                     var $skillmesh: SkillStatcMesh = new SkillStatcMesh();
                     for (var key in $obj) {
                         $skillmesh[key] = $obj[key];
