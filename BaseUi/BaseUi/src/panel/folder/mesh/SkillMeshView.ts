@@ -18,16 +18,30 @@
                     { Type: ReflectionData.Texturue2DUI, Label: "角色:", FunKey: "roleurl", Suffix: "zzw", target: this, Category: "属性" },
                     { Type: ReflectionData.Texturue2DUI, Label: "技能:", FunKey: "skillurl", Suffix: "txt", target: this, Category: "属性" },
 
-                    { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [] },
+                    { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [], Category: "属性" },
+                    { Type: ReflectionData.NumberInput, Label: "播放间隔:", FunKey: "intervalTm", target: this,  Category: "属性" },
   
                 ];
             return ary;
         }
+        public set intervalTm(value: number) {
+            this._skillStaticMesh.interval = value;
+            this.saveToSever();
+            this.refreshViewValue();
+
+        }
+        public get intervalTm(): number {
+            return this._skillStaticMesh.interval;
+
+        }
         public set actionname(value: number) {
+            this._skillStaticMesh.actionnum = value;
+            this.saveToSever()
+            this.refreshViewValue()
 
         }
         public get actionname(): number {
-            return 0
+            return this._skillStaticMesh.actionnum;
 
         }
 
@@ -77,8 +91,10 @@
                     if (tempUi instanceof prop.ComBoBoxCtrl2D) {
                         var dataItem: Array<any> = []
                         for (var acKey in $skillRes.data) {
-                            dataItem.push({ name: acKey, type: dataItem.length })
+                            dataItem.push({ name: acKey, type: dataItem.length });
                         }
+                        dataItem.push({ name: "循环播放", type: dataItem.length });
+
                         tempUi.data = dataItem
                         tempUi.refreshViewValue();
                     }

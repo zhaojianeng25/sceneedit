@@ -5,16 +5,21 @@
         public skillUrl: string;
         public roleUrl: string;
         public url: string
-        public timeInfo: Array<any>;
+        public actionnum: number
+        public interval: number
         public constructor() {
             super();
+            this.actionnum = -1;
+            this.interval=2
         }
         public getObject(): any {
             var obj: any = {}
             obj.skillUrl = this.skillUrl
             obj.roleUrl = this.roleUrl
             obj.url = this.url
-            obj.timeInfo = this.timeInfo
+            obj.actionnum = this.actionnum
+            obj.interval = this.interval
+ 
             return obj
         }
         public  getName(): string {

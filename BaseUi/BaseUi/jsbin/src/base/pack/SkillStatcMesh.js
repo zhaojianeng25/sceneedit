@@ -17,14 +17,18 @@ var pack;
     var SkillStatcMesh = /** @class */ (function (_super) {
         __extends(SkillStatcMesh, _super);
         function SkillStatcMesh() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.actionnum = -1;
+            _this.interval = 2;
+            return _this;
         }
         SkillStatcMesh.prototype.getObject = function () {
             var obj = {};
             obj.skillUrl = this.skillUrl;
             obj.roleUrl = this.roleUrl;
             obj.url = this.url;
-            obj.timeInfo = this.timeInfo;
+            obj.actionnum = this.actionnum;
+            obj.interval = this.interval;
             return obj;
         };
         SkillStatcMesh.prototype.getName = function () {

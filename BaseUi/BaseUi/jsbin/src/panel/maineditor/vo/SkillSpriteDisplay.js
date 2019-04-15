@@ -52,26 +52,29 @@ var maineditor;
         SkillSpriteDisplay.prototype.playNextSkill = function () {
             var _this = this;
             var tempScene = this._scene;
-            var skillNameItem = [];
-            for (var tempKey in Pan3d.SkillManager.getInstance()._skillDic) {
-                var keyStr = tempKey;
-                if (keyStr.indexOf(this.skillStaticMesh.skillUrl) != -1) {
-                    var skillname = keyStr.replace(this.skillStaticMesh.skillUrl, "");
-                    skillNameItem.push(skillname);
+            if (this.skillActionItem) {
+                if (this.skillActionItem.length) {
+                    var playName;
+                    if (this.skillStaticMesh.actionnum >= 0 && this.skillStaticMesh.actionnum < this.skillActionItem.length) {
+                        playName = this.skillActionItem[this.skillStaticMesh.actionnum];
+                    }
+                    else {
+                        playName = this.skillActionItem[this.skipNum % this.skillActionItem.length];
+                    }
+                    var $skill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName); //skill_0022
+                    if ($skill) {
+                        $skill.reset();
+                        $skill.isDeath = false;
+                    }
+                    $skill.configFixEffect(this.roleChar);
+                    tempScene.skillManager.playSkill($skill);
+                    this.skipNum++;
                 }
             }
-            if (skillNameItem.length) {
-                var playName = skillNameItem[this.skipNum % skillNameItem.length];
-                var $skill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName); //skill_0022
-                if ($skill) {
-                    $skill.reset();
-                    $skill.isDeath = false;
-                }
-                $skill.configFixEffect(this.roleChar);
-                tempScene.skillManager.playSkill($skill);
-                this.skipNum++;
+            if (!this.skillStaticMesh.interval || this.skillStaticMesh.interval <= 0) { //间隔时间必须大于0
+                this.skillStaticMesh.interval = 1;
             }
-            Pan3d.TimeUtil.addTimeOut(2 * 1000, function () {
+            Pan3d.TimeUtil.addTimeOut(this.skillStaticMesh.interval * 1000, function () {
                 _this.playNextSkill();
             });
         };
@@ -85,8 +88,12 @@ var maineditor;
                 _this.roleChar.setRoleZwwUrl(_this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(_this.roleChar);
                 _this.roleChar.scale = 0.3;
-                var tempScene = _this._scene;
-                tempScene.skillManager.preLoadSkill(_this.skillStaticMesh.skillUrl);
+                Pan3d.ResManager.getInstance().loadSkillRes(Pan3d.Scene_data.fileRoot + _this.skillStaticMesh.skillUrl, function ($skillRes) {
+                    _this.skillActionItem = [];
+                    for (var acKey in $skillRes.data) {
+                        _this.skillActionItem.push(acKey);
+                    }
+                });
                 _this.playNextSkill();
             });
         };

@@ -26,15 +26,31 @@ var filelist;
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "filename", target: this, Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "角色:", FunKey: "roleurl", Suffix: "zzw", target: this, Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "技能:", FunKey: "skillurl", Suffix: "txt", target: this, Category: "属性" },
-                { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [] },
+                { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [], Category: "属性" },
+                { Type: ReflectionData.NumberInput, Label: "播放间隔:", FunKey: "intervalTm", target: this, Category: "属性" },
             ];
             return ary;
         };
-        Object.defineProperty(SkillMeshView.prototype, "actionname", {
+        Object.defineProperty(SkillMeshView.prototype, "intervalTm", {
             get: function () {
-                return 0;
+                return this._skillStaticMesh.interval;
             },
             set: function (value) {
+                this._skillStaticMesh.interval = value;
+                this.saveToSever();
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SkillMeshView.prototype, "actionname", {
+            get: function () {
+                return this._skillStaticMesh.actionnum;
+            },
+            set: function (value) {
+                this._skillStaticMesh.actionnum = value;
+                this.saveToSever();
+                this.refreshViewValue();
             },
             enumerable: true,
             configurable: true
@@ -95,6 +111,7 @@ var filelist;
                         for (var acKey in $skillRes.data) {
                             dataItem.push({ name: acKey, type: dataItem.length });
                         }
+                        dataItem.push({ name: "循环播放", type: dataItem.length });
                         tempUi.data = dataItem;
                         tempUi.refreshViewValue();
                     }
