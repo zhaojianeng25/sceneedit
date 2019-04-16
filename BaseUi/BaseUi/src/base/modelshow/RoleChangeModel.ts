@@ -390,7 +390,7 @@
         private loatMaterialTree(textureurl: string): void {
             pack.PackMaterialManager.getInstance().getMaterialByUrl(textureurl, (materialTree: materialui.MaterialTree) => {
                 materialTree.shader = materialTree.roleShader;
-                materialTree.program = materialTree.shader.program;
+           //     materialTree.program = materialTree.shader.program;
                 this.materialRoleSprite.material = materialTree;
             })
         }

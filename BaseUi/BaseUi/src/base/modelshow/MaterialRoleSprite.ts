@@ -16,10 +16,12 @@
     import OverrideSkill = layapan.OverrideSkill
     import LayaOverride2dSceneManager = layapan.LayaOverride2dSceneManager
 
+    import MaterialTree = materialui.MaterialTree
+
     
     export class MaterialRoleSprite extends Display3dMovie {
         public update(): void {
-   
+           
             super.update();
         }
         public get skinMesh(): SkinMesh {
@@ -84,12 +86,20 @@
             Scene_data.context3D.setuniform3f($mesh.material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             super.setVcMatrix($mesh)
         }
+        public updateMaterialMesh($mesh: MeshData): void {
+            if ($mesh && $mesh.material) {
+                var $materialTree: MaterialTree = <MaterialTree>$mesh.material
+                $materialTree.shader = $materialTree.roleShader;
+            }
+            super.updateMaterialMesh($mesh)
+
+        }
         public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
             var texVec: Array<TexItem> = $material.texList;
             for (var i: number = 0; i < texVec.length; i++) {
                 if (texVec[i].texture) {
                     if (texVec[i].type == TexItem.CUBEMAP) {
-                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                        Scene_data.context3D.setRenderTextureCube($material.shader.program, texVec[i].name, texVec[i].texture, texVec[i].id);
                     } else {
                         Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
                     }

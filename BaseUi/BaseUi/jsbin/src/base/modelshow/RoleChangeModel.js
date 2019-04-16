@@ -334,7 +334,7 @@ var pack;
             var _this = this;
             pack.PackMaterialManager.getInstance().getMaterialByUrl(textureurl, function (materialTree) {
                 materialTree.shader = materialTree.roleShader;
-                materialTree.program = materialTree.shader.program;
+                //     materialTree.program = materialTree.shader.program;
                 _this.materialRoleSprite.material = materialTree;
             });
         };

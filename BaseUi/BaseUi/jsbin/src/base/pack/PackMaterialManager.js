@@ -84,8 +84,6 @@ var pack;
                     $materialTree.constList = _this.makeConstList($temp.info.constList);
                     $materialTree.fcData = _this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
                     $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
-                    $materialTree.shader = $buildShader;
-                    $materialTree.program = $buildShader.program;
                     $materialTree.modelShader = $buildShader;
                     /*
                     console.log("----------vertex------------");

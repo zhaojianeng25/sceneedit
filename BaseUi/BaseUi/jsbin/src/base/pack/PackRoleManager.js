@@ -156,7 +156,7 @@ var pack;
             }
             pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].materialUrl, function ($materialTree) {
                 $materialTree.shader = $materialTree.roleShader;
-                $materialTree.program = $materialTree.shader.program;
+                //   $materialTree.program = $materialTree.shader.program;
                 value[i].material = $materialTree;
                 var isFinish = true;
                 for (var j = 0; j < value.length; j++) {

@@ -72,7 +72,7 @@ var left;
             console.log($roleShader.fragment);
             console.log("----------roleShader------------");
             var $temp = $treeMater.clone();
-            $temp.program = $roleShader.program;
+            $temp.roleShader = $roleShader;
             this.selectShowDisp.material = $temp;
         };
         ModelShowModel.prototype.makeBuldShader = function ($treeMater) {
@@ -83,16 +83,13 @@ var left;
             $buildShader.fragment = $treeMater.shaderStr;
             $buildShader.encode();
             var $temp = $treeMater.clone();
-            $temp.shader = $buildShader;
-            $temp.program = $buildShader.program;
+            $temp.modelShader = $buildShader;
             console.log("----------vertex------------");
             console.log($buildShader.vertex);
             console.log("----------fragment------------");
             console.log($buildShader.fragment);
             console.log("----------buildShader------------");
             //将本来材质对象设置为新的效果
-            $treeMater.shader = $buildShader;
-            $treeMater.program = $buildShader.program;
             this.selectShowDisp.material = $temp;
         };
         ModelShowModel.prototype.outShaderStr = function ($treeMater) {

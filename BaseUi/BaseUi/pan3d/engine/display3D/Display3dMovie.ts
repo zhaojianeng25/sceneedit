@@ -848,7 +848,7 @@
                 return;
             }
 
-            Scene_data.context3D.setProgram($mesh.material.program);
+            Scene_data.context3D.setProgram($mesh.material.shader.program);
 
         
            // Scene_data.context3D.cullFaceBack($mesh.material.backCull);

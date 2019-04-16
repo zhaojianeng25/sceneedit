@@ -718,7 +718,7 @@ var Pan3d;
             if (!$mesh.material) {
                 return;
             }
-            Pan3d.Scene_data.context3D.setProgram($mesh.material.program);
+            Pan3d.Scene_data.context3D.setProgram($mesh.material.shader.program);
             // Scene_data.context3D.cullFaceBack($mesh.material.backCull);
             Pan3d.Scene_data.context3D.cullFaceBack(false);
             Pan3d.Scene_data.context3D.setBlendParticleFactors($mesh.material.blendMode);

@@ -91,6 +91,7 @@
         private makeRoleShader($treeMater: materialui.MaterialTree): void {
 
             var $roleShader: RoleMaterialShader = new RoleMaterialShader()
+ 
             $roleShader.buildParamAry($treeMater);
             $roleShader.vertex = $roleShader.getVertexShaderString();
             $roleShader.fragment = $treeMater.shaderStr;
@@ -101,23 +102,25 @@
             console.log($roleShader.fragment);
             console.log("----------roleShader------------");
 
-            var $temp: materialui.MaterialTree = $treeMater.clone()
-            $temp.program = $roleShader.program;
+            var $temp: materialui.MaterialTree = $treeMater.clone();
+            $temp.roleShader = $roleShader;
+     
  
-           ( <MaterialRoleSprite> this.selectShowDisp).material = $temp
+            (<MaterialRoleSprite>this.selectShowDisp).material = $temp;
           
  
         }
         private makeBuldShader($treeMater: materialui.MaterialTree): void {
             var $buildShader: BuildMaterialShader = new BuildMaterialShader();
+        
             $buildShader.buildParamAry($treeMater);
             $treeMater.shader.paramAry = $buildShader.paramAry
             $buildShader.vertex = $buildShader.getVertexShaderString();
             $buildShader.fragment = $treeMater.shaderStr;
             $buildShader.encode();
             var $temp: materialui.MaterialTree = $treeMater.clone()
-            $temp.shader = $buildShader;
-            $temp.program = $buildShader.program;
+            $temp.modelShader = $buildShader;
+       
          
             console.log("----------vertex------------");
             console.log($buildShader.vertex);
@@ -128,8 +131,8 @@
 
             //将本来材质对象设置为新的效果
 
-            $treeMater.shader = $buildShader;
-            $treeMater.program = $buildShader.program;
+    
+ 
              
               (<MaterialModelSprite>this.selectShowDisp).material = $temp;
        

@@ -89,13 +89,20 @@ var left;
             Scene_data.context3D.setuniform3f($mesh.material.shader, "cam3DPos", Scene_data.cam3D.x, Scene_data.cam3D.y, Scene_data.cam3D.z);
             _super.prototype.setVcMatrix.call(this, $mesh);
         };
+        MaterialRoleSprite.prototype.updateMaterialMesh = function ($mesh) {
+            if ($mesh && $mesh.material) {
+                var $materialTree = $mesh.material;
+                $materialTree.shader = $materialTree.roleShader;
+            }
+            _super.prototype.updateMaterialMesh.call(this, $mesh);
+        };
         MaterialRoleSprite.prototype.setMaterialTexture = function ($material, $mp) {
             if ($mp === void 0) { $mp = null; }
             var texVec = $material.texList;
             for (var i = 0; i < texVec.length; i++) {
                 if (texVec[i].texture) {
                     if (texVec[i].type == TexItem.CUBEMAP) {
-                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                        Scene_data.context3D.setRenderTextureCube($material.shader.program, texVec[i].name, texVec[i].texture, texVec[i].id);
                     }
                     else {
                         Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);

@@ -109,7 +109,7 @@
 
                 pack.PackMaterialManager.getInstance().getMaterialByUrl(tempMesh.materialUrl, ($materialTree: materialui.MaterialTree) => {
                     $materialTree.shader = $materialTree.roleShader;
-                    $materialTree.program = $materialTree.shader.program;
+                   // $materialTree.program = $materialTree.shader.program;
                     tempMesh.material = $materialTree;
                     this._skinMesh.meshAry.push(tempMesh);
                     this.refreshViewValue();

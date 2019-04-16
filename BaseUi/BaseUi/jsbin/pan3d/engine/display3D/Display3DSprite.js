@@ -167,7 +167,7 @@ var Pan3d;
             Pan3d.Scene_data.context3D.cullFaceBack(this.material.backCull);
             this.updateBind();
             ////console.log(this.material.url);
-            Pan3d.Scene_data.context3D.setProgram(this.material.program);
+            Pan3d.Scene_data.context3D.setProgram(this.material.shader.program);
             Pan3d.Scene_data.context3D.setWriteDepth(this.material.writeZbuffer);
             Pan3d.Scene_data.context3D.setVcMatrix4fv(this.material.shader, "posMatrix3D", this.posMatrix.m);
             this.setCam();
@@ -356,7 +356,7 @@ var Pan3d;
                         var index = Math.floor($material.roughness * 5);
                         if (Pan3d.Scene_data.skyCubeMap) {
                             var cubeTexture = Pan3d.Scene_data.skyCubeMap[index];
-                            Pan3d.Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, cubeTexture, texVec[i].id);
+                            Pan3d.Scene_data.context3D.setRenderTextureCube($material.shader.program, texVec[i].name, cubeTexture, texVec[i].id);
                         }
                     }
                 }

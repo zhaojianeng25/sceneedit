@@ -103,7 +103,7 @@
 
             if (_info.autoReg) {
                 material.shader = ProgrmaManager.getInstance().getMaterialProgram(_info.regName, _info.shader3D, material, null, true);
-                material.program = material.shader.program;
+         
             }
 
 

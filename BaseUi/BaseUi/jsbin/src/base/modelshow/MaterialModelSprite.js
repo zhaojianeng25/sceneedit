@@ -94,7 +94,7 @@ var left;
             for (var i = 0; i < texVec.length; i++) {
                 if (texVec[i].texture) {
                     if (texVec[i].type == TexItem.CUBEMAP) {
-                        Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, texVec[i].texture, texVec[i].id);
+                        Scene_data.context3D.setRenderTextureCube($material.shader.program, texVec[i].name, texVec[i].texture, texVec[i].id);
                     }
                     else {
                         Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, texVec[i].texture, texVec[i].id);
@@ -175,6 +175,10 @@ var left;
         });
         MaterialModelSprite.prototype.update = function () {
             if (this.isTextureLoadFinish) {
+                if (this.material) {
+                    var $materialTree = this.material;
+                    $materialTree.shader = $materialTree.modelShader;
+                }
                 _super.prototype.update.call(this);
             }
         };

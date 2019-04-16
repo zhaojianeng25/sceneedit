@@ -105,7 +105,6 @@ var Pan3d;
             this.loadMaterial(material);
             if (_info.autoReg) {
                 material.shader = Pan3d.ProgrmaManager.getInstance().getMaterialProgram(_info.regName, _info.shader3D, material, null, true);
-                material.program = material.shader.program;
             }
             var ary = this._loadDic[_info.url];
             for (var i = 0; i < ary.length; i++) {

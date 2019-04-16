@@ -203,7 +203,7 @@
             this.updateBind();
 
             ////console.log(this.material.url);
-            Scene_data.context3D.setProgram(this.material.program);
+            Scene_data.context3D.setProgram(this.material.shader.program);
 
             Scene_data.context3D.setWriteDepth(this.material.writeZbuffer);
 
@@ -457,7 +457,7 @@
                         var index: number = Math.floor($material.roughness * 5);
                         if (Scene_data.skyCubeMap) {
                             var cubeTexture: WebGLTexture = Scene_data.skyCubeMap[index];
-                            Scene_data.context3D.setRenderTextureCube($material.program, texVec[i].name, cubeTexture, texVec[i].id);
+                            Scene_data.context3D.setRenderTextureCube($material.shader.program, texVec[i].name, cubeTexture, texVec[i].id);
                         }
 
                     }

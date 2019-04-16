@@ -81,7 +81,7 @@ var prop;
                 tempMesh.md5meshurl = meshUrl;
                 pack.PackMaterialManager.getInstance().getMaterialByUrl(tempMesh.materialUrl, function ($materialTree) {
                     $materialTree.shader = $materialTree.roleShader;
-                    $materialTree.program = $materialTree.shader.program;
+                    // $materialTree.program = $materialTree.shader.program;
                     tempMesh.material = $materialTree;
                     _this._skinMesh.meshAry.push(tempMesh);
                     _this.refreshViewValue();

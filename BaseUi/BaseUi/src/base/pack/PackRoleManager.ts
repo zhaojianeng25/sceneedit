@@ -191,7 +191,7 @@
             }
             pack.PackMaterialManager.getInstance().getMaterialByUrl(value[i].materialUrl, ($materialTree: materialui.MaterialTree) => {
                 $materialTree.shader = $materialTree.roleShader;
-                $materialTree.program = $materialTree.shader.program;
+             //   $materialTree.program = $materialTree.shader.program;
                 value[i].material = $materialTree
                 var isFinish: boolean = true
                 for (var j: number = 0; j < value.length; j++) {

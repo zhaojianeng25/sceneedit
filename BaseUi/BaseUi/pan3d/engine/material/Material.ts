@@ -14,7 +14,7 @@
         public usePbr: boolean;
         public useNormal: boolean;
         public roughness: number;
-        public program: WebGLProgram;
+       // public program: WebGLProgram;
         public shader: Shader3D;
         public writeZbuffer: boolean = true;
         public hasFresnel: boolean;

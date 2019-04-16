@@ -107,10 +107,11 @@
                         $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
                         $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
 
-                        $materialTree.shader = $buildShader;
-                        $materialTree.program = $buildShader.program;
-
+                  
+              
                         $materialTree.modelShader = $buildShader;
+
+
                         /*
                         console.log("----------vertex------------");
                         console.log($buildShader.vertex);

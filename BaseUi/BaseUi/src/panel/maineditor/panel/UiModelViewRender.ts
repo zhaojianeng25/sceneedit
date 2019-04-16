@@ -155,6 +155,7 @@ gl_FragColor = ft2;
             pack.PackMaterialManager.getInstance().getMaterialByUrl(this._sceneProjectVo.textureurl, ($materialTree: materialui.MaterialTree) => {
                 this.materialTree = $materialTree;
                 var tempShader: UiModelViewShder = new UiModelViewShder;
+                this.materialTree.shader = this.materialTree.modelShader;
                 tempShader.fragment = this.materialTree.shader.fragment;
                 tempShader.encode();
                 this.uiProLocation = Scene_data.context3D.getLocation(tempShader.program, "ui")
