@@ -219,9 +219,6 @@ var materialui;
                 console.log("材质上传成功");
                 pack.PackMaterialManager.getInstance().replaceMaterialByUrl($url);
             });
-            //    this.upOssFile($file, "shadertree/texturelist/" + this.fileid + ".txt", () => {
-            //        console.log("文件上传成功");
-            //})
         };
         MaterialModel.prototype.selectFileById = function (value) {
             var $texturl = "texturelist/" + value + ".txt";

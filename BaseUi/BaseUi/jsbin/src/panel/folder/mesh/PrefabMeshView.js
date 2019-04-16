@@ -100,8 +100,9 @@ var filelist;
                 var $fileUrl = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url;
                 console.log(this.prefabStaticMesh.material);
                 this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
-                $byte.writeUTF(JSON.stringify(this.prefabStaticMesh.getObject()));
-                console.log($fileUrl);
+                var $temp = this.prefabStaticMesh.getObject();
+                $temp.version = pack.FileOssModel.version;
+                $byte.writeUTF(JSON.stringify($temp));
                 var $file = new File([$byte.buffer], "cc.prefab");
                 var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile($file, pathurl, function () {

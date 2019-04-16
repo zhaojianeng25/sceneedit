@@ -773,6 +773,7 @@ var maineditor;
             //  var tempObj: any = { list: this.getWillSaveItem(EditorModel.getInstance().fileItem) };
             var tempObj = this._sceneProjectVo.getSaveObj();
             tempObj.list = this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem);
+            tempObj.version = pack.FileOssModel.version;
             var $byte = new Pan3d.Pan3dByteArray();
             var $fileUrl = Pan3d.Scene_data.fileRoot + AppData.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj));

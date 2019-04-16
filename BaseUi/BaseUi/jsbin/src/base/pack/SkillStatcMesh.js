@@ -29,6 +29,7 @@ var pack;
             obj.url = this.url;
             obj.actionnum = this.actionnum;
             obj.interval = this.interval;
+            obj.version = this.version;
             return obj;
         };
         SkillStatcMesh.prototype.getName = function () {

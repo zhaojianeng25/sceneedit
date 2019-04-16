@@ -329,6 +329,7 @@
 
 
         private static waitItemUpFile: Array<any> = []
+        public static version: number=1
         public static upOssFile(file: File, $fileUrl: string, $bfun: Function = null): void {
             FileOssModel.webseverurl = "https://api.h5key.com/api/";
             this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun })

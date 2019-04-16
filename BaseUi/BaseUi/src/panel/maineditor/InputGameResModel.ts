@@ -253,8 +253,13 @@
                 prefabStaticMesh.paramInfo.push(paramVo);
  
             }
-            var $fileUrl: string = Pan3d.Scene_data.fileRoot  + prefabStaticMesh.url
-            $byte.writeUTF(JSON.stringify(prefabStaticMesh.getObject()))
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + prefabStaticMesh.url
+
+
+            var $temp: any = prefabStaticMesh.getObject();
+            $temp.version = pack.FileOssModel.version;
+            $byte.writeUTF(JSON.stringify($temp))
+ 
             var $file: File = new File([$byte.buffer], "temp.prefab");
             var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
 

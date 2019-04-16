@@ -12,6 +12,7 @@
         public textureurl: string;
         public material: Material;
 
+        public version: number
  
       
     }

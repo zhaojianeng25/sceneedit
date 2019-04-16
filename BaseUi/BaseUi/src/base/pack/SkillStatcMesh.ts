@@ -7,6 +7,7 @@
         public url: string
         public actionnum: number
         public interval: number
+        public version: number
         public constructor() {
             super();
             this.actionnum = -1;
@@ -19,6 +20,7 @@
             obj.url = this.url
             obj.actionnum = this.actionnum
             obj.interval = this.interval
+            obj.version = this.version
  
             return obj
         }

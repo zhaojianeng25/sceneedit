@@ -95,11 +95,8 @@
 
         public getChangeRoleStr(): string {
             if (this._roleStaticMesh.skinMesh) {
-                var temp: any = {};
-                temp.meshAry = this._roleStaticMesh.skinMesh.meshAry;
-                temp.animDic = this._roleStaticMesh.animDic;
-                temp.animPlayKey = this._roleStaticMesh.animPlayKey;
-              //  temp.textureurl = "base.material";
+                var temp: any = this._roleStaticMesh.getObject()
+                temp.version = pack.FileOssModel.version
                 var $str: string = JSON.stringify(temp);
                 return $str
             } else {

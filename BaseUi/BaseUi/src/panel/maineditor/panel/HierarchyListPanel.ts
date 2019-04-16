@@ -981,6 +981,8 @@
 
             var tempObj: any = this._sceneProjectVo.getSaveObj()
             tempObj.list = this.getWillSaveItem(EditorModel.getInstance().fileItem);
+            tempObj.version = pack.FileOssModel.version;
+
 
 
             var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();

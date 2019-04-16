@@ -130,6 +130,7 @@ var filelist;
                 this.isSaveNow = true;
                 this.saveTm = this.lastTm;
                 var $temp = this._skillStaticMesh.getObject();
+                $temp.version = pack.FileOssModel.version;
                 var $roleStr = JSON.stringify($temp);
                 var $file = new File([$roleStr], "ossfile.txt");
                 var pathUrl = Pan3d.Scene_data.fileRoot + this._skillStaticMesh.url;

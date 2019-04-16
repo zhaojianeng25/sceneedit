@@ -29,7 +29,6 @@ var pack;
             obj.sunColor = this.sunColor;
             obj.textureurl = this.textureurl;
             obj.url = this.url;
-            // var bstr: string = JSON.stringify(obj);
             return obj;
         };
         return PrefabStaticMesh;

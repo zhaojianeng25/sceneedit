@@ -127,6 +127,7 @@
                 this.saveTm = this.lastTm;
 
                 var $temp: any = this._skillStaticMesh.getObject();
+                $temp.version = pack.FileOssModel.version
 
                 var $roleStr: string = JSON.stringify($temp);
 

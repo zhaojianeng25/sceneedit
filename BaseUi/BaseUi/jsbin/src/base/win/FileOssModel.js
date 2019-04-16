@@ -332,6 +332,7 @@ var pack;
         FileOssModel.indexFileName = "index.hidegroup"; //配置文件名读取这个文件标记为文件夹下的所以
         FileOssModel.isMustUseOssGetDic = false; //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
         FileOssModel.waitItemUpFile = [];
+        FileOssModel.version = 1;
         return FileOssModel;
     }());
     pack.FileOssModel = FileOssModel;
