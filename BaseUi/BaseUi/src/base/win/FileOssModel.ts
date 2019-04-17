@@ -187,23 +187,34 @@
                 }
             }
         }
+        private static waitOssWrapper: Array<Function>
         public static makeOssWrapper(bfun: Function): void {
             this.webseverurl = "https://api.h5key.com/api/";
-            this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
-                if (res.data && res.data.info) {
-                    this.ossWrapper = new OSS.Wrapper({
-                        accessKeyId: res.data.info.AccessKeyId,
-                        accessKeySecret: res.data.info.AccessKeySecret,
-                        stsToken: res.data.info.SecurityToken,
-                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                        bucket: "webpan"
-                    });
-                    bfun()
+            if (!this.waitOssWrapper) {
+                this.waitOssWrapper = [bfun];
+                this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
+                    if (res.data && res.data.info) {
+                        this.ossWrapper = new OSS.Wrapper({
+                            accessKeyId: res.data.info.AccessKeyId,
+                            accessKeySecret: res.data.info.AccessKeySecret,
+                            stsToken: res.data.info.SecurityToken,
+                            endpoint: "https://oss-cn-shanghai.aliyuncs.com",
+                            bucket: "webpan"
+                        });
+                        while (this.waitOssWrapper.length) {
+                            console.log("waitOssWrapper", this.waitOssWrapper)
+                            this.waitOssWrapper.pop()();
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                })
+            } else {
+                this.waitOssWrapper.push(bfun)
+            }
+          
 
-                } else {
-                    console.log(res);
-                }
-            })
+            
         }
 
         public static deleFile($filename: string, $bfun: Function = null): void {
@@ -254,7 +265,11 @@
 
         }
 
-        public static copyFile(toUrl: string,srcoueUrl: string, $bfun: Function = null): void {
+        public static copyFile(toUrl: string, srcoueUrl: string, $bfun: Function = null): void {
+
+            toUrl = toUrl
+            srcoueUrl = encodeURI(srcoueUrl)
+            
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(() => {
                     FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {

@@ -6,6 +6,7 @@ var editscene;
         function ChangeNameModel() {
             var _this = this;
             this.onMouseDownFun = function ($evt) { _this.onMouseDown($evt); };
+            this.changFun = function (cevt) { _this.changeInputTxt(cevt); };
         }
         ChangeNameModel.getInstance = function () {
             if (!this._instance) {
@@ -13,16 +14,24 @@ var editscene;
             }
             return this._instance;
         };
+        Object.defineProperty(ChangeNameModel.prototype, "chatHtmlInput", {
+            get: function () {
+                return this._chatHtmlInput;
+            },
+            set: function (value) {
+                console.log("value", value);
+                this._chatHtmlInput = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         ChangeNameModel.prototype.setInputTxtPos = function () {
-            var _this = this;
             if (!this.chatHtmlInput) {
                 this.chatHtmlInput = document.createElement("input");
                 this.chatHtmlInput.style.position = "absolute";
                 this.chatHtmlInput.style["z-index"] = 100;
-                //   this.chatHtmlInput.style.background = "transparent"
-                //  this.chatHtmlInput.style.color = "#000000";
                 document.body.appendChild(this.chatHtmlInput);
-                this.chatHtmlInput.addEventListener("change", function (cevt) { _this.changeInputTxt(cevt); });
+                //    this.chatHtmlInput.addEventListener("change", this.changFun);
                 document.addEventListener(MouseType.MouseDown, this.onMouseDownFun);
             }
         };
@@ -30,9 +39,11 @@ var editscene;
             if (this.chatHtmlInput) {
                 this.changeBfun(this.chatHtmlInput.value);
                 win.LayerManager.isHideMouseEvent = false;
-                document.body.removeChild(this.chatHtmlInput);
-                this.chatHtmlInput = null;
                 document.removeEventListener(MouseType.MouseDown, this.onMouseDownFun);
+                if (this.chatHtmlInput.parentElement) {
+                    document.body.removeChild(this.chatHtmlInput);
+                }
+                this.chatHtmlInput = null;
             }
         };
         ChangeNameModel.prototype.getTextMetrics = function ($str, fontsize) {

@@ -17,36 +17,44 @@
         }
         public constructor() {
             this.onMouseDownFun = ($evt: MouseEvent) => { this.onMouseDown($evt) }
+            this.changFun = (cevt: any) => { this.changeInputTxt(cevt) }
         }
    
-        private chatHtmlInput: HTMLInputElement;
+        private get chatHtmlInput(): HTMLInputElement {
+            return this._chatHtmlInput 
+        }
+        private _chatHtmlInput: HTMLInputElement;
+        private set chatHtmlInput(value: HTMLInputElement) {
+            console.log("value",value)
+            this._chatHtmlInput = value
+        }
+
+        
         private setInputTxtPos(): void {
             if (!this.chatHtmlInput) {
                 this.chatHtmlInput = <HTMLInputElement>document.createElement("input");
- 
                 this.chatHtmlInput.style.position = "absolute";
                 this.chatHtmlInput.style["z-index"] = 100
-              //   this.chatHtmlInput.style.background = "transparent"
-              //  this.chatHtmlInput.style.color = "#000000";
+         
                 document.body.appendChild(this.chatHtmlInput);
-
- 
-                this.chatHtmlInput.addEventListener("change", (cevt: any) => { this.changeInputTxt(cevt) });
-    
+            //    this.chatHtmlInput.addEventListener("change", this.changFun);
                 document.addEventListener(MouseType.MouseDown, this.onMouseDownFun);
             }
  
     
         }
+        private changFun: any
  
         private changeInputTxt(evt: Event): void {
 
             if (this.chatHtmlInput) {
                 this.changeBfun(this.chatHtmlInput.value);
                 win.LayerManager.isHideMouseEvent = false;
-                document.body.removeChild(this.chatHtmlInput);
-                this.chatHtmlInput = null
                 document.removeEventListener(MouseType.MouseDown, this.onMouseDownFun);
+                if (this.chatHtmlInput.parentElement) {
+                    document.body.removeChild(this.chatHtmlInput);
+                }
+                this.chatHtmlInput = null
             }
 
 

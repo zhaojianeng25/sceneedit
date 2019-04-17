@@ -169,21 +169,30 @@ var pack;
         FileOssModel.makeOssWrapper = function (bfun) {
             var _this = this;
             this.webseverurl = "https://api.h5key.com/api/";
-            this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
-                if (res.data && res.data.info) {
-                    _this.ossWrapper = new OSS.Wrapper({
-                        accessKeyId: res.data.info.AccessKeyId,
-                        accessKeySecret: res.data.info.AccessKeySecret,
-                        stsToken: res.data.info.SecurityToken,
-                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
-                        bucket: "webpan"
-                    });
-                    bfun();
-                }
-                else {
-                    console.log(res);
-                }
-            });
+            if (!this.waitOssWrapper) {
+                this.waitOssWrapper = [bfun];
+                this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
+                    if (res.data && res.data.info) {
+                        _this.ossWrapper = new OSS.Wrapper({
+                            accessKeyId: res.data.info.AccessKeyId,
+                            accessKeySecret: res.data.info.AccessKeySecret,
+                            stsToken: res.data.info.SecurityToken,
+                            endpoint: "https://oss-cn-shanghai.aliyuncs.com",
+                            bucket: "webpan"
+                        });
+                        while (_this.waitOssWrapper.length) {
+                            console.log("waitOssWrapper", _this.waitOssWrapper);
+                            _this.waitOssWrapper.pop()();
+                        }
+                    }
+                    else {
+                        console.log(res);
+                    }
+                });
+            }
+            else {
+                this.waitOssWrapper.push(bfun);
+            }
         };
         FileOssModel.deleFile = function ($filename, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
@@ -230,6 +239,8 @@ var pack;
         };
         FileOssModel.copyFile = function (toUrl, srcoueUrl, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
+            toUrl = toUrl;
+            srcoueUrl = encodeURI(srcoueUrl);
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(function () {
                     FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {
