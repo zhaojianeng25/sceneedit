@@ -122,6 +122,7 @@ var pack;
                         for (var strKey in temp.meshAry[i]) {
                             $meshData[strKey] = temp.meshAry[i][strKey];
                         }
+                        $meshData.material = null;
                         _this.makeBufToRole($meshData);
                         $meshData.compressBuffer = true;
                         $skinMesh.meshAry.push($meshData);

@@ -154,6 +154,7 @@
                             for (var strKey in temp.meshAry[i]) {
                                 $meshData[strKey] = temp.meshAry[i][strKey];
                             }
+                            $meshData.material = null
                             this.makeBufToRole($meshData);
                             $meshData.compressBuffer = true
                             $skinMesh.meshAry.push($meshData)
