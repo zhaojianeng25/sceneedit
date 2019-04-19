@@ -116,7 +116,7 @@ var LayaLaunchTexture = /** @class */ (function (_super) {
     __extends(LayaLaunchTexture, _super);
     function LayaLaunchTexture(bitmap) {
         var _this = _super.call(this, bitmap) || this;
-        LoadManager.getInstance().load(Scene_data.fileRoot + "ui/icon/skill_64x.png", LoadManager.IMG_TYPE, function ($img, $info) {
+        LoadManager.getInstance().load(Scene_data.fileRoot + "ui/icon/map_64x.png", LoadManager.IMG_TYPE, function ($img, $info) {
             var tempPanTexture = Pan3d.Scene_data.context3D.getTexture($img);
             _this._baseWebGLTexture = tempPanTexture;
         });
@@ -158,12 +158,26 @@ var LayaLaunch = /** @class */ (function () {
                 Pan3d.Scene_data.context3D.updateTexture(pic.texture.source, pic.texture.source, pic.texture.source, $img);
                 var tempPanTexture = Pan3d.Scene_data.context3D.getTexture($img);
                 pic.texture.source = tempPanTexture;
-                console.log(aa.uv);
                 var a = new LayaLaunchTexture(new laya.resource.Bitmap());
-                //   pic.texture = a
+                //    pic.texture = a
+                for (var keyStr in pic.texture) {
+                    if ("source" == keyStr || "uv" == keyStr || "sourceHeight" == keyStr) {
+                    }
+                    else {
+                        console.log(keyStr, pic.texture[keyStr], a[keyStr]);
+                        a[keyStr] = pic.texture[keyStr];
+                    }
+                }
+                for (var keyStr in a) {
+                    console.log(keyStr, pic.texture[keyStr], a[keyStr]);
+                }
+                a.width = 128;
+                a.height = 128;
+                a.sourceWidth = 128;
+                a.sourceHeight = 128;
+                pic.texture = a;
             });
         }));
-        Laya.stage.addChild(new Temp3D.OtherLayaRectSprite());
     };
     LayaLaunch.initCanvas = function ($caves) {
         var main = new LayaLaunch();

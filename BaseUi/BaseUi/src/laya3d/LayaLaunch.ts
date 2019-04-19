@@ -102,7 +102,7 @@ module Temp3D {
 class LayaLaunchTexture extends Laya.Texture {
     public constructor(bitmap: laya.resource.Bitmap) {
         super(bitmap);
-        LoadManager.getInstance().load(Scene_data.fileRoot + "ui/icon/skill_64x.png", LoadManager.IMG_TYPE, ($img: any, $info: any) => {
+        LoadManager.getInstance().load(Scene_data.fileRoot + "ui/icon/map_64x.png", LoadManager.IMG_TYPE, ($img: any, $info: any) => {
             var tempPanTexture: WebGLTexture = Pan3d.Scene_data.context3D.getTexture($img)
             this._baseWebGLTexture = tempPanTexture;
         })
@@ -151,12 +151,31 @@ class LayaLaunch {
 
                 pic.texture.source = tempPanTexture;
 
-                console.log(aa.uv)
 
+
+ 
 
               var a: LayaLaunchTexture = new LayaLaunchTexture(new laya.resource.Bitmap())
 
-             //   pic.texture = a
+            //    pic.texture = a
+                for (var keyStr in pic.texture) {
+                    if ("source" == keyStr || "uv" == keyStr || "sourceHeight" == keyStr) {
+                    } else {
+                        console.log(keyStr, pic.texture[keyStr], a[keyStr])
+                        a[keyStr] = pic.texture[keyStr]
+                    }
+                }
+
+                for (var keyStr in a) {
+                    console.log(keyStr, pic.texture[keyStr], a[keyStr])
+
+                }
+                a.width = 128
+                a.height = 128
+                a.sourceWidth = 128
+                a.sourceHeight = 128
+
+                pic.texture = a
 
             })
 
@@ -165,12 +184,10 @@ class LayaLaunch {
       
 
         }))
-
+ 
+    
  
        
-
-
-        Laya.stage.addChild(new Temp3D.OtherLayaRectSprite())
 
 
   
