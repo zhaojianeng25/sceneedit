@@ -96,6 +96,7 @@ class LayaLaunch {
                 this.outImg.texture.uv = [0, 0, knum, 0, knum, knum, 0, knum]
 
 
+                this.saveBase()
                 this.initScene()
 
 
@@ -104,13 +105,20 @@ class LayaLaunch {
         }))
 
     }
+    private arrayBuffer: any
+    private elementArrayBuffer: any
+    private saveBase(): void {
+        var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+        this. arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
+        this. elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
+    }
     private initScene(): void {
 
         Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
 
         this.sceneMaager = new EdItorSceneManager()
-
-      //  this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
+        var temp: Pan3d.BaseDiplay3dSprite=  new Pan3d.BaseDiplay3dSprite()
+        this.sceneMaager.addDisplay(temp)
 
         this.sceneMaager.ready = true;
         this.sceneMaager.cam3D = new Pan3d.Camera3D();
@@ -136,12 +144,15 @@ class LayaLaunch {
             this.sceneMaager.fbo.texture = this.outImg.texture.source;
         }
 
-        this.sceneMaager.renderToTexture();
+       // this.sceneMaager.renderToTexture();
 
         gl.viewport(0, 0, rect.width, rect.height);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.bindTexture(gl.TEXTURE_2D, null);
         gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
     }
     
     private sceneMaager: EdItorSceneManager

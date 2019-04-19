@@ -93,15 +93,22 @@ var LayaLaunch = /** @class */ (function () {
                 Pan3d.Scene_data.context3D.updateTexture(_this.outImg.texture.source, 0, 0, $img);
                 var knum = $img.width / 128;
                 _this.outImg.texture.uv = [0, 0, knum, 0, knum, knum, 0, knum];
+                _this.saveBase();
                 _this.initScene();
             });
         }));
+    };
+    LayaLaunch.prototype.saveBase = function () {
+        var gl = Scene_data.context3D.renderContext;
+        this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
+        this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
     };
     LayaLaunch.prototype.initScene = function () {
         var _this = this;
         Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
         this.sceneMaager = new EdItorSceneManager();
-        //  this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
+        var temp = new Pan3d.BaseDiplay3dSprite();
+        this.sceneMaager.addDisplay(temp);
         this.sceneMaager.ready = true;
         this.sceneMaager.cam3D = new Pan3d.Camera3D();
         this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 128, 128);
@@ -120,11 +127,13 @@ var LayaLaunch = /** @class */ (function () {
         if (this.sceneMaager.fbo) {
             this.sceneMaager.fbo.texture = this.outImg.texture.source;
         }
-        this.sceneMaager.renderToTexture();
+        // this.sceneMaager.renderToTexture();
         gl.viewport(0, 0, rect.width, rect.height);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.bindTexture(gl.TEXTURE_2D, null);
         gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
     };
     LayaLaunch.prototype.upData = function () {
         if (!this.fbo) {

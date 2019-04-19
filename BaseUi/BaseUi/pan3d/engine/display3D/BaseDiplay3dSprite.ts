@@ -77,7 +77,11 @@
             this.objData.indexs.push(0, 1, 2);
 
             this.loadTexture();
-            this.upToGpu();
+
+  
+            this.upToGpu()
+
+ 
         }
         private loadTexture(): void {
             var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(128, 128, false);
