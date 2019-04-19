@@ -34,9 +34,11 @@
     <script src="libs/tween/TweenLite.min.js"></script>
     <script src="libs/oss/aliyun-oss-sdk-4.4.4.min.js"></script>
 
+    <script type="text/javascript" src="libs/laya.core.js"></script>
+ 
+    <script type="text/javascript" src="libs/laya.webgl.js"></script>
 
-
-
+    <script type="text/javascript" src="libs/laya.ui.js"></script>
 
     <script src="jsbin/pan3d/engine/events/Event.js"></script>
     <script src="jsbin/pan3d/engine/events/EventDispatcher.js"></script>
@@ -556,19 +558,18 @@
 
 
 
-    <script src="jsbin/src/ModuleList.js"></script>
-    <script src="jsbin/src/AppData.js"></script>
-    <script src="jsbin/src/TextEditStart.js"></script>
+
+    <script src="jsbin/src/laya3d/LayaLaunch.js"></script>
 
 
 
     <script>
 
         function init() {
-            TextEditStart.initCanvas(document.getElementById('ArpgStageCanvas'));
+            LayaLaunch.initCanvas(document.getElementById('ArpgStageCanvas'));
         }
         function resetSize() {
-            TextEditStart.resetSize();
+
 
         }
 

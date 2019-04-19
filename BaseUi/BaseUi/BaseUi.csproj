@@ -20,12 +20,17 @@
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="layamain.html" />
     <Content Include="libs\inflate.min.js" />
     <Content Include="index.html" />
+    <Content Include="libs\laya.core.js" />
+    <Content Include="libs\laya.ui.js" />
+    <Content Include="libs\laya.webgl.js" />
     <Content Include="libs\tween\TweenLite.min.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="libs\LayaAir.d.ts" />
     <TypeScriptCompile Include="libs\tween\TweenLite.d.ts" />
     <TypeScriptCompile Include="pan3d\engine\utils\Base64.ts" />
     <TypeScriptCompile Include="src\AppData.ts" />
@@ -50,6 +55,7 @@
     <TypeScriptCompile Include="src\base\layout\Panel.ts" />
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
+    <TypeScriptCompile Include="src\laya3d\LayaLaunch.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleAnimi2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleMesh2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\Vec2PrameCtrlUI.ts" />
