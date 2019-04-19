@@ -105,10 +105,16 @@ class LayaLaunch {
 
     }
     private initScene(): void {
+
+        Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
+
         this.sceneMaager = new EdItorSceneManager()
+
+      //  this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
 
         this.sceneMaager.ready = true;
         this.sceneMaager.cam3D = new Pan3d.Camera3D();
+        this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0,0,128,128)
         this.sceneMaager.cam3D.distance = 100;
         this.sceneMaager.focus3D.rotationY = 0;
         this.sceneMaager.focus3D.rotationX = -45;
@@ -117,14 +123,18 @@ class LayaLaunch {
 
         this.outImg.frameLoop(1, this, () => {
 
-           // this.sceneMaagerUpData()
-           this.upData()
+            this.sceneMaagerUpData()
+         //  this.upData()
 
         })
     }
     public sceneMaagerUpData(): void {
         var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
         var rect: Pan3d.Rectangle = new Pan3d.Rectangle(0, 0, gl.canvas.width, gl.canvas.height);
+
+        if (this.sceneMaager.fbo) {
+            this.sceneMaager.fbo.texture = this.outImg.texture.source;
+        }
 
         this.sceneMaager.renderToTexture();
 

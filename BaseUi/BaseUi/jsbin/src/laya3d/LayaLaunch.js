@@ -99,21 +99,27 @@ var LayaLaunch = /** @class */ (function () {
     };
     LayaLaunch.prototype.initScene = function () {
         var _this = this;
+        Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
         this.sceneMaager = new EdItorSceneManager();
+        //  this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
         this.sceneMaager.ready = true;
         this.sceneMaager.cam3D = new Pan3d.Camera3D();
+        this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 128, 128);
         this.sceneMaager.cam3D.distance = 100;
         this.sceneMaager.focus3D.rotationY = 0;
         this.sceneMaager.focus3D.rotationX = -45;
         Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
         this.outImg.frameLoop(1, this, function () {
-            // this.sceneMaagerUpData()
-            _this.upData();
+            _this.sceneMaagerUpData();
+            //  this.upData()
         });
     };
     LayaLaunch.prototype.sceneMaagerUpData = function () {
         var gl = Scene_data.context3D.renderContext;
         var rect = new Pan3d.Rectangle(0, 0, gl.canvas.width, gl.canvas.height);
+        if (this.sceneMaager.fbo) {
+            this.sceneMaager.fbo.texture = this.outImg.texture.source;
+        }
         this.sceneMaager.renderToTexture();
         gl.viewport(0, 0, rect.width, rect.height);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);

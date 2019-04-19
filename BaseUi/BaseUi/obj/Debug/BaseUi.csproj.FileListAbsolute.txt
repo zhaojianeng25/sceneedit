@@ -11,3 +11,4 @@ E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csproj.CoreCompileInputs.cach
 E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.dll
 E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.pdb
 E:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csprojAssemblyReference.cache
+D:\github\sceneEdit\BaseUi\BaseUi\obj\Debug\BaseUi.csprojAssemblyReference.cache
