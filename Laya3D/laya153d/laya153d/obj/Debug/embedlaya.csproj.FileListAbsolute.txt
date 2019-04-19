@@ -1,0 +1,6 @@
+C:\wamp\www\work\embedlaya\embedlaya\bin\embedlaya.dll.config
+C:\wamp\www\work\embedlaya\embedlaya\bin\embedlaya.dll
+C:\wamp\www\work\embedlaya\embedlaya\bin\embedlaya.pdb
+C:\wamp\www\work\embedlaya\embedlaya\obj\Debug\embedlaya.csproj.CoreCompileInputs.cache
+C:\wamp\www\work\embedlaya\embedlaya\obj\Debug\embedlaya.dll
+C:\wamp\www\work\embedlaya\embedlaya\obj\Debug\embedlaya.pdb

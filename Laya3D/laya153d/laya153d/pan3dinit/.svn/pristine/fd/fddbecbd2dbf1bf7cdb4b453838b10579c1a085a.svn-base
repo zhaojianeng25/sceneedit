@@ -1,0 +1,28 @@
+﻿module scenedis {
+    export class CharSkillPlayModel {
+        constructor() {
+            this.initSkillPlay()
+        }
+        private initSkillPlay(): void {
+
+         
+                this.makeMainChar();
+              //  this.makeAttackChar();
+
+        }
+  
+        private makeMainChar(): void {
+
+       
+            var $sc: scenedis.SkillSceneChar = new scenedis.SkillSceneChar();
+            $sc.setRoleUrl(getRoleUrl("npc_0001"));
+            $sc.play(Pan3d.CharAction.STANAD)
+            Pan3d.SceneManager.getInstance().addMovieDisplay($sc);
+           // 
+          
+        }
+
+
+       
+    }
+}

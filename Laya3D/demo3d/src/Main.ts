@@ -1,18 +1,5 @@
 import GameConfig from "./GameConfig";
-
-import TestPage from "./b/TestPage";
-import PanBase from "./a/PanBase";
-
-import { PanBaseB } from "./a/PanBaseB";
-import { Pan4D } from "./b/PanBaseA";
-
-
-
-
-
-
-
-
+ 
 class Main {
 	constructor() {
 		//根据IDE设置初始化引擎		
@@ -37,22 +24,9 @@ class Main {
 
 	onVersionLoaded(): void {
 		//激活大小图映射，加载小图的时候，如果发现小图在大图合集里面，则优先加载大图合集，而不是小图
-		//	Laya.AtlasInfoManager.enable("fileconfig.json", Laya.Handler.create(this, this.onConfigLoaded));
+	//	Laya.AtlasInfoManager.enable("fileconfig.json", Laya.Handler.create(this, this.onConfigLoaded));
 
-
-		new PanBase()
-		new TestPage()
-
-
-		new PanBaseB()
-
-		new Pan4D.PanBaseA()
-
-		console.log(Pan4D)
-
-
-
-
+	 
 	}
 
 	onConfigLoaded(): void {
