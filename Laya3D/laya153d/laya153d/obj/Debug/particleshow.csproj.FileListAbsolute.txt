@@ -1,6 +1,0 @@
-E:\github\effict\particleshow\particleshow\bin\particleshow.dll.config
-E:\github\effict\particleshow\particleshow\bin\particleshow.dll
-E:\github\effict\particleshow\particleshow\bin\particleshow.pdb
-E:\github\effict\particleshow\particleshow\obj\Debug\particleshow.csproj.CoreCompileInputs.cache
-E:\github\effict\particleshow\particleshow\obj\Debug\particleshow.dll
-E:\github\effict\particleshow\particleshow\obj\Debug\particleshow.pdb

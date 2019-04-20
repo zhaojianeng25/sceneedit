@@ -1,6 +1,0 @@
-E:\github\sceneEdit\Laya3D\laya153d\laya153d\bin\laya153d.dll.config
-E:\github\sceneEdit\Laya3D\laya153d\laya153d\bin\laya153d.dll
-E:\github\sceneEdit\Laya3D\laya153d\laya153d\bin\laya153d.pdb
-E:\github\sceneEdit\Laya3D\laya153d\laya153d\obj\Debug\laya153d.csproj.CoreCompileInputs.cache
-E:\github\sceneEdit\Laya3D\laya153d\laya153d\obj\Debug\laya153d.dll
-E:\github\sceneEdit\Laya3D\laya153d\laya153d\obj\Debug\laya153d.pdb
