@@ -37,7 +37,7 @@ var Pan3d;
             Pan3d.Scene_data.light = new Pan3d.LightVo();
             Engine.testBlob();
             Engine.resetSize();
-            Engine.initShadow();
+            // Engine.initShadow();
             Pan3d.TimeUtil.init();
             Pan3d.PathManager.init();
         };

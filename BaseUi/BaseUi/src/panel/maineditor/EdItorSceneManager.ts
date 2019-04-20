@@ -22,11 +22,13 @@
         private updateDepthTexture(fbo: FBO): void {
 
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
+ 
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
 
             gl.viewport(0, 0, fbo.width, fbo.height);
+            gl.clearColor(Math.random(), 20 / 255, 20 / 255, 1.0);
             gl.clearColor(20 / 255, 20 / 255, 20 / 255, 1.0);
            // gl.clearColor(0,0,0,0);
             gl.clearDepth(1.0);
@@ -36,6 +38,8 @@
             gl.enable(gl.BLEND);
             gl.frontFace(gl.CW);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+ 
+ 
         }
     
    
@@ -52,6 +56,9 @@
             var sceneViewHW: number = 400 / this.cam3D.cavanRect.width;
 
             this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
+
+        
+ 
  
 
             this.updateDepthTexture(this.fbo);

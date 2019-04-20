@@ -881,14 +881,13 @@ var Pan3d;
             _this._baseRender.uiAtlas = new Pan3d.UIAtlas;
             _this._baseRender.uiAtlas.configData = new Array;
             _this._uiItem = new Array();
-            _this.loadBloodTexture();
             return _this;
+            //   this.loadBloodTexture()
         }
         BloodLineUIConatiner.prototype.loadBloodTexture = function () {
-            var _this = this;
-            Pan3d.TextureManager.getInstance().getTexture(Pan3d.Scene_data.fileRoot + "ui/load/blood.png", function ($textureRes) {
-                _this._baseRender.uiAtlas.textureRes = $textureRes;
-            });
+            //TextureManager.getInstance().getTexture(Scene_data.fileRoot + "ui/load/blood.png", ($textureRes: TextureRes) => {
+            //    this._baseRender.uiAtlas.textureRes = $textureRes
+            //});
         };
         BloodLineUIConatiner.prototype.update = function (t) {
             if (this._baseRender.uiAtlas.textureRes) {

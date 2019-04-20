@@ -906,12 +906,12 @@ module Pan3d {
             this._baseRender.uiAtlas = new UIAtlas
             this._baseRender.uiAtlas.configData = new Array;
             this._uiItem = new Array();
-            this.loadBloodTexture()
+         //   this.loadBloodTexture()
         }
         private loadBloodTexture(): void {
-            TextureManager.getInstance().getTexture(Scene_data.fileRoot + "ui/load/blood.png", ($textureRes: TextureRes) => {
-                this._baseRender.uiAtlas.textureRes = $textureRes
-            });
+            //TextureManager.getInstance().getTexture(Scene_data.fileRoot + "ui/load/blood.png", ($textureRes: TextureRes) => {
+            //    this._baseRender.uiAtlas.textureRes = $textureRes
+            //});
         }
         protected _uiItem: Array<BloodDisp2DBaseText>;
         public update(t: number): void {

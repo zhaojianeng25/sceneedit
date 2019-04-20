@@ -231,11 +231,13 @@
         }
 
         public setVa(dataId: number, dataWidth: number, dataBuffer: WebGLBuffer): void {
-            this._contextSetTest.testVa(dataBuffer);
+
+
 
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, dataBuffer);
             this.renderContext.enableVertexAttribArray(dataId);
             this.renderContext.vertexAttribPointer(dataId, dataWidth, this.renderContext.FLOAT, false, 0, 0);
+
         }
 
         public pushVa(dataBuffer: WebGLBuffer): boolean {
@@ -495,7 +497,7 @@
             var a: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))
             var b: number = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)))
             if (this.width != a || this.height != b) {
-                //console.log("改变FBO尺寸",a,b)
+                console.log("改变FBO尺寸",a,b)
                 this.makeSize(a, b)
             } 
         }

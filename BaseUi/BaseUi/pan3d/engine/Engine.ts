@@ -42,7 +42,7 @@
 
             Engine.resetSize();
 
-            Engine.initShadow();
+           // Engine.initShadow();
 
             TimeUtil.init();
 

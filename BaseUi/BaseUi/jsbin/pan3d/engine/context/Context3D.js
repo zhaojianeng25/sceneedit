@@ -189,7 +189,6 @@ var Pan3d;
             this.renderContext.uniform4fv($location, $m);
         };
         Context3D.prototype.setVa = function (dataId, dataWidth, dataBuffer) {
-            this._contextSetTest.testVa(dataBuffer);
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, dataBuffer);
             this.renderContext.enableVertexAttribArray(dataId);
             this.renderContext.vertexAttribPointer(dataId, dataWidth, this.renderContext.FLOAT, false, 0, 0);
@@ -436,7 +435,7 @@ var Pan3d;
             var a = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
             var b = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)));
             if (this.width != a || this.height != b) {
-                //console.log("改变FBO尺寸",a,b)
+                console.log("改变FBO尺寸", a, b);
                 this.makeSize(a, b);
             }
         };
