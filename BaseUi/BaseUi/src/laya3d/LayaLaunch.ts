@@ -33,19 +33,31 @@ class LayaLaunch {
         Pan3d.Engine.init(this._canvas);
 
 
-        var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-        Laya.stage.addChild(picA)
-        picA.pos(800, 300)
+        var midBox: Laya.Box = new Laya.Box()
+        Laya.stage.addChild(midBox)
+
+        var topBox: Laya.Box = new Laya.Box()
+        Laya.stage.addChild(topBox)
+
+
 
  
         var spriteA: Laya3dSprite = new Laya3dSprite("res/ui/icon/512.jpg")
-        Laya.stage.addChild(spriteA)
+        topBox.addChild(spriteA)
 
         var sprite: Laya3dSprite = new Laya3dSprite("res/ui/icon/512a.jpg")
-        Laya.stage.addChild(sprite)
+        topBox.addChild(sprite)
 
         sprite.pos(525,0)
 
+        var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
+        midBox.addChild(picA)
+        picA.pos(800, 470)
+
+
+        var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
+        midBox.addChild(picB)
+        picB.pos(0,460)
     }
 
      

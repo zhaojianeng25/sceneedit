@@ -1,8 +1,8 @@
-﻿class Laya3dSprite extends Laya.Image {
+﻿ 
+
+class Laya3dSprite extends Laya.Image {
 
 
-
- 
     public constructor(value: string) { //"res/ui/icon/512.jpg"
         super();
         Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
@@ -29,21 +29,54 @@
         this.sceneMaager.ready = true;
         this.sceneMaager.cam3D = new Pan3d.Camera3D();
         this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512)
-        this.sceneMaager.cam3D.distance = 1000;
+        this.sceneMaager.cam3D.distance = 200;
         this.sceneMaager.focus3D.rotationY = random(360);
         this.sceneMaager.focus3D.rotationX = -45;
-        Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+    
 
         this.frameLoop(1, this, () => {
 
             this.sceneMaagerUpData()
 
+   
+
         })
 
-        var prefabSprite = new maineditor.ModelSprite();
+
+        this.addDisplay()
+        this.addRole()
+       //   this.addSkillRole()
+      //  this.addLyfSprite()
+    }
+    private addDisplay(): void {
+        let prefabSprite: maineditor.ModelSprite = new maineditor.ModelSprite();
         prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
-  
-       //  this.sceneMaager.addDisplay(prefabSprite);
+        prefabSprite.scale=2
+        this.sceneMaager.addDisplay(prefabSprite);
+    }
+    private addRole(): void {
+        var roleSprite = new left.MaterialRoleSprite();
+       // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
+        roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
+ 
+        this.sceneMaager.addMovieDisplay(roleSprite);
+
+
+    }
+    //
+    private addSkillRole(): void {
+        let skillsprite = new maineditor.SkillSpriteDisplay();
+        skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill")
+ 
+        this.sceneMaager.addDisplay(skillsprite);
+
+    }
+    private addLyfSprite(): void {
+        let lyfSprite = new maineditor.LyfSpriteDisplay();
+        lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
+
+        lyfSprite.y=60
+        this.sceneMaager.addDisplay(lyfSprite);
     }
 
     private saveBasePrarame(): void {
@@ -69,10 +102,14 @@
         if (this.program) {
             gl.useProgram(this.program)
         }
- 
+        Scene_data.context3D.setCullFaceModel(2);
 
     }
     public sceneMaagerUpData(): void {
+        this.sceneMaager.focus3D.rotationY++
+        Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+
+
         this.saveBasePrarame();
         var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
         if (this.sceneMaager.fbo) {

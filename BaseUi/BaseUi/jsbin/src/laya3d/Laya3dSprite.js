@@ -33,16 +33,40 @@ var Laya3dSprite = /** @class */ (function (_super) {
         this.sceneMaager.ready = true;
         this.sceneMaager.cam3D = new Pan3d.Camera3D();
         this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512);
-        this.sceneMaager.cam3D.distance = 1000;
+        this.sceneMaager.cam3D.distance = 200;
         this.sceneMaager.focus3D.rotationY = random(360);
         this.sceneMaager.focus3D.rotationX = -45;
-        Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
         this.frameLoop(1, this, function () {
             _this.sceneMaagerUpData();
         });
+        this.addDisplay();
+        this.addRole();
+        //   this.addSkillRole()
+        //  this.addLyfSprite()
+    };
+    Laya3dSprite.prototype.addDisplay = function () {
         var prefabSprite = new maineditor.ModelSprite();
         prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
-        //  this.sceneMaager.addDisplay(prefabSprite);
+        prefabSprite.scale = 2;
+        this.sceneMaager.addDisplay(prefabSprite);
+    };
+    Laya3dSprite.prototype.addRole = function () {
+        var roleSprite = new left.MaterialRoleSprite();
+        // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
+        roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw");
+        this.sceneMaager.addMovieDisplay(roleSprite);
+    };
+    //
+    Laya3dSprite.prototype.addSkillRole = function () {
+        var skillsprite = new maineditor.SkillSpriteDisplay();
+        skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill");
+        this.sceneMaager.addDisplay(skillsprite);
+    };
+    Laya3dSprite.prototype.addLyfSprite = function () {
+        var lyfSprite = new maineditor.LyfSpriteDisplay();
+        lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
+        lyfSprite.y = 60;
+        this.sceneMaager.addDisplay(lyfSprite);
     };
     Laya3dSprite.prototype.saveBasePrarame = function () {
         var gl = Scene_data.context3D.renderContext;
@@ -61,8 +85,11 @@ var Laya3dSprite = /** @class */ (function (_super) {
         if (this.program) {
             gl.useProgram(this.program);
         }
+        Scene_data.context3D.setCullFaceModel(2);
     };
     Laya3dSprite.prototype.sceneMaagerUpData = function () {
+        this.sceneMaager.focus3D.rotationY++;
+        Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
         this.saveBasePrarame();
         var gl = Scene_data.context3D.renderContext;
         if (this.sceneMaager.fbo) {

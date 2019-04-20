@@ -77,6 +77,15 @@ var maineditor;
         function ModelSprite() {
             return _super.call(this) || this;
         }
+        ModelSprite.prototype.update = function () {
+            var showTempModel = false;
+            if (showTempModel) {
+                this.drawBaseModel();
+            }
+            else {
+                _super.prototype.update.call(this);
+            }
+        };
         ModelSprite.prototype.drawBaseModel = function () {
             if (this.objData) {
                 if (!this.baseModeShader) {

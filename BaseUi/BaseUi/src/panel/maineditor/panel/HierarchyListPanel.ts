@@ -119,7 +119,7 @@
         public constructor() {
             super();
         }
-        /*
+ 
         public update(): void {
             var showTempModel: boolean = false
             if (showTempModel) {
@@ -128,7 +128,7 @@
                 super.update()
             }
         }
-        */
+ 
         private baseTextureres: TextureRes
         private baseModeShader: Shader3D
         private drawBaseModel(): void {
