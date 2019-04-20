@@ -16,9 +16,13 @@ var Pan3d;
             this.renderContext.viewport(0, 0, $width, $height);
         };
         Context3D.prototype.uploadBuff3D = function ($jsData) {
+            var arrayBuffer = this.renderContext.getParameter(this.renderContext.ARRAY_BUFFER_BINDING);
             var $buffData = this.renderContext.createBuffer();
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, $buffData);
             this.renderContext.bufferData(this.renderContext.ARRAY_BUFFER, new Float32Array($jsData), this.renderContext.STATIC_DRAW);
+            if (arrayBuffer) {
+                this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, arrayBuffer);
+            }
             return $buffData;
         };
         Context3D.prototype.uploadBuff3DArrayBuffer = function ($jsData) {
@@ -32,9 +36,13 @@ var Pan3d;
             this.renderContext.bufferData(this.renderContext.ARRAY_BUFFER, new Float32Array($jsData), this.renderContext.STATIC_DRAW);
         };
         Context3D.prototype.uploadIndexBuff3D = function ($iStrData) {
+            var elementArrayBuffer = this.renderContext.getParameter(this.renderContext.ELEMENT_ARRAY_BUFFER_BINDING);
             var $iBuffer = this.renderContext.createBuffer();
             this.renderContext.bindBuffer(this.renderContext.ELEMENT_ARRAY_BUFFER, $iBuffer);
             this.renderContext.bufferData(this.renderContext.ELEMENT_ARRAY_BUFFER, new Uint16Array($iStrData), this.renderContext.STATIC_DRAW);
+            if (elementArrayBuffer) {
+                this.renderContext.bindBuffer(this.renderContext.ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
+            }
             return $iBuffer;
         };
         Context3D.prototype.uploadIndexBuff3DByBuffer = function ($iBuffer, $iStrData) {

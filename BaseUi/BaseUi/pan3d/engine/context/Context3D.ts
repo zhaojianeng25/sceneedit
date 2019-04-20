@@ -19,9 +19,16 @@
         }
 
         public uploadBuff3D($jsData: any): WebGLBuffer {
+            var arrayBuffer = this.renderContext.getParameter(this.renderContext.ARRAY_BUFFER_BINDING);
+
             var $buffData: WebGLBuffer = this.renderContext.createBuffer();
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, $buffData);
             this.renderContext.bufferData(this.renderContext.ARRAY_BUFFER, new Float32Array($jsData), this.renderContext.STATIC_DRAW);
+
+            if (arrayBuffer) {
+                this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, arrayBuffer);
+            }
+
             return $buffData;
         }
 
@@ -34,14 +41,22 @@
 
 
         public uploadBuff3DByBuffer($buffData: WebGLBuffer, $jsData: Array<number>): void {
+     
+
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, $buffData);
             this.renderContext.bufferData(this.renderContext.ARRAY_BUFFER, new Float32Array($jsData), this.renderContext.STATIC_DRAW);
+
+            
         }
 
         public uploadIndexBuff3D($iStrData: Array<number>): WebGLBuffer {
+            var elementArrayBuffer = this.renderContext.getParameter(this.renderContext.ELEMENT_ARRAY_BUFFER_BINDING);
             var $iBuffer: WebGLBuffer = this.renderContext.createBuffer();
             this.renderContext.bindBuffer(this.renderContext.ELEMENT_ARRAY_BUFFER, $iBuffer);
             this.renderContext.bufferData(this.renderContext.ELEMENT_ARRAY_BUFFER, new Uint16Array($iStrData), this.renderContext.STATIC_DRAW);
+            if (elementArrayBuffer) {
+                this.renderContext.bindBuffer(this.renderContext.ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
+            }
             return $iBuffer;
         }
 
