@@ -33,9 +33,13 @@
         }
 
         public uploadBuff3DArrayBuffer($jsData: ArrayBuffer): WebGLBuffer {
+            var arrayBuffer = this.renderContext.getParameter(this.renderContext.ARRAY_BUFFER_BINDING);
             var $buffData: WebGLBuffer = this.renderContext.createBuffer();
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, $buffData);
             this.renderContext.bufferData(this.renderContext.ARRAY_BUFFER, $jsData, this.renderContext.STATIC_DRAW);
+            if (arrayBuffer) {
+                this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, arrayBuffer);
+            }
             return $buffData;
         }
 

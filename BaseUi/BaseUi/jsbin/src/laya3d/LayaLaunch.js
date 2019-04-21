@@ -58,9 +58,11 @@ var LayaLaunch = /** @class */ (function () {
         Laya.stage.addChild(topBox);
         var spriteA = new Laya3dSprite("res/ui/icon/512.jpg");
         topBox.addChild(spriteA);
-        var sprite = new Laya3dSprite("res/ui/icon/512a.jpg");
-        topBox.addChild(sprite);
-        sprite.pos(525, 0);
+        var spriteB = new Laya3dSprite("res/ui/icon/512a.jpg");
+        topBox.addChild(spriteB);
+        spriteB.pos(525, 200);
+        //  spriteB.scaleY=0.99
+        topBox.scaleY = 0.9;
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
         picA.pos(800, 470);

@@ -26,9 +26,13 @@ var Pan3d;
             return $buffData;
         };
         Context3D.prototype.uploadBuff3DArrayBuffer = function ($jsData) {
+            var arrayBuffer = this.renderContext.getParameter(this.renderContext.ARRAY_BUFFER_BINDING);
             var $buffData = this.renderContext.createBuffer();
             this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, $buffData);
             this.renderContext.bufferData(this.renderContext.ARRAY_BUFFER, $jsData, this.renderContext.STATIC_DRAW);
+            if (arrayBuffer) {
+                this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, arrayBuffer);
+            }
             return $buffData;
         };
         Context3D.prototype.uploadBuff3DByBuffer = function ($buffData, $jsData) {

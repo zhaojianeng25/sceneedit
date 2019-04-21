@@ -11,52 +11,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var MeshData = Pan3d.MeshData;
-var Laya3dRole = /** @class */ (function (_super) {
-    __extends(Laya3dRole, _super);
-    function Laya3dRole() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Laya3dRole.prototype.setVaCompress = function ($mesh) {
-        var tf = Scene_data.context3D.pushVa($mesh.vertexBuffer);
-        if (tf) {
-            ////console.log('cccccc')
-            return;
-        }
-        console.log($mesh.uvsOffsets, $mesh.boneIDOffsets, $mesh.boneWeightOffsets);
-        Scene_data.context3D.setVaOffset(0, 3, $mesh.stride, 0);
-        Scene_data.context3D.setVaOffset(1, 2, $mesh.stride, $mesh.uvsOffsets);
-        Scene_data.context3D.setVaOffset(2, 4, $mesh.stride, $mesh.boneIDOffsets);
-        Scene_data.context3D.setVaOffset(3, 4, $mesh.stride, $mesh.boneWeightOffsets);
-        if ($mesh.material.useNormal) {
-            // Scene_data.context3D.setVcMatrix4fv($mesh.material.shader, "rotationMatrix3D", this._rotationMatrix.m);
-            Scene_data.context3D.setVaOffset(4, 3, $mesh.stride, $mesh.tangentsOffsets);
-            Scene_data.context3D.setVaOffset(5, 3, $mesh.stride, $mesh.bitangentsOffsets);
-            Scene_data.context3D.setVaOffset(6, 3, $mesh.stride, $mesh.normalsOffsets);
-        }
-    };
-    Laya3dRole.prototype.updateMaterialMesh = function ($mesh) {
-        if (!$mesh.material) {
-            return;
-        }
-        Scene_data.context3D.setProgram($mesh.material.shader.program);
-        Scene_data.context3D.cullFaceBack(false);
-        Scene_data.context3D.setBlendParticleFactors($mesh.material.blendMode);
-        this.setVcMatrix($mesh);
-        this.setMaterialVc($mesh.material, $mesh.materialParam);
-        this.setMaterialTexture($mesh.material, $mesh.materialParam);
-        this.setVa($mesh);
-        this.setDirectLight($mesh.material);
-        this.setMeshVc($mesh);
-        //$mesh.treNum=1600*2
-        if ($mesh.treNum <= 312) {
-        }
-        else {
-            Scene_data.context3D.drawCall($mesh.indexBuffer, $mesh.treNum);
-        }
-    };
-    return Laya3dRole;
-}(left.MaterialRoleSprite));
 var Laya3dSprite = /** @class */ (function (_super) {
     __extends(Laya3dSprite, _super);
     function Laya3dSprite(value) {
@@ -64,7 +18,7 @@ var Laya3dSprite = /** @class */ (function (_super) {
         Laya.loader.load(value, Laya.Handler.create(_this, function (aa) {
             _this.texture = aa;
             aa.bitmap.enableMerageInAtlas = false;
-            _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+            //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
             _this.initScene();
         }));
         return _this;
@@ -85,9 +39,9 @@ var Laya3dSprite = /** @class */ (function (_super) {
         this.frameLoop(1, this, function () {
             _this.sceneMaagerUpData();
         });
-        this.addDisplay();
+        //  this.addDisplay()
         this.addRole();
-        //   this.addSkillRole()
+        //  this.addSkillRole()
         //  this.addLyfSprite()
     };
     Laya3dSprite.prototype.addDisplay = function () {
@@ -97,9 +51,9 @@ var Laya3dSprite = /** @class */ (function (_super) {
         this.sceneMaager.addDisplay(prefabSprite);
     };
     Laya3dSprite.prototype.addRole = function () {
-        var roleSprite = new Laya3dRole();
-        roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw");
-        //  roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
+        var roleSprite = new left.MaterialRoleSprite();
+        // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
+        roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw");
         roleSprite.scale = 0.5;
         roleSprite.x = 60;
         this.sceneMaager.addMovieDisplay(roleSprite);
