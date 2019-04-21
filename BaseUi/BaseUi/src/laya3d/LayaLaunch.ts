@@ -3,15 +3,10 @@ import Loader = Laya.Loader;
 import LEvent = Laya.Event;
 import Stage = Laya.Stage;
 
-import LoadManager = Pan3d.LoadManager
-import Scene_data = Pan3d.Scene_data
-import TextureRes = Pan3d.TextureRes
 
 import Pan3dByteArray = Pan3d.Pan3dByteArray;
-import WebGLContext = laya.webgl.WebGLContext;
-
-import EdItorSceneManager = maineditor.EdItorSceneManager;
-
+import Laya3dSprite = LayaPan3D.Laya3dSprite;
+ 
 
 class LayaLaunch {
     private _canvas: HTMLCanvasElement;
@@ -45,12 +40,12 @@ class LayaLaunch {
         */
     }
 
-    private outImg: Laya.Image;
+ 
     private init(): void {
         LayaLaunch.overrideMethods()
 
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
-     //  Pan3d.Scene_data.fileRoot = "res/";
+ 
 
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
@@ -59,26 +54,23 @@ class LayaLaunch {
         Laya.stage.scaleMode = "full"
 
         Pan3d.Engine.init(this._canvas);
-
-
+ 
         var midBox: Laya.Box = new Laya.Box()
         Laya.stage.addChild(midBox)
 
         var topBox: Laya.Box = new Laya.Box()
         Laya.stage.addChild(topBox)
 
-
-
+ 
  
         var spriteA: Laya3dSprite = new Laya3dSprite("res/ui/icon/512.jpg")
         topBox.addChild(spriteA);
 
         var spriteB: Laya3dSprite = new Laya3dSprite("res/ui/icon/512a.jpg")
         topBox.addChild(spriteB);
-
-        spriteB.scaleY = 0.3;
-
+ 
         spriteB.pos(525, 200);
+ 
  
         var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA)
@@ -89,9 +81,7 @@ class LayaLaunch {
         midBox.addChild(picB)
         picB.pos(0,460)
     }
-
-     
-
+ 
     public static initCanvas($caves: HTMLCanvasElement): void {
 
         new LayaLaunch();

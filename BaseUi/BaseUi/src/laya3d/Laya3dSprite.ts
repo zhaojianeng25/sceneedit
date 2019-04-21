@@ -1,146 +1,122 @@
 ﻿
-class Laya3dSprite extends Laya.Image {
+module LayaPan3D {
 
-    public constructor(value: string) { //"res/ui/icon/512.jpg"
-        super();
-        Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
-          
+    import MathClass = Pan3d.MathClass
+    import Scene_data = Pan3d.Scene_data
 
-          //  this.texture = Laya.Texture.createFromTexture(aa, 0, 0, 512, 512)
-            this.texture=aa
+    import MaterialRoleSprite = left.MaterialRoleSprite;
+    import ModelSprite = maineditor.ModelSprite;
+    import SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
+    import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
 
-            var a: Laya.Texture = new Laya.Texture(new laya.resource.Bitmap())
-            a.width = 512
-            a.height = 512
-            a.sourceWidth = 512
-            a.sourceHeight = 512
-
-            console.log(this.texture)
-            console.log(a )
-
-         //  this.texture= a
- 
-            this.texture.bitmap.enableMerageInAtlas = false;
-
-          //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
-            this.initScene()
-        }))
-
-        LoadManager.getInstance().load("res/ui/icon/512.jpg", LoadManager.IMG_TYPE,
-            ($img: any) => {
-                let kk = new laya.resource.Bitmap()
-                let temp = new Laya.Texture(new laya.resource.Bitmap())
-                temp.active();
-
-     
-       
-              //  console.log(kk)
-                //Laya.Texture.crea($img, 0, 0, 512, 512)
-
-              
-
-          
-            });
-
- 
-
-         
-    }
-    private initScene(): void {
-
-        Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
-        this.sceneMaager = new EdItorSceneManager()
-        var temp: Pan3d.GridLineSprite = new Pan3d.GridLineSprite()
-        this.sceneMaager.addDisplay(temp)
-        this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
-        this.sceneMaager.ready = true;
-        this.sceneMaager.cam3D = new Pan3d.Camera3D();
-        this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512)
-        this.sceneMaager.cam3D.distance = 200;
-        this.sceneMaager.focus3D.rotationY = random(360);
-        this.sceneMaager.focus3D.rotationX = -45;
-        this.frameLoop(1, this, () => {
-            this.sceneMaagerUpData()
-        })
-      //  this.addDisplay()
-        this.addRole()
-      //  this.addSkillRole()
-      //  this.addLyfSprite()
-    }
-    private addDisplay(): void {
-        let prefabSprite: maineditor.ModelSprite = new maineditor.ModelSprite();
-        prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
-        prefabSprite.scale = 2
-        this.sceneMaager.addDisplay(prefabSprite);
-    }
-    private addRole(): void {
-        let roleSprite = new left.MaterialRoleSprite();
-       // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
-        roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
-        roleSprite.scale = 0.5
-        roleSprite.x = 60
-        this.sceneMaager.addMovieDisplay(roleSprite);
+    import EdItorSceneManager = maineditor.EdItorSceneManager;
 
 
-    }
-    //
-    private addSkillRole(): void {
-        let skillsprite = new maineditor.SkillSpriteDisplay();
-        skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill")
+    export class Laya3dSprite extends Laya.Image {
 
-        this.sceneMaager.addDisplay(skillsprite);
+        public constructor(value: string) { //"res/ui/icon/512.jpg"
+            super();
 
-    }
-    private addLyfSprite(): void {
-        let lyfSprite = new maineditor.LyfSpriteDisplay();
-        lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
-        lyfSprite.y = 60
-        this.sceneMaager.addDisplay(lyfSprite);
-    }
+            Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
+                this.texture = aa
+                this.texture.bitmap.enableMerageInAtlas = false;
+              //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
 
-    private saveBasePrarame(): void {
-        var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-        this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
-        this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
-        this.program = gl.getParameter(gl.CURRENT_PROGRAM);
-    }
-
-
-    private program: WebGLProgram
-    private arrayBuffer: WebGLBuffer
-    private elementArrayBuffer: WebGLBuffer
-    private resetBasePrarame(): void {
-        var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-
-        if (this.arrayBuffer) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
+            }))
+            this.initScene();
+           // this.scale(0.5, 0.5);
         }
-        if (this.elementArrayBuffer) {
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
+        private initScene(): void {
+            Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
+            this.sceneMaager = new EdItorSceneManager()
+            var temp: Pan3d.GridLineSprite = new Pan3d.GridLineSprite()
+            this.sceneMaager.addDisplay(temp)
+            this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
+            this.sceneMaager.ready = true;
+            this.sceneMaager.cam3D = new Pan3d.Camera3D();
+            this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512)
+            this.sceneMaager.cam3D.distance = 200;
+            this.sceneMaager.focus3D.rotationY = random(360);
+            this.sceneMaager.focus3D.rotationX = -45;
+            this.frameLoop(1, this, () => {
+                this.sceneMaagerUpData()
+            })
+            this.addSceneModel();
         }
-        if (this.program) {
-            gl.useProgram(this.program)
+        private addSceneModel(): void {
+            this.addDisplay();
+             this.addRole();
+            //this.addSkillRole();
+            //this.addLyfSprite();
         }
-        Scene_data.context3D.cullFaceBack(true);
+        private addDisplay(): void {
+            let prefabSprite: ModelSprite = new ModelSprite();
+            prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
+            prefabSprite.scale = 2
+            prefabSprite.x=-100
+            this.sceneMaager.addDisplay(prefabSprite);
+        }
+        private addRole(): void {
+            let roleSprite = new MaterialRoleSprite();
+            // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
+            roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
+            roleSprite.scale = 0.5
+            roleSprite.x = 50
+            this.sceneMaager.addMovieDisplay(roleSprite);
+
+        }
+        //
+        private addSkillRole(): void {
+            let skillsprite = new SkillSpriteDisplay();
+            skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill")
+            skillsprite.x =-30
+            this.sceneMaager.addDisplay(skillsprite);
+
+        }
+        private addLyfSprite(): void {
+            let lyfSprite = new LyfSpriteDisplay();
+            lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
+            lyfSprite.y = 100;
+            this.sceneMaager.addDisplay(lyfSprite);
+        }
+
+        private saveBasePrarame(): void {
+            var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
+            this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
+            this.program = gl.getParameter(gl.CURRENT_PROGRAM);
+        }
+        private program: WebGLProgram
+        private arrayBuffer: WebGLBuffer
+        private elementArrayBuffer: WebGLBuffer
+        private resetBasePrarame(): void {
+            var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            if (this.arrayBuffer) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
+            }
+            if (this.elementArrayBuffer) {
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
+            }
+            if (this.program) {
+                gl.useProgram(this.program)
+            }
+            Laya.BaseShader.activeShader = null;
+            Laya.BaseShader.bindShader = null;
+            Scene_data.context3D.cullFaceBack(true);
+            Scene_data.context3D.setBlendParticleFactors(0)
+
+        }
+        public sceneMaagerUpData(): void {
+            this.saveBasePrarame();
+            this.sceneMaager.focus3D.rotationY++
+            Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+            if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
+                (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
+            }
+            this.sceneMaager.renderToTexture();
+            this.resetBasePrarame();
+        }
+        private sceneMaager: EdItorSceneManager;
 
     }
-    public sceneMaagerUpData(): void {
-        this.sceneMaager.focus3D.rotationY++
-        Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
- 
-        this.saveBasePrarame();
-        var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-        if (this.sceneMaager.fbo) {
-           (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
-        }
-        this.sceneMaager.renderToTexture();
- 
-        this.resetBasePrarame();
-
-        Laya.BaseShader.activeShader = null
-        Laya.BaseShader.bindShader = null
-    }
-
-    private sceneMaager: EdItorSceneManager
-
 }

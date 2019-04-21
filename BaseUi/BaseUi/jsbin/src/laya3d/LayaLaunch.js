@@ -2,12 +2,8 @@ var Browser = Laya.Browser;
 var Loader = Laya.Loader;
 var LEvent = Laya.Event;
 var Stage = Laya.Stage;
-var LoadManager = Pan3d.LoadManager;
-var Scene_data = Pan3d.Scene_data;
-var TextureRes = Pan3d.TextureRes;
 var Pan3dByteArray = Pan3d.Pan3dByteArray;
-var WebGLContext = laya.webgl.WebGLContext;
-var EdItorSceneManager = maineditor.EdItorSceneManager;
+var Laya3dSprite = LayaPan3D.Laya3dSprite;
 var LayaLaunch = /** @class */ (function () {
     function LayaLaunch() {
         this.init();
@@ -47,7 +43,6 @@ var LayaLaunch = /** @class */ (function () {
     LayaLaunch.prototype.init = function () {
         LayaLaunch.overrideMethods();
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
-        //  Pan3d.Scene_data.fileRoot = "res/";
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
@@ -61,7 +56,6 @@ var LayaLaunch = /** @class */ (function () {
         topBox.addChild(spriteA);
         var spriteB = new Laya3dSprite("res/ui/icon/512a.jpg");
         topBox.addChild(spriteB);
-        spriteB.scaleY = 0.3;
         spriteB.pos(525, 200);
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
