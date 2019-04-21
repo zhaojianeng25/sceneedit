@@ -81,7 +81,7 @@
             var noLight: boolean = this.paramAry[6];
 
             var $str: string =
-                "attribute vec4 pos;\n" +
+                "attribute vec3 pos;\n" +
                 "attribute vec2 v2Uv;\n" +
                 "attribute vec4 boneID;\n" +
                 "attribute vec4 boneWeight;\n" +

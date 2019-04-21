@@ -43,7 +43,26 @@ var pack;
             $roleShader.vertex = $roleShader.getVertexShaderString();
             $roleShader.fragment = $temp.info.shaderStr;
             $roleShader.encode();
+            this.outShader($roleShader.vertex);
             $materialTree.roleShader = $roleShader;
+        };
+        PackMaterialManager.prototype.outShader = function ($str) {
+            var $item = $str.split("\n");
+            console.log("----");
+            for (var i = 0; i < $item.length; i++) {
+                var str = "\"";
+                str += $item[i];
+                if (i < ($item.length - 1)) {
+                    str += "\\n";
+                    str += "\"";
+                    str += "\+";
+                }
+                else {
+                    str += "\"";
+                }
+                console.log(str);
+            }
+            console.log("----");
         };
         PackMaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
             var _this = this;

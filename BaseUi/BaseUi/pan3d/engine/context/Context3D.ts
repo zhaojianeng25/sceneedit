@@ -241,25 +241,26 @@
         }
 
         public pushVa(dataBuffer: WebGLBuffer): boolean {
-            if (!this._contextSetTest.testVa(dataBuffer)) {
-                this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, dataBuffer);
-                return false;
+
+            if (this.renderContext.getParameter(this.renderContext.ARRAY_BUFFER_BINDING) == dataBuffer) {
+                return true
             } else {
-                return true;
-            }
-        }
-        public setVaOffset(dataId: number, dataWidth: number, stride: number, offset: number): void {
-            if (!this._contextSetTest.enableVaAry[dataId]) {
-                this.renderContext.enableVertexAttribArray(dataId);
-                this._contextSetTest.enableVaAry[dataId] = true;
+                this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, dataBuffer);
+                return false
             }
 
+ 
+        }
+        public setVaOffset(dataId: number, dataWidth: number, stride: number, offset: number): void {
+ 
+            this.renderContext.enableVertexAttribArray(dataId);
+       
             this.renderContext.vertexAttribPointer(dataId, dataWidth, this.renderContext.FLOAT, false, stride, offset);
         }
 
         public clearVa(dataId: number): void {
-            //this._contextSetTest.testVa(null);
-            this._contextSetTest.enableVaAry[dataId] = false;
+ 
+             
             this.renderContext.disableVertexAttribArray(dataId);
         }
 
@@ -523,7 +524,7 @@
 
         private _textureDic: Object;
         private _program: WebGLProgram;
-        public enableVaAry: Array<boolean> = new Array;
+       // public enableVaAry: Array<boolean> = new Array;
         public vaAry: Array<boolean> = new Array;
         private _vabuffer: WebGLBuffer;
         private _blendType: number = -1000;
@@ -554,12 +555,9 @@
         }
 
         public testVa(dataBuffer: WebGLBuffer): boolean {
-            if (this._vabuffer == dataBuffer) {
-                return true;
-            } else {
-                this._vabuffer = dataBuffer;
+         
                 return false;
-            }
+           
 
         }
 

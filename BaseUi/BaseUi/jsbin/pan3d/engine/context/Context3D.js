@@ -194,24 +194,19 @@ var Pan3d;
             this.renderContext.vertexAttribPointer(dataId, dataWidth, this.renderContext.FLOAT, false, 0, 0);
         };
         Context3D.prototype.pushVa = function (dataBuffer) {
-            if (!this._contextSetTest.testVa(dataBuffer)) {
+            if (this.renderContext.getParameter(this.renderContext.ARRAY_BUFFER_BINDING) == dataBuffer) {
+                return true;
+            }
+            else {
                 this.renderContext.bindBuffer(this.renderContext.ARRAY_BUFFER, dataBuffer);
                 return false;
             }
-            else {
-                return true;
-            }
         };
         Context3D.prototype.setVaOffset = function (dataId, dataWidth, stride, offset) {
-            if (!this._contextSetTest.enableVaAry[dataId]) {
-                this.renderContext.enableVertexAttribArray(dataId);
-                this._contextSetTest.enableVaAry[dataId] = true;
-            }
+            this.renderContext.enableVertexAttribArray(dataId);
             this.renderContext.vertexAttribPointer(dataId, dataWidth, this.renderContext.FLOAT, false, stride, offset);
         };
         Context3D.prototype.clearVa = function (dataId) {
-            //this._contextSetTest.testVa(null);
-            this._contextSetTest.enableVaAry[dataId] = false;
             this.renderContext.disableVertexAttribArray(dataId);
         };
         Context3D.prototype.drawCall = function ($iBuffer, $numTri) {
@@ -458,7 +453,7 @@ var Pan3d;
     Pan3d.FBO = FBO;
     var ContextSetTest = /** @class */ (function () {
         function ContextSetTest() {
-            this.enableVaAry = new Array;
+            // public enableVaAry: Array<boolean> = new Array;
             this.vaAry = new Array;
             this._blendType = -1000;
             this._cullType = false;
@@ -486,13 +481,7 @@ var Pan3d;
             }
         };
         ContextSetTest.prototype.testVa = function (dataBuffer) {
-            if (this._vabuffer == dataBuffer) {
-                return true;
-            }
-            else {
-                this._vabuffer = dataBuffer;
-                return false;
-            }
+            return false;
         };
         ContextSetTest.prototype.clear = function () {
             this._blendType = -1000;

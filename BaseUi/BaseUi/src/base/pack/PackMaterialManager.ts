@@ -50,9 +50,31 @@
             $roleShader.vertex = $roleShader.getVertexShaderString();
             $roleShader.fragment = $temp.info.shaderStr;
             $roleShader.encode();
- 
+
+            this.outShader($roleShader.vertex)
       
             $materialTree.roleShader = $roleShader;
+        }
+        public outShader($str: string): void {
+            var $item: Array<string> = $str.split("\n")
+
+            console.log("----")
+
+            for (var i: number = 0; i < $item.length; i++) {
+                var str: string = "\"";
+                str += $item[i];
+
+                if (i < ($item.length - 1)) {
+                    str += "\\n"
+                    str += "\""
+                    str += "\+"
+                } else {
+                    str += "\""
+                }
+
+                 console.log(str)
+            }
+            console.log("----")
         }
         public getMaterialByUrl($url: string, bfun: Function): void {
 

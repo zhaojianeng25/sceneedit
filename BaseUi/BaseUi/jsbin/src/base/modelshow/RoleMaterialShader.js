@@ -82,7 +82,7 @@ var left;
             var lightProbe = this.paramAry[4];
             var directLight = this.paramAry[5];
             var noLight = this.paramAry[6];
-            var $str = "attribute vec4 pos;\n" +
+            var $str = "attribute vec3 pos;\n" +
                 "attribute vec2 v2Uv;\n" +
                 "attribute vec4 boneID;\n" +
                 "attribute vec4 boneWeight;\n" +

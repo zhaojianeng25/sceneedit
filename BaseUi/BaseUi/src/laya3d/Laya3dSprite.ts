@@ -1,4 +1,70 @@
-﻿ 
+﻿
+import MeshData = Pan3d.MeshData
+class Laya3dRole extends left.MaterialRoleSprite{
+ 
+ 
+    public setVaCompress($mesh: MeshData): void {
+        var tf: boolean = Scene_data.context3D.pushVa($mesh.vertexBuffer);
+        if (tf) {
+            ////console.log('cccccc')
+            return;
+        }
+
+        console.log($mesh.uvsOffsets, $mesh.boneIDOffsets, $mesh.boneWeightOffsets)
+
+        Scene_data.context3D.setVaOffset(0, 3, $mesh.stride, 0);
+        Scene_data.context3D.setVaOffset(1, 2, $mesh.stride, $mesh.uvsOffsets);
+        Scene_data.context3D.setVaOffset(2, 4, $mesh.stride, $mesh.boneIDOffsets);
+        Scene_data.context3D.setVaOffset(3, 4, $mesh.stride, $mesh.boneWeightOffsets);
+
+        if ($mesh.material.useNormal) {
+            // Scene_data.context3D.setVcMatrix4fv($mesh.material.shader, "rotationMatrix3D", this._rotationMatrix.m);
+            Scene_data.context3D.setVaOffset(4, 3, $mesh.stride, $mesh.tangentsOffsets);
+            Scene_data.context3D.setVaOffset(5, 3, $mesh.stride, $mesh.bitangentsOffsets);
+            Scene_data.context3D.setVaOffset(6, 3, $mesh.stride, $mesh.normalsOffsets);
+        }
+    }
+
+    public updateMaterialMesh($mesh: MeshData): void {
+        if (!$mesh.material) {
+            return;
+        }
+  
+        Scene_data.context3D.setProgram($mesh.material.shader.program);
+ 
+        Scene_data.context3D.cullFaceBack(false);
+
+        Scene_data.context3D.setBlendParticleFactors($mesh.material.blendMode);
+ 
+
+        this.setVcMatrix($mesh);
+ 
+        this.setMaterialVc($mesh.material, $mesh.materialParam);
+ 
+        this.setMaterialTexture($mesh.material, $mesh.materialParam);
+
+
+        this.setVa($mesh);
+
+ 
+        this.setDirectLight($mesh.material);
+        this.setMeshVc($mesh);
+
+        //$mesh.treNum=1600*2
+
+
+
+        if ($mesh.treNum <= 312) {
+  
+        } else {
+
+            
+            Scene_data.context3D.drawCall($mesh.indexBuffer, $mesh.treNum);
+        }
+     
+
+    }
+}
 
 class Laya3dSprite extends Laya.Image {
 
@@ -55,10 +121,11 @@ class Laya3dSprite extends Laya.Image {
         this.sceneMaager.addDisplay(prefabSprite);
     }
     private addRole(): void {
-        var roleSprite = new left.MaterialRoleSprite();
-       // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
-        roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
- 
+        let roleSprite = new Laya3dRole();
+     roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
+      //  roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
+        roleSprite.scale = 0.5
+        roleSprite.x=60
         this.sceneMaager.addMovieDisplay(roleSprite);
 
 
