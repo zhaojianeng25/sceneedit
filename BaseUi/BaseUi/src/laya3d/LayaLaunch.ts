@@ -48,12 +48,15 @@ class LayaLaunch {
     private outImg: Laya.Image;
     private init(): void {
         LayaLaunch.overrideMethods()
+
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
      //  Pan3d.Scene_data.fileRoot = "res/";
 
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
+
+        Laya.stage.scaleMode = "full"
 
         Pan3d.Engine.init(this._canvas);
 
@@ -75,10 +78,7 @@ class LayaLaunch {
         topBox.addChild(spriteB)
 
         spriteB.pos(525, 200)
-      //  spriteB.scaleY=0.99
-
-        topBox.scaleY=0.9
-
+ 
         var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA)
         picA.pos(800, 470)
