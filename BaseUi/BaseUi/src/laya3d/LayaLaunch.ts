@@ -21,8 +21,33 @@ class LayaLaunch {
     constructor() {
         this.init()
     }
+    static inited: boolean
+    static overrideMethods(): void {
+        if (this.inited) {
+            return;
+        }
+        this.inited = true;
+        let compatibleLayaRender = function (pan3dFunc: Function, ...args): any {
+            let v = pan3dFunc.apply(this, args);
+
+            console.log("here")
+            return v;
+        }
+        let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
+        Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
+            return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
+        }
+        /*
+        let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
+        Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
+            return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
+        }
+        */
+    }
+
     private outImg: Laya.Image;
     private init(): void {
+        LayaLaunch.overrideMethods()
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
      //  Pan3d.Scene_data.fileRoot = "res/";
 

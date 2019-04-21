@@ -19,7 +19,33 @@ var LayaLaunch = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    LayaLaunch.overrideMethods = function () {
+        if (this.inited) {
+            return;
+        }
+        this.inited = true;
+        var compatibleLayaRender = function (pan3dFunc) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            var v = pan3dFunc.apply(this, args);
+            console.log("here");
+            return v;
+        };
+        var ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
+        Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte) {
+            return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
+        };
+        /*
+        let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
+        Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
+            return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
+        }
+        */
+    };
     LayaLaunch.prototype.init = function () {
+        LayaLaunch.overrideMethods();
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
         //  Pan3d.Scene_data.fileRoot = "res/";
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
