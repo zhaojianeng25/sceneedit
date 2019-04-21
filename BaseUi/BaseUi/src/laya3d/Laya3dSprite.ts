@@ -4,11 +4,45 @@ class Laya3dSprite extends Laya.Image {
     public constructor(value: string) { //"res/ui/icon/512.jpg"
         super();
         Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
-            this.texture = aa;
-            aa.bitmap.enableMerageInAtlas = false;
+          
+
+          //  this.texture = Laya.Texture.createFromTexture(aa, 0, 0, 512, 512)
+            this.texture=aa
+
+            var a: Laya.Texture = new Laya.Texture(new laya.resource.Bitmap())
+            a.width = 512
+            a.height = 512
+            a.sourceWidth = 512
+            a.sourceHeight = 512
+
+            console.log(this.texture)
+            console.log(a )
+
+         //  this.texture= a
+ 
+            this.texture.bitmap.enableMerageInAtlas = false;
+
           //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
             this.initScene()
         }))
+
+        LoadManager.getInstance().load("res/ui/icon/512.jpg", LoadManager.IMG_TYPE,
+            ($img: any) => {
+                let kk = new laya.resource.Bitmap()
+                let temp = new Laya.Texture(new laya.resource.Bitmap())
+                temp.active();
+
+     
+       
+              //  console.log(kk)
+                //Laya.Texture.crea($img, 0, 0, 512, 512)
+
+              
+
+          
+            });
+
+ 
 
          
     }
@@ -87,22 +121,20 @@ class Laya3dSprite extends Laya.Image {
         if (this.program) {
             gl.useProgram(this.program)
         }
-        Scene_data.context3D.setCullFaceModel(2);
+        Scene_data.context3D.cullFaceBack(true);
 
     }
     public sceneMaagerUpData(): void {
         this.sceneMaager.focus3D.rotationY++
         Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-
-
+ 
         this.saveBasePrarame();
         var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
         if (this.sceneMaager.fbo) {
-            this.sceneMaager.fbo.texture = this.texture.source;
+           (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
         }
         this.sceneMaager.renderToTexture();
-
-
+ 
         this.resetBasePrarame();
 
         Laya.BaseShader.activeShader = null

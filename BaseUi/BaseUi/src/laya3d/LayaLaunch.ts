@@ -71,13 +71,14 @@ class LayaLaunch {
 
  
         var spriteA: Laya3dSprite = new Laya3dSprite("res/ui/icon/512.jpg")
-        topBox.addChild(spriteA)
-
+        topBox.addChild(spriteA);
 
         var spriteB: Laya3dSprite = new Laya3dSprite("res/ui/icon/512a.jpg")
-        topBox.addChild(spriteB)
+        topBox.addChild(spriteB);
 
-        spriteB.pos(525, 200)
+        spriteB.scaleY = 0.3;
+
+        spriteB.pos(525, 200);
  
         var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA)

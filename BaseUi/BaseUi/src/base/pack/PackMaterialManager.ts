@@ -51,7 +51,7 @@
             $roleShader.fragment = $temp.info.shaderStr;
             $roleShader.encode();
 
-            this.outShader($roleShader.vertex)
+            //this.outShader($roleShader.vertex)
       
             $materialTree.roleShader = $roleShader;
         }

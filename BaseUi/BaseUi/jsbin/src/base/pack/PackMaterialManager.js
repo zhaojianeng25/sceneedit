@@ -43,7 +43,7 @@ var pack;
             $roleShader.vertex = $roleShader.getVertexShaderString();
             $roleShader.fragment = $temp.info.shaderStr;
             $roleShader.encode();
-            this.outShader($roleShader.vertex);
+            //this.outShader($roleShader.vertex)
             $materialTree.roleShader = $roleShader;
         };
         PackMaterialManager.prototype.outShader = function ($str) {

@@ -16,11 +16,27 @@ var Laya3dSprite = /** @class */ (function (_super) {
     function Laya3dSprite(value) {
         var _this = _super.call(this) || this;
         Laya.loader.load(value, Laya.Handler.create(_this, function (aa) {
+            //  this.texture = Laya.Texture.createFromTexture(aa, 0, 0, 512, 512)
             _this.texture = aa;
-            aa.bitmap.enableMerageInAtlas = false;
+            var a = new Laya.Texture(new laya.resource.Bitmap());
+            a.width = 512;
+            a.height = 512;
+            a.sourceWidth = 512;
+            a.sourceHeight = 512;
+            console.log(_this.texture);
+            console.log(a);
+            //  this.texture= a
+            _this.texture.bitmap.enableMerageInAtlas = false;
             //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
             _this.initScene();
         }));
+        LoadManager.getInstance().load("res/ui/icon/512.jpg", LoadManager.IMG_TYPE, function ($img) {
+            var kk = new laya.resource.Bitmap();
+            var temp = new Laya.Texture(new laya.resource.Bitmap());
+            temp.active();
+            //  console.log(kk)
+            //Laya.Texture.crea($img, 0, 0, 512, 512)
+        });
         return _this;
     }
     Laya3dSprite.prototype.initScene = function () {
@@ -87,7 +103,7 @@ var Laya3dSprite = /** @class */ (function (_super) {
         if (this.program) {
             gl.useProgram(this.program);
         }
-        Scene_data.context3D.setCullFaceModel(2);
+        Scene_data.context3D.cullFaceBack(true);
     };
     Laya3dSprite.prototype.sceneMaagerUpData = function () {
         this.sceneMaager.focus3D.rotationY++;
@@ -95,7 +111,7 @@ var Laya3dSprite = /** @class */ (function (_super) {
         this.saveBasePrarame();
         var gl = Scene_data.context3D.renderContext;
         if (this.sceneMaager.fbo) {
-            this.sceneMaager.fbo.texture = this.texture.source;
+            this.texture.bitmap._source = this.sceneMaager.fbo.texture;
         }
         this.sceneMaager.renderToTexture();
         this.resetBasePrarame();
