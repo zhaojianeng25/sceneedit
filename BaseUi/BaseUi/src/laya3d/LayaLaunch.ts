@@ -82,13 +82,23 @@ class LayaLaunch {
  
         picB.pos(0, 220)
 
+        this.lastTm = Pan3d.TimeUtil.getTimer()
         Laya.stage.frameLoop(1, this, () => {
+          
+
+            var t = Pan3d.TimeUtil.getTimer() - this.lastTm;
+
+            Pan3d.TimeUtil.START_TIME += t * -2
+
+            this.lastTm = Pan3d.TimeUtil.getTimer()
+
             Pan3d.TimeUtil.update()
             spriteA.upData()
             spriteB.upData()
              
         })
     }
+    private lastTm: number
  
     public static initCanvas($caves: HTMLCanvasElement): void {
 

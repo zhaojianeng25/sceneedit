@@ -7,7 +7,7 @@
         public static time: number = 0;
 
         public static getTimer(): number {
-            return (Date.now() - TimeUtil.START_TIME)*0.5;
+            return (Date.now() - TimeUtil.START_TIME) ;
         }
 
         public static getTimerSecond(): number {

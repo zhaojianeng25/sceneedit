@@ -41,6 +41,7 @@ var LayaLaunch = /** @class */ (function () {
         */
     };
     LayaLaunch.prototype.init = function () {
+        var _this = this;
         LayaLaunch.overrideMethods();
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
@@ -64,7 +65,11 @@ var LayaLaunch = /** @class */ (function () {
         var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB);
         picB.pos(0, 220);
+        this.lastTm = Pan3d.TimeUtil.getTimer();
         Laya.stage.frameLoop(1, this, function () {
+            var t = Pan3d.TimeUtil.getTimer() - _this.lastTm;
+            Pan3d.TimeUtil.START_TIME += t * -2;
+            _this.lastTm = Pan3d.TimeUtil.getTimer();
             Pan3d.TimeUtil.update();
             spriteA.upData();
             spriteB.upData();
