@@ -26,7 +26,7 @@ var LayaLaunch = /** @class */ (function () {
                 args[_i - 1] = arguments[_i];
             }
             var v = pan3dFunc.apply(this, args);
-            console.log("here");
+            //   console.log("here")
             return v;
         };
         var funA = WebGLRenderingContext.prototype.blendFunc;
@@ -64,6 +64,11 @@ var LayaLaunch = /** @class */ (function () {
         var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB);
         picB.pos(0, 220);
+        Laya.stage.frameLoop(1, this, function () {
+            Pan3d.TimeUtil.update();
+            spriteA.upData();
+            spriteB.upData();
+        });
     };
     LayaLaunch.initCanvas = function ($caves) {
         new LayaLaunch();

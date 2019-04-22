@@ -89,6 +89,8 @@ var maineditor;
                 this.updateMovieDisplay();
                 Scene_data.context3D.setWriteDepth(true);
                 Scene_data.context3D.setDepthTest(true);
+                Scene_data.context3D.setCullFaceModel(2);
+                Scene_data.context3D.setBlendParticleFactors(1);
                 this.particleManager.update();
             }
             Scene_data.cam3D = lastCam3D;

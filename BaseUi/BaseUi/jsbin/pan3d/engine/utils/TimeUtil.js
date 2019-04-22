@@ -4,7 +4,7 @@ var Pan3d;
         function TimeUtil() {
         }
         TimeUtil.getTimer = function () {
-            return Date.now() - TimeUtil.START_TIME;
+            return (Date.now() - TimeUtil.START_TIME) * 0.5;
         };
         TimeUtil.getTimerSecond = function () {
             return TimeUtil.getTimer() / 1000;

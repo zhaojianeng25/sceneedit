@@ -26,7 +26,7 @@ module LayaPan3D {
             this.initScene();
 
           //  this.scale(1,-1)
-            this.scale(0.5, 0.5);
+          //  this.scale(0.5, 0.5);
         }
         private initScene(): void {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
@@ -40,16 +40,14 @@ module LayaPan3D {
             this.sceneMaager.cam3D.distance = 200;
             this.sceneMaager.focus3D.rotationY = random(360);
             this.sceneMaager.focus3D.rotationX = -45;
-            this.frameLoop(1, this, () => {
-                this.sceneMaagerUpData()
-            })
+      
             this.addSceneModel();
         }
         private addSceneModel(): void {
-            this.addDisplay();
-             this.addRole();
-            this.addSkillRole();
-        //    this.addLyfSprite();
+           // this.addDisplay();
+           //  this.addRole();
+           this.addSkillRole();
+          //  this.addLyfSprite();
         }
         private addDisplay(): void {
             let prefabSprite: ModelSprite = new ModelSprite();
@@ -60,8 +58,9 @@ module LayaPan3D {
         }
         private addRole(): void {
             let roleSprite = new MaterialRoleSprite();
-            // roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
-            roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
+         //   roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
+            roleSprite.setRoleZwwUrl("pefab/上杉谦信/ssqx.zzw")
+           // roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
             roleSprite.scale = 0.5
             roleSprite.x = 50
             this.sceneMaager.addMovieDisplay(roleSprite);
@@ -90,11 +89,13 @@ module LayaPan3D {
  
             this.sFactor = gl.getParameter(gl.BLEND_SRC_RGB);
             this.dFactor = gl.getParameter(gl.BLEND_DST_RGB);
-
-  
+            this.depthWriteMask = gl.getParameter(gl.DEPTH_WRITEMASK)
+            this.cullFaceModel =  gl.getParameter(gl.CULL_FACE_MODE)
         
 
         }
+        private cullFaceModel: GLenum;
+        private depthWriteMask: GLboolean;
         private sFactor: GLenum;
         private dFactor: GLenum;
         private program: WebGLProgram
@@ -102,14 +103,15 @@ module LayaPan3D {
         private elementArrayBuffer: WebGLBuffer
         private resetBasePrarame(): void {
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-            gl.useProgram(this.program)
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
-            gl.blendFunc(this.sFactor, this.dFactor);
-
+            gl.useProgram(this.program) //着色器
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer); //定点对象
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer); 
+            gl.blendFunc(this.sFactor, this.dFactor); //混合模式
+            gl.depthMask(this.depthWriteMask); //写入深度
+            gl.cullFace(this.cullFaceModel);  //正反面
 
             Scene_data.context3D.setBlendParticleFactors(-1);
-      
+            Scene_data.context3D.setDepthTest(true);
             Scene_data.context3D.cullFaceBack(true);
 
             Laya.BaseShader.activeShader = null;
@@ -119,15 +121,19 @@ module LayaPan3D {
 
 
         }
-        public sceneMaagerUpData(): void {
-            this.saveBasePrarame();
-            this.sceneMaager.focus3D.rotationY++
-            Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-            if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
-                (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
+        public upData(): void {
+            if (this.sceneMaager) {
+                this.saveBasePrarame();
+               // this.sceneMaager.focus3D.rotationY++
+                Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
+                    (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
+                }
+                this.sceneMaager.renderToTexture();
+                this.resetBasePrarame();
             }
-            this.sceneMaager.renderToTexture();
-            this.resetBasePrarame();
+       
+
         }
         private sceneMaager: EdItorSceneManager;
 

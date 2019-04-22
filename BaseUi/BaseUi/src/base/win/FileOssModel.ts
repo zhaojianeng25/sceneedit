@@ -267,8 +267,9 @@
 
         public static copyFile(toUrl: string, srcoueUrl: string, $bfun: Function = null): void {
 
-            toUrl = toUrl
+     
             srcoueUrl = encodeURI(srcoueUrl)
+            toUrl = decodeURI(toUrl)
             
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(() => {

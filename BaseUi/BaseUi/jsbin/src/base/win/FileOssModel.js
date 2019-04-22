@@ -239,8 +239,8 @@ var pack;
         };
         FileOssModel.copyFile = function (toUrl, srcoueUrl, $bfun) {
             if ($bfun === void 0) { $bfun = null; }
-            toUrl = toUrl;
             srcoueUrl = encodeURI(srcoueUrl);
+            toUrl = decodeURI(toUrl);
             if (!FileOssModel.ossWrapper) {
                 this.makeOssWrapper(function () {
                     FileOssModel.ossWrapper.copy(toUrl, srcoueUrl).then(function (result) {

@@ -25,7 +25,7 @@ class LayaLaunch {
         let compatibleLayaRender = function (pan3dFunc: Function, ...args): any {
             let v = pan3dFunc.apply(this, args);
 
-            console.log("here")
+         //   console.log("here")
             return v;
         }
         let funA = WebGLRenderingContext.prototype.blendFunc;
@@ -80,7 +80,14 @@ class LayaLaunch {
         var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB)
  
-        picB.pos(0,220)
+        picB.pos(0, 220)
+
+        Laya.stage.frameLoop(1, this, () => {
+            Pan3d.TimeUtil.update()
+            spriteA.upData()
+            spriteB.upData()
+             
+        })
     }
  
     public static initCanvas($caves: HTMLCanvasElement): void {
