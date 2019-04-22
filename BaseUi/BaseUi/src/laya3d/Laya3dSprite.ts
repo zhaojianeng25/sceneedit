@@ -1,6 +1,8 @@
 ﻿
 module LayaPan3D {
 
+    import Vector2D = Pan3d.Vector2D
+    import Object3D = Pan3d.Object3D
     import MathClass = Pan3d.MathClass
     import Scene_data = Pan3d.Scene_data
 
@@ -26,8 +28,46 @@ module LayaPan3D {
             this.initScene();
 
           //  this.scale(1,-1)
-          //  this.scale(0.5, 0.5);
+            //  this.scale(0.5, 0.5);
+            this.width = 512;
+            this.height = 512;
+            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
+            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
+            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
+            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         }
+        private onMouseWheel(e: any): void {
+            this.sceneMaager.cam3D.distance += e.delta
+        }
+        private lastMouseVec2d: Vector2D;
+        private lastfocus3D: Object3D
+        private onStartDrag(e: Event): void {
+            if (this.mouseY < 100) {
+                this.startDrag(this.dragRegion, true, 100);
+            } else {
+                this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY)
+                this.lastfocus3D = new Object3D()
+                this.lastfocus3D.rotationY = this.sceneMaager.focus3D.rotationY
+                this.lastfocus3D.rotationX = this.sceneMaager.focus3D.rotationX
+            }
+
+           
+        }
+        private onMouseUp(e: Event): void {
+            this.lastMouseVec2d = null
+
+        }
+        private onMouseMove(e: Event): void {
+     
+            if (this.lastMouseVec2d) {
+                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x)
+                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y)/10
+                
+            }
+
+        }
+        private dragRegion: Laya.Rectangle;
+
         private initScene(): void {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
             this.sceneMaager = new EdItorSceneManager()

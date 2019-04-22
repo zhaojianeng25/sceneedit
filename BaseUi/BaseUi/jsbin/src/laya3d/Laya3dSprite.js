@@ -13,6 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
+    var Vector2D = Pan3d.Vector2D;
+    var Object3D = Pan3d.Object3D;
     var Scene_data = Pan3d.Scene_data;
     var MaterialRoleSprite = left.MaterialRoleSprite;
     var ModelSprite = maineditor.ModelSprite;
@@ -29,10 +31,39 @@ var LayaPan3D;
                 _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
             }));
             _this.initScene();
-            return _this;
             //  this.scale(1,-1)
             //  this.scale(0.5, 0.5);
+            _this.width = 512;
+            _this.height = 512;
+            _this.on(Pan3d.MouseType.MouseDown, _this, _this.onStartDrag);
+            _this.on(Pan3d.MouseType.MouseWheel, _this, _this.onMouseWheel);
+            Laya.stage.on(Pan3d.MouseType.MouseUp, _this, _this.onMouseUp);
+            Laya.stage.on(Pan3d.MouseType.MouseMove, _this, _this.onMouseMove);
+            return _this;
         }
+        Laya3dSprite.prototype.onMouseWheel = function (e) {
+            this.sceneMaager.cam3D.distance += e.delta;
+        };
+        Laya3dSprite.prototype.onStartDrag = function (e) {
+            if (this.mouseY < 100) {
+                this.startDrag(this.dragRegion, true, 100);
+            }
+            else {
+                this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY);
+                this.lastfocus3D = new Object3D();
+                this.lastfocus3D.rotationY = this.sceneMaager.focus3D.rotationY;
+                this.lastfocus3D.rotationX = this.sceneMaager.focus3D.rotationX;
+            }
+        };
+        Laya3dSprite.prototype.onMouseUp = function (e) {
+            this.lastMouseVec2d = null;
+        };
+        Laya3dSprite.prototype.onMouseMove = function (e) {
+            if (this.lastMouseVec2d) {
+                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x);
+                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10;
+            }
+        };
         Laya3dSprite.prototype.initScene = function () {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
             this.sceneMaager = new EdItorSceneManager();
