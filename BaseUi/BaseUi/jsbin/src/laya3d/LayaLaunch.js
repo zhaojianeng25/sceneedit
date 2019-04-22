@@ -29,9 +29,9 @@ var LayaLaunch = /** @class */ (function () {
             console.log("here");
             return v;
         };
-        var ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
-        Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte) {
-            return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
+        var funA = WebGLRenderingContext.prototype.blendFunc;
+        WebGLRenderingContext.prototype.blendFunc = function (sfactor, dfactor) {
+            return compatibleLayaRender.call(this, funA, sfactor, dfactor);
         };
         /*
         let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
@@ -59,10 +59,11 @@ var LayaLaunch = /** @class */ (function () {
         spriteB.pos(525, 200);
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
-        picA.pos(800, 470);
+        picA.scale(0.5, 0.5);
+        picA.pos(600, 170);
         var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB);
-        picB.pos(0, 460);
+        picB.pos(0, 220);
     };
     LayaLaunch.initCanvas = function ($caves) {
         new LayaLaunch();

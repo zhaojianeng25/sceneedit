@@ -28,9 +28,9 @@ class LayaLaunch {
             console.log("here")
             return v;
         }
-        let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
-        Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
-            return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
+        let funA = WebGLRenderingContext.prototype.blendFunc;
+        WebGLRenderingContext.prototype.blendFunc = function (sfactor: GLenum, dfactor: GLenum): void {
+            return compatibleLayaRender.call(this, funA, sfactor, dfactor);
         }
         /*
         let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
@@ -46,7 +46,6 @@ class LayaLaunch {
 
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
  
-
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
@@ -74,12 +73,14 @@ class LayaLaunch {
  
         var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA)
-        picA.pos(800, 470)
+        picA.scale(0.5,0.5)
+        picA.pos(600, 170)
 
 
         var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB)
-        picB.pos(0,460)
+ 
+        picB.pos(0,220)
     }
  
     public static initCanvas($caves: HTMLCanvasElement): void {

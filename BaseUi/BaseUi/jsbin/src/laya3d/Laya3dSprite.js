@@ -26,11 +26,12 @@ var LayaPan3D;
             Laya.loader.load(value, Laya.Handler.create(_this, function (aa) {
                 _this.texture = aa;
                 _this.texture.bitmap.enableMerageInAtlas = false;
-                //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+                _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
             }));
             _this.initScene();
+            //  this.scale(1,-1)
+            _this.scale(0.5, 0.5);
             return _this;
-            // this.scale(0.5, 0.5);
         }
         Laya3dSprite.prototype.initScene = function () {
             var _this = this;
@@ -53,8 +54,8 @@ var LayaPan3D;
         Laya3dSprite.prototype.addSceneModel = function () {
             this.addDisplay();
             this.addRole();
-            //this.addSkillRole();
-            //this.addLyfSprite();
+            this.addSkillRole();
+            //    this.addLyfSprite();
         };
         Laya3dSprite.prototype.addDisplay = function () {
             var prefabSprite = new ModelSprite();
@@ -89,22 +90,19 @@ var LayaPan3D;
             this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
             this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
             this.program = gl.getParameter(gl.CURRENT_PROGRAM);
+            this.sFactor = gl.getParameter(gl.BLEND_SRC_RGB);
+            this.dFactor = gl.getParameter(gl.BLEND_DST_RGB);
         };
         Laya3dSprite.prototype.resetBasePrarame = function () {
             var gl = Scene_data.context3D.renderContext;
-            if (this.arrayBuffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
-            }
-            if (this.elementArrayBuffer) {
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
-            }
-            if (this.program) {
-                gl.useProgram(this.program);
-            }
+            gl.useProgram(this.program);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
+            gl.blendFunc(this.sFactor, this.dFactor);
+            Scene_data.context3D.setBlendParticleFactors(-1);
+            Scene_data.context3D.cullFaceBack(true);
             Laya.BaseShader.activeShader = null;
             Laya.BaseShader.bindShader = null;
-            Scene_data.context3D.cullFaceBack(true);
-            Scene_data.context3D.setBlendParticleFactors(0);
         };
         Laya3dSprite.prototype.sceneMaagerUpData = function () {
             this.saveBasePrarame();

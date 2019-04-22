@@ -20,11 +20,13 @@ module LayaPan3D {
             Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
                 this.texture = aa
                 this.texture.bitmap.enableMerageInAtlas = false;
-              //  this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+                 this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
 
             }))
             this.initScene();
-           // this.scale(0.5, 0.5);
+
+          //  this.scale(1,-1)
+            this.scale(0.5, 0.5);
         }
         private initScene(): void {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
@@ -46,8 +48,8 @@ module LayaPan3D {
         private addSceneModel(): void {
             this.addDisplay();
              this.addRole();
-            //this.addSkillRole();
-            //this.addLyfSprite();
+            this.addSkillRole();
+        //    this.addLyfSprite();
         }
         private addDisplay(): void {
             let prefabSprite: ModelSprite = new ModelSprite();
@@ -85,25 +87,36 @@ module LayaPan3D {
             this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
             this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
             this.program = gl.getParameter(gl.CURRENT_PROGRAM);
+ 
+            this.sFactor = gl.getParameter(gl.BLEND_SRC_RGB);
+            this.dFactor = gl.getParameter(gl.BLEND_DST_RGB);
+
+  
+        
+
         }
+        private sFactor: GLenum;
+        private dFactor: GLenum;
         private program: WebGLProgram
         private arrayBuffer: WebGLBuffer
         private elementArrayBuffer: WebGLBuffer
         private resetBasePrarame(): void {
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-            if (this.arrayBuffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
-            }
-            if (this.elementArrayBuffer) {
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
-            }
-            if (this.program) {
-                gl.useProgram(this.program)
-            }
+            gl.useProgram(this.program)
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
+            gl.blendFunc(this.sFactor, this.dFactor);
+
+
+            Scene_data.context3D.setBlendParticleFactors(-1);
+      
+            Scene_data.context3D.cullFaceBack(true);
+
             Laya.BaseShader.activeShader = null;
             Laya.BaseShader.bindShader = null;
-            Scene_data.context3D.cullFaceBack(true);
-            Scene_data.context3D.setBlendParticleFactors(0)
+
+
+
 
         }
         public sceneMaagerUpData(): void {
