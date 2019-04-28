@@ -16,25 +16,34 @@ module LayaPan3D {
 
     export class Laya3dSprite extends Laya.Image {
 
-        public constructor(value: string) { //"res/ui/icon/512.jpg"
+        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super();
-
             Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
                 this.texture = aa
                 this.texture.bitmap.enableMerageInAtlas = false;
-                 this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
-
+                this.initScene();
+                this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+                this.width = this.texture.width;
+                this.height = this.texture.height;
+                bfun && bfun();
             }))
-            this.initScene();
-
-          //  this.scale(1,-1)
-            //  this.scale(0.5, 0.5);
-            this.width = 512;
-            this.height = 512;
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
             Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
+        }
+        public scale(scaleX: number, scaleY: number, speedMode: boolean = null): Sprite {
+            var sp: Sprite = super.scale(scaleX, scaleY, speedMode)
+            this.resizeRect();
+            return sp;
+        }
+        private resizeRect(): void {
+            if (this.texture) {
+                var tw: number = this.scaleX * this.width;
+                var th: number = this.scaleY * this.height;
+                this.sceneMaager.cam3D.cavanRect.width = tw;
+                this.sceneMaager.cam3D.cavanRect.height = th;
+            }
         }
         private onMouseWheel(e: any): void {
             this.sceneMaager.cam3D.distance += e.delta
@@ -42,8 +51,8 @@ module LayaPan3D {
         private lastMouseVec2d: Vector2D;
         private lastfocus3D: Object3D
         private onStartDrag(e: Event): void {
-            if (this.mouseY < 100) {
-                this.startDrag(this.dragRegion, true, 100);
+            if (this.mouseY < this.height*0.2) {
+                this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
                 this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY)
                 this.lastfocus3D = new Object3D()

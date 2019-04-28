@@ -2,6 +2,7 @@
 import Loader = Laya.Loader;
 import LEvent = Laya.Event;
 import Stage = Laya.Stage;
+import Sprite = Laya.Sprite
 
 
 import Pan3dByteArray = Pan3d.Pan3dByteArray;
@@ -42,17 +43,27 @@ class LayaLaunch {
 
  
     private init(): void {
-        LayaLaunch.overrideMethods()
+       // LayaLaunch.overrideMethods()
 
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
- 
+        Laya.stage.alignV = Stage.ALIGN_LEFT;
+        Laya.stage.alignH = Stage.ALIGN_TOP;
+
+        Laya.stage.scaleMode = "full"
+        Laya.stage.bgColor = "#232628";
+       
+
+   
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
 
-        Laya.stage.scaleMode = "full"
+ 
 
         Pan3d.Engine.init(this._canvas);
+
+        
+
  
         var midBox: Laya.Box = new Laya.Box()
         Laya.stage.addChild(midBox)
@@ -62,10 +73,16 @@ class LayaLaunch {
 
  
  
-        var spriteA: Laya3dSprite = new Laya3dSprite("res/ui/icon/512.jpg")
+        var spriteA: Laya3dSprite = new Laya3dSprite("res/ui/icon/256b.png", () => {
+            spriteA.scale(2, 1)
+        })
+
         topBox.addChild(spriteA);
 
-        var spriteB: Laya3dSprite = new Laya3dSprite("res/ui/icon/512a.jpg")
+        var spriteB: Laya3dSprite = new Laya3dSprite("res/ui/icon/256a.png", () => {
+            spriteB.scale(1, 2)
+        })
+  
         topBox.addChild(spriteB);
  
         spriteB.pos(525, 200);
@@ -84,11 +101,8 @@ class LayaLaunch {
 
         this.lastTm = Pan3d.TimeUtil.getTimer()
         Laya.stage.frameLoop(1, this, () => {
-          
-
             var t = Pan3d.TimeUtil.getTimer() - this.lastTm;
-
-            Pan3d.TimeUtil.START_TIME += t * -2
+            Pan3d.TimeUtil.START_TIME += t * -2;
 
             this.lastTm = Pan3d.TimeUtil.getTimer()
 
@@ -97,7 +111,10 @@ class LayaLaunch {
             spriteB.upData()
              
         })
+ 
     }
+  
+  
     private lastTm: number
  
     public static initCanvas($caves: HTMLCanvasElement): void {

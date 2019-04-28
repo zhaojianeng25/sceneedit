@@ -23,30 +23,44 @@ var LayaPan3D;
     var EdItorSceneManager = maineditor.EdItorSceneManager;
     var Laya3dSprite = /** @class */ (function (_super) {
         __extends(Laya3dSprite, _super);
-        function Laya3dSprite(value) {
+        function Laya3dSprite(value, bfun) {
+            if (bfun === void 0) { bfun = null; }
             var _this = _super.call(this) || this;
             Laya.loader.load(value, Laya.Handler.create(_this, function (aa) {
                 _this.texture = aa;
                 _this.texture.bitmap.enableMerageInAtlas = false;
+                _this.initScene();
                 _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+                _this.width = _this.texture.width;
+                _this.height = _this.texture.height;
+                bfun && bfun();
             }));
-            _this.initScene();
-            //  this.scale(1,-1)
-            //  this.scale(0.5, 0.5);
-            _this.width = 512;
-            _this.height = 512;
             _this.on(Pan3d.MouseType.MouseDown, _this, _this.onStartDrag);
             _this.on(Pan3d.MouseType.MouseWheel, _this, _this.onMouseWheel);
             Laya.stage.on(Pan3d.MouseType.MouseUp, _this, _this.onMouseUp);
             Laya.stage.on(Pan3d.MouseType.MouseMove, _this, _this.onMouseMove);
             return _this;
         }
+        Laya3dSprite.prototype.scale = function (scaleX, scaleY, speedMode) {
+            if (speedMode === void 0) { speedMode = null; }
+            var sp = _super.prototype.scale.call(this, scaleX, scaleY, speedMode);
+            this.resizeRect();
+            return sp;
+        };
+        Laya3dSprite.prototype.resizeRect = function () {
+            if (this.texture) {
+                var tw = this.scaleX * this.width;
+                var th = this.scaleY * this.height;
+                this.sceneMaager.cam3D.cavanRect.width = tw;
+                this.sceneMaager.cam3D.cavanRect.height = th;
+            }
+        };
         Laya3dSprite.prototype.onMouseWheel = function (e) {
             this.sceneMaager.cam3D.distance += e.delta;
         };
         Laya3dSprite.prototype.onStartDrag = function (e) {
-            if (this.mouseY < 100) {
-                this.startDrag(this.dragRegion, true, 100);
+            if (this.mouseY < this.height * 0.2) {
+                this.startDrag(this.dragRegion, true, this.height * 0.2);
             }
             else {
                 this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY);
