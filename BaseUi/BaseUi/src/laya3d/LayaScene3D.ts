@@ -26,7 +26,12 @@ module LayaPan3D {
             Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         }
-
+        protected addSceneModel(): void {
+            // this.addDisplay();
+            //  this.addRole();
+            // this.addSkillRole();
+            //  this.addLyfSprite();
+        }
         private onMouseWheel(e: any): void {
             this.sceneMaager.cam3D.distance += e.delta
         }

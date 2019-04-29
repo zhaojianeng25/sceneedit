@@ -59,20 +59,20 @@ module LayaPan3D {
       
             this.addSceneModel();
         }
-        private addSceneModel(): void {
+        protected addSceneModel(): void {
            // this.addDisplay();
            //  this.addRole();
-           this.addSkillRole();
+          // this.addSkillRole();
           //  this.addLyfSprite();
         }
-        private addDisplay(): void {
+        protected addDisplay(): void {
             let prefabSprite: ModelSprite = new ModelSprite();
             prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
             prefabSprite.scale = 2
             prefabSprite.x=-100
             this.sceneMaager.addDisplay(prefabSprite);
         }
-        private addRole(): void {
+        protected addRole(): void {
             let roleSprite = new MaterialRoleSprite();
          //   roleSprite.setRoleZwwUrl("pefab/德川家康/德川家康.zzw")
             roleSprite.setRoleZwwUrl("pefab/上杉谦信/ssqx.zzw")
@@ -83,7 +83,7 @@ module LayaPan3D {
 
         }
         //
-        private addSkillRole(): void {
+        protected addSkillRole(): void {
             let skillsprite = new SkillSpriteDisplay();
             skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill")
             skillsprite.x =-30

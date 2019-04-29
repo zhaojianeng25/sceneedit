@@ -29,6 +29,12 @@ var LayaPan3D;
             Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         };
+        LayaScene3D.prototype.addSceneModel = function () {
+            // this.addDisplay();
+            //  this.addRole();
+            // this.addSkillRole();
+            //  this.addLyfSprite();
+        };
         LayaScene3D.prototype.onMouseWheel = function (e) {
             this.sceneMaager.cam3D.distance += e.delta;
         };

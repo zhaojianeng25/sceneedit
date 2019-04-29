@@ -19,6 +19,14 @@ module LayaPan3D {
             super(value, bfun)
 
             this.addEvents()
+
+
+        }
+        protected addSceneModel(): void {
+            // this.addDisplay();
+            //  this.addRole();
+            this.addSkillRole();
+            //  this.addLyfSprite();
         }
         protected addEvents(): void {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
@@ -29,6 +37,8 @@ module LayaPan3D {
 
         private onMouseWheel(e: any): void {
            // this.sceneMaager.cam3D.distance += e.delta
+
+            this.sceneScaleNum += e.delta / 100;
         }
         private lastMouseVec2d: Vector2D;
         private lastfocus3D: Object3D
@@ -67,6 +77,7 @@ module LayaPan3D {
                 super.upData()
             }
         }
+        private sceneScaleNum: number=1
         protected renderToTexture(): void {
             var m: Matrix3D = new Matrix3D
 
@@ -75,11 +86,9 @@ module LayaPan3D {
 
 
             m.appendScale(1 / tw, 1 / th, 1 / 2000);
-
-            var scalenum: number=5
-            m.appendScale(scalenum, scalenum, scalenum);
-
-
+ 
+            m.appendScale(this.sceneScaleNum, this.sceneScaleNum, 1);
+ 
             this.sceneMaager.renderToTexture(m);
 
         }

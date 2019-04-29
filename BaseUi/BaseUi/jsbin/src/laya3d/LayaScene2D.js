@@ -21,9 +21,16 @@ var LayaPan3D;
         function LayaScene2D(value, bfun) {
             if (bfun === void 0) { bfun = null; }
             var _this = _super.call(this, value, bfun) || this;
+            _this.sceneScaleNum = 1;
             _this.addEvents();
             return _this;
         }
+        LayaScene2D.prototype.addSceneModel = function () {
+            // this.addDisplay();
+            //  this.addRole();
+            this.addSkillRole();
+            //  this.addLyfSprite();
+        };
         LayaScene2D.prototype.addEvents = function () {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
@@ -32,6 +39,7 @@ var LayaPan3D;
         };
         LayaScene2D.prototype.onMouseWheel = function (e) {
             // this.sceneMaager.cam3D.distance += e.delta
+            this.sceneScaleNum += e.delta / 100;
         };
         LayaScene2D.prototype.onStartDrag = function (e) {
             if (this.mouseY < this.height * 0.2) {
@@ -64,8 +72,7 @@ var LayaPan3D;
             var tw = this.sceneMaager.cam3D.cavanRect.width;
             var th = this.sceneMaager.cam3D.cavanRect.height;
             m.appendScale(1 / tw, 1 / th, 1 / 2000);
-            var scalenum = 5;
-            m.appendScale(scalenum, scalenum, scalenum);
+            m.appendScale(this.sceneScaleNum, this.sceneScaleNum, 1);
             this.sceneMaager.renderToTexture(m);
         };
         return LayaScene2D;

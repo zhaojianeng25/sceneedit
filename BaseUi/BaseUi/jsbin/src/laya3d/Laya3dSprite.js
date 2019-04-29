@@ -66,7 +66,7 @@ var LayaPan3D;
         Laya3dSprite.prototype.addSceneModel = function () {
             // this.addDisplay();
             //  this.addRole();
-            this.addSkillRole();
+            // this.addSkillRole();
             //  this.addLyfSprite();
         };
         Laya3dSprite.prototype.addDisplay = function () {
