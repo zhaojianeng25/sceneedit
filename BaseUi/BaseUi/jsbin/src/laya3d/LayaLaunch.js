@@ -4,7 +4,7 @@ var LEvent = Laya.Event;
 var Stage = Laya.Stage;
 var Sprite = Laya.Sprite;
 var Pan3dByteArray = Pan3d.Pan3dByteArray;
-var Laya3dSprite = LayaPan3D.Laya3dSprite;
+var LayaScene3D = LayaPan3D.LayaScene3D;
 var LayaLaunch = /** @class */ (function () {
     function LayaLaunch() {
         this.init();
@@ -57,11 +57,11 @@ var LayaLaunch = /** @class */ (function () {
         Laya.stage.addChild(midBox);
         var topBox = new Laya.Box();
         Laya.stage.addChild(topBox);
-        var spriteA = new Laya3dSprite("res/ui/icon/256b.png", function () {
+        var spriteA = new LayaScene3D("res/ui/icon/256b.png", function () {
             spriteA.scale(2, 1);
         });
         topBox.addChild(spriteA);
-        var spriteB = new Laya3dSprite("res/ui/icon/256a.png", function () {
+        var spriteB = new LayaScene3D("res/ui/icon/256a.png", function () {
             spriteB.scale(1, 2);
         });
         topBox.addChild(spriteB);

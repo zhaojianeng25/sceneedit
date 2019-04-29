@@ -27,16 +27,14 @@ module LayaPan3D {
                 this.height = this.texture.height;
                 bfun && bfun();
             }))
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
-            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
+
         }
         public scale(scaleX: number, scaleY: number, speedMode: boolean = null): Sprite {
             var sp: Sprite = super.scale(scaleX, scaleY, speedMode)
             this.resizeRect();
             return sp;
         }
+ 
         private resizeRect(): void {
             if (this.texture) {
                 var tw: number = this.scaleX * this.width;
@@ -45,38 +43,7 @@ module LayaPan3D {
                 this.sceneMaager.cam3D.cavanRect.height = th;
             }
         }
-        private onMouseWheel(e: any): void {
-            this.sceneMaager.cam3D.distance += e.delta
-        }
-        private lastMouseVec2d: Vector2D;
-        private lastfocus3D: Object3D
-        private onStartDrag(e: Event): void {
-            if (this.mouseY < this.height*0.2) {
-                this.startDrag(this.dragRegion, true, this.height * 0.2);
-            } else {
-                this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY)
-                this.lastfocus3D = new Object3D()
-                this.lastfocus3D.rotationY = this.sceneMaager.focus3D.rotationY
-                this.lastfocus3D.rotationX = this.sceneMaager.focus3D.rotationX
-            }
-
-           
-        }
-        private onMouseUp(e: Event): void {
-            this.lastMouseVec2d = null
-
-        }
-        private onMouseMove(e: Event): void {
-     
-            if (this.lastMouseVec2d) {
-                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x)
-                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y)/10
-                
-            }
-
-        }
-        private dragRegion: Laya.Rectangle;
-
+  
         private initScene(): void {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
             this.sceneMaager = new EdItorSceneManager()
@@ -173,18 +140,14 @@ module LayaPan3D {
         public upData(): void {
             if (this.sceneMaager) {
                 this.saveBasePrarame();
-               // this.sceneMaager.focus3D.rotationY++
-                Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
                     (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
                 }
                 this.sceneMaager.renderToTexture();
                 this.resetBasePrarame();
             }
-       
-
         }
-        private sceneMaager: EdItorSceneManager;
+        protected sceneMaager: EdItorSceneManager;
 
     }
 }

@@ -13,8 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Vector2D = Pan3d.Vector2D;
-    var Object3D = Pan3d.Object3D;
     var Scene_data = Pan3d.Scene_data;
     var MaterialRoleSprite = left.MaterialRoleSprite;
     var ModelSprite = maineditor.ModelSprite;
@@ -35,10 +33,6 @@ var LayaPan3D;
                 _this.height = _this.texture.height;
                 bfun && bfun();
             }));
-            _this.on(Pan3d.MouseType.MouseDown, _this, _this.onStartDrag);
-            _this.on(Pan3d.MouseType.MouseWheel, _this, _this.onMouseWheel);
-            Laya.stage.on(Pan3d.MouseType.MouseUp, _this, _this.onMouseUp);
-            Laya.stage.on(Pan3d.MouseType.MouseMove, _this, _this.onMouseMove);
             return _this;
         }
         Laya3dSprite.prototype.scale = function (scaleX, scaleY, speedMode) {
@@ -53,29 +47,6 @@ var LayaPan3D;
                 var th = this.scaleY * this.height;
                 this.sceneMaager.cam3D.cavanRect.width = tw;
                 this.sceneMaager.cam3D.cavanRect.height = th;
-            }
-        };
-        Laya3dSprite.prototype.onMouseWheel = function (e) {
-            this.sceneMaager.cam3D.distance += e.delta;
-        };
-        Laya3dSprite.prototype.onStartDrag = function (e) {
-            if (this.mouseY < this.height * 0.2) {
-                this.startDrag(this.dragRegion, true, this.height * 0.2);
-            }
-            else {
-                this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY);
-                this.lastfocus3D = new Object3D();
-                this.lastfocus3D.rotationY = this.sceneMaager.focus3D.rotationY;
-                this.lastfocus3D.rotationX = this.sceneMaager.focus3D.rotationX;
-            }
-        };
-        Laya3dSprite.prototype.onMouseUp = function (e) {
-            this.lastMouseVec2d = null;
-        };
-        Laya3dSprite.prototype.onMouseMove = function (e) {
-            if (this.lastMouseVec2d) {
-                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x);
-                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10;
             }
         };
         Laya3dSprite.prototype.initScene = function () {
@@ -154,8 +125,6 @@ var LayaPan3D;
         Laya3dSprite.prototype.upData = function () {
             if (this.sceneMaager) {
                 this.saveBasePrarame();
-                // this.sceneMaager.focus3D.rotationY++
-                Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
                     this.texture.bitmap._source = this.sceneMaager.fbo.texture;
                 }

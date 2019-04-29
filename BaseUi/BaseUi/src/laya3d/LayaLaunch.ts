@@ -6,7 +6,8 @@ import Sprite = Laya.Sprite
 
 
 import Pan3dByteArray = Pan3d.Pan3dByteArray;
-import Laya3dSprite = LayaPan3D.Laya3dSprite;
+ 
+import LayaScene3D = LayaPan3D.LayaScene3D;
  
 
 class LayaLaunch {
@@ -73,13 +74,13 @@ class LayaLaunch {
 
  
  
-        var spriteA: Laya3dSprite = new Laya3dSprite("res/ui/icon/256b.png", () => {
+        var spriteA: LayaScene3D = new LayaScene3D("res/ui/icon/256b.png", () => {
             spriteA.scale(2, 1)
         })
 
         topBox.addChild(spriteA);
 
-        var spriteB: Laya3dSprite = new Laya3dSprite("res/ui/icon/256a.png", () => {
+        var spriteB: LayaScene3D = new LayaScene3D("res/ui/icon/256a.png", () => {
             spriteB.scale(1, 2)
         })
   
