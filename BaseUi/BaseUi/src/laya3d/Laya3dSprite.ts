@@ -143,9 +143,15 @@ module LayaPan3D {
                 if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
                     (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
                 }
-                this.sceneMaager.renderToTexture();
+
+                this.renderToTexture();
+
                 this.resetBasePrarame();
             }
+        }
+        protected renderToTexture(): void {
+            this.sceneMaager.renderToTexture();
+
         }
         protected sceneMaager: EdItorSceneManager;
 

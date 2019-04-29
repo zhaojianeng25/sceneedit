@@ -15,6 +15,7 @@ var LayaPan3D;
 (function (LayaPan3D) {
     var Vector2D = Pan3d.Vector2D;
     var Object3D = Pan3d.Object3D;
+    var Matrix3D = Pan3d.Matrix3D;
     var LayaScene2D = /** @class */ (function (_super) {
         __extends(LayaScene2D, _super);
         function LayaScene2D(value, bfun) {
@@ -30,7 +31,7 @@ var LayaPan3D;
             Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         };
         LayaScene2D.prototype.onMouseWheel = function (e) {
-            this.sceneMaager.cam3D.distance += e.delta;
+            // this.sceneMaager.cam3D.distance += e.delta
         };
         LayaScene2D.prototype.onStartDrag = function (e) {
             if (this.mouseY < this.height * 0.2) {
@@ -48,16 +49,24 @@ var LayaPan3D;
         };
         LayaScene2D.prototype.onMouseMove = function (e) {
             if (this.lastMouseVec2d) {
-                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x);
-                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10;
             }
         };
         LayaScene2D.prototype.upData = function () {
             if (this.sceneMaager) {
-                // this.sceneMaager.focus3D.rotationY++
+                this.sceneMaager.focus3D.rotationX = -45;
+                this.sceneMaager.focus3D.rotationY = 0;
                 Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }
+        };
+        LayaScene2D.prototype.renderToTexture = function () {
+            var m = new Matrix3D;
+            var tw = this.sceneMaager.cam3D.cavanRect.width;
+            var th = this.sceneMaager.cam3D.cavanRect.height;
+            m.appendScale(1 / tw, 1 / th, 1 / 2000);
+            var scalenum = 5;
+            m.appendScale(scalenum, scalenum, scalenum);
+            this.sceneMaager.renderToTexture(m);
         };
         return LayaScene2D;
     }(LayaPan3D.Laya3dSprite));

@@ -3,7 +3,7 @@ module LayaPan3D {
 
     import Vector2D = Pan3d.Vector2D
     import Object3D = Pan3d.Object3D
-    import MathClass = Pan3d.MathClass
+    import Matrix3D = Pan3d.Matrix3D
     import Scene_data = Pan3d.Scene_data
 
     import MaterialRoleSprite = left.MaterialRoleSprite;
@@ -28,7 +28,7 @@ module LayaPan3D {
         }
 
         private onMouseWheel(e: any): void {
-            this.sceneMaager.cam3D.distance += e.delta
+           // this.sceneMaager.cam3D.distance += e.delta
         }
         private lastMouseVec2d: Vector2D;
         private lastfocus3D: Object3D
@@ -51,8 +51,7 @@ module LayaPan3D {
         private onMouseMove(e: Event): void {
 
             if (this.lastMouseVec2d) {
-                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x)
-                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10
+ 
 
             }
 
@@ -60,13 +59,28 @@ module LayaPan3D {
 
         public upData(): void {
             if (this.sceneMaager) {
+                this.sceneMaager.focus3D.rotationX = -45;
+                this.sceneMaager.focus3D.rotationY = 0;
 
-                // this.sceneMaager.focus3D.rotationY++
+
                 Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-
                 super.upData()
             }
+        }
+        protected renderToTexture(): void {
+            var m: Matrix3D = new Matrix3D
 
+            var tw: number = this.sceneMaager.cam3D.cavanRect.width
+            var th: number = this.sceneMaager.cam3D.cavanRect.height
+
+
+            m.appendScale(1 / tw, 1 / th, 1 / 2000);
+
+            var scalenum: number=5
+            m.appendScale(scalenum, scalenum, scalenum);
+
+
+            this.sceneMaager.renderToTexture(m);
 
         }
 

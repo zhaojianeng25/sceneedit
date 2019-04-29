@@ -42,18 +42,24 @@ var maineditor;
             gl.frontFace(gl.CW);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
         };
-        EdItorSceneManager.prototype.renderToTexture = function () {
+        EdItorSceneManager.prototype.renderToTexture = function ($m) {
+            if ($m === void 0) { $m = null; }
             if (!this.fbo) {
                 this.fbo = new FBO;
             }
             else {
                 this.fbo.resetSize(this.cam3D.cavanRect.width, this.cam3D.cavanRect.height);
             }
-            this.viewMatrx3D.identity();
-            this.viewMatrx3D.perspectiveFieldOfViewLH(0.8, 1, 1, 2000);
-            this.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
-            var sceneViewHW = 400 / this.cam3D.cavanRect.width;
-            this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
+            if ($m) {
+                this.viewMatrx3D = $m;
+            }
+            else {
+                this.viewMatrx3D.identity();
+                this.viewMatrx3D.perspectiveFieldOfViewLH(0.8, 1, 1, 2000);
+                this.viewMatrx3D.appendScale(1, this.cam3D.cavanRect.width / this.cam3D.cavanRect.height, 1);
+                var sceneViewHW = 400 / this.cam3D.cavanRect.width;
+                this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
+            }
             this.updateDepthTexture(this.fbo);
             this.update();
             var gl = Scene_data.context3D.renderContext;

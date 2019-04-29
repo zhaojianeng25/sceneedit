@@ -128,9 +128,12 @@ var LayaPan3D;
                 if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
                     this.texture.bitmap._source = this.sceneMaager.fbo.texture;
                 }
-                this.sceneMaager.renderToTexture();
+                this.renderToTexture();
                 this.resetBasePrarame();
             }
+        };
+        Laya3dSprite.prototype.renderToTexture = function () {
+            this.sceneMaager.renderToTexture();
         };
         return Laya3dSprite;
     }(Laya.Image));
