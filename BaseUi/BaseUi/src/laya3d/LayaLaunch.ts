@@ -6,7 +6,8 @@ import Sprite = Laya.Sprite
 
 
 import Pan3dByteArray = Pan3d.Pan3dByteArray;
- 
+
+import LayaScene2D = LayaPan3D.LayaScene2D;
 import LayaScene3D = LayaPan3D.LayaScene3D;
  
 
@@ -83,10 +84,20 @@ class LayaLaunch {
         var spriteB: LayaScene3D = new LayaScene3D("res/ui/icon/256a.png", () => {
             spriteB.scale(1, 2)
         })
-  
+
         topBox.addChild(spriteB);
+
+        spriteB.pos(0, 250);
+
+   
+        var spriteC: LayaScene2D = new LayaScene2D("res/ui/icon/512a.jpg", () => {
+            spriteC.scale(1, 1)
+        })
+         topBox.addChild(spriteC);
+         spriteC.pos(600, 250);
+   
  
-        spriteB.pos(525, 200);
+ 
  
  
         var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
@@ -110,6 +121,7 @@ class LayaLaunch {
             Pan3d.TimeUtil.update()
             spriteA.upData()
             spriteB.upData()
+            spriteC.upData()
              
         })
  

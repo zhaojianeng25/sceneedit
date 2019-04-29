@@ -4,6 +4,7 @@ var LEvent = Laya.Event;
 var Stage = Laya.Stage;
 var Sprite = Laya.Sprite;
 var Pan3dByteArray = Pan3d.Pan3dByteArray;
+var LayaScene2D = LayaPan3D.LayaScene2D;
 var LayaScene3D = LayaPan3D.LayaScene3D;
 var LayaLaunch = /** @class */ (function () {
     function LayaLaunch() {
@@ -65,7 +66,12 @@ var LayaLaunch = /** @class */ (function () {
             spriteB.scale(1, 2);
         });
         topBox.addChild(spriteB);
-        spriteB.pos(525, 200);
+        spriteB.pos(0, 250);
+        var spriteC = new LayaScene2D("res/ui/icon/512a.jpg", function () {
+            spriteC.scale(1, 1);
+        });
+        topBox.addChild(spriteC);
+        spriteC.pos(600, 250);
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
         picA.scale(0.5, 0.5);
@@ -81,6 +87,7 @@ var LayaLaunch = /** @class */ (function () {
             Pan3d.TimeUtil.update();
             spriteA.upData();
             spriteB.upData();
+            spriteC.upData();
         });
     };
     LayaLaunch.initCanvas = function ($caves) {
