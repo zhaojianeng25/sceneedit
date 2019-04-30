@@ -71,7 +71,7 @@ var LayaLaunch = /** @class */ (function () {
             spriteC.scale(1, 1);
         });
         topBox.addChild(spriteC);
-        spriteC.pos(600, 250);
+        spriteC.pos(350, 250);
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
         picA.scale(0.5, 0.5);

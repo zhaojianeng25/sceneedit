@@ -5,12 +5,14 @@
         public lookAtTarget: Object3D;
         private _astarRect: Rectangle;
         public cavanRect: Rectangle
+        public scene2dScale: number
         public sceneViewHW: number;
         public offset: Vector3D = new Vector3D();
         constructor() {
             super()
             this.cavanRect = new Rectangle(0, 0, 512, 512);
             this.cameraMatrix = new Matrix3D;
+            this.scene2dScale = 1;
 
         }
 

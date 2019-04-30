@@ -27,16 +27,16 @@ module LayaPan3D {
             Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         }
         protected addSceneModel(): void {
-            // this.addDisplay();
-            //  this.addRole();
+             this.addDisplay();
+             // this.addRole();
             // this.addSkillRole();
             //  this.addLyfSprite();
         }
         private onMouseWheel(e: any): void {
-            this.sceneMaager.cam3D.distance += e.delta
+            this.sceneManager.cam3D.distance += e.delta
         }
         private lastMouseVec2d: Vector2D;
-        private lastfocus3D: Object3D
+        private lastfocus3D: Object3D;
         private dragRegion: Laya.Rectangle;
         private onStartDrag(e: Event): void {
             if (this.mouseY < this.height * 0.2) {
@@ -44,8 +44,8 @@ module LayaPan3D {
             } else {
                 this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY)
                 this.lastfocus3D = new Object3D()
-                this.lastfocus3D.rotationY = this.sceneMaager.focus3D.rotationY
-                this.lastfocus3D.rotationX = this.sceneMaager.focus3D.rotationX
+                this.lastfocus3D.rotationY = this.sceneManager.focus3D.rotationY
+                this.lastfocus3D.rotationX = this.sceneManager.focus3D.rotationX
             }
 
         }
@@ -56,18 +56,18 @@ module LayaPan3D {
         private onMouseMove(e: Event): void {
 
             if (this.lastMouseVec2d) {
-                this.sceneMaager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x)
-                this.sceneMaager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10
+                this.sceneManager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x)
+                this.sceneManager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10
 
             }
 
         }
 
         public upData(): void {
-            if (this.sceneMaager) {
+            if (this.sceneManager) {
          
                 // this.sceneMaager.focus3D.rotationY++
-                Pan3d.MathClass.getCamView(this.sceneMaager.cam3D, this.sceneMaager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
 
                 super.upData()
             }

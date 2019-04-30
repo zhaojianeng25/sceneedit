@@ -85,7 +85,7 @@ class LayaLaunch {
             spriteB.scale(1, 2)
         })
 
-        topBox.addChild(spriteB);
+       topBox.addChild(spriteB);
 
         spriteB.pos(0, 250);
 
@@ -94,7 +94,7 @@ class LayaLaunch {
             spriteC.scale(1, 1)
         })
          topBox.addChild(spriteC);
-         spriteC.pos(600, 250);
+         spriteC.pos(350, 250);
    
  
  

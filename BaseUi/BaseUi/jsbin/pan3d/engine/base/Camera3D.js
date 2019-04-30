@@ -23,6 +23,7 @@ var Pan3d;
             _this.needChange = true;
             _this.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512);
             _this.cameraMatrix = new Pan3d.Matrix3D;
+            _this.scene2dScale = 1;
             return _this;
         }
         Object.defineProperty(Camera3D.prototype, "distance", {

@@ -45,22 +45,22 @@ var LayaPan3D;
             if (this.texture) {
                 var tw = this.scaleX * this.width;
                 var th = this.scaleY * this.height;
-                this.sceneMaager.cam3D.cavanRect.width = tw;
-                this.sceneMaager.cam3D.cavanRect.height = th;
+                this.sceneManager.cam3D.cavanRect.width = tw;
+                this.sceneManager.cam3D.cavanRect.height = th;
             }
         };
         Laya3dSprite.prototype.initScene = function () {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
-            this.sceneMaager = new EdItorSceneManager();
+            this.sceneManager = new EdItorSceneManager();
             var temp = new Pan3d.GridLineSprite();
-            this.sceneMaager.addDisplay(temp);
-            this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite());
-            this.sceneMaager.ready = true;
-            this.sceneMaager.cam3D = new Pan3d.Camera3D();
-            this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512);
-            this.sceneMaager.cam3D.distance = 200;
-            this.sceneMaager.focus3D.rotationY = random(360);
-            this.sceneMaager.focus3D.rotationX = -45;
+            this.sceneManager.addDisplay(temp);
+            this.sceneManager.addDisplay(new Pan3d.BaseDiplay3dSprite());
+            this.sceneManager.ready = true;
+            this.sceneManager.cam3D = new Pan3d.Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512);
+            this.sceneManager.cam3D.distance = 200;
+            this.sceneManager.focus3D.rotationY = random(360);
+            this.sceneManager.focus3D.rotationX = -45;
             this.addSceneModel();
         };
         Laya3dSprite.prototype.addSceneModel = function () {
@@ -74,7 +74,7 @@ var LayaPan3D;
             prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
             prefabSprite.scale = 2;
             prefabSprite.x = -100;
-            this.sceneMaager.addDisplay(prefabSprite);
+            this.sceneManager.addDisplay(prefabSprite);
         };
         Laya3dSprite.prototype.addRole = function () {
             var roleSprite = new MaterialRoleSprite();
@@ -83,20 +83,20 @@ var LayaPan3D;
             // roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
             roleSprite.scale = 0.5;
             roleSprite.x = 50;
-            this.sceneMaager.addMovieDisplay(roleSprite);
+            this.sceneManager.addMovieDisplay(roleSprite);
         };
         //
         Laya3dSprite.prototype.addSkillRole = function () {
             var skillsprite = new SkillSpriteDisplay();
             skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill");
             skillsprite.x = -30;
-            this.sceneMaager.addDisplay(skillsprite);
+            this.sceneManager.addDisplay(skillsprite);
         };
         Laya3dSprite.prototype.addLyfSprite = function () {
             var lyfSprite = new LyfSpriteDisplay();
             lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
             lyfSprite.y = 100;
-            this.sceneMaager.addDisplay(lyfSprite);
+            this.sceneManager.addDisplay(lyfSprite);
         };
         Laya3dSprite.prototype.saveBasePrarame = function () {
             var gl = Scene_data.context3D.renderContext;
@@ -123,17 +123,17 @@ var LayaPan3D;
             Laya.BaseShader.bindShader = null;
         };
         Laya3dSprite.prototype.upData = function () {
-            if (this.sceneMaager) {
+            if (this.sceneManager) {
                 this.saveBasePrarame();
-                if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
-                    this.texture.bitmap._source = this.sceneMaager.fbo.texture;
+                if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
+                    this.texture.bitmap._source = this.sceneManager.fbo.texture;
                 }
                 this.renderToTexture();
                 this.resetBasePrarame();
             }
         };
         Laya3dSprite.prototype.renderToTexture = function () {
-            this.sceneMaager.renderToTexture();
+            this.sceneManager.renderToTexture();
         };
         return Laya3dSprite;
     }(Laya.Image));

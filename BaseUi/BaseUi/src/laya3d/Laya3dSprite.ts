@@ -39,23 +39,23 @@ module LayaPan3D {
             if (this.texture) {
                 var tw: number = this.scaleX * this.width;
                 var th: number = this.scaleY * this.height;
-                this.sceneMaager.cam3D.cavanRect.width = tw;
-                this.sceneMaager.cam3D.cavanRect.height = th;
+                this.sceneManager.cam3D.cavanRect.width = tw;
+                this.sceneManager.cam3D.cavanRect.height = th;
             }
         }
-  
-        private initScene(): void {
+
+        protected initScene(): void {
             Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
-            this.sceneMaager = new EdItorSceneManager()
+            this.sceneManager = new EdItorSceneManager()
             var temp: Pan3d.GridLineSprite = new Pan3d.GridLineSprite()
-            this.sceneMaager.addDisplay(temp)
-            this.sceneMaager.addDisplay(new Pan3d.BaseDiplay3dSprite())
-            this.sceneMaager.ready = true;
-            this.sceneMaager.cam3D = new Pan3d.Camera3D();
-            this.sceneMaager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512)
-            this.sceneMaager.cam3D.distance = 200;
-            this.sceneMaager.focus3D.rotationY = random(360);
-            this.sceneMaager.focus3D.rotationX = -45;
+            this.sceneManager.addDisplay(temp)
+            this.sceneManager.addDisplay(new Pan3d.BaseDiplay3dSprite())
+            this.sceneManager.ready = true;
+            this.sceneManager.cam3D = new Pan3d.Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512)
+            this.sceneManager.cam3D.distance = 200;
+            this.sceneManager.focus3D.rotationY = random(360);
+            this.sceneManager.focus3D.rotationX = -45;
       
             this.addSceneModel();
         }
@@ -70,7 +70,7 @@ module LayaPan3D {
             prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
             prefabSprite.scale = 2
             prefabSprite.x=-100
-            this.sceneMaager.addDisplay(prefabSprite);
+            this.sceneManager.addDisplay(prefabSprite);
         }
         protected addRole(): void {
             let roleSprite = new MaterialRoleSprite();
@@ -79,7 +79,7 @@ module LayaPan3D {
            // roleSprite.setRoleZwwUrl("pefab/野猪/野猪.zzw")
             roleSprite.scale = 0.5
             roleSprite.x = 50
-            this.sceneMaager.addMovieDisplay(roleSprite);
+            this.sceneManager.addMovieDisplay(roleSprite);
 
         }
         //
@@ -87,14 +87,14 @@ module LayaPan3D {
             let skillsprite = new SkillSpriteDisplay();
             skillsprite.addSkillByUrl("pefab/技能/上杉谦信技能.skill")
             skillsprite.x =-30
-            this.sceneMaager.addDisplay(skillsprite);
+            this.sceneManager.addDisplay(skillsprite);
 
         }
         private addLyfSprite(): void {
             let lyfSprite = new LyfSpriteDisplay();
             lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
             lyfSprite.y = 100;
-            this.sceneMaager.addDisplay(lyfSprite);
+            this.sceneManager.addDisplay(lyfSprite);
         }
 
         private saveBasePrarame(): void {
@@ -138,10 +138,10 @@ module LayaPan3D {
 
         }
         public upData(): void {
-            if (this.sceneMaager) {
+            if (this.sceneManager) {
                 this.saveBasePrarame();
-                if (this.sceneMaager.fbo && this.texture && this.texture.bitmap) {
-                    (<any>this.texture.bitmap)._source = this.sceneMaager.fbo.texture
+                if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
+                    (<any>this.texture.bitmap)._source = this.sceneManager.fbo.texture
                 }
 
                 this.renderToTexture();
@@ -150,10 +150,10 @@ module LayaPan3D {
             }
         }
         protected renderToTexture(): void {
-            this.sceneMaager.renderToTexture();
+            this.sceneManager.renderToTexture();
 
         }
-        protected sceneMaager: EdItorSceneManager;
+        protected sceneManager: EdItorSceneManager;
 
     }
 }
