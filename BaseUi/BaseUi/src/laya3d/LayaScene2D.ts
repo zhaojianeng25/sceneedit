@@ -72,7 +72,7 @@ module LayaPan3D {
 
         public upData(): void {
             if (this.sceneManager) {
-                this.sceneManager.focus3D.rotationX = -45;
+                this.sceneManager.focus3D.rotationX = -30;
                 this.sceneManager.focus3D.rotationY = 0;
 
                 var tw: number = this.sceneManager.cam3D.cavanRect.width
