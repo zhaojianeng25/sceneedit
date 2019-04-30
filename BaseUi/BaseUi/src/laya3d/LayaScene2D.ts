@@ -23,11 +23,14 @@ module LayaPan3D {
 
         }
         protected addSceneModel(): void {
-            // this.addDisplay();
-            //  this.addRole();
-            this.addSkillRole();
-            //  this.addLyfSprite();
+            let prefabSprite: ModelSprite = new ModelSprite();
+            prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
+            prefabSprite.scale = 2
+            prefabSprite.x = -100
+            this.sceneMaager.addDisplay(prefabSprite);
         }
+
+     
         protected addEvents(): void {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);

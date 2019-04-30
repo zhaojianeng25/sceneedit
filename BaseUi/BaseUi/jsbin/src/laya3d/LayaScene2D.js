@@ -16,6 +16,7 @@ var LayaPan3D;
     var Vector2D = Pan3d.Vector2D;
     var Object3D = Pan3d.Object3D;
     var Matrix3D = Pan3d.Matrix3D;
+    var ModelSprite = maineditor.ModelSprite;
     var LayaScene2D = /** @class */ (function (_super) {
         __extends(LayaScene2D, _super);
         function LayaScene2D(value, bfun) {
@@ -26,10 +27,13 @@ var LayaPan3D;
             return _this;
         }
         LayaScene2D.prototype.addSceneModel = function () {
-            // this.addDisplay();
-            //  this.addRole();
-            this.addSkillRole();
-            //  this.addLyfSprite();
+            var prefabSprite = new ModelSprite();
+            prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
+            prefabSprite.scale = 2;
+            prefabSprite.x = -100;
+            this.sceneMaager.addDisplay(prefabSprite);
+        };
+        LayaScene2D.prototype.addDisplay = function () {
         };
         LayaScene2D.prototype.addEvents = function () {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
