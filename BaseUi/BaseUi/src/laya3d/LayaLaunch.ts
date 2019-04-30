@@ -9,7 +9,7 @@ import Pan3dByteArray = Pan3d.Pan3dByteArray;
 
 import LayaScene2D = LayaPan3D.LayaScene2D;
 import LayaScene3D = LayaPan3D.LayaScene3D;
- 
+import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
 
 class LayaLaunch {
     private _canvas: HTMLCanvasElement;
@@ -28,7 +28,7 @@ class LayaLaunch {
         let compatibleLayaRender = function (pan3dFunc: Function, ...args): any {
             let v = pan3dFunc.apply(this, args);
 
-         //   console.log("here")
+            //   console.log("here")
             return v;
         }
         let funA = WebGLRenderingContext.prototype.blendFunc;
@@ -43,9 +43,9 @@ class LayaLaunch {
         */
     }
 
- 
+
     private init(): void {
-       // LayaLaunch.overrideMethods()
+        // LayaLaunch.overrideMethods()
 
         this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
         Laya.stage.alignV = Stage.ALIGN_LEFT;
@@ -53,91 +53,77 @@ class LayaLaunch {
 
         Laya.stage.scaleMode = "full"
         Laya.stage.bgColor = "#232628";
-       
 
-   
+
+
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
         Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
 
- 
+
 
         Pan3d.Engine.init(this._canvas);
 
-        
 
- 
+
+
         var midBox: Laya.Box = new Laya.Box()
         Laya.stage.addChild(midBox)
 
         var topBox: Laya.Box = new Laya.Box()
         Laya.stage.addChild(topBox)
 
- 
- 
+
+
         var spriteA: LayaScene3D = new LayaScene3D("res/ui/icon/256b.png", () => {
             spriteA.scale(2, 1)
         })
-
-      topBox.addChild(spriteA);
+        topBox.addChild(spriteA);
 
         var spriteB: LayaScene3D = new LayaScene3D("res/ui/icon/256a.png", () => {
             spriteB.scale(1, 2)
         })
 
-      topBox.addChild(spriteB);
+        topBox.addChild(spriteB);
 
         spriteB.pos(0, 250);
 
-   
+        /*
         var spriteC: LayaScene2D = new LayaScene2D("res/ui/icon/512a.jpg", () => {
             spriteC.scale(0.51, 0.75)
         })
-        topBox.addChild(spriteC);
+         topBox.addChild(spriteC);
         spriteC.pos(350, 250);
+        */
 
-
-        var spriteD: LayaScene2D = new LayaScene2D("res/ui/icon/512b.jpg", () => {
-            spriteD.scale(0.75, 0.55)
+        var spriteD: LayaScene2D = new LayaGame2dDemo("res/ui/icon/512b.jpg", () => {
+            spriteD.scale(2, 1.2)
         })
         topBox.addChild(spriteD);
-        spriteD.pos(800, 250);
-   
- 
- 
- 
- 
+        spriteD.pos(200, 250);
+
+
         var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA)
-        picA.scale(0.5,0.5)
+        picA.scale(0.5, 0.5)
         picA.pos(600, 170)
-
 
         var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB)
- 
         picB.pos(0, 220)
 
         this.lastTm = Pan3d.TimeUtil.getTimer()
         Laya.stage.frameLoop(1, this, () => {
             var t = Pan3d.TimeUtil.getTimer() - this.lastTm;
-            Pan3d.TimeUtil.START_TIME += t * -2;
-
+            //  Pan3d.TimeUtil.START_TIME += t * -1;
             this.lastTm = Pan3d.TimeUtil.getTimer()
-
             Pan3d.TimeUtil.update()
-            spriteA.upData()
-            spriteB.upData()
-            spriteC.upData()
-            spriteD.upData()
-             
         })
- 
     }
-  
-  
+
+
     private lastTm: number
- 
+
     public static initCanvas($caves: HTMLCanvasElement): void {
 
         new LayaLaunch();

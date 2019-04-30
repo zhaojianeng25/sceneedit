@@ -6,6 +6,7 @@ var Sprite = Laya.Sprite;
 var Pan3dByteArray = Pan3d.Pan3dByteArray;
 var LayaScene2D = LayaPan3D.LayaScene2D;
 var LayaScene3D = LayaPan3D.LayaScene3D;
+var LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
 var LayaLaunch = /** @class */ (function () {
     function LayaLaunch() {
         this.init();
@@ -67,16 +68,18 @@ var LayaLaunch = /** @class */ (function () {
         });
         topBox.addChild(spriteB);
         spriteB.pos(0, 250);
-        var spriteC = new LayaScene2D("res/ui/icon/512a.jpg", function () {
-            spriteC.scale(0.51, 0.75);
-        });
-        topBox.addChild(spriteC);
+        /*
+        var spriteC: LayaScene2D = new LayaScene2D("res/ui/icon/512a.jpg", () => {
+            spriteC.scale(0.51, 0.75)
+        })
+         topBox.addChild(spriteC);
         spriteC.pos(350, 250);
-        var spriteD = new LayaScene2D("res/ui/icon/512b.jpg", function () {
-            spriteD.scale(0.75, 0.55);
+        */
+        var spriteD = new LayaGame2dDemo("res/ui/icon/512b.jpg", function () {
+            spriteD.scale(2, 1.2);
         });
         topBox.addChild(spriteD);
-        spriteD.pos(800, 250);
+        spriteD.pos(200, 250);
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
         picA.scale(0.5, 0.5);
@@ -87,13 +90,9 @@ var LayaLaunch = /** @class */ (function () {
         this.lastTm = Pan3d.TimeUtil.getTimer();
         Laya.stage.frameLoop(1, this, function () {
             var t = Pan3d.TimeUtil.getTimer() - _this.lastTm;
-            Pan3d.TimeUtil.START_TIME += t * -2;
+            //  Pan3d.TimeUtil.START_TIME += t * -1;
             _this.lastTm = Pan3d.TimeUtil.getTimer();
             Pan3d.TimeUtil.update();
-            spriteA.upData();
-            spriteB.upData();
-            spriteC.upData();
-            spriteD.upData();
         });
     };
     LayaLaunch.initCanvas = function ($caves) {

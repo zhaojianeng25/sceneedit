@@ -67,7 +67,7 @@ var LayaPan3D;
             _this.height = 100;
             _this.initData();
             if (value) {
-                _this.loadTextureByUrl("role/game2dbg.jpg");
+                _this.loadTextureByUrl(value);
             }
             return _this;
         }
@@ -96,10 +96,17 @@ var LayaPan3D;
         };
         LayaScene2dPicSprit.prototype.updateMatrix = function () {
             if (this.width && this.height && this._scene) {
-                this.imgRectInfo[0] = -1 + this._x / this._scene.cam3D.cavanRect.width * 2;
-                this.imgRectInfo[1] = -1 + this._y / this._scene.cam3D.cavanRect.height * 2;
-                this.imgRectInfo[2] = this.width / this._scene.cam3D.cavanRect.width * 2;
-                this.imgRectInfo[3] = this.height / this._scene.cam3D.cavanRect.height * 2;
+                var fvw = this._scene.cam3D.cavanRect.width;
+                var fvh = this._scene.cam3D.cavanRect.height;
+                var $num45 = Math.abs(this._scene.focus3D.rotationX);
+                var tx = this._x - (this._scene.focus3D.x - fvw / this._scene.cam3D.scene2dScale) * 2 / this._scene.cam3D.scene2dScale;
+                var ty = this._scene.focus3D.z - (fvh / this._scene.cam3D.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                ty = (ty * (Math.sin($num45 * Math.PI / 180)));
+                ty = this._y + ty;
+                this.imgRectInfo[0] = -1 + tx / fvw * 2;
+                this.imgRectInfo[1] = -1 + ty / fvh * 2;
+                this.imgRectInfo[2] = this.width / fvw * 2;
+                this.imgRectInfo[3] = this.height / fvh * 2;
             }
         };
         LayaScene2dPicSprit.prototype.set2dPos = function ($x, $y) {
@@ -140,66 +147,35 @@ var LayaPan3D;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         LayaScene2dSceneChar.prototype.set2dPos = function ($x, $y) {
+            this.posv2 = new Vector2D($x, $y);
             var $nScale = 1;
             var $num45 = 45;
             if (this._scene) {
                 $nScale = 2 / this._scene.cam3D.scene2dScale;
                 $num45 = Math.abs(this._scene.focus3D.rotationX);
             }
+            else {
+                console.log("没有添加到场景算出来的坐标不确定是否正确");
+            }
             var $tx = $x * $nScale;
             var $tz = $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1;
             this.x = $tx;
             this.z = $tz;
+        };
+        LayaScene2dSceneChar.prototype.addStage = function () {
+            _super.prototype.addStage.call(this);
+            if (this.posv2) {
+                this.set2dPos(this.posv2.x, this.posv2.y);
+            }
         };
         return LayaScene2dSceneChar;
     }(Pan3d.Display3dMovie));
     LayaPan3D.LayaScene2dSceneChar = LayaScene2dSceneChar;
     var LayaScene2D = /** @class */ (function (_super) {
         __extends(LayaScene2D, _super);
-        function LayaScene2D(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
-            return _super.call(this, value, bfun) || this;
+        function LayaScene2D() {
+            return _super !== null && _super.apply(this, arguments) || this;
         }
-        LayaScene2D.prototype.initScene = function () {
-            _super.prototype.initScene.call(this);
-            this.addSceneModel();
-            this.addEvents();
-        };
-        LayaScene2D.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 4;
-            var $baseChar = new LayaScene2dSceneChar();
-            $baseChar.setRoleUrl(getRoleUrl("5103"));
-            this.sceneManager.addMovieDisplay($baseChar);
-            $baseChar.set2dPos(100, 100);
-            this.mainChar = $baseChar;
-            for (var i = 0; i < 4; i++) {
-                this.addGrouandPic("role/game2dbg.jpg", new Pan3d.Rectangle(Math.floor(i % 2) * 200, Math.floor(i / 2) * 200, 200, 200));
-            }
-        };
-        LayaScene2D.prototype.addGrouandPic = function (value, rect) {
-            var tempPic = new LayaScene2dPicSprit(value);
-            tempPic.set2dPos(rect.x, rect.y);
-            tempPic.width = rect.width;
-            tempPic.height = rect.height;
-            this.sceneManager.addDisplay(tempPic);
-            return tempPic;
-        };
-        LayaScene2D.prototype.addEvents = function () {
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-        };
-        LayaScene2D.prototype.onMouseWheel = function (e) {
-            this.sceneManager.cam3D.scene2dScale += e.delta / 100;
-        };
-        LayaScene2D.prototype.onStartDrag = function (e) {
-            if (this.mouseY < this.height * 0.2) {
-                this.startDrag(this.dragRegion, true, this.height * 0.2);
-            }
-            else {
-                this.mainChar.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY);
-                // this.bgPicSprite.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
-            }
-        };
         Object.defineProperty(LayaScene2D.prototype, "scene2dScale", {
             get: function () {
                 return this.sceneManager.cam3D.scene2dScale;
@@ -207,15 +183,22 @@ var LayaPan3D;
             enumerable: true,
             configurable: true
         });
+        LayaScene2D.prototype.initScene = function () {
+            _super.prototype.initScene.call(this);
+            this.sceneManager.focus3D.rotationX = -30;
+            this.sceneManager.focus3D.rotationY = 0;
+        };
         LayaScene2D.prototype.upData = function () {
             if (this.sceneManager) {
-                this.sceneManager.focus3D.rotationX = -30;
-                this.sceneManager.focus3D.rotationY = 0;
-                var tw = this.sceneManager.cam3D.cavanRect.width;
-                var th = this.sceneManager.cam3D.cavanRect.height;
-                this.sceneManager.focus3D.x = tw / this.scene2dScale;
+                var fvw = this.sceneManager.cam3D.cavanRect.width;
+                var fvh = this.sceneManager.cam3D.cavanRect.height;
+                this.sceneManager.focus3D.x = fvw / this.scene2dScale;
                 var $num45 = Math.abs(this.sceneManager.focus3D.rotationX); //45度角
-                this.sceneManager.focus3D.z = (th / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                this.sceneManager.focus3D.z = (fvh / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                if (this.rootpos) {
+                    this.sceneManager.focus3D.x += this.rootpos.x * this.scene2dScale;
+                    this.sceneManager.focus3D.z += (this.rootpos.y * this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                }
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }

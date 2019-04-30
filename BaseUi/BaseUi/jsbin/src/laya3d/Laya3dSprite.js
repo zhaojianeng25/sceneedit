@@ -34,6 +34,7 @@ var LayaPan3D;
                 _this.resizeRect();
                 bfun && bfun();
             }));
+            _this.frameLoop(1, _this, _this.upData);
             return _this;
         }
         Laya3dSprite.prototype.scale = function (scaleX, scaleY, speedMode) {
@@ -109,15 +110,16 @@ var LayaPan3D;
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
             gl.blendFunc(this.sFactor, this.dFactor); //混合模式
             gl.depthMask(this.depthWriteMask); //写入深度
+            gl.enable(gl.CULL_FACE);
             gl.cullFace(this.cullFaceModel); //正反面
             Scene_data.context3D.setBlendParticleFactors(-1);
-            Scene_data.context3D.setDepthTest(true);
+            Scene_data.context3D.setDepthTest(false);
             Scene_data.context3D.cullFaceBack(true);
             Laya.BaseShader.activeShader = null;
             Laya.BaseShader.bindShader = null;
         };
         Laya3dSprite.prototype.upData = function () {
-            if (this.sceneManager) {
+            if (this.sceneManager && this.parent) {
                 this.saveBasePrarame();
                 if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
                     this.texture.bitmap._source = this.sceneManager.fbo.texture;

@@ -59,10 +59,8 @@ module LayaPan3D {
             this.width = 100;
             this.height = 100;
             this.initData()
-
-
             if (value) {
-                this.loadTextureByUrl("role/game2dbg.jpg");
+                this.loadTextureByUrl(value);
             }
 
         }
@@ -70,8 +68,6 @@ module LayaPan3D {
         protected initData(): void {
             if (!LayaScene2dPicSprit.objdata2D) {
                 ProgrmaManager.getInstance().registe(LayaScene2dPicShader.LayaScene2dPicShader, new LayaScene2dPicShader);
-           
-   
                 this.objData = new ObjData;
                 this.objData.vertices = new Array();
                 this.objData.vertices.push(0, 0, 0.9);
@@ -99,10 +95,24 @@ module LayaPan3D {
         public height: number;
         public updateMatrix(): void {
             if (this.width && this.height && this._scene) {
-                this.imgRectInfo[0] = -1 + this._x / this._scene.cam3D.cavanRect.width * 2;
-                this.imgRectInfo[1] = -1 + this._y / this._scene.cam3D.cavanRect.height * 2;
-                this.imgRectInfo[2] = this.width / this._scene.cam3D.cavanRect.width*2  ;
-                this.imgRectInfo[3] = this.height / this._scene.cam3D.cavanRect.height*2  
+
+
+                var fvw: number = this._scene.cam3D.cavanRect.width;
+                var fvh: number = this._scene.cam3D.cavanRect.height;
+               var  $num45 = Math.abs(this._scene.focus3D.rotationX);
+   
+                var tx: number = this._x - (this._scene.focus3D.x - fvw / this._scene.cam3D.scene2dScale) * 2 / this._scene.cam3D.scene2dScale  
+
+                var ty: number=  this._scene.focus3D.z - (fvh / this._scene.cam3D.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                ty = (ty * (Math.sin($num45 * Math.PI / 180)))  
+                ty = this._y + ty;
+
+   
+
+                this.imgRectInfo[0] = -1 + tx / fvw* 2;
+                this.imgRectInfo[1] = -1 + ty / fvh * 2;
+                this.imgRectInfo[2] = this.width / fvw*2  ;
+                this.imgRectInfo[3] = this.height / fvh*2  
             }
         }
         public set2dPos($x: number, $y: number): void {
@@ -142,83 +152,55 @@ module LayaPan3D {
 
     }
     export class LayaScene2dSceneChar extends Pan3d.Display3dMovie {
+
+        private posv2: Vector2D
         public set2dPos($x: number, $y: number): void {
+            this.posv2 = new Vector2D($x, $y)
             var $nScale: number = 1;
             var $num45: number = 45;
             if (this._scene) {
                 $nScale = 2 / this._scene.cam3D.scene2dScale;
                 $num45 = Math.abs(this._scene.focus3D.rotationX);
+            } else {
+                console.log("没有添加到场景算出来的坐标不确定是否正确")
             }
             var $tx: number = $x * $nScale;
             var $tz: number = $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1;
             this.x = $tx;
             this.z = $tz;
         }
+        public addStage(): void {
+            super.addStage()
+            if (this.posv2) {
+                this.set2dPos(this.posv2.x, this.posv2.y);
+            }
+        }
+       
     }
     export class LayaScene2D extends Laya3dSprite {
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
-            super(value, bfun)
-    
+
+        public rootpos: Vector2D
+        public get scene2dScale(): number {
+            return this.sceneManager.cam3D.scene2dScale
         }
         protected initScene(): void {
             super.initScene();
-            this.addSceneModel()
-            this.addEvents()
-
-        }
-        private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale =4
-            var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
-            $baseChar.setRoleUrl(getRoleUrl("5103"));
-            this.sceneManager.addMovieDisplay($baseChar);
-            $baseChar.set2dPos(100, 100);
-            this.mainChar = $baseChar;
-            for (var i: number = 0; i < 4; i++) {
-                this.addGrouandPic("role/game2dbg.jpg", new Pan3d.Rectangle(Math.floor(i % 2) * 200, Math.floor(i / 2) * 200, 200, 200))
-            }
-        }
-        public addGrouandPic(value: string, rect: Pan3d.Rectangle): LayaScene2dPicSprit {
-            var tempPic: LayaScene2dPicSprit = new LayaScene2dPicSprit(value);
-            tempPic.set2dPos(rect.x, rect.y);
-            tempPic.width = rect.width;
-            tempPic.height = rect.height;
-
-            this.sceneManager.addDisplay(tempPic);
-            return tempPic
-        }
-
- 
-        private mainChar: LayaScene2dSceneChar
-        protected addEvents(): void {
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-
-        }
-        private onMouseWheel(e: any): void {
-            this.sceneManager.cam3D.scene2dScale += e.delta / 100;
-        }
-        private dragRegion: Laya.Rectangle;
-        private onStartDrag(e: Event): void {
-            if (this.mouseY < this.height * 0.2) {
-                this.startDrag(this.dragRegion, true, this.height * 0.2);
-            } else {
-                this.mainChar.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
-               // this.bgPicSprite.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
-            }
-        }
-
-        private get scene2dScale(): number {
-            return this.sceneManager.cam3D.scene2dScale
+            this.sceneManager.focus3D.rotationX = -30;
+            this.sceneManager.focus3D.rotationY = 0;
         }
         public upData(): void {
             if (this.sceneManager) {
-                this.sceneManager.focus3D.rotationX = -30;
-                this.sceneManager.focus3D.rotationY = 0;
-                var tw: number = this.sceneManager.cam3D.cavanRect.width
-                var th: number = this.sceneManager.cam3D.cavanRect.height
-                this.sceneManager.focus3D.x = tw / this.scene2dScale;
+        
+                var fvw: number = this.sceneManager.cam3D.cavanRect.width
+                var fvh: number = this.sceneManager.cam3D.cavanRect.height
+                this.sceneManager.focus3D.x = fvw / this.scene2dScale;
                 var $num45: number = Math.abs(this.sceneManager.focus3D.rotationX);//45度角
-                this.sceneManager.focus3D.z = (th / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                this.sceneManager.focus3D.z = (fvh / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
+              
+                if (this.rootpos) {
+                    this.sceneManager.focus3D.x += this.rootpos.x * this.scene2dScale;
+                    this.sceneManager.focus3D.z += (this.rootpos.y * this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1
+                }
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData()
             }

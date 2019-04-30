@@ -56,6 +56,7 @@
     <TypeScriptCompile Include="src\base\layout\Sprite.ts" />
     <TypeScriptCompile Include="src\editscene\EditLeftPanel.ts" />
     <TypeScriptCompile Include="src\laya3d\Laya3dSprite.ts" />
+    <TypeScriptCompile Include="src\laya3d\LayaGame2dDemo.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaLaunch.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaScene2D.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaScene3D.ts" />

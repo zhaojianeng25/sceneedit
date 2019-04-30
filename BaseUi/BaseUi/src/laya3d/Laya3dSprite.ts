@@ -1,18 +1,13 @@
 ﻿
 module LayaPan3D {
 
-    import Vector2D = Pan3d.Vector2D
-    import Object3D = Pan3d.Object3D
-    import MathClass = Pan3d.MathClass
     import Scene_data = Pan3d.Scene_data
 
     import MaterialRoleSprite = left.MaterialRoleSprite;
     import ModelSprite = maineditor.ModelSprite;
     import SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
     import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
-
     import EdItorSceneManager = maineditor.EdItorSceneManager;
-
 
     export class Laya3dSprite extends Laya.Image {
 
@@ -28,6 +23,7 @@ module LayaPan3D {
                 this.resizeRect()
                 bfun && bfun();
             }))
+            this.frameLoop(1, this, this.upData);
 
         }
         public scale(scaleX: number, scaleY: number, speedMode: boolean = null): Sprite {
@@ -115,22 +111,29 @@ module LayaPan3D {
         private resetBasePrarame(): void {
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
             gl.useProgram(this.program) //着色器
+       
             gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer); //定点对象
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer); 
             gl.blendFunc(this.sFactor, this.dFactor); //混合模式
             gl.depthMask(this.depthWriteMask); //写入深度
+            gl.enable(gl.CULL_FACE);
             gl.cullFace(this.cullFaceModel);  //正反面
-
+              
             Scene_data.context3D.setBlendParticleFactors(-1);
-            Scene_data.context3D.setDepthTest(true);
-            Scene_data.context3D.cullFaceBack(true);
+            Scene_data.context3D.setDepthTest(false);
+             Scene_data.context3D.cullFaceBack(true);
+       
+           
+
 
             Laya.BaseShader.activeShader = null;
             Laya.BaseShader.bindShader = null;
  
         }
         public upData(): void {
-            if (this.sceneManager) {
+
+
+            if (this.sceneManager && this.parent) {
                 this.saveBasePrarame();
                 if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
                     (<any>this.texture.bitmap)._source = this.sceneManager.fbo.texture
@@ -138,6 +141,9 @@ module LayaPan3D {
                 this.renderToTexture();
                 this.resetBasePrarame();
             }
+
+       
+    
         }
         protected renderToTexture(): void {
             this.sceneManager.renderToTexture();
