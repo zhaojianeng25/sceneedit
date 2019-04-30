@@ -91,7 +91,7 @@ class LayaLaunch {
 
    
         var spriteC: LayaScene2D = new LayaScene2D("res/ui/icon/512a.jpg", () => {
-            spriteC.scale(1, 1)
+            spriteC.scale(1, 0.5)
         })
          topBox.addChild(spriteC);
          spriteC.pos(350, 250);

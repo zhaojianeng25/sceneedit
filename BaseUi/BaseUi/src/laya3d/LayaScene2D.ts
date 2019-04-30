@@ -49,39 +49,26 @@ module LayaPan3D {
         protected addEvents(): void {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
-            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
+ 
         }
 
         private onMouseWheel(e: any): void {
             this.sceneManager.cam3D.scene2dScale += e.delta / 100;
         }
-        private lastMouseVec2d: Vector2D;
-        private lastfocus3D: Object3D
+ 
         private dragRegion: Laya.Rectangle;
         private onStartDrag(e: Event): void {
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
-                this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY)
-                this.lastfocus3D = new Object3D()
-                this.lastfocus3D.rotationY = this.sceneManager.focus3D.rotationY
-                this.lastfocus3D.rotationX = this.sceneManager.focus3D.rotationX
-
-                this.mainChar.set2dPos(this.mouseX, this.mouseY)
+                this.mainChar.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
             }
         }
         private get scene2dScale(): number {
             return this.sceneManager.cam3D.scene2dScale
         }
-        private onMouseUp(e: Event): void {
-            this.lastMouseVec2d = null
-
-        }
-        private onMouseMove(e: Event): void {
-            if (this.lastMouseVec2d) {
-            }
-        }
+ 
+    
 
         public upData(): void {
             if (this.sceneManager) {

@@ -13,8 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Vector2D = Pan3d.Vector2D;
-    var Object3D = Pan3d.Object3D;
     var Matrix3D = Pan3d.Matrix3D;
     var LayaScene2dSceneChar = /** @class */ (function (_super) {
         __extends(LayaScene2dSceneChar, _super);
@@ -58,8 +56,6 @@ var LayaPan3D;
         LayaScene2D.prototype.addEvents = function () {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
-            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         };
         LayaScene2D.prototype.onMouseWheel = function (e) {
             this.sceneManager.cam3D.scene2dScale += e.delta / 100;
@@ -69,11 +65,7 @@ var LayaPan3D;
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             }
             else {
-                this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY);
-                this.lastfocus3D = new Object3D();
-                this.lastfocus3D.rotationY = this.sceneManager.focus3D.rotationY;
-                this.lastfocus3D.rotationX = this.sceneManager.focus3D.rotationX;
-                this.mainChar.set2dPos(this.mouseX, this.mouseY);
+                this.mainChar.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY);
             }
         };
         Object.defineProperty(LayaScene2D.prototype, "scene2dScale", {
@@ -83,13 +75,6 @@ var LayaPan3D;
             enumerable: true,
             configurable: true
         });
-        LayaScene2D.prototype.onMouseUp = function (e) {
-            this.lastMouseVec2d = null;
-        };
-        LayaScene2D.prototype.onMouseMove = function (e) {
-            if (this.lastMouseVec2d) {
-            }
-        };
         LayaScene2D.prototype.upData = function () {
             if (this.sceneManager) {
                 this.sceneManager.focus3D.rotationX = -45;
