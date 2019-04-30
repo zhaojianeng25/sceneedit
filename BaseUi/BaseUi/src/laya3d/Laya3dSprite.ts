@@ -18,13 +18,14 @@ module LayaPan3D {
 
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super();
+            this.initScene();
             Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
                 this.texture = aa
                 this.texture.bitmap.enableMerageInAtlas = false;
-                this.initScene();
                 this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
                 this.width = this.texture.width;
                 this.height = this.texture.height;
+                this.resizeRect()
                 bfun && bfun();
             }))
 
@@ -56,7 +57,6 @@ module LayaPan3D {
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
-      
             this.addSceneModel();
         }
         protected addSceneModel(): void {

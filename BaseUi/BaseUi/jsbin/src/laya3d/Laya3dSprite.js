@@ -24,13 +24,14 @@ var LayaPan3D;
         function Laya3dSprite(value, bfun) {
             if (bfun === void 0) { bfun = null; }
             var _this = _super.call(this) || this;
+            _this.initScene();
             Laya.loader.load(value, Laya.Handler.create(_this, function (aa) {
                 _this.texture = aa;
                 _this.texture.bitmap.enableMerageInAtlas = false;
-                _this.initScene();
                 _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
                 _this.width = _this.texture.width;
                 _this.height = _this.texture.height;
+                _this.resizeRect();
                 bfun && bfun();
             }));
             return _this;
