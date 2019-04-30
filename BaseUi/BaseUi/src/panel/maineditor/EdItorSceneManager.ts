@@ -17,7 +17,6 @@
             super();
         }
         public fbo: FBO;
-      //  private renderContext: WebGLRenderingContext;
  
         private updateDepthTexture(fbo: FBO): void {
 
@@ -60,11 +59,7 @@
                 this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
             }
 
-        
-
-        
- 
- 
+       
 
             this.updateDepthTexture(this.fbo);
 

@@ -24,7 +24,6 @@ var maineditor;
         function EdItorSceneManager() {
             return _super.call(this) || this;
         }
-        //  private renderContext: WebGLRenderingContext;
         EdItorSceneManager.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);

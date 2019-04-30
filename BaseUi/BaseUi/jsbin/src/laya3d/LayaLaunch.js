@@ -61,17 +61,22 @@ var LayaLaunch = /** @class */ (function () {
         var spriteA = new LayaScene3D("res/ui/icon/256b.png", function () {
             spriteA.scale(2, 1);
         });
-        //  topBox.addChild(spriteA);
+        topBox.addChild(spriteA);
         var spriteB = new LayaScene3D("res/ui/icon/256a.png", function () {
             spriteB.scale(1, 2);
         });
-        //   topBox.addChild(spriteB);
+        topBox.addChild(spriteB);
         spriteB.pos(0, 250);
         var spriteC = new LayaScene2D("res/ui/icon/512a.jpg", function () {
             spriteC.scale(0.51, 0.75);
         });
         topBox.addChild(spriteC);
         spriteC.pos(350, 250);
+        var spriteD = new LayaScene2D("res/ui/icon/512b.jpg", function () {
+            spriteD.scale(0.75, 0.55);
+        });
+        topBox.addChild(spriteD);
+        spriteD.pos(800, 250);
         var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picA);
         picA.scale(0.5, 0.5);
@@ -88,6 +93,7 @@ var LayaLaunch = /** @class */ (function () {
             spriteA.upData();
             spriteB.upData();
             spriteC.upData();
+            spriteD.upData();
         });
     };
     LayaLaunch.initCanvas = function ($caves) {

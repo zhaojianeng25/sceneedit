@@ -96,12 +96,10 @@ var LayaPan3D;
         };
         LayaScene2dPicSprit.prototype.updateMatrix = function () {
             if (this.width && this.height && this._scene) {
-                //   this._scene.cam3D.scene2dScale=2
-                var scaleNum = this._scene.cam3D.scene2dScale;
-                this.imgRectInfo[0] = -1 + this._x / this._scene.cam3D.cavanRect.width * (2);
-                this.imgRectInfo[1] = -1 + this._y / this._scene.cam3D.cavanRect.height * (2);
-                this.imgRectInfo[2] = this.width / this._scene.cam3D.cavanRect.width * scaleNum;
-                this.imgRectInfo[3] = this.height / this._scene.cam3D.cavanRect.height * scaleNum;
+                this.imgRectInfo[0] = -1 + this._x / this._scene.cam3D.cavanRect.width * 2;
+                this.imgRectInfo[1] = -1 + this._y / this._scene.cam3D.cavanRect.height * 2;
+                this.imgRectInfo[2] = this.width / this._scene.cam3D.cavanRect.width * 2;
+                this.imgRectInfo[3] = this.height / this._scene.cam3D.cavanRect.height * 2;
             }
         };
         LayaScene2dPicSprit.prototype.set2dPos = function ($x, $y) {
@@ -110,7 +108,6 @@ var LayaPan3D;
         };
         LayaScene2dPicSprit.prototype.loadTextureByUrl = function (url) {
             var _this = this;
-            //"role/game2dbg.jpg"
             TextureManager.getInstance().getTexture(Scene_data.fileRoot + url, function ($texture) {
                 _this._uvTextureRes = $texture;
             });
@@ -161,19 +158,22 @@ var LayaPan3D;
         __extends(LayaScene2D, _super);
         function LayaScene2D(value, bfun) {
             if (bfun === void 0) { bfun = null; }
-            var _this = _super.call(this, value, bfun) || this;
-            _this.addEvents();
-            return _this;
+            return _super.call(this, value, bfun) || this;
         }
+        LayaScene2D.prototype.initScene = function () {
+            _super.prototype.initScene.call(this);
+            this.addSceneModel();
+            this.addEvents();
+        };
         LayaScene2D.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 1;
+            this.sceneManager.cam3D.scene2dScale = 4;
             var $baseChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
             $baseChar.set2dPos(100, 100);
             this.mainChar = $baseChar;
             for (var i = 0; i < 4; i++) {
-                this.addGrouandPic("role/game2dbg.jpg", new Pan3d.Rectangle(Math.floor(i % 2) * 100, Math.floor(i / 2) * 100, 100, 100));
+                this.addGrouandPic("role/game2dbg.jpg", new Pan3d.Rectangle(Math.floor(i % 2) * 200, Math.floor(i / 2) * 200, 200, 200));
             }
         };
         LayaScene2D.prototype.addGrouandPic = function (value, rect) {

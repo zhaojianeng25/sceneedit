@@ -1,15 +1,13 @@
 ﻿
 module LayaPan3D {
-
-
-
+ 
     import Shader3D = Pan3d.Shader3D
     import ProgrmaManager = Pan3d.ProgrmaManager
     import Matrix3D = Pan3d.Matrix3D
     import Scene_data = Pan3d.Scene_data
     import TextureManager = Pan3d.TextureManager
     import TextureRes = Pan3d.TextureRes
-    import UIManager = Pan3d.UIManager
+ 
 
     export class LayaScene2dPicShader extends Shader3D {
         static LayaScene2dPicShader: string = "LayaScene2dPicShader";
@@ -101,12 +99,10 @@ module LayaPan3D {
         public height: number;
         public updateMatrix(): void {
             if (this.width && this.height && this._scene) {
-             //   this._scene.cam3D.scene2dScale=2
-                var scaleNum: number = this._scene.cam3D.scene2dScale
-                this.imgRectInfo[0] = -1 + this._x / this._scene.cam3D.cavanRect.width * (2);
-                this.imgRectInfo[1] = -1 + this._y / this._scene.cam3D.cavanRect.height * (2);
-                this.imgRectInfo[2] = this.width / this._scene.cam3D.cavanRect.width * scaleNum;
-                this.imgRectInfo[3] = this.height / this._scene.cam3D.cavanRect.height * scaleNum;
+                this.imgRectInfo[0] = -1 + this._x / this._scene.cam3D.cavanRect.width * 2;
+                this.imgRectInfo[1] = -1 + this._y / this._scene.cam3D.cavanRect.height * 2;
+                this.imgRectInfo[2] = this.width / this._scene.cam3D.cavanRect.width*2  ;
+                this.imgRectInfo[3] = this.height / this._scene.cam3D.cavanRect.height*2  
             }
         }
         public set2dPos($x: number, $y: number): void {
@@ -115,7 +111,6 @@ module LayaPan3D {
         }
 
         private loadTextureByUrl(url: string): void {
-            //"role/game2dbg.jpg"
             TextureManager.getInstance().getTexture(Scene_data.fileRoot + url, ($texture: TextureRes) => {
                 this._uvTextureRes = $texture;
             });
@@ -163,17 +158,23 @@ module LayaPan3D {
     export class LayaScene2D extends Laya3dSprite {
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super(value, bfun)
-            this.addEvents()
+    
         }
-        protected addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale =1
+        protected initScene(): void {
+            super.initScene();
+            this.addSceneModel()
+            this.addEvents()
+
+        }
+        private addSceneModel(): void {
+            this.sceneManager.cam3D.scene2dScale =4
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
             $baseChar.set2dPos(100, 100);
             this.mainChar = $baseChar;
             for (var i: number = 0; i < 4; i++) {
-               this.addGrouandPic("role/game2dbg.jpg",new Pan3d.Rectangle(Math.floor(i % 2)*100, Math.floor(i / 2)*100, 100, 100))
+                this.addGrouandPic("role/game2dbg.jpg", new Pan3d.Rectangle(Math.floor(i % 2) * 200, Math.floor(i / 2) * 200, 200, 200))
             }
         }
         public addGrouandPic(value: string, rect: Pan3d.Rectangle): LayaScene2dPicSprit {
@@ -202,10 +203,10 @@ module LayaPan3D {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
                 this.mainChar.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
-
                // this.bgPicSprite.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
             }
         }
+
         private get scene2dScale(): number {
             return this.sceneManager.cam3D.scene2dScale
         }

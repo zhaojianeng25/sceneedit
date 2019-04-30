@@ -57,14 +57,9 @@ module LayaPan3D {
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
-            this.addSceneModel();
+    
         }
-        protected addSceneModel(): void {
-           // this.addDisplay();
-           //  this.addRole();
-          // this.addSkillRole();
-          //  this.addLyfSprite();
-        }
+    
         protected addDisplay(): void {
             let prefabSprite: ModelSprite = new ModelSprite();
             prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
@@ -132,10 +127,7 @@ module LayaPan3D {
 
             Laya.BaseShader.activeShader = null;
             Laya.BaseShader.bindShader = null;
-
-
-
-
+ 
         }
         public upData(): void {
             if (this.sceneManager) {
@@ -143,9 +135,7 @@ module LayaPan3D {
                 if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
                     (<any>this.texture.bitmap)._source = this.sceneManager.fbo.texture
                 }
-
                 this.renderToTexture();
-
                 this.resetBasePrarame();
             }
         }

@@ -62,13 +62,6 @@ var LayaPan3D;
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
-            this.addSceneModel();
-        };
-        Laya3dSprite.prototype.addSceneModel = function () {
-            // this.addDisplay();
-            //  this.addRole();
-            // this.addSkillRole();
-            //  this.addLyfSprite();
         };
         Laya3dSprite.prototype.addDisplay = function () {
             var prefabSprite = new ModelSprite();
