@@ -12,7 +12,7 @@
         }
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale = 3
+            this.sceneManager.cam3D.scene2dScale =2.34;
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -37,7 +37,7 @@
         protected addEvents(): void {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-            this.rootpos = new Vector2D(-100,0)
+            this.rootpos = new Vector2D(-100,-100)
         }
 
         private onMouseWheel(e: any): void {
@@ -53,27 +53,20 @@
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
-                var hitPos: Vector2D = new Vector2D(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
-                if (this.rootpos) {
-                    /*
-                    var $num45: number = Math.abs(this.sceneManager.focus3D.rotationX);//45度角
-                    hitPos.x += this.rootpos.x * this.scaleX;
+                var mousePos: Vector2D = new Vector2D(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
+                mousePos.scaleBy(1 / this.scaleX)
+                var $num45: number = Math.abs(this.sceneManager.focus3D.rotationX);//45度角
+                
 
-                    hitPos.x = this.rootpos.x * this.scaleX
+                var toX: number = (mousePos.x + this.rootpos.x) * ((this.scaleX/1) / this.sceneManager.cam3D.scene2dScale) 
+
+                var toY: number = (mousePos.y + this.rootpos.y) * (((this.scaleX / 1)*2) / this.sceneManager.cam3D.scene2dScale) * (Math.sin($num45 * Math.PI / 180))
 
 
-                    hitPos.y += this.rootpos.y / (Math.sin($num45 * Math.PI / 180))   
+                console.log("this.mouseX, this.rootpos.x", mousePos.x, this.rootpos.x);
+                console.log("this.mouseY, this.rootpos.y", mousePos.y, this.rootpos.y);
 
-                    */
-                }
-
-                //  this.mainChar.set2dPos(hitPos.x, hitPos.y)
-                console.log("this.mouseX, this.rootpos.x, hitPos.x, this.scaleX")
-                console.log(this.mouseX, this.rootpos.x, hitPos.x, this.scaleX)
-
-                console.log(this.mouseX / this.sceneManager.cam3D.scene2dScale * this.scaleX)
-
-                this.mainChar.set2dPos(0, 100)
+                this.mainChar.set2dPos(toX * this.sceneManager.cam3D.scene2dScale, toY * this.sceneManager.cam3D.scene2dScale);
  
                // this.bgPicSprite.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
             }

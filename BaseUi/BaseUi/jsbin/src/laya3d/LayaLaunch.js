@@ -76,7 +76,7 @@ var LayaLaunch = /** @class */ (function () {
         spriteC.pos(350, 250);
         */
         var spriteD = new LayaGame2dDemo("res/ui/icon/512b.jpg", function () {
-            spriteD.scale(2, 1.2);
+            spriteD.scale(1.8, 1.3);
         });
         topBox.addChild(spriteD);
         spriteD.pos(200, 250);

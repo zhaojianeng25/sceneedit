@@ -198,9 +198,9 @@ module LayaPan3D {
                 this.sceneManager.focus3D.z = (fvh / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
               
                 if (this.rootpos) {
-                    this.sceneManager.focus3D.x += this.rootpos.x * this.scene2dScale / this.scaleX;
+                    this.sceneManager.focus3D.x += this.rootpos.x * (this.scaleX/ this.scene2dScale )*2;
  
-                    this.sceneManager.focus3D.z += (this.rootpos.y * this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1
+                    this.sceneManager.focus3D.z += (this.rootpos.y * (this.scaleX / this.scene2dScale) * 2) / (Math.sin($num45 * Math.PI / 180)) * -1  
                 }
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData()
