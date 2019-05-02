@@ -19,6 +19,7 @@ module LayaPan3D {
             super(value, bfun)
 
             this.addEvents()
+            this.addSceneModel()
         }
         protected addEvents(): void {
             this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
@@ -29,7 +30,7 @@ module LayaPan3D {
         protected addSceneModel(): void {
              this.addDisplay();
              // this.addRole();
-            // this.addSkillRole();
+              this.addSkillRole();
             //  this.addLyfSprite();
         }
         private onMouseWheel(e: any): void {

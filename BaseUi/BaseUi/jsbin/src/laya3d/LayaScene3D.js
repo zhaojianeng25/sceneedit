@@ -21,6 +21,7 @@ var LayaPan3D;
             if (bfun === void 0) { bfun = null; }
             var _this = _super.call(this, value, bfun) || this;
             _this.addEvents();
+            _this.addSceneModel();
             return _this;
         }
         LayaScene3D.prototype.addEvents = function () {
@@ -32,7 +33,7 @@ var LayaPan3D;
         LayaScene3D.prototype.addSceneModel = function () {
             this.addDisplay();
             // this.addRole();
-            // this.addSkillRole();
+            this.addSkillRole();
             //  this.addLyfSprite();
         };
         LayaScene3D.prototype.onMouseWheel = function (e) {
