@@ -99,10 +99,11 @@ var LayaPan3D;
                 var fvw = this._scene.cam3D.cavanRect.width;
                 var fvh = this._scene.cam3D.cavanRect.height;
                 var $num45 = Math.abs(this._scene.focus3D.rotationX);
-                var tx = this._x - (this._scene.focus3D.x - fvw / this._scene.cam3D.scene2dScale) * 2 / this._scene.cam3D.scene2dScale;
+                var tx = (this._scene.focus3D.x - fvw / this._scene.cam3D.scene2dScale);
+                tx = this._x - tx * (this._scene.cam3D.scene2dScale / 2);
                 var ty = this._scene.focus3D.z - (fvh / this._scene.cam3D.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
                 ty = (ty * (Math.sin($num45 * Math.PI / 180)));
-                ty = this._y + ty;
+                ty = this._y + ty * (this._scene.cam3D.scene2dScale / 2);
                 this.imgRectInfo[0] = -1 + tx / fvw * 2;
                 this.imgRectInfo[1] = -1 + ty / fvh * 2;
                 this.imgRectInfo[2] = this.width / fvw * 2;
@@ -196,7 +197,7 @@ var LayaPan3D;
                 var $num45 = Math.abs(this.sceneManager.focus3D.rotationX); //45度角
                 this.sceneManager.focus3D.z = (fvh / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
                 if (this.rootpos) {
-                    this.sceneManager.focus3D.x += this.rootpos.x * this.scene2dScale;
+                    this.sceneManager.focus3D.x += this.rootpos.x * this.scene2dScale / this.scaleX;
                     this.sceneManager.focus3D.z += (this.rootpos.y * this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
                 }
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
