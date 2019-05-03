@@ -179,7 +179,9 @@ module LayaPan3D {
     }
     export class LayaScene2D extends Laya3dSprite {
 
-        protected rootpos: Vector2D
+      
+        public  rootpos: Vector2D
+       
         public get scene2dScale(): number {
             return this.sceneManager.cam3D.scene2dScale;
         }
