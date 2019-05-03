@@ -189,6 +189,7 @@ var LayaPan3D;
             this.sceneManager.focus3D.rotationX = -30;
             this.sceneManager.focus3D.rotationY = 0;
         };
+        //2d透视位移
         LayaScene2D.prototype.upData = function () {
             if (this.sceneManager) {
                 var fvw = this.sceneManager.cam3D.cavanRect.width;
@@ -204,6 +205,15 @@ var LayaPan3D;
                 _super.prototype.upData.call(this);
             }
         };
+        //获取鼠标位置
+        LayaScene2D.prototype.getMousePos = function (tx, ty) {
+            var mousePos = new Vector2D(tx, ty * this.scaleY / this.scaleX);
+            var $num45 = Math.abs(this.sceneManager.focus3D.rotationX); //45度角
+            var toX = (mousePos.x + this.rootpos.x) * (this.scaleX);
+            var toY = (mousePos.y + this.rootpos.y) * (this.scaleX) * (Math.sin($num45 * Math.PI / 180)) * 2;
+            return new Vector2D(toX, toY);
+        };
+        //更换上2D透视矩阵
         LayaScene2D.prototype.renderToTexture = function () {
             var m = new Matrix3D;
             var tw = this.sceneManager.cam3D.cavanRect.width;

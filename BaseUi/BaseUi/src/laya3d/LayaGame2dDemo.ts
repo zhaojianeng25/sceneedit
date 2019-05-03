@@ -12,7 +12,7 @@
         }
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale =2.34;
+            this.sceneManager.cam3D.scene2dScale = 2
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -30,7 +30,6 @@
             tempPic.set2dPos(rect.x, rect.y);
             tempPic.width = rect.width;
             tempPic.height = rect.height;
-
             this.sceneManager.addDisplay(tempPic);
             return tempPic
         }
@@ -53,22 +52,9 @@
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
-                var mousePos: Vector2D = new Vector2D(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
-                mousePos.scaleBy(1 / this.scaleX)
-                var $num45: number = Math.abs(this.sceneManager.focus3D.rotationX);//45度角
-                
-
-                var toX: number = (mousePos.x + this.rootpos.x) * ((this.scaleX/1) / this.sceneManager.cam3D.scene2dScale) 
-
-                var toY: number = (mousePos.y + this.rootpos.y) * (((this.scaleX / 1)*2) / this.sceneManager.cam3D.scene2dScale) * (Math.sin($num45 * Math.PI / 180))
-
-
-                console.log("this.mouseX, this.rootpos.x", mousePos.x, this.rootpos.x);
-                console.log("this.mouseY, this.rootpos.y", mousePos.y, this.rootpos.y);
-
-                this.mainChar.set2dPos(toX * this.sceneManager.cam3D.scene2dScale, toY * this.sceneManager.cam3D.scene2dScale);
+                var v2d: Vector2D= this.getMousePos( this.mouseX, this.mouseY);
+                this.mainChar.set2dPos(v2d.x, v2d.y);
  
-               // this.bgPicSprite.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
             }
         }
 

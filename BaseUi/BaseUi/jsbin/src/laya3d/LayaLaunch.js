@@ -68,15 +68,13 @@ var LayaLaunch = /** @class */ (function () {
         });
         topBox.addChild(spriteB);
         spriteB.pos(0, 250);
-        /*
-        var spriteC: LayaScene2D = new LayaScene2D("res/ui/icon/512a.jpg", () => {
-            spriteC.scale(0.51, 0.75)
-        })
-         topBox.addChild(spriteC);
-        spriteC.pos(350, 250);
-        */
+        var spriteC = new LayaGame2dDemo("res/ui/icon/512a.jpg", function () {
+            spriteC.scale(1, 1);
+        });
+        topBox.addChild(spriteC);
+        spriteC.pos(350, 0);
         var spriteD = new LayaGame2dDemo("res/ui/icon/512b.jpg", function () {
-            spriteD.scale(1.8, 1.3);
+            spriteD.scale(2, 2);
         });
         topBox.addChild(spriteD);
         spriteD.pos(200, 250);

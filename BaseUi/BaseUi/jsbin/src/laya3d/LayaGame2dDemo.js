@@ -25,7 +25,7 @@ var LayaPan3D;
             this.addSceneModel();
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 2.34;
+            this.sceneManager.cam3D.scene2dScale = 2;
             var $baseChar = new LayaPan3D.LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -64,15 +64,8 @@ var LayaPan3D;
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             }
             else {
-                var mousePos = new Vector2D(this.mouseX * this.scaleX, this.mouseY * this.scaleY);
-                mousePos.scaleBy(1 / this.scaleX);
-                var $num45 = Math.abs(this.sceneManager.focus3D.rotationX); //45度角
-                var toX = (mousePos.x + this.rootpos.x) * ((this.scaleX / 1) / this.sceneManager.cam3D.scene2dScale);
-                var toY = (mousePos.y + this.rootpos.y) * (((this.scaleX / 1) * 2) / this.sceneManager.cam3D.scene2dScale) * (Math.sin($num45 * Math.PI / 180));
-                console.log("this.mouseX, this.rootpos.x", mousePos.x, this.rootpos.x);
-                console.log("this.mouseY, this.rootpos.y", mousePos.y, this.rootpos.y);
-                this.mainChar.set2dPos(toX * this.sceneManager.cam3D.scene2dScale, toY * this.sceneManager.cam3D.scene2dScale);
-                // this.bgPicSprite.set2dPos(this.mouseX * this.scaleX, this.mouseY * this.scaleY)
+                var v2d = this.getMousePos(this.mouseX, this.mouseY);
+                this.mainChar.set2dPos(v2d.x, v2d.y);
             }
         };
         return LayaGame2dDemo;

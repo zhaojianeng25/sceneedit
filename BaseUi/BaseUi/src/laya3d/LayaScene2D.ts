@@ -179,33 +179,41 @@ module LayaPan3D {
     }
     export class LayaScene2D extends Laya3dSprite {
 
-        public rootpos: Vector2D
+        protected rootpos: Vector2D
         public get scene2dScale(): number {
-            return this.sceneManager.cam3D.scene2dScale
+            return this.sceneManager.cam3D.scene2dScale;
         }
         protected initScene(): void {
             super.initScene();
             this.sceneManager.focus3D.rotationX = -30;
             this.sceneManager.focus3D.rotationY = 0;
         }
+        //2d透视位移
         public upData(): void {
             if (this.sceneManager) {
-        
                 var fvw: number = this.sceneManager.cam3D.cavanRect.width
                 var fvh: number = this.sceneManager.cam3D.cavanRect.height
                 this.sceneManager.focus3D.x = fvw / this.scene2dScale;
                 var $num45: number = Math.abs(this.sceneManager.focus3D.rotationX);//45度角
                 this.sceneManager.focus3D.z = (fvh / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
-              
                 if (this.rootpos) {
                     this.sceneManager.focus3D.x += this.rootpos.x * (this.scaleX/ this.scene2dScale )*2;
- 
                     this.sceneManager.focus3D.z += (this.rootpos.y * (this.scaleX / this.scene2dScale) * 2) / (Math.sin($num45 * Math.PI / 180)) * -1  
                 }
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData()
             }
         }
+        //获取鼠标位置
+        protected getMousePos(tx: number, ty: number): Vector2D {
+            var mousePos: Vector2D = new Vector2D(tx, ty * this.scaleY / this.scaleX);
+            var $num45: number = Math.abs(this.sceneManager.focus3D.rotationX);//45度角
+            var toX: number = (mousePos.x + this.rootpos.x) * (this.scaleX);
+            var toY: number = (mousePos.y + this.rootpos.y) * (this.scaleX) * (Math.sin($num45 * Math.PI / 180)) * 2;
+            return new Vector2D(toX  , toY );
+
+        }
+        //更换上2D透视矩阵
         protected renderToTexture(): void {
             var m: Matrix3D = new Matrix3D
             var tw: number = this.sceneManager.cam3D.cavanRect.width
