@@ -59,7 +59,7 @@
             } else {
                 var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);
 
-                console.log("mouseX", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
+                console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
 
 
                 this.mainChar.set2dPos(v2d.x, v2d.y);
