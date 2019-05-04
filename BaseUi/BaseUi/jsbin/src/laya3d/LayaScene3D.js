@@ -34,7 +34,7 @@ var LayaPan3D;
             this.addDisplay();
             // this.addRole();
             this.addSkillRole();
-            //  this.addLyfSprite();
+            //   this.addLyfSprite();
         };
         LayaScene3D.prototype.onMouseWheel = function (e) {
             this.sceneManager.cam3D.distance += e.delta;
