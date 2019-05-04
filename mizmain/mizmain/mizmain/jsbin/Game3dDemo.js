@@ -13,8 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var base;
 (function (base) {
-    var Vector2D = Pan3d.Vector2D;
-    var Object3D = Pan3d.Object3D;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Object3D = Pan3d.me.Object3D;
+    var MouseType = Pan3d.me.MouseType;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
     var LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
     var Game3dDemo = /** @class */ (function (_super) {
@@ -27,10 +28,10 @@ var base;
             return _this;
         }
         Game3dDemo.prototype.addEvents = function () {
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
-            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
+            this.on(MouseType.MouseDown, this, this.onStartDrag);
+            this.on(MouseType.MouseWheel, this, this.onMouseWheel);
+            Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
+            Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
         };
         Game3dDemo.prototype.addSceneModel = function () {
             this.addLyfSprite();
@@ -66,7 +67,7 @@ var base;
         };
         Game3dDemo.prototype.upData = function () {
             if (this.sceneManager) {
-                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }
         };

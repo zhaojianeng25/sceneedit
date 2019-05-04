@@ -2,6 +2,8 @@ var base;
 (function (base) {
     var Browser = Laya.Browser;
     var Stage = Laya.Stage;
+    var Engine = Pan3d.me.Engine;
+    var Scene_data = Pan3d.me.Scene_data;
     var Game2dDemo = base.Game2dDemo;
     var Game3dDemo = base.Game3dDemo;
     var LayaLaunch = /** @class */ (function () {
@@ -34,8 +36,8 @@ var base;
                 return compatibleLayaRender.call(this, funA, sfactor, dfactor);
             };
             /*
-            let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
-            Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
+            let ParticleBoneData_setAllByteInfo =  ParticleBoneData.prototype.setAllByteInfo;
+             ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
                 return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
             }
             */
@@ -47,11 +49,11 @@ var base;
             Laya.stage.alignH = Stage.ALIGN_TOP;
             Laya.stage.scaleMode = "full";
             Laya.stage.bgColor = "#232628";
-            Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-            Pan3d.Scene_data.fileuiRoot = "res/";
-            Pan3d.Scene_data.fileRoot = "res/";
-            //   Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
-            Pan3d.Engine.init(this._canvas);
+            Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+            Scene_data.fileuiRoot = "res/";
+            Scene_data.fileRoot = "res/";
+            //    Scene_data.fileRoot =  Scene_data.ossRoot + "baseedit/";
+            Engine.init(this._canvas);
             var midBox = new Laya.Box();
             Laya.stage.addChild(midBox);
             var topBox = new Laya.Box();

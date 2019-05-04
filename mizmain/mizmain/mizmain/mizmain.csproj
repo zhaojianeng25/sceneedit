@@ -45,7 +45,7 @@
     <TypeScriptCompile Include="libs\LayaAir.d.ts" />
     <TypeScriptCompile Include="src\Game3dDemo.ts" />
     <TypeScriptCompile Include="src\Game2dDemo.ts" />
-    <TypeScriptCompile Include="src\Launch.ts" />
+    <TypeScriptCompile Include="src\Launch14lou.ts" />
     <TypeScriptCompile Include="src\LayaLaunch.ts" />
   </ItemGroup>
   <PropertyGroup>

@@ -13,7 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var base;
 (function (base) {
-    var Vector2D = Pan3d.Vector2D;
+    var Vector2D = Pan3d.me.Vector2D;
+    var MouseType = Pan3d.me.MouseType;
     var LayaScene2dPicSprit = LayaPan3D.LayaScene2dPicSprit;
     var LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
     var LayaScene2D = LayaPan3D.LayaScene2D;
@@ -36,10 +37,10 @@ var base;
             $baseChar.set2dPos(200, 200);
             $baseChar.rotationY = 180;
             this.mainChar = $baseChar;
-            var rect100 = new Pan3d.Rectangle(0, 0, 100, 100);
+            var rect100 = new Pan3d.me.Rectangle(0, 0, 100, 100);
             for (var i = 0; i < 6; i++) {
                 for (var j = 0; j < 4; j++) {
-                    this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+                    this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.me.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
                 }
             }
         };
@@ -52,8 +53,8 @@ var base;
             return tempPic;
         };
         Game2dDemo.prototype.addEvents = function () {
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
+            this.on(MouseType.MouseDown, this, this.onStartDrag);
+            this.on(MouseType.MouseWheel, this, this.onMouseWheel);
             this.rootpos = new Vector2D(-100, -100);
         };
         Game2dDemo.prototype.onMouseWheel = function (e) {

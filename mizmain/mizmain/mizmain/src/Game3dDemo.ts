@@ -1,7 +1,8 @@
 ﻿
 module base {
-    import Vector2D = Pan3d.Vector2D
-    import Object3D = Pan3d.Object3D
+    import Vector2D = Pan3d.me.Vector2D
+    import Object3D = Pan3d.me.Object3D
+    import MouseType = Pan3d.me.MouseType
     import Laya3dSprite = LayaPan3D.Laya3dSprite;
     import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
 
@@ -13,10 +14,10 @@ module base {
             this.addSceneModel()
         }
         protected addEvents(): void {
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
-            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
-            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
+            this.on(MouseType.MouseDown, this, this.onStartDrag);
+            this.on(MouseType.MouseWheel, this, this.onMouseWheel);
+            Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
+            Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
         }
         protected addSceneModel(): void {
  
@@ -61,7 +62,7 @@ module base {
         public upData(): void {
             if (this.sceneManager) {
 
-                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
 
                 super.upData()
             }
