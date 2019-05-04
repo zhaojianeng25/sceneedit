@@ -1,6 +1,6 @@
 ﻿module prop {
-    import Vector2D = Pan3d.Vector2D
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import Vector2D = Pan3d.me.Vector2D
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
     export class Vec2PropMeshPanel extends MetaDataView {
         private constVec2NodeUI: materialui.ConstVec2NodeUI;
         public getView(): Array<any> {

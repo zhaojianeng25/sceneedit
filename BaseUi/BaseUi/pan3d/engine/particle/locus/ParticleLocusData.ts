@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleLocusData extends ParticleData {
         public _speed: number = 1;   //粒子运动数字
         public _isLoop: boolean = false;  //是否循环

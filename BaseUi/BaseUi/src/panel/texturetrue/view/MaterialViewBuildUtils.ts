@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import ModuleEventManager = Pan3d.ModuleEventManager
+    import ModuleEventManager = Pan3d.me.ModuleEventManager
     export class MaterialViewBuildUtils {
 
         private static _instance: MaterialViewBuildUtils;

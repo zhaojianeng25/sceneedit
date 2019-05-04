@@ -1,11 +1,11 @@
 var pack;
 (function (pack) {
-    var LoadManager = Pan3d.LoadManager;
-    var Scene_data = Pan3d.Scene_data;
-    var ConstItem = Pan3d.ConstItem;
-    var TexItem = Pan3d.TexItem;
-    var TextureManager = Pan3d.TextureManager;
-    var TextureRes = Pan3d.TextureRes;
+    var LoadManager = Pan3d.me.LoadManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var ConstItem = Pan3d.me.ConstItem;
+    var TexItem = Pan3d.me.TexItem;
+    var TextureManager = Pan3d.me.TextureManager;
+    var TextureRes = Pan3d.me.TextureRes;
     var PackMaterialManager = /** @class */ (function () {
         function PackMaterialManager() {
             this.dic = {};
@@ -20,7 +20,7 @@ var pack;
         PackMaterialManager.prototype.replaceMaterialByUrl = function ($url) {
             var _this = this;
             LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($dtstr) {
-                var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                var $byte = new Pan3d.me.Pan3dByteArray($dtstr);
                 $byte.position = 0;
                 var $temp = JSON.parse($byte.readUTF());
                 if (_this.dic[$url]) { //有了就反回
@@ -72,7 +72,7 @@ var pack;
             if (!this.loadDic[$url]) { //创建加载队列
                 this.loadDic[$url] = [bfun];
                 LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE, function ($dtstr) {
-                    var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                    var $byte = new Pan3d.me.Pan3dByteArray($dtstr);
                     $byte.position = 0;
                     var $temp = JSON.parse($byte.readUTF());
                     var $buildShader = new left.BuildMaterialShader();
@@ -154,7 +154,7 @@ var pack;
             if (texItem.type == TexItem.CUBEMAP) {
                 LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
                     texItem.textureRes = new TextureRes;
-                    texItem.textureRes.texture = Pan3d.CubemapLoad.makeTempCubeTextture($img);
+                    texItem.textureRes.texture = Pan3d.me.CubemapLoad.makeTempCubeTextture($img);
                 });
             }
             else {

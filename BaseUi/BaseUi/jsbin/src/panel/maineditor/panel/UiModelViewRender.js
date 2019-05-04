@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Scene_data = Pan3d.Scene_data;
-    var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var Shader3D = Pan3d.Shader3D;
-    var TimeUtil = Pan3d.TimeUtil;
+    var Scene_data = Pan3d.me.Scene_data;
+    var UIRenderOnlyPicComponent = Pan3d.me.UIRenderOnlyPicComponent;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var Shader3D = Pan3d.me.Shader3D;
+    var TimeUtil = Pan3d.me.TimeUtil;
     var UiModelViewShder = /** @class */ (function (_super) {
         __extends(UiModelViewShder, _super);
         function UiModelViewShder() {
@@ -107,10 +107,10 @@ gl_FragColor = ft2;
             set: function (value) {
                 if (value) {
                     if (this._sceneProjectVo) {
-                        this._sceneProjectVo.removeEventListener(Pan3d.BaseEvent.COMPLETE, this.sceneProjectUpData, this);
+                        this._sceneProjectVo.removeEventListener(Pan3d.me.BaseEvent.COMPLETE, this.sceneProjectUpData, this);
                     }
                     this._sceneProjectVo = value;
-                    this._sceneProjectVo.addEventListener(Pan3d.BaseEvent.COMPLETE, this.sceneProjectUpData, this);
+                    this._sceneProjectVo.addEventListener(Pan3d.me.BaseEvent.COMPLETE, this.sceneProjectUpData, this);
                     this.sceneProjectUpData();
                 }
             },

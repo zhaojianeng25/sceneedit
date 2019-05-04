@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DFollowPartilce extends Display3DBallPartilce {
         private _bindMatrixAry: Float32Array;
         private _bindFlagAry: Array<number>;

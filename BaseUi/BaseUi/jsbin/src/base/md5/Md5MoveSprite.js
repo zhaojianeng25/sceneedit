@@ -13,14 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var md5list;
 (function (md5list) {
-    var Display3DSprite = Pan3d.Display3DSprite;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var LoadManager = Pan3d.LoadManager;
-    var Quaternion = Pan3d.Quaternion;
-    var DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
-    var UIManager = Pan3d.UIManager;
-    var TextureManager = Pan3d.TextureManager;
-    var Scene_data = Pan3d.Scene_data;
+    var Display3DSprite = Pan3d.me.Display3DSprite;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var LoadManager = Pan3d.me.LoadManager;
+    var Quaternion = Pan3d.me.Quaternion;
+    var DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array;
+    var UIManager = Pan3d.me.UIManager;
+    var TextureManager = Pan3d.me.TextureManager;
+    var Scene_data = Pan3d.me.Scene_data;
     var Md5MoveSprite = /** @class */ (function (_super) {
         __extends(Md5MoveSprite, _super);
         function Md5MoveSprite() {
@@ -111,8 +111,8 @@ var md5list;
             Scene_data.context3D.setVa(1, 2, this.md5MeshData.uvBuffer);
             Scene_data.context3D.setVa(2, 4, this.md5MeshData.boneIdBuffer);
             Scene_data.context3D.setVa(3, 4, this.md5MeshData.boneWeightBuffer);
-            var t = Pan3d.TimeUtil.getTimer() - this.lastTm;
-            this.lastTm = Pan3d.TimeUtil.getTimer();
+            var t = Pan3d.me.TimeUtil.getTimer() - this.lastTm;
+            this.lastTm = Pan3d.me.TimeUtil.getTimer();
             this._actionTime += t;
             var _curentFrame = float2int(this._actionTime / (Scene_data.frameTime * 2));
             var $len = this.frameQuestArr.length;

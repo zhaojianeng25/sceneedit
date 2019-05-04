@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Scene_data = Pan3d.Scene_data;
-    var Vector3D = Pan3d.Vector3D;
+    var Scene_data = Pan3d.me.Scene_data;
+    var Vector3D = Pan3d.me.Vector3D;
     var SciencePropMeshPanel = /** @class */ (function (_super) {
         __extends(SciencePropMeshPanel, _super);
         function SciencePropMeshPanel() {

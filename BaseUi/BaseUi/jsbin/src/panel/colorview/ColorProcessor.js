@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var colorview;
 (function (colorview) {
-    var BaseEvent = Pan3d.BaseEvent;
-    var Module = Pan3d.Module;
-    var BaseProcessor = Pan3d.BaseProcessor;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var Module = Pan3d.me.Module;
+    var BaseProcessor = Pan3d.me.BaseProcessor;
     var ColorEvent = /** @class */ (function (_super) {
         __extends(ColorEvent, _super);
         function ColorEvent() {

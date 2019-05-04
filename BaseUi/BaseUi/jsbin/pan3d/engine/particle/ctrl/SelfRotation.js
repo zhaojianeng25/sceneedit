@@ -13,39 +13,42 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var SelfRotation = /** @class */ (function (_super) {
-        __extends(SelfRotation, _super);
-        function SelfRotation() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Object.defineProperty(SelfRotation.prototype, "data", {
-            set: function (value) {
-                this.beginTime = Number(value[0].value);
-                if (Number(value[1].value) == -1) {
-                    this.lastTime = Pan3d.Scene_data.MAX_NUMBER;
+    var me;
+    (function (me) {
+        var SelfRotation = /** @class */ (function (_super) {
+            __extends(SelfRotation, _super);
+            function SelfRotation() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            Object.defineProperty(SelfRotation.prototype, "data", {
+                set: function (value) {
+                    this.beginTime = Number(value[0].value);
+                    if (Number(value[1].value) == -1) {
+                        this.lastTime = me.Scene_data.MAX_NUMBER;
+                    }
+                    else {
+                        this.lastTime = Number(value[1].value);
+                    }
+                    this.speed = Number(value[2].value) * 0.1;
+                    this.aSpeed = Number(value[3].value) * 0.1;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            SelfRotation.prototype.dataByte = function (va, arr) {
+                this.beginTime = arr[0];
+                if (arr[1] == -1) {
+                    this.lastTime = me.Scene_data.MAX_NUMBER;
                 }
                 else {
-                    this.lastTime = Number(value[1].value);
+                    this.lastTime = arr[1];
                 }
-                this.speed = Number(value[2].value) * 0.1;
-                this.aSpeed = Number(value[3].value) * 0.1;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        SelfRotation.prototype.dataByte = function (va, arr) {
-            this.beginTime = arr[0];
-            if (arr[1] == -1) {
-                this.lastTime = Pan3d.Scene_data.MAX_NUMBER;
-            }
-            else {
-                this.lastTime = arr[1];
-            }
-            this.speed = arr[2] * 0.1;
-            this.aSpeed = arr[3] * 0.1;
-        };
-        return SelfRotation;
-    }(Pan3d.BaseAnim));
-    Pan3d.SelfRotation = SelfRotation;
+                this.speed = arr[2] * 0.1;
+                this.aSpeed = arr[3] * 0.1;
+            };
+            return SelfRotation;
+        }(me.BaseAnim));
+        me.SelfRotation = SelfRotation;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=SelfRotation.js.map

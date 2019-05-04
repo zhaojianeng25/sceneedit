@@ -1,14 +1,14 @@
 var materialui;
 (function (materialui) {
-    var Scene_data = Pan3d.Scene_data;
-    var MaterialBaseParam = Pan3d.MaterialBaseParam;
-    var TexItem = Pan3d.TexItem;
-    var Vector3D = Pan3d.Vector3D;
-    var TextureCube = Pan3d.TextureCube;
-    var ConstItem = Pan3d.ConstItem;
-    var CubemapLoad = Pan3d.CubemapLoad;
-    var LoadManager = Pan3d.LoadManager;
-    var TextureManager = Pan3d.TextureManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var MaterialBaseParam = Pan3d.me.MaterialBaseParam;
+    var TexItem = Pan3d.me.TexItem;
+    var Vector3D = Pan3d.me.Vector3D;
+    var TextureCube = Pan3d.me.TextureCube;
+    var ConstItem = Pan3d.me.ConstItem;
+    var CubemapLoad = Pan3d.me.CubemapLoad;
+    var LoadManager = Pan3d.me.LoadManager;
+    var TextureManager = Pan3d.me.TextureManager;
     var CompileTwo = /** @class */ (function () {
         function CompileTwo() {
             this._timeID = 0;
@@ -235,7 +235,7 @@ var materialui;
             texItem.permul = $node.permul;
             texItem.type = TexItem.CUBEMAP;
             LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, function ($img, $info) {
-                texItem.textureRes = new Pan3d.TextureRes();
+                texItem.textureRes = new Pan3d.me.TextureRes();
                 texItem.textureRes.texture = CubemapLoad.makeTempCubeTextture($img);
             });
             this.texVec.push(texItem);

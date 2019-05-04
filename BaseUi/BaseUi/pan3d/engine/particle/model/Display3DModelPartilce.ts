@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DModelPartilce extends Display3DParticle {
 
         //protected _maxAnimTime: number;

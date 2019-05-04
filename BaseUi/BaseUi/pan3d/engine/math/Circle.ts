@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Circle {
         public _x: number;
         public _y: number;

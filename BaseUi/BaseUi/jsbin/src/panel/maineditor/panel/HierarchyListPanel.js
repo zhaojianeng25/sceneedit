@@ -13,22 +13,22 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var TextAlign = Pan3d.TextAlign;
-    var Rectangle = Pan3d.Rectangle;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var UIManager = Pan3d.UIManager;
-    var LabelTextFont = Pan3d.LabelTextFont;
-    var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var MouseType = Pan3d.MouseType;
-    var Vector2D = Pan3d.Vector2D;
-    var Scene_data = Pan3d.Scene_data;
-    var TextureManager = Pan3d.TextureManager;
-    var LoadManager = Pan3d.LoadManager;
-    var KeyboardType = Pan3d.KeyboardType;
-    var Shader3D = Pan3d.Shader3D;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var BaseEvent = Pan3d.BaseEvent;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var TextAlign = Pan3d.me.TextAlign;
+    var Rectangle = Pan3d.me.Rectangle;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var UIManager = Pan3d.me.UIManager;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var MouseType = Pan3d.me.MouseType;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Scene_data = Pan3d.me.Scene_data;
+    var TextureManager = Pan3d.me.TextureManager;
+    var LoadManager = Pan3d.me.LoadManager;
+    var KeyboardType = Pan3d.me.KeyboardType;
+    var Shader3D = Pan3d.me.Shader3D;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var BaseEvent = Pan3d.me.BaseEvent;
     var CombineReflectionView = prop.CombineReflectionView;
     var TooXyzPosData = xyz.TooXyzPosData;
     var MenuListData = menutwo.MenuListData;
@@ -133,7 +133,7 @@ var maineditor;
             }
             if (this.material) {
                 if (this._prefab.paramInfo) {
-                    this.materialParam = new Pan3d.MaterialBaseParam;
+                    this.materialParam = new Pan3d.me.MaterialBaseParam;
                     this.materialParam.material = this.material;
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this._prefab.paramInfo);
                 }
@@ -173,7 +173,7 @@ var maineditor;
             this.clear = true;
         };
         return FolderMeshVo;
-    }(Pan3d.baseMeshVo));
+    }(Pan3d.me.baseMeshVo));
     maineditor.FolderMeshVo = FolderMeshVo;
     var FolderName = /** @class */ (function (_super) {
         __extends(FolderName, _super);
@@ -271,7 +271,7 @@ var maineditor;
             this.resize();
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
-                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+                Pan3d.me.TimeUtil.addFrameTick(function (t) { _this.update(t); });
                 //  console.log("图片加载完")
             });
         };
@@ -372,7 +372,7 @@ var maineditor;
                 case "1":
                     if (this.selectFolderMeshVo) {
                         this.deleFile(maineditor.EditorModel.getInstance().fileItem, this.selectFolderMeshVo.folderMeshVo);
-                        Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
+                        Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
                         this.refrishFolder();
                     }
                     break;
@@ -380,8 +380,8 @@ var maineditor;
                     this.changeFileName(this.selectFolderMeshVo);
                     break;
                 case "3":
-                    var pathurl = Pan3d.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url;
-                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""));
+                    var pathurl = Pan3d.me.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url;
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
                     break;
                 default:
                     break;
@@ -491,7 +491,7 @@ var maineditor;
             }
             var data = TooXyzPosData.getBase(disItem);
             this.showMeshView(data, selctprefab);
-            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data);
+            Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data);
         };
         HierarchyListPanel.prototype.hidefileItemBg = function (arr) {
             for (var i = 0; arr && i < arr.length; i++) {
@@ -745,7 +745,7 @@ var maineditor;
             localStorage.setItem("mapurl", mapUrl);
             this.clearSceneAll();
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE, function ($dtstr) {
-                var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                var $byte = new Pan3d.me.Pan3dByteArray($dtstr);
                 var $fileObj = JSON.parse($byte.readUTF());
                 _this._sceneProjectVo = new maineditor.SceneProjectVo($fileObj);
                 var $item = _this.wirteItem($fileObj.list);
@@ -783,11 +783,11 @@ var maineditor;
             var tempObj = this._sceneProjectVo.getSaveObj();
             tempObj.list = this.getWillSaveItem(maineditor.EditorModel.getInstance().fileItem);
             tempObj.version = pack.FileOssModel.version;
-            var $byte = new Pan3d.Pan3dByteArray();
-            var $fileUrl = Pan3d.Scene_data.fileRoot + AppData.mapOpenUrl;
+            var $byte = new Pan3d.me.Pan3dByteArray();
+            var $fileUrl = Pan3d.me.Scene_data.fileRoot + AppData.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj));
             var $file = new File([$byte.buffer], "scene.map");
-            var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl = $fileUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
             pack.FileOssModel.upOssFile($file, pathurl, function () {
                 console.log("上传完成");
             });

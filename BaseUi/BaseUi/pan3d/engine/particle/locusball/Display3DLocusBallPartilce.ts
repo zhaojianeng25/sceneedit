@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DLocusBallPartilce extends Display3DBallPartilce {
 
         //protected _posAry: Array<number>;

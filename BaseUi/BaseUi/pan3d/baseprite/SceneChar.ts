@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SceneChar extends SceneBaseChar {
         public _speedDirect: Vector3D;
         public speedTX: number = 1.5 / 20;

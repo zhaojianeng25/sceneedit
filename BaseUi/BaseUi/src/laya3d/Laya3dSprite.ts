@@ -1,7 +1,7 @@
 ﻿
 module LayaPan3D {
 
-    import Scene_data = Pan3d.Scene_data
+    import Scene_data = Pan3d.me.Scene_data
 
     import MaterialRoleSprite = left.MaterialRoleSprite;
     import ModelSprite = maineditor.ModelSprite;
@@ -42,14 +42,14 @@ module LayaPan3D {
         }
 
         protected initScene(): void {
-            Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
+            Pan3d.me.ProgrmaManager.getInstance().registe(Pan3d.me.LineDisplayShader.LineShader, new Pan3d.me.LineDisplayShader);
             this.sceneManager = new EdItorSceneManager()
-            var temp: Pan3d.GridLineSprite = new Pan3d.GridLineSprite()
+            var temp: Pan3d.me.GridLineSprite = new Pan3d.me.GridLineSprite()
             this.sceneManager.addDisplay(temp)
-            this.sceneManager.addDisplay(new Pan3d.BaseDiplay3dSprite())
+            this.sceneManager.addDisplay(new Pan3d.me.BaseDiplay3dSprite())
             this.sceneManager.ready = true;
-            this.sceneManager.cam3D = new Pan3d.Camera3D();
-            this.sceneManager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512)
+            this.sceneManager.cam3D = new Pan3d.me.Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Pan3d.me.Rectangle(0, 0, 512, 512)
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;

@@ -13,14 +13,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var layapan;
 (function (layapan) {
-    var ShadowManager = Pan3d.ShadowManager;
-    var LayaOverrideShadowManager = /** @class */ (function (_super) {
-        __extends(LayaOverrideShadowManager, _super);
-        function LayaOverrideShadowManager() {
-            return _super.call(this) || this;
-        }
-        return LayaOverrideShadowManager;
-    }(ShadowManager));
-    layapan.LayaOverrideShadowManager = LayaOverrideShadowManager;
+    var me;
+    (function (me) {
+        var ShadowManager = Pan3d.me.ShadowManager;
+        var LayaOverrideShadowManager = /** @class */ (function (_super) {
+            __extends(LayaOverrideShadowManager, _super);
+            function LayaOverrideShadowManager() {
+                return _super.call(this) || this;
+            }
+            return LayaOverrideShadowManager;
+        }(ShadowManager));
+        me.LayaOverrideShadowManager = LayaOverrideShadowManager;
+    })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));
 //# sourceMappingURL=LayaOverrideShadowManager.js.map

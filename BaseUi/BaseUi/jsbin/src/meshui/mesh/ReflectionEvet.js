@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var BaseEvent = Pan3d.BaseEvent;
+    var BaseEvent = Pan3d.me.BaseEvent;
     var ReflectionEvet = /** @class */ (function (_super) {
         __extends(ReflectionEvet, _super);
         function ReflectionEvet() {

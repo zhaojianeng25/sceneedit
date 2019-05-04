@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var md5list;
 (function (md5list) {
-    var Vector3D = Pan3d.Vector3D;
-    var MeshData = Pan3d.MeshData;
-    var Scene_data = Pan3d.Scene_data;
+    var Vector3D = Pan3d.me.Vector3D;
+    var MeshData = Pan3d.me.MeshData;
+    var Scene_data = Pan3d.me.Scene_data;
     var ObjectTri = /** @class */ (function () {
         function ObjectTri() {
             this.id = 0;

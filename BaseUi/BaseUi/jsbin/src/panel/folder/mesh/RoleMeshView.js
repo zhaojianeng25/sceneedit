@@ -59,7 +59,7 @@ var filelist;
             this.chuangeData();
         };
         RoleMeshView.prototype.chuangeData = function () {
-            this._roleStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
+            this._roleStaticMesh.dispatchEvent(new Pan3d.me.BaseEvent(Pan3d.me.BaseEvent.COMPLETE));
         };
         Object.defineProperty(RoleMeshView.prototype, "roleurl", {
             get: function () {
@@ -111,20 +111,20 @@ var filelist;
         };
         RoleMeshView.prototype.saveToSever = function () {
             var _this = this;
-            this.lastTm = Pan3d.TimeUtil.getTimer();
+            this.lastTm = Pan3d.me.TimeUtil.getTimer();
             // this.isSaveNow = true
             if (!this.isSaveNow) {
                 this.isSaveNow = true;
                 this.saveTm = this.lastTm;
                 var $roleStr = this.getChangeRoleStr();
                 var $file = new File([$roleStr], "ossfile.txt");
-                var pathUrl = Pan3d.Scene_data.fileRoot + this._roleStaticMesh.url;
-                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                var pathUrl = Pan3d.me.Scene_data.fileRoot + this._roleStaticMesh.url;
+                var pathurl = pathUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
                 console.log("提交上传ing...", pathurl);
                 pack.FileOssModel.upOssFile($file, pathurl, function () {
                     if (_this.lastTm != _this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次");
-                        Pan3d.TimeUtil.addTimeOut(1000, function () {
+                        Pan3d.me.TimeUtil.addTimeOut(1000, function () {
                             _this.isSaveNow = false;
                             _this.saveToSever();
                         });

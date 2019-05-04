@@ -13,48 +13,51 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var SelectButton = /** @class */ (function (_super) {
-        __extends(SelectButton, _super);
-        function SelectButton() {
-            var _this = _super.call(this) || this;
-            _this._selected = false;
-            return _this;
-        }
-        Object.defineProperty(SelectButton.prototype, "selected", {
-            get: function () {
-                return this._selected;
-            },
-            set: function (value) {
-                this._selected = value;
-                if (this._selected) {
-                    this._state = 1;
-                }
-                else {
-                    this._state = 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        SelectButton.prototype.interactiveEvent = function (e) {
-            if (!this.enable) {
-                return false;
+    var me;
+    (function (me) {
+        var SelectButton = /** @class */ (function (_super) {
+            __extends(SelectButton, _super);
+            function SelectButton() {
+                var _this = _super.call(this) || this;
+                _this._selected = false;
+                return _this;
             }
-            if (e.type == Pan3d.InteractiveEvent.Down) {
-                if (this.testPoint(e.x, e.y)) {
-                    this._selected = !this._selected;
+            Object.defineProperty(SelectButton.prototype, "selected", {
+                get: function () {
+                    return this._selected;
+                },
+                set: function (value) {
+                    this._selected = value;
                     if (this._selected) {
                         this._state = 1;
                     }
                     else {
                         this._state = 0;
                     }
+                },
+                enumerable: true,
+                configurable: true
+            });
+            SelectButton.prototype.interactiveEvent = function (e) {
+                if (!this.enable) {
+                    return false;
                 }
-            }
-            return _super.prototype.interactiveEvent.call(this, e);
-        };
-        return SelectButton;
-    }(Pan3d.BaseButton));
-    Pan3d.SelectButton = SelectButton;
+                if (e.type == me.InteractiveEvent.Down) {
+                    if (this.testPoint(e.x, e.y)) {
+                        this._selected = !this._selected;
+                        if (this._selected) {
+                            this._state = 1;
+                        }
+                        else {
+                            this._state = 0;
+                        }
+                    }
+                }
+                return _super.prototype.interactiveEvent.call(this, e);
+            };
+            return SelectButton;
+        }(me.BaseButton));
+        me.SelectButton = SelectButton;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=SelectButton.js.map

@@ -13,114 +13,117 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var layapan;
 (function (layapan) {
-    var ResManager = Pan3d.ResManager;
-    var Scene_data = Pan3d.Scene_data;
-    var SkillData = Pan3d.SkillData;
-    var SkillManager = Pan3d.SkillManager;
-    var LayaOverride2dSkillManager = /** @class */ (function (_super) {
-        __extends(LayaOverride2dSkillManager, _super);
-        function LayaOverride2dSkillManager($sceneManager) {
-            var _this = _super.call(this) || this;
-            _this.sceneManager = $sceneManager;
-            return _this;
-        }
-        LayaOverride2dSkillManager.prototype.addSrc = function ($url, skillData) {
-            for (var key in skillData.data) {
-                var skill = new layapan.OverrideSkill(this);
-                skill.name = key;
-                skill.isDeath = true;
-                skill.src = true;
-                skill.setData(skillData.data[key], skillData);
-                skillData.addSrcSkill(skill);
-                //skillData.useNum++;
-                SkillManager.getInstance();
-                var dkey = $url + key;
-                if (!SkillManager.getInstance()._skillDic[dkey]) {
-                    SkillManager.getInstance()._skillDic[dkey] = new Array;
-                }
-                SkillManager.getInstance()._skillDic[dkey].push(skill);
+    var me;
+    (function (me) {
+        var ResManager = Pan3d.me.ResManager;
+        var Scene_data = Pan3d.me.Scene_data;
+        var SkillData = Pan3d.me.SkillData;
+        var SkillManager = Pan3d.me.SkillManager;
+        var LayaOverride2dSkillManager = /** @class */ (function (_super) {
+            __extends(LayaOverride2dSkillManager, _super);
+            function LayaOverride2dSkillManager($sceneManager) {
+                var _this = _super.call(this) || this;
+                _this.sceneManager = $sceneManager;
+                return _this;
             }
-        };
-        LayaOverride2dSkillManager.prototype.playSkill = function ($skill) {
-            $skill.skillManager = this;
-            _super.prototype.playSkill.call(this, $skill);
-        };
-        LayaOverride2dSkillManager.prototype.getSkill = function ($url, $name, $callback) {
-            var _this = this;
-            if ($callback === void 0) { $callback = null; }
-            var skill;
-            var key = $url + $name;
-            // if(key == "skill/jichu_1_byte.txtm_skill_04"){
-            //     console.log("添加技能风暴");
-            //     this.fengbaonum++;
-            // }
-            var ary = SkillManager.getInstance()._skillDic[key];
-            if (ary) {
-                for (var i = 0; i < ary.length; i++) {
-                    skill = ary[i];
-                    if (skill.isDeath && skill.useNum == 0) {
-                        skill.reset();
-                        skill.isDeath = false;
-                        return skill;
+            LayaOverride2dSkillManager.prototype.addSrc = function ($url, skillData) {
+                for (var key in skillData.data) {
+                    var skill = new me.OverrideSkill(this);
+                    skill.name = key;
+                    skill.isDeath = true;
+                    skill.src = true;
+                    skill.setData(skillData.data[key], skillData);
+                    skillData.addSrcSkill(skill);
+                    //skillData.useNum++;
+                    SkillManager.getInstance();
+                    var dkey = $url + key;
+                    if (!SkillManager.getInstance()._skillDic[dkey]) {
+                        SkillManager.getInstance()._skillDic[dkey] = new Array;
+                    }
+                    SkillManager.getInstance()._skillDic[dkey].push(skill);
+                }
+            };
+            LayaOverride2dSkillManager.prototype.playSkill = function ($skill) {
+                $skill.skillManager = this;
+                _super.prototype.playSkill.call(this, $skill);
+            };
+            LayaOverride2dSkillManager.prototype.getSkill = function ($url, $name, $callback) {
+                var _this = this;
+                if ($callback === void 0) { $callback = null; }
+                var skill;
+                var key = $url + $name;
+                // if(key == "skill/jichu_1_byte.txtm_skill_04"){
+                //     console.log("添加技能风暴");
+                //     this.fengbaonum++;
+                // }
+                var ary = SkillManager.getInstance()._skillDic[key];
+                if (ary) {
+                    for (var i = 0; i < ary.length; i++) {
+                        skill = ary[i];
+                        if (skill.isDeath && skill.useNum == 0) {
+                            skill.reset();
+                            skill.isDeath = false;
+                            return skill;
+                        }
                     }
                 }
-            }
-            skill = new layapan.OverrideSkill(this);
-            skill.name = $name;
-            skill.isDeath = false;
-            if (!SkillManager.getInstance()._skillDic[key]) {
-                SkillManager.getInstance()._skillDic[key] = new Array;
-            }
-            SkillManager.getInstance()._skillDic[key].push(skill);
-            if (this._dic[$url]) {
-                skill.setData(this._dic[$url].data[skill.name], this._dic[$url]);
-                skill.key = key;
-                this._dic[$url].useNum++;
-                return skill;
-            }
-            if (SkillManager.getInstance()._loadDic[$url]) {
+                skill = new me.OverrideSkill(this);
+                skill.name = $name;
+                skill.isDeath = false;
+                if (!SkillManager.getInstance()._skillDic[key]) {
+                    SkillManager.getInstance()._skillDic[key] = new Array;
+                }
+                SkillManager.getInstance()._skillDic[key].push(skill);
+                if (this._dic[$url]) {
+                    skill.setData(this._dic[$url].data[skill.name], this._dic[$url]);
+                    skill.key = key;
+                    this._dic[$url].useNum++;
+                    return skill;
+                }
+                if (SkillManager.getInstance()._loadDic[$url]) {
+                    var obj = new Object;
+                    obj.name = $name;
+                    obj.skill = skill;
+                    obj.callback = $callback;
+                    SkillManager.getInstance()._loadDic[$url].push(obj);
+                    return skill;
+                }
+                SkillManager.getInstance()._loadDic[$url] = new Array;
                 var obj = new Object;
                 obj.name = $name;
                 obj.skill = skill;
                 obj.callback = $callback;
                 SkillManager.getInstance()._loadDic[$url].push(obj);
+                ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + $url, function ($skillRes) {
+                    _this.loadSkillCom($url, $skillRes);
+                });
                 return skill;
-            }
-            SkillManager.getInstance()._loadDic[$url] = new Array;
-            var obj = new Object;
-            obj.name = $name;
-            obj.skill = skill;
-            obj.callback = $callback;
-            SkillManager.getInstance()._loadDic[$url].push(obj);
-            ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + $url, function ($skillRes) {
-                _this.loadSkillCom($url, $skillRes);
-            });
-            return skill;
-        };
-        LayaOverride2dSkillManager.prototype.loadSkillCom = function ($url, $skillRes) {
-            var skillData = new SkillData();
-            skillData.data = $skillRes.data;
-            for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
-                var obj = SkillManager.getInstance()._loadDic[$url][i];
-                if (!obj.skill.hasDestory) {
-                    obj.skill.setData(skillData.data[obj.name], skillData);
-                    obj.skill.key = $url + obj.name;
-                    skillData.useNum++;
+            };
+            LayaOverride2dSkillManager.prototype.loadSkillCom = function ($url, $skillRes) {
+                var skillData = new SkillData();
+                skillData.data = $skillRes.data;
+                for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
+                    var obj = SkillManager.getInstance()._loadDic[$url][i];
+                    if (!obj.skill.hasDestory) {
+                        obj.skill.setData(skillData.data[obj.name], skillData);
+                        obj.skill.key = $url + obj.name;
+                        skillData.useNum++;
+                    }
                 }
-            }
-            this._dic[$url] = skillData;
-            this.addSrc($url, skillData);
-            for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
-                var obj = SkillManager.getInstance()._loadDic[$url][i];
-                if (obj.callback) {
-                    obj.callback();
+                this._dic[$url] = skillData;
+                this.addSrc($url, skillData);
+                for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
+                    var obj = SkillManager.getInstance()._loadDic[$url][i];
+                    if (obj.callback) {
+                        obj.callback();
+                    }
                 }
-            }
-            SkillManager.getInstance()._loadDic[$url].length = 0;
-            SkillManager.getInstance()._loadDic[$url] = null;
-        };
-        return LayaOverride2dSkillManager;
-    }(SkillManager));
-    layapan.LayaOverride2dSkillManager = LayaOverride2dSkillManager;
+                SkillManager.getInstance()._loadDic[$url].length = 0;
+                SkillManager.getInstance()._loadDic[$url] = null;
+            };
+            return LayaOverride2dSkillManager;
+        }(SkillManager));
+        me.LayaOverride2dSkillManager = LayaOverride2dSkillManager;
+    })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));
 //# sourceMappingURL=LayaOverride2dSkillManager.js.map

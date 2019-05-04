@@ -1,7 +1,7 @@
 ﻿module filelist {
-    import Scene_data = Pan3d.Scene_data;
-    import Vector3D = Pan3d.Vector3D;
-    import Material = Pan3d.Material
+    import Scene_data = Pan3d.me.Scene_data;
+    import Vector3D = Pan3d.me.Vector3D;
+    import Material = Pan3d.me.Material
     import PrefabStaticMesh = pack.PrefabStaticMesh
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
@@ -26,7 +26,7 @@
 
         }
         private chuangeData(): void {
-            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
+            this.prefabStaticMesh.dispatchEvent(new Pan3d.me.BaseEvent(Pan3d.me.BaseEvent.COMPLETE))
         }
         public getParamItem(value: string): any {
             for (var i: number = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
@@ -73,15 +73,15 @@
         private lastTm: number
         private saveTm: number
         public saveToSever(): void {
-            this.lastTm = Pan3d.TimeUtil.getTimer()
+            this.lastTm = Pan3d.me.TimeUtil.getTimer()
            // this.isSaveNow = true
          
             if (!this.isSaveNow) {
                 this.isSaveNow = true
                 this.saveTm = this.lastTm;
 
-                var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-                var $fileUrl: string = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url
+                var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray();
+                var $fileUrl: string = Pan3d.me.Scene_data.fileRoot + this.prefabStaticMesh.url
                 console.log(this.prefabStaticMesh.material)
   
                 this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
@@ -90,12 +90,12 @@
                 $byte.writeUTF(JSON.stringify($temp))
  
                 var $file: File = new File([$byte.buffer], "cc.prefab");
-                var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                var pathurl: string = $fileUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile($file, pathurl, () => {
              
                     if (this.lastTm != this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次")
-                        Pan3d.TimeUtil.addTimeOut(1000, () => {
+                        Pan3d.me.TimeUtil.addTimeOut(1000, () => {
                             this.isSaveNow = false
                             this.saveToSever();
                         })

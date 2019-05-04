@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ModelRes extends BaseRes {
         private _fun: Function;
         public objUrl: string;

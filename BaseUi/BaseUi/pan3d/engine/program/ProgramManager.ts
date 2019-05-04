@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ProgrmaManager extends ResGC {
         //private _dic: Object
         private static _instance: ProgrmaManager;

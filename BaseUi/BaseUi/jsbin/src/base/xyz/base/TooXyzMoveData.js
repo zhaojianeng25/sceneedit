@@ -1,6 +1,6 @@
 var xyz;
 (function (xyz) {
-    var Matrix3D = Pan3d.Matrix3D;
+    var Matrix3D = Pan3d.me.Matrix3D;
     var TooXyzPosData = /** @class */ (function () {
         function TooXyzPosData() {
             this.oldscale_x = 1;

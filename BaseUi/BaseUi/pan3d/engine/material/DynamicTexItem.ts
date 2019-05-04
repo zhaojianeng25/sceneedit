@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class DynamicTexItem extends DynamicBaseTexItem {
         public url: string;
         //public target: TexItem;

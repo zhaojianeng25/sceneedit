@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SkillTrajectory extends SkillKey implements IBind {
         public active: Object3D;
         public target: Object3D;

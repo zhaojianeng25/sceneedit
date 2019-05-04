@@ -1,6 +1,6 @@
-﻿module layapan {
+﻿module layapan.me {
  
-    import ShadowManager = Pan3d.ShadowManager
+    import ShadowManager = Pan3d.me.ShadowManager
 
     export class LayaOverrideShadowManager extends ShadowManager {
 

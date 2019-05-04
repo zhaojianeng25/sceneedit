@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ScaleAnim extends BaseAnim {
         public scaleAry: Array<any>;
         public beginScale: number;

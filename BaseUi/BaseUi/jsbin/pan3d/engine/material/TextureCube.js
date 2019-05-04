@@ -13,13 +13,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var TextureCube = /** @class */ (function (_super) {
-        __extends(TextureCube, _super);
-        function TextureCube() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return TextureCube;
-    }(Pan3d.TexItem));
-    Pan3d.TextureCube = TextureCube;
+    var me;
+    (function (me) {
+        var TextureCube = /** @class */ (function (_super) {
+            __extends(TextureCube, _super);
+            function TextureCube() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return TextureCube;
+        }(me.TexItem));
+        me.TextureCube = TextureCube;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=TextureCube.js.map

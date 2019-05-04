@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export
         class BaseAnim {
         public baseNum: number = 0;

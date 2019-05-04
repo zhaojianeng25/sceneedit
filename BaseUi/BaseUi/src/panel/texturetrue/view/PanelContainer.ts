@@ -1,10 +1,10 @@
 ﻿module materialui {
-    import UIRenderComponent = Pan3d.UIRenderComponent
-    import FrameCompenent = Pan3d.FrameCompenent
-    import Rectangle = Pan3d.Rectangle
-    import LabelTextFont = Pan3d.LabelTextFont
-    import UIManager = Pan3d.UIManager
-    import TextAlign = Pan3d.TextAlign
+    import UIRenderComponent = Pan3d.me.UIRenderComponent
+    import FrameCompenent = Pan3d.me.FrameCompenent
+    import Rectangle = Pan3d.me.Rectangle
+    import LabelTextFont = Pan3d.me.LabelTextFont
+    import UIManager = Pan3d.me.UIManager
+    import TextAlign = Pan3d.me.TextAlign
     import UIPanel = win.UIPanel
     export class PanelContainer  {
 

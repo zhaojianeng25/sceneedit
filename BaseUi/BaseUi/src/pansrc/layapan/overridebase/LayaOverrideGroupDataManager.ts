@@ -1,5 +1,5 @@
-﻿module layapan {
-    export class LayaGroupRes extends Pan3d.GroupRes {
+﻿module layapan.me {
+    export class LayaGroupRes extends Pan3d.me.GroupRes {
         public constructor() {
             super();
         }
@@ -7,14 +7,14 @@
         public readParticle(): void {
             var objNum: number = this._byte.readInt();
             //this.particleAry = new Array;
-            var time: number = Pan3d. TimeUtil.getTimer();
+            var time: number = Pan3d.me. TimeUtil.getTimer();
 
             for (var i: number = 0; i < objNum; i++) {
-                var url: string = Pan3d.Scene_data.fileRoot + this._byte.readUTF();
+                var url: string = Pan3d.me.Scene_data.fileRoot + this._byte.readUTF();
                 var size: number = this._byte.readInt();
 
 
-                var dataByte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray;
+                var dataByte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray;
                 dataByte.length = size;
                 this._byte.readBytes(dataByte, 0, size)
 
@@ -25,7 +25,7 @@
       
         }
     }
-    export class LayaOverrideGroupDataManager extends Pan3d.GroupDataManager{
+    export class LayaOverrideGroupDataManager extends Pan3d.me.GroupDataManager{
 
    
         public  scene: LayaOverride2dSceneManager

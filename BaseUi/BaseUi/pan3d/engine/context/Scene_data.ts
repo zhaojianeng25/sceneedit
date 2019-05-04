@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Scene_data {
         public static isPanGm: boolean;
         public static isPc: boolean;

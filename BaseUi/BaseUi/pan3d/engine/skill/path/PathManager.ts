@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class PathManager {
         private static dic: any = new Object;
         public static reg(types: number, cls: any): void {

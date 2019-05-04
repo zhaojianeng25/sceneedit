@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var md5list;
 (function (md5list) {
-    var Shader3D = Pan3d.Shader3D;
-    var Display3DSprite = Pan3d.Display3DSprite;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var UIManager = Pan3d.UIManager;
-    var DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
-    var Scene_data = Pan3d.Scene_data;
-    var LoadManager = Pan3d.LoadManager;
-    var TextureManager = Pan3d.TextureManager;
-    var Quaternion = Pan3d.Quaternion;
+    var Shader3D = Pan3d.me.Shader3D;
+    var Display3DSprite = Pan3d.me.Display3DSprite;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var UIManager = Pan3d.me.UIManager;
+    var DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array;
+    var Scene_data = Pan3d.me.Scene_data;
+    var LoadManager = Pan3d.me.LoadManager;
+    var TextureManager = Pan3d.me.TextureManager;
+    var Quaternion = Pan3d.me.Quaternion;
     var Md5MeshShader = /** @class */ (function (_super) {
         __extends(Md5MeshShader, _super);
         function Md5MeshShader() {

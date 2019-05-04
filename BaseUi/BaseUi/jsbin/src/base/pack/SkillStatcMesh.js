@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var pack;
 (function (pack) {
-    var EventDispatcher = Pan3d.EventDispatcher;
+    var EventDispatcher = Pan3d.me.EventDispatcher;
     var SkillStatcMesh = /** @class */ (function (_super) {
         __extends(SkillStatcMesh, _super);
         function SkillStatcMesh() {

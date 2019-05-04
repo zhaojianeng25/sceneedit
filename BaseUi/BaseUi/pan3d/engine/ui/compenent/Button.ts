@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Button extends BaseButton {
 
         public interactiveEvent(e: InteractiveEvent): boolean {

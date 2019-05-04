@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class TerrainDisplay3DShader extends Shader3D {
         static TerrainDisplay3DShader: string = "TerrainDisplay3DShader";
         constructor() {

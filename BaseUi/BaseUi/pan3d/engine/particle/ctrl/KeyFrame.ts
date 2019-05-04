@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class KeyFrame {
         public frameNum: number;//当前帧数	
         public animData: Array<any>;//运动信息数据

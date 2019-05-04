@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3dShadow extends Display3D {
 
         public static texture: WebGLTexture;

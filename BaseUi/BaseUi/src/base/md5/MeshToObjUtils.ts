@@ -1,10 +1,10 @@
 ﻿module md5list {
-    import Matrix3D = Pan3d.Matrix3D
-    import MeshData = Pan3d.MeshData
-    import ObjectBone = Pan3d.ObjectBone
-    import Quaternion = Pan3d.Quaternion
-    import Vector3D = Pan3d.Vector3D
-    import Scene_data = Pan3d.Scene_data
+    import Matrix3D = Pan3d.me.Matrix3D
+    import MeshData = Pan3d.me.MeshData
+    import ObjectBone = Pan3d.me.ObjectBone
+    import Quaternion = Pan3d.me.Quaternion
+    import Vector3D = Pan3d.me.Vector3D
+    import Scene_data = Pan3d.me.Scene_data
 
     export class MeshToObjUtils {
 

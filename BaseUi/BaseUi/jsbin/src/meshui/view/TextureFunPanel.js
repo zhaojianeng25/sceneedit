@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Scene_data = Pan3d.Scene_data;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Scene_data = Pan3d.me.Scene_data;
     var TextureFunPanel = /** @class */ (function (_super) {
         __extends(TextureFunPanel, _super);
         function TextureFunPanel() {
             var _this = _super.call(this) || this;
             _this.layaPanel = new win.Panel(false);
             win.LayerManager.getInstance().addPanel(_this.layaPanel, 501);
-            _this.setRect(new Pan3d.Rectangle(100, 100, 500, 400));
+            _this.setRect(new Pan3d.me.Rectangle(100, 100, 500, 400));
             return _this;
         }
         TextureFunPanel.prototype.loadConfigCom = function () {
@@ -112,7 +112,7 @@ var prop;
             }
         };
         TextureFunPanel.prototype.changeData = function () {
-            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
         };
         TextureFunPanel.getInstance = function () {
             if (!this._instance) {

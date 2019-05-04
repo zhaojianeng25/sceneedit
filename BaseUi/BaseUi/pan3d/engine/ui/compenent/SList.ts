@@ -1,4 +1,4 @@
-module Pan3d {
+module Pan3d.me {
     export class SList extends UIVirtualContainer {
 
         protected _baseX: number;

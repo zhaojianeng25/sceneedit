@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class LineDisplaySprite extends Display3D {
 
         constructor() {

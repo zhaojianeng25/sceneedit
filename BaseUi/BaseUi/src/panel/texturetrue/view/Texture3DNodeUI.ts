@@ -1,10 +1,10 @@
 ﻿module materialui {
-    import TextureManager = Pan3d.TextureManager;
-    import FrameCompenent = Pan3d.FrameCompenent;
-    import Rectangle = Pan3d.Rectangle;
-    import Scene_data = Pan3d.Scene_data;
-    import LoadManager = Pan3d.LoadManager;
-    import UIManager = Pan3d.UIManager;
+    import TextureManager = Pan3d.me.TextureManager;
+    import FrameCompenent = Pan3d.me.FrameCompenent;
+    import Rectangle = Pan3d.me.Rectangle;
+    import Scene_data = Pan3d.me.Scene_data;
+    import LoadManager = Pan3d.me.LoadManager;
+    import UIManager = Pan3d.me.UIManager;
 
 
     export class Texture3DNodeUI extends BaseMaterialNodeUI {

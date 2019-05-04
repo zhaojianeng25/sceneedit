@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class TexItem {
         private _id: number;
         public url: string;

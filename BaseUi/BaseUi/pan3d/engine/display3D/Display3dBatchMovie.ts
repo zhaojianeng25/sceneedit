@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3dBatchMovie extends Display3dMovie {
 
         public batchNum: number = 0;

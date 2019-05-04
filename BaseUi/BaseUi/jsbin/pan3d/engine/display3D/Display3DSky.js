@@ -13,39 +13,42 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var Display3DSky = /** @class */ (function (_super) {
-        __extends(Display3DSky, _super);
-        function Display3DSky() {
-            var _this = _super.call(this) || this;
-            _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Pan3d.SkyShader.Sky_Shader);
-            _this.program = _this.shader.program;
-            return _this;
-        }
-        Display3DSky.prototype.setObjUrl = function (value) {
-            var _this = this;
-            this.objurl = value;
-            Pan3d.ObjDataManager.getInstance().getObjData(Pan3d.Scene_data.fileRoot + value, function ($objData) {
-                _this.objData = $objData;
-            });
-        };
-        Display3DSky.prototype.setCubeUrl = function (value) {
-            var _this = this;
-            Pan3d.TextureManager.getInstance().loadCubeTexture(value, function ($ary) { _this.cubeTextList = $ary; });
-        };
-        Display3DSky.prototype.update = function () {
-            Pan3d.Scene_data.context3D.setProgram(this.program);
-            Pan3d.Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Pan3d.Scene_data.viewMatrx3D.m);
-            Pan3d.Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Pan3d.Scene_data.cam3D.cameraMatrix.m);
-            Pan3d.Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-            if (this.cubeTextList) {
-                Pan3d.Scene_data.context3D.setRenderTextureCube(this.program, "s_texture", this.cubeTextList[0], 0);
+    var me;
+    (function (me) {
+        var Display3DSky = /** @class */ (function (_super) {
+            __extends(Display3DSky, _super);
+            function Display3DSky() {
+                var _this = _super.call(this) || this;
+                _this.shader = me.ProgrmaManager.getInstance().getProgram(me.SkyShader.Sky_Shader);
+                _this.program = _this.shader.program;
+                return _this;
             }
-            Pan3d.Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-            Pan3d.Scene_data.context3D.setVa(1, 3, this.objData.normalsBuffer);
-            Pan3d.Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-        };
-        return Display3DSky;
-    }(Pan3d.Display3D));
-    Pan3d.Display3DSky = Display3DSky;
+            Display3DSky.prototype.setObjUrl = function (value) {
+                var _this = this;
+                this.objurl = value;
+                me.ObjDataManager.getInstance().getObjData(me.Scene_data.fileRoot + value, function ($objData) {
+                    _this.objData = $objData;
+                });
+            };
+            Display3DSky.prototype.setCubeUrl = function (value) {
+                var _this = this;
+                me.TextureManager.getInstance().loadCubeTexture(value, function ($ary) { _this.cubeTextList = $ary; });
+            };
+            Display3DSky.prototype.update = function () {
+                me.Scene_data.context3D.setProgram(this.program);
+                me.Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", me.Scene_data.viewMatrx3D.m);
+                me.Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", me.Scene_data.cam3D.cameraMatrix.m);
+                me.Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+                if (this.cubeTextList) {
+                    me.Scene_data.context3D.setRenderTextureCube(this.program, "s_texture", this.cubeTextList[0], 0);
+                }
+                me.Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
+                me.Scene_data.context3D.setVa(1, 3, this.objData.normalsBuffer);
+                me.Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
+            };
+            return Display3DSky;
+        }(me.Display3D));
+        me.Display3DSky = Display3DSky;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=Display3DSky.js.map

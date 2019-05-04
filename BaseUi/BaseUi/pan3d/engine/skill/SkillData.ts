@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SkillData extends ResCount {
         public data: any;
         private srcList: Array<Skill> = new Array();

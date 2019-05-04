@@ -13,17 +13,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var BaseEvent = Pan3d.BaseEvent;
-    var Vector3D = Pan3d.Vector3D;
-    var Module = Pan3d.Module;
-    var BaseProcessor = Pan3d.BaseProcessor;
-    var MouseType = Pan3d.MouseType;
-    var Matrix3D = Pan3d.Matrix3D;
-    var MathUtil = Pan3d.MathUtil;
-    var Object3D = Pan3d.Object3D;
-    var Quaternion = Pan3d.Quaternion;
-    var Display3D = Pan3d.Display3D;
-    var KeyboardType = Pan3d.KeyboardType;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var Vector3D = Pan3d.me.Vector3D;
+    var Module = Pan3d.me.Module;
+    var BaseProcessor = Pan3d.me.BaseProcessor;
+    var MouseType = Pan3d.me.MouseType;
+    var Matrix3D = Pan3d.me.Matrix3D;
+    var MathUtil = Pan3d.me.MathUtil;
+    var Object3D = Pan3d.me.Object3D;
+    var Quaternion = Pan3d.me.Quaternion;
+    var Display3D = Pan3d.me.Display3D;
+    var KeyboardType = Pan3d.me.KeyboardType;
     var MoveScaleRotatioinEvent = /** @class */ (function (_super) {
         __extends(MoveScaleRotatioinEvent, _super);
         function MoveScaleRotatioinEvent() {

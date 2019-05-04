@@ -13,26 +13,29 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var MountChar = /** @class */ (function (_super) {
-        __extends(MountChar, _super);
-        function MountChar() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        MountChar.prototype.setData = function ($rank, $iid) {
-            if ($iid > 0) {
-                var obj = {};
-                var avatar = obj.mountID;
-                this.setAvatar(avatar);
-                return;
+    var me;
+    (function (me) {
+        var MountChar = /** @class */ (function (_super) {
+            __extends(MountChar, _super);
+            function MountChar() {
+                return _super !== null && _super.apply(this, arguments) || this;
             }
-            if ($rank > 0) {
-                var obj = {};
-                var avatar = obj.mountID;
-                this.setAvatar(avatar);
-            }
-        };
-        return MountChar;
-    }(Pan3d.SceneBaseChar));
-    Pan3d.MountChar = MountChar;
+            MountChar.prototype.setData = function ($rank, $iid) {
+                if ($iid > 0) {
+                    var obj = {};
+                    var avatar = obj.mountID;
+                    this.setAvatar(avatar);
+                    return;
+                }
+                if ($rank > 0) {
+                    var obj = {};
+                    var avatar = obj.mountID;
+                    this.setAvatar(avatar);
+                }
+            };
+            return MountChar;
+        }(me.SceneBaseChar));
+        me.MountChar = MountChar;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=MountChar.js.map

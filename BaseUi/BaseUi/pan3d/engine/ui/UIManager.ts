@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class UiTweenVo {
         private _ui: UICompenent;
         private _scale: number = 1;

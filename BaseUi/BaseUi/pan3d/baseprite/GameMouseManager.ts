@@ -1,5 +1,5 @@
 ﻿
-module Pan3d {
+module Pan3d.me {
     export class GameMouseManager {
         private static _instance: GameMouseManager;
         public static getInstance(): GameMouseManager {

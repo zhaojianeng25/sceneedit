@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Scene_data = Pan3d.Scene_data;
-    var LoadManager = Pan3d.LoadManager;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var LoadManager = Pan3d.me.LoadManager;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
     var RoleMesh2DUI = /** @class */ (function (_super) {
         __extends(RoleMesh2DUI, _super);
         function RoleMesh2DUI() {

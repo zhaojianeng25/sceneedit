@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ObjectMath {
         public a: number = 0;
         public b: number = 0;

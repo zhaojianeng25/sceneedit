@@ -1,8 +1,8 @@
 ﻿module maineditor {
 
-    import Matrix3D = Pan3d.Matrix3D
-    import CombineParticle = Pan3d.CombineParticle
-    import Display3DSprite = Pan3d.Display3DSprite
+    import Matrix3D = Pan3d.me.Matrix3D
+    import CombineParticle = Pan3d.me.CombineParticle
+    import Display3DSprite = Pan3d.me.Display3DSprite
     import SkillStatcMesh = pack.SkillStatcMesh
 
     export class SkillSpriteDisplay extends Display3DSprite {
@@ -60,7 +60,7 @@
                     } else {
                         playName = this.skillActionItem[this.skipNum % this.skillActionItem.length];
                     }
-                    var $skill: layapan.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName)   //skill_0022
+                    var $skill: layapan.me.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName)   //skill_0022
                     if ($skill) {
                         $skill.reset();
                         $skill.isDeath = false;
@@ -75,7 +75,7 @@
             if (!this.skillStaticMesh.interval||this.skillStaticMesh.interval <=0) { //间隔时间必须大于0
                 this.skillStaticMesh.interval = 1;
             } 
-            Pan3d.TimeUtil.addTimeOut(this.skillStaticMesh.interval * 1000, () => {
+            Pan3d.me.TimeUtil.addTimeOut(this.skillStaticMesh.interval * 1000, () => {
                 this.playNextSkill();
             })
 
@@ -94,7 +94,7 @@
                 tempScene.addMovieDisplay(this.roleChar)
                 this.roleChar.scale = 0.3
  
-                Pan3d.ResManager.getInstance().loadSkillRes(Pan3d.Scene_data.fileRoot + this.skillStaticMesh.skillUrl, ($skillRes: Pan3d.SkillRes) => {
+                Pan3d.me.ResManager.getInstance().loadSkillRes(Pan3d.me.Scene_data.fileRoot + this.skillStaticMesh.skillUrl, ($skillRes: Pan3d.me.SkillRes) => {
                     this.skillActionItem = []
                     for (var acKey in $skillRes.data) {
                         this.skillActionItem.push(acKey)

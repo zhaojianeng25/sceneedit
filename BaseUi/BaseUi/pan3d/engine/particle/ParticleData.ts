@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleData {
         public version: number;
         public _beginTime: number;

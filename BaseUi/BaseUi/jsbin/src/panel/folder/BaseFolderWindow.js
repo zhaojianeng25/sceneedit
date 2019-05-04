@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var basefolderwin;
 (function (basefolderwin) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Vector2D = Pan3d.Vector2D;
-    var Scene_data = Pan3d.Scene_data;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Scene_data = Pan3d.me.Scene_data;
     var BaseFolderWindow = /** @class */ (function (_super) {
         __extends(BaseFolderWindow, _super);
         function BaseFolderWindow() {
@@ -64,7 +64,7 @@ var basefolderwin;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Up, this.tittleMouseUp, this);
         };
         BaseFolderWindow.prototype.refrishWinSize = function () {
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.RESET_FOLDE_WIN_SIZE));
+            Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.RESET_FOLDE_WIN_SIZE));
         };
         BaseFolderWindow.prototype.mouseOnTittleMove = function (evt) {
             switch (this.mouseMoveTaget) {

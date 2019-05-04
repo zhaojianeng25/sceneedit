@@ -13,21 +13,24 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var UIRectangle = /** @class */ (function (_super) {
-        __extends(UIRectangle, _super);
-        function UIRectangle() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.pixelWitdh = 1;
-            _this.pixelHeight = 1;
-            _this.pixelX = 0;
-            _this.pixelY = 0;
-            _this.cellX = 0;
-            _this.cellY = 0;
-            _this.type = 0;
-            return _this;
-        }
-        return UIRectangle;
-    }(Pan3d.Rectangle));
-    Pan3d.UIRectangle = UIRectangle;
+    var me;
+    (function (me) {
+        var UIRectangle = /** @class */ (function (_super) {
+            __extends(UIRectangle, _super);
+            function UIRectangle() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.pixelWitdh = 1;
+                _this.pixelHeight = 1;
+                _this.pixelX = 0;
+                _this.pixelY = 0;
+                _this.cellX = 0;
+                _this.cellY = 0;
+                _this.type = 0;
+                return _this;
+            }
+            return UIRectangle;
+        }(me.Rectangle));
+        me.UIRectangle = UIRectangle;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=UIRectangle.js.map

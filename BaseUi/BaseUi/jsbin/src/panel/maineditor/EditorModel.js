@@ -38,7 +38,7 @@ var maineditor;
                 var vo = this.selectItem.pop();
                 this.hierarchyListPanel.deleFile(this.fileItem, vo);
             }
-            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
+            Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA));
         };
         EditorModel.prototype.mouseHitSprite = function (item, mouseVect2d, selectArr) {
             var nearDis;

@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DFacetShader extends Shader3D {
         static Display3D_Facet_Shader: string = "Display3DFacetShader";
         constructor() {

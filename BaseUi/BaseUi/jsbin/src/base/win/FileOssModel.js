@@ -1,6 +1,6 @@
 var pack;
 (function (pack) {
-    var Scene_data = Pan3d.Scene_data;
+    var Scene_data = Pan3d.me.Scene_data;
     var FileVo = /** @class */ (function () {
         function FileVo() {
         }
@@ -67,7 +67,7 @@ var pack;
         };
         FileOssModel.saveDicfileGropFun = function ($dir, fileArr, bfun) {
             //  console.log("保存文件夹目录", $dir, fileArr)
-            var $byte = new Pan3d.Pan3dByteArray();
+            var $byte = new Pan3d.me.Pan3dByteArray();
             $byte.writeUTF(JSON.stringify(fileArr));
             var $file = new File([$byte.buffer], this.indexFileName);
             var pathurl = $dir;
@@ -79,8 +79,8 @@ var pack;
         };
         FileOssModel.getDicByUrl = function ($dir, bfun, errBfun) {
             var filePath = Scene_data.ossRoot + $dir + this.indexFileName;
-            Pan3d.LoadManager.getInstance().load(filePath, Pan3d.LoadManager.BYTE_TYPE, function ($byte) {
-                var $dicByte = new Pan3d.Pan3dByteArray($byte);
+            Pan3d.me.LoadManager.getInstance().load(filePath, Pan3d.me.LoadManager.BYTE_TYPE, function ($byte) {
+                var $dicByte = new Pan3d.me.Pan3dByteArray($byte);
                 var $tempItem = JSON.parse($dicByte.readUTF());
                 var fileArr = [];
                 for (var i = 0; i < $tempItem.length; i++) {
@@ -276,7 +276,7 @@ var pack;
             var ajax = new XMLHttpRequest();
             var url = this.webseverurl + webname;
             // $bfun = null;
-            var timestamp = String(Pan3d.TimeUtil.getTimer());
+            var timestamp = String(Pan3d.me.TimeUtil.getTimer());
             var keystr = "ABC";
             var self_sign = "ABC";
             ajax.open("post", url, true);

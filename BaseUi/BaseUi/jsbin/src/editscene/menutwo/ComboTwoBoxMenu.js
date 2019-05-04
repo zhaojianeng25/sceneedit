@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var menutwo;
 (function (menutwo) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Rectangle = Pan3d.Rectangle;
-    var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Rectangle = Pan3d.me.Rectangle;
+    var Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
     var ComboTwoBoxMenu = /** @class */ (function (_super) {
         __extends(ComboTwoBoxMenu, _super);
         function ComboTwoBoxMenu() {

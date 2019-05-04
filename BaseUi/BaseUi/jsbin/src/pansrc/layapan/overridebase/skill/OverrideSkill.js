@@ -13,65 +13,68 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var layapan;
 (function (layapan) {
-    var SkillType = Pan3d.SkillType;
-    var SkillVo = Pan3d.SkillVo;
-    var OverrideSkill = /** @class */ (function (_super) {
-        __extends(OverrideSkill, _super);
-        function OverrideSkill($skillManager) {
-            if ($skillManager === void 0) { $skillManager = null; }
-            var _this = _super.call(this) || this;
-            _this.baseName = "OverrideSkill";
-            _this.skillManager = $skillManager;
-            return _this;
-        }
-        OverrideSkill.prototype.skillComplete = function () {
-            this.skillManager.removeSkill(this);
-            this.isDeath = true;
-            if (this.completeFun) {
-                this.completeFun();
+    var me;
+    (function (me) {
+        var SkillType = Pan3d.me.SkillType;
+        var SkillVo = Pan3d.me.SkillVo;
+        var OverrideSkill = /** @class */ (function (_super) {
+            __extends(OverrideSkill, _super);
+            function OverrideSkill($skillManager) {
+                if ($skillManager === void 0) { $skillManager = null; }
+                var _this = _super.call(this) || this;
+                _this.baseName = "OverrideSkill";
+                _this.skillManager = $skillManager;
+                return _this;
             }
-            this.idleTime = 0;
-        };
-        OverrideSkill.prototype.setData = function ($data, $skillData) {
-            if (this.hasDestory) {
-                return;
-            }
-            this.skillVo = new SkillVo();
-            this.skillVo.setData($data);
-            this.setKeyAry();
-            this.trajectoryAry = new Array;
-            this._skillData = $skillData;
-        };
-        OverrideSkill.prototype.setKeyAry = function () {
-            var _this = this;
-            this.keyAry = new Array;
-            if (this.skillVo.types == SkillType.FixEffect) {
-                for (var i = 0; i < this.skillVo.keyAry.length; i++) {
-                    var keySkill = new layapan.OverrideSkillFixEffect(this);
-                    keySkill.setInfo(this.skillVo.keyAry[i]);
-                    keySkill.removeCallFun = function ($key) { _this.removeKey($key); };
-                    keySkill.active = this.active;
-                    this.keyAry.push(keySkill);
+            OverrideSkill.prototype.skillComplete = function () {
+                this.skillManager.removeSkill(this);
+                this.isDeath = true;
+                if (this.completeFun) {
+                    this.completeFun();
                 }
-            }
-            else if (this.skillVo.types == SkillType.TrajectoryDynamicTarget || this.skillVo.types == SkillType.TrajectoryDynamicPoint) {
-                for (var i = 0; i < this.skillVo.keyAry.length; i++) {
-                    var trajectory;
-                    var tkv = (this.skillVo.keyAry[i]);
-                    if (tkv.multype == 1) {
-                        //trajectory = new SkillMulTrajectory();
-                    }
-                    else {
-                        trajectory = new layapan.OverrideSkillTrajectory();
-                        trajectory.skill = this;
-                    }
-                    trajectory.setInfo(this.skillVo.keyAry[i]);
-                    this.keyAry.push(trajectory);
+                this.idleTime = 0;
+            };
+            OverrideSkill.prototype.setData = function ($data, $skillData) {
+                if (this.hasDestory) {
+                    return;
                 }
-            }
-        };
-        return OverrideSkill;
-    }(Pan3d.Skill));
-    layapan.OverrideSkill = OverrideSkill;
+                this.skillVo = new SkillVo();
+                this.skillVo.setData($data);
+                this.setKeyAry();
+                this.trajectoryAry = new Array;
+                this._skillData = $skillData;
+            };
+            OverrideSkill.prototype.setKeyAry = function () {
+                var _this = this;
+                this.keyAry = new Array;
+                if (this.skillVo.types == SkillType.FixEffect) {
+                    for (var i = 0; i < this.skillVo.keyAry.length; i++) {
+                        var keySkill = new me.OverrideSkillFixEffect(this);
+                        keySkill.setInfo(this.skillVo.keyAry[i]);
+                        keySkill.removeCallFun = function ($key) { _this.removeKey($key); };
+                        keySkill.active = this.active;
+                        this.keyAry.push(keySkill);
+                    }
+                }
+                else if (this.skillVo.types == SkillType.TrajectoryDynamicTarget || this.skillVo.types == SkillType.TrajectoryDynamicPoint) {
+                    for (var i = 0; i < this.skillVo.keyAry.length; i++) {
+                        var trajectory;
+                        var tkv = (this.skillVo.keyAry[i]);
+                        if (tkv.multype == 1) {
+                            //trajectory = new SkillMulTrajectory();
+                        }
+                        else {
+                            trajectory = new me.OverrideSkillTrajectory();
+                            trajectory.skill = this;
+                        }
+                        trajectory.setInfo(this.skillVo.keyAry[i]);
+                        this.keyAry.push(trajectory);
+                    }
+                }
+            };
+            return OverrideSkill;
+        }(Pan3d.me.Skill));
+        me.OverrideSkill = OverrideSkill;
+    })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));
 //# sourceMappingURL=OverrideSkill.js.map

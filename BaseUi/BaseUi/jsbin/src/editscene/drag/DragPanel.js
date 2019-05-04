@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var drag;
 (function (drag) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var UIManager = Pan3d.UIManager;
-    var UIConatiner = Pan3d.UIConatiner;
-    var UIAtlas = Pan3d.UIAtlas;
-    var TextureManager = Pan3d.TextureManager;
+    var UIRenderComponent = Pan3d.me.UIRenderComponent;
+    var UIManager = Pan3d.me.UIManager;
+    var UIConatiner = Pan3d.me.UIConatiner;
+    var UIAtlas = Pan3d.me.UIAtlas;
+    var TextureManager = Pan3d.me.TextureManager;
     var DragPanel = /** @class */ (function (_super) {
         __extends(DragPanel, _super);
         function DragPanel(w, h) {

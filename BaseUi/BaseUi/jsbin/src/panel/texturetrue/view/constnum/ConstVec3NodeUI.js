@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var Vector3D = Pan3d.Vector3D;
+    var Vector3D = Pan3d.me.Vector3D;
     var ConstVec3NodeUI = /** @class */ (function (_super) {
         __extends(ConstVec3NodeUI, _super);
         function ConstVec3NodeUI() {

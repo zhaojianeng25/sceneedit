@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Scene_data = Pan3d.Scene_data;
+    var Scene_data = Pan3d.me.Scene_data;
     var MaterialRoleSprite = left.MaterialRoleSprite;
     var ModelSprite = maineditor.ModelSprite;
     var SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
@@ -52,14 +52,14 @@ var LayaPan3D;
             }
         };
         Laya3dSprite.prototype.initScene = function () {
-            Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
+            Pan3d.me.ProgrmaManager.getInstance().registe(Pan3d.me.LineDisplayShader.LineShader, new Pan3d.me.LineDisplayShader);
             this.sceneManager = new EdItorSceneManager();
-            var temp = new Pan3d.GridLineSprite();
+            var temp = new Pan3d.me.GridLineSprite();
             this.sceneManager.addDisplay(temp);
-            this.sceneManager.addDisplay(new Pan3d.BaseDiplay3dSprite());
+            this.sceneManager.addDisplay(new Pan3d.me.BaseDiplay3dSprite());
             this.sceneManager.ready = true;
-            this.sceneManager.cam3D = new Pan3d.Camera3D();
-            this.sceneManager.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 512, 512);
+            this.sceneManager.cam3D = new Pan3d.me.Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Pan3d.me.Rectangle(0, 0, 512, 512);
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;

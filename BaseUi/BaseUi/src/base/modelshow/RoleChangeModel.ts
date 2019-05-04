@@ -1,22 +1,22 @@
 ﻿module pack {
 
-    import Engine = Pan3d.Engine
-    import MathClass = Pan3d.MathClass
-    import ModuleEventManager = Pan3d.ModuleEventManager
+    import Engine = Pan3d.me.Engine
+    import MathClass = Pan3d.me.MathClass
+    import ModuleEventManager = Pan3d.me.ModuleEventManager
     import MaterialTree = materialui.MaterialTree
     import MaterialEvent = materialui.MaterialEvent
-    import RoleRes = Pan3d.RoleRes
-    import SkinMesh = Pan3d.SkinMesh
-    import ResManager = Pan3d.ResManager
-    import BaseRes = Pan3d.BaseRes
-    import Pan3dByteArray = Pan3d.Pan3dByteArray
-    import MeshData = Pan3d.MeshData
-    import AnimData = Pan3d.AnimData
-    import Dictionary = Pan3d.Dictionary
-    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
-    import MeshDataManager = Pan3d.MeshDataManager
-    import Scene_data = Pan3d.Scene_data
-    import LoadManager = Pan3d.LoadManager
+    import RoleRes = Pan3d.me.RoleRes
+    import SkinMesh = Pan3d.me.SkinMesh
+    import ResManager = Pan3d.me.ResManager
+    import BaseRes = Pan3d.me.BaseRes
+    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
+    import MeshData = Pan3d.me.MeshData
+    import AnimData = Pan3d.me.AnimData
+    import Dictionary = Pan3d.me.Dictionary
+    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
+    import MeshDataManager = Pan3d.me.MeshDataManager
+    import Scene_data = Pan3d.me.Scene_data
+    import LoadManager = Pan3d.me.LoadManager
 
     
     export class MeshDataChangeManager extends MeshDataManager {

@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class List extends UICompenent {
 
         protected _itemRenderAry: Array<ListItemRender>;

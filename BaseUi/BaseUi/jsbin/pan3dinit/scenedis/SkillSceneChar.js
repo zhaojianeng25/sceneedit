@@ -13,28 +13,31 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var scenedis;
 (function (scenedis) {
-    var SkillSceneChar = /** @class */ (function (_super) {
-        __extends(SkillSceneChar, _super);
-        function SkillSceneChar() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        SkillSceneChar.prototype.onMeshLoaded = function () {
-            _super.prototype.onMeshLoaded.call(this);
-            if (this.loadFinishFun) {
-                this.loadFinishFun();
+    var me;
+    (function (me) {
+        var SkillSceneChar = /** @class */ (function (_super) {
+            __extends(SkillSceneChar, _super);
+            function SkillSceneChar() {
+                return _super !== null && _super.apply(this, arguments) || this;
             }
-        };
-        SkillSceneChar.prototype.changeAction = function ($action) {
-            this.curentAction = this._defaultAction;
-            if (this.changeActionFun) {
-                this.changeActionFun($action);
-            }
-        };
-        SkillSceneChar.prototype.setWeaponByAvatar = function (avatar, $suffix) {
-            if ($suffix === void 0) { $suffix = ""; }
-        };
-        return SkillSceneChar;
-    }(Pan3d.SceneChar));
-    scenedis.SkillSceneChar = SkillSceneChar;
+            SkillSceneChar.prototype.onMeshLoaded = function () {
+                _super.prototype.onMeshLoaded.call(this);
+                if (this.loadFinishFun) {
+                    this.loadFinishFun();
+                }
+            };
+            SkillSceneChar.prototype.changeAction = function ($action) {
+                this.curentAction = this._defaultAction;
+                if (this.changeActionFun) {
+                    this.changeActionFun($action);
+                }
+            };
+            SkillSceneChar.prototype.setWeaponByAvatar = function (avatar, $suffix) {
+                if ($suffix === void 0) { $suffix = ""; }
+            };
+            return SkillSceneChar;
+        }(Pan3d.me.SceneChar));
+        me.SkillSceneChar = SkillSceneChar;
+    })(me = scenedis.me || (scenedis.me = {}));
 })(scenedis || (scenedis = {}));
 //# sourceMappingURL=SkillSceneChar.js.map

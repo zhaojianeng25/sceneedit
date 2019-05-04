@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display2DSprite extends Display3D {
 
         public batchPos: Array<Sprite> = new Array;

@@ -1,7 +1,7 @@
 ﻿module pack {
-    import Material = Pan3d.Material
-    import ObjData = Pan3d.ObjData
-    import EventDispatcher = Pan3d.EventDispatcher
+    import Material = Pan3d.me.Material
+    import ObjData = Pan3d.me.ObjData
+    import EventDispatcher = Pan3d.me.EventDispatcher
     export class Prefab extends EventDispatcher implements ITile{
         getName() :string{
             return "prefab"

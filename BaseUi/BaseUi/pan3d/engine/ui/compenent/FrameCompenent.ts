@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class FrameCompenent extends UICompenent {
 
         public constructor() {

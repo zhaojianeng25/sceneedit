@@ -1,6 +1,6 @@
 ﻿module prop {
-    import TextureManager = Pan3d.TextureManager
-    import Scene_data = Pan3d.Scene_data
+    import TextureManager = Pan3d.me.TextureManager
+    import Scene_data = Pan3d.me.Scene_data
 
     export class MaterialParamUi extends BaseReflComponent {
  

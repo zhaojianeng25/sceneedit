@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Engine {
 
         public static init($caves: HTMLCanvasElement): void {

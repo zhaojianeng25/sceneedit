@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class QuestMoveVo {
         public pos: Vector2D;
         public data: any;

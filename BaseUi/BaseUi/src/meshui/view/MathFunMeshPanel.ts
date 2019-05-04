@@ -1,5 +1,5 @@
 ﻿module prop {
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
     export class MathFunMeshPanel extends MetaDataView {
 
         private mathFunNodeUI: materialui.MathFunNodeUI;

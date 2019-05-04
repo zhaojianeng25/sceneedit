@@ -13,17 +13,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialleft;
 (function (materialleft) {
-    var UICompenent = Pan3d.UICompenent;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var MouseType = Pan3d.MouseType;
-    var ByteArray = Pan3d.Pan3dByteArray;
-    var UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
+    var UICompenent = Pan3d.me.UICompenent;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var MouseType = Pan3d.me.MouseType;
+    var ByteArray = Pan3d.me.Pan3dByteArray;
+    var UIRenderOnlyPicComponent = Pan3d.me.UIRenderOnlyPicComponent;
     var ModelShowModel = left.ModelShowModel;
-    var ObjData = Pan3d.ObjData;
-    var Shader3D = Pan3d.Shader3D;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var Scene_data = Pan3d.Scene_data;
-    var Vector2D = Pan3d.Vector2D;
+    var ObjData = Pan3d.me.ObjData;
+    var Shader3D = Pan3d.me.Shader3D;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var Vector2D = Pan3d.me.Vector2D;
     var BloomUiShader = /** @class */ (function (_super) {
         __extends(BloomUiShader, _super);
         function BloomUiShader() {

@@ -13,12 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var win;
 (function (win) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Rectangle = Pan3d.Rectangle;
-    var UIConatiner = Pan3d.UIConatiner;
-    var UIAtlas = Pan3d.UIAtlas;
-    var Scene_data = Pan3d.Scene_data;
+    var UIRenderComponent = Pan3d.me.UIRenderComponent;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Rectangle = Pan3d.me.Rectangle;
+    var UIConatiner = Pan3d.me.UIConatiner;
+    var UIAtlas = Pan3d.me.UIAtlas;
+    var Scene_data = Pan3d.me.Scene_data;
     var LayBaseTab = /** @class */ (function (_super) {
         __extends(LayBaseTab, _super);
         function LayBaseTab() {

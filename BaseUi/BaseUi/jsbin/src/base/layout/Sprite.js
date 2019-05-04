@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var win;
 (function (win) {
-    var Rectangle = Pan3d.Rectangle;
+    var Rectangle = Pan3d.me.Rectangle;
     var Sprite = /** @class */ (function (_super) {
         __extends(Sprite, _super);
         function Sprite() {

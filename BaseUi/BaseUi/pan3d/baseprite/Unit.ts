@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Unit extends GuidObject {
         public path: Array<Vector2D> = new Array;
 

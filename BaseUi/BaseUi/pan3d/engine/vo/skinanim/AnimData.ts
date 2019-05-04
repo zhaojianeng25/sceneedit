@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class DualQuatFloat32Array {
         public quat: Float32Array;
         public pos: Float32Array;

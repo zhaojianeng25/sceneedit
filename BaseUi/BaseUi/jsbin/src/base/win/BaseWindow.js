@@ -13,17 +13,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var win;
 (function (win) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Rectangle = Pan3d.Rectangle;
-    var UIManager = Pan3d.UIManager;
-    var UIConatiner = Pan3d.UIConatiner;
-    var UIMask = Pan3d.UIMask;
-    var UIData = Pan3d.UIData;
-    var UIAtlas = Pan3d.UIAtlas;
-    var Vector2D = Pan3d.Vector2D;
-    var TextureManager = Pan3d.TextureManager;
-    var Scene_data = Pan3d.Scene_data;
+    var UIRenderComponent = Pan3d.me.UIRenderComponent;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Rectangle = Pan3d.me.Rectangle;
+    var UIManager = Pan3d.me.UIManager;
+    var UIConatiner = Pan3d.me.UIConatiner;
+    var UIMask = Pan3d.me.UIMask;
+    var UIData = Pan3d.me.UIData;
+    var UIAtlas = Pan3d.me.UIAtlas;
+    var Vector2D = Pan3d.me.Vector2D;
+    var TextureManager = Pan3d.me.TextureManager;
+    var Scene_data = Pan3d.me.Scene_data;
     var BaseWindow = /** @class */ (function (_super) {
         __extends(BaseWindow, _super);
         function BaseWindow($rect, $move) {

@@ -1,10 +1,10 @@
-﻿module layapan {
-    import Skill = Pan3d.Skill
-    import ResManager = Pan3d.ResManager
-    import Scene_data = Pan3d.Scene_data
-    import SkillRes = Pan3d.SkillRes
-    import SkillData = Pan3d.SkillData
-    import SkillManager = Pan3d.SkillManager
+﻿module layapan.me {
+    import Skill = Pan3d.me.Skill
+    import ResManager = Pan3d.me.ResManager
+    import Scene_data = Pan3d.me.Scene_data
+    import SkillRes = Pan3d.me.SkillRes
+    import SkillData = Pan3d.me.SkillData
+    import SkillManager = Pan3d.me.SkillManager
 
     export class LayaOverride2dSkillManager extends SkillManager {
         public sceneManager: LayaOverride2dSceneManager

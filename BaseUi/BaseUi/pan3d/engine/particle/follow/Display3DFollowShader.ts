@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DFollowShader extends Shader3D {
         static Display3D_Follow_Shader: string = "Display3DFollowShader";
         constructor() {

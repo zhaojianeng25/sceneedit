@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Context3D {
         public renderContext: WebGLRenderingContext;
         public _contextSetTest: ContextSetTest;

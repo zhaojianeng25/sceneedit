@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var EventDispatcher = Pan3d.EventDispatcher;
-    var BaseEvent = Pan3d.BaseEvent;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var Vector2D = Pan3d.Vector2D;
+    var EventDispatcher = Pan3d.me.EventDispatcher;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Vector2D = Pan3d.me.Vector2D;
     var ItemMaterialUI = /** @class */ (function (_super) {
         __extends(ItemMaterialUI, _super);
         function ItemMaterialUI(name, $type, $inOut) {

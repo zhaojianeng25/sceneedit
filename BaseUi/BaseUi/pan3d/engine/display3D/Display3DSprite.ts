@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DSprite extends Display3D implements IBind  {
 
         public isPerspective: boolean

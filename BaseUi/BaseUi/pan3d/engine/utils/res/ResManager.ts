@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ResManager extends ResGC {
         //private _resDic: Object;
         //private _loadDic: Object;

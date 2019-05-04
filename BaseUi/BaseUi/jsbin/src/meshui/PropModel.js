@@ -16,7 +16,7 @@ var prop;
         };
         PropModel.prototype.resize = function () {
             if (this.metaDataView) {
-                this.metaDataView.width = Pan3d.Scene_data.stageWidth - this.propPanle.x;
+                this.metaDataView.width = Pan3d.me.Scene_data.stageWidth - this.propPanle.x;
             }
         };
         PropModel.prototype.hidePanel = function () {

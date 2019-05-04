@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ObjDataManager extends ResGC {
 
         //private _dic: Object;

@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import Vector2D = Pan3d.Vector2D
+    import Vector2D = Pan3d.me.Vector2D
     export class NodeTreeVec2 extends NodeTree {
         public constValue: Vector2D = new Vector2D;
         public constructor() {

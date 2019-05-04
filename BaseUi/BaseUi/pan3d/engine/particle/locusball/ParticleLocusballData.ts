@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleLocusballData extends ParticleBallData {
         protected _posAry: Array<number>;
         protected _angleAry: Array<number>;

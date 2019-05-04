@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Display3DSprite = Pan3d.Display3DSprite;
+    var Display3DSprite = Pan3d.me.Display3DSprite;
     var SkillSpriteDisplay = /** @class */ (function (_super) {
         __extends(SkillSpriteDisplay, _super);
         function SkillSpriteDisplay() {
@@ -74,7 +74,7 @@ var maineditor;
             if (!this.skillStaticMesh.interval || this.skillStaticMesh.interval <= 0) { //间隔时间必须大于0
                 this.skillStaticMesh.interval = 1;
             }
-            Pan3d.TimeUtil.addTimeOut(this.skillStaticMesh.interval * 1000, function () {
+            Pan3d.me.TimeUtil.addTimeOut(this.skillStaticMesh.interval * 1000, function () {
                 _this.playNextSkill();
             });
         };
@@ -88,7 +88,7 @@ var maineditor;
                 _this.roleChar.setRoleZwwUrl(_this.skillStaticMesh.roleUrl);
                 tempScene.addMovieDisplay(_this.roleChar);
                 _this.roleChar.scale = 0.3;
-                Pan3d.ResManager.getInstance().loadSkillRes(Pan3d.Scene_data.fileRoot + _this.skillStaticMesh.skillUrl, function ($skillRes) {
+                Pan3d.me.ResManager.getInstance().loadSkillRes(Pan3d.me.Scene_data.fileRoot + _this.skillStaticMesh.skillUrl, function ($skillRes) {
                     _this.skillActionItem = [];
                     for (var acKey in $skillRes.data) {
                         _this.skillActionItem.push(acKey);

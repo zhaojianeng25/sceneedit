@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleFacetData extends ParticleData {
         public _maxAnimTime: number;
         public _lockx: boolean;

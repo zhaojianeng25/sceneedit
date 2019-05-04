@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class UpdateMask {
         private _bytes: Pan3dByteArray;
 

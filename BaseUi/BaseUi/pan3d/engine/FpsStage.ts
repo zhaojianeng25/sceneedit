@@ -1,5 +1,5 @@
 ﻿
-module Pan3d {
+module Pan3d.me {
     export class FpsMc {
         public drawNum: number = 0;
         public fpsStr: string = "";

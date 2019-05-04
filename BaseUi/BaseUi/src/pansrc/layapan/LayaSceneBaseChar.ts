@@ -1,29 +1,29 @@
 /**
 * name 
 */
-module layapan {
-    import CombineParticle = Pan3d.CombineParticle
-    import MeshData = Pan3d.MeshData
-    import BindParticle = Pan3d.BindParticle
-    import Scene_data = Pan3d.Scene_data
-    import ParticleManager = Pan3d.ParticleManager
-    import GroupRes = Pan3d.GroupRes
-    import GroupItem = Pan3d.GroupItem
-    import Vector3D = Pan3d.Vector3D
-    import BaseRes = Pan3d.BaseRes
-    import Material = Pan3d.Material
-    import TexItem = Pan3d.TexItem
-    import MaterialBaseParam = Pan3d.MaterialBaseParam
-    import Shader3D = Pan3d.Shader3D
-    import MaterialAnimShader = Pan3d.MaterialAnimShader
+module layapan.me {
+    import CombineParticle = Pan3d.me.CombineParticle
+    import MeshData = Pan3d.me.MeshData
+    import BindParticle = Pan3d.me.BindParticle
+    import Scene_data = Pan3d.me.Scene_data
+    import ParticleManager = Pan3d.me.ParticleManager
+    import GroupRes = Pan3d.me.GroupRes
+    import GroupItem = Pan3d.me.GroupItem
+    import Vector3D = Pan3d.me.Vector3D
+    import BaseRes = Pan3d.me.BaseRes
+    import Material = Pan3d.me.Material
+    import TexItem = Pan3d.me.TexItem
+    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
+    import Shader3D = Pan3d.me.Shader3D
+    import MaterialAnimShader = Pan3d.me.MaterialAnimShader
 
-    import Display3DSprite = Pan3d.Display3DSprite
-    import ShadowManager = Pan3d.ShadowManager
-    import Skill = Pan3d.Skill
+    import Display3DSprite = Pan3d.me.Display3DSprite
+    import ShadowManager = Pan3d.me.ShadowManager
+    import Skill = Pan3d.me.Skill
     
  
   
-    export class LayaSceneBaseChar extends Pan3d.Display3dMovie {
+    export class LayaSceneBaseChar extends Pan3d.me.Display3dMovie {
         private _avatar: number = -1;
    
         public _visible: boolean = true

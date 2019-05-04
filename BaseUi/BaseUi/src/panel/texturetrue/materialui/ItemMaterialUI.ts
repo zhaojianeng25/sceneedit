@@ -1,10 +1,10 @@
 ﻿module materialui {
 
-    import EventDispatcher = Pan3d.EventDispatcher;
-    import FrameCompenent = Pan3d.FrameCompenent;
-    import BaseEvent = Pan3d.BaseEvent;
-    import ModuleEventManager = Pan3d.ModuleEventManager;
-    import Vector2D = Pan3d.Vector2D;
+    import EventDispatcher = Pan3d.me.EventDispatcher;
+    import FrameCompenent = Pan3d.me.FrameCompenent;
+    import BaseEvent = Pan3d.me.BaseEvent;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
+    import Vector2D = Pan3d.me.Vector2D;
 
 
     export class ItemMaterialUI extends EventDispatcher {

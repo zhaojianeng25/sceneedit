@@ -1,19 +1,19 @@
 ﻿module materialui {
 
-    import BaseEvent = Pan3d.BaseEvent;
-    import Vector2D = Pan3d.Vector2D;
-    import Module = Pan3d.Module;
-    import Processor = Pan3d.Processor;
-    import BaseProcessor = Pan3d.BaseProcessor;
-    import UIManager = Pan3d.UIManager;
-    import ModuleEventManager = Pan3d.ModuleEventManager;
-    import KeyboardType = Pan3d.KeyboardType;
-    import Scene_data = Pan3d.Scene_data;
-    import MouseType = Pan3d.MouseType;
-    import UICompenent = Pan3d.UICompenent;
-    import UIConatiner = Pan3d.UIConatiner;
-    import Rectangle = Pan3d.Rectangle
-    import UIAtlas = Pan3d.UIAtlas;
+    import BaseEvent = Pan3d.me.BaseEvent;
+    import Vector2D = Pan3d.me.Vector2D;
+    import Module = Pan3d.me.Module;
+    import Processor = Pan3d.me.Processor;
+    import BaseProcessor = Pan3d.me.BaseProcessor;
+    import UIManager = Pan3d.me.UIManager;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
+    import KeyboardType = Pan3d.me.KeyboardType;
+    import Scene_data = Pan3d.me.Scene_data;
+    import MouseType = Pan3d.me.MouseType;
+    import UICompenent = Pan3d.me.UICompenent;
+    import UIConatiner = Pan3d.me.UIConatiner;
+    import Rectangle = Pan3d.me.Rectangle
+    import UIAtlas = Pan3d.me.UIAtlas;
 
     import Panel = win.Panel
     import LayerManager = win.LayerManager

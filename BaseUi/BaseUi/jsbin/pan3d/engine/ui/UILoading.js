@@ -13,51 +13,54 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var UILoading = /** @class */ (function (_super) {
-        __extends(UILoading, _super);
-        function UILoading() {
-            var _this = _super.call(this) || this;
-            _this.width = Pan3d.UIData.designWidth;
-            _this.height = Pan3d.UIData.designHeight;
-            _this.center = 0;
-            _this.middle = 0;
-            _this.initData();
-            return _this;
-        }
-        UILoading.getInstance = function () {
-            if (!this._instance) {
-                this._instance = new UILoading();
+    var me;
+    (function (me) {
+        var UILoading = /** @class */ (function (_super) {
+            __extends(UILoading, _super);
+            function UILoading() {
+                var _this = _super.call(this) || this;
+                _this.width = me.UIData.designWidth;
+                _this.height = me.UIData.designHeight;
+                _this.center = 0;
+                _this.middle = 0;
+                _this.initData();
+                return _this;
             }
-            return this._instance;
-        };
-        UILoading.prototype.initData = function () {
-            var _this = this;
-            //var render:UIRenderComponent = new UIRenderComponent();
-            this.atls = new Pan3d.UIAtlas();
-            this.atls.configData = new Array;
-            this.atls.configData.push(this.atls.getObject("load", 0, 0, 256, 256, 256, 256, 4, 4));
-            this.atls.loadImgUrl("ui/load/ui_loding.png", function () { _this.loadCom(); });
-        };
-        UILoading.prototype.loadCom = function () {
-            this._render = new Pan3d.UIRenderComponent();
-            this._render.uiAtlas = this.atls;
-            var ui = this._render.createFrame("load");
-            this.addChild(ui);
-            ui.speed = 1;
-            ui.width = 100;
-            ui.height = 100;
-            ui.x = (Pan3d.UIData.designWidth - ui.width) / 2;
-            ui.y = (Pan3d.UIData.designHeight - ui.height) / 2;
-            // this.addRender(this._render);
-        };
-        UILoading.prototype.show = function () {
-            //  UIManager.getInstance().addUIContainer(this);
-        };
-        UILoading.prototype.hide = function () {
-            //    UIManager.getInstance().removeUIContainer(this);
-        };
-        return UILoading;
-    }(Pan3d.UIConatiner));
-    Pan3d.UILoading = UILoading;
+            UILoading.getInstance = function () {
+                if (!this._instance) {
+                    this._instance = new UILoading();
+                }
+                return this._instance;
+            };
+            UILoading.prototype.initData = function () {
+                var _this = this;
+                //var render:UIRenderComponent = new UIRenderComponent();
+                this.atls = new me.UIAtlas();
+                this.atls.configData = new Array;
+                this.atls.configData.push(this.atls.getObject("load", 0, 0, 256, 256, 256, 256, 4, 4));
+                this.atls.loadImgUrl("ui/load/ui_loding.png", function () { _this.loadCom(); });
+            };
+            UILoading.prototype.loadCom = function () {
+                this._render = new me.UIRenderComponent();
+                this._render.uiAtlas = this.atls;
+                var ui = this._render.createFrame("load");
+                this.addChild(ui);
+                ui.speed = 1;
+                ui.width = 100;
+                ui.height = 100;
+                ui.x = (me.UIData.designWidth - ui.width) / 2;
+                ui.y = (me.UIData.designHeight - ui.height) / 2;
+                // this.addRender(this._render);
+            };
+            UILoading.prototype.show = function () {
+                //  UIManager.getInstance().addUIContainer(this);
+            };
+            UILoading.prototype.hide = function () {
+                //    UIManager.getInstance().removeUIContainer(this);
+            };
+            return UILoading;
+        }(me.UIConatiner));
+        me.UILoading = UILoading;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=UILoading.js.map

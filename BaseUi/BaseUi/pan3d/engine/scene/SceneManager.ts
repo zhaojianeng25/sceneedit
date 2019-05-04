@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SceneManager {
 
         public cam3D: Camera3D;
@@ -518,7 +518,7 @@
                 this._displayRoleList[i].update();
             }
             if (this._displayRoleList.length) {
-               Pan3d.Scene_data.context3D.setVa(1, 3, null); //如果有角色,在这里要将顶点置空  ->$$$ 需要优化。这里临时处理
+               Pan3d.me.Scene_data.context3D.setVa(1, 3, null); //如果有角色,在这里要将顶点置空  ->$$$ 需要优化。这里临时处理
             }
        
         }

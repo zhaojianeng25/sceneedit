@@ -1,6 +1,6 @@
 ﻿module maineditor {
-    import EventDispatcher = Pan3d.EventDispatcher
-    import MaterialBaseParam = Pan3d.MaterialBaseParam
+    import EventDispatcher = Pan3d.me.EventDispatcher
+    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
 
     export class SceneProjectVo extends EventDispatcher {
         public paramInfo: Array<any>;
@@ -20,7 +20,7 @@
                 pack.PackMaterialManager.getInstance().getMaterialByUrl(this.textureurl, ($materialTree: materialui.MaterialTree) => {
                     this.material = $materialTree;
 
-                    this.materialParam = new Pan3d.MaterialBaseParam;
+                    this.materialParam = new Pan3d.me.MaterialBaseParam;
                     this.materialParam.material = this.material
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this.paramInfo);
 

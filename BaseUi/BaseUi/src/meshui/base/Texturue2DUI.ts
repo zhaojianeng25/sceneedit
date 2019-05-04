@@ -1,7 +1,7 @@
 ﻿module prop {
-    import TextureManager = Pan3d.TextureManager
-    import Scene_data = Pan3d.Scene_data
-    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextureManager = Pan3d.me.TextureManager
+    import Scene_data = Pan3d.me.Scene_data
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
     export class Texturue2DUI extends BaseReflComponent {
 
         protected textLabelUI: TextLabelUI;
@@ -33,9 +33,9 @@
             this.searchFileByPath(this.target[this.FunKey])
         }
         protected searchFileByPath(value: string): void {
-            var pathurl: string = Pan3d.Scene_data.fileRoot + value;
+            var pathurl: string = Pan3d.me.Scene_data.fileRoot + value;
   
-            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
+            Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
         }
         private getPerentPath(value: string): string {
             var idex: number = value.lastIndexOf("/")

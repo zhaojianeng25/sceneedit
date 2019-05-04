@@ -1,4 +1,4 @@
-﻿module layapan {
+﻿module layapan.me {
     export class LayaScene2dInit {
         public static isConfig: boolean = false
         public static initData(): void {
@@ -9,12 +9,12 @@
                 //替换Engine引擎对象；
                 LayaOverride2dEngine.initConfig();
 
-                Pan3d.Engine.init(mainpan3d.canvas) //初始化场景
-                Pan3d.Engine.resetSize(mainpan3d.canvas.width, mainpan3d.canvas.height); //设置canvas大小
-                Pan3d.Engine.initPbr();
-                Pan3d.Engine.initShadow();
+                Pan3d.me.Engine.init(mainpan3d_me.canvas) //初始化场景
+                Pan3d.me.Engine.resetSize(mainpan3d_me.canvas.width, mainpan3d_me.canvas.height); //设置canvas大小
+                Pan3d.me.Engine.initPbr();
+                Pan3d.me.Engine.initShadow();
                 LayaScene2dInit.isConfig = true;   //完成
-                Pan3d.SceneManager.getInstance().ready = true; //场景update可以
+                Pan3d.me.SceneManager.getInstance().ready = true; //场景update可以
                 this.sceneItem = new Array;
             }
           

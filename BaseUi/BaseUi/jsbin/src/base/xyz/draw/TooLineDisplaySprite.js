@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Display3D = Pan3d.Display3D;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var Scene_data = Pan3d.Scene_data;
-    var Vector3D = Pan3d.Vector3D;
-    var LineDisplayShader = Pan3d.LineDisplayShader;
+    var Display3D = Pan3d.me.Display3D;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var Vector3D = Pan3d.me.Vector3D;
+    var LineDisplayShader = Pan3d.me.LineDisplayShader;
     var TooLineDisplaySprite = /** @class */ (function (_super) {
         __extends(TooLineDisplaySprite, _super);
         function TooLineDisplaySprite() {

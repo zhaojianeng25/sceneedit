@@ -41,7 +41,7 @@
                 var vo: FolderMeshVo = this.selectItem.pop();
                 this.hierarchyListPanel.deleFile(this.fileItem, vo);
             }
-            Pan3d.  ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
+            Pan3d.me.  ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
         }
         public fileItem: Array<FolderMeshVo>;
 

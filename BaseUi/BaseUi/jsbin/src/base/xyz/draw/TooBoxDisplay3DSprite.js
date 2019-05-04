@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Shader3D = Pan3d.Shader3D;
-    var Display3D = Pan3d.Display3D;
-    var ProgrmaManager = Pan3d.ProgrmaManager;
-    var Scene_data = Pan3d.Scene_data;
+    var Shader3D = Pan3d.me.Shader3D;
+    var Display3D = Pan3d.me.Display3D;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var Scene_data = Pan3d.me.Scene_data;
     var TooBoxDisplay3DShader = /** @class */ (function (_super) {
         __extends(TooBoxDisplay3DShader, _super);
         function TooBoxDisplay3DShader() {

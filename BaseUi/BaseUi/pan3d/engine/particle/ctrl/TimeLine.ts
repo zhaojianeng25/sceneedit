@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class TimeLine extends EventDispatcher {
         private _keyFrameAry: Array<KeyFrame>;
         public maxFrameNum: number;

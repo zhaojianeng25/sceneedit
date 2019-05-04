@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import Vector2D = Pan3d.Vector2D
+    import Vector2D = Pan3d.me.Vector2D
     export class NodeTreePanner extends NodeTree {
         public coordinateValue: Vector2D = new Vector2D(1, 1);
         public speedValue: Vector2D = new Vector2D(0, 0);

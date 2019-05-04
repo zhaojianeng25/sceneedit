@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export
         class TestTriangle {
         public static baseTri: TestTriangle = new TestTriangle

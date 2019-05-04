@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleManager extends ResGC {
         public static _instance: ParticleManager;
         public static getInstance(): ParticleManager {

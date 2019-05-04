@@ -1,5 +1,5 @@
 ﻿module drag {
-    import UIConatiner = Pan3d.UIConatiner
+    import UIConatiner = Pan3d.me.UIConatiner
 
     export interface IDragManager {
         doDrag(
@@ -25,7 +25,7 @@
         public static dragSource: DragSource
         public static doDragdoDrag(  dragInitiator: UIConatiner,  node: DragSource  ): void {
             this.dragSource = node;
-            Pan3d.ModuleEventManager.dispatchEvent(new PanDragEvent(PanDragEvent.DRAG_SHOW))
+            Pan3d.me.ModuleEventManager.dispatchEvent(new PanDragEvent(PanDragEvent.DRAG_SHOW))
         }
 
     }

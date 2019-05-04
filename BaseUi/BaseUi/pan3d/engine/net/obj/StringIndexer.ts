@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class StringIndexer {
         //这4个数据与下标索引组成一个完成结构体
         protected _indexerExp: Array<RegExp>;

@@ -1,7 +1,7 @@
 var md5list;
 (function (md5list) {
-    var Dictionary = Pan3d.Dictionary;
-    var ObjectBone = Pan3d.ObjectBone;
+    var Dictionary = Pan3d.me.Dictionary;
+    var ObjectBone = Pan3d.me.ObjectBone;
     var Md5Analysis = /** @class */ (function () {
         function Md5Analysis() {
         }

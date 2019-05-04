@@ -13,19 +13,19 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var filelist;
 (function (filelist) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var TextAlign = Pan3d.TextAlign;
-    var Rectangle = Pan3d.Rectangle;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var UIManager = Pan3d.UIManager;
-    var LabelTextFont = Pan3d.LabelTextFont;
-    var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var Vector2D = Pan3d.Vector2D;
-    var Vector3D = Pan3d.Vector3D;
-    var Scene_data = Pan3d.Scene_data;
-    var LoadManager = Pan3d.LoadManager;
-    var TextureManager = Pan3d.TextureManager;
-    var MouseType = Pan3d.MouseType;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var TextAlign = Pan3d.me.TextAlign;
+    var Rectangle = Pan3d.me.Rectangle;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var UIManager = Pan3d.me.UIManager;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Vector3D = Pan3d.me.Vector3D;
+    var Scene_data = Pan3d.me.Scene_data;
+    var LoadManager = Pan3d.me.LoadManager;
+    var TextureManager = Pan3d.me.TextureManager;
+    var MouseType = Pan3d.me.MouseType;
     var DragSource = drag.DragSource;
     var DragManager = drag.DragManager;
     var FileVo = pack.FileVo;
@@ -61,7 +61,7 @@ var filelist;
             this.clear = true;
         };
         return FileListMeshVo;
-    }(Pan3d.baseMeshVo));
+    }(Pan3d.me.baseMeshVo));
     filelist.FileListMeshVo = FileListMeshVo;
     var FileListName = /** @class */ (function (_super) {
         __extends(FileListName, _super);
@@ -139,7 +139,7 @@ var filelist;
                     _this.drawFileIconName(tbaimg, name, $color);
                 }
             };
-            Pan3d.LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, function ($byte) {
+            Pan3d.me.LoadManager.getInstance().load(Scene_data.fileRoot + "pan/expmapinfo.txt", LoadManager.BYTE_TYPE, function ($byte) {
                 sceneRes.loadComplete($byte);
             });
         };
@@ -220,7 +220,7 @@ var filelist;
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
-                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+                Pan3d.me.TimeUtil.addFrameTick(function (t) { _this.update(t); });
             });
             if (!this.onMouseWheelFun) {
                 this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
@@ -308,17 +308,17 @@ var filelist;
             Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             console.log(this.lastfileDonwInfo);
             if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
-                console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer());
-                if (this.lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000)) {
+                console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.me.TimeUtil.getTimer());
+                if (this.lastfileDonwInfo.tm > (Pan3d.me.TimeUtil.getTimer() - 1000)) {
                     this.fileDuboclik(evt);
                     return;
                 }
                 else {
-                    this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer();
+                    this.lastfileDonwInfo.tm = Pan3d.me.TimeUtil.getTimer();
                 }
             }
             else {
-                this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+                this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.me.TimeUtil.getTimer() };
             }
             console.log(this.lastfileDonwInfo);
             this.makeDragData(evt);
@@ -327,8 +327,8 @@ var filelist;
             var event = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y });
             var vo = this.getItemVoByUi(evt.target);
             if (vo) {
-                var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
-                fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                var fileUrl = Pan3d.me.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                fileUrl = fileUrl.replace(Pan3d.me.Scene_data.fileRoot, "");
                 var dsragSource = new DragSource();
                 if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
                     dsragSource.icon = "icon/icon_Folder_64x.png";
@@ -366,14 +366,14 @@ var filelist;
                     this.refrishPath(vo.fileListMeshVo.fileXmlVo.data.path);
                 }
                 else {
-                    var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
-                    fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                    var fileUrl = Pan3d.me.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                    fileUrl = fileUrl.replace(Pan3d.me.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.MATERIAL:
-                            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                            Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                             break;
                         case FileVo.MAP:
-                            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                            Pan3d.me.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
                             break;
                         default:
                             break;
@@ -387,8 +387,8 @@ var filelist;
                 if (vo.fileListMeshVo.fileXmlVo.data.isFolder) {
                 }
                 else {
-                    var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
-                    fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
+                    var fileUrl = Pan3d.me.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
+                    fileUrl = fileUrl.replace(Pan3d.me.Scene_data.fileRoot, "");
                     switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
                         case FileVo.PREFAB:
                             pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
@@ -490,7 +490,7 @@ var filelist;
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Down, this.fileMouseDown, this);
                 this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.fileMouseUp, this);
             }
-            var rootDic = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            var rootDic = Pan3d.me.Scene_data.fileRoot.replace(Pan3d.me.Scene_data.ossRoot, "");
             this.refrishPath(rootDic);
             if (!this.onRightMenuFun) {
                 this.onRightMenuFun = function ($evt) { _this.onRightMenu($evt); };
@@ -623,7 +623,7 @@ var filelist;
             var _this = this;
             //复制文件
             var baseTextureUrl = "baseedit/assets/base/base.material";
-            var pathurl = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl = AppData.rootFilePath.replace(Pan3d.me.Scene_data.ossRoot, "");
             pack.FileOssModel.copyFile(pathurl + "base.material", baseTextureUrl, function () {
                 _this.refrishIndexGroup(AppData.rootFilePath);
             });
@@ -638,7 +638,7 @@ var filelist;
             var _this = this;
             //复制文件
             var basePrefabUrl = "baseedit/assets/base/base.prefab";
-            var pathurl = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathurl = AppData.rootFilePath.replace(Pan3d.me.Scene_data.ossRoot, "");
             pack.FileOssModel.copyFile(pathurl + "base.prefab", basePrefabUrl, function () {
                 _this.refrishIndexGroup(AppData.rootFilePath);
             });
@@ -678,7 +678,7 @@ var filelist;
                 var simpleFile = this._inputHtmlSprite.files[i];
                 console.log(simpleFile);
                 console.log(AppData.rootFilePath);
-                var pathurl = AppData.rootFilePath.replace(Pan3d.Scene_data.ossRoot, "");
+                var pathurl = AppData.rootFilePath.replace(Pan3d.me.Scene_data.ossRoot, "");
                 console.log(pathurl + simpleFile.name);
                 pack.FileOssModel.upOssFile(simpleFile, pathurl + simpleFile.name, function () {
                     console.log("文件上传成功");

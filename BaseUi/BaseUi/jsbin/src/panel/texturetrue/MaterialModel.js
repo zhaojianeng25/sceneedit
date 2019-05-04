@@ -1,10 +1,10 @@
 var materialui;
 (function (materialui) {
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var Scene_data = Pan3d.Scene_data;
-    var LoadManager = Pan3d.LoadManager;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var LoadManager = Pan3d.me.LoadManager;
     var Panel = win.Panel;
-    var TextureManager = Pan3d.TextureManager;
+    var TextureManager = Pan3d.me.TextureManager;
     var MenuListData = menutwo.MenuListData;
     var MaterialModel = /** @class */ (function () {
         function MaterialModel() {
@@ -169,7 +169,7 @@ var materialui;
                     this.onTempNode(new materialui.MathFunNodeUI(), evt);
                     break;
                 case "44":
-                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
                     break;
                 default:
                     break;
@@ -209,11 +209,11 @@ var materialui;
                     }
                 }
             }
-            var $byte = new Pan3d.Pan3dByteArray();
+            var $byte = new Pan3d.me.Pan3dByteArray();
             $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }));
             var $file = new File([$byte.buffer], "ossfile.txt");
-            var pathUrl = Pan3d.Scene_data.fileRoot + $url;
-            var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            var pathUrl = Pan3d.me.Scene_data.fileRoot + $url;
+            var pathurl = pathUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
             console.log(pathUrl);
             pack.FileOssModel.upOssFile($file, pathurl, function () {
                 console.log("材质上传成功");
@@ -223,7 +223,7 @@ var materialui;
         MaterialModel.prototype.selectFileById = function (value) {
             var $texturl = "texturelist/" + value + ".txt";
             LoadManager.getInstance().load(Scene_data.fileRoot + $texturl, LoadManager.BYTE_TYPE, function ($dtstr) {
-                var $byte = new Pan3d.Pan3dByteArray($dtstr);
+                var $byte = new Pan3d.me.Pan3dByteArray($dtstr);
                 $byte.position = 0;
                 var $temp = JSON.parse($byte.readUTF());
                 var $tempMaterial = new materialui.MaterialTree;

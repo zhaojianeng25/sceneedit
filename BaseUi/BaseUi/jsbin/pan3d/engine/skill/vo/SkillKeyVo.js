@@ -13,72 +13,75 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var SkillKeyVo = /** @class */ (function () {
-        function SkillKeyVo() {
-            this.frame = 0;
-        }
-        SkillKeyVo.prototype.setData = function ($data) {
-            this.frame = $data.frame;
-            this.url = $data.url;
-        };
-        return SkillKeyVo;
-    }());
-    Pan3d.SkillKeyVo = SkillKeyVo;
-    var SkillShockVo = /** @class */ (function () {
-        function SkillShockVo() {
-        }
-        SkillShockVo.prototype.setData = function ($data) {
-            this.time = $data.time * Pan3d.Scene_data.frameTime;
-            this.lasttime = $data.lasttime * Pan3d.Scene_data.frameTime;
-            this.amp = $data.amp;
-        };
-        return SkillShockVo;
-    }());
-    Pan3d.SkillShockVo = SkillShockVo;
-    var SkillFixEffectKeyVo = /** @class */ (function (_super) {
-        __extends(SkillFixEffectKeyVo, _super);
-        function SkillFixEffectKeyVo() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        SkillFixEffectKeyVo.prototype.setData = function ($data) {
-            _super.prototype.setData.call(this, $data);
-            this.hasSocket = $data.hasSocket;
-            if (this.hasSocket) {
-                this.socket = $data.socket;
+    var me;
+    (function (me) {
+        var SkillKeyVo = /** @class */ (function () {
+            function SkillKeyVo() {
+                this.frame = 0;
             }
-            else {
-                this.pos = new Pan3d.Vector3D($data.pos.x, $data.pos.y, $data.pos.z);
-                this.rotation = new Pan3d.Vector3D($data.rotation.x, $data.rotation.y, $data.rotation.z);
+            SkillKeyVo.prototype.setData = function ($data) {
+                this.frame = $data.frame;
+                this.url = $data.url;
+            };
+            return SkillKeyVo;
+        }());
+        me.SkillKeyVo = SkillKeyVo;
+        var SkillShockVo = /** @class */ (function () {
+            function SkillShockVo() {
             }
-        };
-        return SkillFixEffectKeyVo;
-    }(SkillKeyVo));
-    Pan3d.SkillFixEffectKeyVo = SkillFixEffectKeyVo;
-    var SkillTrajectoryTargetKeyVo = /** @class */ (function (_super) {
-        __extends(SkillTrajectoryTargetKeyVo, _super);
-        function SkillTrajectoryTargetKeyVo() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        SkillTrajectoryTargetKeyVo.prototype.setData = function ($data) {
-            _super.prototype.setData.call(this, $data);
-            this.beginType = $data.beginType;
-            if (this.beginType == 0) {
-                this.beginPos = new Pan3d.Vector3D($data.beginPos.x, $data.beginPos.y, $data.beginPos.z);
+            SkillShockVo.prototype.setData = function ($data) {
+                this.time = $data.time * me.Scene_data.frameTime;
+                this.lasttime = $data.lasttime * me.Scene_data.frameTime;
+                this.amp = $data.amp;
+            };
+            return SkillShockVo;
+        }());
+        me.SkillShockVo = SkillShockVo;
+        var SkillFixEffectKeyVo = /** @class */ (function (_super) {
+            __extends(SkillFixEffectKeyVo, _super);
+            function SkillFixEffectKeyVo() {
+                return _super !== null && _super.apply(this, arguments) || this;
             }
-            else if (this.beginType == 1) {
-                this.beginSocket = $data.beginSocket;
+            SkillFixEffectKeyVo.prototype.setData = function ($data) {
+                _super.prototype.setData.call(this, $data);
+                this.hasSocket = $data.hasSocket;
+                if (this.hasSocket) {
+                    this.socket = $data.socket;
+                }
+                else {
+                    this.pos = new me.Vector3D($data.pos.x, $data.pos.y, $data.pos.z);
+                    this.rotation = new me.Vector3D($data.rotation.x, $data.rotation.y, $data.rotation.z);
+                }
+            };
+            return SkillFixEffectKeyVo;
+        }(SkillKeyVo));
+        me.SkillFixEffectKeyVo = SkillFixEffectKeyVo;
+        var SkillTrajectoryTargetKeyVo = /** @class */ (function (_super) {
+            __extends(SkillTrajectoryTargetKeyVo, _super);
+            function SkillTrajectoryTargetKeyVo() {
+                return _super !== null && _super.apply(this, arguments) || this;
             }
-            this.speed = $data.speed;
-            if ($data.hitSocket) {
-                this.hitSocket = $data.hitSocket;
-            }
-            if ($data.endParticle) {
-                this.endParticleUrl = $data.endParticle;
-            }
-            this.multype = $data.multype;
-        };
-        return SkillTrajectoryTargetKeyVo;
-    }(SkillKeyVo));
-    Pan3d.SkillTrajectoryTargetKeyVo = SkillTrajectoryTargetKeyVo;
+            SkillTrajectoryTargetKeyVo.prototype.setData = function ($data) {
+                _super.prototype.setData.call(this, $data);
+                this.beginType = $data.beginType;
+                if (this.beginType == 0) {
+                    this.beginPos = new me.Vector3D($data.beginPos.x, $data.beginPos.y, $data.beginPos.z);
+                }
+                else if (this.beginType == 1) {
+                    this.beginSocket = $data.beginSocket;
+                }
+                this.speed = $data.speed;
+                if ($data.hitSocket) {
+                    this.hitSocket = $data.hitSocket;
+                }
+                if ($data.endParticle) {
+                    this.endParticleUrl = $data.endParticle;
+                }
+                this.multype = $data.multype;
+            };
+            return SkillTrajectoryTargetKeyVo;
+        }(SkillKeyVo));
+        me.SkillTrajectoryTargetKeyVo = SkillTrajectoryTargetKeyVo;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=SkillKeyVo.js.map

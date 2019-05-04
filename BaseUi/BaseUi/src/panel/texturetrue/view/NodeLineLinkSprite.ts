@@ -1,18 +1,18 @@
 ﻿
 module materialui {
-    import Scene_data = Pan3d.Scene_data;
-    import Shader3D = Pan3d.Shader3D;
-    import Vector2D = Pan3d.Vector2D
-    import Vector3D = Pan3d.Vector3D
-    import UICompenent = Pan3d.UICompenent;
-    import UIData = Pan3d.UIData;
-    import ProgrmaManager = Pan3d.ProgrmaManager;
-    import Matrix3D = Pan3d.Matrix3D;
-    import ObjData = Pan3d.ObjData
-    import InteractiveEvent = Pan3d.InteractiveEvent;
-    import UIManager = Pan3d.UIManager;
-    import UIRenderComponent = Pan3d.UIRenderComponent
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import Scene_data = Pan3d.me.Scene_data;
+    import Shader3D = Pan3d.me.Shader3D;
+    import Vector2D = Pan3d.me.Vector2D
+    import Vector3D = Pan3d.me.Vector3D
+    import UICompenent = Pan3d.me.UICompenent;
+    import UIData = Pan3d.me.UIData;
+    import ProgrmaManager = Pan3d.me.ProgrmaManager;
+    import Matrix3D = Pan3d.me.Matrix3D;
+    import ObjData = Pan3d.me.ObjData
+    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import UIManager = Pan3d.me.UIManager;
+    import UIRenderComponent = Pan3d.me.UIRenderComponent
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
 
     import UIPanel = win.UIPanel
 

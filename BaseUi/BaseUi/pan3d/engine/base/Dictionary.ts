@@ -6,7 +6,7 @@
     values(): any[];
 }
 
-module Pan3d {
+module Pan3d.me {
     export class Dictionary implements IDictionary {
 
         _keys: string[] = new Array;

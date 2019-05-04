@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var editscene;
 (function (editscene) {
-    var BaseEvent = Pan3d.BaseEvent;
-    var Module = Pan3d.Module;
-    var BaseProcessor = Pan3d.BaseProcessor;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var Module = Pan3d.me.Module;
+    var BaseProcessor = Pan3d.me.BaseProcessor;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
     var EditSceneEvent = /** @class */ (function (_super) {
         __extends(EditSceneEvent, _super);
         function EditSceneEvent() {

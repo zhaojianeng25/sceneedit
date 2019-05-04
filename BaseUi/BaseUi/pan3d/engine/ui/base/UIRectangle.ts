@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class UIRectangle extends Rectangle {
 
         public pixelWitdh: number = 1;

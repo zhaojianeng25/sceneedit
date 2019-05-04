@@ -1,17 +1,17 @@
 ﻿module drag {
-    import BaseEvent = Pan3d.BaseEvent;
-    import Module = Pan3d.Module;
-    import Processor = Pan3d.Processor;
-    import BaseProcessor = Pan3d.BaseProcessor;
-    import Vector2D = Pan3d.Vector2D;
-    import UIManager = Pan3d.UIManager;
-    import UIData = Pan3d.UIData;
-    import InteractiveEvent = Pan3d.InteractiveEvent;
-    import Scene_data = Pan3d.Scene_data;
-    import ModuleEventManager = Pan3d.ModuleEventManager;
-    import UIAtlas = Pan3d.UIAtlas
-    import UIConatiner = Pan3d.UIConatiner
-    import UICompenent = Pan3d.UICompenent
+    import BaseEvent = Pan3d.me.BaseEvent;
+    import Module = Pan3d.me.Module;
+    import Processor = Pan3d.me.Processor;
+    import BaseProcessor = Pan3d.me.BaseProcessor;
+    import Vector2D = Pan3d.me.Vector2D;
+    import UIManager = Pan3d.me.UIManager;
+    import UIData = Pan3d.me.UIData;
+    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import Scene_data = Pan3d.me.Scene_data;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
+    import UIAtlas = Pan3d.me.UIAtlas
+    import UIConatiner = Pan3d.me.UIConatiner
+    import UICompenent = Pan3d.me.UICompenent
 
     import UIPanel = win.UIPanel
     import Panel = win.Panel

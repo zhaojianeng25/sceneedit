@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DModelObjParticle extends Display3DModelPartilce {
         protected _depthMode: boolean;
 

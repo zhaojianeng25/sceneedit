@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class MaterialBatchAnimShader extends Shader3D {
         constructor() {
             super();

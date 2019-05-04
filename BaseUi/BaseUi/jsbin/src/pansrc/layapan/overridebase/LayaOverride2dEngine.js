@@ -13,25 +13,28 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var layapan;
 (function (layapan) {
-    var LayaOverride2dEngine = /** @class */ (function (_super) {
-        __extends(LayaOverride2dEngine, _super);
-        function LayaOverride2dEngine() {
-            return _super.call(this) || this;
-        }
-        LayaOverride2dEngine.initConfig = function () {
-            var _this = this;
-            Pan3d.UIData.resize = function () { _this.uiScaleresize(); }; //更换update
-            Pan3d.Engine.update = function () { _this.update(); }; //更换update
-            Pan3d.Engine.init = function ($caves) { scene2d.Override2dEngine.init($caves); }; //更换引擎初始化
-            Pan3d.Engine.resetSize = function (width, height) { scene2d.Override2dEngine.resetSize(width, height); }; //更尺寸变化
-            Pan3d.Engine.resetViewMatrx3D = function () { scene2d.Override2dEngine.resetViewMatrx3D(); };
-        };
-        LayaOverride2dEngine.uiScaleresize = function () {
-            console.log("重置什么也不做");
-            Pan3d.UIData.Scale = 1;
-        };
-        return LayaOverride2dEngine;
-    }(scene3d.OverrideEngine));
-    layapan.LayaOverride2dEngine = LayaOverride2dEngine;
+    var me;
+    (function (me) {
+        var LayaOverride2dEngine = /** @class */ (function (_super) {
+            __extends(LayaOverride2dEngine, _super);
+            function LayaOverride2dEngine() {
+                return _super.call(this) || this;
+            }
+            LayaOverride2dEngine.initConfig = function () {
+                var _this = this;
+                Pan3d.me.UIData.resize = function () { _this.uiScaleresize(); }; //更换update
+                Pan3d.me.Engine.update = function () { _this.update(); }; //更换update
+                Pan3d.me.Engine.init = function ($caves) { scene2d.me.Override2dEngine.init($caves); }; //更换引擎初始化
+                Pan3d.me.Engine.resetSize = function (width, height) { scene2d.me.Override2dEngine.resetSize(width, height); }; //更尺寸变化
+                Pan3d.me.Engine.resetViewMatrx3D = function () { scene2d.me.Override2dEngine.resetViewMatrx3D(); };
+            };
+            LayaOverride2dEngine.uiScaleresize = function () {
+                console.log("重置什么也不做");
+                Pan3d.me.UIData.Scale = 1;
+            };
+            return LayaOverride2dEngine;
+        }(scene3d.me.OverrideEngine));
+        me.LayaOverride2dEngine = LayaOverride2dEngine;
+    })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));
 //# sourceMappingURL=LayaOverride2dEngine.js.map

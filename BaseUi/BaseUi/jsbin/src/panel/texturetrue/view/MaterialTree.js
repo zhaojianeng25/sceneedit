@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var TexItem = Pan3d.TexItem;
-    var Material = Pan3d.Material;
-    var ConstItem = Pan3d.ConstItem;
+    var TexItem = Pan3d.me.TexItem;
+    var Material = Pan3d.me.Material;
+    var ConstItem = Pan3d.me.ConstItem;
     var MaterialTree = /** @class */ (function (_super) {
         __extends(MaterialTree, _super);
         function MaterialTree() {

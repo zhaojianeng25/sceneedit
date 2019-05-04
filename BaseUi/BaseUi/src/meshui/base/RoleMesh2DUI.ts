@@ -1,12 +1,12 @@
 ﻿module prop {
-    import TextureManager = Pan3d.TextureManager
-    import Scene_data = Pan3d.Scene_data
-    import SkinMesh = Pan3d.SkinMesh
-    import Material = Pan3d.Material
-    import MeshData = Pan3d.MeshData
-    import LoadManager = Pan3d.LoadManager
-    import InteractiveEvent = Pan3d.InteractiveEvent
-    import ModuleEventManager = Pan3d.ModuleEventManager
+    import TextureManager = Pan3d.me.TextureManager
+    import Scene_data = Pan3d.me.Scene_data
+    import SkinMesh = Pan3d.me.SkinMesh
+    import Material = Pan3d.me.Material
+    import MeshData = Pan3d.me.MeshData
+    import LoadManager = Pan3d.me.LoadManager
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import ModuleEventManager = Pan3d.me.ModuleEventManager
 
     export class RoleMesh2DUI extends BaseReflComponent {
 

@@ -13,15 +13,18 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var layapan;
 (function (layapan) {
-    var OverrideSkillFixEffectKeyVo = /** @class */ (function (_super) {
-        __extends(OverrideSkillFixEffectKeyVo, _super);
-        function OverrideSkillFixEffectKeyVo() {
-            var _this = _super.call(this) || this;
-            console.log("OverrideSkillFixEffectKeyVo");
-            return _this;
-        }
-        return OverrideSkillFixEffectKeyVo;
-    }(Pan3d.SkillFixEffectKeyVo));
-    layapan.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
+    var me;
+    (function (me) {
+        var OverrideSkillFixEffectKeyVo = /** @class */ (function (_super) {
+            __extends(OverrideSkillFixEffectKeyVo, _super);
+            function OverrideSkillFixEffectKeyVo() {
+                var _this = _super.call(this) || this;
+                console.log("OverrideSkillFixEffectKeyVo");
+                return _this;
+            }
+            return OverrideSkillFixEffectKeyVo;
+        }(Pan3d.me.SkillFixEffectKeyVo));
+        me.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
+    })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));
 //# sourceMappingURL=OverrideSkillKeyVo.js.map

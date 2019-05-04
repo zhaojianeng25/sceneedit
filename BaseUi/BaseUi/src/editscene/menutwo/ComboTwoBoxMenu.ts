@@ -1,17 +1,17 @@
 ﻿module menutwo {
-    import UIRenderComponent = Pan3d.UIRenderComponent
-    import FrameCompenent = Pan3d.FrameCompenent
-    import InteractiveEvent = Pan3d.InteractiveEvent
-    import Scene_data = Pan3d.Scene_data
-    import UICompenent = Pan3d.UICompenent
-    import Rectangle = Pan3d.Rectangle
-    import TextAlign = Pan3d.TextAlign
-    import UIManager = Pan3d.UIManager
-    import LabelTextFont = Pan3d.LabelTextFont
-    import ColorType = Pan3d.ColorType
+    import UIRenderComponent = Pan3d.me.UIRenderComponent
+    import FrameCompenent = Pan3d.me.FrameCompenent
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import Scene_data = Pan3d.me.Scene_data
+    import UICompenent = Pan3d.me.UICompenent
+    import Rectangle = Pan3d.me.Rectangle
+    import TextAlign = Pan3d.me.TextAlign
+    import UIManager = Pan3d.me.UIManager
+    import LabelTextFont = Pan3d.me.LabelTextFont
+    import ColorType = Pan3d.me.ColorType
     import UIPanel = win.UIPanel
-    import UIAtlas = Pan3d.UIAtlas
-    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
+    import UIAtlas = Pan3d.me.UIAtlas
+    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel
 
 
  

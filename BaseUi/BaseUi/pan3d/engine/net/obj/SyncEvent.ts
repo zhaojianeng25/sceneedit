@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SyncEvent {
         //为了防止对象更新标识与下标更新标识冲突,所以让对象更新标识占用第2位
 

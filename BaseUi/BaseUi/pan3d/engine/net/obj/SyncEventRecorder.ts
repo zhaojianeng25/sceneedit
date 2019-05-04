@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SyncEventRecorder extends SyncEvent {
         /**
          * 用于监听下标变化 

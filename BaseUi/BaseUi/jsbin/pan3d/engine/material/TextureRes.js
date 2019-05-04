@@ -13,16 +13,19 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var TextureRes = /** @class */ (function (_super) {
-        __extends(TextureRes, _super);
-        function TextureRes() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        TextureRes.prototype.destory = function () {
-            Pan3d.Scene_data.context3D.deleteTexture(this.texture);
-        };
-        return TextureRes;
-    }(Pan3d.ResCount));
-    Pan3d.TextureRes = TextureRes;
+    var me;
+    (function (me) {
+        var TextureRes = /** @class */ (function (_super) {
+            __extends(TextureRes, _super);
+            function TextureRes() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            TextureRes.prototype.destory = function () {
+                me.Scene_data.context3D.deleteTexture(this.texture);
+            };
+            return TextureRes;
+        }(me.ResCount));
+        me.TextureRes = TextureRes;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=TextureRes.js.map

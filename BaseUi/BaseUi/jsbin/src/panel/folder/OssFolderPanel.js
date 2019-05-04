@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var ossfolder;
 (function (ossfolder) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var TextAlign = Pan3d.TextAlign;
-    var Rectangle = Pan3d.Rectangle;
-    var UIManager = Pan3d.UIManager;
-    var LabelTextFont = Pan3d.LabelTextFont;
-    var Disp2DBaseText = Pan3d.Disp2DBaseText;
-    var Vector3D = Pan3d.Vector3D;
-    var Scene_data = Pan3d.Scene_data;
-    var TextureManager = Pan3d.TextureManager;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var TextAlign = Pan3d.me.TextAlign;
+    var Rectangle = Pan3d.me.Rectangle;
+    var UIManager = Pan3d.me.UIManager;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var Vector3D = Pan3d.me.Vector3D;
+    var Scene_data = Pan3d.me.Scene_data;
+    var TextureManager = Pan3d.me.TextureManager;
     var OssListFile = /** @class */ (function () {
         function OssListFile() {
         }
@@ -46,7 +46,7 @@ var ossfolder;
             this.clear = true;
         };
         return FolderMeshVo;
-    }(Pan3d.baseMeshVo));
+    }(Pan3d.me.baseMeshVo));
     ossfolder.FolderMeshVo = FolderMeshVo;
     var FolderName = /** @class */ (function (_super) {
         __extends(FolderName, _super);
@@ -108,7 +108,7 @@ var ossfolder;
             this._baseRender.mask = this._uiMask;
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
-                Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
+                Pan3d.me.TimeUtil.addFrameTick(function (t) { _this.update(t); });
             });
         };
         OssFolderPanel.prototype.loadAssetImg = function (bfun) {
@@ -158,7 +158,7 @@ var ossfolder;
                             this.pushChidrenDic($vo);
                         }
                         $vo.folderMeshVo.ossListFile.isOpen = true;
-                        Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), $vo.folderMeshVo.ossListFile.baseFile.path);
+                        Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), $vo.folderMeshVo.ossListFile.baseFile.path);
                     }
                     $vo.folderMeshVo.needDraw = true;
                 }
@@ -217,7 +217,7 @@ var ossfolder;
             //"upfile/shadertree/"
             //
             //Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-            var rootDic = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            var rootDic = Pan3d.me.Scene_data.fileRoot.replace(Pan3d.me.Scene_data.ossRoot, "");
             pack.FileOssModel.getFolderArr(rootDic, function (value) {
                 for (var i = 0; i < value.length; i++) {
                     if (value[i].isFolder) {

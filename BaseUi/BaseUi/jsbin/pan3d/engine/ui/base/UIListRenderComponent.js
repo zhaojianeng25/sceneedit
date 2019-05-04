@@ -13,23 +13,26 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var UIListRenderComponent = /** @class */ (function (_super) {
-        __extends(UIListRenderComponent, _super);
-        function UIListRenderComponent() {
-            return _super.call(this) || this;
-        }
-        UIListRenderComponent.prototype.createList = function () {
-            var list = new Pan3d.List;
-            list.uiRender = this;
-            return list;
-        };
-        UIListRenderComponent.prototype.createGridList = function () {
-            var list = new Pan3d.GridList;
-            list.uiRender = this;
-            return list;
-        };
-        return UIListRenderComponent;
-    }(Pan3d.UIRenderComponent));
-    Pan3d.UIListRenderComponent = UIListRenderComponent;
+    var me;
+    (function (me) {
+        var UIListRenderComponent = /** @class */ (function (_super) {
+            __extends(UIListRenderComponent, _super);
+            function UIListRenderComponent() {
+                return _super.call(this) || this;
+            }
+            UIListRenderComponent.prototype.createList = function () {
+                var list = new me.List;
+                list.uiRender = this;
+                return list;
+            };
+            UIListRenderComponent.prototype.createGridList = function () {
+                var list = new me.GridList;
+                list.uiRender = this;
+                return list;
+            };
+            return UIListRenderComponent;
+        }(me.UIRenderComponent));
+        me.UIListRenderComponent = UIListRenderComponent;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=UIListRenderComponent.js.map

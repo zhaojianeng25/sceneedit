@@ -1,6 +1,6 @@
-var ObjData = Pan3d.ObjData;
-var Vector3D = Pan3d.Vector3D;
-var Vector2D = Pan3d.Vector2D;
+var ObjData = Pan3d.me.ObjData;
+var Vector3D = Pan3d.me.Vector3D;
+var Vector2D = Pan3d.me.Vector2D;
 var TBNUtils = /** @class */ (function () {
     function TBNUtils() {
     }

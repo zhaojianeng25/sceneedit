@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SkillMulTrajectory extends SkillTrajectory implements IMulBind {
         public activeList: Array<Object3D>;
         public currentPosList: Array<Vector3D>;

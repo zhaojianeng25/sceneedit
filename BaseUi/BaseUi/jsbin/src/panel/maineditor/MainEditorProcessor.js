@@ -13,14 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var BaseEvent = Pan3d.BaseEvent;
-    var Module = Pan3d.Module;
-    var BaseProcessor = Pan3d.BaseProcessor;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var Rectangle = Pan3d.Rectangle;
-    var MouseType = Pan3d.MouseType;
-    var MathClass = Pan3d.MathClass;
-    var KeyboardType = Pan3d.KeyboardType;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var Module = Pan3d.me.Module;
+    var BaseProcessor = Pan3d.me.BaseProcessor;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Rectangle = Pan3d.me.Rectangle;
+    var MouseType = Pan3d.me.MouseType;
+    var MathClass = Pan3d.me.MathClass;
+    var KeyboardType = Pan3d.me.KeyboardType;
     var EditSceneEvent = editscene.EditSceneEvent;
     var EditLeftPanel = editscene.EditLeftPanel;
     var MainEditorEvent = /** @class */ (function (_super) {
@@ -84,7 +84,7 @@ var maineditor;
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
                     AppData.centenPanel.addUIContainer(this._mainEditorPanel);
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
-                    Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._mainEditorPanel);
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._mainEditorPanel);
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.INPUT_PREFAB_TO_SCENE) {
@@ -235,9 +235,9 @@ var maineditor;
         };
         MainEditorProcessor.prototype.maseSceneManager = function () {
             MainEditorProcessor.edItorSceneManager = new maineditor.EdItorSceneManager();
-            Pan3d.ProgrmaManager.getInstance().registe(Pan3d.LineDisplayShader.LineShader, new Pan3d.LineDisplayShader);
+            Pan3d.me.ProgrmaManager.getInstance().registe(Pan3d.me.LineDisplayShader.LineShader, new Pan3d.me.LineDisplayShader);
             MainEditorProcessor.edItorSceneManager.ready = true;
-            MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.Camera3D();
+            MainEditorProcessor.edItorSceneManager.cam3D = new Pan3d.me.Camera3D();
             MainEditorProcessor.edItorSceneManager.cam3D.distance = 100;
             MainEditorProcessor.edItorSceneManager.focus3D.rotationY = 0;
             MainEditorProcessor.edItorSceneManager.focus3D.rotationX = -45;

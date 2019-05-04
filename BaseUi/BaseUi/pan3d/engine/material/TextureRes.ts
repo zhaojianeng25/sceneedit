@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class TextureRes extends ResCount {
         public texture: WebGLTexture;
         public width: number;

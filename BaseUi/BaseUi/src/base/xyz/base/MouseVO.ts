@@ -1,5 +1,5 @@
 ﻿module xyz {
-    import Object3D = Pan3d.Object3D
+    import Object3D = Pan3d.me.Object3D
  
 
     export class MouseVO extends Object3D {

@@ -1,40 +1,40 @@
 /**
 * name 
 */
-module layapan {
-    import Display3DSprite = Pan3d.Display3DSprite;
-    import BloodManager = Pan3d.BloodManager;
-    import CharNameMeshVo = Pan3d.CharNameMeshVo;
-    import BloodLineMeshVo = Pan3d.BloodLineMeshVo;
-    import Display3D = Pan3d.Display3D
-    import Skill = Pan3d.Skill
-    import ProgrmaManager = Pan3d.ProgrmaManager
-    import Vector3D = Pan3d.Vector3D
-    import Vector2D = Pan3d.Vector2D
-    import Scene_data = Pan3d.Scene_data
-    import MathUtil = Pan3d.MathUtil
-    import MathClass = Pan3d.MathClass
-    import TestTriangle = Pan3d.TestTriangle
-    import LineDisplayShader = Pan3d.LineDisplayShader
-    import LineDisplaySprite = Pan3d.LineDisplaySprite
-    import Display3dMovie = Pan3d.Display3dMovie
-    import CombineParticle = Pan3d.CombineParticle
-    import ShadowManager = Pan3d.ShadowManager
-    import CharAction = Pan3d.CharAction
-    import GroupItem = Pan3d.GroupItem
-    import Matrix3D = Pan3d.Matrix3D
-    import GroupRes = Pan3d.GroupRes
-    import BaseRes = Pan3d.BaseRes
-    import ParticleManager = Pan3d.ParticleManager
+module layapan.me {
+    import Display3DSprite = Pan3d.me.Display3DSprite;
+    import BloodManager = Pan3d.me.BloodManager;
+    import CharNameMeshVo = Pan3d.me.CharNameMeshVo;
+    import BloodLineMeshVo = Pan3d.me.BloodLineMeshVo;
+    import Display3D = Pan3d.me.Display3D
+    import Skill = Pan3d.me.Skill
+    import ProgrmaManager = Pan3d.me.ProgrmaManager
+    import Vector3D = Pan3d.me.Vector3D
+    import Vector2D = Pan3d.me.Vector2D
+    import Scene_data = Pan3d.me.Scene_data
+    import MathUtil = Pan3d.me.MathUtil
+    import MathClass = Pan3d.me.MathClass
+    import TestTriangle = Pan3d.me.TestTriangle
+    import LineDisplayShader = Pan3d.me.LineDisplayShader
+    import LineDisplaySprite = Pan3d.me.LineDisplaySprite
+    import Display3dMovie = Pan3d.me.Display3dMovie
+    import CombineParticle = Pan3d.me.CombineParticle
+    import ShadowManager = Pan3d.me.ShadowManager
+    import CharAction = Pan3d.me.CharAction
+    import GroupItem = Pan3d.me.GroupItem
+    import Matrix3D = Pan3d.me.Matrix3D
+    import GroupRes = Pan3d.me.GroupRes
+    import BaseRes = Pan3d.me.BaseRes
+    import ParticleManager = Pan3d.me.ParticleManager
 
 
 
-    export class LayaSceneChar extends layapan.LayaSceneBaseChar {
+    export class LayaSceneChar extends layapan.me.LayaSceneBaseChar {
         // 血条颜色 对应素材 res_3d\ui\load\blood.png
         static BLOOD_COLOR_HP = 0;
         static BLOOD_COLOR_ANGER = 1;
 
-        public skillitem: Array<Pan3d.Skill>;//存放着角色的技能;
+        public skillitem: Array<Pan3d.me.Skill>;//存放着角色的技能;
 
         public isMount: boolean = false;
 
@@ -224,7 +224,7 @@ module layapan {
                     var particle: CombineParticle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + item.particleUrl);
                     ary.push(particle);
                     particle.bindTarget = this;
-                    particle.bindSocket = Pan3d.SceneChar.NONE_SLOT;
+                    particle.bindSocket = Pan3d.me.SceneChar.NONE_SLOT;
                     particle.dynamic = true;
                     (<LayaOverride2dSceneManager>this._scene).particleManager.addParticle(particle);
 
@@ -236,7 +236,7 @@ module layapan {
                     display.setMaterialUrl(item.materialUrl, item.materialInfoArr);
                     display.dynamic = true;
                     ary.push(display);
-                    display.setBind(this, Pan3d.SceneChar.NONE_SLOT);
+                    display.setBind(this, Pan3d.me.SceneChar.NONE_SLOT);
                     this._scene.addSpriteDisplay(display);
                     display.setGroup(posV3d, rotationV3d, scaleV3d);
 
@@ -680,7 +680,7 @@ module layapan {
         }
         public get2dPos(): Vector2D {
             var $v2d: Vector2D = new Vector2D
-            var $nScale: number = 0.25 / scene2d.Override2dEngine.htmlScale
+            var $nScale: number = 0.25 / scene2d.me.Override2dEngine.htmlScale
             if (this._mountChar) {
 
                 $v2d.x = this._mountChar.px
@@ -694,7 +694,7 @@ module layapan {
             return $v2d
         }
         public set2dPos($x: number, $y: number): void {
-            var $nScale: number = 0.25 / scene2d.Override2dEngine.htmlScale
+            var $nScale: number = 0.25 / scene2d.me.Override2dEngine.htmlScale
             var $tx: number = $x * $nScale;
             var $tz: number = $y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
 

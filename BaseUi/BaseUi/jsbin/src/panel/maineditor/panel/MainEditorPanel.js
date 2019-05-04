@@ -13,13 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Rectangle = Pan3d.Rectangle;
-    var Vector2D = Pan3d.Vector2D;
-    var TextureManager = Pan3d.TextureManager;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
-    var MouseType = Pan3d.MouseType;
-    var MathUtil = Pan3d.MathUtil;
+    var Rectangle = Pan3d.me.Rectangle;
+    var Vector2D = Pan3d.me.Vector2D;
+    var TextureManager = Pan3d.me.TextureManager;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var MouseType = Pan3d.me.MouseType;
+    var MathUtil = Pan3d.me.MathUtil;
     var PanDragEvent = drag.PanDragEvent;
     var MainEditorPanel = /** @class */ (function (_super) {
         __extends(MainEditorPanel, _super);
@@ -50,7 +50,7 @@ var maineditor;
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
             TextureManager.getInstance().getTexture("res/white.jpg", function ($texture) {
                 _this._sceneViewRender.textureRes = $texture;
-                Pan3d.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
+                Pan3d.me.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             });
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
@@ -71,7 +71,7 @@ var maineditor;
         MainEditorPanel.prototype.onPanellMouseWheel = function ($evt) {
             var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi && $slectUi.parent == this) {
-                var q = new Pan3d.Quaternion();
+                var q = new Pan3d.me.Quaternion();
                 q.fromMatrix(maineditor.MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
                 var m = q.toMatrix3D();
                 m.invert();

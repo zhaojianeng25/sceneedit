@@ -13,36 +13,39 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var ResCount = /** @class */ (function (_super) {
-        __extends(ResCount, _super);
-        function ResCount() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this._useNum = 0;
-            _this.idleTime = 0;
-            return _this;
-        }
-        Object.defineProperty(ResCount.prototype, "useNum", {
-            get: function () {
-                return this._useNum;
-            },
-            set: function (n) {
-                this._useNum = n;
-                if (this._useNum == 0) {
-                    this.idleTime = 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ResCount.prototype.clearUseNum = function () {
-            this._useNum--;
-            if (this._useNum <= 0) {
-                this.idleTime = ResCount.GCTime;
+    var me;
+    (function (me) {
+        var ResCount = /** @class */ (function (_super) {
+            __extends(ResCount, _super);
+            function ResCount() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this._useNum = 0;
+                _this.idleTime = 0;
+                return _this;
             }
-        };
-        ResCount.GCTime = 4;
-        return ResCount;
-    }(Pan3d.GC));
-    Pan3d.ResCount = ResCount;
+            Object.defineProperty(ResCount.prototype, "useNum", {
+                get: function () {
+                    return this._useNum;
+                },
+                set: function (n) {
+                    this._useNum = n;
+                    if (this._useNum == 0) {
+                        this.idleTime = 0;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+            ResCount.prototype.clearUseNum = function () {
+                this._useNum--;
+                if (this._useNum <= 0) {
+                    this.idleTime = ResCount.GCTime;
+                }
+            };
+            ResCount.GCTime = 4;
+            return ResCount;
+        }(me.GC));
+        me.ResCount = ResCount;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=ResCount.js.map

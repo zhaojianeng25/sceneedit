@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ModuleEventManager {
         private static _instance: EventDispatcher = new EventDispatcher();
         public static addEvents(ary: Array<BaseEvent>, $fun: Function, $thisObj: any): void {

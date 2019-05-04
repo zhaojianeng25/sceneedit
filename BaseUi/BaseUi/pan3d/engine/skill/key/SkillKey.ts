@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SkillKey {
         public time: number = 0;
         public particle: CombineParticle;

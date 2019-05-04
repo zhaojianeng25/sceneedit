@@ -1,7 +1,7 @@
 ﻿module maineditor {
-    import Scene_data = Pan3d.Scene_data;
-    import Vector3D = Pan3d.Vector3D;
-    import Material = Pan3d.Material
+    import Scene_data = Pan3d.me.Scene_data;
+    import Vector3D = Pan3d.me.Vector3D;
+    import Material = Pan3d.me.Material
     import MaterialTree = materialui.MaterialTree
     import PrefabStaticMesh = pack.PrefabStaticMesh
     import MetaDataView = prop.MetaDataView;
@@ -26,10 +26,10 @@
                 ];
             return ary;
         }
-        private static gridLineSprite: Pan3d.GridLineSprite;
+        private static gridLineSprite: Pan3d.me.GridLineSprite;
         public get gridline(): number {
             if (!ScenePojectMeshView.gridLineSprite) {
-                ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite()
+                ScenePojectMeshView.gridLineSprite = new Pan3d.me.GridLineSprite()
             }
             if (this.sceneProjectVo.gildline) {
                 MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
@@ -46,7 +46,7 @@
         private textureChangeInfo(value: Array<any>): void {
             this.sceneProjectVo.paramInfo = value;
 
-            this.sceneProjectVo.materialParam= new Pan3d.MaterialBaseParam;
+            this.sceneProjectVo.materialParam= new Pan3d.me.MaterialBaseParam;
             this.sceneProjectVo.materialParam.material = this.sceneProjectVo.material
              pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.sceneProjectVo.materialParam, this.sceneProjectVo.paramInfo);
  

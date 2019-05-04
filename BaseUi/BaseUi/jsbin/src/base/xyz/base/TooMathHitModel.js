@@ -1,9 +1,9 @@
 var xyz;
 (function (xyz) {
-    var Vector2D = Pan3d.Vector2D;
-    var Matrix3D = Pan3d.Matrix3D;
-    var TestTriangle = Pan3d.TestTriangle;
-    var Engine = Pan3d.Engine;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Matrix3D = Pan3d.me.Matrix3D;
+    var TestTriangle = Pan3d.me.TestTriangle;
+    var Engine = Pan3d.me.Engine;
     var TooMathHitModel = /** @class */ (function () {
         function TooMathHitModel() {
         }
@@ -41,7 +41,7 @@ var xyz;
                 TestTriangle.baseTri.p3 = this.math3DWorldtoDisplay2DPos(C, mat, scene.cam3D.cavanRect);
                 if (TestTriangle.baseTri.checkPointIn(mouseV2)) {
                     var camPos = new Vector3D(scene.cam3D.x, scene.cam3D.y, scene.cam3D.z);
-                    var hitPos = Pan3d.MathUtil.getLinePlaneInterectPointByTri(camPos, clik3dVect, [A, B, C]);
+                    var hitPos = Pan3d.me.MathUtil.getLinePlaneInterectPointByTri(camPos, clik3dVect, [A, B, C]);
                     A = scene.cam3D.cameraMatrix.transformVector(A);
                     B = scene.cam3D.cameraMatrix.transformVector(B);
                     C = scene.cam3D.cameraMatrix.transformVector(C);

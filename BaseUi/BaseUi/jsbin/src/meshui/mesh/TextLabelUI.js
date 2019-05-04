@@ -13,14 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var LabelTextFont = Pan3d.LabelTextFont;
-    var EventDispatcher = Pan3d.EventDispatcher;
-    var UIManager = Pan3d.UIManager;
-    var TextAlign = Pan3d.TextAlign;
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var UIConatiner = Pan3d.UIConatiner;
-    var UIAtlas = Pan3d.UIAtlas;
-    var TextureManager = Pan3d.TextureManager;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var EventDispatcher = Pan3d.me.EventDispatcher;
+    var UIManager = Pan3d.me.UIManager;
+    var TextAlign = Pan3d.me.TextAlign;
+    var UIRenderComponent = Pan3d.me.UIRenderComponent;
+    var UIConatiner = Pan3d.me.UIConatiner;
+    var UIAtlas = Pan3d.me.UIAtlas;
+    var TextureManager = Pan3d.me.TextureManager;
     var TextureContext = /** @class */ (function (_super) {
         __extends(TextureContext, _super);
         function TextureContext(w, h) {
@@ -112,7 +112,7 @@ var prop;
         return BaseMeshUi;
     }(EventDispatcher));
     prop.BaseMeshUi = BaseMeshUi;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
     var TextLabelUI = /** @class */ (function (_super) {
         __extends(TextLabelUI, _super);
         function TextLabelUI(w, h) {

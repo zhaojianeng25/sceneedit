@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SceneBaseChar extends Display3dMovie {
         private _avatar: number = -1;
 

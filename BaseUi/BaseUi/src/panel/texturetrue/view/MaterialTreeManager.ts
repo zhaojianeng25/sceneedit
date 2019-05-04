@@ -1,6 +1,6 @@
 ﻿module materialui {
-    import LoadManager = Pan3d.LoadManager
-    import Scene_data = Pan3d.Scene_data
+    import LoadManager = Pan3d.me.LoadManager
+    import Scene_data = Pan3d.me.Scene_data
     export class MaterialTreeManager {
         private static _instance: MaterialTreeManager;
         public static getInstance(): MaterialTreeManager {

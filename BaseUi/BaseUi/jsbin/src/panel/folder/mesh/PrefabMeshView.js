@@ -35,7 +35,7 @@ var filelist;
             this.chuangeData();
         };
         PrefabMeshView.prototype.chuangeData = function () {
-            this.prefabStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE));
+            this.prefabStaticMesh.dispatchEvent(new Pan3d.me.BaseEvent(Pan3d.me.BaseEvent.COMPLETE));
         };
         PrefabMeshView.prototype.getParamItem = function (value) {
             for (var i = 0; this.prefabStaticMesh.paramInfo && i < this.prefabStaticMesh.paramInfo.length; i++) {
@@ -91,24 +91,24 @@ var filelist;
         });
         PrefabMeshView.prototype.saveToSever = function () {
             var _this = this;
-            this.lastTm = Pan3d.TimeUtil.getTimer();
+            this.lastTm = Pan3d.me.TimeUtil.getTimer();
             // this.isSaveNow = true
             if (!this.isSaveNow) {
                 this.isSaveNow = true;
                 this.saveTm = this.lastTm;
-                var $byte = new Pan3d.Pan3dByteArray();
-                var $fileUrl = Pan3d.Scene_data.fileRoot + this.prefabStaticMesh.url;
+                var $byte = new Pan3d.me.Pan3dByteArray();
+                var $fileUrl = Pan3d.me.Scene_data.fileRoot + this.prefabStaticMesh.url;
                 console.log(this.prefabStaticMesh.material);
                 this.prefabStaticMesh.textureurl = this.prefabStaticMesh.material.url;
                 var $temp = this.prefabStaticMesh.getObject();
                 $temp.version = pack.FileOssModel.version;
                 $byte.writeUTF(JSON.stringify($temp));
                 var $file = new File([$byte.buffer], "cc.prefab");
-                var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                var pathurl = $fileUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile($file, pathurl, function () {
                     if (_this.lastTm != _this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次");
-                        Pan3d.TimeUtil.addTimeOut(1000, function () {
+                        Pan3d.me.TimeUtil.addTimeOut(1000, function () {
                             _this.isSaveNow = false;
                             _this.saveToSever();
                         });

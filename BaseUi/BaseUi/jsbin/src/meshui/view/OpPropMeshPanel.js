@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Scene_data = Pan3d.Scene_data;
-    var Vector3D = Pan3d.Vector3D;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var Vector3D = Pan3d.me.Vector3D;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
     var OpPropMeshPanel = /** @class */ (function (_super) {
         __extends(OpPropMeshPanel, _super);
         function OpPropMeshPanel() {

@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class TextAlign {
         public static LEFT: any = "left";
         public static CENTER: any = "center";

@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class MainUiLoad {
         public static loadFun: Function
         public static init($res: Array<any>, $bfun: Function, $loadFun: Function = null): number {

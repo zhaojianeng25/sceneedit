@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SkyShader extends Shader3D {
         static Sky_Shader: string = "SkyShader";
         constructor() {

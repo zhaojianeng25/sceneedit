@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display2dMovie extends Display3D {
         public batchPos: Array<Movie3D> = new Array;
         public movieTexture: WebGLTexture;

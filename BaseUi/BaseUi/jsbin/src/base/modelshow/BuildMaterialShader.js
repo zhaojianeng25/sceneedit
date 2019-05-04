@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var left;
 (function (left) {
-    var MaterialShader = Pan3d.MaterialShader;
+    var MaterialShader = Pan3d.me.MaterialShader;
     var BuildMaterialShader = /** @class */ (function (_super) {
         __extends(BuildMaterialShader, _super);
         function BuildMaterialShader() {

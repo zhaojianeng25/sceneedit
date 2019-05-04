@@ -6,7 +6,7 @@
 
 
 
-module Pan3d {
+module Pan3d.me {
 
 
     export class both_sync_mstime {

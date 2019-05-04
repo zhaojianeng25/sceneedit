@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialleft;
 (function (materialleft) {
-    var BaseEvent = Pan3d.BaseEvent;
-    var Module = Pan3d.Module;
-    var BaseProcessor = Pan3d.BaseProcessor;
-    var LoadManager = Pan3d.LoadManager;
-    var Scene_data = Pan3d.Scene_data;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var Module = Pan3d.me.Module;
+    var BaseProcessor = Pan3d.me.BaseProcessor;
+    var LoadManager = Pan3d.me.LoadManager;
+    var Scene_data = Pan3d.me.Scene_data;
     var MaterialEvent = materialui.MaterialEvent;
     var MaterialLeftEvent = /** @class */ (function (_super) {
         __extends(MaterialLeftEvent, _super);

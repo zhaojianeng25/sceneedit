@@ -7,7 +7,7 @@
 
 
 
-module Pan3d {
+module Pan3d.me {
     export class point {
         /**
          * 坐标X

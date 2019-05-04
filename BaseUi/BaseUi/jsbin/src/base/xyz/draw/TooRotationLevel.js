@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Matrix3D = Pan3d.Matrix3D;
-    var Scene_data = Pan3d.Scene_data;
+    var Matrix3D = Pan3d.me.Matrix3D;
+    var Scene_data = Pan3d.me.Scene_data;
     var TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite;
     var TooRotationLevel = /** @class */ (function (_super) {
         __extends(TooRotationLevel, _super);

@@ -1,15 +1,15 @@
 ﻿module prop {
-    import TextureManager = Pan3d.TextureManager
-    import Scene_data = Pan3d.Scene_data
-    import SkinMesh = Pan3d.SkinMesh
-    import Material = Pan3d.Material
-    import Matrix3D = Pan3d.Matrix3D
-    import Quaternion = Pan3d.Quaternion
-    import AnimData = Pan3d.AnimData
-    import LoadManager = Pan3d.LoadManager
-    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
-    import InteractiveEvent = Pan3d.InteractiveEvent
-    import ModuleEventManager = Pan3d.ModuleEventManager
+    import TextureManager = Pan3d.me.TextureManager
+    import Scene_data = Pan3d.me.Scene_data
+    import SkinMesh = Pan3d.me.SkinMesh
+    import Material = Pan3d.me.Material
+    import Matrix3D = Pan3d.me.Matrix3D
+    import Quaternion = Pan3d.me.Quaternion
+    import AnimData = Pan3d.me.AnimData
+    import LoadManager = Pan3d.me.LoadManager
+    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import ModuleEventManager = Pan3d.me.ModuleEventManager
 
     import Md5animAnalysis = md5list.Md5animAnalysis
 

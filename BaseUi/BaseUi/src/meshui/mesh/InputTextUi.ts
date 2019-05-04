@@ -1,11 +1,11 @@
 ﻿module prop {
-    import Vector2D = Pan3d.Vector2D
-    import UICompenent = Pan3d.UICompenent;
-    import InteractiveEvent = Pan3d.InteractiveEvent;
-    import Scene_data = Pan3d.Scene_data;
-    import LabelTextFont = Pan3d.LabelTextFont
-    import TextAlign = Pan3d.TextAlign
-    import MouseType = Pan3d.MouseType
+    import Vector2D = Pan3d.me.Vector2D
+    import UICompenent = Pan3d.me.UICompenent;
+    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import Scene_data = Pan3d.me.Scene_data;
+    import LabelTextFont = Pan3d.me.LabelTextFont
+    import TextAlign = Pan3d.me.TextAlign
+    import MouseType = Pan3d.me.MouseType
 
 
     export class InputTextUi extends TextLabelUI{

@@ -13,13 +13,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var RoleResLow = /** @class */ (function (_super) {
-        __extends(RoleResLow, _super);
-        function RoleResLow() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return RoleResLow;
-    }(Pan3d.RoleRes));
-    Pan3d.RoleResLow = RoleResLow;
+    var me;
+    (function (me) {
+        var RoleResLow = /** @class */ (function (_super) {
+            __extends(RoleResLow, _super);
+            function RoleResLow() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return RoleResLow;
+        }(me.RoleRes));
+        me.RoleResLow = RoleResLow;
+    })(me = Pan3d.me || (Pan3d.me = {}));
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=RoleResLow.js.map

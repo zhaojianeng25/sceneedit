@@ -1,17 +1,17 @@
 ﻿module colorview {
-    import UIRenderComponent = Pan3d.UIRenderComponent;
-    import UIAtlas = Pan3d.UIAtlas;
-    import UICompenent = Pan3d.UICompenent;
-    import InteractiveEvent = Pan3d.InteractiveEvent;
-    import Scene_data = Pan3d.Scene_data;
-    import Vector3D = Pan3d.Vector3D;
-    import UIRectangle = Pan3d.UIRectangle;
-    import ColorType = Pan3d.ColorType;
-    import UIManager = Pan3d.UIManager;
-    import TextureManager = Pan3d.TextureManager;
-    import Vector2D = Pan3d.Vector2D;
-    import UIData = Pan3d.UIData;
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import UIRenderComponent = Pan3d.me.UIRenderComponent;
+    import UIAtlas = Pan3d.me.UIAtlas;
+    import UICompenent = Pan3d.me.UICompenent;
+    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import Scene_data = Pan3d.me.Scene_data;
+    import Vector3D = Pan3d.me.Vector3D;
+    import UIRectangle = Pan3d.me.UIRectangle;
+    import ColorType = Pan3d.me.ColorType;
+    import UIManager = Pan3d.me.UIManager;
+    import TextureManager = Pan3d.me.TextureManager;
+    import Vector2D = Pan3d.me.Vector2D;
+    import UIData = Pan3d.me.UIData;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
     import UIPanel = win.UIPanel
     
     export class ColorPanel extends UIPanel {

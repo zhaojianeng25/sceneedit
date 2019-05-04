@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleFollowData extends ParticleBallData {
 
         public getParticle(): Display3DParticle {

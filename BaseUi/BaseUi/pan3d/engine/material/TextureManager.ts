@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class TextureManager extends ResGC {
         //private _dic: Object;
         private _loadDic: Object;

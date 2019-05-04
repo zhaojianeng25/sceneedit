@@ -1,17 +1,17 @@
 ﻿module materialui {
-    import UIAtlas = Pan3d.UIAtlas;
-    import UICompenent = Pan3d.UICompenent;
-    import FrameCompenent = Pan3d.FrameCompenent;
-    import Rectangle = Pan3d.Rectangle;
-    import UIManager = Pan3d.UIManager;
-    import Vector2D = Pan3d.Vector2D
-    import TextAlign = Pan3d.TextAlign;
-    import LabelTextFont = Pan3d.LabelTextFont;
-    import InteractiveEvent = Pan3d.InteractiveEvent;
-    import UIRenderComponent = Pan3d.UIRenderComponent
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import UIAtlas = Pan3d.me.UIAtlas;
+    import UICompenent = Pan3d.me.UICompenent;
+    import FrameCompenent = Pan3d.me.FrameCompenent;
+    import Rectangle = Pan3d.me.Rectangle;
+    import UIManager = Pan3d.me.UIManager;
+    import Vector2D = Pan3d.me.Vector2D
+    import TextAlign = Pan3d.me.TextAlign;
+    import LabelTextFont = Pan3d.me.LabelTextFont;
+    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import UIRenderComponent = Pan3d.me.UIRenderComponent
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
  
-    import Scene_data = Pan3d.Scene_data;
+    import Scene_data = Pan3d.me.Scene_data;
 
     import UIPanel = win.UIPanel
 

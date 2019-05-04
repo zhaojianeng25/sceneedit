@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class GuidObject extends SyncEventRecorder {
 
         //引用计数

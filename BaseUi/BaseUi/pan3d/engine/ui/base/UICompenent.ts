@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class UICompenent extends EventDispatcher {
         //设定相对坐标
         protected _x: number = 0;

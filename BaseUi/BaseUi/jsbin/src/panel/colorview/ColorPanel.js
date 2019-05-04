@@ -13,17 +13,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var colorview;
 (function (colorview) {
-    var UIRenderComponent = Pan3d.UIRenderComponent;
-    var UIAtlas = Pan3d.UIAtlas;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Scene_data = Pan3d.Scene_data;
-    var Vector3D = Pan3d.Vector3D;
-    var ColorType = Pan3d.ColorType;
-    var UIManager = Pan3d.UIManager;
-    var TextureManager = Pan3d.TextureManager;
-    var Vector2D = Pan3d.Vector2D;
-    var UIData = Pan3d.UIData;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var UIRenderComponent = Pan3d.me.UIRenderComponent;
+    var UIAtlas = Pan3d.me.UIAtlas;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Scene_data = Pan3d.me.Scene_data;
+    var Vector3D = Pan3d.me.Vector3D;
+    var ColorType = Pan3d.me.ColorType;
+    var UIManager = Pan3d.me.UIManager;
+    var TextureManager = Pan3d.me.TextureManager;
+    var Vector2D = Pan3d.me.Vector2D;
+    var UIData = Pan3d.me.UIData;
+    var ModuleEventManager = Pan3d.me.ModuleEventManager;
     var UIPanel = win.UIPanel;
     var ColorPanel = /** @class */ (function (_super) {
         __extends(ColorPanel, _super);

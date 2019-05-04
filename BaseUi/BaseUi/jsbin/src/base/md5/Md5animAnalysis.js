@@ -1,10 +1,10 @@
 var md5list;
 (function (md5list) {
-    var Matrix3D = Pan3d.Matrix3D;
-    var Quaternion = Pan3d.Quaternion;
-    var Vector3D = Pan3d.Vector3D;
-    var Dictionary = Pan3d.Dictionary;
-    var ObjectBone = Pan3d.ObjectBone;
+    var Matrix3D = Pan3d.me.Matrix3D;
+    var Quaternion = Pan3d.me.Quaternion;
+    var Vector3D = Pan3d.me.Vector3D;
+    var Dictionary = Pan3d.me.Dictionary;
+    var ObjectBone = Pan3d.me.ObjectBone;
     var Md5animAnalysis = /** @class */ (function () {
         function Md5animAnalysis() {
             this.loopKey = "inLoop";

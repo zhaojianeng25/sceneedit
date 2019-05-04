@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ParticleModelData extends ParticleData {
         public _maxAnimTime: number;
         public _depthMode: number

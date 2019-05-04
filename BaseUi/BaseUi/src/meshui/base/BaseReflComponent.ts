@@ -1,10 +1,10 @@
 ﻿module prop {
-    import UIAtlas = Pan3d.UIAtlas;
-    import TextureManager = Pan3d.TextureManager
-    import UIManager = Pan3d.UIManager
-    import UIRectangle = Pan3d.UIRectangle
-    import Scene_data = Pan3d.Scene_data
-    import LoadManager = Pan3d.LoadManager
+    import UIAtlas = Pan3d.me.UIAtlas;
+    import TextureManager = Pan3d.me.TextureManager
+    import UIManager = Pan3d.me.UIManager
+    import UIRectangle = Pan3d.me.UIRectangle
+    import Scene_data = Pan3d.me.Scene_data
+    import LoadManager = Pan3d.me.LoadManager
 
     export class BaseReflComponent {
 
@@ -102,7 +102,7 @@
         public resize(): void {
         }
 
-        protected drawOutColor(ui: Pan3d.UICompenent, $vcolor: Vector3D): void {
+        protected drawOutColor(ui: Pan3d.me.UICompenent, $vcolor: Vector3D): void {
 
             var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
             var $textureStr: string = ui.skinName
@@ -119,14 +119,14 @@
             TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, ctx);
 
         }
-        protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void {
+        protected drawUrlImgToUi(ui: Pan3d.me.UICompenent, url: string): void {
 
             LoadManager.getInstance().load(Scene_data.fileRoot + url, LoadManager.IMG_TYPE,
                 ($img: any) => {
                     this.drawImgToUi(ui, $img)
                 });
         }
-        protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void {
+        protected drawImgToUi(ui: Pan3d.me.UICompenent, $img: any): void {
 
             var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
             var $textureStr: string = ui.skinName

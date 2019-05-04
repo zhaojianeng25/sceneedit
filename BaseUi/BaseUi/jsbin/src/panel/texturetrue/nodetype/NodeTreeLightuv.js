@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var Vector2D = Pan3d.Vector2D;
+    var Vector2D = Pan3d.me.Vector2D;
     var NodeTreeLightuv = /** @class */ (function (_super) {
         __extends(NodeTreeLightuv, _super);
         function NodeTreeLightuv() {

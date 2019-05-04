@@ -1,7 +1,7 @@
 ﻿module maineditor {
-    import Scene_data = Pan3d.Scene_data;
-    import Vector3D = Pan3d.Vector3D;
-    import Material = Pan3d.Material
+    import Scene_data = Pan3d.me.Scene_data;
+    import Vector3D = Pan3d.me.Vector3D;
+    import Material = Pan3d.me.Material
     import PrefabStaticMesh = pack.PrefabStaticMesh
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;

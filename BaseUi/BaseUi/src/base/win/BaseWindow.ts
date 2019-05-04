@@ -1,25 +1,25 @@
 ﻿module win {
-    import UICompenent = Pan3d.UICompenent
-    import FrameCompenent = Pan3d.FrameCompenent
-    import UIRenderComponent = Pan3d.UIRenderComponent
-    import ColorType = Pan3d.ColorType
-    import InteractiveEvent = Pan3d.InteractiveEvent
-    import TextAlign = Pan3d.TextAlign
-    import Rectangle = Pan3d.Rectangle
-    import ModuleEventManager = Pan3d.ModuleEventManager
-    import UIManager = Pan3d.UIManager
-    import LabelTextFont = Pan3d.LabelTextFont
-    import UIConatiner = Pan3d.UIConatiner;
-    import Disp2DBaseText = Pan3d.Disp2DBaseText
-    import UIRectangle = Pan3d.UIRectangle
-    import baseMeshVo = Pan3d.baseMeshVo
-    import UIMask = Pan3d.UIMask
-    import UiDraw = Pan3d.UiDraw
-    import UIData = Pan3d.UIData
-    import UIAtlas = Pan3d.UIAtlas
-    import Vector2D = Pan3d.Vector2D
-    import TextureManager = Pan3d.TextureManager
-    import Scene_data = Pan3d.Scene_data
+    import UICompenent = Pan3d.me.UICompenent
+    import FrameCompenent = Pan3d.me.FrameCompenent
+    import UIRenderComponent = Pan3d.me.UIRenderComponent
+    import ColorType = Pan3d.me.ColorType
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import TextAlign = Pan3d.me.TextAlign
+    import Rectangle = Pan3d.me.Rectangle
+    import ModuleEventManager = Pan3d.me.ModuleEventManager
+    import UIManager = Pan3d.me.UIManager
+    import LabelTextFont = Pan3d.me.LabelTextFont
+    import UIConatiner = Pan3d.me.UIConatiner;
+    import Disp2DBaseText = Pan3d.me.Disp2DBaseText
+    import UIRectangle = Pan3d.me.UIRectangle
+    import baseMeshVo = Pan3d.me.baseMeshVo
+    import UIMask = Pan3d.me.UIMask
+    import UiDraw = Pan3d.me.UiDraw
+    import UIData = Pan3d.me.UIData
+    import UIAtlas = Pan3d.me.UIAtlas
+    import Vector2D = Pan3d.me.Vector2D
+    import TextureManager = Pan3d.me.TextureManager
+    import Scene_data = Pan3d.me.Scene_data
 
 
     export class BaseWindow extends UIConatiner {
@@ -515,7 +515,7 @@
         private _voNum: number;//最大同屏数量
         private _voRect: Rectangle;//单元尺寸
         protected _uiItem: Array<Disp2DBaseText>;
-        protected _lostItem: Array<Pan3d.baseMeshVo>;//没有上传成功的
+        protected _lostItem: Array<Pan3d.me.baseMeshVo>;//没有上传成功的
 
         //根据数量创建单元格UICompenent 并存在数组中，待需要时应用
         private makeBaseUi($classVo: any, $render: UIRenderComponent): void {

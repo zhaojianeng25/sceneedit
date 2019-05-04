@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Camera3D extends Object3D {
         public cameraMatrix: Matrix3D;
         private _distance: number = 500;

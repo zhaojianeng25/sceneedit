@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class KeyboardType {
         public static A: number = 65;
         public static B: number = 66;

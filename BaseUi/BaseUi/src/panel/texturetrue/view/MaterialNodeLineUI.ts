@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import Vector2D = Pan3d.Vector2D
+    import Vector2D = Pan3d.me.Vector2D
     export class BezierClasszip {
 
         public static drawbezier(_array: Array<Vector2D>, _time: number): Vector2D {
@@ -30,9 +30,9 @@
       
 
     }
-    import InteractiveEvent = Pan3d.InteractiveEvent;
-    import Scene_data = Pan3d.Scene_data;
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import Scene_data = Pan3d.me.Scene_data;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
 
 
     export class MaterialNodeLineUI {

@@ -1,14 +1,14 @@
 ﻿module xyz {
-    import Shader3D = Pan3d.Shader3D
-    import Display3D = Pan3d.Display3D;
-    import ProgrmaManager = Pan3d.ProgrmaManager
-    import TextureManager = Pan3d.TextureManager
-    import UIManager = Pan3d.UIManager;
-    import TextureRes = Pan3d.TextureRes;
-    import Matrix3D = Pan3d.Matrix3D
-    import Scene_data = Pan3d.Scene_data;
-    import MathUtil = Pan3d.MathUtil
-    import LineDisplaySprite = Pan3d.LineDisplaySprite
+    import Shader3D = Pan3d.me.Shader3D
+    import Display3D = Pan3d.me.Display3D;
+    import ProgrmaManager = Pan3d.me.ProgrmaManager
+    import TextureManager = Pan3d.me.TextureManager
+    import UIManager = Pan3d.me.UIManager;
+    import TextureRes = Pan3d.me.TextureRes;
+    import Matrix3D = Pan3d.me.Matrix3D
+    import Scene_data = Pan3d.me.Scene_data;
+    import MathUtil = Pan3d.me.MathUtil
+    import LineDisplaySprite = Pan3d.me.LineDisplaySprite
     import TooRotationDisplay3DSprite = cctv.TooRotationDisplay3DSprite
 
 
@@ -80,7 +80,7 @@
            
         }
         private showYaix(a: Vector3D, b: Vector3D, c: Vector3D): void {
-            var scene: Pan3d.SceneManager = this._scene
+            var scene: Pan3d.me.SceneManager = this._scene
             var mat: Matrix3D = scene.cam3D.cameraMatrix.clone();
             var viewMatrx3D: Matrix3D = scene.viewMatrx3D.clone();
             mat.append(viewMatrx3D);

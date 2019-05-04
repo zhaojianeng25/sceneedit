@@ -1,10 +1,10 @@
 ﻿module editscene {
-    import Rectangle = Pan3d.Rectangle
+    import Rectangle = Pan3d.me.Rectangle
     import Sprite = win.Sprite
-    import UICompenent = Pan3d.UICompenent
-    import InteractiveEvent = Pan3d.InteractiveEvent
-    import Vector2D = Pan3d.Vector2D
-    import Scene_data = Pan3d.Scene_data
+    import UICompenent = Pan3d.me.UICompenent
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import Vector2D = Pan3d.me.Vector2D
+    import Scene_data = Pan3d.me.Scene_data
 
 
     export class TempSceneLine extends win.BaseWindow {
@@ -243,8 +243,8 @@
                 AppData.centenPanel.resize()
 
                 var rect: Rectangle = new Rectangle(0, Scene_data.stageHeight - bottomNum + 2, Scene_data.stageWidth - rightNum, bottomNum);
-                Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
-                Pan3d.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
+                Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
+                Pan3d.me.ModuleEventManager.dispatchEvent(new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE), rect);
 
                 prop.PropModel.getInstance().resize()
             }

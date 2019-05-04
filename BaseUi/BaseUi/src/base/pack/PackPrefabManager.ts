@@ -1,16 +1,16 @@
 ﻿module pack {
-    import LoadManager = Pan3d.LoadManager
-    import Scene_data = Pan3d.Scene_data
-    import Pan3dByteArray = Pan3d.Pan3dByteArray
+    import LoadManager = Pan3d.me.LoadManager
+    import Scene_data = Pan3d.me.Scene_data
+    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
     import PrefabStaticMesh = pack.PrefabStaticMesh
-    import ConstItem = Pan3d.ConstItem
-    import TexItem = Pan3d.TexItem
-    import TextureManager = Pan3d.TextureManager;
-    import TextureRes = Pan3d.TextureRes
-    import Material = Pan3d.Material
-    import DynamicBaseConstItem = Pan3d.DynamicBaseConstItem
-    import DynamicBaseTexItem = Pan3d.DynamicBaseTexItem
-    import MaterialBaseParam = Pan3d.MaterialBaseParam
+    import ConstItem = Pan3d.me.ConstItem
+    import TexItem = Pan3d.me.TexItem
+    import TextureManager = Pan3d.me.TextureManager;
+    import TextureRes = Pan3d.me.TextureRes
+    import Material = Pan3d.me.Material
+    import DynamicBaseConstItem = Pan3d.me.DynamicBaseConstItem
+    import DynamicBaseTexItem = Pan3d.me.DynamicBaseTexItem
+    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
 
     
     export class PackPrefabManager {

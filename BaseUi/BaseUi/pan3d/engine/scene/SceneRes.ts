@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SceneRes extends BaseRes {
         public static sceneConfigData: any;//场景分组数据
         private _completeFun: Function;

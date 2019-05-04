@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
     var CheckBox2DUI = /** @class */ (function (_super) {
         __extends(CheckBox2DUI, _super);
         function CheckBox2DUI() {

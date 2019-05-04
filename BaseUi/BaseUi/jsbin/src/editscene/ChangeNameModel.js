@@ -1,7 +1,7 @@
 var editscene;
 (function (editscene) {
-    var UIManager = Pan3d.UIManager;
-    var MouseType = Pan3d.MouseType;
+    var UIManager = Pan3d.me.UIManager;
+    var MouseType = Pan3d.me.MouseType;
     var ChangeNameModel = /** @class */ (function () {
         function ChangeNameModel() {
             var _this = this;

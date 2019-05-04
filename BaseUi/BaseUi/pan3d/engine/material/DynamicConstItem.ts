@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class DynamicConstItem extends DynamicBaseConstItem {
 
         public curve: Curve;

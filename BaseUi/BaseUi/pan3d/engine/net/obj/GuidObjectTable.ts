@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class GuidObjectTable extends SyncEvent {
         protected _objs: Object = new Object;
 

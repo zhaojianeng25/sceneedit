@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class SceneQuadTree {
         private _sceneDic: Object;
         private _rootNode: QuadTreeNode;

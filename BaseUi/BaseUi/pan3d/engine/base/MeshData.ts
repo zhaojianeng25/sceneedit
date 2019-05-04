@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class MeshData extends ObjData {
         public boneIDAry: Array<number> = new Array;
         public boneWeightAry: Array<number> = new Array;

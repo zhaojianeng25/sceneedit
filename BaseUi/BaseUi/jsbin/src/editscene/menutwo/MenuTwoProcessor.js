@@ -13,12 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var menutwo;
 (function (menutwo) {
-    var BaseEvent = Pan3d.BaseEvent;
-    var Module = Pan3d.Module;
-    var BaseProcessor = Pan3d.BaseProcessor;
-    var UIData = Pan3d.UIData;
-    var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Scene_data = Pan3d.Scene_data;
+    var BaseEvent = Pan3d.me.BaseEvent;
+    var Module = Pan3d.me.Module;
+    var BaseProcessor = Pan3d.me.BaseProcessor;
+    var UIData = Pan3d.me.UIData;
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var Scene_data = Pan3d.me.Scene_data;
     var Panel = win.Panel;
     var MenuTwoEvent = /** @class */ (function (_super) {
         __extends(MenuTwoEvent, _super);

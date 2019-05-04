@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Display3DBallPartilce extends Display3DParticle {
 
         public constructor() {

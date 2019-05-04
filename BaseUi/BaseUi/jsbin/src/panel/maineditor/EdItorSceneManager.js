@@ -13,12 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var SceneManager = layapan.LayaOverride2dSceneManager;
-    var Scene_data = Pan3d.Scene_data;
-    var TimeUtil = Pan3d.TimeUtil;
-    var MathClass = Pan3d.MathClass;
-    var FBO = Pan3d.FBO;
-    var Engine = Pan3d.Engine;
+    var SceneManager = layapan.me.LayaOverride2dSceneManager;
+    var Scene_data = Pan3d.me.Scene_data;
+    var TimeUtil = Pan3d.me.TimeUtil;
+    var MathClass = Pan3d.me.MathClass;
+    var FBO = Pan3d.me.FBO;
+    var Engine = Pan3d.me.Engine;
     var EdItorSceneManager = /** @class */ (function (_super) {
         __extends(EdItorSceneManager, _super);
         function EdItorSceneManager() {
@@ -109,17 +109,17 @@ var maineditor;
             triItem.push(new Vector3D(0, 0, 0));
             triItem.push(new Vector3D(-100, 0, 100));
             triItem.push(new Vector3D(+100, 0, 100));
-            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
+            return Pan3d.me.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem);
         };
         EdItorSceneManager.prototype.playLyf = function ($url, $pos, $r) {
             var _this = this;
             if ($r === void 0) { $r = 0; }
             this.groupDataManager.scene = this;
-            this.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + $url, function (groupRes) {
+            this.groupDataManager.getGroupData(Pan3d.me.Scene_data.fileRoot + $url, function (groupRes) {
                 for (var i = 0; i < groupRes.dataAry.length; i++) {
                     var item = groupRes.dataAry[i];
-                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
-                        var $particle = _this.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
+                    if (item.types == Pan3d.me.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle = _this.particleManager.getParticleByte(Pan3d.me.Scene_data.fileRoot + item.particleUrl);
                         $particle.x = $pos.x;
                         $particle.y = $pos.y;
                         $particle.z = $pos.z;

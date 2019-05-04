@@ -1,10 +1,10 @@
-﻿module layapan {
-    import BaseEvent = Pan3d.BaseEvent;
-    import IBind = Pan3d.IBind;
-    import Vector3D = Pan3d.Vector3D;
-    import Matrix3D = Pan3d.Matrix3D;
-    import ParticleManager = Pan3d.ParticleManager;
-    export class OverrideSkillFixEffect extends Pan3d.SkillFixEffect {
+﻿module layapan.me {
+    import BaseEvent = Pan3d.me.BaseEvent;
+    import IBind = Pan3d.me.IBind;
+    import Vector3D = Pan3d.me.Vector3D;
+    import Matrix3D = Pan3d.me.Matrix3D;
+    import ParticleManager = Pan3d.me.ParticleManager;
+    export class OverrideSkillFixEffect extends Pan3d.me.SkillFixEffect {
         public skill: OverrideSkill
         public constructor($skillvo: OverrideSkill) {
             super()
@@ -53,7 +53,7 @@
                 v3d.z += this.active.z;
 
    
-                var $SkillBugBind: Pan3d. SkillBugBind = new Pan3d.SkillBugBind();
+                var $SkillBugBind: Pan3d.me. SkillBugBind = new Pan3d.me.SkillBugBind();
                 $SkillBugBind.bindMatrix = new Matrix3D
                 $SkillBugBind.bindMatrix.appendRotation(this.rotation.x, Vector3D.X_AXIS)
                 $SkillBugBind.bindMatrix.appendRotation(this.rotation.y, Vector3D.Y_AXIS)

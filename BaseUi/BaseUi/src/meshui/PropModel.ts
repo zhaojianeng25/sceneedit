@@ -1,5 +1,5 @@
 ﻿module prop {
-    import UIConatiner = Pan3d.UIConatiner
+    import UIConatiner = Pan3d.me.UIConatiner
 
  
     export class PropModel {
@@ -13,7 +13,7 @@
         }
         public resize(): void {
             if (this.metaDataView) {
-                this.metaDataView.width = Pan3d.Scene_data.stageWidth - this.propPanle.x;
+                this.metaDataView.width = Pan3d.me.Scene_data.stageWidth - this.propPanle.x;
             }
 
         }

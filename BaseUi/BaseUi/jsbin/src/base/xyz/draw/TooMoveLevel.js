@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Matrix3D = Pan3d.Matrix3D;
-    var Scene_data = Pan3d.Scene_data;
+    var Matrix3D = Pan3d.me.Matrix3D;
+    var Scene_data = Pan3d.me.Scene_data;
     var TooMoveLevel = /** @class */ (function (_super) {
         __extends(TooMoveLevel, _super);
         function TooMoveLevel(value) {
@@ -80,7 +80,7 @@ var xyz;
         TooMoveLevel.prototype.getMouseHitPanelPos = function (mouseVect2d) {
             var clik3dVect = xyz.TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
             var cam3d = new Vector3D(this._scene.cam3D.x, this._scene.cam3D.y, this._scene.cam3D.z);
-            var pos = Pan3d.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
+            var pos = Pan3d.me.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
             var $m = this.lastMatrix3d.clone();
             $m.invert();
             pos = $m.transformVector(pos);

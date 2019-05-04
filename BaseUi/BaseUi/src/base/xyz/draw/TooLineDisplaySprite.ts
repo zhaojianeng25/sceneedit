@@ -1,15 +1,15 @@
 ﻿module xyz {
-    import Shader3D = Pan3d.Shader3D
-    import Display3D = Pan3d.Display3D;
-    import ProgrmaManager = Pan3d.ProgrmaManager
-    import TextureManager = Pan3d.TextureManager
-    import UIManager = Pan3d.UIManager;
-    import TextureRes = Pan3d.TextureRes;
-    import Matrix3D = Pan3d.Matrix3D
-    import Scene_data = Pan3d.Scene_data;
-    import Object3D = Pan3d.Object3D;
-    import Vector3D = Pan3d.Vector3D;
-    import LineDisplayShader = Pan3d.LineDisplayShader
+    import Shader3D = Pan3d.me.Shader3D
+    import Display3D = Pan3d.me.Display3D;
+    import ProgrmaManager = Pan3d.me.ProgrmaManager
+    import TextureManager = Pan3d.me.TextureManager
+    import UIManager = Pan3d.me.UIManager;
+    import TextureRes = Pan3d.me.TextureRes;
+    import Matrix3D = Pan3d.me.Matrix3D
+    import Scene_data = Pan3d.me.Scene_data;
+    import Object3D = Pan3d.me.Object3D;
+    import Vector3D = Pan3d.me.Vector3D;
+    import LineDisplayShader = Pan3d.me.LineDisplayShader
     export class TooLineDisplaySprite extends Display3D {
 
         constructor() {

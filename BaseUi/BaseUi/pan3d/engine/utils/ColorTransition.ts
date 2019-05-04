@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class ColorTransition {
         private _canvas: HTMLCanvasElement;
         private _cxt: CanvasRenderingContext2D;

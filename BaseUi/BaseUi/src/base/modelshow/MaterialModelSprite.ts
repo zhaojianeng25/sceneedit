@@ -44,18 +44,18 @@ class MaterialModelShader extends Shader3D {
 }
 */
 module left {
-    import Display3DSprite = Pan3d.Display3DSprite
-    import Scene_data = Pan3d.Scene_data
-    import Shader3D = Pan3d.Shader3D
-    import GroupDataManager = Pan3d.GroupDataManager
-    import Material = Pan3d.Material
-    import GroupRes = Pan3d.GroupRes
-    import GroupItem = Pan3d.GroupItem
-    import BaseRes = Pan3d.BaseRes
-    import TexItem = Pan3d.TexItem
-    import MaterialBaseParam = Pan3d.MaterialBaseParam
-    import ObjData = Pan3d.ObjData
-    import TimeUtil = Pan3d.TimeUtil
+    import Display3DSprite = Pan3d.me.Display3DSprite
+    import Scene_data = Pan3d.me.Scene_data
+    import Shader3D = Pan3d.me.Shader3D
+    import GroupDataManager = Pan3d.me.GroupDataManager
+    import Material = Pan3d.me.Material
+    import GroupRes = Pan3d.me.GroupRes
+    import GroupItem = Pan3d.me.GroupItem
+    import BaseRes = Pan3d.me.BaseRes
+    import TexItem = Pan3d.me.TexItem
+    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
+    import ObjData = Pan3d.me.ObjData
+    import TimeUtil = Pan3d.me.TimeUtil
     import MaterialTree = materialui.MaterialTree
    
 

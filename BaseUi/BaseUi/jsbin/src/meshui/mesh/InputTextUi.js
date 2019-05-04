@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var LabelTextFont = Pan3d.LabelTextFont;
-    var TextAlign = Pan3d.TextAlign;
-    var MouseType = Pan3d.MouseType;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var TextAlign = Pan3d.me.TextAlign;
+    var MouseType = Pan3d.me.MouseType;
     var InputTextUi = /** @class */ (function (_super) {
         __extends(InputTextUi, _super);
         function InputTextUi(w, h) {

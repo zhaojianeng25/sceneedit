@@ -7,9 +7,9 @@
     public name: string;
     public age: number;
 
-    private _byte: Pan3d. Pan3dByteArray;
+    private _byte: Pan3d.me. Pan3dByteArray;
 
-    public readData($bytes: Pan3d.Pan3dByteArray): void {
+    public readData($bytes: Pan3d.me.Pan3dByteArray): void {
         this._byte = $bytes;
         this.type = this._byte.readShort();
         this.name = this._byte.readUTF();

@@ -17,18 +17,18 @@
             this.sceneManager.addMovieDisplay($baseChar);
             $baseChar.set2dPos(200, 200);
             this.mainChar = $baseChar;
-            var rect100: Pan3d.Rectangle = new Pan3d.Rectangle(0, 0, 200, 200);
+            var rect100: Pan3d.me.Rectangle = new Pan3d.me.Rectangle(0, 0, 200, 200);
             for (var i: number = 0; i < 6; i++) {
                 for (var j: number = 0; j < 4; j++) {
                     if (i == j) {
-                        this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+                        this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.me.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
 
                     }
 
                 }
             }
         }
-        public addGrouandPic(value: string, rect: Pan3d.Rectangle): LayaScene2dPicSprit {
+        public addGrouandPic(value: string, rect: Pan3d.me.Rectangle): LayaScene2dPicSprit {
             var tempPic: LayaScene2dPicSprit = new LayaScene2dPicSprit(value);
             tempPic.set2dPos(rect.x, rect.y);
             tempPic.width = rect.width;
@@ -37,8 +37,8 @@
             return tempPic
         }
         protected addEvents(): void {
-            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
+            this.on(Pan3d.me.MouseType.MouseDown, this, this.onStartDrag);
+            this.on(Pan3d.me.MouseType.MouseWheel, this, this.onMouseWheel);
             this.rootpos = new Vector2D(-100,-100)
         }
 

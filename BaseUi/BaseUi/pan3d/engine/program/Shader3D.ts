@@ -6,7 +6,7 @@
     binLocation($context: WebGLRenderingContext): void
 }
 
-module Pan3d {
+module Pan3d.me {
     export class Shader3D extends ResCount implements IShader {
         public vertex: string
         public fragment: string

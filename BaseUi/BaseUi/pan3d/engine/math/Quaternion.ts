@@ -1,4 +1,4 @@
-﻿module Pan3d {
+﻿module Pan3d.me {
     export class Quaternion {
         x: number = 0;
         y: number = 0;

@@ -1,6 +1,6 @@
 ﻿module prop {
     
-    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import ModuleEventManager = Pan3d.me.ModuleEventManager;
     export class TexturePropMeshPanel extends MetaDataView {
         public getView(): Array<any> {
             var ary: Array<any> =

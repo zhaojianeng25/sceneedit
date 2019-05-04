@@ -1,20 +1,20 @@
 ﻿module left {
-    import Display3dMovie = Pan3d.Display3dMovie
-    import MeshData = Pan3d.MeshData
-    import MaterialBaseParam = Pan3d.MaterialBaseParam
-    import Material = Pan3d.Material
-    import TexItem = Pan3d.TexItem
-    import AnimData = Pan3d.AnimData
-    import SkinMesh = Pan3d.SkinMesh
-    import BaseEvent = Pan3d.BaseEvent
-    import Pan3dByteArray = Pan3d.Pan3dByteArray
-    import Scene_data = Pan3d.Scene_data
-    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
-    import Dictionary = Pan3d.Dictionary
-    import Skill = Pan3d.Skill
+    import Display3dMovie = Pan3d.me.Display3dMovie
+    import MeshData = Pan3d.me.MeshData
+    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
+    import Material = Pan3d.me.Material
+    import TexItem = Pan3d.me.TexItem
+    import AnimData = Pan3d.me.AnimData
+    import SkinMesh = Pan3d.me.SkinMesh
+    import BaseEvent = Pan3d.me.BaseEvent
+    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
+    import Scene_data = Pan3d.me.Scene_data
+    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
+    import Dictionary = Pan3d.me.Dictionary
+    import Skill = Pan3d.me.Skill
 
-    import OverrideSkill = layapan.OverrideSkill
-    import LayaOverride2dSceneManager = layapan.LayaOverride2dSceneManager
+    import OverrideSkill = layapan.me.OverrideSkill
+    import LayaOverride2dSceneManager = layapan.me.LayaOverride2dSceneManager
 
     import MaterialTree = materialui.MaterialTree
 
@@ -214,7 +214,7 @@
         private meshParamInfo(): void {
             for (var i: number = 0; i < this.skinMesh.meshAry.length; i++) {
                 if (this.skinMesh.meshAry[i].material && (<any>this.skinMesh.meshAry[i]).paramInfo) {
-                    this.skinMesh.meshAry[i].materialParam = new Pan3d.MaterialBaseParam;
+                    this.skinMesh.meshAry[i].materialParam = new Pan3d.me.MaterialBaseParam;
                     this.skinMesh.meshAry[i].materialParam.material = this.skinMesh.meshAry[i].material
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.skinMesh.meshAry[i].materialParam,( <any>this.skinMesh.meshAry[i]).paramInfo);
                 } 

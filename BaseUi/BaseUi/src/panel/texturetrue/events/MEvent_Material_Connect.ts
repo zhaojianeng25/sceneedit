@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import BaseEvent = Pan3d.BaseEvent;
+    import BaseEvent = Pan3d.me.BaseEvent;
     export class MEvent_Material_Connect extends BaseEvent {
         public static  MEVENT_MATERIAL_CONNECT_STARTDRAG:string = "MEvent_Material_Connect_startDrag";
         public static MEVENT_MATERIAL_CONNECT_STOPDRAG: string = "MEvent_Material_Connect_stopDrag";

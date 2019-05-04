@@ -58,11 +58,11 @@ class MaterialModelShader extends Shader3D {
 */
 var left;
 (function (left) {
-    var Display3DSprite = Pan3d.Display3DSprite;
-    var Scene_data = Pan3d.Scene_data;
-    var TexItem = Pan3d.TexItem;
-    var ObjData = Pan3d.ObjData;
-    var TimeUtil = Pan3d.TimeUtil;
+    var Display3DSprite = Pan3d.me.Display3DSprite;
+    var Scene_data = Pan3d.me.Scene_data;
+    var TexItem = Pan3d.me.TexItem;
+    var ObjData = Pan3d.me.ObjData;
+    var TimeUtil = Pan3d.me.TimeUtil;
     var MaterialModelSprite = /** @class */ (function (_super) {
         __extends(MaterialModelSprite, _super);
         function MaterialModelSprite() {

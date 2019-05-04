@@ -13,45 +13,48 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var scene3d;
 (function (scene3d) {
-    var OverrideSceneManager = /** @class */ (function (_super) {
-        __extends(OverrideSceneManager, _super);
-        function OverrideSceneManager() {
-            return _super.call(this) || this;
-        }
-        OverrideSceneManager.initConfig = function () {
-            Pan3d.SceneManager._instance = new OverrideSceneManager;
-        };
-        OverrideSceneManager.prototype.update = function () {
-            Pan3d.MathClass.getCamView(Pan3d.Scene_data.cam3D, Pan3d.Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-            Pan3d.Scene_data.context3D._contextSetTest.clear();
-            if (isNaN(this._time)) {
-                this._time = Pan3d.TimeUtil.getTimer();
+    var me;
+    (function (me) {
+        var OverrideSceneManager = /** @class */ (function (_super) {
+            __extends(OverrideSceneManager, _super);
+            function OverrideSceneManager() {
+                return _super.call(this) || this;
             }
-            this.updateMovieFrame();
-            if (this._ready) {
-                Pan3d.ParticleManager.getInstance().updateTime();
-                Pan3d.SkillManager.getInstance().update();
-                if (this.render) {
-                    Pan3d.Scene_data.context3D.cullFaceBack(false);
-                    Pan3d.Scene_data.context3D.cullFaceBack(true);
-                    Pan3d.Scene_data.context3D.cullFaceBack(true);
-                    Pan3d.Scene_data.context3D.setWriteDepth(true);
-                    Pan3d.Scene_data.context3D.setDepthTest(true);
-                    this.updateStaticDiplay();
-                    this.updateSpriteDisplay();
-                    this.updateMovieDisplay();
-                    Pan3d.Scene_data.context3D.setWriteDepth(false);
-                    Pan3d.ParticleManager.getInstance().update();
-                    Pan3d.BloodManager.getInstance().update();
-                    Pan3d.Scene_data.context3D.setBlendParticleFactors(0);
-                    Pan3d.Scene_data.context3D.setWriteDepth(true);
+            OverrideSceneManager.initConfig = function () {
+                Pan3d.me.SceneManager._instance = new OverrideSceneManager;
+            };
+            OverrideSceneManager.prototype.update = function () {
+                Pan3d.me.MathClass.getCamView(Pan3d.me.Scene_data.cam3D, Pan3d.me.Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.me.Scene_data.context3D._contextSetTest.clear();
+                if (isNaN(this._time)) {
+                    this._time = Pan3d.me.TimeUtil.getTimer();
                 }
-                Pan3d.Scene_data.context3D.setDepthTest(false);
-                Pan3d.UIManager.getInstance().update();
-            }
-        };
-        return OverrideSceneManager;
-    }(Pan3d.SceneManager));
-    scene3d.OverrideSceneManager = OverrideSceneManager;
+                this.updateMovieFrame();
+                if (this._ready) {
+                    Pan3d.me.ParticleManager.getInstance().updateTime();
+                    Pan3d.me.SkillManager.getInstance().update();
+                    if (this.render) {
+                        Pan3d.me.Scene_data.context3D.cullFaceBack(false);
+                        Pan3d.me.Scene_data.context3D.cullFaceBack(true);
+                        Pan3d.me.Scene_data.context3D.cullFaceBack(true);
+                        Pan3d.me.Scene_data.context3D.setWriteDepth(true);
+                        Pan3d.me.Scene_data.context3D.setDepthTest(true);
+                        this.updateStaticDiplay();
+                        this.updateSpriteDisplay();
+                        this.updateMovieDisplay();
+                        Pan3d.me.Scene_data.context3D.setWriteDepth(false);
+                        Pan3d.me.ParticleManager.getInstance().update();
+                        Pan3d.me.BloodManager.getInstance().update();
+                        Pan3d.me.Scene_data.context3D.setBlendParticleFactors(0);
+                        Pan3d.me.Scene_data.context3D.setWriteDepth(true);
+                    }
+                    Pan3d.me.Scene_data.context3D.setDepthTest(false);
+                    Pan3d.me.UIManager.getInstance().update();
+                }
+            };
+            return OverrideSceneManager;
+        }(Pan3d.me.SceneManager));
+        me.OverrideSceneManager = OverrideSceneManager;
+    })(me = scene3d.me || (scene3d.me = {}));
 })(scene3d || (scene3d = {}));
 //# sourceMappingURL=OverrideSceneManager.js.map
