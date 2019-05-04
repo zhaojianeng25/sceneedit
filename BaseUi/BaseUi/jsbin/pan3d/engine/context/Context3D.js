@@ -430,6 +430,7 @@ var Pan3d;
             function FBO(w, h) {
                 if (w === void 0) { w = 128; }
                 if (h === void 0) { h = 128; }
+                this.color = new me.Vector3D(20 / 255, 20 / 255, 20 / 255, 1.0);
                 this.makeSize(w, h);
             }
             FBO.prototype.resetSize = function (w, h) {

@@ -53,6 +53,12 @@ var LayaPan3D;
             this.on(Pan3d.me.MouseType.MouseWheel, this, this.onMouseWheel);
             this.rootpos = new Vector2D(-100, -100);
         };
+        LayaGame2dDemo.prototype.upData = function () {
+            _super.prototype.upData.call(this);
+            if (this.sceneManager.fbo) {
+                this.sceneManager.fbo.color.x = 1;
+            }
+        };
         LayaGame2dDemo.prototype.onMouseWheel = function (e) {
             if (!this.rootpos) {
                 this.rootpos = new Vector2D();

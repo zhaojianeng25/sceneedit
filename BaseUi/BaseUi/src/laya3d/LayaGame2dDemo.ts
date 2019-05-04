@@ -41,7 +41,13 @@
             this.on(Pan3d.me.MouseType.MouseWheel, this, this.onMouseWheel);
             this.rootpos = new Vector2D(-100,-100)
         }
+        public upData(): void {
 
+            super.upData()
+            if (this.sceneManager.fbo) {
+                this.sceneManager.fbo.color.x=1
+            }
+        }
         private onMouseWheel(e: any): void {
  
             if (!this.rootpos) {

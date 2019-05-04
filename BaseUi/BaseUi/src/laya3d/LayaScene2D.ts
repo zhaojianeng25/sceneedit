@@ -147,6 +147,8 @@ module LayaPan3D {
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
+
+           
             }
         }
 
@@ -189,6 +191,8 @@ module LayaPan3D {
             super.initScene();
             this.sceneManager.focus3D.rotationX = -30;
             this.sceneManager.focus3D.rotationY = 0;
+
+          
         }
         //2d透视位移
         public upData(): void {
@@ -204,6 +208,7 @@ module LayaPan3D {
                 }
                 Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData()
+
             }
         }
         //获取鼠标位置

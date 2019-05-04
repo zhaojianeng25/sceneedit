@@ -62,6 +62,17 @@ declare module Pan3d.me {
 
 
     }
+    class Vector3D {
+        constructor($x: number, $y: number, $z: number, $w: number);
+        public x: number;
+        public y: number;
+        public z: number;
+        public w: number;
+
+
+    }
+
+    
     class Rectangle {
 
         constructor($x?: number, $y?: number, $width?: number, $height?: number);
@@ -81,6 +92,9 @@ declare module Pan3d.me {
         public static MouseWheel: string
 
     }
+    export class FBO {
+        public color: Vector3D;
+    }
 
 
 }
@@ -93,7 +107,7 @@ declare module layapan.me {
 
 declare module maineditor {
     class EdItorSceneManager extends layapan.me.LayaOverride2dSceneManager {
-
+        public fbo: Pan3d.me.FBO;
     }
     class LyfSpriteDisplay extends Pan3d.me.Display3DSprite {
         public addLyfByUrl($url: string): void;

@@ -495,8 +495,11 @@
         public frameBuffer: WebGLFramebuffer;
         public depthBuffer: WebGLRenderbuffer;
         public texture: WebGLRenderbuffer;
-        public constructor(w: number=128, h: number=128) {
+        public color: Vector3D;
+        public constructor(w: number = 128, h: number = 128) {
+            this.color = new Vector3D(20 / 255, 20 / 255, 20 / 255, 1.0);
             this.makeSize(w, h)
+
         }
         public resetSize(w: number, h: number): void {
             var a: number = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)))

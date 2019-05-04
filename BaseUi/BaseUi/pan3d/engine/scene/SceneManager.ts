@@ -1,6 +1,7 @@
 ﻿module Pan3d.me {
     export class SceneManager {
 
+      
         public cam3D: Camera3D;
         public viewMatrx3D: Matrix3D
         public focus3D: Object3D;

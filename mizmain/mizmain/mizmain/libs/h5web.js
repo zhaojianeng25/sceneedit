@@ -1276,6 +1276,7 @@ var Pan3d;
             function FBO(w, h) {
                 if (w === void 0) { w = 128; }
                 if (h === void 0) { h = 128; }
+                this.color = new me.Vector3D(20 / 255, 20 / 255, 20 / 255, 1.0);
                 this.makeSize(w, h);
             }
             FBO.prototype.resetSize = function (w, h) {
@@ -61306,8 +61307,8 @@ var maineditor;
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
-            gl.clearColor(Math.random(), 20 / 255, 20 / 255, 1.0);
-            gl.clearColor(20 / 255, 20 / 255, 20 / 255, 1.0);
+            // gl.clearColor(Math.random(), 20 / 255, 20 / 255, 1.0);
+            gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
             // gl.clearColor(0,0,0,0);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
