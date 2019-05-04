@@ -46,7 +46,7 @@ var base;
             this.sceneManager.cam3D.distance += e.delta;
         };
         Game3dDemo.prototype.onStartDrag = function (e) {
-            if (this.mouseY < this.height * 0.2) {
+            if (this.mouseY < 30) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             }
             else {

@@ -51,7 +51,8 @@ module game14lou {
     import Browser = Laya.Browser;
 
     import Game2dDemo = base.Game2dDemo
-
+    import Game3dDemo = base.Game3dDemo
+    
 
     // 是否iphoneX
     var onIPhoneX: boolean = false;
@@ -181,11 +182,39 @@ module game14lou {
             picA.scale(0.5, 0.5)
             picA.pos(600, 170)
 
-            var spriteD: Game2dDemo = new Game2dDemo("res/ui/icon/512b.jpg", () => {
-                spriteD.scale(2, 1)
+
+            this.addScenePanel()
+        }
+        private addScenePanel(): void {
+            var midBox: Laya.Box = new Laya.Box()
+            Laya.stage.addChild(midBox)
+
+            var topBox: Laya.Box = new Laya.Box()
+            Laya.stage.addChild(topBox)
+
+
+            var spriteA: Game3dDemo = new Game3dDemo("res/ui/icon/256b.png", () => {
+                spriteA.scale(2, 1)
             })
-            Laya.stage.addChild(spriteD);
-            spriteD.pos(200, 250);
+            topBox.addChild(spriteA);
+ 
+
+
+
+            var spriteC: Game2dDemo = new Game2dDemo("res/ui/icon/512a.jpg", () => {
+                spriteC.scale(1, 2)
+            })
+            topBox.addChild(spriteC);
+            spriteC.pos(350, 100);
+
+ 
+
+            var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
+            midBox.addChild(picA)
+            picA.scale(0.5, 0.5)
+            picA.pos(600, 170)
+
+ 
         }
 
 

@@ -36,7 +36,7 @@ module base {
         private lastfocus3D: Object3D;
         private dragRegion: Laya.Rectangle;
         private onStartDrag(e: Event): void {
-            if (this.mouseY < this.height * 0.2) {
+            if (this.mouseY < 30) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
                 this.lastMouseVec2d = new Vector2D(this.mouseX, this.mouseY)

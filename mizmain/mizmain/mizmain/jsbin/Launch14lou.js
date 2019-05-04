@@ -3,6 +3,7 @@ var game14lou;
     var Stage = Laya.Stage;
     var Browser = Laya.Browser;
     var Game2dDemo = base.Game2dDemo;
+    var Game3dDemo = base.Game3dDemo;
     // 是否iphoneX
     var onIPhoneX = false;
     // 启动程序
@@ -107,11 +108,7 @@ var game14lou;
             Laya.stage.addChild(picA);
             picA.scale(0.5, 0.5);
             picA.pos(600, 170);
-            var spriteD = new Game2dDemo("res/ui/icon/512b.jpg", function () {
-                spriteD.scale(2, 1);
-            });
-            Laya.stage.addChild(spriteD);
-            spriteD.pos(200, 250);
+            this.addScenePanel();
         }
         Object.defineProperty(Launch14lou.prototype, "showStat", {
             get: function () {
@@ -144,6 +141,25 @@ var game14lou;
             enumerable: true,
             configurable: true
         });
+        Launch14lou.prototype.addScenePanel = function () {
+            var midBox = new Laya.Box();
+            Laya.stage.addChild(midBox);
+            var topBox = new Laya.Box();
+            Laya.stage.addChild(topBox);
+            var spriteA = new Game3dDemo("res/ui/icon/256b.png", function () {
+                spriteA.scale(2, 1);
+            });
+            topBox.addChild(spriteA);
+            var spriteC = new Game2dDemo("res/ui/icon/512a.jpg", function () {
+                spriteC.scale(1, 2);
+            });
+            topBox.addChild(spriteC);
+            spriteC.pos(350, 100);
+            var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
+            midBox.addChild(picA);
+            picA.scale(0.5, 0.5);
+            picA.pos(600, 170);
+        };
         Launch14lou.prototype.checkWorkerLoaderEnable = function () {
             var workerLoaderEnable = false;
         };

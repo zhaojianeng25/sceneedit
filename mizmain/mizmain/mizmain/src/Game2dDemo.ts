@@ -22,7 +22,7 @@
         }
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5
+            this.sceneManager.cam3D.scene2dScale =5
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -62,7 +62,7 @@
         }
         private dragRegion: Laya.Rectangle;
         private onStartDrag(e: Event): void {
-            if (this.mouseY < this.height * 0.2) {
+            if (this.mouseY < 30) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
                 var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);

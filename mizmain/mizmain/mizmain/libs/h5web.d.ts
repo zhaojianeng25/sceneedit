@@ -2,27 +2,15 @@
 
 
 declare module Pan3d.me {
-    /**
-     * @private
-     * @author ...
-     */
     class Scene_data {
-
         static ossRoot: string;
         static fileuiRoot: string;
         static fileRoot: string;
-
     }
     class Engine {
-
         static init($caves: HTMLCanvasElement): void;
-
-
     }
-
-
     class EventDispatcher {
-
 
     }
     class Object3D extends EventDispatcher {
@@ -33,7 +21,6 @@ declare module Pan3d.me {
         public x: number
         public y: number
         public z: number
-
 
         public scaleX: number
         public scaleY: number
@@ -46,12 +33,8 @@ declare module Pan3d.me {
     class Display3DSprite extends Display3D {
 
     }
-
     class Display3dMovie extends Display3DSprite {
-
         public setRoleUrl(value: string): void;
-
-
     }
 
 
@@ -120,29 +103,6 @@ declare module maineditor {
 
 
 declare module LayaPan3D {
-    /**
-     * @private
-     * @author ...
-     */
-    class Laya3dSprite extends Laya.Image {
-        constructor(value: string, bfun?: Function);
-        protected initScene(): void;
-        protected sceneManager: maineditor.EdItorSceneManager;
-
-        public upData(): void;
-
-    }
-    class LayaScene2D extends Laya3dSprite {
-
-        public rootpos: Pan3d.me.Vector2D
-        protected getMousePos(tx: number, ty: number): Pan3d.me.Vector2D
-
-
-    }
-    class LayaGame2dDemo extends LayaScene2D {
- 
-    }
- 
     class LayaScene2dSceneChar extends Pan3d.me.Display3dMovie {
         public set2dPos($x: number, $y: number): void;
     }
@@ -152,6 +112,21 @@ declare module LayaPan3D {
         public width: number;
         public height: number;
     }
+    class Laya3dSprite extends Laya.Image {
+        constructor(value: string, bfun?: Function);
+        protected initScene(): void;
+        protected sceneManager: maineditor.EdItorSceneManager;
+        public upData(): void;
+    }
+    class LayaScene2D extends Laya3dSprite {
+        public rootpos: Pan3d.me.Vector2D
+        protected getMousePos(tx: number, ty: number): Pan3d.me.Vector2D
+    }
+    class LayaGame2dDemo extends LayaScene2D {
+ 
+    }
+ 
+  
  
 
 }

@@ -30,7 +30,7 @@ var base;
             this.addSceneModel();
         };
         Game2dDemo.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5;
+            this.sceneManager.cam3D.scene2dScale = 5;
             var $baseChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -66,7 +66,7 @@ var base;
             console.log(this.rootpos);
         };
         Game2dDemo.prototype.onStartDrag = function (e) {
-            if (this.mouseY < this.height * 0.2) {
+            if (this.mouseY < 30) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             }
             else {
