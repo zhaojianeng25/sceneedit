@@ -23,21 +23,53 @@ declare module Pan3d {
 
         public setRoleUrl(value: string): void;
 
+
     }
-    class Display3D {
+
+    class EventDispatcher {
+
+
+    }
+    class Object3D extends EventDispatcher {
+        public rotationX: number
+        public rotationY: number
+        public rotationZ: number
+
+        public x: number
+        public y: number
+        public z: number
+
+
+        public scaleX: number
+        public scaleY: number
+        public scaleZ: number
  
 
     }
+    class Display3D extends Object3D {
+    }
+    class Display3DSprite extends Display3D   {
+
+    }
+
+    
     
     class Camera3D {
         public scene2dScale: number;
+        public distance: number
 
     }
     class SceneManager {
         public cam3D: Camera3D;
+        public focus3D: Object3D;
         public addDisplay($display: Display3D, idx?: number): void 
 
     }
+    class MathClass {
+ 
+        static getCamView(_Cam: Camera3D, _focus_3d: Object3D): Float32Array;
+    }
+    
     class Vector2D {
  
         constructor($x?: number, $y?: number);
@@ -68,16 +100,19 @@ declare module Pan3d {
 
     
 }
-
  
 declare module layapan {
     class LayaOverride2dSceneManager extends Pan3d.SceneManager {
         public addMovieDisplay($display: Pan3d.Display3dMovie): void;
     }
 }
-
+ 
 declare module maineditor {
     class EdItorSceneManager extends layapan.LayaOverride2dSceneManager {
+
+    }
+    class LyfSpriteDisplay extends Pan3d.Display3DSprite {
+        public addLyfByUrl($url: string): void;
 
     }
 }
@@ -89,20 +124,22 @@ declare module LayaPan3D {
      * @author ...
      */
     class Laya3dSprite extends Laya.Image {
+        constructor(value: string, bfun?: Function);
         protected initScene(): void;
+        protected sceneManager: maineditor.EdItorSceneManager;
 
-        protected sceneManager: maineditor. EdItorSceneManager;
+        public upData(): void;
 
     }
     class LayaScene2D extends Laya3dSprite {
-        constructor(value: string, bfun?: Function);
+ 
         public rootpos: Pan3d.Vector2D
         protected getMousePos(tx: number, ty: number): Pan3d.Vector2D 
   
 
     }
     class LayaGame2dDemo extends LayaScene2D {
-        constructor(value: string, bfun?: Function);
+ 
 
     }
 
@@ -115,6 +152,7 @@ declare module LayaPan3D {
         public width: number;
         public height: number;
     }
+ 
 
     
  

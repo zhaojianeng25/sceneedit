@@ -6,6 +6,7 @@ import Sprite = Laya.Sprite
 
 
 import Game2dDemo = base.Game2dDemo;
+import Game3dDemo = base.Game3dDemo;
  
 
 class LayaLaunch {
@@ -66,9 +67,31 @@ class LayaLaunch {
         Laya.stage.addChild(topBox)
 
 
+        var spriteA: Game3dDemo = new Game3dDemo("res/ui/icon/256b.png", () => {
+            spriteA.scale(2, 1)
+        })
+        topBox.addChild(spriteA);
+
+
+        var spriteB: Game3dDemo = new Game3dDemo("res/ui/icon/256a.png", () => {
+            spriteB.scale(1, 2)
+        })
+        topBox.addChild(spriteB);
+        spriteB.pos(0, 250);
+ 
+
+
+
+        var spriteC: Game2dDemo = new Game2dDemo("res/ui/icon/512a.jpg", () => {
+            spriteC.scale(1, 1)
+        })
+        topBox.addChild(spriteC);
+        spriteC.pos(350, 0);
+
+
 
         var spriteD: Game2dDemo = new Game2dDemo("res/ui/icon/512b.jpg", () => {
-            spriteD.scale(1, 1)
+            spriteD.scale(2, 1)
         })
         topBox.addChild(spriteD);
         spriteD.pos(200, 250);
