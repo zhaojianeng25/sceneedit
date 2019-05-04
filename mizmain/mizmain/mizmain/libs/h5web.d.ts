@@ -19,12 +19,7 @@ declare module Pan3d {
 
 
     }
-    class Display3dMovie {
-
-        public setRoleUrl(value: string): void;
-
-
-    }
+ 
 
     class EventDispatcher {
 
@@ -52,6 +47,12 @@ declare module Pan3d {
 
     }
 
+    class Display3dMovie extends Display3DSprite {
+
+        public setRoleUrl(value: string): void;
+
+
+    }
     
     
     class Camera3D {

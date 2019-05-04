@@ -23,6 +23,7 @@
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
             $baseChar.set2dPos(200, 200);
+            $baseChar.rotationY = 180;
             this.mainChar = $baseChar;
             var rect100: Pan3d.Rectangle = new Pan3d.Rectangle(0, 0, 100, 100);
             for (var i: number = 0; i < 6; i++) {
