@@ -38,17 +38,17 @@
     <script src="libs/laya.ui.js"></script>
 
 
-    <script src="libs/h5web.min.js"></script>
+    <script src="libs/h5web.js"></script>
 
     <script src="jsbin/Game2dDemo.js"></script>
     <script src="jsbin/Game3dDemo.js"></script>
-    <script src="jsbin/LayaLaunch.js"></script>
+    <script src="jsbin/Launch.js"></script>
 
 
     <script>
 
         function init() {
-           base.LayaLaunch.initCanvas(document.getElementById('ArpgStageCanvas'));
+            Launch.initCanvas(document.getElementById('ArpgStageCanvas'));
         }
         function resetSize() {
 
@@ -58,7 +58,7 @@
     </script>
 </head>
 
-<body onload='init()' onresize="resetSize()" style="overflow-x: hidden; overflow-y: hidden;background-color:#ff0000">
-    <canvas id="ArpgStageCanvas" width="11" height="11" style="z-index:0"></canvas>
+<body onload='init()' onresize="resetSize()" style="overflow-x: hidden; overflow-y: hidden;background-color:#000000">
+    <canvas id="ArpgStageCanvas" width="800" height="600" style="z-index:0"></canvas>
 
 </html>
