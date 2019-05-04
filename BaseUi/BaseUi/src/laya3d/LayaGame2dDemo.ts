@@ -5,14 +5,13 @@
         }
         protected initScene(): void {
             super.initScene();
-
             this.addEvents();
             this.addSceneModel();
  
         }
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale = 2
+            this.sceneManager.cam3D.scene2dScale = 1 + Math.random()*5
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -21,7 +20,11 @@
             var rect100: Pan3d.Rectangle = new Pan3d.Rectangle(0, 0, 200, 200);
             for (var i: number = 0; i < 6; i++) {
                 for (var j: number = 0; j < 4; j++) {
-                    this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height))
+                    if (i == j) {
+                        this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+
+                    }
+
                 }
             }
         }
@@ -40,21 +43,26 @@
         }
 
         private onMouseWheel(e: any): void {
-            // this.sceneManager.cam3D.scene2dScale += e.delta / 100;
+ 
             if (!this.rootpos) {
                 this.rootpos = new Vector2D()
             }
             this.rootpos.x += e.delta;
-            this.rootpos.y+= e.delta;
+            this.rootpos.y += e.delta;
+
+            console.log(this.rootpos)
         }
         private dragRegion: Laya.Rectangle;
         private onStartDrag(e: Event): void {
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
-                var v2d: Vector2D= this.getMousePos( this.mouseX, this.mouseY);
+                var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);
+
+                console.log("mouseX", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
+
+
                 this.mainChar.set2dPos(v2d.x, v2d.y);
- 
             }
         }
 

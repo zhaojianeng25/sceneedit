@@ -198,8 +198,8 @@ var LayaPan3D;
                 var $num45 = Math.abs(this.sceneManager.focus3D.rotationX); //45度角
                 this.sceneManager.focus3D.z = (fvh / this.scene2dScale) / (Math.sin($num45 * Math.PI / 180)) * -1;
                 if (this.rootpos) {
-                    this.sceneManager.focus3D.x += this.rootpos.x * (this.scaleX / this.scene2dScale) * 2;
-                    this.sceneManager.focus3D.z += (this.rootpos.y * (this.scaleX / this.scene2dScale) * 2) / (Math.sin($num45 * Math.PI / 180)) * -1;
+                    this.sceneManager.focus3D.x += (this.rootpos.x / this.scene2dScale * 2);
+                    this.sceneManager.focus3D.z += (this.rootpos.y / this.scene2dScale * 2) / (Math.sin($num45 * Math.PI / 180)) * -1;
                 }
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
@@ -207,10 +207,10 @@ var LayaPan3D;
         };
         //获取鼠标位置
         LayaScene2D.prototype.getMousePos = function (tx, ty) {
-            var mousePos = new Vector2D(tx, ty * this.scaleY / this.scaleX);
+            var mousePos = new Vector2D(tx * this.scaleX, ty * this.scaleY);
             var $num45 = Math.abs(this.sceneManager.focus3D.rotationX); //45度角
-            var toX = (mousePos.x + this.rootpos.x) * (this.scaleX);
-            var toY = (mousePos.y + this.rootpos.y) * (this.scaleX) * (Math.sin($num45 * Math.PI / 180)) * 2;
+            var toX = (mousePos.x + this.rootpos.x);
+            var toY = (mousePos.y + this.rootpos.y) * (Math.sin($num45 * Math.PI / 180)) * 2;
             return new Vector2D(toX, toY);
         };
         //更换上2D透视矩阵

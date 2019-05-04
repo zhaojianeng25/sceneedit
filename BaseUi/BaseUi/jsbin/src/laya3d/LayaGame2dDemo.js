@@ -25,7 +25,7 @@ var LayaPan3D;
             this.addSceneModel();
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 2;
+            this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5;
             var $baseChar = new LayaPan3D.LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -34,7 +34,9 @@ var LayaPan3D;
             var rect100 = new Pan3d.Rectangle(0, 0, 200, 200);
             for (var i = 0; i < 6; i++) {
                 for (var j = 0; j < 4; j++) {
-                    this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+                    if (i == j) {
+                        this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+                    }
                 }
             }
         };
@@ -52,12 +54,12 @@ var LayaPan3D;
             this.rootpos = new Vector2D(-100, -100);
         };
         LayaGame2dDemo.prototype.onMouseWheel = function (e) {
-            // this.sceneManager.cam3D.scene2dScale += e.delta / 100;
             if (!this.rootpos) {
                 this.rootpos = new Vector2D();
             }
             this.rootpos.x += e.delta;
             this.rootpos.y += e.delta;
+            console.log(this.rootpos);
         };
         LayaGame2dDemo.prototype.onStartDrag = function (e) {
             if (this.mouseY < this.height * 0.2) {
@@ -65,6 +67,7 @@ var LayaPan3D;
             }
             else {
                 var v2d = this.getMousePos(this.mouseX, this.mouseY);
+                console.log("mouseX", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d);
                 this.mainChar.set2dPos(v2d.x, v2d.y);
             }
         };
