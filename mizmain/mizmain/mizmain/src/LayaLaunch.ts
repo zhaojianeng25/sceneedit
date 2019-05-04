@@ -56,12 +56,10 @@ class LayaLaunch {
 
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
-        Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
+        Pan3d.Scene_data.fileRoot = "res/";
+     //   Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
         Pan3d.Engine.init(this._canvas);
-
-
-
-
+ 
 
         var midBox: Laya.Box = new Laya.Box()
         Laya.stage.addChild(midBox)
@@ -72,7 +70,7 @@ class LayaLaunch {
 
 
         var spriteD: LayaScene2D = new LayaGame2dDemo("res/ui/icon/512b.jpg", () => {
-            spriteD.scale(2, 1)
+            spriteD.scale(1, 1)
         })
         topBox.addChild(spriteD);
         spriteD.pos(200, 250);

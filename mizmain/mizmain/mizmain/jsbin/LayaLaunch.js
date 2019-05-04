@@ -50,14 +50,15 @@ var LayaLaunch = /** @class */ (function () {
         Laya.stage.bgColor = "#232628";
         Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
         Pan3d.Scene_data.fileuiRoot = "res/";
-        Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
+        Pan3d.Scene_data.fileRoot = "res/";
+        //   Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
         Pan3d.Engine.init(this._canvas);
         var midBox = new Laya.Box();
         Laya.stage.addChild(midBox);
         var topBox = new Laya.Box();
         Laya.stage.addChild(topBox);
         var spriteD = new LayaGame2dDemo("res/ui/icon/512b.jpg", function () {
-            spriteD.scale(2, 1);
+            spriteD.scale(1, 1);
         });
         topBox.addChild(spriteD);
         spriteD.pos(200, 250);
