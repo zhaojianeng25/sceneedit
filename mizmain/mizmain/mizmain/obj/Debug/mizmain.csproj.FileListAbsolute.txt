@@ -1,0 +1,6 @@
+E:\github\sceneEdit\mizmain\mizmain\mizmain\bin\mizmain.dll.config
+E:\github\sceneEdit\mizmain\mizmain\mizmain\bin\mizmain.dll
+E:\github\sceneEdit\mizmain\mizmain\mizmain\bin\mizmain.pdb
+E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.csproj.CoreCompileInputs.cache
+E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.dll
+E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.pdb
