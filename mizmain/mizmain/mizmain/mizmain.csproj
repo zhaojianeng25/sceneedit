@@ -22,6 +22,7 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="libs\h5web.js" />
+    <Content Include="libs\h5web.min.js" />
     <Content Include="libs\laya.core.js" />
     <Content Include="libs\laya.ui.js" />
     <Content Include="libs\laya.webgl.js" />
@@ -41,6 +42,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="libs\h5web.d.ts" />
     <TypeScriptCompile Include="libs\LayaAir.d.ts" />
+    <TypeScriptCompile Include="src\Game2dDemo.ts" />
     <TypeScriptCompile Include="src\LayaLaunch.ts" />
   </ItemGroup>
   <PropertyGroup>

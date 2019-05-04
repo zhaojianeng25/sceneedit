@@ -5,9 +5,7 @@ import Stage = Laya.Stage;
 import Sprite = Laya.Sprite
 
 
-import LayaScene2D = LayaPan3D.LayaScene2D
-import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo
-
+import Game2dDemo = base.Game2dDemo;
  
 
 class LayaLaunch {
@@ -69,7 +67,7 @@ class LayaLaunch {
 
 
 
-        var spriteD: LayaScene2D = new LayaGame2dDemo("res/ui/icon/512b.jpg", () => {
+        var spriteD: Game2dDemo = new Game2dDemo("res/ui/icon/512b.jpg", () => {
             spriteD.scale(1, 1)
         })
         topBox.addChild(spriteD);
