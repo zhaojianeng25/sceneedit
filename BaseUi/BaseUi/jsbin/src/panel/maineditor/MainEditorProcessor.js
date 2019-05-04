@@ -107,7 +107,9 @@ var maineditor;
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
                     var stateObject = { id: 1 };
                     var title = "";
-                    var newUrl = "index.html?mapurl=" + $mainEditorEvent.data;
+                    var pathname = window.location.pathname.split("/");
+                    var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $mainEditorEvent.data;
+                    console.log(newUrl);
                     history.pushState(null, title, newUrl);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {

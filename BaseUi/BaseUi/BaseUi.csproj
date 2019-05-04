@@ -20,6 +20,7 @@
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="sceneindex.html" />
     <Content Include="layamain.html" />
     <Content Include="libs\inflate.min.js" />
     <Content Include="index.html" />
