@@ -30,6 +30,12 @@
             left: 0px;
         }
     </style>
+    <script src="libs/inflate.min.js"></script>
+    <script src="libs/tween/TweenLite.min.js"></script>
+    <script src="libs/oss/aliyun-oss-sdk-4.4.4.min.js"></script>
+
+
+
 
 
     <script src="jsbin/pan3d/engine/events/Event.js"></script>
@@ -550,23 +556,19 @@
 
 
 
-
-    <script src="jsbin/src/laya3d/Laya3dSprite.js"></script>
-    <script src="jsbin/src/laya3d/LayaScene2D.js"></script>
-    <script src="jsbin/src/laya3d/LayaScene3D.js"></script>
-    <script src="jsbin/src/laya3d/LayaGame2dDemo.js"></script>
-
- 
+    <script src="jsbin/src/ModuleList.js"></script>
+    <script src="jsbin/src/AppData.js"></script>
+    <script src="jsbin/src/TextEditStart.js"></script>
 
 
 
     <script>
 
         function init() {
-       //     LayaLaunch.initCanvas(document.getElementById('ArpgStageCanvas'));
+            TextEditStart.initCanvas(document.getElementById('ArpgStageCanvas'));
         }
         function resetSize() {
-
+            TextEditStart.resetSize();
 
         }
 
@@ -575,5 +577,5 @@
 
 <body onload='init()' onresize="resetSize()" style="overflow-x: hidden; overflow-y: hidden;background-color:#000000">
     <canvas id="ArpgStageCanvas" width="800" height="600" style="z-index:0"></canvas>
-
+ 
 </html>
