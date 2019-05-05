@@ -8,9 +8,7 @@
             super.initScene();
             this.addEvents();
             this.addSceneModel();
- 
-            this.bgColor = new Vector3D(0,0,0,1)
- 
+            this.bgColor = new Vector3D(0.1,0.1,0.1,1)
         }
     
         private mainChar: LayaScene2dSceneChar

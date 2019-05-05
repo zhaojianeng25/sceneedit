@@ -112,8 +112,6 @@ module LayaPan3D {
                 this.renderToTexture();
                 Laya.BaseShader.activeShader = null;
                 Laya.BaseShader.bindShader = null;
-
-
             }
         }
         protected renderToTexture(): void {

@@ -24,7 +24,7 @@ var LayaPan3D;
             _super.prototype.initScene.call(this);
             this.addEvents();
             this.addSceneModel();
-            this.bgColor = new Vector3D(0, 0, 0, 1);
+            this.bgColor = new Vector3D(0.1, 0.1, 0.1, 1);
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
             this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5;
