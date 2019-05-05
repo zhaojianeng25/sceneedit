@@ -28,7 +28,7 @@
             
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-          //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
           
