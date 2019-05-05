@@ -33,6 +33,7 @@
           </StartWorkingDirectory>
           <EnableENC>True</EnableENC>
           <AlwaysStartWebServerOnDebug>True</AlwaysStartWebServerOnDebug>
+		  <TypeScriptGeneratesDeclarations>true</TypeScriptGeneratesDeclarations>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
