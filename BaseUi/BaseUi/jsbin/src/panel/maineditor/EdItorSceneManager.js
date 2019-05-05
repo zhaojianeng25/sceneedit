@@ -64,7 +64,7 @@ var maineditor;
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            if (this.fbo && this.textureRes) {
+            if (this.textureRes) {
                 this.textureRes.texture = this.fbo.texture;
             }
             GlReset.resetBasePrarame(Scene_data.context3D.renderContext);

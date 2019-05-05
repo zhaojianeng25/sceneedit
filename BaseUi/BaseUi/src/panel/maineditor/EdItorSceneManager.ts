@@ -67,7 +67,7 @@
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            if (this.fbo && this.textureRes) {
+            if (this.textureRes) {
                 this.textureRes.texture = this.fbo.texture;
             }
             GlReset.resetBasePrarame(Scene_data.context3D.renderContext);
@@ -82,8 +82,7 @@
             Scene_data.focus3D = this.focus3D;
             Scene_data.viewMatrx3D = this.viewMatrx3D;
             MathClass.updateVp()
- 
-  
+
             if (isNaN(this._time)) {
                 this._time = TimeUtil.getTimer();
             }
@@ -106,8 +105,6 @@
                 Scene_data.context3D.setBlendParticleFactors(1);
                 this.particleManager.update();
             }
-
-
 
             Scene_data.cam3D = lastCam3D;
             Scene_data.focus3D = lastfocus3D;

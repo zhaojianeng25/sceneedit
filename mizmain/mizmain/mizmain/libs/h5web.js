@@ -61336,7 +61336,7 @@ var maineditor;
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-            //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
             gl.clearDepth(1.0);
@@ -61372,7 +61372,7 @@ var maineditor;
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            if (this.fbo && this.textureRes) {
+            if (this.textureRes) {
                 this.textureRes.texture = this.fbo.texture;
             }
             GlReset.resetBasePrarame(Scene_data.context3D.renderContext);
@@ -62462,11 +62462,12 @@ var LayaPan3D;
             this.bgColor = new Vector3D(0.1, 0.1, 0.1, 1);
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5;
+            this.sceneManager.cam3D.scene2dScale = 10;
             var $baseChar = new LayaPan3D.LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
-            $baseChar.set2dPos(200, 200);
+            $baseChar.set2dPos(100, 100);
+            $baseChar.rotationY = 180;
             this.mainChar = $baseChar;
             var rect100 = new Pan3d.me.Rectangle(0, 0, 200, 200);
             for (var i = 0; i < 6; i++) {

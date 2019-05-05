@@ -20,6 +20,7 @@
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="libs\h5web.min.js" />
     <Content Include="main.html" />
     <Content Include="index.html" />
     <Content Include="libs\h5web.js" />
