@@ -17,9 +17,9 @@ module LayaPan3D {
     export class LayaScene3D extends Laya3dSprite  {
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super(value, bfun)
-
             this.addEvents()
             this.addSceneModel()
+            this.bgColor = new Vector3D(0.2, 0.2, 0.2, 1)
         }
         protected addEvents(): void {
             this.on(Pan3d.me.MouseType.MouseDown, this, this.onStartDrag);
@@ -55,19 +55,15 @@ module LayaPan3D {
 
         }
         private onMouseMove(e: Event): void {
-
             if (this.lastMouseVec2d) {
                 this.sceneManager.focus3D.rotationY = this.lastfocus3D.rotationY - (this.mouseX - this.lastMouseVec2d.x)
                 this.sceneManager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10
-
             }
         }
 
         public upData(): void {
             if (this.sceneManager) {
- 
                 Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-
                 super.upData()
             }
 

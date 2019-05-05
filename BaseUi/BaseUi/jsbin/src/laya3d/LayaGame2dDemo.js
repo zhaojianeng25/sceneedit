@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
+    var Vector3D = Pan3d.me.Vector3D;
     var LayaGame2dDemo = /** @class */ (function (_super) {
         __extends(LayaGame2dDemo, _super);
         function LayaGame2dDemo(value, bfun) {
@@ -23,6 +24,7 @@ var LayaPan3D;
             _super.prototype.initScene.call(this);
             this.addEvents();
             this.addSceneModel();
+            this.bgColor = new Vector3D(0, 0, 0, 1);
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
             this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5;
@@ -55,9 +57,6 @@ var LayaPan3D;
         };
         LayaGame2dDemo.prototype.upData = function () {
             _super.prototype.upData.call(this);
-            if (this.sceneManager.fbo) {
-                this.sceneManager.fbo.color.x = 1;
-            }
         };
         LayaGame2dDemo.prototype.onMouseWheel = function (e) {
             if (!this.rootpos) {

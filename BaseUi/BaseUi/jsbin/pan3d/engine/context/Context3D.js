@@ -2,6 +2,37 @@ var Pan3d;
 (function (Pan3d) {
     var me;
     (function (me) {
+        var GlReset = /** @class */ (function () {
+            function GlReset() {
+            }
+            GlReset.saveBasePrarame = function (gl) {
+                this.GlarrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
+                this.GlelementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
+                this.Glprogram = gl.getParameter(gl.CURRENT_PROGRAM);
+                this.GlsFactor = gl.getParameter(gl.BLEND_SRC_RGB);
+                this.GldFactor = gl.getParameter(gl.BLEND_DST_RGB);
+                this.GldepthWriteMask = gl.getParameter(gl.DEPTH_WRITEMASK);
+                this.GlcullFaceModel = gl.getParameter(gl.CULL_FACE_MODE);
+                this.Glglviewport = gl.getParameter(gl.VIEWPORT);
+                this.GlfrontFace = gl.getParameter(gl.FRONT_FACE);
+                this.GlDepthTest = gl.getParameter(gl.DEPTH_TEST);
+                this.GlCullFace = gl.getParameter(gl.CULL_FACE);
+            };
+            GlReset.resetBasePrarame = function (gl) {
+                gl.useProgram(this.Glprogram); //着色器
+                gl.viewport(this.Glglviewport[0], this.Glglviewport[1], this.Glglviewport[2], this.Glglviewport[3]);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.GlarrayBuffer); //定点对象
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.GlelementArrayBuffer);
+                gl.blendFunc(this.GlsFactor, this.GldFactor); //混合模式
+                gl.depthMask(this.GldepthWriteMask); //写入深度
+                gl.cullFace(this.GlcullFaceModel); //正反面
+                gl.frontFace(this.GlfrontFace); //正反面
+                this.GlCullFace ? gl.enable(gl.CULL_FACE) : gl.disable(gl.CULL_FACE);
+                this.GlDepthTest ? gl.enable(gl.DEPTH_TEST) : gl.disable(gl.DEPTH_TEST);
+            };
+            return GlReset;
+        }());
+        me.GlReset = GlReset;
         var Context3D = /** @class */ (function () {
             function Context3D() {
                 this.setTextureNum = 0;

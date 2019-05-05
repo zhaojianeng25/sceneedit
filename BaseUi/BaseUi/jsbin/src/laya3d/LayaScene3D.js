@@ -22,6 +22,7 @@ var LayaPan3D;
             var _this = _super.call(this, value, bfun) || this;
             _this.addEvents();
             _this.addSceneModel();
+            _this.bgColor = new Vector3D(0.2, 0.2, 0.2, 1);
             return _this;
         }
         LayaScene3D.prototype.addEvents = function () {

@@ -13,7 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Scene_data = Pan3d.me.Scene_data;
+    var LineDisplayShader = Pan3d.me.LineDisplayShader;
+    var GridLineSprite = Pan3d.me.GridLineSprite;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
+    var Camera3D = Pan3d.me.Camera3D;
+    var Rectangle = Pan3d.me.Rectangle;
+    var FBO = Pan3d.me.FBO;
     var MaterialRoleSprite = left.MaterialRoleSprite;
     var ModelSprite = maineditor.ModelSprite;
     var SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
@@ -52,18 +58,31 @@ var LayaPan3D;
             }
         };
         Laya3dSprite.prototype.initScene = function () {
-            Pan3d.me.ProgrmaManager.getInstance().registe(Pan3d.me.LineDisplayShader.LineShader, new Pan3d.me.LineDisplayShader);
+            ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new EdItorSceneManager();
-            var temp = new Pan3d.me.GridLineSprite();
+            var temp = new GridLineSprite();
             this.sceneManager.addDisplay(temp);
-            this.sceneManager.addDisplay(new Pan3d.me.BaseDiplay3dSprite());
+            this.sceneManager.addDisplay(new BaseDiplay3dSprite());
             this.sceneManager.ready = true;
-            this.sceneManager.cam3D = new Pan3d.me.Camera3D();
-            this.sceneManager.cam3D.cavanRect = new Pan3d.me.Rectangle(0, 0, 512, 512);
+            this.sceneManager.cam3D = new Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 512, 512);
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
         };
+        Object.defineProperty(Laya3dSprite.prototype, "bgColor", {
+            set: function (value) {
+                if (!this.sceneManager.fbo) {
+                    this.sceneManager.fbo = new FBO;
+                }
+                this.sceneManager.fbo.color.x = value.x;
+                this.sceneManager.fbo.color.y = value.y;
+                this.sceneManager.fbo.color.z = value.z;
+                this.sceneManager.fbo.color.w = value.w;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Laya3dSprite.prototype.addDisplay = function () {
             var prefabSprite = new ModelSprite();
             prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
@@ -93,42 +112,14 @@ var LayaPan3D;
             lyfSprite.y = 100;
             this.sceneManager.addDisplay(lyfSprite);
         };
-        Laya3dSprite.prototype.saveBasePrarame = function () {
-            var gl = Scene_data.context3D.renderContext;
-            this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
-            this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
-            this.program = gl.getParameter(gl.CURRENT_PROGRAM);
-            this.sFactor = gl.getParameter(gl.BLEND_SRC_RGB);
-            this.dFactor = gl.getParameter(gl.BLEND_DST_RGB);
-            this.depthWriteMask = gl.getParameter(gl.DEPTH_WRITEMASK);
-            this.cullFaceModel = gl.getParameter(gl.CULL_FACE_MODE);
-            this.glviewport = gl.getParameter(gl.VIEWPORT);
-            this.glfrontFace = gl.getParameter(gl.FRONT_FACE);
-        };
-        Laya3dSprite.prototype.resetBasePrarame = function () {
-            var gl = Scene_data.context3D.renderContext;
-            gl.useProgram(this.program); //着色器
-            gl.viewport(this.glviewport[0], this.glviewport[1], this.glviewport[2], this.glviewport[3]);
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer); //定点对象
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
-            gl.blendFunc(this.sFactor, this.dFactor); //混合模式
-            gl.depthMask(this.depthWriteMask); //写入深度
-            gl.enable(gl.CULL_FACE);
-            gl.cullFace(this.cullFaceModel); //正反面
-            gl.frontFace(this.glfrontFace); //正反面
-            Scene_data.context3D.setBlendParticleFactors(-1);
-            Scene_data.context3D.setDepthTest(false);
-            Laya.BaseShader.activeShader = null;
-            Laya.BaseShader.bindShader = null;
-        };
         Laya3dSprite.prototype.upData = function () {
             if (this.sceneManager && this.parent) {
-                this.saveBasePrarame();
                 if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
                     this.texture.bitmap._source = this.sceneManager.fbo.texture;
                 }
                 this.renderToTexture();
-                this.resetBasePrarame();
+                Laya.BaseShader.activeShader = null;
+                Laya.BaseShader.bindShader = null;
             }
         };
         Laya3dSprite.prototype.renderToTexture = function () {

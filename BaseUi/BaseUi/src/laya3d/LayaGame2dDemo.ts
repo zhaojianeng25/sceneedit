@@ -1,4 +1,5 @@
 ﻿module LayaPan3D {
+    import Vector3D = Pan3d.me.Vector3D
     export class LayaGame2dDemo extends LayaScene2D {
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super(value, bfun)
@@ -8,7 +9,10 @@
             this.addEvents();
             this.addSceneModel();
  
+            this.bgColor = new Vector3D(0,0,0,1)
+ 
         }
+    
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
             this.sceneManager.cam3D.scene2dScale = 1 + Math.random()*5
@@ -22,9 +26,7 @@
                 for (var j: number = 0; j < 4; j++) {
                     if (i == j) {
                         this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.me.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
-
                     }
-
                 }
             }
         }
@@ -42,14 +44,10 @@
             this.rootpos = new Vector2D(-100,-100)
         }
         public upData(): void {
-
             super.upData()
-            if (this.sceneManager.fbo) {
-                this.sceneManager.fbo.color.x=1
-            }
+          
         }
         private onMouseWheel(e: any): void {
- 
             if (!this.rootpos) {
                 this.rootpos = new Vector2D()
             }
@@ -66,8 +64,6 @@
                 var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);
 
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
-
-
                 this.mainChar.set2dPos(v2d.x, v2d.y);
             }
         }

@@ -13,12 +13,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var SceneManager = layapan.me.LayaOverride2dSceneManager;
     var Scene_data = Pan3d.me.Scene_data;
     var TimeUtil = Pan3d.me.TimeUtil;
     var MathClass = Pan3d.me.MathClass;
     var FBO = Pan3d.me.FBO;
-    var Engine = Pan3d.me.Engine;
+    var GlReset = Pan3d.me.GlReset;
+    var SceneManager = layapan.me.LayaOverride2dSceneManager;
     var EdItorSceneManager = /** @class */ (function (_super) {
         __extends(EdItorSceneManager, _super);
         function EdItorSceneManager() {
@@ -28,11 +28,9 @@ var maineditor;
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
-            // gl.clearColor(Math.random(), 20 / 255, 20 / 255, 1.0);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
-            // gl.clearColor(0,0,0,0);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
             gl.enable(gl.DEPTH_TEST);
@@ -43,6 +41,7 @@ var maineditor;
         };
         EdItorSceneManager.prototype.renderToTexture = function ($m) {
             if ($m === void 0) { $m = null; }
+            GlReset.saveBasePrarame(Scene_data.context3D.renderContext);
             if (!this.fbo) {
                 this.fbo = new FBO;
             }
@@ -65,10 +64,10 @@ var maineditor;
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            Engine.resetSize();
             if (this.fbo && this.textureRes) {
                 this.textureRes.texture = this.fbo.texture;
             }
+            GlReset.resetBasePrarame(Scene_data.context3D.renderContext);
         };
         EdItorSceneManager.prototype.update = function () {
             var lastCam3D = Scene_data.cam3D;

@@ -1,5 +1,5 @@
 ﻿module maineditor {
-    import SceneManager = layapan.me.LayaOverride2dSceneManager
+
     import Scene_data = Pan3d.me.Scene_data
     import TimeUtil = Pan3d.me.TimeUtil
     import MathClass = Pan3d.me.MathClass
@@ -11,6 +11,9 @@
     import Camera3D = Pan3d.me.Camera3D
     import Object3D = Pan3d.me.Object3D
     import Matrix3D = Pan3d.me.Matrix3D
+    import GlReset = Pan3d.me.GlReset
+
+    import SceneManager = layapan.me.LayaOverride2dSceneManager
 
     export class EdItorSceneManager extends SceneManager {
         constructor() {
@@ -25,18 +28,17 @@
             
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
-
+          //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
-           // gl.clearColor(Math.random(), 20 / 255, 20 / 255, 1.0);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
-           // gl.clearColor(0,0,0,0);
+          
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
             gl.enable(gl.DEPTH_TEST);
             gl.depthMask(true);
             gl.enable(gl.BLEND);
             gl.frontFace(gl.CW);
+      
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
  
  
@@ -44,12 +46,12 @@
     
 
         public renderToTexture($m: Matrix3D = null): void { //透视矩阵
+            GlReset.saveBasePrarame(Scene_data.context3D.renderContext);
             if (!this.fbo) {
                 this.fbo = new FBO;
             } else {
                 this.fbo.resetSize(this.cam3D.cavanRect.width, this.cam3D.cavanRect.height);
             }
-
             if ($m) {
                 this.viewMatrx3D = $m
             } else {
@@ -59,22 +61,16 @@
                 var sceneViewHW: number = 400 / this.cam3D.cavanRect.width;
                 this.viewMatrx3D.appendScale(sceneViewHW, sceneViewHW, 1);
             }
-
-       
-
             this.updateDepthTexture(this.fbo);
-
             this.update();
-
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            Engine.resetSize();
-
             if (this.fbo && this.textureRes) {
                 this.textureRes.texture = this.fbo.texture;
             }
+            GlReset.resetBasePrarame(Scene_data.context3D.renderContext);
         }
         public textureRes: Pan3d.me.TextureRes;
         public update(): void {
