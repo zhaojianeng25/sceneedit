@@ -10,6 +10,8 @@ declare module LayaPan3D {
         protected addSkillRole(): void;
         private addLyfSprite;
         private saveBasePrarame;
+        private glfrontFace;
+        private glviewport;
         private cullFaceModel;
         private depthWriteMask;
         private sFactor;

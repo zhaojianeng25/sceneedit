@@ -102,19 +102,22 @@ var LayaPan3D;
             this.dFactor = gl.getParameter(gl.BLEND_DST_RGB);
             this.depthWriteMask = gl.getParameter(gl.DEPTH_WRITEMASK);
             this.cullFaceModel = gl.getParameter(gl.CULL_FACE_MODE);
+            this.glviewport = gl.getParameter(gl.VIEWPORT);
+            this.glfrontFace = gl.getParameter(gl.FRONT_FACE);
         };
         Laya3dSprite.prototype.resetBasePrarame = function () {
             var gl = Scene_data.context3D.renderContext;
             gl.useProgram(this.program); //着色器
+            gl.viewport(this.glviewport[0], this.glviewport[1], this.glviewport[2], this.glviewport[3]);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer); //定点对象
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
             gl.blendFunc(this.sFactor, this.dFactor); //混合模式
             gl.depthMask(this.depthWriteMask); //写入深度
             gl.enable(gl.CULL_FACE);
             gl.cullFace(this.cullFaceModel); //正反面
+            gl.frontFace(this.glfrontFace); //正反面
             Scene_data.context3D.setBlendParticleFactors(-1);
             Scene_data.context3D.setDepthTest(false);
-            Scene_data.context3D.cullFaceBack(true);
             Laya.BaseShader.activeShader = null;
             Laya.BaseShader.bindShader = null;
         };
