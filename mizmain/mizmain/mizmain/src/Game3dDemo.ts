@@ -61,12 +61,9 @@ module base {
 
         public upData(): void {
             if (this.sceneManager) {
-
                 Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-
                 super.upData()
             }
-
 
         }
 

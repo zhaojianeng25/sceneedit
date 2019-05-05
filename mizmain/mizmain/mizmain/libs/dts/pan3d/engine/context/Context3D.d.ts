@@ -1,4 +1,19 @@
 declare module Pan3d.me {
+    class GlReset {
+        static saveBasePrarame(gl: WebGLRenderingContext): void;
+        private static GlarrayBuffer;
+        private static GlelementArrayBuffer;
+        private static GlCullFace;
+        private static GlDepthTest;
+        private static GlfrontFace;
+        private static Glglviewport;
+        private static GlcullFaceModel;
+        private static GldepthWriteMask;
+        private static GlsFactor;
+        private static GldFactor;
+        private static Glprogram;
+        static resetBasePrarame(gl: WebGLRenderingContext): void;
+    }
     class Context3D {
         renderContext: WebGLRenderingContext;
         _contextSetTest: ContextSetTest;

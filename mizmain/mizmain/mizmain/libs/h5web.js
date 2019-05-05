@@ -848,6 +848,37 @@ var Pan3d;
 (function (Pan3d) {
     var me;
     (function (me) {
+        var GlReset = /** @class */ (function () {
+            function GlReset() {
+            }
+            GlReset.saveBasePrarame = function (gl) {
+                this.GlarrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
+                this.GlelementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
+                this.Glprogram = gl.getParameter(gl.CURRENT_PROGRAM);
+                this.GlsFactor = gl.getParameter(gl.BLEND_SRC_RGB);
+                this.GldFactor = gl.getParameter(gl.BLEND_DST_RGB);
+                this.GldepthWriteMask = gl.getParameter(gl.DEPTH_WRITEMASK);
+                this.GlcullFaceModel = gl.getParameter(gl.CULL_FACE_MODE);
+                this.Glglviewport = gl.getParameter(gl.VIEWPORT);
+                this.GlfrontFace = gl.getParameter(gl.FRONT_FACE);
+                this.GlDepthTest = gl.getParameter(gl.DEPTH_TEST);
+                this.GlCullFace = gl.getParameter(gl.CULL_FACE);
+            };
+            GlReset.resetBasePrarame = function (gl) {
+                gl.useProgram(this.Glprogram); //着色器
+                gl.viewport(this.Glglviewport[0], this.Glglviewport[1], this.Glglviewport[2], this.Glglviewport[3]);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.GlarrayBuffer); //定点对象
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.GlelementArrayBuffer);
+                gl.blendFunc(this.GlsFactor, this.GldFactor); //混合模式
+                gl.depthMask(this.GldepthWriteMask); //写入深度
+                gl.cullFace(this.GlcullFaceModel); //正反面
+                gl.frontFace(this.GlfrontFace); //正反面
+                this.GlCullFace ? gl.enable(gl.CULL_FACE) : gl.disable(gl.CULL_FACE);
+                this.GlDepthTest ? gl.enable(gl.DEPTH_TEST) : gl.disable(gl.DEPTH_TEST);
+            };
+            return GlReset;
+        }());
+        me.GlReset = GlReset;
         var Context3D = /** @class */ (function () {
             function Context3D() {
                 this.setTextureNum = 0;
@@ -61290,12 +61321,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var SceneManager = layapan.me.LayaOverride2dSceneManager;
     var Scene_data = Pan3d.me.Scene_data;
     var TimeUtil = Pan3d.me.TimeUtil;
     var MathClass = Pan3d.me.MathClass;
     var FBO = Pan3d.me.FBO;
-    var Engine = Pan3d.me.Engine;
+    var GlReset = Pan3d.me.GlReset;
+    var SceneManager = layapan.me.LayaOverride2dSceneManager;
     var EdItorSceneManager = /** @class */ (function (_super) {
         __extends(EdItorSceneManager, _super);
         function EdItorSceneManager() {
@@ -61305,11 +61336,9 @@ var maineditor;
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
-            // gl.clearColor(Math.random(), 20 / 255, 20 / 255, 1.0);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
-            // gl.clearColor(0,0,0,0);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
             gl.enable(gl.DEPTH_TEST);
@@ -61320,6 +61349,7 @@ var maineditor;
         };
         EdItorSceneManager.prototype.renderToTexture = function ($m) {
             if ($m === void 0) { $m = null; }
+            GlReset.saveBasePrarame(Scene_data.context3D.renderContext);
             if (!this.fbo) {
                 this.fbo = new FBO;
             }
@@ -61342,10 +61372,10 @@ var maineditor;
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            Engine.resetSize();
             if (this.fbo && this.textureRes) {
                 this.textureRes.texture = this.fbo.texture;
             }
+            GlReset.resetBasePrarame(Scene_data.context3D.renderContext);
         };
         EdItorSceneManager.prototype.update = function () {
             var lastCam3D = Scene_data.cam3D;
@@ -61984,7 +62014,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Scene_data = Pan3d.me.Scene_data;
+    var LineDisplayShader = Pan3d.me.LineDisplayShader;
+    var GridLineSprite = Pan3d.me.GridLineSprite;
+    var ProgrmaManager = Pan3d.me.ProgrmaManager;
+    var BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
+    var Camera3D = Pan3d.me.Camera3D;
+    var Rectangle = Pan3d.me.Rectangle;
+    var FBO = Pan3d.me.FBO;
     var MaterialRoleSprite = left.MaterialRoleSprite;
     var ModelSprite = maineditor.ModelSprite;
     var SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
@@ -62023,18 +62059,31 @@ var LayaPan3D;
             }
         };
         Laya3dSprite.prototype.initScene = function () {
-            Pan3d.me.ProgrmaManager.getInstance().registe(Pan3d.me.LineDisplayShader.LineShader, new Pan3d.me.LineDisplayShader);
+            ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new EdItorSceneManager();
-            var temp = new Pan3d.me.GridLineSprite();
+            var temp = new GridLineSprite();
             this.sceneManager.addDisplay(temp);
-            this.sceneManager.addDisplay(new Pan3d.me.BaseDiplay3dSprite());
+            this.sceneManager.addDisplay(new BaseDiplay3dSprite());
             this.sceneManager.ready = true;
-            this.sceneManager.cam3D = new Pan3d.me.Camera3D();
-            this.sceneManager.cam3D.cavanRect = new Pan3d.me.Rectangle(0, 0, 512, 512);
+            this.sceneManager.cam3D = new Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 512, 512);
             this.sceneManager.cam3D.distance = 200;
             this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
         };
+        Object.defineProperty(Laya3dSprite.prototype, "bgColor", {
+            set: function (value) {
+                if (!this.sceneManager.fbo) {
+                    this.sceneManager.fbo = new FBO;
+                }
+                this.sceneManager.fbo.color.x = value.x;
+                this.sceneManager.fbo.color.y = value.y;
+                this.sceneManager.fbo.color.z = value.z;
+                this.sceneManager.fbo.color.w = value.w;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Laya3dSprite.prototype.addDisplay = function () {
             var prefabSprite = new ModelSprite();
             prefabSprite.setPreFabUrl("pefab/模型/球/球.prefab");
@@ -62064,39 +62113,14 @@ var LayaPan3D;
             lyfSprite.y = 100;
             this.sceneManager.addDisplay(lyfSprite);
         };
-        Laya3dSprite.prototype.saveBasePrarame = function () {
-            var gl = Scene_data.context3D.renderContext;
-            this.arrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
-            this.elementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
-            this.program = gl.getParameter(gl.CURRENT_PROGRAM);
-            this.sFactor = gl.getParameter(gl.BLEND_SRC_RGB);
-            this.dFactor = gl.getParameter(gl.BLEND_DST_RGB);
-            this.depthWriteMask = gl.getParameter(gl.DEPTH_WRITEMASK);
-            this.cullFaceModel = gl.getParameter(gl.CULL_FACE_MODE);
-        };
-        Laya3dSprite.prototype.resetBasePrarame = function () {
-            var gl = Scene_data.context3D.renderContext;
-            gl.useProgram(this.program); //着色器
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.arrayBuffer); //定点对象
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
-            gl.blendFunc(this.sFactor, this.dFactor); //混合模式
-            gl.depthMask(this.depthWriteMask); //写入深度
-            gl.enable(gl.CULL_FACE);
-            gl.cullFace(this.cullFaceModel); //正反面
-            Scene_data.context3D.setBlendParticleFactors(-1);
-            Scene_data.context3D.setDepthTest(false);
-            Scene_data.context3D.cullFaceBack(true);
-            Laya.BaseShader.activeShader = null;
-            Laya.BaseShader.bindShader = null;
-        };
         Laya3dSprite.prototype.upData = function () {
             if (this.sceneManager && this.parent) {
-                this.saveBasePrarame();
                 if (this.sceneManager.fbo && this.texture && this.texture.bitmap) {
                     this.texture.bitmap._source = this.sceneManager.fbo.texture;
                 }
                 this.renderToTexture();
-                this.resetBasePrarame();
+                Laya.BaseShader.activeShader = null;
+                Laya.BaseShader.bindShader = null;
             }
         };
         Laya3dSprite.prototype.renderToTexture = function () {
@@ -62360,6 +62384,7 @@ var LayaPan3D;
             var _this = _super.call(this, value, bfun) || this;
             _this.addEvents();
             _this.addSceneModel();
+            _this.bgColor = new Vector3D(0.2, 0.2, 0.2, 1);
             return _this;
         }
         LayaScene3D.prototype.addEvents = function () {
@@ -62423,6 +62448,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
+    var Vector3D = Pan3d.me.Vector3D;
     var LayaGame2dDemo = /** @class */ (function (_super) {
         __extends(LayaGame2dDemo, _super);
         function LayaGame2dDemo(value, bfun) {
@@ -62433,6 +62459,7 @@ var LayaPan3D;
             _super.prototype.initScene.call(this);
             this.addEvents();
             this.addSceneModel();
+            this.bgColor = new Vector3D(0.1, 0.1, 0.1, 1);
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
             this.sceneManager.cam3D.scene2dScale = 1 + Math.random() * 5;
@@ -62462,6 +62489,9 @@ var LayaPan3D;
             this.on(Pan3d.me.MouseType.MouseDown, this, this.onStartDrag);
             this.on(Pan3d.me.MouseType.MouseWheel, this, this.onMouseWheel);
             this.rootpos = new Vector2D(-100, -100);
+        };
+        LayaGame2dDemo.prototype.upData = function () {
+            _super.prototype.upData.call(this);
         };
         LayaGame2dDemo.prototype.onMouseWheel = function (e) {
             if (!this.rootpos) {

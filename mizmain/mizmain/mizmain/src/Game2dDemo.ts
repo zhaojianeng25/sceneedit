@@ -36,15 +36,7 @@
                 }
             }
         }
-        public upData(): void {
-            super.upData()
-            if (this.sceneManager.fbo) {
-                this.sceneManager.fbo.color.x = 0.2
-                this.sceneManager.fbo.color.y = 0.2
-                this.sceneManager.fbo.color.z = 0.2
-                this.sceneManager.fbo.color.w = 0.9
-            }
-        }
+   
         public addGrouandPic(value: string, rect: Pan3d.me.Rectangle): LayaScene2dPicSprit {
             var tempPic: LayaScene2dPicSprit = new LayaScene2dPicSprit(value);
             tempPic.set2dPos(rect.x, rect.y);

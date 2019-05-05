@@ -44,15 +44,6 @@ var base;
                 }
             }
         };
-        Game2dDemo.prototype.upData = function () {
-            _super.prototype.upData.call(this);
-            if (this.sceneManager.fbo) {
-                this.sceneManager.fbo.color.x = 0.2;
-                this.sceneManager.fbo.color.y = 0.2;
-                this.sceneManager.fbo.color.z = 0.2;
-                this.sceneManager.fbo.color.w = 0.9;
-            }
-        };
         Game2dDemo.prototype.addGrouandPic = function (value, rect) {
             var tempPic = new LayaScene2dPicSprit(value);
             tempPic.set2dPos(rect.x, rect.y);

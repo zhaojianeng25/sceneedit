@@ -23,7 +23,6 @@
     <Content Include="main.html" />
     <Content Include="index.html" />
     <Content Include="libs\h5web.js" />
-    <Content Include="libs\h5web.min.js" />
     <Content Include="libs\laya.core.js" />
     <Content Include="libs\laya.ui.js" />
     <Content Include="libs\laya.webgl.js" />
