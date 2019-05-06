@@ -14,6 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 var LayaPan3D;
 (function (LayaPan3D) {
     var Vector3D = Pan3d.me.Vector3D;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Scene_data = Pan3d.me.Scene_data;
     var LayaGame2dDemo = /** @class */ (function (_super) {
         __extends(LayaGame2dDemo, _super);
         function LayaGame2dDemo(value, bfun) {
@@ -43,6 +45,25 @@ var LayaPan3D;
                 }
             }
         };
+        LayaGame2dDemo.prototype.addFramePartice = function () {
+            var pathname = "pan/atlas";
+            var effictname = "10101_1";
+            var info = {};
+            info.timeLen = 1000;
+            info.frameScale = 0.1;
+            info.loop = false;
+            info.isShow = this.isShowBase;
+            var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
+            this.sceneManager.particleManager.addParticle(combineParticle);
+            var povsto = new Vector2D(100, 200);
+            var povsto = new Vector2D(0, 0);
+            var $nScale = 1;
+            var $tx = povsto.x * $nScale;
+            var $tz = povsto.y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
+            combineParticle.x = $tx;
+            combineParticle.y = 0;
+            combineParticle.z = $tz;
+        };
         LayaGame2dDemo.prototype.addGrouandPic = function (value, rect) {
             var tempPic = new LayaPan3D.LayaScene2dPicSprit(value);
             tempPic.set2dPos(rect.x, rect.y);
@@ -68,6 +89,7 @@ var LayaPan3D;
             console.log(this.rootpos);
         };
         LayaGame2dDemo.prototype.onStartDrag = function (e) {
+            this.addFramePartice();
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             }

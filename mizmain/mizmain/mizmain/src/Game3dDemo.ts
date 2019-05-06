@@ -6,6 +6,10 @@ module base {
     import Laya3dSprite = LayaPan3D.Laya3dSprite;
     import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
 
+    import Scene_data = Pan3d.me.Scene_data;
+
+    import CombineParticle = Pan3d.me.CombineParticle
+
     export class Game3dDemo extends Laya3dSprite {
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super(value, bfun)
@@ -43,9 +47,12 @@ module base {
                 this.lastfocus3D = new Object3D()
                 this.lastfocus3D.rotationY = this.sceneManager.focus3D.rotationY
                 this.lastfocus3D.rotationX = this.sceneManager.focus3D.rotationX
+
+    
             }
 
         }
+
         private onMouseUp(e: Event): void {
             this.lastMouseVec2d = null
 

@@ -1,7 +1,19 @@
 ﻿
 declare module layapan.me {
+    import CombineParticle = Pan3d.me.CombineParticle
+    import ParticleManager = Pan3d.me.ParticleManager
+    import Display3DParticle = Pan3d.me.Display3DParticle
+    class Frame3DAtlasParticle extends Display3DParticle {
+        public static getFrameParticle(pathurl: string, fileBaseName: string, info: any): CombineParticle;
+    }
+
+    class LayaOverride2dParticleManager extends ParticleManager {
+
+
+    }
     class LayaOverride2dSceneManager extends Pan3d.me.SceneManager {
         public addMovieDisplay($display: Pan3d.me.Display3dMovie): void;
+        public particleManager: LayaOverride2dParticleManager
     }
 }
 declare module maineditor {

@@ -2,8 +2,10 @@
     import Vector2D = Pan3d.me.Vector2D
     import Rectangle = Pan3d.me.Rectangle
     import MouseType = Pan3d.me.MouseType
+    import CombineParticle = Pan3d.me.CombineParticle
+    import Scene_data = Pan3d.me.Scene_data
     
-
+    
     import LayaScene2dPicSprit = LayaPan3D.LayaScene2dPicSprit;
     import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
 
@@ -69,7 +71,34 @@
                 var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
                 this.mainChar.set2dPos(v2d.x, v2d.y);
+
+                this.addFramePartice(new Vector2D(this.mouseX, this.mouseY))
             }
+        }
+
+        private addFramePartice(v2d: Vector2D): void {
+
+            var pathname: string = "pan/atlas"
+            var effictname: string = "10101_1"
+            var info: any = {}
+            info.timeLen = 1000
+            info.frameScale = 0.1
+            info.loop = false
+            info.isShow = true
+            var combineParticle: CombineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info)
+            this.sceneManager.particleManager.addParticle(combineParticle);
+            var povsto: Vector2D = new Vector2D(v2d.x, v2d.y)
+ 
+            var $nScale: number = 1
+            var $tx: number = povsto.x * $nScale;
+            var $tz: number = povsto.y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
+            combineParticle.x = $tx;
+            combineParticle.y = 0;
+            combineParticle.z = $tz;
+
+ 
+
+
         }
 
     }

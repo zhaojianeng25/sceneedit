@@ -15,6 +15,7 @@ var base;
 (function (base) {
     var Vector2D = Pan3d.me.Vector2D;
     var MouseType = Pan3d.me.MouseType;
+    var Scene_data = Pan3d.me.Scene_data;
     var LayaScene2dPicSprit = LayaPan3D.LayaScene2dPicSprit;
     var LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
     var LayaScene2D = LayaPan3D.LayaScene2D;
@@ -73,7 +74,26 @@ var base;
                 var v2d = this.getMousePos(this.mouseX, this.mouseY);
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d);
                 this.mainChar.set2dPos(v2d.x, v2d.y);
+                this.addFramePartice(new Vector2D(this.mouseX, this.mouseY));
             }
+        };
+        Game2dDemo.prototype.addFramePartice = function (v2d) {
+            var pathname = "pan/atlas";
+            var effictname = "10101_1";
+            var info = {};
+            info.timeLen = 1000;
+            info.frameScale = 0.1;
+            info.loop = false;
+            info.isShow = true;
+            var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
+            this.sceneManager.particleManager.addParticle(combineParticle);
+            var povsto = new Vector2D(v2d.x, v2d.y);
+            var $nScale = 1;
+            var $tx = povsto.x * $nScale;
+            var $tz = povsto.y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
+            combineParticle.x = $tx;
+            combineParticle.y = 0;
+            combineParticle.z = $tz;
         };
         return Game2dDemo;
     }(LayaScene2D));
