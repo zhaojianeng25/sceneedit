@@ -220,6 +220,20 @@ module LayaPan3D {
             return new Vector2D(toX  , toY );
 
         }
+        //通过2D坐标得到3D坐标
+        public getPos3dBy2D($x: number, $y: number): Vector3D {
+            var $nScale: number = 1;
+            var $num45: number = 45;
+            if (this.sceneManager) {
+                $nScale = 2 / this.sceneManager.cam3D.scene2dScale;
+                $num45 = Math.abs(this.sceneManager.focus3D.rotationX);
+            } else {
+                console.log("没有添加到场景算出来的坐标不确定是否正确")
+            }
+          //  var $tx: number = $x * $nScale;
+          //  var $tz: number = $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1;
+            return new Vector3D($x * $nScale,0, $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1)
+        }
         //更换上2D透视矩阵
         protected renderToTexture(): void {
             var m: Matrix3D = new Matrix3D

@@ -213,6 +213,21 @@ var LayaPan3D;
             var toY = (mousePos.y + this.rootpos.y) * (Math.sin($num45 * Math.PI / 180)) * 2;
             return new Vector2D(toX, toY);
         };
+        //通过2D坐标得到3D坐标
+        LayaScene2D.prototype.getPos3dBy2D = function ($x, $y) {
+            var $nScale = 1;
+            var $num45 = 45;
+            if (this.sceneManager) {
+                $nScale = 2 / this.sceneManager.cam3D.scene2dScale;
+                $num45 = Math.abs(this.sceneManager.focus3D.rotationX);
+            }
+            else {
+                console.log("没有添加到场景算出来的坐标不确定是否正确");
+            }
+            //  var $tx: number = $x * $nScale;
+            //  var $tz: number = $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1;
+            return new Vector3D($x * $nScale, 0, $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1);
+        };
         //更换上2D透视矩阵
         LayaScene2D.prototype.renderToTexture = function () {
             var m = new Matrix3D;

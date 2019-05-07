@@ -33,6 +33,7 @@ declare module LayaPan3D {
         protected initScene(): void;
         upData(): void;
         protected getMousePos(tx: number, ty: number): Vector2D;
+        getPos3dBy2D($x: number, $y: number): Vector3D;
         protected renderToTexture(): void;
     }
 }

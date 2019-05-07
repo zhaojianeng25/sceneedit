@@ -17,7 +17,7 @@
     
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale = 10
+            this.sceneManager.cam3D.scene2dScale = 2
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -33,26 +33,23 @@
                 }
             }
         }
-        private isShowBase: boolean
-        private addFramePartice(): void {
+      
+        private addFramePartice(v2d: Vector2D ): void {
 
-            var pathname: string = "pan/atlas"
-            var effictname: string ="10101_1"
-            var info: any = {}
+            var pathname: string = "pan/atlas";
+            var effictname: string = "10101_1";
+            var info: any = {}；
             info.timeLen = 1000
             info.frameScale =0.1
             info.loop = false
-            info.isShow = this.isShowBase
+            info.isShow = true //是否在最上层
             var combineParticle: CombineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info)
             this.sceneManager.particleManager.addParticle(combineParticle);
-            var povsto: Vector2D = new Vector2D(100, 200)
-            var povsto: Vector2D = new Vector2D(0, 0)
-            var $nScale: number =1
-            var $tx: number = povsto.x * $nScale;
-            var $tz: number = povsto.y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
-            combineParticle.x = $tx;
+
+            var v3d: Vector3D = this.getPos3dBy2D(v2d.x, v2d.y)
+            combineParticle.x = v3d.x;
             combineParticle.y = 0;
-            combineParticle.z = $tz;
+            combineParticle.z = v3d.z;
 
 
         }
@@ -84,13 +81,12 @@
         }
         private dragRegion: Laya.Rectangle;
         private onStartDrag(e: Event): void {
-
-            this.addFramePartice()
+ 
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             } else {
                 var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);
-
+                this.addFramePartice(v2d)
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
                 this.mainChar.set2dPos(v2d.x, v2d.y);
             }

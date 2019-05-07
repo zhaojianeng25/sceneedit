@@ -29,7 +29,7 @@ var LayaPan3D;
             this.bgColor = new Vector3D(0.1, 0.1, 0.1, 1);
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 10;
+            this.sceneManager.cam3D.scene2dScale = 2;
             var $baseChar = new LayaPan3D.LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -45,24 +45,20 @@ var LayaPan3D;
                 }
             }
         };
-        LayaGame2dDemo.prototype.addFramePartice = function () {
+        LayaGame2dDemo.prototype.addFramePartice = function (v2d) {
             var pathname = "pan/atlas";
             var effictname = "10101_1";
             var info = {};
             info.timeLen = 1000;
             info.frameScale = 0.1;
             info.loop = false;
-            info.isShow = this.isShowBase;
+            info.isShow = true; //是否在最上层
             var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
             this.sceneManager.particleManager.addParticle(combineParticle);
-            var povsto = new Vector2D(100, 200);
-            var povsto = new Vector2D(0, 0);
-            var $nScale = 1;
-            var $tx = povsto.x * $nScale;
-            var $tz = povsto.y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
-            combineParticle.x = $tx;
+            var v3d = this.getPos3dBy2D(v2d.x, v2d.y);
+            combineParticle.x = v3d.x;
             combineParticle.y = 0;
-            combineParticle.z = $tz;
+            combineParticle.z = v3d.z;
         };
         LayaGame2dDemo.prototype.addGrouandPic = function (value, rect) {
             var tempPic = new LayaPan3D.LayaScene2dPicSprit(value);
@@ -89,12 +85,12 @@ var LayaPan3D;
             console.log(this.rootpos);
         };
         LayaGame2dDemo.prototype.onStartDrag = function (e) {
-            this.addFramePartice();
             if (this.mouseY < this.height * 0.2) {
                 this.startDrag(this.dragRegion, true, this.height * 0.2);
             }
             else {
                 var v2d = this.getMousePos(this.mouseX, this.mouseY);
+                this.addFramePartice(v2d);
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d);
                 this.mainChar.set2dPos(v2d.x, v2d.y);
             }
