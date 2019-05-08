@@ -9,6 +9,7 @@ declare module prop {
         protected md5searchIcon: BaseMeshUi;
         private _animDic;
         protected initView(): void;
+        protected md5searchIconClik(evt: InteractiveEvent): void;
         private drawInAnimUrl;
         protected deleIconDown($evt: InteractiveEvent): void;
         private getObjKeyLen;

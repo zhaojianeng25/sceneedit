@@ -42,7 +42,14 @@ var prop;
             this.drawUrlImgToUi(this.deleIcon.ui, "icon/deleticon.png");
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
             this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this);
+            this.md5searchIcon.ui.addEventListener(InteractiveEvent.Up, this.md5searchIconClik, this);
             this.height = 150;
+        };
+        RoleAnimi2DUI.prototype.md5searchIconClik = function (evt) {
+            var vo = this.target.data;
+            console.log(vo.animPlayKey);
+            // var pathurl: string = Pan3d.me.Scene_data.fileRoot + value;
+            //  Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
         };
         RoleAnimi2DUI.prototype.drawInAnimUrl = function () {
             var _this = this;

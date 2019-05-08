@@ -65,11 +65,19 @@
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this)
 
             this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this)
-   
+            this.md5searchIcon.ui.addEventListener(InteractiveEvent.Up, this.md5searchIconClik, this)
 
             this.height = 150;
 
         }
+        protected md5searchIconClik(evt: InteractiveEvent): void {
+            var vo: pack.RoleStaticMesh = this.target.data;
+            console.log(vo.animPlayKey)
+           // var pathurl: string = Pan3d.me.Scene_data.fileRoot + value;
+
+          //  Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+        }
+       
         private drawInAnimUrl(): void {
             var meshUrl: string     //需要mesh信息才能编译动作
             var vo: pack.RoleStaticMesh = this.target.data
