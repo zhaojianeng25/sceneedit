@@ -1,5 +1,5 @@
 ﻿module prop {
-
+    import InteractiveEvent = Pan3d.me.InteractiveEvent
     export class TextField2DUI extends BaseReflComponent {
 
         private textLabelUI: TextLabelUI;
@@ -12,10 +12,24 @@
             this.propPanle.addBaseMeshUi(this.textLabelUI)
             this.propPanle.addBaseMeshUi(this.infoLabelUi)
 
-
+           
             this.height = 20
         }
+        private clikMouseUp(evt: InteractiveEvent): void {
+            this.target.eventKey(this.clikEventInfo)
+        }
+        private clikEventInfo: string
+        public set clikEvent(value: string) {
+            if (value) {
+                this.clikEventInfo = value;
+                this.infoLabelUi.ui.addEventListener(InteractiveEvent.Up, this.clikMouseUp, this)
+            }
+ 
+        }
         public destory(): void {
+            if (this.clikEventInfo) {
+                this.infoLabelUi.ui.removeEventListener(InteractiveEvent.Up, this.clikMouseUp, this)
+            }
             this.textLabelUI.destory()
             this.infoLabelUi.destory()
         }

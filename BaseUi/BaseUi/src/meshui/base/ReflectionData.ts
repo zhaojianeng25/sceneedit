@@ -45,6 +45,7 @@
         public static UserView: string = "userView";
 
         public static FunKey: string = "FunKey";
+        public static ClikEventKey: string = "ClikEventKey";
 
 
         public static Number: string = "Number";

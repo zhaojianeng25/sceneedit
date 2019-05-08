@@ -32,6 +32,7 @@ var prop;
             this.refreshViewValue();
         };
         CheckBox2DUI.prototype.destory = function () {
+            this.boxIcon.ui.removeEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
             this.textLabelUI.destory();
             this.boxIcon.destory();
         };

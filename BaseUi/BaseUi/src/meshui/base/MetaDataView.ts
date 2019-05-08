@@ -121,6 +121,9 @@
             }
             this._height = ty - this._top;
         }
+        public eventKey(value: string): void {
+         
+        }
         public creatComponent(obj: any): BaseReflComponent {
             var type: String = obj[ReflectionData.Key_Type];
             if (type == ReflectionData.NumberInput) {
@@ -173,6 +176,7 @@
             var $textCtrlInput: TextField2DUI = new TextField2DUI(this.propPanle)
             $textCtrlInput.label = $obj[ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[ReflectionData.FunKey];
+            $textCtrlInput.clikEvent = $obj[ReflectionData.ClikEventKey];
             $textCtrlInput.target = this
             return $textCtrlInput;
         }

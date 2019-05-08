@@ -23,11 +23,22 @@ var filelist;
         RoleMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "角色", ClikEventKey: "clikFileRole" },
                 { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: function () { _this.animChange(); }, target: this, Suffix: "md5mesh", Category: "action" },
                 { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "mesh" },
             ];
             return ary;
+        };
+        RoleMeshView.prototype.eventKey = function (value) {
+            switch (value) {
+                case "clikFileRole":
+                    var pathurl = Pan3d.me.Scene_data.fileRoot + this._roleStaticMesh.url;
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+                    break;
+                default:
+                    console.log("没有对象", value);
+                    break;
+            }
         };
         RoleMeshView.prototype.animChange = function () {
             this.saveToSever();

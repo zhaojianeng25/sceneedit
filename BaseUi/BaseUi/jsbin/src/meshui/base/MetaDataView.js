@@ -110,6 +110,8 @@ var prop;
             }
             this._height = ty - this._top;
         };
+        MetaDataView.prototype.eventKey = function (value) {
+        };
         MetaDataView.prototype.creatComponent = function (obj) {
             var type = obj[prop.ReflectionData.Key_Type];
             if (type == prop.ReflectionData.NumberInput) {
@@ -161,6 +163,7 @@ var prop;
             var $textCtrlInput = new prop.TextField2DUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            $textCtrlInput.clikEvent = $obj[prop.ReflectionData.ClikEventKey];
             $textCtrlInput.target = this;
             return $textCtrlInput;
         };

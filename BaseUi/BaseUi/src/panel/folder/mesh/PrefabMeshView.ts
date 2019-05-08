@@ -12,12 +12,23 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型" },
-                    { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "模型" },
-           
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型", ClikEventKey: "clikFilePrefab" },
+                    { Type: ReflectionData.Texturue2DUI, Label: "Objs:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "网格" },
                     { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "材质" },
                 ];
             return ary;
+        }
+        public eventKey(value: string): void {
+            switch (value) {
+                case "clikFilePrefab":
+                    var pathurl: string = Pan3d.me.Scene_data.fileRoot + this.prefabStaticMesh.url;
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+                    break
+                default:
+                    console.log("没有对象", value)
+                    break
+            }
+ 
         }
         private textureChangeInfo(value: Array<any>): void {
             this.prefabStaticMesh.paramInfo = value;
@@ -40,7 +51,8 @@
 
         }
         public get prebaburl(): string {
-            return AppData.getFileName(this.prefabStaticMesh.url)
+           // return AppData.getFileName(this.prefabStaticMesh.url)
+            return this.prefabStaticMesh.url
         }
 
         public set texture(value: Material) {

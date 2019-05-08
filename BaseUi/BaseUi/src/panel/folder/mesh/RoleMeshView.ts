@@ -13,7 +13,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "角色", ClikEventKey: "clikFileRole" },
           
             
                     { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: ( ) => { this.animChange( ) }, target: this, Suffix: "md5mesh", Category: "action" },
@@ -26,6 +26,19 @@
                     //{ Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "mesh" },
                 ];
             return ary;
+        }
+        public eventKey(value: string): void {
+ 
+            switch (value) {
+                case "clikFileRole":
+                   var pathurl: string = Pan3d.me.Scene_data.fileRoot +this._roleStaticMesh.url
+                     Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+                    break
+                default:
+                    console.log("没有对象", value)
+                    break
+            }
+
         }
         private animChange(): void {
   

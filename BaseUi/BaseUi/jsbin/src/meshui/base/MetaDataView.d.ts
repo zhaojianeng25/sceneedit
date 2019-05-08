@@ -23,6 +23,7 @@ declare module prop {
         categoryClikUp(value: string): void;
         private addComponentView;
         resize(): void;
+        eventKey(value: string): void;
         creatComponent(obj: any): BaseReflComponent;
         getCategoryUI(value: string): Category2DUI;
         getTextField2DUI($obj: Object): TextField2DUI;

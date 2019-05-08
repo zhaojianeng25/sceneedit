@@ -36,6 +36,7 @@ declare module prop {
         static Vec2Prama: string;
         static UserView: string;
         static FunKey: string;
+        static ClikEventKey: string;
         static Number: string;
     }
 }

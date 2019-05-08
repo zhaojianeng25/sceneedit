@@ -38,7 +38,7 @@
 
             var pathname: string = "pan/atlas";
             var effictname: string = "10101_1";
-            var info: any = {}；
+            var info: any = {};
             info.timeLen = 1000
             info.frameScale =0.1
             info.loop = false

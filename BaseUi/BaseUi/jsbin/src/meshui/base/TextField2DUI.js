@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
     var TextField2DUI = /** @class */ (function (_super) {
         __extends(TextField2DUI, _super);
         function TextField2DUI() {
@@ -25,7 +26,23 @@ var prop;
             this.propPanle.addBaseMeshUi(this.infoLabelUi);
             this.height = 20;
         };
+        TextField2DUI.prototype.clikMouseUp = function (evt) {
+            this.target.eventKey(this.clikEventInfo);
+        };
+        Object.defineProperty(TextField2DUI.prototype, "clikEvent", {
+            set: function (value) {
+                if (value) {
+                    this.clikEventInfo = value;
+                    this.infoLabelUi.ui.addEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         TextField2DUI.prototype.destory = function () {
+            if (this.clikEventInfo) {
+                this.infoLabelUi.ui.removeEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
+            }
             this.textLabelUI.destory();
             this.infoLabelUi.destory();
         };

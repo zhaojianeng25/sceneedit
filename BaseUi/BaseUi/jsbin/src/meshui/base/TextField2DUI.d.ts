@@ -3,6 +3,9 @@ declare module prop {
         private textLabelUI;
         private infoLabelUi;
         protected initView(): void;
+        private clikMouseUp;
+        private clikEventInfo;
+        clikEvent: string;
         destory(): void;
         data: any;
         refreshViewValue(): void;

@@ -4,6 +4,7 @@ declare module filelist {
     class RoleMeshView extends MetaDataView {
         private _roleStaticMesh;
         getView(): Array<any>;
+        eventKey(value: string): void;
         private animChange;
         animDic: Array<any>;
         skinMesh: Array<any>;

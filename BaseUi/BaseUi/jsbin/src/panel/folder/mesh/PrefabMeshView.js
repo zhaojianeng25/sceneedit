@@ -23,11 +23,22 @@ var filelist;
         PrefabMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型" },
-                { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "模型" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型", ClikEventKey: "clikFilePrefab" },
+                { Type: ReflectionData.Texturue2DUI, Label: "Objs:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "网格" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "材质" },
             ];
             return ary;
+        };
+        PrefabMeshView.prototype.eventKey = function (value) {
+            switch (value) {
+                case "clikFilePrefab":
+                    var pathurl = Pan3d.me.Scene_data.fileRoot + this.prefabStaticMesh.url;
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+                    break;
+                default:
+                    console.log("没有对象", value);
+                    break;
+            }
         };
         PrefabMeshView.prototype.textureChangeInfo = function (value) {
             this.prefabStaticMesh.paramInfo = value;
@@ -47,7 +58,8 @@ var filelist;
         };
         Object.defineProperty(PrefabMeshView.prototype, "prebaburl", {
             get: function () {
-                return AppData.getFileName(this.prefabStaticMesh.url);
+                // return AppData.getFileName(this.prefabStaticMesh.url)
+                return this.prefabStaticMesh.url;
             },
             set: function (value) {
             },

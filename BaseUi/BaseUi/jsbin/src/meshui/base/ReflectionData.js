@@ -39,6 +39,7 @@ var prop;
         ReflectionData.Vec2Prama = "Vec2Prama";
         ReflectionData.UserView = "userView";
         ReflectionData.FunKey = "FunKey";
+        ReflectionData.ClikEventKey = "ClikEventKey";
         ReflectionData.Number = "Number";
         return ReflectionData;
     }());

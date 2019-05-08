@@ -4,6 +4,7 @@ declare module filelist {
     class PrefabMeshView extends MetaDataView {
         private prefabStaticMesh;
         getView(): Array<any>;
+        eventKey(value: string): void;
         private textureChangeInfo;
         private chuangeData;
         getParamItem(value: string): any;

@@ -1,12 +1,7 @@
 ﻿module prop {
 
 
-    import UIAtlas = Pan3d.me.UIAtlas;
-    import TextureManager = Pan3d.me.TextureManager
-    import UIManager = Pan3d.me.UIManager
-    import UIRectangle = Pan3d.me.UIRectangle
-    import Scene_data = Pan3d.me.Scene_data
-    import LoadManager = Pan3d.me.LoadManager
+ 
     import InteractiveEvent = Pan3d.me.InteractiveEvent
 
     export class CheckBox2DUI extends BaseReflComponent {
@@ -29,8 +24,10 @@
         }
  
         public destory(): void {
+            this.boxIcon.ui.removeEventListener(InteractiveEvent.Up, this.clikMouseUp, this)
             this.textLabelUI.destory()
             this.boxIcon.destory();
+
   
         }
     
