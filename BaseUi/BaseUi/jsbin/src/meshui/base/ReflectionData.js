@@ -34,6 +34,7 @@ var prop;
         ReflectionData.MaterialPicUi = "MaterialPicUi";
         ReflectionData.RoleMesh2DUI = "RoleMesh2DUI";
         ReflectionData.RoleAnim2DUI = "RoleAnim2DUI";
+        ReflectionData.MeshScene2DUI = "MeshScene2DUI";
         ReflectionData.AgalFunUI = "AgalFunUI";
         ReflectionData.Vec3Color = "Vec3Color";
         ReflectionData.Vec2Prama = "Vec2Prama";

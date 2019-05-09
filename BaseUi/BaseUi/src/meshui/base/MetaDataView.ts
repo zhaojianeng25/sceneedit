@@ -163,9 +163,19 @@
             if (type == ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
+            if (type == ReflectionData.MeshScene2DUI) {
+                return this.getMeshScene2DUI(obj);
+            }
+ 
             return null;
         }
-     
+        public getMeshScene2DUI($obj: Object): MeshSceneView2DUI {
+            var temp: MeshSceneView2DUI = new MeshSceneView2DUI(this.propPanle)
+            temp.label = $obj[ReflectionData.Key_Label];
+            temp.FunKey = $obj[ReflectionData.FunKey];
+            temp.target = this
+            return temp;
+        }
         public getCategoryUI(value: string): Category2DUI {
             var $category2DUI: Category2DUI = new Category2DUI(this.propPanle)
             $category2DUI.label = value

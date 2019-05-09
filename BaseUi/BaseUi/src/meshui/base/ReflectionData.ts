@@ -32,11 +32,13 @@
         public static Line: string = "Line";
         public static Vec3: string = "Vec3";
         public static Vec2: string = "Vec2";
+ 
         public static Btn: string = "Btn";
         public static Texturue2DUI: string = "Texturue2DUI";
         public static MaterialPicUi: string = "MaterialPicUi";
         public static RoleMesh2DUI: string = "RoleMesh2DUI";
         public static RoleAnim2DUI: string = "RoleAnim2DUI";
+        public static MeshScene2DUI: string = "MeshScene2DUI";
 
         
         public static AgalFunUI: string = "AgalFunUI";

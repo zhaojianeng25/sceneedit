@@ -24,6 +24,7 @@ var filelist;
             var _this = this;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型", ClikEventKey: "clikFilePrefab" },
+                { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "prebaburl", target: this, Category: "模型" },
                 { Type: ReflectionData.Texturue2DUI, Label: "Objs:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "网格" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "材质" },
             ];

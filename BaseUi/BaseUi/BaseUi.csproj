@@ -61,6 +61,7 @@
     <TypeScriptCompile Include="src\laya3d\LayaLaunch.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaScene2D.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaScene3D.ts" />
+    <TypeScriptCompile Include="src\meshui\base\MeshSceneView2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleAnimi2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleMesh2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\Vec2PrameCtrlUI.ts" />
