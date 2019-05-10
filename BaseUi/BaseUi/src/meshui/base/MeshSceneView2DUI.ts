@@ -38,16 +38,20 @@
             this.propPanle.addBaseMeshUi(this.textureUrlText)
             this.propPanle.addBaseMeshUi(this.texturePicUi)
 
+          //  this.texturePicUi.textureContext.ui.isU = true
+            this.texturePicUi.textureContext.ui.isV = true
+            this.texturePicUi.textureContext.ui.uiRender.applyObjData()
+
            // this.texturePicUi.url = "icon/base.jpg"
             this.texturePicUi.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
 
             this.wheelEventFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) }
             document.addEventListener(MouseType.MouseWheel, this.wheelEventFun);
  
-            this.height = 200;
+            this.height = 220;
 
-            this.texturePicUi.ui.width = 128
-            this.texturePicUi.ui.height = 128
+            this.texturePicUi.ui.width = 200
+            this.texturePicUi.ui.height = 200
 
 
             this.initScene()
@@ -101,39 +105,31 @@
         protected initScene(): void {
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new maineditor.EdItorSceneManager()
-            var temp: GridLineSprite = new GridLineSprite()
-            this.sceneManager.addDisplay(temp)
-            this.sceneManager.addDisplay(new BaseDiplay3dSprite())
+            this.sceneManager.addDisplay(new GridLineSprite())
+          //  this.sceneManager.addDisplay(new BaseDiplay3dSprite())
             this.sceneManager.ready = true;
             this.sceneManager.cam3D = new Camera3D();
-            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 128, 128)
+            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256)
             this.sceneManager.cam3D.distance = 200;
            // this.sceneManager.focus3D.rotationY = random(360);
-           this.sceneManager.focus3D.rotationX = -45;
- 
+            this.sceneManager.focus3D.rotationX = -45;
             this.upDataFun = () => { this.oneByFrame() }
-
             TimeUtil.addFrameTick(this.upDataFun);
 
           
         }
-        protected addDisplay(): void {
-     
-        }
-
+ 
         private upDataFun: any
         private oneByFrame(): void {
  
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
                 Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-
-              //  this.sceneManager.cam3D.cameraMatrix.appendScale(1, -1, 1);
-             
-
+ 
                 this.sceneManager.renderToTexture( )
 
                 var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
-               
+ 
+                $uiRender.applyObjData()
                 if ($uiRender.uiAtlas.textureRes) {
                     $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture
                 }
@@ -202,8 +198,8 @@
         public set y(value: number) {
             this._y = value;
             this.textLabelUI.y = this._y
-            this.texturePicUi.y = this._y+5
-            this.textureUrlText.y = this._y + 128+20
+            this.texturePicUi.y = this._y+0
+            this.textureUrlText.y = this._y + 200
  
         }
         public get y(): number {

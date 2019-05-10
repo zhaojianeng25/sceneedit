@@ -168,7 +168,7 @@ var pack;
         };
         FileOssModel.makeOssWrapper = function (bfun) {
             var _this = this;
-            this.webseverurl = "https://api.h5key.com/api/";
+            this.webseverurl = "http://api.h5key.com/api/";
             if (!this.waitOssWrapper) {
                 this.waitOssWrapper = [bfun];
                 this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {

@@ -15,7 +15,6 @@ declare module prop {
         private onStageMouseUp;
         private sceneManager;
         protected initScene(): void;
-        protected addDisplay(): void;
         private upDataFun;
         private oneByFrame;
         destory(): void;

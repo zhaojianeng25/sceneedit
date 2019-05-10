@@ -20,7 +20,6 @@ var prop;
     var LineDisplayShader = Pan3d.me.LineDisplayShader;
     var GridLineSprite = Pan3d.me.GridLineSprite;
     var ProgrmaManager = Pan3d.me.ProgrmaManager;
-    var BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
     var Camera3D = Pan3d.me.Camera3D;
     var Rectangle = Pan3d.me.Rectangle;
     //import MaterialRoleSprite = left.MaterialRoleSprite;
@@ -44,13 +43,16 @@ var prop;
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.propPanle.addBaseMeshUi(this.textureUrlText);
             this.propPanle.addBaseMeshUi(this.texturePicUi);
+            //  this.texturePicUi.textureContext.ui.isU = true
+            this.texturePicUi.textureContext.ui.isV = true;
+            this.texturePicUi.textureContext.ui.uiRender.applyObjData();
             // this.texturePicUi.url = "icon/base.jpg"
             this.texturePicUi.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
             this.wheelEventFun = function ($evt) { _this.onMouseWheel($evt); };
             document.addEventListener(MouseType.MouseWheel, this.wheelEventFun);
-            this.height = 200;
-            this.texturePicUi.ui.width = 128;
-            this.texturePicUi.ui.height = 128;
+            this.height = 220;
+            this.texturePicUi.ui.width = 200;
+            this.texturePicUi.ui.height = 200;
             this.initScene();
         };
         MeshSceneView2DUI.prototype.onMouseWheel = function ($evt) {
@@ -91,26 +93,23 @@ var prop;
             var _this = this;
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new maineditor.EdItorSceneManager();
-            var temp = new GridLineSprite();
-            this.sceneManager.addDisplay(temp);
-            this.sceneManager.addDisplay(new BaseDiplay3dSprite());
+            this.sceneManager.addDisplay(new GridLineSprite());
+            //  this.sceneManager.addDisplay(new BaseDiplay3dSprite())
             this.sceneManager.ready = true;
             this.sceneManager.cam3D = new Camera3D();
-            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 128, 128);
+            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256);
             this.sceneManager.cam3D.distance = 200;
             // this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
             this.upDataFun = function () { _this.oneByFrame(); };
             TimeUtil.addFrameTick(this.upDataFun);
         };
-        MeshSceneView2DUI.prototype.addDisplay = function () {
-        };
         MeshSceneView2DUI.prototype.oneByFrame = function () {
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
                 Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-                //  this.sceneManager.cam3D.cameraMatrix.appendScale(1, -1, 1);
                 this.sceneManager.renderToTexture();
                 var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
+                $uiRender.applyObjData();
                 if ($uiRender.uiAtlas.textureRes) {
                     $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;
                 }
@@ -173,8 +172,8 @@ var prop;
             set: function (value) {
                 this._y = value;
                 this.textLabelUI.y = this._y;
-                this.texturePicUi.y = this._y + 5;
-                this.textureUrlText.y = this._y + 128 + 20;
+                this.texturePicUi.y = this._y + 0;
+                this.textureUrlText.y = this._y + 200;
             },
             enumerable: true,
             configurable: true
