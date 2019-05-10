@@ -299,7 +299,7 @@ var pack;
         FileOssModel.upOssFile = function (file, $fileUrl, $bfun) {
             var _this = this;
             if ($bfun === void 0) { $bfun = null; }
-            FileOssModel.webseverurl = "https://api.h5key.com/api/";
+            FileOssModel.webseverurl = "http://api.h5key.com/api/";
             this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun });
             if (this.waitItemUpFile.length == 1) {
                 if (!FileOssModel.ossWrapper) {

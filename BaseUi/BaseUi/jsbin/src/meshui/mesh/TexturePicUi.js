@@ -24,6 +24,7 @@ var prop;
             if (h === void 0) { h = 64; }
             var _this = _super.call(this, w, h) || this;
             _this.$dulbelClikTm = 0;
+            _this.haveDoubleCilk = true;
             _this.initView();
             _this.resize();
             return _this;
@@ -58,8 +59,13 @@ var prop;
                     Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 }
                 else {
-                    console.log("选文件");
-                    this.doubleClick();
+                    if (this.haveDoubleCilk) {
+                        console.log("选文件");
+                        this.doubleClick();
+                    }
+                    else {
+                        console.log("关闭了选取事件");
+                    }
                 }
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000;

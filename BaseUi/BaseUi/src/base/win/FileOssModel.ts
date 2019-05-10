@@ -189,7 +189,7 @@
         }
         private static waitOssWrapper: Array<Function>
         public static makeOssWrapper(bfun: Function): void {
-            this.webseverurl = "https://api.h5key.com/api/";
+            this.webseverurl = "http://api.h5key.com/api/";
             if (!this.waitOssWrapper) {
                 this.waitOssWrapper = [bfun];
                 this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
@@ -347,7 +347,7 @@
         private static waitItemUpFile: Array<any> = []
         public static version: number=1
         public static upOssFile(file: File, $fileUrl: string, $bfun: Function = null): void {
-            FileOssModel.webseverurl = "https://api.h5key.com/api/";
+            FileOssModel.webseverurl = "http://api.h5key.com/api/";
             this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun })
             if (this.waitItemUpFile.length == 1) {
                 if (!FileOssModel.ossWrapper) {

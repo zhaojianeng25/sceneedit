@@ -22,6 +22,7 @@
     export class TexturePicUi extends BaseMeshUi {
         public constructor(w: number = 64, h: number = 64) {
             super(w, h);
+ 
             this.initView();
             this.resize();
         }
@@ -50,7 +51,8 @@
         }
         private $dulbelClikTm: number = 0;
         private _inputHtmlSprite: HTMLInputElement
-        public suffix: string
+        public suffix: string;
+        public haveDoubleCilk: boolean = true
         protected butClik(evt: InteractiveEvent): void {
  
         
@@ -60,8 +62,13 @@
                     var fileUrl: string = this._url
                     Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 } else {
-                    console.log("选文件")
-                    this.doubleClick()
+                    if (this.haveDoubleCilk) {
+                        console.log("选文件")
+                        this.doubleClick()
+                    } else {
+                        console.log("关闭了选取事件");
+                    }
+                
                 }
 
             }

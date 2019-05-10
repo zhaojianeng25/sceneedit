@@ -9,6 +9,7 @@ declare module prop {
         private $dulbelClikTm;
         private _inputHtmlSprite;
         suffix: string;
+        haveDoubleCilk: boolean;
         protected butClik(evt: InteractiveEvent): void;
         protected doubleClick(): void;
         private testSuffix;
