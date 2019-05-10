@@ -111,8 +111,8 @@
             this.sceneManager.cam3D = new Camera3D();
             this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256)
             this.sceneManager.cam3D.distance = 200;
-           // this.sceneManager.focus3D.rotationY = random(360);
             this.sceneManager.focus3D.rotationX = -45;
+ 
             this.upDataFun = () => { this.oneByFrame() }
             TimeUtil.addFrameTick(this.upDataFun);
 
@@ -124,16 +124,11 @@
  
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
                 Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
- 
-                this.sceneManager.renderToTexture( )
-
+                this.sceneManager.renderToTexture()
                 var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
- 
-                $uiRender.applyObjData()
-                if ($uiRender.uiAtlas.textureRes) {
-                    $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture
-                }
-         
+                $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture
+
+
             }
         }
   
@@ -175,7 +170,7 @@
         public refreshViewValue(): void {
 
             var $url: string = String(this.target[this.FunKey]);
-           this.texturePicUi.url = $url
+            this.texturePicUi.url = "icon/base.jpg"
 
             this.addUrlToView($url)
 
@@ -187,7 +182,7 @@
         public set x(value: number) {
             this._x = value;
             this.textLabelUI.x = this._x + 0;
-            this.texturePicUi.x = this._x + 60;
+            this.texturePicUi.x = this._x + 50;
             this.textureUrlText.x = this._x + 60
   
         }
