@@ -32,8 +32,10 @@ declare module filelist {
         static imgBaseDic: any;
         constructor();
         private pathlistBg;
-        private textLabelUI;
+        private pathurlLabel;
         protected loadConfigCom(): void;
+        pathurlLabelMove($evt: InteractiveEvent): void;
+        pathurlLabelDown($evt: InteractiveEvent): void;
         onMouseWheel($evt: MouseWheelEvent): void;
         private readonly isCanToDo;
         resize(): void;
@@ -50,6 +52,7 @@ declare module filelist {
         protected fileMouseUp(evt: InteractiveEvent): void;
         private selectFileIcon;
         private clearListAll;
+        private drawPathLabel;
         refrishPath(filePath: string): void;
         addRender($uiRender: UIRenderComponent): void;
         private getItemVoByUi;

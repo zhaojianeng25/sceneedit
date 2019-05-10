@@ -220,12 +220,12 @@ var filelist;
             this.pathlistBg.y = -20;
             this.pathlistBg.width = 100;
             this.pathlistBg.height = 20;
-            this.textLabelUI = new prop.TextLabelUI(512, 32);
-            this.textLabelUI.textureContext.resize();
-            this.addRender(this.textLabelUI.ui.uiRender);
-            this.textLabelUI.label = "ccaveeee/222";
+            this.pathurlLabel = new prop.TextLabelUI(512, 22);
+            this.addRender(this.pathurlLabel.ui.uiRender);
+            this.pathurlLabel.label = "目录/文件夹";
+            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Down, this.pathurlLabelDown, this);
+            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Move, this.pathurlLabelMove, this);
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
-            this.resize();
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
@@ -235,6 +235,13 @@ var filelist;
                 this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
             }
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            this.resize();
+        };
+        FileListPanel.prototype.pathurlLabelMove = function ($evt) {
+            console.log("pathurlLabelMove");
+        };
+        FileListPanel.prototype.pathurlLabelDown = function ($evt) {
+            console.log("pathurlLabelDown");
         };
         FileListPanel.prototype.onMouseWheel = function ($evt) {
             if (!this.isCanToDo) {
@@ -267,10 +274,10 @@ var filelist;
                 if (this.pathlistBg) {
                     this.pathlistBg.width = this.pageRect.width;
                 }
-                if (this.textLabelUI) {
-                    this.textLabelUI.textureContext.resize();
-                    this.textLabelUI.textureContext.left = this.left + 20;
-                    this.textLabelUI.textureContext.top = this.top - 20;
+                if (this.pathurlLabel) {
+                    this.pathurlLabel.textureContext.resize();
+                    this.pathurlLabel.textureContext.left = this.left + 20;
+                    this.pathurlLabel.textureContext.top = this.top - 17;
                 }
             }
             _super.prototype.resize.call(this);
@@ -461,11 +468,21 @@ var filelist;
                 vo.destory();
             }
         };
-        //   private rootFilePath: string;
+        FileListPanel.prototype.drawPathLabel = function (value) {
+            var tempArr = value.split("/");
+            var outStr = "";
+            for (var i = 0; i < tempArr.length; i++) {
+                outStr += tempArr[i];
+                if (tempArr[i] && i < tempArr.length - 1) {
+                    outStr += " / ";
+                }
+            }
+            this.pathurlLabel.label = outStr;
+        };
         FileListPanel.prototype.refrishPath = function (filePath) {
             var _this = this;
             console.log("刷新目录", filePath);
-            this.textLabelUI.label = filePath;
+            this.drawPathLabel(filePath);
             AppData.rootFilePath = AppData.getPerentPath(filePath);
             this.moveListTy = 0;
             this.clearListAll();

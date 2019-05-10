@@ -260,7 +260,7 @@
         }
         private pathlistBg: UICompenent
 
-        private textLabelUI: prop.TextLabelUI
+        private pathurlLabel: prop.TextLabelUI
         protected loadConfigCom(): void {
             super.loadConfigCom();
             this._baseRender.mask = this._uiMask
@@ -274,24 +274,18 @@
             this.pathlistBg.height = 20
 
 
-            this.textLabelUI = new prop.TextLabelUI(512,32);
-
-            this.textLabelUI.textureContext.resize()
-
- 
-
-            this.addRender(this.textLabelUI.ui.uiRender);
-            this.textLabelUI.label = "ccaveeee/222";
+            this.pathurlLabel = new prop.TextLabelUI(512,22);
+            this.addRender(this.pathurlLabel.ui.uiRender);
+            this.pathurlLabel.label = "目录/文件夹";
+            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Down, this.pathurlLabelDown, this);
+            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Move, this.pathurlLabelMove, this);
 
 
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
+ 
 
-            
-
-            this.resize()
+     
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
-
-
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.me.TimeUtil.addFrameTick((t: number) => { this.update(t) });
@@ -301,6 +295,14 @@
                 this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
             }
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+
+            this.resize()
+        }
+        public pathurlLabelMove($evt: InteractiveEvent): void {
+            console.log("pathurlLabelMove")
+        }
+        public pathurlLabelDown($evt: InteractiveEvent): void {
+            console.log("pathurlLabelDown")
         }
         public onMouseWheel($evt: MouseWheelEvent): void {
             if (!this.isCanToDo) {
@@ -334,10 +336,10 @@
                     this.pathlistBg.width = this.pageRect.width
                 }
 
-                if (this.textLabelUI) {
-                    this.textLabelUI.textureContext.resize()
-                    this.textLabelUI.textureContext.left = this.left+20
-                    this.textLabelUI.textureContext.top = this.top-20
+                if (this.pathurlLabel) {
+                    this.pathurlLabel.textureContext.resize()
+                    this.pathurlLabel.textureContext.left = this.left+20
+                    this.pathurlLabel.textureContext.top = this.top-17
                 }
 
            
@@ -577,12 +579,24 @@
                 vo.destory()
             }
         }
-     //   private rootFilePath: string;
+
+        private drawPathLabel(value: string): void {
+
+            var tempArr: Array<string> = value.split("/");
+            var outStr: string = ""
+            for (var i: number = 0; i < tempArr.length; i++) {
+                outStr += tempArr[i];
+                if (tempArr[i]&&i < tempArr.length - 1) {
+                    outStr += " / ";
+                }
+            }
+            this.pathurlLabel.label = outStr
+        }
         public refrishPath(filePath: string): void {
             console.log("刷新目录", filePath)
 
-            this.textLabelUI.label=filePath
-
+           
+            this.drawPathLabel(filePath)
 
             AppData.rootFilePath = AppData.getPerentPath(filePath)
 
