@@ -90,13 +90,16 @@
         }
         private resetFolderWinSize(): void {
             var A: Rectangle = this._baseFolderWindow.getPageRect().clone();
-            A.y += 20;
-            A.height -= 20;
+            var num40=20 //位移40.比底小
+            A.y += num40;
+            A.height -= num40;
+
+
             this._folderPanel.setRect(new Rectangle(A.x, A.y, A.width * this._baseFolderWindow.percentNum, A.height - 20));
 
-            var B: Rectangle = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y , A.width * (1 - this._baseFolderWindow.percentNum), A.height);
+            var B: Rectangle = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y+20 , A.width * (1 - this._baseFolderWindow.percentNum), A.height);
             B.x += 10;
-            B.height -= 5;
+            B.height -= 5-20;
             B.width -= 8;
             this._fileListPanel.setRect(B);
         }

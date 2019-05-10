@@ -31,6 +31,8 @@ declare module filelist {
     class FileListPanel extends win.Dis2dBaseWindow {
         static imgBaseDic: any;
         constructor();
+        private pathlistBg;
+        private textLabelUI;
         protected loadConfigCom(): void;
         onMouseWheel($evt: MouseWheelEvent): void;
         private readonly isCanToDo;

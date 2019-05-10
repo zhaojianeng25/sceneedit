@@ -215,6 +215,15 @@ var filelist;
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
+            this.pathlistBg = this.addChild(this._baseTopRender.getComponent("a_round_line"));
+            this.pathlistBg.x = 0;
+            this.pathlistBg.y = -20;
+            this.pathlistBg.width = 100;
+            this.pathlistBg.height = 20;
+            this.textLabelUI = new prop.TextLabelUI(512, 32);
+            this.textLabelUI.textureContext.resize();
+            this.addRender(this.textLabelUI.ui.uiRender);
+            this.textLabelUI.label = "ccaveeee/222";
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
             this.resize();
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
@@ -255,6 +264,14 @@ var filelist;
             this.resetSampleFilePos();
             if (this.uiLoadComplete) {
                 this.contentHeight = this.getcontentHeight();
+                if (this.pathlistBg) {
+                    this.pathlistBg.width = this.pageRect.width;
+                }
+                if (this.textLabelUI) {
+                    this.textLabelUI.textureContext.resize();
+                    this.textLabelUI.textureContext.left = this.left + 20;
+                    this.textLabelUI.textureContext.top = this.top - 20;
+                }
             }
             _super.prototype.resize.call(this);
         };
@@ -448,6 +465,7 @@ var filelist;
         FileListPanel.prototype.refrishPath = function (filePath) {
             var _this = this;
             console.log("刷新目录", filePath);
+            this.textLabelUI.label = filePath;
             AppData.rootFilePath = AppData.getPerentPath(filePath);
             this.moveListTy = 0;
             this.clearListAll();
