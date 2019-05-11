@@ -262,7 +262,7 @@ var maineditor;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
             maineditor.EditorModel.getInstance().hierarchyListPanel = _this;
-            _this.maskRoundRect = new Rectangle(0, 16, 0, 30);
+            _this.maskRoundRect = new Rectangle(0, 13, 0, 14);
             return _this;
         }
         HierarchyListPanel.prototype.loadConfigCom = function () {
@@ -835,7 +835,7 @@ var maineditor;
             }
             _super.prototype.resize.call(this);
             for (var i = 0; i < this.cellBgItem.length; i++) {
-                this.cellBgItem[i].width = this.pageRect.width - 2;
+                this.cellBgItem[i].width = this.pageRect.width - 20;
             }
         };
         HierarchyListPanel.prototype.refrishFolder = function () {

@@ -315,7 +315,7 @@
             this.pageRect = new Rectangle(0, 0, 200, 200)
             EditorModel.getInstance().hierarchyListPanel = this
 
-            this.maskRoundRect = new Rectangle(0, 16, 0, 30);
+            this.maskRoundRect = new Rectangle(0, 13, 0, 14);
  
         }
 
@@ -913,6 +913,8 @@
             pack.PackMaterialManager.getInstance().getMaterialByUrl(prefab.textureurl, ($materialTree: materialui.MaterialTree) => {
                 dis.material = $materialTree;
             })
+
+         
         }
 
 
@@ -1050,7 +1052,7 @@
             super.resize()
 
             for (var i: number = 0; i < this.cellBgItem.length; i++) {
-                this.cellBgItem[i].width = this.pageRect.width-2
+                this.cellBgItem[i].width = this.pageRect.width-20
 
             }
 

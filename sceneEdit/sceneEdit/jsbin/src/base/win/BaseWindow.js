@@ -79,8 +79,8 @@ var win;
             this.a_left_line = this.addChild(this._tRender.getComponent("a_left_line"));
             this.a_rigth_line = this.addChild(this._tRender.getComponent("a_rigth_line"));
             this.a_bottom_line = this.addChild(this._tRender.getComponent("a_bottom_line"));
-            this.a_scroll_bar_bg = this.addChild(this._mRender.getComponent("a_scroll_bar_bg"));
-            this.a_scroll_bar = this.addChild(this._tRender.getComponent("a_scroll_bar"));
+            this.a_scroll_bar_bg = this.addChild(this._mRender.getComponent("e_scroll_bar_bg"));
+            this.a_scroll_bar = this.addChild(this._tRender.getComponent("e_scroll_bar"));
             this.b_bottom_left = this.addChild(this._tRender.getComponent("b_bottom_left"));
             this.b_bottom_mid = this.addChild(this._tRender.getComponent("b_bottom_mid"));
             this.b_bottom_right = this.addChild(this._tRender.getComponent("b_bottom_right"));
@@ -97,8 +97,8 @@ var win;
             this.c_left_line = this._baseTopRender.getComponent("c_left_line");
             this.c_right_line = this._baseTopRender.getComponent("c_left_line");
             this.c_bottom_line = this._baseTopRender.getComponent("b_line_pixe_point");
-            this.c_scroll_bar_bg = this._baseTopRender.getComponent("a_scroll_bar_bg");
-            this.c_scroll_bar = this._closeRender.getComponent("a_scroll_bar");
+            this.c_scroll_bar_bg = this._baseTopRender.getComponent("e_scroll_bar_bg");
+            this.c_scroll_bar = this._closeRender.getComponent("e_scroll_bar");
             this.c_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             // 
             this.c_win_bg = this._baseMidRender.getComponent("c_win_bg");
@@ -230,11 +230,11 @@ var win;
                 this.c_bottom_line.width = this.pageRect.width;
                 this.c_bottom_line.height = 1;
                 this.c_scroll_bar_bg.x = this.pageRect.width - this.c_scroll_bar_bg.width - 2;
-                this.c_scroll_bar_bg.y = 0;
-                this.c_scroll_bar_bg.height = this.pageRect.height;
+                this.c_scroll_bar_bg.y = this._uiMask.y;
+                this.c_scroll_bar_bg.height = this._uiMask.height;
                 if (this.contentHeight > this.pageRect.height) {
                     this.setUiListVisibleByItem([this.c_scroll_bar], true);
-                    this.c_scroll_bar.x = this.c_scroll_bar_bg.x + 5;
+                    this.c_scroll_bar.x = this.c_scroll_bar_bg.x + 3;
                     this.c_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight);
                     this.c_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.c_scroll_bar.height, this.c_scroll_bar.y);
                 }

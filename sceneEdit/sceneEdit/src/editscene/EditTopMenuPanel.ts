@@ -325,10 +325,10 @@
            
             if ($data.level == 0) {
                 temp.ui.x =   i * 80;
-                temp.ui.y = 0;
+                temp.ui.y = 3;
             } else {
                 temp.ui.x = tx;
-                temp.ui.y = i * 20 + ty;
+                temp.ui.y = i * 20 + ty+0;
             }
       
             

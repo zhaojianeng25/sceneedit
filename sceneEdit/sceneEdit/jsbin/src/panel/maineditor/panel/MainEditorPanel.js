@@ -181,7 +181,7 @@ var maineditor;
                     this.e_centen_panel.width = this.pageRect.width;
                     this._baseMidRender.applyObjData();
                 }
-                this.e_line_left.x = -1;
+                this.e_line_left.x = 1;
                 this.e_line_left.y = 0;
                 this.e_line_left.height = this.pageRect.height;
                 this.e_line_right.x = this.pageRect.width - 3;

@@ -251,7 +251,7 @@
               
                 }
 
-                this.e_line_left.x = -1;
+                this.e_line_left.x = 1;
                 this.e_line_left.y = 0;
                 this.e_line_left.height = this.pageRect.height;
 
