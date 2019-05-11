@@ -1080,7 +1080,7 @@
                     this.showSelectBg(arr[i].childItem)
                 }
                 if (arr[i].ossListFile.treeSelect) {
-                    var ui: UICompenent = <UICompenent>this.addChild(this._baseMidRender.getComponent("a_round_line"));
+                    var ui: UICompenent = <UICompenent>this.addChild(this._baseMidRender.getComponent("e_select_cell_bg"));
                     ui.y = arr[i].cellPos.y;
                     ui.x = 0
                     ui.width = this.pageRect.width
