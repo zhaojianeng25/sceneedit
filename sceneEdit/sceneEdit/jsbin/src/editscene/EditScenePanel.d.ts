@@ -14,7 +14,6 @@ declare module editscene {
     }
     class EditScenePanel extends Panel {
         constructor();
-        showofHide(panel: Panel): void;
         private _sceneLaoutLinePane;
         private addSceneLaoutLinePane;
         private addCenten;

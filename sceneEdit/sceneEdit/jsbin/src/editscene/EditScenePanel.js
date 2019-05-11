@@ -20,10 +20,6 @@ var editscene;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         CentenPanel.prototype.addUIContainer = function ($container) {
-            //特殊处理，删除非底层背景
-            //for (var i: number = this._containerList.length - 1; i >= 0; i--) {
-            //    this.removeUIContainer(this._containerList[i]);
-            //}
             while (this._containerList.length) {
                 this.removeUIContainer(this._containerList[0]);
             }
@@ -78,8 +74,6 @@ var editscene;
             _this.resize();
             return _this;
         }
-        EditScenePanel.prototype.showofHide = function (panel) {
-        };
         EditScenePanel.prototype.addSceneLaoutLinePane = function () {
             this._sceneLaoutLinePane = new editscene.EditSceneLine;
             this._sceneLaoutLinePane.x = 0;
@@ -102,9 +96,6 @@ var editscene;
             temp.width = 450;
             temp.height = 500;
             this.addChild(temp);
-            //var eee: MainRightPanel = new MainRightPanel();
-            //temp.addUIContainer(eee)
-            //eee.left = 500
             AppData.rightPanel = temp;
         };
         EditScenePanel.prototype.addTop = function () {

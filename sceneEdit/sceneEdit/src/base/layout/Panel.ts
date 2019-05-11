@@ -7,10 +7,7 @@
  
         public ishide: boolean
         public layer = 0
-        //public constructor(value: boolean = false) {
     
-        //    super();
-        //}
        
         
 
