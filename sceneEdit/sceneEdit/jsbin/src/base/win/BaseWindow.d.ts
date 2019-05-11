@@ -53,6 +53,7 @@ declare module win {
         setHideUi(value?: Array<string>): void;
         private showUiItem;
         setShowUi(value?: Array<string>): void;
+        maskRoundRect: Rectangle;
         resize(): void;
         protected lastPagePos: Vector2D;
         protected lastMousePos: Vector2D;

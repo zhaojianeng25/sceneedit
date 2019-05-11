@@ -314,6 +314,9 @@
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
             EditorModel.getInstance().hierarchyListPanel = this
+
+            this.maskRoundRect = new Rectangle(0, 16, 0, 30);
+ 
         }
 
 
@@ -1056,7 +1059,7 @@
         private refrishFolder(): void {
             if (this.isCompelet) {
 
-                this.listTy = 0 + this.moveListTy
+                this.listTy = 0 + this.moveListTy 
                 this.disChiendren(EditorModel.getInstance().fileItem, 10);
                 var moveTy: number = 0
                 this.moveAllTy(EditorModel.getInstance().fileItem, moveTy)

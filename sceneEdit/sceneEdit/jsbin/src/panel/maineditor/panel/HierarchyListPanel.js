@@ -262,6 +262,7 @@ var maineditor;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
             maineditor.EditorModel.getInstance().hierarchyListPanel = _this;
+            _this.maskRoundRect = new Rectangle(0, 16, 0, 30);
             return _this;
         }
         HierarchyListPanel.prototype.loadConfigCom = function () {

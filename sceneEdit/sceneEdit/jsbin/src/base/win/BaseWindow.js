@@ -165,6 +165,12 @@ var win;
                 this._uiMask.x = 0;
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width;
                 this._uiMask.height = this.pageRect.height;
+                if (this.maskRoundRect) {
+                    this._uiMask.x += this.maskRoundRect.x;
+                    this._uiMask.y += this.maskRoundRect.y;
+                    this._uiMask.width -= this.maskRoundRect.width;
+                    this._uiMask.height -= this.maskRoundRect.height;
+                }
                 this.a_bg.x = 0;
                 this.a_bg.y = 0;
                 this.a_bg.width = this.pageRect.width;

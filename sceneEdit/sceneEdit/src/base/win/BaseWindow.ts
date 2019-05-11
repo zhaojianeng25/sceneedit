@@ -221,6 +221,7 @@
             }
 
         }
+        public maskRoundRect: Rectangle
      
         public resize(): void {
             if (this.uiLoadComplete) {
@@ -246,6 +247,14 @@
                 this._uiMask.x = 0;
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width;
                 this._uiMask.height = this.pageRect.height 
+
+                if (this.maskRoundRect) {
+                    this._uiMask.x += this.maskRoundRect.x
+                    this._uiMask.y += this.maskRoundRect.y
+                    this._uiMask.width -= this.maskRoundRect.width;
+                    this._uiMask.height -= this.maskRoundRect.height;
+ 
+                }
 
                 this.a_bg.x = 0;
                 this.a_bg.y = 0
@@ -449,7 +458,7 @@
             this.c_scroll_bar.y = Math.max(this.c_scroll_bar.y, this._uiMask.y);
             var th: number = this._uiMask.height - this.c_scroll_bar.height
             var ty: number = this.c_scroll_bar.y - this._uiMask.y;
-            this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th)
+            this.moveListTy = -  (this.contentHeight - this._uiMask.height) * (ty / th) 
  
         }
 
