@@ -90,12 +90,12 @@
                 switch (AppData.sceneEidtType) {
                     case 1:
                         this.setUiListVisibleByItem([this.a_scene_view], true)
-                        this.setUiListVisibleByItem([this.e_centen_panel], true)
+                      //  this.setUiListVisibleByItem([this.e_centen_panel], true)
            
                         break
                     case 2:
                         this.setUiListVisibleByItem([this.a_scene_view], false)
-                        this.setUiListVisibleByItem([this.e_centen_panel], false)
+                       // this.setUiListVisibleByItem([this.e_centen_panel], false)
                         break
                     default:
                         break
@@ -233,15 +233,15 @@
             if (this.uiLoadComplete) {
                 var roundNum: number = 1;
                 this.a_scene_view.x = roundNum;
-                this.a_scene_view.y = roundNum+24;
+                this.a_scene_view.y = roundNum+22;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
                 this.a_scene_view.height = this.pageRect.height - roundNum * 2-24;
 
                 if (this.e_centen_panel) {
                     this.e_centen_panel.x = 0
                     this.e_centen_panel.y = 0
-                    this.e_centen_panel.width = this.pageRect.width
-                    this.e_centen_panel.height = 20
+                    this.e_centen_panel.width = this.pageRect.width;
+                   // this.e_centen_panel.height = this.pageRect.height;
 
                     this._baseMidRender.applyObjData();
               
