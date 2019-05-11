@@ -65,12 +65,12 @@
                     BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", () => { this.loadConfigCom() });
 
-                    this.baseWindow = new win.BaseWindow()
+                   // this.baseWindow = new win.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
                     this.lastMaterialUrl = $materialEvent.data
 
-                    AppData.centenPanel.addUIContainer(this.baseWindow)
+                   // AppData.centenPanel.addUIContainer(this.baseWindow)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().bgwinPanel, 1)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().nodeUiPanel, 2)
                     LayerManager.getInstance().addPanel(MaterialCtrl.getInstance().linePanel, 3);
@@ -135,12 +135,7 @@
         private onRightMenuFun: any;
 
         private get hasStage(): boolean { //false为可以操作
-            if (this.baseWindow.hasStage) {
-                return true;
-            } else {
-                return false;
-            }
-            
+            return AppData.sceneEidtType == 2;
          
         }
 

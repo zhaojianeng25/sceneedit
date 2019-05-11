@@ -47,7 +47,29 @@ var maineditor;
             this.initView();
             this.uiLoadComplete = true;
             this.refrishSize();
+            this.showType = AppData.sceneEidtType;
         };
+        Object.defineProperty(MainEditorPanel.prototype, "showType", {
+            set: function (value) {
+                AppData.sceneEidtType = value;
+                if (this.uiLoadComplete) {
+                    switch (AppData.sceneEidtType) {
+                        case 1:
+                            this.setUiListVisibleByItem([this.a_scene_view], true);
+                            this.setUiListVisibleByItem([this.e_centen_panel], true);
+                            break;
+                        case 2:
+                            this.setUiListVisibleByItem([this.a_scene_view], false);
+                            this.setUiListVisibleByItem([this.e_centen_panel], false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         MainEditorPanel.prototype.initView = function () {
             var _this = this;
             this._sceneViewRender.uiAtlas = this._tRender.uiAtlas;
@@ -155,7 +177,7 @@ var maineditor;
                     this.e_centen_panel.x = 0;
                     this.e_centen_panel.y = 0;
                     this.e_centen_panel.width = this.pageRect.width;
-                    this.e_centen_panel.height = this.pageRect.height;
+                    this.e_centen_panel.height = 20;
                     this._baseMidRender.applyObjData();
                 }
             }

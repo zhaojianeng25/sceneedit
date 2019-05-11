@@ -8,6 +8,7 @@ declare module maineditor {
         private e_centen_tab;
         private e_centen_panel;
         protected loadConfigCom(): void;
+        showType: number;
         private a_scene_view;
         private initView;
         protected butClik(evt: InteractiveEvent): void;

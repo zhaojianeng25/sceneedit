@@ -58,10 +58,17 @@
 
             if (!this._mainEditorPanel) {
                 this._mainEditorPanel = new MainEditorPanel();
+                AppData.centenPanel.addUIContainer(this._mainEditorPanel);
             }
 
         }
         protected receivedModuleEvent($event: BaseEvent): void {
+            if ($event instanceof materialui.MaterialEvent) {
+                var $materialEvent: materialui.MaterialEvent = <materialui.MaterialEvent>$event;
+                if ($materialEvent.type == materialui.MaterialEvent.SHOW_MATERIA_PANEL) {
+                    this._mainEditorPanel.showType = 2
+                }
+            }
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent: MainEditorEvent = <MainEditorEvent>$event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
@@ -70,8 +77,8 @@
                     this.addEvents()
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
-
-                    AppData.centenPanel.addUIContainer(this._mainEditorPanel);
+ 
+                    this._mainEditorPanel.showType=1
              
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
    
@@ -251,7 +258,7 @@
         private onKeyUp($e: KeyboardEvent): void {
         }
         private get isCanToDo(): boolean { //不能操作
-            if (this._mainEditorPanel.hasStage) {
+            if (AppData.sceneEidtType==1) {
                 return true;
             } else {
                 return false;
@@ -317,6 +324,9 @@
                 new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
                 new MainEditorEvent(MainEditorEvent.CHANGE_LEFT_PANEL_SHOW),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
+                new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL),
+
+          
                 
             ];
         }

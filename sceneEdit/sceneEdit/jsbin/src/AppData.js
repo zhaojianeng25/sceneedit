@@ -56,6 +56,7 @@ var AppData = /** @class */ (function (_super) {
     AppData.prototype.resize = function () {
         Pan3d.me.UIData.Scale = 1;
     };
+    AppData.sceneEidtType = 1;
     return AppData;
 }(Pan3d.me.GameStart));
 //# sourceMappingURL=AppData.js.map

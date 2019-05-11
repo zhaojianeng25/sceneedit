@@ -4,6 +4,7 @@ declare class AppData extends Pan3d.me.GameStart {
     static rightPanel: win.Panel;
     static centenPanel: win.Panel;
     static topPanel: win.Panel;
+    static sceneEidtType: number;
     static mapOpenUrl: string;
     static rootFilePath: string;
     static getPerentPath(value: string): string;

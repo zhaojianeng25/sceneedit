@@ -126,12 +126,7 @@
 
         }
         private get isCanToDo(): boolean { //false为可以操作
-
-            if (this.uiContainer && this.uiContainer.hasStage) {
-                return true;
-            } else {
-                return false;
-            }
+            return AppData.sceneEidtType == 1;
           
         }
         private A: Matrix3D = new Matrix3D;

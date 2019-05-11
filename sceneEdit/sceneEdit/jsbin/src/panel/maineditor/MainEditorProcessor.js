@@ -71,9 +71,16 @@ var maineditor;
             }
             if (!this._mainEditorPanel) {
                 this._mainEditorPanel = new maineditor.MainEditorPanel();
+                AppData.centenPanel.addUIContainer(this._mainEditorPanel);
             }
         };
         MainEditorProcessor.prototype.receivedModuleEvent = function ($event) {
+            if ($event instanceof materialui.MaterialEvent) {
+                var $materialEvent = $event;
+                if ($materialEvent.type == materialui.MaterialEvent.SHOW_MATERIA_PANEL) {
+                    this._mainEditorPanel.showType = 2;
+                }
+            }
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent = $event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
@@ -82,7 +89,7 @@ var maineditor;
                     this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
-                    AppData.centenPanel.addUIContainer(this._mainEditorPanel);
+                    this._mainEditorPanel.showType = 1;
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                     Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._mainEditorPanel);
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
@@ -218,7 +225,7 @@ var maineditor;
         };
         Object.defineProperty(MainEditorProcessor.prototype, "isCanToDo", {
             get: function () {
-                if (this._mainEditorPanel.hasStage) {
+                if (AppData.sceneEidtType == 1) {
                     return true;
                 }
                 else {
@@ -269,6 +276,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
                 new MainEditorEvent(MainEditorEvent.CHANGE_LEFT_PANEL_SHOW),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
+                new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL),
             ];
         };
         return MainEditorProcessor;

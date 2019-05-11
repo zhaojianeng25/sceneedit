@@ -137,12 +137,7 @@ var xyz;
         };
         Object.defineProperty(MoveScaleRotatioinProcessor.prototype, "isCanToDo", {
             get: function () {
-                if (this.uiContainer && this.uiContainer.hasStage) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return AppData.sceneEidtType == 1;
             },
             enumerable: true,
             configurable: true

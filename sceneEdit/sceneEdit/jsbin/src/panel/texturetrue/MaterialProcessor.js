@@ -69,11 +69,11 @@ var materialui;
                     AppData.stagePos = new Vector2D();
                     materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
-                    this.baseWindow = new win.BaseWindow();
+                    // this.baseWindow = new win.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
                     this.lastMaterialUrl = $materialEvent.data;
-                    AppData.centenPanel.addUIContainer(this.baseWindow);
+                    // AppData.centenPanel.addUIContainer(this.baseWindow)
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 3);
@@ -114,12 +114,7 @@ var materialui;
         };
         Object.defineProperty(MaterialProcessor.prototype, "hasStage", {
             get: function () {
-                if (this.baseWindow.hasStage) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return AppData.sceneEidtType == 2;
             },
             enumerable: true,
             configurable: true
