@@ -738,6 +738,7 @@ var maineditor;
             });
         };
         HierarchyListPanel.prototype.clearSceneAll = function () {
+            this.moveListTy = 0;
             while (maineditor.EditorModel.getInstance().fileItem.length) {
                 this.deleFile(maineditor.EditorModel.getInstance().fileItem, maineditor.EditorModel.getInstance().fileItem[0]);
             }
@@ -841,7 +842,7 @@ var maineditor;
             if (this.isCompelet) {
                 this.listTy = 0 + this.moveListTy;
                 this.disChiendren(maineditor.EditorModel.getInstance().fileItem, 10);
-                var moveTy = 0;
+                var moveTy = this._uiMask.y;
                 this.moveAllTy(maineditor.EditorModel.getInstance().fileItem, moveTy);
                 while (this.cellBgItem.length) {
                     this.removeChild(this.cellBgItem.pop());
@@ -863,7 +864,7 @@ var maineditor;
                     this.cellBgItem.push(ui);
                 }
             }
-            this._baseMidRender.applyObjData();
+            //  this._baseMidRender.applyObjData()
         };
         HierarchyListPanel.prototype.moveAllTy = function (arr, ty) {
             if (ty === void 0) { ty = 0; }

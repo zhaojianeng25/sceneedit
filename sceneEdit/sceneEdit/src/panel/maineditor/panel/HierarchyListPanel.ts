@@ -917,7 +917,7 @@
 
 
         public clearSceneAll(): void {
-
+            this.moveListTy =0
             while (EditorModel.getInstance().fileItem.length) {
                 this.deleFile(EditorModel.getInstance().fileItem, EditorModel.getInstance().fileItem[0])
             }
@@ -1061,7 +1061,7 @@
 
                 this.listTy = 0 + this.moveListTy 
                 this.disChiendren(EditorModel.getInstance().fileItem, 10);
-                var moveTy: number = 0
+                var moveTy: number = this._uiMask.y
                 this.moveAllTy(EditorModel.getInstance().fileItem, moveTy)
 
                 while (this.cellBgItem.length) {
