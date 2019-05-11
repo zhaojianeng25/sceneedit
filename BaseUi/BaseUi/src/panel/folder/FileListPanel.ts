@@ -5,7 +5,7 @@
     import ColorType = Pan3d.me.ColorType
     import InteractiveEvent = Pan3d.me.InteractiveEvent
     import TextAlign = Pan3d.me.TextAlign
-    import Rectangle = Pan3d.me.Rectangle
+ 
     import ModuleEventManager = Pan3d.me.ModuleEventManager
     import UIManager = Pan3d.me.UIManager
     import LabelTextFont = Pan3d.me.LabelTextFont
@@ -19,6 +19,8 @@
     import UIAtlas = Pan3d.me.UIAtlas
     import Vector2D = Pan3d.me.Vector2D
     import Vector3D = Pan3d.me.Vector3D
+    import Rectangle = Pan3d.me.Rectangle
+ 
     import Scene_data = Pan3d.me.Scene_data
     import LoadManager = Pan3d.me.LoadManager
     import TextureManager = Pan3d.me.TextureManager
@@ -248,6 +250,86 @@
             }
         }
     }
+    export class PathurlRect extends Rectangle {
+        public pathurl: string
+    }
+    export class PathurlLabel extends prop.TextLabelUI {
+        public constructor() {
+            super(512, 22)
+
+            this.label = "目录/文件夹";
+            this.ui.addEventListener(InteractiveEvent.Down, this.pathurlLabelDown, this);
+            this.ui.addEventListener(InteractiveEvent.Move, this.pathurlLabelMove, this);
+
+        }
+
+        public pathurlLabelMove($evt: InteractiveEvent): void {
+          //  console.log("pathurlLabelMove")
+
+        }
+        public pathurlLabelDown($evt: InteractiveEvent): void {
+            //console.log("pathurlLabelDown", this.areaRectItem)
+            var tempMouse: Vector2D = new Vector2D($evt.x - this.textureContext.left, $evt.y - this.textureContext.top)
+            tempMouse.x /= this.textureContext.uiViewScale;
+            tempMouse.y /= this.textureContext.uiViewScale; //UI已被放大
+            for (var i: number = 0; i < this.areaRectItem.length; i++) {
+                var tempRect: PathurlRect = this.areaRectItem[i]
+                if (tempRect.isHitByPoint(tempMouse.x, tempMouse.y)) {
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), tempRect.pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+                }
+            }
+        }
+        public set label(value: string) {
+            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+
+  
+ 
+        }
+        private areaRectItem: Array<PathurlRect>
+        public setPath(value): void {
+            this.areaRectItem =[]
+
+            var $uiAtlas = this.ui.uiRender.uiAtlas
+            var $uiRect: UIRectangle = $uiAtlas.getRec(this.ui.skinName);
+            var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D($uiRect.pixelWitdh, $uiRect.pixelHeight, false);
+            $ctx.fillStyle = "#ffffff"
+            $ctx.font = + 26 + "px " + UIData.font;
+
+            $ctx.strokeStyle = "#27262e"
+            $ctx.lineWidth = 4;
+ 
+            var tempArr: Array<string> = value.split("/");
+
+            var tx: number = 20;
+
+            var tempSaveName: string=""
+            for (var i: number = 0; i < tempArr.length; i++) {
+                var tempStr: string = tempArr[i]
+                if (tempStr && tempStr.length) {
+                    $ctx.fillText(tempStr, tx, 0);
+
+                    tempSaveName += tempStr+"/"
+ 
+                    var tempRect: PathurlRect = new PathurlRect(tx, 0, $ctx.measureText(tempStr).width, 22);
+                  
+                    tempRect.pathurl = tempSaveName;
+
+                    this.areaRectItem.push(tempRect);
+
+                    tx += $ctx.measureText(tempStr).width 
+
+                    $ctx.fillText(" / ", tx, 0);
+                    tx += 30;
+
+                }
+            }
+ 
+ 
+        
+            $uiAtlas.updateCtx($ctx, $uiRect.pixelX, $uiRect.pixelY);
+   
+        }
+    }
 
     export class FileListPanel extends win.Dis2dBaseWindow {
 
@@ -255,12 +337,13 @@
         public constructor() {
             super(FileListName, new Rectangle(0, 0, 100, 100), 48);
       
-         
+
+
  
         }
         private pathlistBg: UICompenent
 
-        private pathurlLabel: prop.TextLabelUI
+        private pathurlLabel: PathurlLabel
         protected loadConfigCom(): void {
             super.loadConfigCom();
             this._baseRender.mask = this._uiMask
@@ -274,12 +357,9 @@
             this.pathlistBg.height = 20
 
 
-            this.pathurlLabel = new prop.TextLabelUI(512,22);
+            this.pathurlLabel =new  PathurlLabel();
             this.addRender(this.pathurlLabel.ui.uiRender);
-            this.pathurlLabel.label = "目录/文件夹";
-            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Down, this.pathurlLabelDown, this);
-            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Move, this.pathurlLabelMove, this);
-
+    
 
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
  
@@ -298,12 +378,7 @@
 
             this.resize()
         }
-        public pathurlLabelMove($evt: InteractiveEvent): void {
-            console.log("pathurlLabelMove")
-        }
-        public pathurlLabelDown($evt: InteractiveEvent): void {
-            console.log("pathurlLabelDown")
-        }
+      
         public onMouseWheel($evt: MouseWheelEvent): void {
             if (!this.isCanToDo) {
                 return
@@ -580,23 +655,12 @@
             }
         }
 
-        private drawPathLabel(value: string): void {
-
-            var tempArr: Array<string> = value.split("/");
-            var outStr: string = ""
-            for (var i: number = 0; i < tempArr.length; i++) {
-                outStr += tempArr[i];
-                if (tempArr[i]&&i < tempArr.length - 1) {
-                    outStr += " / ";
-                }
-            }
-            this.pathurlLabel.label = outStr
-        }
+      
         public refrishPath(filePath: string): void {
             console.log("刷新目录", filePath)
 
-           
-            this.drawPathLabel(filePath)
+
+            this.pathurlLabel.setPath(filePath)
 
             AppData.rootFilePath = AppData.getPerentPath(filePath)
 

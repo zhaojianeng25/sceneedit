@@ -15,13 +15,14 @@ var filelist;
 (function (filelist) {
     var InteractiveEvent = Pan3d.me.InteractiveEvent;
     var TextAlign = Pan3d.me.TextAlign;
-    var Rectangle = Pan3d.me.Rectangle;
     var ModuleEventManager = Pan3d.me.ModuleEventManager;
     var UIManager = Pan3d.me.UIManager;
     var LabelTextFont = Pan3d.me.LabelTextFont;
     var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var UIData = Pan3d.me.UIData;
     var Vector2D = Pan3d.me.Vector2D;
     var Vector3D = Pan3d.me.Vector3D;
+    var Rectangle = Pan3d.me.Rectangle;
     var Scene_data = Pan3d.me.Scene_data;
     var LoadManager = Pan3d.me.LoadManager;
     var TextureManager = Pan3d.me.TextureManager;
@@ -206,6 +207,75 @@ var filelist;
         return FileListName;
     }(Disp2DBaseText));
     filelist.FileListName = FileListName;
+    var PathurlRect = /** @class */ (function (_super) {
+        __extends(PathurlRect, _super);
+        function PathurlRect() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return PathurlRect;
+    }(Rectangle));
+    filelist.PathurlRect = PathurlRect;
+    var PathurlLabel = /** @class */ (function (_super) {
+        __extends(PathurlLabel, _super);
+        function PathurlLabel() {
+            var _this = _super.call(this, 512, 22) || this;
+            _this.label = "目录/文件夹";
+            _this.ui.addEventListener(InteractiveEvent.Down, _this.pathurlLabelDown, _this);
+            _this.ui.addEventListener(InteractiveEvent.Move, _this.pathurlLabelMove, _this);
+            return _this;
+        }
+        PathurlLabel.prototype.pathurlLabelMove = function ($evt) {
+            //  console.log("pathurlLabelMove")
+        };
+        PathurlLabel.prototype.pathurlLabelDown = function ($evt) {
+            //console.log("pathurlLabelDown", this.areaRectItem)
+            var tempMouse = new Vector2D($evt.x - this.textureContext.left, $evt.y - this.textureContext.top);
+            tempMouse.x /= this.textureContext.uiViewScale;
+            tempMouse.y /= this.textureContext.uiViewScale; //UI已被放大
+            for (var i = 0; i < this.areaRectItem.length; i++) {
+                var tempRect = this.areaRectItem[i];
+                if (tempRect.isHitByPoint(tempMouse.x, tempMouse.y)) {
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), tempRect.pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+                }
+            }
+        };
+        Object.defineProperty(PathurlLabel.prototype, "label", {
+            set: function (value) {
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PathurlLabel.prototype.setPath = function (value) {
+            this.areaRectItem = [];
+            var $uiAtlas = this.ui.uiRender.uiAtlas;
+            var $uiRect = $uiAtlas.getRec(this.ui.skinName);
+            var $ctx = UIManager.getInstance().getContext2D($uiRect.pixelWitdh, $uiRect.pixelHeight, false);
+            $ctx.fillStyle = "#ffffff";
+            $ctx.font = +26 + "px " + UIData.font;
+            $ctx.strokeStyle = "#27262e";
+            $ctx.lineWidth = 4;
+            var tempArr = value.split("/");
+            var tx = 20;
+            var tempSaveName = "";
+            for (var i = 0; i < tempArr.length; i++) {
+                var tempStr = tempArr[i];
+                if (tempStr && tempStr.length) {
+                    $ctx.fillText(tempStr, tx, 0);
+                    tempSaveName += tempStr + "/";
+                    var tempRect = new PathurlRect(tx, 0, $ctx.measureText(tempStr).width, 22);
+                    tempRect.pathurl = tempSaveName;
+                    this.areaRectItem.push(tempRect);
+                    tx += $ctx.measureText(tempStr).width;
+                    $ctx.fillText(" / ", tx, 0);
+                    tx += 30;
+                }
+            }
+            $uiAtlas.updateCtx($ctx, $uiRect.pixelX, $uiRect.pixelY);
+        };
+        return PathurlLabel;
+    }(prop.TextLabelUI));
+    filelist.PathurlLabel = PathurlLabel;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
@@ -220,11 +290,8 @@ var filelist;
             this.pathlistBg.y = -20;
             this.pathlistBg.width = 100;
             this.pathlistBg.height = 20;
-            this.pathurlLabel = new prop.TextLabelUI(512, 22);
+            this.pathurlLabel = new PathurlLabel();
             this.addRender(this.pathurlLabel.ui.uiRender);
-            this.pathurlLabel.label = "目录/文件夹";
-            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Down, this.pathurlLabelDown, this);
-            this.pathurlLabel.ui.addEventListener(InteractiveEvent.Move, this.pathurlLabelMove, this);
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(function () {
@@ -236,12 +303,6 @@ var filelist;
             }
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
             this.resize();
-        };
-        FileListPanel.prototype.pathurlLabelMove = function ($evt) {
-            console.log("pathurlLabelMove");
-        };
-        FileListPanel.prototype.pathurlLabelDown = function ($evt) {
-            console.log("pathurlLabelDown");
         };
         FileListPanel.prototype.onMouseWheel = function ($evt) {
             if (!this.isCanToDo) {
@@ -468,21 +529,10 @@ var filelist;
                 vo.destory();
             }
         };
-        FileListPanel.prototype.drawPathLabel = function (value) {
-            var tempArr = value.split("/");
-            var outStr = "";
-            for (var i = 0; i < tempArr.length; i++) {
-                outStr += tempArr[i];
-                if (tempArr[i] && i < tempArr.length - 1) {
-                    outStr += " / ";
-                }
-            }
-            this.pathurlLabel.label = outStr;
-        };
         FileListPanel.prototype.refrishPath = function (filePath) {
             var _this = this;
             console.log("刷新目录", filePath);
-            this.drawPathLabel(filePath);
+            this.pathurlLabel.setPath(filePath);
             AppData.rootFilePath = AppData.getPerentPath(filePath);
             this.moveListTy = 0;
             this.clearListAll();

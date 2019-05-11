@@ -2,6 +2,7 @@ declare module filelist {
     import UIRenderComponent = Pan3d.me.UIRenderComponent;
     import InteractiveEvent = Pan3d.me.InteractiveEvent;
     import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    import Rectangle = Pan3d.me.Rectangle;
     import FileVo = pack.FileVo;
     class SampleFileVo {
         id: number;
@@ -28,14 +29,23 @@ declare module filelist {
         private drawFileIconName;
         update(): void;
     }
+    class PathurlRect extends Rectangle {
+        pathurl: string;
+    }
+    class PathurlLabel extends prop.TextLabelUI {
+        constructor();
+        pathurlLabelMove($evt: InteractiveEvent): void;
+        pathurlLabelDown($evt: InteractiveEvent): void;
+        label: string;
+        private areaRectItem;
+        setPath(value: any): void;
+    }
     class FileListPanel extends win.Dis2dBaseWindow {
         static imgBaseDic: any;
         constructor();
         private pathlistBg;
         private pathurlLabel;
         protected loadConfigCom(): void;
-        pathurlLabelMove($evt: InteractiveEvent): void;
-        pathurlLabelDown($evt: InteractiveEvent): void;
         onMouseWheel($evt: MouseWheelEvent): void;
         private readonly isCanToDo;
         resize(): void;
@@ -52,7 +62,6 @@ declare module filelist {
         protected fileMouseUp(evt: InteractiveEvent): void;
         private selectFileIcon;
         private clearListAll;
-        private drawPathLabel;
         refrishPath(filePath: string): void;
         addRender($uiRender: UIRenderComponent): void;
         private getItemVoByUi;
