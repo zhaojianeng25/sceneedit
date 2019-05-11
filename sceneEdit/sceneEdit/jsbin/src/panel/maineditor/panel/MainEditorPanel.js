@@ -44,6 +44,8 @@ var maineditor;
             this.e_centen_tab = this.addChild(this._baseTopRender.getComponent("e_centen_tab"));
             this.e_centen_tab.x = 1;
             this.e_centen_tab.y = 1;
+            this.e_line_left = this.addChild(this._baseTopRender.getComponent("e_line_vertical"));
+            this.e_line_right = this.addChild(this._baseTopRender.getComponent("e_line_vertical"));
             this.initView();
             this.uiLoadComplete = true;
             this.refrishSize();
@@ -172,14 +174,19 @@ var maineditor;
                 this.a_scene_view.x = roundNum;
                 this.a_scene_view.y = roundNum + 22;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
-                this.a_scene_view.height = this.pageRect.height - roundNum * 2 - 24;
+                this.a_scene_view.height = this.pageRect.height - roundNum * 2 - 20;
                 if (this.e_centen_panel) {
                     this.e_centen_panel.x = 0;
                     this.e_centen_panel.y = 0;
                     this.e_centen_panel.width = this.pageRect.width;
-                    // this.e_centen_panel.height = this.pageRect.height;
                     this._baseMidRender.applyObjData();
                 }
+                this.e_line_left.x = -1;
+                this.e_line_left.y = 0;
+                this.e_line_left.height = this.pageRect.height;
+                this.e_line_right.x = this.pageRect.width - 3;
+                this.e_line_right.y = 0;
+                this.e_line_right.height = this.pageRect.height;
             }
             this.resize();
         };

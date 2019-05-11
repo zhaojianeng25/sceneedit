@@ -6,6 +6,8 @@ declare module maineditor {
         sceneProjectVo: SceneProjectVo;
         private _sceneViewRender;
         private e_centen_tab;
+        private e_line_left;
+        private e_line_right;
         private e_centen_panel;
         protected loadConfigCom(): void;
         showType: number;
