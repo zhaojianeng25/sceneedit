@@ -1050,7 +1050,7 @@
             super.resize()
 
             for (var i: number = 0; i < this.cellBgItem.length; i++) {
-                this.cellBgItem[i].width = this.pageRect.width
+                this.cellBgItem[i].width = this.pageRect.width-2
 
             }
 
@@ -1067,7 +1067,7 @@
                 while (this.cellBgItem.length) {
                     this.removeChild(this.cellBgItem.pop());
                 }
-                this.showSelectBg(EditorModel.getInstance().fileItem)
+                 this.showSelectBg(EditorModel.getInstance().fileItem)
             }
 
 
@@ -1082,14 +1082,15 @@
                 if (arr[i].ossListFile.treeSelect) {
                     var ui: UICompenent = <UICompenent>this.addChild(this._baseMidRender.getComponent("e_select_cell_bg"));
                     ui.y = arr[i].cellPos.y;
-                    ui.x = 0
-                    ui.width = this.pageRect.width
+                    ui.x = 1
+                    ui.width = this.pageRect.width-2
                     ui.height = 20
 
                     this.cellBgItem.push(ui);
                 }
 
             }
+          //  this._baseMidRender.applyObjData()
 
         }
         private moveAllTy(arr: Array<FolderMeshVo>, ty: number = 0): void {

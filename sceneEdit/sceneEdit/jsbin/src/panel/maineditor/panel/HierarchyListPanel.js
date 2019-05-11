@@ -834,7 +834,7 @@ var maineditor;
             }
             _super.prototype.resize.call(this);
             for (var i = 0; i < this.cellBgItem.length; i++) {
-                this.cellBgItem[i].width = this.pageRect.width;
+                this.cellBgItem[i].width = this.pageRect.width - 2;
             }
         };
         HierarchyListPanel.prototype.refrishFolder = function () {
@@ -857,12 +857,13 @@ var maineditor;
                 if (arr[i].ossListFile.treeSelect) {
                     var ui = this.addChild(this._baseMidRender.getComponent("e_select_cell_bg"));
                     ui.y = arr[i].cellPos.y;
-                    ui.x = 0;
-                    ui.width = this.pageRect.width;
+                    ui.x = 1;
+                    ui.width = this.pageRect.width - 2;
                     ui.height = 20;
                     this.cellBgItem.push(ui);
                 }
             }
+            this._baseMidRender.applyObjData();
         };
         HierarchyListPanel.prototype.moveAllTy = function (arr, ty) {
             if (ty === void 0) { ty = 0; }
