@@ -1,11 +1,18 @@
 declare module maineditor {
     import Rectangle = Pan3d.me.Rectangle;
+    import UIRenderComponent = Pan3d.me.UIRenderComponent;
     import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    class EditorOpenList {
+        private perent;
+        private topRender;
+        constructor(value: MainEditorPanel, render: UIRenderComponent);
+        private showList;
+    }
     class MainEditorPanel extends win.BaseWindow {
         constructor();
         sceneProjectVo: SceneProjectVo;
         private _sceneViewRender;
-        private e_centen_tab;
+        private e_edit_select_bg_1;
         private e_line_left;
         private e_line_right;
         private e_centen_panel;

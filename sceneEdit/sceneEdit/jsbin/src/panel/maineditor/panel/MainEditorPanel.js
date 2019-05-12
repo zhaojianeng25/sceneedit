@@ -21,6 +21,31 @@ var maineditor;
     var MouseType = Pan3d.me.MouseType;
     var MathUtil = Pan3d.me.MathUtil;
     var PanDragEvent = drag.PanDragEvent;
+    var EditorOpenList = /** @class */ (function () {
+        function EditorOpenList(value, render) {
+            this.perent = value;
+            this.topRender = render;
+            this.showList();
+        }
+        EditorOpenList.prototype.showList = function () {
+            var selectId = 0;
+            var tx = 0;
+            for (var i = 0; i < 5; i++) {
+                var skinName = "e_edit_select_bg_1";
+                if (i == selectId) {
+                    skinName = "e_edit_select_bg_2";
+                }
+                var temp = this.perent.addChild(this.topRender.getComponent(skinName));
+                temp.x = tx;
+                temp.y = 2;
+                temp.width = random(50) + 120;
+                temp.height = 21;
+                tx += temp.width;
+            }
+        };
+        return EditorOpenList;
+    }());
+    maineditor.EditorOpenList = EditorOpenList;
     var MainEditorPanel = /** @class */ (function (_super) {
         __extends(MainEditorPanel, _super);
         function MainEditorPanel() {
@@ -41,9 +66,7 @@ var maineditor;
         MainEditorPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.e_centen_panel = this.addChild(this._baseMidRender.getComponent("e_centen_panel"));
-            this.e_centen_tab = this.addChild(this._baseTopRender.getComponent("e_centen_tab"));
-            this.e_centen_tab.x = 1;
-            this.e_centen_tab.y = 1;
+            new EditorOpenList(this, this._baseTopRender);
             this.e_line_left = this.addChild(this._baseTopRender.getComponent("e_line_vertical"));
             this.e_line_right = this.addChild(this._baseTopRender.getComponent("e_line_vertical"));
             this.initView();

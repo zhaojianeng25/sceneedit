@@ -38,7 +38,39 @@
     import Sprite = win.Sprite
     import Panel = win.Panel
 
-    
+    export class EditorOpenList {
+        private perent: MainEditorPanel
+        private topRender: UIRenderComponent
+        public constructor(value: MainEditorPanel, render: UIRenderComponent) {
+            this.perent = value
+            this.topRender = render;
+
+            this.showList()
+        
+        }
+        private showList(): void {
+            var selectId: number = 0;
+            var tx: number=0
+            for (var i: number = 0; i < 5; i++) {
+                var skinName: string = "e_edit_select_bg_1"
+                if (i == selectId) {
+                    skinName ="e_edit_select_bg_2"
+                }
+                
+                var temp: UICompenent = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
+                temp.x = tx
+                temp.y = 2
+                temp.width = random(50) + 120;
+                temp.height = 21
+
+                tx += temp.width 
+
+            }
+
+       
+
+        }
+    }
 
     export class MainEditorPanel extends win.BaseWindow {
 
@@ -54,7 +86,7 @@
         }
         
         private _sceneViewRender: UiModelViewRender;
-        private e_centen_tab: UICompenent
+        private e_edit_select_bg_1: UICompenent
         private e_line_left: UICompenent
         private e_line_right: UICompenent
         private e_centen_panel: Grid9Compenent
@@ -65,18 +97,14 @@
             this.e_centen_panel = <Grid9Compenent>this.addChild(<UICompenent>this._baseMidRender.getComponent("e_centen_panel")); 
 
  
-            this.e_centen_tab = this.addChild(<UICompenent>this._baseTopRender.getComponent("e_centen_tab"));
-            this.e_centen_tab.x = 1
-            this.e_centen_tab.y = 1
+
+            new EditorOpenList(this, this._baseTopRender)
 
 
             this.e_line_left = this.addChild(<UICompenent>this._baseTopRender.getComponent("e_line_vertical"));
             this.e_line_right = this.addChild(<UICompenent>this._baseTopRender.getComponent("e_line_vertical"));
 
-            
-            
-
- 
+      
  
             this.initView()
 
