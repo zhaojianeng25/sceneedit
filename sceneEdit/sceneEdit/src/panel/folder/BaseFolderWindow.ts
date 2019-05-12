@@ -33,6 +33,16 @@
             this.resize();
             this.refrishWinSize()
         }
+        public resize(): void {
+            super.resize();
+            if (this.uiLoadComplete && this.pathUrlBg) {
+                this.pathUrlBg.x = this.pageRect.width * this.percentNum + 3;
+                this.pathUrlBg.y = 11;
+                this.pathUrlBg.height=28
+                this.pathUrlBg.width = this.pageRect.width - this.pathUrlBg.x;
+                this._baseMidRender.applyObjData();
+            }
+        }
         public getPageRect(): Rectangle {
             return this.pageRect
         }
@@ -40,19 +50,23 @@
         private setLinePos(): void {
             if (this.moveLine) {
                 this.moveLine.x = this.pageRect.width * this.percentNum
-                this.moveLine.y = 0
+                this.moveLine.y = 13
                 this.moveLine.width = 5
                 this.moveLine.height = this.pageRect.height
                // console.log("设置位置")
             }
       
         }
+        private pathUrlBg: UICompenent
         protected loadConfigCom(): void {
             super.loadConfigCom();
             this.setUiListVisibleByItem([this.c_tittle_bg, this.c_win_bg], false)
             this.setUiListVisibleByItem([this.e_panel_1], true)
+            
+            this.pathUrlBg = this.addChild(this._baseMidRender.getComponent("e_file_list_path_bg"));
 
-            this.moveLine = this.addChild(this._baseMidRender.getComponent("b_line_pixe_point"));
+
+            this.moveLine = this.addChild(this._baseMidRender.getComponent("e_line_vertical"));
             this.moveLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
  
             this.setLinePos();

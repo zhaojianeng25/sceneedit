@@ -414,7 +414,7 @@
                 if (this.pathurlLabel) {
                     this.pathurlLabel.textureContext.resize()
                     this.pathurlLabel.textureContext.left = this.left+20
-                    this.pathurlLabel.textureContext.top = this.top-17
+                    this.pathurlLabel.textureContext.top = this.top-22
                 }
 
            

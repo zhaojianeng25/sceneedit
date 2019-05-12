@@ -4,9 +4,11 @@ declare module basefolderwin {
     class BaseFolderWindow extends win.BaseWindow {
         constructor();
         setRect(value: Rectangle): void;
+        resize(): void;
         getPageRect(): Rectangle;
         percentNum: number;
         private setLinePos;
+        private pathUrlBg;
         protected loadConfigCom(): void;
         protected tittleMouseDown(evt: InteractiveEvent): void;
         private refrishWinSize;
