@@ -213,6 +213,7 @@ var materialleft;
                 var maxHeight = (this.pageRect.height - this.a_tittle_bg.height) - this.metriSpriteMesh.height;
                 maxHeight = Math.max(100, maxHeight);
                 var minW = Math.min(this.pageRect.width - 20, maxHeight);
+                minW = 100;
                 this.showModelPicUI.width = minW;
                 this.showModelPicUI.height = minW;
                 this.showModelPicUI.x = (this.pageRect.width - minW) / 2;

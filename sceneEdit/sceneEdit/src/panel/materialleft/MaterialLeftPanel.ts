@@ -272,7 +272,7 @@
                 maxHeight = Math.max(100, maxHeight);
 
                 var minW: number = Math.min(this.pageRect.width - 20, maxHeight)
-
+                minW=100
 
                 this.showModelPicUI.width = minW;
                 this.showModelPicUI.height = minW;

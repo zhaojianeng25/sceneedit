@@ -39,6 +39,7 @@
         public static RoleMesh2DUI: string = "RoleMesh2DUI";
         public static RoleAnim2DUI: string = "RoleAnim2DUI";
         public static MeshScene2DUI: string = "MeshScene2DUI";
+        public static MeshMaterialLeft2DUI: string = "MeshMaterialLeft2DUI";
 
         
         public static AgalFunUI: string = "AgalFunUI";

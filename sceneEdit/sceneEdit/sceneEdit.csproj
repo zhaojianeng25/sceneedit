@@ -67,6 +67,7 @@
     <TypeScriptCompile Include="src\laya3d\pan_\PanScene.ts" />
     <TypeScriptCompile Include="src\laya3d\pan_\PanSceneSprite.ts" />
     <TypeScriptCompile Include="src\laya3d\pan_\SceneChar.ts" />
+    <TypeScriptCompile Include="src\meshui\base\MeshMaterialLfetView2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\MeshSceneView2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleAnimi2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleMesh2DUI.ts" />

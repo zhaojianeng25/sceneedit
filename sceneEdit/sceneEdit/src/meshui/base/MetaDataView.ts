@@ -166,8 +166,19 @@
             if (type == ReflectionData.MeshScene2DUI) {
                 return this.getMeshScene2DUI(obj);
             }
+            if (type == ReflectionData.MeshMaterialLeft2DUI) {
+                return this.getMeshMaterialLeft2DUI(obj);
+            }
+            
  
             return null;
+        }
+        public getMeshMaterialLeft2DUI($obj: Object): MeshMaterialLfetView2DUI {
+            var temp: MeshMaterialLfetView2DUI = new MeshMaterialLfetView2DUI(this.propPanle)
+            temp.label = $obj[ReflectionData.Key_Label];
+            temp.FunKey = $obj[ReflectionData.FunKey];
+            temp.target = this
+            return temp;
         }
         public getMeshScene2DUI($obj: Object): MeshSceneView2DUI {
             var temp: MeshSceneView2DUI = new MeshSceneView2DUI(this.propPanle)

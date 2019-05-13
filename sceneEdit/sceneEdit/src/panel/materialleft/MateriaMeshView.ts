@@ -18,6 +18,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
+                    { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "prebaburl", target: this, Category: "模型" },
                     {
                         Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
              
@@ -38,6 +39,13 @@
 
                 ];
             return ary;
+        }
+        public set prebaburl(value: string) {
+
+        }
+        public get prebaburl(): string {
+ 
+            return ""
         }
         public get blendMode(): number {
             return this._materialTree.blendMode

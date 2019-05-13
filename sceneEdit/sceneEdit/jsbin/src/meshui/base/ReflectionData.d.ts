@@ -32,6 +32,7 @@ declare module prop {
         static RoleMesh2DUI: string;
         static RoleAnim2DUI: string;
         static MeshScene2DUI: string;
+        static MeshMaterialLeft2DUI: string;
         static AgalFunUI: string;
         static Vec3Color: string;
         static Vec2Prama: string;

@@ -153,7 +153,17 @@ var prop;
             if (type == prop.ReflectionData.MeshScene2DUI) {
                 return this.getMeshScene2DUI(obj);
             }
+            if (type == prop.ReflectionData.MeshMaterialLeft2DUI) {
+                return this.getMeshMaterialLeft2DUI(obj);
+            }
             return null;
+        };
+        MetaDataView.prototype.getMeshMaterialLeft2DUI = function ($obj) {
+            var temp = new prop.MeshMaterialLfetView2DUI(this.propPanle);
+            temp.label = $obj[prop.ReflectionData.Key_Label];
+            temp.FunKey = $obj[prop.ReflectionData.FunKey];
+            temp.target = this;
+            return temp;
         };
         MetaDataView.prototype.getMeshScene2DUI = function ($obj) {
             var temp = new prop.MeshSceneView2DUI(this.propPanle);

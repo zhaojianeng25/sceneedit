@@ -5,6 +5,7 @@ declare module materialleft {
     class MateriaMeshView extends MetaDataView {
         constructor(value: UiMeshSprite);
         getView(): Array<any>;
+        prebaburl: string;
         blendMode: number;
         testzbuff: boolean;
         writeZbuffer: boolean;
