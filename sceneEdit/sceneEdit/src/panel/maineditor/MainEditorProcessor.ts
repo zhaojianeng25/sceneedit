@@ -67,6 +67,8 @@
                 var $materialEvent: materialui.MaterialEvent = <materialui.MaterialEvent>$event;
                 if ($materialEvent.type == materialui.MaterialEvent.SHOW_MATERIA_PANEL) {
                     this._mainEditorPanel.showType = 2
+
+                    this._mainEditorPanel.editorOpenList.pushPathUrl($materialEvent.data)
                 }
             }
             if ($event instanceof MainEditorEvent) {
@@ -118,6 +120,9 @@
                     var pathname: Array<string> = window.location.pathname.split("/")
                     var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $mainEditorEvent.data
                     console.log(newUrl)
+
+
+                    this._mainEditorPanel.editorOpenList.pushPathUrl($mainEditorEvent.data)
  
                     history.pushState(null, title, newUrl);
               

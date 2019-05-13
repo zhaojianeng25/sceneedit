@@ -87,57 +87,53 @@
             this.perent = value
             this.topRender = render;
 
- 
             this.tabItemArr = [];
-
-
-            var strItem: Array<string>=[]
-            strItem.push("场景/scene.scene");
-            strItem.push("角色/新场景.scene");
-            strItem.push("chuangguangfuben.texture");
-            strItem.push("飞机材质.texture");
-            strItem.push("角色模型.texture");
-
-
-            this.selectTabStr = strItem[0];
  
-
-            for (var i: number = 0; i < strItem.length; i++) {
-                this.pushPathUrl(strItem[i])
-            }
-
-
-           // this.pushPathUrl("完美的开始.map")
+    
+            //this.pushPathUrl("角色/新场景.scene")
+            //this.pushPathUrl("完美的开始.map")
         
         }
-        //private openlist: Array<string>
-        //private clear(): void {
-        //    while (this.tabItemArr.length) {
-        //        var tabVo: SelectFileListText = this.tabItemArr.pop();
-        //        this.perent.removeChild(tabVo.bgUi);
-        //        tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-        //        this.perent.clearTemp(tabVo.data);
-        //    }
-        //}
+ 
  
         private tabItemArr: Array<SelectFileListText>;
         private tabBgClik(evt: InteractiveEvent): void {
             var tabVo: SelectFileListText = evt.target.data
             var ui: Grid9Compenent = evt.target;
- 
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
                 this.selectTabStr = tabVo.data
-                console.log("选", this.selectTabStr)
-              //  this.changeVoBg(tabVo, true)
 
-          
+                if (this.selectTabStr.indexOf(".map") != -1) {
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                }
+                if (this.selectTabStr.indexOf(".material") != -1) {
 
-                this.refrishTabUiSelect()
- 
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
+                }
+
+
+
             } else {
                 console.log("关", tabVo)
+                this.removePathUrl(tabVo.data)
+
+
             }
-            this.topRender.applyObjData();
+       
+            this.refrishTabUiSelect()
+ 
+        }
+        public removePathUrl(value: string): void {
+            for (var i: number = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].data == value) {
+                    var tabVo: SelectFileListText = this.tabItemArr[i]
+                    this.perent.removeChild(tabVo.bgUi);
+                    tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                    this.perent.clearTemp(tabVo.data);
+                    this.tabItemArr.splice(i, 1)
+                }
+            }
         }
         public changeVoBg(vo: SelectFileListText, value: boolean): void {
             var skinName: string = "e_edit_select_bg_1"
@@ -162,8 +158,10 @@
 
         }
         private refrishTabUiSelect(): void {
+            var tx: number = 2;
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
 
+                var tabVo = this.tabItemArr[i];
                 if (this.tabItemArr[i].data == this.selectTabStr) {
                     this.tabItemArr[i].select = true
                     this.changeVoBg(this.tabItemArr[i], true)
@@ -171,10 +169,22 @@
                     this.tabItemArr[i].select = false
                     this.changeVoBg(this.tabItemArr[i], false)
                 }
+
+                tabVo.bgUi.x = tx-1;
+                tabVo.bgUi.y = 1;
+                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
+                tabVo.bgUi.height = 22;
+                tabVo.bgUi.data = tabVo;
+                tx += tabVo.bgUi.width;
+                tabVo.ui.x = tabVo.bgUi.x + 10;
+                tabVo.ui.y = tabVo.bgUi.y + 5;
+                tabVo.ui.width = 256;
+                tabVo.ui.height = 20;
             }
+            this.topRender.applyObjData();
         }
         public pushPathUrl(value: string): void {
-
+            this.selectTabStr = value
             var needAdd: boolean = true;
             var tx: number = 1;
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
@@ -194,6 +204,7 @@
                 tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 tabVo.tittlestr = $tittlestr;
                 this.changeVoBg(tabVo, false);
+                /*
                 tabVo.bgUi.x = tx  ;
                 tabVo.bgUi.y = 1;
                 tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
@@ -204,16 +215,15 @@
                 tabVo.ui.y = tabVo.bgUi.y + 5;
                 tabVo.ui.width = 256;
                 tabVo.ui.height = 20;
+                */
  
                 tabVo.select = value[i] == this.selectTabStr;
                 this.tabItemArr.push(tabVo);
 
-                this.refrishTabUiSelect()
-
-                this.topRender.applyObjData();
             }
+            this.refrishTabUiSelect()
         }
-        private selectTabStr: string
+        private selectTabStr: string;
    
  
     }
@@ -238,13 +248,14 @@
         private e_line_left: UICompenent
         private e_line_right: UICompenent
         private e_centen_panel: Grid9Compenent
+        public editorOpenList: EditorOpenList;
         protected loadConfigCom(): void {
             super.loadConfigCom();
 
 
             this.e_centen_panel = <Grid9Compenent>this.addChild(<UICompenent>this._baseMidRender.getComponent("e_centen_panel")); 
  
-            new EditorOpenList(this, this._baseTopRender)
+            this.editorOpenList=    new EditorOpenList(this, this._baseTopRender)
 
 
             this.e_line_left = this.addChild(<UICompenent>this._baseTopRender.getComponent("e_line_vertical"));

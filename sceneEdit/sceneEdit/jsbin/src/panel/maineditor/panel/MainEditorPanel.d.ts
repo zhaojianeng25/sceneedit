@@ -18,6 +18,7 @@ declare module maineditor {
         constructor(value: MainEditorPanel, render: UIRenderComponent);
         private tabItemArr;
         private tabBgClik;
+        removePathUrl(value: string): void;
         changeVoBg(vo: SelectFileListText, value: boolean): void;
         private refrishTabUiSelect;
         pushPathUrl(value: string): void;
@@ -30,6 +31,7 @@ declare module maineditor {
         private e_line_left;
         private e_line_right;
         private e_centen_panel;
+        editorOpenList: EditorOpenList;
         protected loadConfigCom(): void;
         showType: number;
         private a_scene_view;
