@@ -88,7 +88,15 @@ var maineditor;
         };
         EditorOpenList.prototype.tabBgClik = function (evt) {
             var tabVo = evt.target.data;
-            console.log(tabVo.id);
+            var ui = evt.target;
+            console.log("tabVo.id, evt.x, tabVo.ui.x, tabVo.ui.width");
+            console.log(tabVo.id, evt.x, ui.absoluteX, ui.absoluteWidth);
+            if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
+                console.log("选");
+            }
+            else {
+                console.log("关");
+            }
             this.selectTabIndex = tabVo.id;
             this.showList(this.openlist);
         };
@@ -116,7 +124,7 @@ var maineditor;
                 tabVo.bgUi = this.perent.addChild(this.topRender.getComponent(skinName));
                 tabVo.bgUi.x = tx;
                 tabVo.bgUi.y = 1;
-                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20;
+                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20 + 25;
                 tabVo.bgUi.height = 22;
                 tabVo.bgUi.data = tabVo;
                 tabVo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
@@ -127,6 +135,7 @@ var maineditor;
                 tabVo.ui.height = 20;
                 this.tabItemArr.push(tabVo);
             }
+            this.topRender.applyObjData();
         };
         return EditorOpenList;
     }());

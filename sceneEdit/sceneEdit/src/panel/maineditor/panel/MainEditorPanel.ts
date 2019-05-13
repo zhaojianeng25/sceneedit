@@ -119,7 +119,17 @@
         private tabBgClik(evt: InteractiveEvent): void {
             var tabVo: SelectFileListText = evt.target.data
 
-            console.log(tabVo.id)
+            var ui: UICompenent = evt.target;
+
+            console.log("tabVo.id, evt.x, tabVo.ui.x, tabVo.ui.width");
+            console.log(tabVo.id, evt.x, ui.absoluteX, ui.absoluteWidth);
+
+            if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
+                console.log("选")
+            } else {
+                console.log("关")
+            }
+        
 
             this.selectTabIndex = tabVo.id;
             this.showList(this.openlist);
@@ -156,7 +166,7 @@
                 tabVo.bgUi = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
                 tabVo.bgUi.x = tx 
                 tabVo.bgUi.y = 1
-                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20;
+                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20+25;
                 tabVo.bgUi.height = 22;
                 tabVo.bgUi.data = tabVo
 
@@ -173,9 +183,10 @@
                 this.tabItemArr.push(tabVo)
 
             }
- 
+            this.topRender.applyObjData();
 
         }
+ 
     }
 
 
@@ -232,7 +243,6 @@
                     case 1:
                         this.setUiListVisibleByItem([this.a_scene_view], true)
                       //  this.setUiListVisibleByItem([this.e_centen_panel], true)
-           
                         break
                     case 2:
                         this.setUiListVisibleByItem([this.a_scene_view], false)
@@ -245,12 +255,7 @@
             }
 
         }
-        //public showSceneView(): void {
-
-        //}
-        //public showMaterialView(): void {
-     
-        //}
+ 
         private a_scene_view: UICompenent
         private initView(): void {
             this._sceneViewRender.uiAtlas = this._tRender.uiAtlas
