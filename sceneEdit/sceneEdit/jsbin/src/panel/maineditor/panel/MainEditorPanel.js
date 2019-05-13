@@ -64,10 +64,8 @@ var maineditor;
     maineditor.SelectFileListText = SelectFileListText;
     var EditorOpenList = /** @class */ (function () {
         function EditorOpenList(value, render) {
-            this.selectTabIndex = 0;
             this.perent = value;
             this.topRender = render;
-            this.openlist = [];
             this.tabItemArr = [];
             var strItem = [];
             strItem.push("场景/scene.scene");
@@ -75,67 +73,93 @@ var maineditor;
             strItem.push("chuangguangfuben.texture");
             strItem.push("飞机材质.texture");
             strItem.push("角色模型.texture");
-            this.openlist = strItem;
-            this.showList(this.openlist);
-        }
-        EditorOpenList.prototype.clear = function () {
-            while (this.tabItemArr.length) {
-                var tabVo = this.tabItemArr.pop();
-                this.perent.removeChild(tabVo.bgUi);
-                tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-                this.perent.clearTemp(tabVo.data);
+            this.selectTabStr = strItem[0];
+            for (var i = 0; i < strItem.length; i++) {
+                this.pushPathUrl(strItem[i]);
             }
-        };
+            // this.pushPathUrl("完美的开始.map")
+        }
         EditorOpenList.prototype.tabBgClik = function (evt) {
             var tabVo = evt.target.data;
             var ui = evt.target;
-            console.log("tabVo.id, evt.x, tabVo.ui.x, tabVo.ui.width");
-            console.log(tabVo.id, evt.x, ui.absoluteX, ui.absoluteWidth);
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
-                console.log("选");
+                this.selectTabStr = tabVo.data;
+                console.log("选", this.selectTabStr);
+                //  this.changeVoBg(tabVo, true)
+                this.refrishTabUiSelect();
             }
             else {
-                console.log("关");
+                console.log("关", tabVo);
             }
-            this.selectTabIndex = tabVo.id;
-            this.showList(this.openlist);
+            this.topRender.applyObjData();
         };
-        EditorOpenList.prototype.showList = function (value) {
-            this.clear();
-            var tx = 2;
-            for (var i = 0; i < value.length; i++) {
-                var skinName = "e_edit_select_bg_1";
-                // [ffffff]"[9c9c9c]" 
-                var $tittlestr = value[i].split("/")[value[i].split("/").length - 1];
-                var $pathurl = value[i];
-                if (i == this.selectTabIndex) {
-                    skinName = "e_edit_select_bg_2";
+        EditorOpenList.prototype.changeVoBg = function (vo, value) {
+            var skinName = "e_edit_select_bg_1";
+            if (value) {
+                skinName = "e_edit_select_bg_2";
+            }
+            else {
+                skinName = "e_edit_select_bg_1";
+            }
+            var tempui = this.perent.addChild(this.topRender.getComponent(skinName));
+            if (vo.bgUi) {
+                tempui.x = vo.bgUi.x;
+                tempui.y = vo.bgUi.y;
+                tempui.width = vo.bgUi.width;
+                tempui.height = vo.bgUi.height;
+                vo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                this.perent.removeChild(vo.bgUi);
+            }
+            vo.bgUi = tempui; //换上最新的
+            vo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+            vo.bgUi.data = vo;
+            vo.select = value;
+        };
+        EditorOpenList.prototype.refrishTabUiSelect = function () {
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].data == this.selectTabStr) {
+                    this.tabItemArr[i].select = true;
+                    this.changeVoBg(this.tabItemArr[i], true);
                 }
                 else {
-                    skinName = "e_edit_select_bg_1";
+                    this.tabItemArr[i].select = false;
+                    this.changeVoBg(this.tabItemArr[i], false);
                 }
+            }
+        };
+        EditorOpenList.prototype.pushPathUrl = function (value) {
+            var needAdd = true;
+            var tx = 1;
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].data == value) {
+                    needAdd = false;
+                }
+                tx = this.tabItemArr[i].bgUi.x + this.tabItemArr[i].bgUi.width - 1;
+            }
+            if (needAdd) {
+                var $tittlestr = value.split("/")[value.split("/").length - 1];
+                var $pathurl = value;
                 var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
                 $ctx.font = "13px " + UIData.font;
-                var $textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 var tabVo = this.perent.showTemp($pathurl);
-                tabVo.id = i;
+                tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 tabVo.tittlestr = $tittlestr;
-                tabVo.select = (i == this.selectTabIndex);
-                tabVo.bgUi = this.perent.addChild(this.topRender.getComponent(skinName));
+                this.changeVoBg(tabVo, false);
                 tabVo.bgUi.x = tx;
                 tabVo.bgUi.y = 1;
-                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20 + 25;
+                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
                 tabVo.bgUi.height = 22;
                 tabVo.bgUi.data = tabVo;
-                tabVo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-                tx += tabVo.bgUi.width - 1;
+                tx += tabVo.bgUi.width;
                 tabVo.ui.x = tabVo.bgUi.x + 10;
                 tabVo.ui.y = tabVo.bgUi.y + 5;
                 tabVo.ui.width = 256;
                 tabVo.ui.height = 20;
+                tabVo.select = value[i] == this.selectTabStr;
                 this.tabItemArr.push(tabVo);
+                this.refrishTabUiSelect();
+                this.topRender.applyObjData();
             }
-            this.topRender.applyObjData();
         };
         return EditorOpenList;
     }());

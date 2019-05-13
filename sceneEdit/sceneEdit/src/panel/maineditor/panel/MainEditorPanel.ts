@@ -44,7 +44,7 @@
     export class SelectFileListText extends Disp2DBaseText {
 
         public bgUi: UICompenent;
-        public id: number;
+        public textMetrics: TextMetrics;
         public tittlestr: string;
  
 
@@ -87,8 +87,7 @@
             this.perent = value
             this.topRender = render;
 
-            this.openlist=[]
-    
+ 
             this.tabItemArr = [];
 
 
@@ -100,92 +99,122 @@
             strItem.push("角色模型.texture");
 
 
-            this.openlist = strItem;
+            this.selectTabStr = strItem[0];
+ 
 
-            this.showList(this.openlist);
+            for (var i: number = 0; i < strItem.length; i++) {
+                this.pushPathUrl(strItem[i])
+            }
+
+
+           // this.pushPathUrl("完美的开始.map")
         
         }
-        private openlist: Array<string>
-        private clear(): void {
-            while (this.tabItemArr.length) {
-                var tabVo: SelectFileListText = this.tabItemArr.pop();
-                this.perent.removeChild(tabVo.bgUi);
-                tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-                this.perent.clearTemp(tabVo.data);
-            }
-        }
+        //private openlist: Array<string>
+        //private clear(): void {
+        //    while (this.tabItemArr.length) {
+        //        var tabVo: SelectFileListText = this.tabItemArr.pop();
+        //        this.perent.removeChild(tabVo.bgUi);
+        //        tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+        //        this.perent.clearTemp(tabVo.data);
+        //    }
+        //}
  
         private tabItemArr: Array<SelectFileListText>;
         private tabBgClik(evt: InteractiveEvent): void {
             var tabVo: SelectFileListText = evt.target.data
-
-            var ui: UICompenent = evt.target;
-
-            console.log("tabVo.id, evt.x, tabVo.ui.x, tabVo.ui.width");
-            console.log(tabVo.id, evt.x, ui.absoluteX, ui.absoluteWidth);
-
+            var ui: Grid9Compenent = evt.target;
+ 
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
-                console.log("选")
-            } else {
-                console.log("关")
-            }
-        
+                this.selectTabStr = tabVo.data
+                console.log("选", this.selectTabStr)
+              //  this.changeVoBg(tabVo, true)
 
-            this.selectTabIndex = tabVo.id;
-            this.showList(this.openlist);
+          
+
+                this.refrishTabUiSelect()
+ 
+            } else {
+                console.log("关", tabVo)
+            }
+            this.topRender.applyObjData();
+        }
+        public changeVoBg(vo: SelectFileListText, value: boolean): void {
+            var skinName: string = "e_edit_select_bg_1"
+            if (value ) {
+                skinName = "e_edit_select_bg_2";
+            } else {
+                skinName = "e_edit_select_bg_1";
+            }
+            var tempui = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
+            if (vo.bgUi) {
+                tempui.x = vo.bgUi.x;
+                tempui.y = vo.bgUi.y;
+                tempui.width = vo.bgUi.width;
+                tempui.height = vo.bgUi.height;
+                vo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                this.perent.removeChild(vo.bgUi);
+            }
+            vo.bgUi = tempui;//换上最新的
+            vo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+            vo.bgUi.data = vo;
+            vo.select = value;
 
         }
-        public selectTabIndex: number=0
-        private showList(value: Array<string>): void {
-            this.clear()
-          
-            var tx: number = 2
-            for (var i: number = 0; i < value.length; i++) {
-                var skinName: string = "e_edit_select_bg_1"
-      
-                // [ffffff]"[9c9c9c]" 
+        private refrishTabUiSelect(): void {
+            for (var i: number = 0; i < this.tabItemArr.length; i++) {
 
-                var $tittlestr: string = value[i].split("/")[value[i].split("/").length - 1];
-                var $pathurl: string = value[i]
-
-                if (i == this.selectTabIndex) {
-                    skinName = "e_edit_select_bg_2"
+                if (this.tabItemArr[i].data == this.selectTabStr) {
+                    this.tabItemArr[i].select = true
+                    this.changeVoBg(this.tabItemArr[i], true)
                 } else {
-                    skinName = "e_edit_select_bg_1"
+                    this.tabItemArr[i].select = false
+                    this.changeVoBg(this.tabItemArr[i], false)
                 }
+            }
+        }
+        public pushPathUrl(value: string): void {
 
+            var needAdd: boolean = true;
+            var tx: number = 1;
+            for (var i: number = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].data == value) {
+                    needAdd = false
+                }
+                tx = this.tabItemArr[i].bgUi.x+ this.tabItemArr[i].bgUi.width-1;
+            }
+            if (needAdd) {
+       
+                var $tittlestr: string = value.split("/")[value.split("/").length - 1];
+                var $pathurl: string = value;
+           
                 var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
                 $ctx.font = "13px " + UIData.font;
-             
-                var $textMetrics: TextMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 var tabVo: SelectFileListText = <SelectFileListText>this.perent.showTemp($pathurl);
-                tabVo.id = i;
+                tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 tabVo.tittlestr = $tittlestr;
-                tabVo.select = (i == this.selectTabIndex);
-   
-                tabVo.bgUi = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
-                tabVo.bgUi.x = tx 
-                tabVo.bgUi.y = 1
-                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20+25;
+                this.changeVoBg(tabVo, false);
+                tabVo.bgUi.x = tx  ;
+                tabVo.bgUi.y = 1;
+                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
                 tabVo.bgUi.height = 22;
-                tabVo.bgUi.data = tabVo
-
-                tabVo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-
-                tx += tabVo.bgUi.width - 1;
- 
-                tabVo.ui.x = tabVo.bgUi.x+10;
+                tabVo.bgUi.data = tabVo;
+                tx += tabVo.bgUi.width  ;
+                tabVo.ui.x = tabVo.bgUi.x + 10;
                 tabVo.ui.y = tabVo.bgUi.y + 5;
                 tabVo.ui.width = 256;
                 tabVo.ui.height = 20;
+ 
+                tabVo.select = value[i] == this.selectTabStr;
+                this.tabItemArr.push(tabVo);
 
+                this.refrishTabUiSelect()
 
-                this.tabItemArr.push(tabVo)
-
+                this.topRender.applyObjData();
             }
-            this.topRender.applyObjData();
-
         }
+        private selectTabStr: string
+   
  
     }
 

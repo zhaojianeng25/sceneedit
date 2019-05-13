@@ -6,7 +6,7 @@ declare module maineditor {
     import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
     class SelectFileListText extends Disp2DBaseText {
         bgUi: UICompenent;
-        id: number;
+        textMetrics: TextMetrics;
         tittlestr: string;
         select: boolean;
         private _select;
@@ -16,12 +16,12 @@ declare module maineditor {
         private perent;
         private topRender;
         constructor(value: MainEditorPanel, render: UIRenderComponent);
-        private openlist;
-        private clear;
         private tabItemArr;
         private tabBgClik;
-        selectTabIndex: number;
-        private showList;
+        changeVoBg(vo: SelectFileListText, value: boolean): void;
+        private refrishTabUiSelect;
+        pushPathUrl(value: string): void;
+        private selectTabStr;
     }
     class MainEditorPanel extends win.Dis2dBaseWindow {
         constructor();
