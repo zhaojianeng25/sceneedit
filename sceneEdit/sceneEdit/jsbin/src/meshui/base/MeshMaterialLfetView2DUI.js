@@ -13,15 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    //import MaterialRoleSprite = left.MaterialRoleSprite;
-    //import ModelSprite = maineditor.ModelSprite;
-    //import SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
-    //import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
-    //import EdItorSceneManager = maineditor.EdItorSceneManager;
     var MeshMaterialLfetView2DUI = /** @class */ (function (_super) {
         __extends(MeshMaterialLfetView2DUI, _super);
-        function MeshMaterialLfetView2DUI() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function MeshMaterialLfetView2DUI(value) {
+            var _this = _super.call(this, value) || this;
+            _this.showSprite = new left.MaterialModelSprite();
+            _this.sceneManager.addDisplay(_this.showSprite);
+            return _this;
         }
         Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "x", {
             set: function (value) {
@@ -33,6 +31,15 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        MeshMaterialLfetView2DUI.prototype.refreshViewValue = function () {
+            var _this = this;
+            var temp = this.target[this.FunKey];
+            this.texturePicUi.url = "icon/base.jpg";
+            pack.PackObjDataManager.getInstance().getObjDataByUrl("pefab/模型/球/球.objs", function (value) {
+                _this.showSprite.objData = value;
+            });
+            this.showSprite.material = temp;
+        };
         return MeshMaterialLfetView2DUI;
     }(prop.MeshSceneView2DUI));
     prop.MeshMaterialLfetView2DUI = MeshMaterialLfetView2DUI;

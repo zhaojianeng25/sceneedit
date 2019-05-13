@@ -24,7 +24,7 @@ var materialleft;
         }
         MateriaMeshView.prototype.getView = function () {
             var ary = [
-                { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "prebaburl", target: this, Category: "模型" },
+                { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", target: this, Category: "模型" },
                 {
                     Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
                         { name: "普通模式", type: 0 },
@@ -42,9 +42,9 @@ var materialleft;
             ];
             return ary;
         };
-        Object.defineProperty(MateriaMeshView.prototype, "prebaburl", {
+        Object.defineProperty(MateriaMeshView.prototype, "materialTree", {
             get: function () {
-                return "";
+                return this._materialTree;
             },
             set: function (value) {
             },

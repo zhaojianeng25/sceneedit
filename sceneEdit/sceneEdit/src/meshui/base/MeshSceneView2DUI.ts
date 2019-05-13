@@ -101,7 +101,7 @@
             console.log("up")
             this.removeStagetMouseMove()
         }
-        private sceneManager: maineditor.EdItorSceneManager;
+        protected sceneManager: maineditor.EdItorSceneManager;
         protected initScene(): void {
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new maineditor.EdItorSceneManager()

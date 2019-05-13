@@ -1,25 +1,7 @@
 ﻿module prop {
-    import TextureManager = Pan3d.me.TextureManager
-    import Scene_data = Pan3d.me.Scene_data
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TimeUtil = Pan3d.me.TimeUtil
-    import MouseType = Pan3d.me.MouseType;
-
-    import GlReset = Pan3d.me.GlReset;
-    import LineDisplayShader = Pan3d.me.LineDisplayShader;
-    import GridLineSprite = Pan3d.me.GridLineSprite;
-    import ProgrmaManager = Pan3d.me.ProgrmaManager;
-    import BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-    import Camera3D = Pan3d.me.Camera3D;
-    import Rectangle = Pan3d.me.Rectangle;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import FBO = Pan3d.me.FBO;
-
-    //import MaterialRoleSprite = left.MaterialRoleSprite;
-    //import ModelSprite = maineditor.ModelSprite;
-    //import SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
-    //import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
-    //import EdItorSceneManager = maineditor.EdItorSceneManager;
+     
+ 
+ 
 
     export class MeshMaterialLfetView2DUI extends MeshSceneView2DUI {
 
@@ -30,6 +12,22 @@
             this.texturePicUi.x = this._x + 10;
             this.textureUrlText.x = this._x + 10000
 
+        }
+        public constructor(value: UiMeshSprite) {
+            super(value);
+            this.showSprite = new left.MaterialModelSprite ();
+            this.sceneManager.addDisplay(this.showSprite);
+        }
+        private showSprite: left.MaterialModelSprite ;
+        public refreshViewValue(): void {
+            var temp : materialui.MaterialTree = this.target[this.FunKey];
+            this.texturePicUi.url = "icon/base.jpg";
+
+            pack.PackObjDataManager.getInstance().getObjDataByUrl("pefab/模型/球/球.objs", (value: ObjData) => {
+                this.showSprite.objData = value;
+            })
+            this.showSprite.material = temp;
+ 
         }
        
 

@@ -5,12 +5,12 @@ declare module materialleft {
     class MateriaMeshView extends MetaDataView {
         constructor(value: UiMeshSprite);
         getView(): Array<any>;
-        prebaburl: string;
+        materialTree: materialui.MaterialTree;
+        private _materialTree;
         blendMode: number;
         testzbuff: boolean;
         writeZbuffer: boolean;
         pointlight: boolean;
-        private _materialTree;
         data: any;
         sunDirect: Vector3D;
         sunColor: Vector3D;

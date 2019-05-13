@@ -13,7 +13,7 @@ declare module prop {
         private removeStagetMouseMove;
         private onStageMouseMove;
         private onStageMouseUp;
-        private sceneManager;
+        protected sceneManager: maineditor.EdItorSceneManager;
         protected initScene(): void;
         private upDataFun;
         private oneByFrame;

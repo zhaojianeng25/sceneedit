@@ -18,7 +18,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "prebaburl", target: this, Category: "模型" },
+                    { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", target: this, Category: "模型" },
                     {
                         Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
              
@@ -40,12 +40,13 @@
                 ];
             return ary;
         }
-        public set prebaburl(value: string) {
+        public set materialTree(value: materialui.MaterialTree) {
 
         }
-        public get prebaburl(): string {
- 
-            return ""
+        private _materialTree: materialui.MaterialTree
+        public get materialTree(): materialui.MaterialTree {
+
+            return this._materialTree;
         }
         public get blendMode(): number {
             return this._materialTree.blendMode
@@ -77,7 +78,7 @@
         }
 
     
-        private _materialTree: materialui.MaterialTree
+
         public set data(value: any) {
             this._data = value;
             this._materialTree = value;
