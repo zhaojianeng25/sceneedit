@@ -50,7 +50,7 @@
         }
         private showList(): void {
             var selectId: number = 0;
-            var tx: number=0
+            var tx: number=2
             for (var i: number = 0; i < 5; i++) {
                 var skinName: string = "e_edit_select_bg_1"
                 if (i == selectId) {
@@ -58,12 +58,12 @@
                 }
                 
                 var temp: UICompenent = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
-                temp.x = tx
-                temp.y = 2
+                temp.x = tx 
+                temp.y =1
                 temp.width = random(50) + 120;
-                temp.height = 21
+                temp.height = 22
 
-                tx += temp.width 
+                tx += temp.width-1 
 
             }
 
@@ -86,7 +86,7 @@
         }
         
         private _sceneViewRender: UiModelViewRender;
-        private e_edit_select_bg_1: UICompenent
+ 
         private e_line_left: UICompenent
         private e_line_right: UICompenent
         private e_centen_panel: Grid9Compenent
@@ -95,9 +95,7 @@
 
 
             this.e_centen_panel = <Grid9Compenent>this.addChild(<UICompenent>this._baseMidRender.getComponent("e_centen_panel")); 
-
  
-
             new EditorOpenList(this, this._baseTopRender)
 
 

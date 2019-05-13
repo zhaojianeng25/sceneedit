@@ -29,7 +29,7 @@ var maineditor;
         }
         EditorOpenList.prototype.showList = function () {
             var selectId = 0;
-            var tx = 0;
+            var tx = 2;
             for (var i = 0; i < 5; i++) {
                 var skinName = "e_edit_select_bg_1";
                 if (i == selectId) {
@@ -37,10 +37,10 @@ var maineditor;
                 }
                 var temp = this.perent.addChild(this.topRender.getComponent(skinName));
                 temp.x = tx;
-                temp.y = 2;
+                temp.y = 1;
                 temp.width = random(50) + 120;
-                temp.height = 21;
-                tx += temp.width;
+                temp.height = 22;
+                tx += temp.width - 1;
             }
         };
         return EditorOpenList;

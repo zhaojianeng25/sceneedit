@@ -12,7 +12,6 @@ declare module maineditor {
         constructor();
         sceneProjectVo: SceneProjectVo;
         private _sceneViewRender;
-        private e_edit_select_bg_1;
         private e_line_left;
         private e_line_right;
         private e_centen_panel;
