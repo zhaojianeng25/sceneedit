@@ -1,11 +1,8 @@
-var base;
-(function (base) {
+var baselaunch;
+(function (baselaunch) {
     var Browser = Laya.Browser;
     var Stage = Laya.Stage;
-    var Engine = Pan3d.me.Engine;
-    var Scene_data = Pan3d.me.Scene_data;
-    var Game2dDemo = base.Game2dDemo;
-    var Game3dDemo = base.Game3dDemo;
+    var LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
     var LayaLaunch = /** @class */ (function () {
         function LayaLaunch() {
             this.init();
@@ -36,60 +33,58 @@ var base;
                 return compatibleLayaRender.call(this, funA, sfactor, dfactor);
             };
             /*
-            let ParticleBoneData_setAllByteInfo =  ParticleBoneData.prototype.setAllByteInfo;
-             ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
+            let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
+            Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
                 return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
             }
             */
         };
         LayaLaunch.prototype.init = function () {
             // LayaLaunch.overrideMethods()
+            var _this = this;
             this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
             Laya.stage.alignV = Stage.ALIGN_LEFT;
             Laya.stage.alignH = Stage.ALIGN_TOP;
             Laya.stage.scaleMode = "full";
             Laya.stage.bgColor = "#232628";
-            Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-            Scene_data.fileuiRoot = "res/";
-            Scene_data.fileRoot = "res/";
-            //    Scene_data.fileRoot =  Scene_data.ossRoot + "baseedit/";
-            Engine.init(this._canvas);
-            var midBox = new Laya.Box();
-            Laya.stage.addChild(midBox);
+            Pan3d.me.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+            Pan3d.me.Scene_data.fileuiRoot = "res/";
+            Pan3d.me.Scene_data.fileRoot = Pan3d.me.Scene_data.ossRoot + "baseedit/";
+            Pan3d.me.Engine.init(this._canvas);
             var topBox = new Laya.Box();
             Laya.stage.addChild(topBox);
-            var spriteA = new Game3dDemo("res/ui/icon/256b.png", function () {
-                spriteA.scale(2, 1);
-            });
-            topBox.addChild(spriteA);
-            var spriteB = new Game3dDemo("res/ui/icon/256a.png", function () {
-                spriteB.scale(1, 2);
-            });
-            topBox.addChild(spriteB);
-            spriteB.pos(0, 250);
-            var spriteC = new Game2dDemo("res/ui/icon/512a.jpg", function () {
-                spriteC.scale(1, 1);
-            });
-            topBox.addChild(spriteC);
-            spriteC.pos(350, 0);
-            var spriteD = new Game2dDemo("res/ui/icon/512b.jpg", function () {
-                spriteD.scale(2, 1);
-            });
-            topBox.addChild(spriteD);
-            spriteD.pos(200, 250);
+            var midBox = new Laya.Box();
+            Laya.stage.addChild(midBox);
             var picA = new Laya.Image("res/ui/icon/lyf_64x.png");
-            midBox.addChild(picA);
+            Laya.stage.addChild(picA);
             picA.scale(0.5, 0.5);
             picA.pos(600, 170);
+            var spriteC = new LayaGame2dDemo("res/ui/icon/512a.jpg", function () {
+                spriteC.scale(1, 1);
+            });
+            Laya.stage.addChild(spriteC);
+            spriteC.pos(350, 0);
+            var spriteD = new LayaGame2dDemo("res/ui/icon/512b.jpg", function () {
+                spriteD.scale(2, 1);
+            });
+            Laya.stage.addChild(spriteD);
+            spriteD.pos(200, 250);
             var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
-            midBox.addChild(picB);
+            Laya.stage.addChild(picB);
             picB.pos(0, 220);
+            this.lastTm = Pan3d.me.TimeUtil.getTimer();
+            Laya.stage.frameLoop(1, this, function () {
+                var t = Pan3d.me.TimeUtil.getTimer() - _this.lastTm;
+                //  Pan3d.TimeUtil.START_TIME += t * -1;
+                _this.lastTm = Pan3d.me.TimeUtil.getTimer();
+                Pan3d.me.TimeUtil.update();
+            });
         };
         LayaLaunch.initCanvas = function ($caves) {
             new LayaLaunch();
         };
         return LayaLaunch;
     }());
-    base.LayaLaunch = LayaLaunch;
-})(base || (base = {}));
+    baselaunch.LayaLaunch = LayaLaunch;
+})(baselaunch || (baselaunch = {}));
 //# sourceMappingURL=LayaLaunch.js.map

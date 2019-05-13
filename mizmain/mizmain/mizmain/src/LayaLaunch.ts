@@ -1,4 +1,5 @@
-﻿module base {
+﻿module baselaunch {
+
     import Browser = Laya.Browser;
     import Loader = Laya.Loader;
     import LEvent = Laya.Event;
@@ -6,16 +7,13 @@
     import Sprite = Laya.Sprite
 
 
-    import Engine = Pan3d.me.Engine
-    import Scene_data = Pan3d.me.Scene_data
+    import Pan3dByteArray = Pan3d.me.Pan3dByteArray;
 
-    import Game2dDemo = base.Game2dDemo;
-    import Game3dDemo = base.Game3dDemo;
+    import LayaScene2D = LayaPan3D.LayaScene2D;
 
+    import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
 
-
-
-    export class LayaLaunch {
+    export  class LayaLaunch {
         private _canvas: HTMLCanvasElement;
         get canvas(): HTMLCanvasElement {
             return this._canvas;
@@ -40,8 +38,8 @@
                 return compatibleLayaRender.call(this, funA, sfactor, dfactor);
             }
             /*
-            let ParticleBoneData_setAllByteInfo =  ParticleBoneData.prototype.setAllByteInfo;
-             ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
+            let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
+            Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
                 return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
             }
             */
@@ -59,62 +57,56 @@
             Laya.stage.bgColor = "#232628";
 
 
-            Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-            Scene_data.fileuiRoot = "res/";
-            Scene_data.fileRoot = "res/";
-            //    Scene_data.fileRoot =  Scene_data.ossRoot + "baseedit/";
-            Engine.init(this._canvas);
+
+            Pan3d.me.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+            Pan3d.me.Scene_data.fileuiRoot = "res/";
+            Pan3d.me.Scene_data.fileRoot = Pan3d.me.Scene_data.ossRoot + "baseedit/";
 
 
-            var midBox: Laya.Box = new Laya.Box()
-            Laya.stage.addChild(midBox)
+
+            Pan3d.me.Engine.init(this._canvas);
+
 
             var topBox: Laya.Box = new Laya.Box()
             Laya.stage.addChild(topBox)
 
+            var midBox: Laya.Box = new Laya.Box()
+            Laya.stage.addChild(midBox)
 
-            var spriteA: Game3dDemo = new Game3dDemo("res/ui/icon/256b.png", () => {
-                spriteA.scale(2, 1)
-            })
-            topBox.addChild(spriteA);
-
-
-            var spriteB: Game3dDemo = new Game3dDemo("res/ui/icon/256a.png", () => {
-                spriteB.scale(1, 2)
-            })
-            topBox.addChild(spriteB);
-            spriteB.pos(0, 250);
-
-
-
-
-            var spriteC: Game2dDemo = new Game2dDemo("res/ui/icon/512a.jpg", () => {
-                spriteC.scale(1, 1)
-            })
-            topBox.addChild(spriteC);
-            spriteC.pos(350, 0);
-
-
-
-            var spriteD: Game2dDemo = new Game2dDemo("res/ui/icon/512b.jpg", () => {
-                spriteD.scale(2, 1)
-            })
-            topBox.addChild(spriteD);
-            spriteD.pos(200, 250);
-
+         
 
 
             var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-            midBox.addChild(picA)
+            Laya.stage.addChild(picA)
             picA.scale(0.5, 0.5)
             picA.pos(600, 170)
 
+
+            var spriteC: LayaGame2dDemo = new LayaGame2dDemo("res/ui/icon/512a.jpg", () => {
+                spriteC.scale(1, 1)
+            })
+            Laya.stage.addChild(spriteC);
+            spriteC.pos(350, 0);
+
+
+            var spriteD: LayaScene2D = new LayaGame2dDemo("res/ui/icon/512b.jpg", () => {
+                spriteD.scale(2, 1)
+            })
+            Laya.stage.addChild(spriteD);
+            spriteD.pos(200, 250);
+
+
             var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-            midBox.addChild(picB)
+            Laya.stage.addChild(picB)
             picB.pos(0, 220)
 
-
-
+            this.lastTm = Pan3d.me.TimeUtil.getTimer()
+            Laya.stage.frameLoop(1, this, () => {
+                var t = Pan3d.me.TimeUtil.getTimer() - this.lastTm;
+                //  Pan3d.TimeUtil.START_TIME += t * -1;
+                this.lastTm = Pan3d.me.TimeUtil.getTimer()
+                Pan3d.me.TimeUtil.update()
+            })
         }
 
 
@@ -129,7 +121,6 @@
 
 
     }
-
 
 
 }

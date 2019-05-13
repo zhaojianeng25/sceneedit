@@ -29,7 +29,7 @@ module layapan.me {
 
 
 
-    export class LayaSceneChar extends layapan.me.LayaSceneBaseChar {
+    export class LayaSceneChar extends  LayaSceneBaseChar {
         // 血条颜色 对应素材 res_3d\ui\load\blood.png
         static BLOOD_COLOR_HP = 0;
         static BLOOD_COLOR_ANGER = 1;
@@ -54,7 +54,7 @@ module layapan.me {
         protected _pz: number = 0;
         private _pRotationY: number = 0;
         toRotationY: number = 0;
-        private _pScale: number = 1;
+        protected _pScale: number = 1;
 
         tittleHeight: number = 50;
 
@@ -127,7 +127,7 @@ module layapan.me {
             return this.isMount;
         }
 
-        private _wingDisplay: LayaSceneBaseChar;
+        protected _wingDisplay: LayaSceneBaseChar;
 
         public setWing(v: string): void {
             if (v && v.length) {
@@ -459,7 +459,7 @@ module layapan.me {
         }
 
 
-        private _resultVisible: boolean = true;
+        protected _resultVisible: boolean = true;
         get resultVisible(): boolean {
             return this._resultVisible;
         }
@@ -514,7 +514,7 @@ module layapan.me {
         }
 
         // 是否显示血条
-        private _bloodEnable: boolean = false;
+        protected _bloodEnable: boolean = false;
         set bloodEnable(v: boolean) {
             this._bloodEnable = v;
          

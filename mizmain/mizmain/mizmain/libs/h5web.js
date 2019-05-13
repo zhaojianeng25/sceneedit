@@ -40168,8 +40168,8 @@ var win;
             this.a_left_line = this.addChild(this._tRender.getComponent("a_left_line"));
             this.a_rigth_line = this.addChild(this._tRender.getComponent("a_rigth_line"));
             this.a_bottom_line = this.addChild(this._tRender.getComponent("a_bottom_line"));
-            this.a_scroll_bar_bg = this.addChild(this._mRender.getComponent("a_scroll_bar_bg"));
-            this.a_scroll_bar = this.addChild(this._tRender.getComponent("a_scroll_bar"));
+            this.a_scroll_bar_bg = this.addChild(this._mRender.getComponent("e_scroll_bar_bg"));
+            this.a_scroll_bar = this.addChild(this._tRender.getComponent("e_scroll_bar"));
             this.b_bottom_left = this.addChild(this._tRender.getComponent("b_bottom_left"));
             this.b_bottom_mid = this.addChild(this._tRender.getComponent("b_bottom_mid"));
             this.b_bottom_right = this.addChild(this._tRender.getComponent("b_bottom_right"));
@@ -40186,12 +40186,14 @@ var win;
             this.c_left_line = this._baseTopRender.getComponent("c_left_line");
             this.c_right_line = this._baseTopRender.getComponent("c_left_line");
             this.c_bottom_line = this._baseTopRender.getComponent("b_line_pixe_point");
-            this.c_scroll_bar_bg = this._baseTopRender.getComponent("a_scroll_bar_bg");
-            this.c_scroll_bar = this._closeRender.getComponent("a_scroll_bar");
+            this.c_scroll_bar_bg = this._baseTopRender.getComponent("e_scroll_bar_bg");
+            this.c_scroll_bar = this._closeRender.getComponent("e_scroll_bar");
             this.c_scroll_bar.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             // 
             this.c_win_bg = this._baseMidRender.getComponent("c_win_bg");
-            //  this.setUiListVisibleByItem([this.c_win_bg], true)
+            this.e_panel_1 = this._baseMidRender.getComponent("e_panel_1");
+            // this.setUiListVisibleByItem([this.e_panel_1], true)
+            this.setUiListVisibleByItem([this.c_win_bg], false);
             this.uiLoadComplete = true;
             this.setHideUi();
             this.setShowUi();
@@ -40239,6 +40241,10 @@ var win;
                 this.top = this.pageRect.y;
                 this.pageRect.width = Math.max(100, this.pageRect.width);
                 this.pageRect.height = Math.max(100, this.pageRect.height);
+                this.e_panel_1.x = 0;
+                this.e_panel_1.y = 0;
+                this.e_panel_1.width = this.pageRect.width;
+                this.e_panel_1.height = this.pageRect.height;
                 this.a_tittle_bg.x = 2;
                 this.a_tittle_bg.y = 2;
                 this.a_tittle_bg.width = this.pageRect.width - 4;
@@ -40248,6 +40254,12 @@ var win;
                 this._uiMask.x = 0;
                 this._uiMask.width = this.pageRect.width - this.a_rigth_line.width;
                 this._uiMask.height = this.pageRect.height;
+                if (this.maskRoundRect) {
+                    this._uiMask.x += this.maskRoundRect.x;
+                    this._uiMask.y += this.maskRoundRect.y;
+                    this._uiMask.width -= this.maskRoundRect.width;
+                    this._uiMask.height -= this.maskRoundRect.height;
+                }
                 this.a_bg.x = 0;
                 this.a_bg.y = 0;
                 this.a_bg.width = this.pageRect.width;
@@ -40307,17 +40319,18 @@ var win;
                 this.c_bottom_line.width = this.pageRect.width;
                 this.c_bottom_line.height = 1;
                 this.c_scroll_bar_bg.x = this.pageRect.width - this.c_scroll_bar_bg.width - 2;
-                this.c_scroll_bar_bg.y = 0;
-                this.c_scroll_bar_bg.height = this.pageRect.height;
+                this.c_scroll_bar_bg.y = this._uiMask.y;
+                this.c_scroll_bar_bg.height = this._uiMask.height;
                 if (this.contentHeight > this.pageRect.height) {
                     this.setUiListVisibleByItem([this.c_scroll_bar], true);
-                    this.c_scroll_bar.x = this.c_scroll_bar_bg.x + 5;
+                    this.c_scroll_bar.x = this.c_scroll_bar_bg.x + 3;
                     this.c_scroll_bar.height = this._uiMask.height * (this._uiMask.height / this.contentHeight);
                     this.c_scroll_bar.y = Math.min((this._uiMask.y + this._uiMask.height) - this.c_scroll_bar.height, this.c_scroll_bar.y);
                 }
                 else {
                     this.setUiListVisibleByItem([this.c_scroll_bar], false);
                 }
+                this._baseMidRender.applyObjData();
             }
             _super.prototype.resize.call(this);
         };
@@ -40736,7 +40749,7 @@ var pack;
         };
         FileOssModel.makeOssWrapper = function (bfun) {
             var _this = this;
-            this.webseverurl = "https://api.h5key.com/api/";
+            this.webseverurl = "http://api.h5key.com/api/";
             if (!this.waitOssWrapper) {
                 this.waitOssWrapper = [bfun];
                 this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
@@ -40867,7 +40880,7 @@ var pack;
         FileOssModel.upOssFile = function (file, $fileUrl, $bfun) {
             var _this = this;
             if ($bfun === void 0) { $bfun = null; }
-            FileOssModel.webseverurl = "https://api.h5key.com/api/";
+            FileOssModel.webseverurl = "http://api.h5key.com/api/";
             this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun });
             if (this.waitItemUpFile.length == 1) {
                 if (!FileOssModel.ossWrapper) {
@@ -41393,6 +41406,7 @@ var win;
         LayoutbaseBg.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.a_scroll_bar, this.a_scroll_bar_bg], false);
+            this.setUiListVisibleByItem([this.e_panel_1], false);
         };
         return LayoutbaseBg;
     }(win.BaseWindow));
@@ -41416,25 +41430,11 @@ var win;
 (function (win) {
     var Panel = /** @class */ (function (_super) {
         __extends(Panel, _super);
-        function Panel(has) {
-            if (has === void 0) { has = true; }
-            var _this = _super.call(this) || this;
+        function Panel() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.layer = 0;
-            if (has) {
-                _this.winBg = new win.LayoutbaseBg();
-                _this.addUIContainer(_this.winBg);
-                _this.changeSize();
-            }
             return _this;
         }
-        Panel.prototype.setShowUi = function (value) {
-            this.winBg.setShowUi(value);
-        };
-        Panel.prototype.changeSize = function () {
-            if (this.winBg) {
-                this.winBg.setRect(this.rect);
-            }
-        };
         return Panel;
     }(win.Sprite));
     win.Panel = Panel;
@@ -43492,12 +43492,7 @@ var xyz;
         };
         Object.defineProperty(MoveScaleRotatioinProcessor.prototype, "isCanToDo", {
             get: function () {
-                if (this.uiContainer && this.uiContainer.hasStage) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return AppData.sceneEidtType == 1;
             },
             enumerable: true,
             configurable: true
@@ -45346,19 +45341,19 @@ var editscene;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                var colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                var colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
                 var colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                 switch ($menuListData.level) {
                     case 0:
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break;
                     case 1:
-                        colorBg = $menuListData.select ? "#353535" : "#6c6c6c";
+                        colorBg = $menuListData.select ? "#353535" : "#535353";
                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break;
                     default:
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#353535";
+                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break;
                 }
@@ -45389,7 +45384,7 @@ var editscene;
             return this._instance;
         };
         EditTopMenuPanel.prototype.loadConfigCom = function () {
-            this.winBg = this.addChild(this._bottomRender.getComponent("b_tittle_bg"));
+            this.winBg = this.addChild(this._bottomRender.getComponent("e_topmenu_bg"));
             this.uiLoadComplete = true;
             this.resize();
         };
@@ -45399,7 +45394,7 @@ var editscene;
                 this.winBg.x = 0;
                 this.winBg.y = 0;
                 this.winBg.width = Scene_data.stageWidth;
-                this.winBg.height = 25;
+                this.winBg.height = 29;
             }
         };
         EditTopMenuPanel.prototype.initMenuData = function (value) {
@@ -45578,11 +45573,11 @@ var editscene;
             var temp = _super.prototype.showTemp.call(this, $data);
             if ($data.level == 0) {
                 temp.ui.x = i * 80;
-                temp.ui.y = 0;
+                temp.ui.y = 3;
             }
             else {
                 temp.ui.x = tx;
-                temp.ui.y = i * 20 + ty;
+                temp.ui.y = i * 20 + ty + 0;
             }
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
             temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
@@ -45674,7 +45669,7 @@ var editscene;
             _this.leftWidthNum = 300; //左边宽度；
             _this.rightWidthNum = 300; //右边宽度；
             _this.bottomHeightNum = 300; //底下宽度；
-            _this.menuHeight = 22;
+            _this.menuHeight = 28;
             return _this;
         }
         TempSceneLine.prototype.loadConfigCom = function () {
@@ -45969,33 +45964,58 @@ var __extends = (this && this.__extends) || (function () {
 var editscene;
 (function (editscene) {
     var Panel = win.Panel;
-    var LayoutbaseBg = win.LayoutbaseBg;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
         function CentenPanel() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
         CentenPanel.prototype.addUIContainer = function ($container) {
-            //特殊处理，删除非底层背景
-            for (var i = this._containerList.length - 1; i > 0; i--) {
-                if (!(this._containerList[i] instanceof LayoutbaseBg)) {
-                    this.removeUIContainer(this._containerList[i]);
-                }
+            while (this._containerList.length) {
+                this.removeUIContainer(this._containerList[0]);
             }
             if ($container) {
                 _super.prototype.addUIContainer.call(this, $container);
             }
         };
-        CentenPanel.prototype.removeUIContainer = function ($container) {
-            _super.prototype.removeUIContainer.call(this, $container);
-        };
         return CentenPanel;
     }(Panel));
     editscene.CentenPanel = CentenPanel;
+    var MainRightBaseWin = /** @class */ (function (_super) {
+        __extends(MainRightBaseWin, _super);
+        function MainRightBaseWin() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MainRightBaseWin.prototype.loadConfigCom = function () {
+            _super.prototype.loadConfigCom.call(this);
+            this.setUiListVisibleByItem([this.e_panel_1], true);
+        };
+        return MainRightBaseWin;
+    }(win.BaseWindow));
+    editscene.MainRightBaseWin = MainRightBaseWin;
+    var MainRightPanel = /** @class */ (function (_super) {
+        __extends(MainRightPanel, _super);
+        function MainRightPanel(has) {
+            if (has === void 0) { has = true; }
+            var _this = _super.call(this) || this;
+            if (has) {
+                _this.winBg = new MainRightBaseWin();
+                _this.addUIContainer(_this.winBg);
+                _this.changeSize();
+            }
+            return _this;
+        }
+        MainRightPanel.prototype.changeSize = function () {
+            if (this.winBg) {
+                this.winBg.setRect(this.rect);
+            }
+        };
+        return MainRightPanel;
+    }(Panel));
+    editscene.MainRightPanel = MainRightPanel;
     var EditScenePanel = /** @class */ (function (_super) {
         __extends(EditScenePanel, _super);
         function EditScenePanel() {
-            var _this = _super.call(this, false) || this;
+            var _this = _super.call(this) || this;
             _this.addCenten();
             _this.addRight();
             _this.addLeft();
@@ -46004,8 +46024,6 @@ var editscene;
             _this.resize();
             return _this;
         }
-        EditScenePanel.prototype.showofHide = function (panel) {
-        };
         EditScenePanel.prototype.addSceneLaoutLinePane = function () {
             this._sceneLaoutLinePane = new editscene.EditSceneLine;
             this._sceneLaoutLinePane.x = 0;
@@ -46013,7 +46031,7 @@ var editscene;
             this.addChild(this._sceneLaoutLinePane);
         };
         EditScenePanel.prototype.addCenten = function () {
-            var temp = new CentenPanel(true);
+            var temp = new CentenPanel();
             temp.x = 600;
             temp.y = 0;
             temp.width = 450;
@@ -46022,9 +46040,8 @@ var editscene;
             AppData.centenPanel = temp;
         };
         EditScenePanel.prototype.addRight = function () {
-            var temp = new Panel(true);
-            temp.setShowUi(["c_left_line", "c_win_bg"]);
-            temp.x = 600;
+            var temp = new MainRightPanel(true);
+            temp.x = 1000;
             temp.y = 0;
             temp.width = 450;
             temp.height = 500;
@@ -46032,7 +46049,7 @@ var editscene;
             AppData.rightPanel = temp;
         };
         EditScenePanel.prototype.addTop = function () {
-            var tempPanel = new Panel(false);
+            var tempPanel = new Panel();
             tempPanel.x = 0;
             tempPanel.y = 0;
             tempPanel.width = 450;
@@ -46041,8 +46058,7 @@ var editscene;
             AppData.topPanel = tempPanel;
         };
         EditScenePanel.prototype.addLeft = function () {
-            var temp = new editscene.EditLeftPanel(true);
-            temp.setShowUi(["c_right_line", "c_win_bg"]);
+            var temp = new editscene.EditLeftPanel();
             temp.x = 0;
             temp.y = 50;
             temp.width = 450;
@@ -46302,7 +46318,7 @@ var drag;
         };
         DragProcessor.prototype.addUIContainer = function (value) {
             if (!this.topDrag) {
-                this.topDrag = new Panel(false);
+                this.topDrag = new Panel();
                 win.LayerManager.getInstance().addPanel(this.topDrag, 200);
             }
             this.topDrag.addUIContainer(value);
@@ -46679,7 +46695,7 @@ var menutwo;
         };
         MenuTwoProcessor.prototype.addUIContainer = function (value) {
             if (!this.topMenuPanel) {
-                this.topMenuPanel = new Panel(false);
+                this.topMenuPanel = new Panel();
                 win.LayerManager.getInstance().addPanel(this.topMenuPanel, 200);
             }
             this.topMenuPanel.addUIContainer(value);
@@ -47053,7 +47069,7 @@ var colorview;
         ColorProcessor.prototype.showColorPanel = function ($v3d, $bfun) {
             var _this = this;
             if (!this.colorWinPanel) {
-                this.colorWinPanel = new win.Panel(false);
+                this.colorWinPanel = new win.Panel();
                 win.LayerManager.getInstance().addPanel(this.colorWinPanel, 500);
             }
             if (!this.colorPanel) {
@@ -47245,11 +47261,13 @@ var prop;
         ReflectionData.MaterialPicUi = "MaterialPicUi";
         ReflectionData.RoleMesh2DUI = "RoleMesh2DUI";
         ReflectionData.RoleAnim2DUI = "RoleAnim2DUI";
+        ReflectionData.MeshScene2DUI = "MeshScene2DUI";
         ReflectionData.AgalFunUI = "AgalFunUI";
         ReflectionData.Vec3Color = "Vec3Color";
         ReflectionData.Vec2Prama = "Vec2Prama";
         ReflectionData.UserView = "userView";
         ReflectionData.FunKey = "FunKey";
+        ReflectionData.ClikEventKey = "ClikEventKey";
         ReflectionData.Number = "Number";
         return ReflectionData;
     }());
@@ -47368,6 +47386,8 @@ var prop;
             }
             this._height = ty - this._top;
         };
+        MetaDataView.prototype.eventKey = function (value) {
+        };
         MetaDataView.prototype.creatComponent = function (obj) {
             var type = obj[prop.ReflectionData.Key_Type];
             if (type == prop.ReflectionData.NumberInput) {
@@ -47406,7 +47426,17 @@ var prop;
             if (type == prop.ReflectionData.TEXT) {
                 return this.getTextField2DUI(obj);
             }
+            if (type == prop.ReflectionData.MeshScene2DUI) {
+                return this.getMeshScene2DUI(obj);
+            }
             return null;
+        };
+        MetaDataView.prototype.getMeshScene2DUI = function ($obj) {
+            var temp = new prop.MeshSceneView2DUI(this.propPanle);
+            temp.label = $obj[prop.ReflectionData.Key_Label];
+            temp.FunKey = $obj[prop.ReflectionData.FunKey];
+            temp.target = this;
+            return temp;
         };
         MetaDataView.prototype.getCategoryUI = function (value) {
             var _this = this;
@@ -47419,6 +47449,7 @@ var prop;
             var $textCtrlInput = new prop.TextField2DUI(this.propPanle);
             $textCtrlInput.label = $obj[prop.ReflectionData.Key_Label];
             $textCtrlInput.FunKey = $obj[prop.ReflectionData.FunKey];
+            $textCtrlInput.clikEvent = $obj[prop.ReflectionData.ClikEventKey];
             $textCtrlInput.target = this;
             return $textCtrlInput;
         };
@@ -48291,7 +48322,14 @@ var prop;
             this.drawUrlImgToUi(this.deleIcon.ui, "icon/deleticon.png");
             this.comboBoxUi.addEventListener(InteractiveEvent.Down, this.comboBoxUiDown, this);
             this.deleIcon.ui.addEventListener(InteractiveEvent.Down, this.deleIconDown, this);
+            this.md5searchIcon.ui.addEventListener(InteractiveEvent.Up, this.md5searchIconClik, this);
             this.height = 150;
+        };
+        RoleAnimi2DUI.prototype.md5searchIconClik = function (evt) {
+            var vo = this.target.data;
+            console.log(vo.animPlayKey);
+            // var pathurl: string = Pan3d.me.Scene_data.fileRoot + value;
+            //  Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
         };
         RoleAnimi2DUI.prototype.drawInAnimUrl = function () {
             var _this = this;
@@ -48730,6 +48768,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var InteractiveEvent = Pan3d.me.InteractiveEvent;
     var TextField2DUI = /** @class */ (function (_super) {
         __extends(TextField2DUI, _super);
         function TextField2DUI() {
@@ -48742,7 +48781,23 @@ var prop;
             this.propPanle.addBaseMeshUi(this.infoLabelUi);
             this.height = 20;
         };
+        TextField2DUI.prototype.clikMouseUp = function (evt) {
+            this.target.eventKey(this.clikEventInfo);
+        };
+        Object.defineProperty(TextField2DUI.prototype, "clikEvent", {
+            set: function (value) {
+                if (value) {
+                    this.clikEventInfo = value;
+                    this.infoLabelUi.ui.addEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         TextField2DUI.prototype.destory = function () {
+            if (this.clikEventInfo) {
+                this.infoLabelUi.ui.removeEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
+            }
             this.textLabelUI.destory();
             this.infoLabelUi.destory();
         };
@@ -48948,6 +49003,7 @@ var prop;
             this.refreshViewValue();
         };
         CheckBox2DUI.prototype.destory = function () {
+            this.boxIcon.ui.removeEventListener(InteractiveEvent.Up, this.clikMouseUp, this);
             this.textLabelUI.destory();
             this.boxIcon.destory();
         };
@@ -49657,6 +49713,7 @@ var prop;
             if (h === void 0) { h = 64; }
             var _this = _super.call(this, w, h) || this;
             _this.$dulbelClikTm = 0;
+            _this.haveDoubleCilk = true;
             _this.initView();
             _this.resize();
             return _this;
@@ -49691,8 +49748,13 @@ var prop;
                     Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 }
                 else {
-                    console.log("选文件");
-                    this.doubleClick();
+                    if (this.haveDoubleCilk) {
+                        console.log("选文件");
+                        this.doubleClick();
+                    }
+                    else {
+                        console.log("关闭了选取事件");
+                    }
                 }
             }
             this.$dulbelClikTm = TimeUtil.getTimer() + 1000;
@@ -50831,7 +50893,7 @@ var prop;
         __extends(TextureFunPanel, _super);
         function TextureFunPanel() {
             var _this = _super.call(this) || this;
-            _this.layaPanel = new win.Panel(false);
+            _this.layaPanel = new win.Panel();
             win.LayerManager.getInstance().addPanel(_this.layaPanel, 501);
             _this.setRect(new Pan3d.me.Rectangle(100, 100, 500, 400));
             return _this;
@@ -50842,7 +50904,7 @@ var prop;
             this.setUiListVisibleByItem([this.c_left_line], true);
             this.setUiListVisibleByItem([this.c_right_line], true);
             this.setUiListVisibleByItem([this.c_bottom_line], true);
-            this.setUiListVisibleByItem([this.c_win_bg], true);
+            this.setUiListVisibleByItem([this.c_win_bg], false);
             this.setUiListVisibleByItem([this.b_win_close], true);
             this.c_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
         };
@@ -51161,12 +51223,12 @@ var prop;
                 this.rect = this.perent.rect;
             }
             for (var i = 0; i < this._containerList.length; i++) {
-                this._containerList[i].left = this.rect.x;
-                this._containerList[i].top = this.rect.y;
+                this._containerList[i].left = this.rect.x + 2;
+                this._containerList[i].top = this.rect.y + 12;
             }
             for (var i = 0; i < this.metaViewItem.length; i++) {
                 this.metaViewItem[i].top = this.rect.y + this.metaViewItem[i].y;
-                this.metaViewItem[i].width = this.rect.width;
+                this.metaViewItem[i].width = this.rect.width - 5;
                 this.metaViewItem[i].resize();
             }
         };
@@ -51321,11 +51383,23 @@ var filelist;
         PrefabMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型" },
-                { Type: ReflectionData.Texturue2DUI, Label: "模型:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "模型" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "prebaburl", target: this, Category: "模型", ClikEventKey: "clikFilePrefab" },
+                { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "prebaburl", target: this, Category: "模型" },
+                { Type: ReflectionData.Texturue2DUI, Label: "Objs:", FunKey: "objsurl", target: this, Suffix: "objs", Category: "网格" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "材质" },
             ];
             return ary;
+        };
+        PrefabMeshView.prototype.eventKey = function (value) {
+            switch (value) {
+                case "clikFilePrefab":
+                    var pathurl = Pan3d.me.Scene_data.fileRoot + this.prefabStaticMesh.url;
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+                    break;
+                default:
+                    console.log("没有对象", value);
+                    break;
+            }
         };
         PrefabMeshView.prototype.textureChangeInfo = function (value) {
             this.prefabStaticMesh.paramInfo = value;
@@ -51345,7 +51419,8 @@ var filelist;
         };
         Object.defineProperty(PrefabMeshView.prototype, "prebaburl", {
             get: function () {
-                return AppData.getFileName(this.prefabStaticMesh.url);
+                // return AppData.getFileName(this.prefabStaticMesh.url)
+                return this.prefabStaticMesh.url;
             },
             set: function (value) {
             },
@@ -51451,11 +51526,22 @@ var filelist;
         RoleMeshView.prototype.getView = function () {
             var _this = this;
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "action" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "角色", ClikEventKey: "clikFileRole" },
                 { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: function () { _this.animChange(); }, target: this, Suffix: "md5mesh", Category: "action" },
                 { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "mesh" },
             ];
             return ary;
+        };
+        RoleMeshView.prototype.eventKey = function (value) {
+            switch (value) {
+                case "clikFileRole":
+                    var pathurl = Pan3d.me.Scene_data.fileRoot + this._roleStaticMesh.url;
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+                    break;
+                default:
+                    console.log("没有对象", value);
+                    break;
+            }
         };
         RoleMeshView.prototype.animChange = function () {
             this.saveToSever();
@@ -51764,13 +51850,23 @@ var basefolderwin;
             this.resize();
             this.refrishWinSize();
         };
+        BaseFolderWindow.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete && this.pathUrlBg) {
+                this.pathUrlBg.x = this.pageRect.width * this.percentNum + 3;
+                this.pathUrlBg.y = 11;
+                this.pathUrlBg.height = 28;
+                this.pathUrlBg.width = this.pageRect.width - this.pathUrlBg.x;
+                this._baseMidRender.applyObjData();
+            }
+        };
         BaseFolderWindow.prototype.getPageRect = function () {
             return this.pageRect;
         };
         BaseFolderWindow.prototype.setLinePos = function () {
             if (this.moveLine) {
                 this.moveLine.x = this.pageRect.width * this.percentNum;
-                this.moveLine.y = 0;
+                this.moveLine.y = 13;
                 this.moveLine.width = 5;
                 this.moveLine.height = this.pageRect.height;
                 // console.log("设置位置")
@@ -51778,8 +51874,10 @@ var basefolderwin;
         };
         BaseFolderWindow.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.c_tittle_bg, this.c_win_bg], true);
-            this.moveLine = this.addChild(this._baseMidRender.getComponent("b_line_pixe_point"));
+            this.setUiListVisibleByItem([this.c_tittle_bg, this.c_win_bg], false);
+            this.setUiListVisibleByItem([this.e_panel_1], true);
+            this.pathUrlBg = this.addChild(this._baseMidRender.getComponent("e_file_list_path_bg"));
+            this.moveLine = this.addChild(this._baseMidRender.getComponent("e_line_vertical"));
             this.moveLine.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.setLinePos();
             this.resize();
@@ -52107,13 +52205,14 @@ var filelist;
 (function (filelist) {
     var InteractiveEvent = Pan3d.me.InteractiveEvent;
     var TextAlign = Pan3d.me.TextAlign;
-    var Rectangle = Pan3d.me.Rectangle;
     var ModuleEventManager = Pan3d.me.ModuleEventManager;
     var UIManager = Pan3d.me.UIManager;
     var LabelTextFont = Pan3d.me.LabelTextFont;
     var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var UIData = Pan3d.me.UIData;
     var Vector2D = Pan3d.me.Vector2D;
     var Vector3D = Pan3d.me.Vector3D;
+    var Rectangle = Pan3d.me.Rectangle;
     var Scene_data = Pan3d.me.Scene_data;
     var LoadManager = Pan3d.me.LoadManager;
     var TextureManager = Pan3d.me.TextureManager;
@@ -52298,6 +52397,75 @@ var filelist;
         return FileListName;
     }(Disp2DBaseText));
     filelist.FileListName = FileListName;
+    var PathurlRect = /** @class */ (function (_super) {
+        __extends(PathurlRect, _super);
+        function PathurlRect() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return PathurlRect;
+    }(Rectangle));
+    filelist.PathurlRect = PathurlRect;
+    var PathurlLabel = /** @class */ (function (_super) {
+        __extends(PathurlLabel, _super);
+        function PathurlLabel() {
+            var _this = _super.call(this, 512, 22) || this;
+            _this.label = "目录/文件夹";
+            _this.ui.addEventListener(InteractiveEvent.Down, _this.pathurlLabelDown, _this);
+            _this.ui.addEventListener(InteractiveEvent.Move, _this.pathurlLabelMove, _this);
+            return _this;
+        }
+        PathurlLabel.prototype.pathurlLabelMove = function ($evt) {
+            //  console.log("pathurlLabelMove")
+        };
+        PathurlLabel.prototype.pathurlLabelDown = function ($evt) {
+            //console.log("pathurlLabelDown", this.areaRectItem)
+            var tempMouse = new Vector2D($evt.x - this.textureContext.left, $evt.y - this.textureContext.top);
+            tempMouse.x /= this.textureContext.uiViewScale;
+            tempMouse.y /= this.textureContext.uiViewScale; //UI已被放大
+            for (var i = 0; i < this.areaRectItem.length; i++) {
+                var tempRect = this.areaRectItem[i];
+                if (tempRect.isHitByPoint(tempMouse.x, tempMouse.y)) {
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), tempRect.pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+                }
+            }
+        };
+        Object.defineProperty(PathurlLabel.prototype, "label", {
+            set: function (value) {
+                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PathurlLabel.prototype.setPath = function (value) {
+            this.areaRectItem = [];
+            var $uiAtlas = this.ui.uiRender.uiAtlas;
+            var $uiRect = $uiAtlas.getRec(this.ui.skinName);
+            var $ctx = UIManager.getInstance().getContext2D($uiRect.pixelWitdh, $uiRect.pixelHeight, false);
+            $ctx.fillStyle = "#ffffff";
+            $ctx.font = +26 + "px " + UIData.font;
+            $ctx.strokeStyle = "#27262e";
+            $ctx.lineWidth = 4;
+            var tempArr = value.split("/");
+            var tx = 20;
+            var tempSaveName = "";
+            for (var i = 0; i < tempArr.length; i++) {
+                var tempStr = tempArr[i];
+                if (tempStr && tempStr.length) {
+                    $ctx.fillText(tempStr, tx, 0);
+                    tempSaveName += tempStr + "/";
+                    var tempRect = new PathurlRect(tx, 0, $ctx.measureText(tempStr).width, 22);
+                    tempRect.pathurl = tempSaveName;
+                    this.areaRectItem.push(tempRect);
+                    tx += $ctx.measureText(tempStr).width;
+                    $ctx.fillText(" / ", tx, 0);
+                    tx += 30;
+                }
+            }
+            $uiAtlas.updateCtx($ctx, $uiRect.pixelX, $uiRect.pixelY);
+        };
+        return PathurlLabel;
+    }(prop.TextLabelUI));
+    filelist.PathurlLabel = PathurlLabel;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
@@ -52307,8 +52475,14 @@ var filelist;
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
+            this.pathlistBg = this.addChild(this._baseTopRender.getComponent("a_round_line"));
+            this.pathlistBg.x = 0;
+            this.pathlistBg.y = -20;
+            this.pathlistBg.width = 100;
+            this.pathlistBg.height = 20;
+            this.pathurlLabel = new PathurlLabel();
+            this.addRender(this.pathurlLabel.ui.uiRender);
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
-            this.resize();
             this.a_tittle_bg.removeEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
@@ -52318,6 +52492,7 @@ var filelist;
                 this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
             }
             document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
+            this.resize();
         };
         FileListPanel.prototype.onMouseWheel = function ($evt) {
             if (!this.isCanToDo) {
@@ -52347,6 +52522,14 @@ var filelist;
             this.resetSampleFilePos();
             if (this.uiLoadComplete) {
                 this.contentHeight = this.getcontentHeight();
+                if (this.pathlistBg) {
+                    this.pathlistBg.width = this.pageRect.width;
+                }
+                if (this.pathurlLabel) {
+                    this.pathurlLabel.textureContext.resize();
+                    this.pathurlLabel.textureContext.left = this.left + 20;
+                    this.pathurlLabel.textureContext.top = this.top - 22;
+                }
             }
             _super.prototype.resize.call(this);
         };
@@ -52536,10 +52719,10 @@ var filelist;
                 vo.destory();
             }
         };
-        //   private rootFilePath: string;
         FileListPanel.prototype.refrishPath = function (filePath) {
             var _this = this;
             console.log("刷新目录", filePath);
+            this.pathurlLabel.setPath(filePath);
             AppData.rootFilePath = AppData.getPerentPath(filePath);
             this.moveListTy = 0;
             this.clearListAll();
@@ -52906,12 +53089,13 @@ var folder;
         };
         FolderProcessor.prototype.resetFolderWinSize = function () {
             var A = this._baseFolderWindow.getPageRect().clone();
-            A.y += 20;
-            A.height -= 20;
+            var num40 = 20; //位移40.比底小
+            A.y += num40;
+            A.height -= num40;
             this._folderPanel.setRect(new Rectangle(A.x, A.y, A.width * this._baseFolderWindow.percentNum, A.height - 20));
-            var B = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y, A.width * (1 - this._baseFolderWindow.percentNum), A.height);
+            var B = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y + 20, A.width * (1 - this._baseFolderWindow.percentNum), A.height);
             B.x += 10;
-            B.height -= 5;
+            B.height -= 5 - 20;
             B.width -= 8;
             this._fileListPanel.setRect(B);
         };
@@ -52920,7 +53104,7 @@ var folder;
         };
         FolderProcessor.prototype.addUIContainer = function (value) {
             if (!this.folderPanel) {
-                this.folderPanel = new Panel(false);
+                this.folderPanel = new Panel();
                 this.folderPanel.x = 0;
                 this.folderPanel.y = 0;
                 this.folderPanel.width = 450;
@@ -58044,9 +58228,9 @@ var materialui;
             return this._instance;
         };
         MaterialModel.prototype.makePanle = function () {
-            materialui.MaterialCtrl.getInstance().bgwinPanel = new Panel(false); //背景线
-            materialui.MaterialCtrl.getInstance().nodeUiPanel = new Panel(false); //模块
-            materialui.MaterialCtrl.getInstance().linePanel = new Panel(false); //线
+            materialui.MaterialCtrl.getInstance().bgwinPanel = new Panel(); //背景线
+            materialui.MaterialCtrl.getInstance().nodeUiPanel = new Panel(); //模块
+            materialui.MaterialCtrl.getInstance().linePanel = new Panel(); //线
             materialui.MaterialCtrl.getInstance().lineContainer = new materialui.MaterialLineContainer(); //创建线层
             materialui.MaterialCtrl.getInstance().linePanel.addUIContainer(materialui.MaterialCtrl.getInstance().lineContainer);
             materialui.MaterialCtrl.getInstance().bgwinPanel.addUIContainer(new materialui.MaterialCavasPanel());
@@ -58545,11 +58729,11 @@ var materialui;
                     AppData.stagePos = new Vector2D();
                     materialui.BaseMaterialNodeUI.baseUIAtlas = new UIAtlas();
                     materialui.BaseMaterialNodeUI.baseUIAtlas.setInfo("pan/marmoset/uilist/baseui.txt", "pan/marmoset/uilist/baseui.png", function () { _this.loadConfigCom(); });
-                    this.baseWindow = new win.BaseWindow();
+                    // this.baseWindow = new win.BaseWindow()
                 }
                 if ($materialEvent.type == MaterialEvent.SHOW_MATERIA_PANEL) {
                     this.lastMaterialUrl = $materialEvent.data;
-                    AppData.centenPanel.addUIContainer(this.baseWindow);
+                    // AppData.centenPanel.addUIContainer(this.baseWindow)
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().bgwinPanel, 1);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().nodeUiPanel, 2);
                     LayerManager.getInstance().addPanel(materialui.MaterialCtrl.getInstance().linePanel, 3);
@@ -58590,12 +58774,7 @@ var materialui;
         };
         Object.defineProperty(MaterialProcessor.prototype, "hasStage", {
             get: function () {
-                if (this.baseWindow.hasStage) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return AppData.sceneEidtType == 2;
             },
             enumerable: true,
             configurable: true
@@ -59218,12 +59397,7 @@ var materialleft;
         });
         MaterialLeftPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.c_left_line], true);
-            this.setUiListVisibleByItem([this.c_right_line], true);
-            this.setUiListVisibleByItem([this.c_bottom_line], true);
-            this.setUiListVisibleByItem([this.c_tittle_bg], true);
-            this.setUiListVisibleByItem([this.c_win_bg], true);
-            //    this.setUiListVisibleByItem([this.b_win_close], true)
+            this.setUiListVisibleByItem([this.e_panel_1], true);
             this.a_tittle_bg = this.c_tittle_bg;
             this.a_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
         };
@@ -59773,14 +59947,179 @@ var maineditor;
     var Vector2D = Pan3d.me.Vector2D;
     var TextureManager = Pan3d.me.TextureManager;
     var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var TextAlign = Pan3d.me.TextAlign;
     var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var UIManager = Pan3d.me.UIManager;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var UIData = Pan3d.me.UIData;
     var MouseType = Pan3d.me.MouseType;
     var MathUtil = Pan3d.me.MathUtil;
+    var TextRegExp = Pan3d.me.TextRegExp;
     var PanDragEvent = drag.PanDragEvent;
+    var SelectFileListText = /** @class */ (function (_super) {
+        __extends(SelectFileListText, _super);
+        function SelectFileListText() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(SelectFileListText.prototype, "select", {
+            get: function () {
+                return this._select;
+            },
+            set: function (value) {
+                this._select = value;
+                this.makeData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        SelectFileListText.prototype.makeData = function () {
+            if (this.tittlestr) {
+                var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
+                this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
+                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                var nameStr = this.tittlestr;
+                if (this._select) {
+                    nameStr = "[ffffff]" + nameStr;
+                }
+                else {
+                    nameStr = "[9c9c9c]" + nameStr;
+                }
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, nameStr, 24, 1, 1, TextAlign.LEFT);
+                TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+            }
+        };
+        return SelectFileListText;
+    }(Disp2DBaseText));
+    maineditor.SelectFileListText = SelectFileListText;
+    var EditorOpenList = /** @class */ (function () {
+        function EditorOpenList(value, render) {
+            this.perent = value;
+            this.topRender = render;
+            this.tabItemArr = [];
+            //this.pushPathUrl("角色/新场景.scene")
+            //this.pushPathUrl("完美的开始.map")
+        }
+        EditorOpenList.prototype.tabBgClik = function (evt) {
+            var tabVo = evt.target.data;
+            var ui = evt.target;
+            if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
+                this.selectTabStr = tabVo.data;
+                if (this.selectTabStr.indexOf(".map") != -1) {
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
+                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                }
+                if (this.selectTabStr.indexOf(".material") != -1) {
+                    Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
+                }
+            }
+            else {
+                console.log("关", tabVo);
+                this.removePathUrl(tabVo.data);
+            }
+            this.refrishTabUiSelect();
+        };
+        EditorOpenList.prototype.removePathUrl = function (value) {
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].data == value) {
+                    var tabVo = this.tabItemArr[i];
+                    this.perent.removeChild(tabVo.bgUi);
+                    tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                    this.perent.clearTemp(tabVo.data);
+                    this.tabItemArr.splice(i, 1);
+                }
+            }
+        };
+        EditorOpenList.prototype.changeVoBg = function (vo, value) {
+            var skinName = "e_edit_select_bg_1";
+            if (value) {
+                skinName = "e_edit_select_bg_2";
+            }
+            else {
+                skinName = "e_edit_select_bg_1";
+            }
+            var tempui = this.perent.addChild(this.topRender.getComponent(skinName));
+            if (vo.bgUi) {
+                tempui.x = vo.bgUi.x;
+                tempui.y = vo.bgUi.y;
+                tempui.width = vo.bgUi.width;
+                tempui.height = vo.bgUi.height;
+                vo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                this.perent.removeChild(vo.bgUi);
+            }
+            vo.bgUi = tempui; //换上最新的
+            vo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+            vo.bgUi.data = vo;
+            vo.select = value;
+        };
+        EditorOpenList.prototype.refrishTabUiSelect = function () {
+            var tx = 2;
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                var tabVo = this.tabItemArr[i];
+                if (this.tabItemArr[i].data == this.selectTabStr) {
+                    this.tabItemArr[i].select = true;
+                    this.changeVoBg(this.tabItemArr[i], true);
+                }
+                else {
+                    this.tabItemArr[i].select = false;
+                    this.changeVoBg(this.tabItemArr[i], false);
+                }
+                tabVo.bgUi.x = tx - 1;
+                tabVo.bgUi.y = 1;
+                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
+                tabVo.bgUi.height = 22;
+                tabVo.bgUi.data = tabVo;
+                tx += tabVo.bgUi.width;
+                tabVo.ui.x = tabVo.bgUi.x + 10;
+                tabVo.ui.y = tabVo.bgUi.y + 5;
+                tabVo.ui.width = 256;
+                tabVo.ui.height = 20;
+            }
+            this.topRender.applyObjData();
+        };
+        EditorOpenList.prototype.pushPathUrl = function (value) {
+            this.selectTabStr = value;
+            var needAdd = true;
+            var tx = 1;
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].data == value) {
+                    needAdd = false;
+                }
+                tx = this.tabItemArr[i].bgUi.x + this.tabItemArr[i].bgUi.width - 1;
+            }
+            if (needAdd) {
+                var $tittlestr = value.split("/")[value.split("/").length - 1];
+                var $pathurl = value;
+                var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
+                $ctx.font = "13px " + UIData.font;
+                var tabVo = this.perent.showTemp($pathurl);
+                tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
+                tabVo.tittlestr = $tittlestr;
+                this.changeVoBg(tabVo, false);
+                /*
+                tabVo.bgUi.x = tx  ;
+                tabVo.bgUi.y = 1;
+                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
+                tabVo.bgUi.height = 22;
+                tabVo.bgUi.data = tabVo;
+                tx += tabVo.bgUi.width  ;
+                tabVo.ui.x = tabVo.bgUi.x + 10;
+                tabVo.ui.y = tabVo.bgUi.y + 5;
+                tabVo.ui.width = 256;
+                tabVo.ui.height = 20;
+                */
+                tabVo.select = value[i] == this.selectTabStr;
+                this.tabItemArr.push(tabVo);
+            }
+            this.refrishTabUiSelect();
+        };
+        return EditorOpenList;
+    }());
+    maineditor.EditorOpenList = EditorOpenList;
     var MainEditorPanel = /** @class */ (function (_super) {
         __extends(MainEditorPanel, _super);
         function MainEditorPanel() {
-            var _this = _super.call(this) || this;
+            var _this = _super.call(this, SelectFileListText, new Rectangle(0, 0, 512, 40), 10) || this;
             _this.suffix = "prefab|lyf|zzw|skill";
             _this.pageRect = new Rectangle(0, 0, 500, 500);
             _this._sceneViewRender = new maineditor.UiModelViewRender();
@@ -59796,10 +60135,36 @@ var maineditor;
         });
         MainEditorPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
+            this.e_centen_panel = this.addChild(this._baseMidRender.getComponent("e_centen_panel"));
+            this.editorOpenList = new EditorOpenList(this, this._baseTopRender);
+            this.e_line_left = this.addChild(this._baseTopRender.getComponent("e_line_vertical"));
+            this.e_line_right = this.addChild(this._baseTopRender.getComponent("e_line_vertical"));
             this.initView();
             this.uiLoadComplete = true;
             this.refrishSize();
+            this.showType = AppData.sceneEidtType;
         };
+        Object.defineProperty(MainEditorPanel.prototype, "showType", {
+            set: function (value) {
+                AppData.sceneEidtType = value;
+                if (this.uiLoadComplete) {
+                    switch (AppData.sceneEidtType) {
+                        case 1:
+                            this.setUiListVisibleByItem([this.a_scene_view], true);
+                            //  this.setUiListVisibleByItem([this.e_centen_panel], true)
+                            break;
+                        case 2:
+                            this.setUiListVisibleByItem([this.a_scene_view], false);
+                            // this.setUiListVisibleByItem([this.e_centen_panel], false)
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         MainEditorPanel.prototype.initView = function () {
             var _this = this;
             this._sceneViewRender.uiAtlas = this._tRender.uiAtlas;
@@ -59897,17 +60262,29 @@ var maineditor;
             this.refrishSize();
         };
         MainEditorPanel.prototype.refrishSize = function () {
-            this.resize();
             if (this.uiLoadComplete) {
                 var roundNum = 1;
                 this.a_scene_view.x = roundNum;
-                this.a_scene_view.y = roundNum;
+                this.a_scene_view.y = roundNum + 22;
                 this.a_scene_view.width = this.pageRect.width - roundNum * 2;
-                this.a_scene_view.height = this.pageRect.height - roundNum * 2;
+                this.a_scene_view.height = this.pageRect.height - roundNum * 2 - 20;
+                if (this.e_centen_panel) {
+                    this.e_centen_panel.x = 0;
+                    this.e_centen_panel.y = 0;
+                    this.e_centen_panel.width = this.pageRect.width;
+                    this._baseMidRender.applyObjData();
+                }
+                this.e_line_left.x = 1;
+                this.e_line_left.y = 0;
+                this.e_line_left.height = this.pageRect.height;
+                this.e_line_right.x = this.pageRect.width - 3;
+                this.e_line_right.y = 0;
+                this.e_line_right.height = this.pageRect.height;
             }
+            this.resize();
         };
         return MainEditorPanel;
-    }(win.BaseWindow));
+    }(win.Dis2dBaseWindow));
     maineditor.MainEditorPanel = MainEditorPanel;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=MainEditorPanel.js.map
@@ -60600,12 +60977,15 @@ var maineditor;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
             maineditor.EditorModel.getInstance().hierarchyListPanel = _this;
+            _this.maskRoundRect = new Rectangle(0, 13, 0, 14);
             return _this;
         }
         HierarchyListPanel.prototype.loadConfigCom = function () {
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this.setUiListVisibleByItem([this.c_scroll_bar_bg], true);
+            this.setUiListVisibleByItem([this.c_win_bg], false);
+            this.setUiListVisibleByItem([this.e_panel_1], true);
             this.resize();
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
@@ -61073,6 +61453,7 @@ var maineditor;
             });
         };
         HierarchyListPanel.prototype.clearSceneAll = function () {
+            this.moveListTy = 0;
             while (maineditor.EditorModel.getInstance().fileItem.length) {
                 this.deleFile(maineditor.EditorModel.getInstance().fileItem, maineditor.EditorModel.getInstance().fileItem[0]);
             }
@@ -61169,14 +61550,14 @@ var maineditor;
             }
             _super.prototype.resize.call(this);
             for (var i = 0; i < this.cellBgItem.length; i++) {
-                this.cellBgItem[i].width = this.pageRect.width;
+                this.cellBgItem[i].width = this.pageRect.width - 20;
             }
         };
         HierarchyListPanel.prototype.refrishFolder = function () {
             if (this.isCompelet) {
                 this.listTy = 0 + this.moveListTy;
                 this.disChiendren(maineditor.EditorModel.getInstance().fileItem, 10);
-                var moveTy = 0;
+                var moveTy = this._uiMask.y;
                 this.moveAllTy(maineditor.EditorModel.getInstance().fileItem, moveTy);
                 while (this.cellBgItem.length) {
                     this.removeChild(this.cellBgItem.pop());
@@ -61190,14 +61571,15 @@ var maineditor;
                     this.showSelectBg(arr[i].childItem);
                 }
                 if (arr[i].ossListFile.treeSelect) {
-                    var ui = this.addChild(this._baseMidRender.getComponent("a_round_line"));
+                    var ui = this.addChild(this._baseMidRender.getComponent("e_select_cell_bg"));
                     ui.y = arr[i].cellPos.y;
-                    ui.x = 0;
-                    ui.width = this.pageRect.width;
+                    ui.x = 1;
+                    ui.width = this.pageRect.width - 2;
                     ui.height = 20;
                     this.cellBgItem.push(ui);
                 }
             }
+            //  this._baseMidRender.applyObjData()
         };
         HierarchyListPanel.prototype.moveAllTy = function (arr, ty) {
             if (ty === void 0) { ty = 0; }
@@ -61794,9 +62176,17 @@ var maineditor;
             }
             if (!this._mainEditorPanel) {
                 this._mainEditorPanel = new maineditor.MainEditorPanel();
+                AppData.centenPanel.addUIContainer(this._mainEditorPanel);
             }
         };
         MainEditorProcessor.prototype.receivedModuleEvent = function ($event) {
+            if ($event instanceof materialui.MaterialEvent) {
+                var $materialEvent = $event;
+                if ($materialEvent.type == materialui.MaterialEvent.SHOW_MATERIA_PANEL) {
+                    this._mainEditorPanel.showType = 2;
+                    this._mainEditorPanel.editorOpenList.pushPathUrl($materialEvent.data);
+                }
+            }
             if ($event instanceof MainEditorEvent) {
                 var $mainEditorEvent = $event;
                 if ($mainEditorEvent.type == MainEditorEvent.INIT_MAIN_EDITOR_PANEL) {
@@ -61805,7 +62195,7 @@ var maineditor;
                     this.addEvents();
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.SHOW_MAIN_EDITOR_PANEL) {
-                    AppData.centenPanel.addUIContainer(this._mainEditorPanel);
+                    this._mainEditorPanel.showType = 1;
                     EditLeftPanel.leftPanel.addUIContainer(this._hierarchyListPanel);
                     Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.INIT_UICONTAINER_TO_XYZ), this._mainEditorPanel);
                     editscene.EditTopMenuPanel.getInstance().makeSceneTopMenu();
@@ -61833,6 +62223,7 @@ var maineditor;
                     var pathname = window.location.pathname.split("/");
                     var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $mainEditorEvent.data;
                     console.log(newUrl);
+                    this._mainEditorPanel.editorOpenList.pushPathUrl($mainEditorEvent.data);
                     history.pushState(null, title, newUrl);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
@@ -61941,7 +62332,7 @@ var maineditor;
         };
         Object.defineProperty(MainEditorProcessor.prototype, "isCanToDo", {
             get: function () {
-                if (this._mainEditorPanel.hasStage) {
+                if (AppData.sceneEidtType == 1) {
                     return true;
                 }
                 else {
@@ -61992,6 +62383,7 @@ var maineditor;
                 new MainEditorEvent(MainEditorEvent.LOAD_SCENE_MAP),
                 new MainEditorEvent(MainEditorEvent.CHANGE_LEFT_PANEL_SHOW),
                 new EditSceneEvent(EditSceneEvent.EDITE_SCENE_RESIZE),
+                new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL),
             ];
         };
         return MainEditorProcessor;
@@ -62303,7 +62695,7 @@ var LayaPan3D;
             }
         };
         return LayaScene2dSceneChar;
-    }(Pan3d.me.Display3dMovie));
+    }(layapan.me.LayaSceneChar));
     LayaPan3D.LayaScene2dSceneChar = LayaScene2dSceneChar;
     var LayaScene2D = /** @class */ (function (_super) {
         __extends(LayaScene2D, _super);
@@ -62345,6 +62737,21 @@ var LayaPan3D;
             var toX = (mousePos.x + this.rootpos.x);
             var toY = (mousePos.y + this.rootpos.y) * (Math.sin($num45 * Math.PI / 180)) * 2;
             return new Vector2D(toX, toY);
+        };
+        //通过2D坐标得到3D坐标
+        LayaScene2D.prototype.getPos3dBy2D = function ($x, $y) {
+            var $nScale = 1;
+            var $num45 = 45;
+            if (this.sceneManager) {
+                $nScale = 2 / this.sceneManager.cam3D.scene2dScale;
+                $num45 = Math.abs(this.sceneManager.focus3D.rotationX);
+            }
+            else {
+                console.log("没有添加到场景算出来的坐标不确定是否正确");
+            }
+            //  var $tx: number = $x * $nScale;
+            //  var $tz: number = $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1;
+            return new Vector3D($x * $nScale, 0, $y * $nScale / (Math.sin($num45 * Math.PI / 180)) * -1);
         };
         //更换上2D透视矩阵
         LayaScene2D.prototype.renderToTexture = function () {
@@ -62449,6 +62856,8 @@ var __extends = (this && this.__extends) || (function () {
 var LayaPan3D;
 (function (LayaPan3D) {
     var Vector3D = Pan3d.me.Vector3D;
+    var Vector2D = Pan3d.me.Vector2D;
+    var Scene_data = Pan3d.me.Scene_data;
     var LayaGame2dDemo = /** @class */ (function (_super) {
         __extends(LayaGame2dDemo, _super);
         function LayaGame2dDemo(value, bfun) {
@@ -62462,7 +62871,7 @@ var LayaPan3D;
             this.bgColor = new Vector3D(0.1, 0.1, 0.1, 1);
         };
         LayaGame2dDemo.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 10;
+            this.sceneManager.cam3D.scene2dScale = 4;
             var $baseChar = new LayaPan3D.LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -62477,6 +62886,21 @@ var LayaPan3D;
                     }
                 }
             }
+        };
+        LayaGame2dDemo.prototype.addFramePartice = function (v2d) {
+            var pathname = "pan/atlas";
+            var effictname = "10101_1";
+            var info = {};
+            info.timeLen = 1000;
+            info.frameScale = 0.1;
+            info.loop = false;
+            info.isShow = true; //是否在最上层
+            var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
+            this.sceneManager.particleManager.addParticle(combineParticle);
+            var v3d = this.getPos3dBy2D(v2d.x, v2d.y);
+            combineParticle.x = v3d.x;
+            combineParticle.y = 0;
+            combineParticle.z = v3d.z;
         };
         LayaGame2dDemo.prototype.addGrouandPic = function (value, rect) {
             var tempPic = new LayaPan3D.LayaScene2dPicSprit(value);
@@ -62508,6 +62932,7 @@ var LayaPan3D;
             }
             else {
                 var v2d = this.getMousePos(this.mouseX, this.mouseY);
+                this.addFramePartice(v2d);
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d);
                 this.mainChar.set2dPos(v2d.x, v2d.y);
             }

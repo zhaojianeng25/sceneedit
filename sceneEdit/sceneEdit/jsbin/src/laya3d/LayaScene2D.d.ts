@@ -22,7 +22,7 @@ declare module LayaPan3D {
         imgRectInfo: Array<number>;
         update(): void;
     }
-    class LayaScene2dSceneChar extends Pan3d.me.Display3dMovie {
+    class LayaScene2dSceneChar extends layapan.me.LayaSceneChar {
         private posv2;
         set2dPos($x: number, $y: number): void;
         addStage(): void;

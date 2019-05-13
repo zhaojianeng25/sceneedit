@@ -17,7 +17,7 @@
     
         private mainChar: LayaScene2dSceneChar
         private addSceneModel(): void {
-            this.sceneManager.cam3D.scene2dScale = 2
+            this.sceneManager.cam3D.scene2dScale = 4
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -89,6 +89,7 @@
                 this.addFramePartice(v2d)
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
                 this.mainChar.set2dPos(v2d.x, v2d.y);
+    
             }
         }
 

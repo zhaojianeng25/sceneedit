@@ -61,6 +61,12 @@
     <TypeScriptCompile Include="src\laya3d\LayaLaunch.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaScene2D.ts" />
     <TypeScriptCompile Include="src\laya3d\LayaScene3D.ts" />
+    <TypeScriptCompile Include="src\laya3d\pan_\CharAction.ts" />
+    <TypeScriptCompile Include="src\laya3d\pan_\PanBuffManager.ts" />
+    <TypeScriptCompile Include="src\laya3d\pan_\PanEngine.ts" />
+    <TypeScriptCompile Include="src\laya3d\pan_\PanScene.ts" />
+    <TypeScriptCompile Include="src\laya3d\pan_\PanSceneSprite.ts" />
+    <TypeScriptCompile Include="src\laya3d\pan_\SceneChar.ts" />
     <TypeScriptCompile Include="src\meshui\base\MeshSceneView2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleAnimi2DUI.ts" />
     <TypeScriptCompile Include="src\meshui\base\RoleMesh2DUI.ts" />

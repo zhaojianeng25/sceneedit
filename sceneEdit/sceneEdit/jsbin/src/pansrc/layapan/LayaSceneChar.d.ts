@@ -10,7 +10,7 @@ declare module layapan.me {
     import Vector2D = Pan3d.me.Vector2D;
     import Display3dMovie = Pan3d.me.Display3dMovie;
     import GroupRes = Pan3d.me.GroupRes;
-    class LayaSceneChar extends layapan.me.LayaSceneBaseChar {
+    class LayaSceneChar extends LayaSceneBaseChar {
         static BLOOD_COLOR_HP: number;
         static BLOOD_COLOR_ANGER: number;
         skillitem: Array<Pan3d.me.Skill>;
@@ -29,7 +29,7 @@ declare module layapan.me {
         protected _pz: number;
         private _pRotationY;
         toRotationY: number;
-        private _pScale;
+        protected _pScale: number;
         tittleHeight: number;
         private _optimization;
         constructor();
@@ -39,7 +39,7 @@ declare module layapan.me {
         pScale: number;
         protected _mountChar: LayaSceneBaseChar;
         setMount(v: string): boolean;
-        private _wingDisplay;
+        protected _wingDisplay: LayaSceneBaseChar;
         setWing(v: string): void;
         private _weaponNum;
         setWeapon(num: number): void;
@@ -61,7 +61,7 @@ declare module layapan.me {
         destory(): void;
         visible: boolean;
         optimization: boolean;
-        private _resultVisible;
+        protected _resultVisible: boolean;
         readonly resultVisible: boolean;
         applyVisible(): void;
         protected _isCamera2D: boolean;
@@ -71,7 +71,7 @@ declare module layapan.me {
         bloodColor: number;
         private _hpRatio;
         hpRatio: number;
-        private _bloodEnable;
+        protected _bloodEnable: boolean;
         bloodEnable: boolean;
         protected _charAngerVo: BloodLineMeshVo;
         protected _angerColor: number;

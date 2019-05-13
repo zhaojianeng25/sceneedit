@@ -816,7 +816,7 @@ var layapan;
             LayaSceneChar.QUEST_ICON = "questicon";
             LayaSceneChar.NONE_SLOT = "none";
             return LayaSceneChar;
-        }(layapan.me.LayaSceneBaseChar));
+        }(me.LayaSceneBaseChar));
         me.LayaSceneChar = LayaSceneChar;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

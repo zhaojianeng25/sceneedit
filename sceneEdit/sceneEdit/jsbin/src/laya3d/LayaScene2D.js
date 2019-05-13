@@ -170,7 +170,7 @@ var LayaPan3D;
             }
         };
         return LayaScene2dSceneChar;
-    }(Pan3d.me.Display3dMovie));
+    }(layapan.me.LayaSceneChar));
     LayaPan3D.LayaScene2dSceneChar = LayaScene2dSceneChar;
     var LayaScene2D = /** @class */ (function (_super) {
         __extends(LayaScene2D, _super);
