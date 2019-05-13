@@ -618,8 +618,7 @@
             }
             this._lostItem.length = 0;
             this.clearTemp(this._uiItem[0].data);
-
-
+ 
         }
         //清理单元内的内容并需要将对象移出显示队例
         public clearTemp($data: any): void {

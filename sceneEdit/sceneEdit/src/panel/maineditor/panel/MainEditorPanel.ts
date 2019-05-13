@@ -32,12 +32,54 @@
     import TextureRes = Pan3d.me.TextureRes
     import MouseType = Pan3d.me.MouseType
     import MathUtil = Pan3d.me.MathUtil
+    import TextRegExp = Pan3d.me.TextRegExp
+ 
 
     import PanDragEvent = drag.PanDragEvent
 
     import Sprite = win.Sprite
     import Panel = win.Panel
 
+
+    export class SelectFileListText extends Disp2DBaseText {
+
+        public bgUi: UICompenent;
+        public id: number;
+        public tittlestr: string;
+ 
+
+        public set select(value: boolean) {
+            this._select = value
+            this.makeData()
+        }
+        private _select: boolean
+        public get select(): boolean {
+            return this._select 
+        }
+ 
+        public makeData(): void {
+            if (this.tittlestr) {
+                var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
+                this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
+             
+                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+
+                var nameStr: string = this.tittlestr;
+                if (this._select) {
+                    nameStr = "[ffffff]" + nameStr;
+                } else {
+                    nameStr = "[9c9c9c]" + nameStr;
+                }
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, nameStr, 24, 1, 1, TextAlign.LEFT);
+                TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+
+
+            }
+        }
+    
+
+    }
+   
     export class EditorOpenList {
         private perent: MainEditorPanel
         private topRender: UIRenderComponent
@@ -45,37 +87,102 @@
             this.perent = value
             this.topRender = render;
 
-            this.showList()
+            this.openlist=[]
+    
+            this.tabItemArr = [];
+
+
+            var strItem: Array<string>=[]
+            strItem.push("场景/scene.scene");
+            strItem.push("角色/新场景.scene");
+            strItem.push("chuangguangfuben.texture");
+            strItem.push("飞机材质.texture");
+            strItem.push("角色模型.texture");
+
+
+            this.openlist = strItem;
+
+            this.showList(this.openlist);
         
         }
-        private showList(): void {
-            var selectId: number = 0;
-            var tx: number=2
-            for (var i: number = 0; i < 5; i++) {
-                var skinName: string = "e_edit_select_bg_1"
-                if (i == selectId) {
-                    skinName ="e_edit_select_bg_2"
-                }
-                
-                var temp: UICompenent = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
-                temp.x = tx 
-                temp.y =1
-                temp.width = random(50) + 120;
-                temp.height = 22
+        private openlist: Array<string>
+        private clear(): void {
+            while (this.tabItemArr.length) {
+                var tabVo: SelectFileListText = this.tabItemArr.pop();
+                this.perent.removeChild(tabVo.bgUi);
+                tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                this.perent.clearTemp(tabVo.data);
+            }
+        }
+ 
+        private tabItemArr: Array<SelectFileListText>;
+        private tabBgClik(evt: InteractiveEvent): void {
+            var tabVo: SelectFileListText = evt.target.data
 
-                tx += temp.width-1 
+            console.log(tabVo.id)
+
+            this.selectTabIndex = tabVo.id;
+            this.showList(this.openlist);
+
+        }
+        public selectTabIndex: number=0
+        private showList(value: Array<string>): void {
+            this.clear()
+          
+            var tx: number = 2
+            for (var i: number = 0; i < value.length; i++) {
+                var skinName: string = "e_edit_select_bg_1"
+      
+                // [ffffff]"[9c9c9c]" 
+
+                var $tittlestr: string = value[i].split("/")[value[i].split("/").length - 1];
+                var $pathurl: string = value[i]
+
+                if (i == this.selectTabIndex) {
+                    skinName = "e_edit_select_bg_2"
+                } else {
+                    skinName = "e_edit_select_bg_1"
+                }
+
+                var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
+                $ctx.font = "13px " + UIData.font;
+             
+                var $textMetrics: TextMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
+                var tabVo: SelectFileListText = <SelectFileListText>this.perent.showTemp($pathurl);
+                tabVo.id = i;
+                tabVo.tittlestr = $tittlestr;
+                tabVo.select = (i == this.selectTabIndex);
+   
+                tabVo.bgUi = this.perent.addChild(<UICompenent>this.topRender.getComponent(skinName));
+                tabVo.bgUi.x = tx 
+                tabVo.bgUi.y = 1
+                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20;
+                tabVo.bgUi.height = 22;
+                tabVo.bgUi.data = tabVo
+
+                tabVo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+
+                tx += tabVo.bgUi.width - 1;
+ 
+                tabVo.ui.x = tabVo.bgUi.x+10;
+                tabVo.ui.y = tabVo.bgUi.y + 5;
+                tabVo.ui.width = 256;
+                tabVo.ui.height = 20;
+
+
+                this.tabItemArr.push(tabVo)
 
             }
-
-       
+ 
 
         }
     }
 
-    export class MainEditorPanel extends win.BaseWindow {
+
+    export class MainEditorPanel extends win.Dis2dBaseWindow{
 
         public constructor() {
-            super();
+            super(SelectFileListText, new Rectangle(0, 0, 512, 40), 10);
             this.pageRect = new Rectangle(0, 0, 500, 500)
             this._sceneViewRender = new UiModelViewRender();
             this.addRender(this._sceneViewRender)
@@ -84,9 +191,10 @@
         public set sceneProjectVo(value: SceneProjectVo) {
             this._sceneViewRender.sceneProjectVo = value
         }
+
+    
         
         private _sceneViewRender: UiModelViewRender;
- 
         private e_line_left: UICompenent
         private e_line_right: UICompenent
         private e_centen_panel: Grid9Compenent
@@ -110,6 +218,7 @@
             this.refrishSize()
 
             this.showType = AppData.sceneEidtType
+ 
  
         }
  

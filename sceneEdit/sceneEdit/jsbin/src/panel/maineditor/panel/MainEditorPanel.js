@@ -17,30 +17,115 @@ var maineditor;
     var Vector2D = Pan3d.me.Vector2D;
     var TextureManager = Pan3d.me.TextureManager;
     var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var TextAlign = Pan3d.me.TextAlign;
     var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var UIManager = Pan3d.me.UIManager;
+    var LabelTextFont = Pan3d.me.LabelTextFont;
+    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    var UIData = Pan3d.me.UIData;
     var MouseType = Pan3d.me.MouseType;
     var MathUtil = Pan3d.me.MathUtil;
+    var TextRegExp = Pan3d.me.TextRegExp;
     var PanDragEvent = drag.PanDragEvent;
+    var SelectFileListText = /** @class */ (function (_super) {
+        __extends(SelectFileListText, _super);
+        function SelectFileListText() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(SelectFileListText.prototype, "select", {
+            get: function () {
+                return this._select;
+            },
+            set: function (value) {
+                this._select = value;
+                this.makeData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        SelectFileListText.prototype.makeData = function () {
+            if (this.tittlestr) {
+                var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
+                this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
+                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                var nameStr = this.tittlestr;
+                if (this._select) {
+                    nameStr = "[ffffff]" + nameStr;
+                }
+                else {
+                    nameStr = "[9c9c9c]" + nameStr;
+                }
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, nameStr, 24, 1, 1, TextAlign.LEFT);
+                TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+            }
+        };
+        return SelectFileListText;
+    }(Disp2DBaseText));
+    maineditor.SelectFileListText = SelectFileListText;
     var EditorOpenList = /** @class */ (function () {
         function EditorOpenList(value, render) {
+            this.selectTabIndex = 0;
             this.perent = value;
             this.topRender = render;
-            this.showList();
+            this.openlist = [];
+            this.tabItemArr = [];
+            var strItem = [];
+            strItem.push("场景/scene.scene");
+            strItem.push("角色/新场景.scene");
+            strItem.push("chuangguangfuben.texture");
+            strItem.push("飞机材质.texture");
+            strItem.push("角色模型.texture");
+            this.openlist = strItem;
+            this.showList(this.openlist);
         }
-        EditorOpenList.prototype.showList = function () {
-            var selectId = 0;
+        EditorOpenList.prototype.clear = function () {
+            while (this.tabItemArr.length) {
+                var tabVo = this.tabItemArr.pop();
+                this.perent.removeChild(tabVo.bgUi);
+                tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                this.perent.clearTemp(tabVo.data);
+            }
+        };
+        EditorOpenList.prototype.tabBgClik = function (evt) {
+            var tabVo = evt.target.data;
+            console.log(tabVo.id);
+            this.selectTabIndex = tabVo.id;
+            this.showList(this.openlist);
+        };
+        EditorOpenList.prototype.showList = function (value) {
+            this.clear();
             var tx = 2;
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < value.length; i++) {
                 var skinName = "e_edit_select_bg_1";
-                if (i == selectId) {
+                // [ffffff]"[9c9c9c]" 
+                var $tittlestr = value[i].split("/")[value[i].split("/").length - 1];
+                var $pathurl = value[i];
+                if (i == this.selectTabIndex) {
                     skinName = "e_edit_select_bg_2";
                 }
-                var temp = this.perent.addChild(this.topRender.getComponent(skinName));
-                temp.x = tx;
-                temp.y = 1;
-                temp.width = random(50) + 120;
-                temp.height = 22;
-                tx += temp.width - 1;
+                else {
+                    skinName = "e_edit_select_bg_1";
+                }
+                var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
+                $ctx.font = "13px " + UIData.font;
+                var $textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
+                var tabVo = this.perent.showTemp($pathurl);
+                tabVo.id = i;
+                tabVo.tittlestr = $tittlestr;
+                tabVo.select = (i == this.selectTabIndex);
+                tabVo.bgUi = this.perent.addChild(this.topRender.getComponent(skinName));
+                tabVo.bgUi.x = tx;
+                tabVo.bgUi.y = 1;
+                tabVo.bgUi.width = Math.floor($textMetrics.width) + 20;
+                tabVo.bgUi.height = 22;
+                tabVo.bgUi.data = tabVo;
+                tabVo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                tx += tabVo.bgUi.width - 1;
+                tabVo.ui.x = tabVo.bgUi.x + 10;
+                tabVo.ui.y = tabVo.bgUi.y + 5;
+                tabVo.ui.width = 256;
+                tabVo.ui.height = 20;
+                this.tabItemArr.push(tabVo);
             }
         };
         return EditorOpenList;
@@ -49,7 +134,7 @@ var maineditor;
     var MainEditorPanel = /** @class */ (function (_super) {
         __extends(MainEditorPanel, _super);
         function MainEditorPanel() {
-            var _this = _super.call(this) || this;
+            var _this = _super.call(this, SelectFileListText, new Rectangle(0, 0, 512, 40), 10) || this;
             _this.suffix = "prefab|lyf|zzw|skill";
             _this.pageRect = new Rectangle(0, 0, 500, 500);
             _this._sceneViewRender = new maineditor.UiModelViewRender();
@@ -214,7 +299,7 @@ var maineditor;
             this.resize();
         };
         return MainEditorPanel;
-    }(win.BaseWindow));
+    }(win.Dis2dBaseWindow));
     maineditor.MainEditorPanel = MainEditorPanel;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=MainEditorPanel.js.map
