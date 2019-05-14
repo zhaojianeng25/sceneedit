@@ -6,6 +6,7 @@ declare module materialleft {
     class MaterialLeftEvent extends BaseEvent {
         static SHOW_MATERIAL_LEFT_PANEL: string;
         static HIDE_MATERIAL_LEFT_PANEL: string;
+        static COMPILE_MATERIAL_CMD: string;
     }
     class MaterialLeftModule extends Module {
         getModuleName(): string;

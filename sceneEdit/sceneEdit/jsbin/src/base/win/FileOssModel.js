@@ -166,13 +166,48 @@ var pack;
                 }
             }
         };
+        FileOssModel.getWarpperByUrl = function (bfun) {
+            var _this = this;
+            this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
+                if (res && res.data && res.data.info) {
+                    _this.ossWrapper = new OSS.Wrapper({
+                        accessKeyId: res.data.info.AccessKeyId,
+                        accessKeySecret: res.data.info.AccessKeySecret,
+                        stsToken: res.data.info.SecurityToken,
+                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
+                        bucket: "webpan"
+                    });
+                    bfun();
+                }
+                else {
+                    console.log("链接错误，重试");
+                    Pan3d.me.TimeUtil.addTimeOut(2000, function () {
+                        _this.getWarpperByUrl(bfun);
+                    });
+                }
+            });
+        };
         FileOssModel.makeOssWrapper = function (bfun) {
             var _this = this;
-            this.webseverurl = "http://api.h5key.com/api/";
+            if (!this.waitOssWrapper) {
+                this.waitOssWrapper = [bfun];
+                this.getWarpperByUrl(function () {
+                    while (_this.waitOssWrapper.length) {
+                        console.log("waitOssWrapper", _this.waitOssWrapper);
+                        _this.waitOssWrapper.pop()();
+                    }
+                });
+            }
+            else {
+                this.waitOssWrapper.push(bfun);
+            }
+        };
+        FileOssModel.makeOssWrapperCopy = function (bfun) {
+            var _this = this;
             if (!this.waitOssWrapper) {
                 this.waitOssWrapper = [bfun];
                 this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, function (res) {
-                    if (res.data && res.data.info) {
+                    if (res && res.data && res.data.info) {
                         _this.ossWrapper = new OSS.Wrapper({
                             accessKeyId: res.data.info.AccessKeyId,
                             accessKeySecret: res.data.info.AccessKeySecret,
@@ -186,7 +221,7 @@ var pack;
                         }
                     }
                     else {
-                        console.log(res);
+                        console.log("链接错误，重试");
                     }
                 });
             }
@@ -299,7 +334,6 @@ var pack;
         FileOssModel.upOssFile = function (file, $fileUrl, $bfun) {
             var _this = this;
             if ($bfun === void 0) { $bfun = null; }
-            FileOssModel.webseverurl = "http://api.h5key.com/api/";
             this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun });
             if (this.waitItemUpFile.length == 1) {
                 if (!FileOssModel.ossWrapper) {
@@ -342,6 +376,7 @@ var pack;
         };
         FileOssModel.indexFileName = "index.hidegroup"; //配置文件名读取这个文件标记为文件夹下的所以
         FileOssModel.isMustUseOssGetDic = false; //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
+        FileOssModel.webseverurl = "https://api.h5key.com/api/";
         FileOssModel.waitItemUpFile = [];
         FileOssModel.version = 1;
         return FileOssModel;

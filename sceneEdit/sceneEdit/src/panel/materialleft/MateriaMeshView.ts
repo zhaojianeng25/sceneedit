@@ -12,7 +12,6 @@
     export class MateriaMeshView extends MetaDataView {
         public constructor(value: UiMeshSprite) {
             super(value);
-
         }
 
         public getView(): Array<any> {

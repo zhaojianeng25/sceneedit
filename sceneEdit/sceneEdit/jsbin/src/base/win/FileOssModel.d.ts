@@ -33,7 +33,9 @@ declare module pack {
         static getFolderArr($dir: string, bfun: Function): void;
         private static getTempOss;
         private static waitOssWrapper;
+        private static getWarpperByUrl;
         static makeOssWrapper(bfun: Function): void;
+        static makeOssWrapperCopy(bfun: Function): void;
         static deleFile($filename: string, $bfun?: Function): void;
         private static uploadFile;
         static copyFile(toUrl: string, srcoueUrl: string, $bfun?: Function): void;

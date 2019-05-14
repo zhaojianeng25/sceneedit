@@ -27,6 +27,8 @@
                 this.showSprite.objData = value;
             })
             this.showSprite.material = temp;
+
+            console.log("refreshViewValue",temp)
  
         }
        

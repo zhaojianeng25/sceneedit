@@ -188,12 +188,48 @@
             }
         }
         private static waitOssWrapper: Array<Function>
+
+        private static getWarpperByUrl(bfun: Function): void {
+            this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
+                if (res && res.data && res.data.info) {
+                    this.ossWrapper = new OSS.Wrapper({
+                        accessKeyId: res.data.info.AccessKeyId,
+                        accessKeySecret: res.data.info.AccessKeySecret,
+                        stsToken: res.data.info.SecurityToken,
+                        endpoint: "https://oss-cn-shanghai.aliyuncs.com",
+                        bucket: "webpan"
+                    });
+                    bfun();
+                } else {
+                    console.log("链接错误，重试");
+                    Pan3d.me.TimeUtil.addTimeOut(2000, () => {
+                        this.getWarpperByUrl(bfun)
+                    })
+                }
+            })
+        }
         public static makeOssWrapper(bfun: Function): void {
-            this.webseverurl = "http://api.h5key.com/api/";
+      
+            if (!this.waitOssWrapper) {
+                this.waitOssWrapper = [bfun];
+                this.getWarpperByUrl(() => {
+                    while (this.waitOssWrapper.length) {
+                        console.log("waitOssWrapper", this.waitOssWrapper)
+                        this.waitOssWrapper.pop()();
+                    }
+                })
+                
+            } else {
+                this.waitOssWrapper.push(bfun)
+            }
+    
+        }
+        public static makeOssWrapperCopy(bfun: Function): void {
+        
             if (!this.waitOssWrapper) {
                 this.waitOssWrapper = [bfun];
                 this.WEB_SEVER_EVENT_AND_BACK("get_STS", "id=" + 99, (res: any) => {
-                    if (res.data && res.data.info) {
+                    if (res && res.data && res.data.info) {
                         this.ossWrapper = new OSS.Wrapper({
                             accessKeyId: res.data.info.AccessKeyId,
                             accessKeySecret: res.data.info.AccessKeySecret,
@@ -206,15 +242,14 @@
                             this.waitOssWrapper.pop()();
                         }
                     } else {
-                        console.log(res);
+                        console.log("链接错误，重试");
+                    
                     }
                 })
             } else {
                 this.waitOssWrapper.push(bfun)
             }
-          
 
-            
         }
 
         public static deleFile($filename: string, $bfun: Function = null): void {
@@ -312,7 +347,7 @@
 
 
 
-        public static webseverurl: string
+        public static webseverurl: string = "https://api.h5key.com/api/";
         //网页模式的WEB请求
         private static isPostWeboffwx(webname: string, postStr: string, $bfun: Function = null) {
             var ajax: XMLHttpRequest = new XMLHttpRequest();
@@ -347,7 +382,7 @@
         private static waitItemUpFile: Array<any> = []
         public static version: number=1
         public static upOssFile(file: File, $fileUrl: string, $bfun: Function = null): void {
-            FileOssModel.webseverurl = "http://api.h5key.com/api/";
+ 
             this.waitItemUpFile.push({ a: file, b: $fileUrl, c: $bfun })
             if (this.waitItemUpFile.length == 1) {
                 if (!FileOssModel.ossWrapper) {

@@ -91,6 +91,7 @@ var materialui;
                 }
                 if ($materialEvent.type == MaterialEvent.COMPILE_MATERIAL) {
                     materialui.MaterialCompile.getInstance().compile(materialui.MaterialCtrl.getInstance().nodeList, this.baseMaterialTree);
+                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.COMPILE_MATERIAL_CMD), this.baseMaterialTree);
                 }
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
                     this.clearAllMaterialUi($materialEvent.data);
