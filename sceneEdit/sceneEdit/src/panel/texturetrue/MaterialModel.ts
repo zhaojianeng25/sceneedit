@@ -219,6 +219,16 @@
             }
             return new File([u8arr], filename, { type: mime });
         }
+        public MakeTempWebMaterialTree($temp: MaterialTree, $info: any ) {
+            var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray();
+            $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }))
+            pack.PackMaterialManager.getInstance().getMaterialByUrl($temp.url, (value: materialui.MaterialTree) => {
+               pack.PackMaterialManager.getInstance().makeMaterialShaderByByte($byte, $temp.url, value)
+            })
+
+
+        }
+
         public upMaterialTreeToWeb($temp: MaterialTree, $info: any, $url: string) {
  
                 for (var i: number = 0; $temp.data && i < $temp.data.length; i++) {

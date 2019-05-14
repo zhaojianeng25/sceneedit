@@ -189,6 +189,13 @@ var materialui;
             }
             return new File([u8arr], filename, { type: mime });
         };
+        MaterialModel.prototype.MakeTempWebMaterialTree = function ($temp, $info) {
+            var $byte = new Pan3d.me.Pan3dByteArray();
+            $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }));
+            pack.PackMaterialManager.getInstance().getMaterialByUrl($temp.url, function (value) {
+                pack.PackMaterialManager.getInstance().makeMaterialShaderByByte($byte, $temp.url, value);
+            });
+        };
         MaterialModel.prototype.upMaterialTreeToWeb = function ($temp, $info, $url) {
             for (var i = 0; $temp.data && i < $temp.data.length; i++) {
                 var $vo = $temp.data[i];

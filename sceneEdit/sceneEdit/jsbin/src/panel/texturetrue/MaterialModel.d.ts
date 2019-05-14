@@ -13,6 +13,7 @@ declare module materialui {
         private menuBfun;
         private onTempNode;
         private dataURLtoFile;
+        MakeTempWebMaterialTree($temp: MaterialTree, $info: any): void;
         upMaterialTreeToWeb($temp: MaterialTree, $info: any, $url: string): void;
         selectFileById(value: number): void;
     }

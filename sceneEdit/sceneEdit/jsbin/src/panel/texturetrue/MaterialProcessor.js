@@ -91,7 +91,7 @@ var materialui;
                 }
                 if ($materialEvent.type == MaterialEvent.COMPILE_MATERIAL) {
                     materialui.MaterialCompile.getInstance().compile(materialui.MaterialCtrl.getInstance().nodeList, this.baseMaterialTree);
-                    ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.COMPILE_MATERIAL_CMD), this.baseMaterialTree);
+                    this.changeLeftMeshView();
                 }
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
                     this.clearAllMaterialUi($materialEvent.data);
@@ -112,6 +112,12 @@ var materialui;
                     this.setConnetLine($mevent_Material_Connect.startNode, $mevent_Material_Connect.endNode);
                 }
             }
+        };
+        MaterialProcessor.prototype.changeLeftMeshView = function () {
+            this._materialTree = new materialui.MaterialTree();
+            this._materialTree.data = materialui.MaterialCtrl.getInstance().getObj();
+            this._materialTree.url = this.lastMaterialUrl;
+            materialui.MaterialModel.getInstance().MakeTempWebMaterialTree(this._materialTree, this.getMakeProgemePrame());
         };
         Object.defineProperty(MaterialProcessor.prototype, "hasStage", {
             get: function () {

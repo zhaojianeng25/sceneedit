@@ -76,6 +76,73 @@
             }
             console.log("----")
         }
+        public makeMaterialShaderByByte($byte: Pan3d.me.Pan3dByteArray, $url: string, Met: materialui.MaterialTree = null): materialui.MaterialTree {
+            $byte.position = 0
+            var $temp: any = JSON.parse($byte.readUTF());
+
+
+            var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
+            if ($temp.info.paramAry) {
+                $buildShader.paramAry = []
+                for (var i: number = 0; i < $temp.info.paramAry.length; i++) {
+                    $buildShader.paramAry.push($temp.info.paramAry[i])
+                }
+            } else {
+                $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
+            }
+            $buildShader.vertex = $buildShader.getVertexShaderString();
+            $buildShader.fragment = $temp.info.shaderStr;
+            $buildShader.encode();
+
+
+
+            var $materialTree: materialui.MaterialTree;
+            if (Met) {
+                $materialTree = Met;
+            } else {
+                $materialTree = new materialui.MaterialTree();
+            }
+
+
+
+            $materialTree.setData({ data: $temp.data });
+            $materialTree.useNormal = $temp.info.useNormal;
+            $materialTree.hasTime = $temp.info.hasTime;
+            if ($materialTree.hasTime) {
+                $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y)
+            }
+
+            $materialTree.blendMode = $temp.info.blendMode;
+            $materialTree.writeZbuffer = $temp.info.writeZbuffer;
+            $materialTree.zbuff = $temp.info.zbuff;
+
+            $materialTree.useLightUv = $buildShader.paramAry[2]
+            $materialTree.texList = this.makeTextList($temp.info.texList);
+            $materialTree.constList = this.makeConstList($temp.info.constList);
+
+            $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
+            $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
+
+
+
+            $materialTree.modelShader = $buildShader;
+
+
+            /*
+            console.log("----------vertex------------");
+            console.log($buildShader.vertex);
+            console.log("----------fragment------------");
+            console.log($buildShader.fragment);
+            console.log("----------buildShader------------");
+            */
+            //    console.log("材质加载完成", $url)
+
+            $materialTree.url = $url
+
+            this.makeRoleShader($materialTree, $temp)
+
+            return $materialTree
+        }
         public getMaterialByUrl($url: string, bfun: Function): void {
 
             if (this.dic[$url]) { //有了就反回
@@ -87,66 +154,7 @@
                 LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE,
                     ($dtstr: ArrayBuffer) => {
                         var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray($dtstr);
-                        $byte.position = 0
-                        var $temp: any = JSON.parse($byte.readUTF());
-              
-
-                        var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
-                        if ($temp.info.paramAry) {
-                            $buildShader.paramAry = []
-                            for (var i: number = 0; i < $temp.info.paramAry.length; i++) {
-                                $buildShader.paramAry.push($temp.info.paramAry[i])
-                            }
-                        } else {
-                            $buildShader.paramAry = [false, false, false, false, false, false, false, false, false, false]
-                        }
-                        $buildShader.vertex = $buildShader.getVertexShaderString();
-                        $buildShader.fragment = $temp.info.shaderStr;
-                        $buildShader.encode();
-
-                       
- 
-                        var $materialTree: materialui.MaterialTree = new materialui.MaterialTree();
-
-                     
-
-
-                        $materialTree.setData({ data: $temp.data });
-                        $materialTree.useNormal = $temp.info.useNormal;
-                        $materialTree.hasTime = $temp.info.hasTime;
-                        if ($materialTree.hasTime ) {
-                            $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y)
-                        }
-            
-                        $materialTree.blendMode = $temp.info.blendMode;
-                        $materialTree.writeZbuffer = $temp.info.writeZbuffer;
-                        $materialTree.zbuff = $temp.info.zbuff;
- 
-                        $materialTree.useLightUv = $buildShader.paramAry[2]
-                        $materialTree.texList = this.makeTextList($temp.info.texList);
-                        $materialTree.constList = this.makeConstList($temp.info.constList);
-
-                        $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
-                        $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
-
-                  
-              
-                        $materialTree.modelShader = $buildShader;
-
-
-                        /*
-                        console.log("----------vertex------------");
-                        console.log($buildShader.vertex);
-                        console.log("----------fragment------------");
-                        console.log($buildShader.fragment);
-                        console.log("----------buildShader------------");
-                        */
-                    //    console.log("材质加载完成", $url)
-
-                        $materialTree.url = $url
-
-                        this.makeRoleShader($materialTree, $temp)
-
+                        var $materialTree: materialui.MaterialTree = this.makeMaterialShaderByByte($byte, $url)
 
                         if (!this.dic[$url]) {
                             this.dic[$url] = $materialTree;

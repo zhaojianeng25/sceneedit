@@ -21,6 +21,7 @@ declare module materialui {
         private lastMaterialUrl;
         constructor();
         protected receivedModuleEvent($event: BaseEvent): void;
+        private changeLeftMeshView;
         private onMouseWheelFun;
         private onMouseFun;
         private onMouseMoveFun;

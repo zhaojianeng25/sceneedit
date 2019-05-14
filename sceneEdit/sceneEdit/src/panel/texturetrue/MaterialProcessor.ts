@@ -98,7 +98,9 @@
                 if ($materialEvent.type == MaterialEvent.COMPILE_MATERIAL) {
                     MaterialCompile.getInstance().compile(MaterialCtrl.getInstance().nodeList, this.baseMaterialTree)
 
-                   ModuleEventManager.dispatchEvent(new materialleft.MaterialLeftEvent(materialleft.MaterialLeftEvent.COMPILE_MATERIAL_CMD), this.baseMaterialTree)
+                    this.changeLeftMeshView()
+
+                
                 }
                 if ($materialEvent.type == MaterialEvent.INUPT_NEW_MATERIAL_FILE) {
                     this.clearAllMaterialUi($materialEvent.data);
@@ -127,6 +129,16 @@
             }
 
 
+        }
+        private changeLeftMeshView(): void {
+
+            this._materialTree = new MaterialTree()
+            this._materialTree.data = MaterialCtrl.getInstance().getObj()
+            this._materialTree.url = this.lastMaterialUrl
+            MaterialModel.getInstance().MakeTempWebMaterialTree(this._materialTree, this.getMakeProgemePrame())
+           
+
+    
         }
         private onMouseWheelFun: any;
         private onMouseFun: any;

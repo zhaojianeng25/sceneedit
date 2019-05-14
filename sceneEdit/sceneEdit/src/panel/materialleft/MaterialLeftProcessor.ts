@@ -13,7 +13,7 @@
     export class MaterialLeftEvent extends BaseEvent {
         public static SHOW_MATERIAL_LEFT_PANEL: string = "SHOW_MATERIAL_LEFT_PANEL";  
         public static HIDE_MATERIAL_LEFT_PANEL: string = "HIDE_MATERIAL_LEFT_PANEL";  
-        public static COMPILE_MATERIAL_CMD: string = "COMPILE_MATERIAL_CMD";  
+   
     }
     export class MaterialLeftModule extends Module {
         public getModuleName(): string {
@@ -38,10 +38,7 @@
                 if ($leftEvent.type == MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL) {
                     this.hideLeftPanel();
                 }
-                if ($leftEvent.type == MaterialLeftEvent.COMPILE_MATERIAL_CMD) {
-                    this.materialLeftPanel.materialTree = $leftEvent.data
-                    console.log("change")
-                }
+           
             }
  
             if ($event instanceof MaterialEvent) {
@@ -76,7 +73,7 @@
             return [
                 new MaterialLeftEvent(MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL),
                 new MaterialLeftEvent(MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL),
-                new MaterialLeftEvent(MaterialLeftEvent.COMPILE_MATERIAL_CMD),
+ 
 
                 new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
 

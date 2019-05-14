@@ -26,7 +26,6 @@ var materialleft;
         }
         MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL = "SHOW_MATERIAL_LEFT_PANEL";
         MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL = "HIDE_MATERIAL_LEFT_PANEL";
-        MaterialLeftEvent.COMPILE_MATERIAL_CMD = "COMPILE_MATERIAL_CMD";
         return MaterialLeftEvent;
     }(BaseEvent));
     materialleft.MaterialLeftEvent = MaterialLeftEvent;
@@ -62,10 +61,6 @@ var materialleft;
                 if ($leftEvent.type == MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL) {
                     this.hideLeftPanel();
                 }
-                if ($leftEvent.type == MaterialLeftEvent.COMPILE_MATERIAL_CMD) {
-                    this.materialLeftPanel.materialTree = $leftEvent.data;
-                    console.log("change");
-                }
             }
             if ($event instanceof MaterialEvent) {
                 var $materialEvent = $event;
@@ -94,7 +89,6 @@ var materialleft;
             return [
                 new MaterialLeftEvent(MaterialLeftEvent.SHOW_MATERIAL_LEFT_PANEL),
                 new MaterialLeftEvent(MaterialLeftEvent.HIDE_MATERIAL_LEFT_PANEL),
-                new MaterialLeftEvent(MaterialLeftEvent.COMPILE_MATERIAL_CMD),
                 new MaterialEvent(MaterialEvent.INUPT_NEW_MATERIAL_FILE),
             ];
         };

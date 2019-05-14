@@ -39,7 +39,7 @@ var prop;
                 _this.showSprite.objData = value;
             });
             this.showSprite.material = temp;
-            console.log(temp);
+            console.log("refreshViewValue", temp);
         };
         return MeshMaterialLfetView2DUI;
     }(prop.MeshSceneView2DUI));
