@@ -4,6 +4,7 @@ declare module materialleft {
     import UiMeshSprite = prop.UiMeshSprite;
     class MateriaMeshView extends MetaDataView {
         constructor(value: UiMeshSprite);
+        top: number;
         getView(): Array<any>;
         materialTree: materialui.MaterialTree;
         private _materialTree;

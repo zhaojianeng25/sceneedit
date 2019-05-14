@@ -12,6 +12,14 @@
     export class MateriaMeshView extends MetaDataView {
         public constructor(value: UiMeshSprite) {
             super(value);
+           
+        }
+        public set top(value: number) {
+            this._top = value;
+            this.resize()
+
+            console.log("MateriaMeshView", this._top)
+
         }
 
         public getView(): Array<any> {
@@ -114,6 +122,7 @@
         }
         public resize(): void {
             super.resize()
+     
 
         }
 

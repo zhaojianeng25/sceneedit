@@ -22,6 +22,15 @@ var materialleft;
         function MateriaMeshView(value) {
             return _super.call(this, value) || this;
         }
+        Object.defineProperty(MateriaMeshView.prototype, "top", {
+            set: function (value) {
+                this._top = value;
+                this.resize();
+                console.log("MateriaMeshView", this._top);
+            },
+            enumerable: true,
+            configurable: true
+        });
         MateriaMeshView.prototype.getView = function () {
             var ary = [
                 { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", target: this, Category: "模型" },
