@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SkillMulPath extends SkillPath {
         private skillMul;
         private currentPosAry;

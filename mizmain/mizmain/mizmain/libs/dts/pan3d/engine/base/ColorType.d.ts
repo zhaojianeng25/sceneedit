@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ColorType {
         static Orange7a2f21: string;
         static Orange9a683f: string;

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class FrameCompenent extends UICompenent {
         constructor();
         setFrameData($rect: UIRectangle): void;

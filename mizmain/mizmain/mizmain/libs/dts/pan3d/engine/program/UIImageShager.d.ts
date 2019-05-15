@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class UIImageShader extends Shader3D {
         static UI_IMG_SHADER: string;
         constructor();

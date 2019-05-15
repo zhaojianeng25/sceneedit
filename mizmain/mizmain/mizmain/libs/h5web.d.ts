@@ -1,19 +1,19 @@
 ﻿
 declare module layapan.me {
-    import CombineParticle = Pan3d.me.CombineParticle
-    import ParticleManager = Pan3d.me.ParticleManager
-    import Display3DParticle = Pan3d.me.Display3DParticle
-    import Display3dMovie = Pan3d.me.Display3dMovie
-    import BloodLineMeshVo = Pan3d.me.BloodLineMeshVo
-    import CharNameMeshVo = Pan3d.me.CharNameMeshVo
+    import CombineParticle = Pan3d.CombineParticle
+    import ParticleManager = Pan3d.ParticleManager
+    import Display3DParticle = Pan3d.Display3DParticle
+    import Display3dMovie = Pan3d.Display3dMovie
+    import BloodLineMeshVo = Pan3d.BloodLineMeshVo
+    import CharNameMeshVo = Pan3d.CharNameMeshVo
 
     class Frame3DAtlasParticle extends Display3DParticle {
         public static getFrameParticle(pathurl: string, fileBaseName: string, info: any): CombineParticle;
     }
     class LayaOverride2dParticleManager extends ParticleManager {
     }
-    class LayaOverride2dSceneManager extends Pan3d.me.SceneManager {
-        public addMovieDisplay($display: Pan3d.me.Display3dMovie): void;
+    class LayaOverride2dSceneManager extends Pan3d.SceneManager {
+        public addMovieDisplay($display: Pan3d.Display3dMovie): void;
         public particleManager: LayaOverride2dParticleManager
     }
     class LayaSceneBaseChar extends Display3dMovie {
@@ -38,10 +38,10 @@ declare module layapan.me {
     
 }
 declare module maineditor {
-    import Display3DSprite = Pan3d.me.Display3DSprite
+    import Display3DSprite = Pan3d.Display3DSprite
     import LayaOverride2dSceneManager = layapan.me.LayaOverride2dSceneManager
     class EdItorSceneManager extends LayaOverride2dSceneManager {
-        public fbo: Pan3d.me.FBO;
+        public fbo: Pan3d.FBO;
     }
     class LyfSpriteDisplay extends Display3DSprite {
         public addLyfByUrl($url: string): void;
@@ -51,9 +51,9 @@ declare module maineditor {
 
 
 declare module LayaPan3D {
-    import Vector2D = Pan3d.me.Vector2D
-    import Display3D = Pan3d.me.Display3D
-    import Display3dMovie = Pan3d.me.Display3dMovie
+    import Vector2D = Pan3d.Vector2D
+    import Display3D = Pan3d.Display3D
+    import Display3dMovie = Pan3d.Display3dMovie
     import LayaSceneChar = layapan.me.LayaSceneChar
     import EdItorSceneManager = maineditor.EdItorSceneManager
     class LayaScene2dSceneChar extends  LayaSceneChar {

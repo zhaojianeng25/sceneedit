@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class LoadManager {
         static BYTE_TYPE: string;
         static IMG_TYPE: string;

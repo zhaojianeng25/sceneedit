@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3DUISprite extends Display3DSprite {
         private uiMatrix;
         private uiViewMatrix;

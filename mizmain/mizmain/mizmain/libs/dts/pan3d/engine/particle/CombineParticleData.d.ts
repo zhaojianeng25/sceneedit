@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class CombineParticleData extends ResCount {
         maxTime: number;
         dataAry: Array<ParticleData>;

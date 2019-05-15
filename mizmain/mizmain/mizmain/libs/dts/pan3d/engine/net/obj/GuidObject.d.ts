@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class GuidObject extends SyncEventRecorder {
         protected _ref: number;
         /**

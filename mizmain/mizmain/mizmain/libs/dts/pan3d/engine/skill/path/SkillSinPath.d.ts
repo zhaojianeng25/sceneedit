@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SkillSinPath extends SkillPath {
         private alltime;
         private lastTime;

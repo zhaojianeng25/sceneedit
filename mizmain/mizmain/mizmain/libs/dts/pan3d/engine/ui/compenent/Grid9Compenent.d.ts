@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Grid9Compenent extends UICompenent {
         ogw: number;
         ogh: number;

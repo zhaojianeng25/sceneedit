@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class TimeLine extends EventDispatcher {
         private _keyFrameAry;
         maxFrameNum: number;

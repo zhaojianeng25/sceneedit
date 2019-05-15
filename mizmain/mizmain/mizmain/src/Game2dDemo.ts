@@ -1,9 +1,9 @@
 ﻿module base {
-    import Vector2D = Pan3d.me.Vector2D
-    import Rectangle = Pan3d.me.Rectangle
-    import MouseType = Pan3d.me.MouseType
-    import CombineParticle = Pan3d.me.CombineParticle
-    import Scene_data = Pan3d.me.Scene_data
+    import Vector2D = Pan3d.Vector2D
+    import Rectangle = Pan3d.Rectangle
+    import MouseType = Pan3d.MouseType
+    import CombineParticle = Pan3d.CombineParticle
+    import Scene_data = Pan3d.Scene_data
     
     
     import LayaScene2dPicSprit = LayaPan3D.LayaScene2dPicSprit;
@@ -31,15 +31,15 @@
             $baseChar.set2dPos(200, 200);
             $baseChar.rotationY = 180;
             this.mainChar = $baseChar;
-            var rect100: Pan3d.me.Rectangle = new Pan3d.me.Rectangle(0, 0, 100, 100);
+            var rect100: Pan3d.Rectangle = new Pan3d.Rectangle(0, 0, 100, 100);
             for (var i: number = 0; i < 6; i++) {
                 for (var j: number = 0; j < 4; j++) {
-                     this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.me.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+                     this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
                 }
             }
         }
    
-        public addGrouandPic(value: string, rect: Pan3d.me.Rectangle): LayaScene2dPicSprit {
+        public addGrouandPic(value: string, rect: Pan3d.Rectangle): LayaScene2dPicSprit {
             var tempPic: LayaScene2dPicSprit = new LayaScene2dPicSprit(value);
             tempPic.set2dPos(rect.x, rect.y);
             tempPic.width = rect.width;

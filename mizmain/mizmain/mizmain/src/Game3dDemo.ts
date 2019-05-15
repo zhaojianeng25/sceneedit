@@ -1,14 +1,14 @@
 ﻿
 module base {
-    import Vector2D = Pan3d.me.Vector2D
-    import Object3D = Pan3d.me.Object3D
-    import MouseType = Pan3d.me.MouseType
+    import Vector2D = Pan3d.Vector2D
+    import Object3D = Pan3d.Object3D
+    import MouseType = Pan3d.MouseType
     import Laya3dSprite = LayaPan3D.Laya3dSprite;
     import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
 
-    import Scene_data = Pan3d.me.Scene_data;
+    import Scene_data = Pan3d.Scene_data;
 
-    import CombineParticle = Pan3d.me.CombineParticle
+    import CombineParticle = Pan3d.CombineParticle
 
     export class Game3dDemo extends Laya3dSprite {
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
@@ -68,7 +68,7 @@ module base {
 
         public upData(): void {
             if (this.sceneManager) {
-                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData()
             }
 

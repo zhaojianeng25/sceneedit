@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ParticleFollowLocusData extends ParticleData {
         _fenduanshu: number;
         getParticle(): Display3DParticle;

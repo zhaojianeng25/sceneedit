@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3DFollowPartilce extends Display3DBallPartilce {
         private _bindMatrixAry;
         private _bindFlagAry;

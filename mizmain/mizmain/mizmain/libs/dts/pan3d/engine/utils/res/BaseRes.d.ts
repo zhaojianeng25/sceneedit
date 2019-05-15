@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class BaseRes extends ResCount {
         static IMG_TYPE: number;
         static OBJS_TYPE: number;

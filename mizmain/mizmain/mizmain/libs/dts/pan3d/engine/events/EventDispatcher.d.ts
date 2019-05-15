@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class EventDispatcher {
         protected _eventsMap: Object;
         addEventListener(types: string, listener: Function, thisObject: any): void;

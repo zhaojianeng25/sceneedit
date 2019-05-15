@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class UIMask {
         protected _x: number;
         protected _y: number;

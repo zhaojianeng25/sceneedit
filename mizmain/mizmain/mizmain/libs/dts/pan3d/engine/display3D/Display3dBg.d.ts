@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3dBg extends Display3D {
         protected texture: WebGLTexture;
         constructor();

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Camera3D extends Object3D {
         cameraMatrix: Matrix3D;
         private _distance;

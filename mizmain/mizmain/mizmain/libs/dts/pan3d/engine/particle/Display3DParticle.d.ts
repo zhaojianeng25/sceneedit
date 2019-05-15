@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3DParticle extends Object3D {
         visible: boolean;
         timeline: TimeLine;

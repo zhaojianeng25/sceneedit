@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class UIShader extends Shader3D {
         static UI_SHADER: string;
         constructor();

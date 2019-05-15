@@ -3,10 +3,10 @@
 */
 module lou16.me {
     
-    import Vector2D = Pan3d.me.Vector2D
-    import Vector3D = Pan3d.me.Vector3D
+    import Vector2D = Pan3d.Vector2D
+    import Vector3D = Pan3d.Vector3D
     import LEvent = Laya.Event
-    import CombineParticle = Pan3d.me.CombineParticle
+    import CombineParticle = Pan3d.CombineParticle
  
     export class PanScene extends maineditor.EdItorSceneManager {
 		// 镜头模式

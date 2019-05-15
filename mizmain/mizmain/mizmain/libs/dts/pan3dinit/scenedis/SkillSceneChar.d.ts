@@ -1,5 +1,5 @@
 declare module scenedis.me {
-    class SkillSceneChar extends Pan3d.me.SceneChar {
+    class SkillSceneChar extends Pan3d.SceneChar {
         onMeshLoaded(): void;
         loadFinishFun: Function;
         changeActionFun: Function;

@@ -4,7 +4,7 @@ interface IShader {
     encode($context: WebGLRenderingContext): void;
     binLocation($context: WebGLRenderingContext): void;
 }
-declare module Pan3d.me {
+declare module Pan3d {
     class Shader3D extends ResCount implements IShader {
         vertex: string;
         fragment: string;

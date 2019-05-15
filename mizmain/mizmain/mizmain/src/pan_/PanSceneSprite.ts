@@ -1,11 +1,11 @@
 ﻿module lou16.me {
     import TextArea = Laya.TextArea
-    import LineDisplayShader = Pan3d.me.LineDisplayShader
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import GridLineSprite = Pan3d.me.GridLineSprite
-    import BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite
-    import Camera3D = Pan3d.me.Camera3D
-    import Rectangle = Pan3d.me.Rectangle
+    import LineDisplayShader = Pan3d.LineDisplayShader
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import GridLineSprite = Pan3d.GridLineSprite
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
+    import Camera3D = Pan3d.Camera3D
+    import Rectangle = Pan3d.Rectangle
     import LEvent = Laya.Event
     import Sprite = Laya.Sprite
 

@@ -1,4 +1,4 @@
-declare module scene2d.me {
+declare module scene2d_me {
     class CanvasPostionModel {
         private static _instance;
         static getInstance(): CanvasPostionModel;
@@ -10,7 +10,7 @@ declare module scene2d.me {
         private onMouseMove;
         private onMouseDown;
         private onMouseUp;
-        tureMoveV2d: Pan3d.me.Vector2D;
+        tureMoveV2d: Pan3d.Vector2D;
         resetSize(): void;
     }
 }

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class UIRenderComponent {
         protected _uiList: Array<UICompenent>;
         readonly uiListLen: number;

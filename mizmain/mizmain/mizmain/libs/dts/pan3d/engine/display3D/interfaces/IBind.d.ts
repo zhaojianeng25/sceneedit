@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     interface IBind {
         getSocket(socketName: String, resultMatrix: Matrix3D): void;
     }

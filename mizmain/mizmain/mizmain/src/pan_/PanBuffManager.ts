@@ -1,17 +1,17 @@
 module lou16.me{
-    import CharTitleUiVo = Pan3d.me.CharTitleUiVo;
-    import Scene_data = Pan3d.me.Scene_data;
-    import LoadManager = Pan3d.me.LoadManager;
-    import UIManager = Pan3d.me.UIManager;
-    import TextureManager = Pan3d.me.TextureManager;
-    import UIRectangle = Pan3d.me.UIRectangle;
-    import Vector3D = Pan3d.me.Vector3D;
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import UIData = Pan3d.me.UIData;
-    import UiDraw = Pan3d.me.UiDraw;
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
-    import Rectangle = Pan3d.me.Rectangle
-    import baseMeshVo = Pan3d.me.baseMeshVo
+    import CharTitleUiVo = Pan3d.CharTitleUiVo;
+    import Scene_data = Pan3d.Scene_data;
+    import LoadManager = Pan3d.LoadManager;
+    import UIManager = Pan3d.UIManager;
+    import TextureManager = Pan3d.TextureManager;
+    import UIRectangle = Pan3d.UIRectangle;
+    import Vector3D = Pan3d.Vector3D;
+    import Matrix3D = Pan3d.Matrix3D;
+    import UIData = Pan3d.UIData;
+    import UiDraw = Pan3d.UiDraw;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+    import Rectangle = Pan3d.Rectangle
+    import baseMeshVo = Pan3d.baseMeshVo
  
     export class BuffTitleUiVo extends CharTitleUiVo {
         private _buffTitleMesh: BuffTitleMesh

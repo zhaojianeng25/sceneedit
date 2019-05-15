@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class KeyFrame {
         frameNum: number;
         animData: Array<any>;

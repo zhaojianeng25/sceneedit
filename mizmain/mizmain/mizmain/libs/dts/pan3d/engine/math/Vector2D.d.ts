@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Vector2D {
         x: number;
         y: number;

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MaterialParam extends MaterialBaseParam {
         materialUrl: string;
         program: WebGLProgram;

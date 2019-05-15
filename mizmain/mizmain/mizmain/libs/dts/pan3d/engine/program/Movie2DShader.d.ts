@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Movie2DShader extends Shader3D {
         static MOVIE2D_SHADER: string;
         constructor();

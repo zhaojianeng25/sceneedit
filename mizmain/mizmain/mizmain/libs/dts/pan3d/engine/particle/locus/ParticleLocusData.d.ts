@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ParticleLocusData extends ParticleData {
         _speed: number;
         _isLoop: boolean;

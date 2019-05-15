@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class DynamicConstItem extends DynamicBaseConstItem {
         curve: Curve;
         update(t?: number): void;

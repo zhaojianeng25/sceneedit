@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MaterialAnimShader extends Shader3D {
         static MATERIAL_ANIM_SHADER: string;
         constructor();

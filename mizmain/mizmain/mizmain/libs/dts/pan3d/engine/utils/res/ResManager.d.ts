@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ResManager extends ResGC {
         private static _instance;
         static getInstance(): ResManager;

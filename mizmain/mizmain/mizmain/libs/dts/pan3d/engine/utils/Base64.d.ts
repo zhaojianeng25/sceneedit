@@ -1,7 +1,7 @@
 /**
 * base64-arraybuffer
 */
-declare module Pan3d.me {
+declare module Pan3d {
     class Base64 {
         static chars: string;
         static encode: (arraybuffer: any) => string;

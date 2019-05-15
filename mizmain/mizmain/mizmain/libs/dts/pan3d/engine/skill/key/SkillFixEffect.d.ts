@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SkillBugBind implements IBind {
         bindMatrix: Matrix3D;
         getSocket(socketName: string, resultMatrix: Matrix3D): void;

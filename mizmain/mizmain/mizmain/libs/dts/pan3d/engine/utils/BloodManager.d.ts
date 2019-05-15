@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class TextJumpType {
         static NORMALDAMAGE: number;
         static CRIT: number;
@@ -65,7 +65,7 @@ declare module Pan3d.me {
         constructor();
     }
 }
-declare module Pan3d.me {
+declare module Pan3d {
     class BloodUIShader extends Shader3D {
         static BloodUIShader: string;
         constructor();
@@ -104,25 +104,25 @@ declare module Pan3d.me {
         showTemp($data: any): void;
     }
 }
-declare module Pan3d.me {
-    class CharTitleMeshVo extends Pan3d.me.baseMeshVo {
+declare module Pan3d {
+    class CharTitleMeshVo extends Pan3d.baseMeshVo {
         private _num;
         needDraw: boolean;
         destory(): void;
         num: number;
     }
-    class CharNameMeshVo extends Pan3d.me.baseMeshVo {
+    class CharNameMeshVo extends Pan3d.baseMeshVo {
         private _name;
         needDraw: boolean;
         name: string;
         destory(): void;
     }
-    class BloodLineMeshVo extends Pan3d.me.baseMeshVo {
+    class BloodLineMeshVo extends Pan3d.baseMeshVo {
         num: number;
         colortype: number;
         destory(): void;
     }
-    class JumpTextMeshVo extends Pan3d.me.baseMeshVo {
+    class JumpTextMeshVo extends Pan3d.baseMeshVo {
         str: string;
         destory(): void;
     }
@@ -143,8 +143,8 @@ declare module Pan3d.me {
         getCharTitleMeshVo(value?: number): CharTitleMeshVo;
         getCharNameMeshVo(value?: string): CharNameMeshVo;
         getBloodLineMeshVo(): BloodLineMeshVo;
-        setJumpNum($textJumpUiVo: Pan3d.me.TextJumpUiVo): void;
-        setExpJumpNum($textJumpUiVo: Pan3d.me.TextJumpUiVo): void;
+        setJumpNum($textJumpUiVo: Pan3d.TextJumpUiVo): void;
+        setExpJumpNum($textJumpUiVo: Pan3d.TextJumpUiVo): void;
         update(): void;
         resize(): void;
     }

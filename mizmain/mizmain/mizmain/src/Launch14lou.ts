@@ -46,8 +46,8 @@ module game14lou {
 
 
 
-    import Display3D = Pan3d.me.Display3D;
-    import Display3dMovie = Pan3d.me.Display3dMovie;
+    import Display3D = Pan3d.Display3D;
+    import Display3dMovie = Pan3d.Display3dMovie;
     import Browser = Laya.Browser;
 
     import Game2dDemo = base.Game2dDemo
@@ -109,11 +109,11 @@ module game14lou {
             // 初始化舞台
             this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
 
-            Pan3d.me.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-            Pan3d.me.Scene_data.fileuiRoot = "res/";
-            Pan3d.me.Scene_data.fileRoot = "res/";
+            Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+            Pan3d.Scene_data.fileuiRoot = "res/";
+            Pan3d.Scene_data.fileRoot = "res/";
             //   Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
-            Pan3d.me.Engine.init(this.canvas);
+            Pan3d.Engine.init(this.canvas);
 
 
             // 是否IPhoneX

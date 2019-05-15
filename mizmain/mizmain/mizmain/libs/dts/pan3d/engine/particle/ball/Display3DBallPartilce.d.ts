@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3DBallPartilce extends Display3DParticle {
         constructor();
         readonly balldata: ParticleBallData;

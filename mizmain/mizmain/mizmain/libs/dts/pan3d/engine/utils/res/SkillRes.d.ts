@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SkillRes extends BaseRes {
         skillUrl: string;
         private _fun;

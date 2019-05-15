@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3DLocusShader extends Shader3D {
         static Display3D_Locus_Shader: string;
         constructor();

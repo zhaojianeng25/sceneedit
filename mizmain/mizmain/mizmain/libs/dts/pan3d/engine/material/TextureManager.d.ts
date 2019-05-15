@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class TextureManager extends ResGC {
         private _loadDic;
         private _resDic;

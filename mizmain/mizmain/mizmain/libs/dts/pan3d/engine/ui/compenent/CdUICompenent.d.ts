@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class CdRenderComponent extends UIRenderComponent {
         constructor();
         setVc(): void;

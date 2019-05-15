@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class GameStart {
         /**是否是外网 */
         static outNet: boolean;
