@@ -347,7 +347,7 @@
 
 
 
-        public static webseverurl: string = "https://api.h5key.com/api/";
+        public static webseverurl: string = "http://api.h5key.com/api/";
         //网页模式的WEB请求
         private static isPostWeboffwx(webname: string, postStr: string, $bfun: Function = null) {
             var ajax: XMLHttpRequest = new XMLHttpRequest();
