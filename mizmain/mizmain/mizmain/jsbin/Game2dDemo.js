@@ -85,7 +85,7 @@ var base;
             info.frameScale = 0.1;
             info.loop = false;
             info.isShow = true;
-            var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
+            var combineParticle = layapan_me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
             this.sceneManager.particleManager.addParticle(combineParticle);
             var povsto = new Vector2D(v2d.x, v2d.y);
             var $nScale = 1;

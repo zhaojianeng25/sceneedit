@@ -11,7 +11,6 @@ declare class TestRole2dPanel extends layapan.LayaInsideSprite{
 declare class mainpan3d   {
     public static canvas: HTMLCanvasElement
 }
-
 declare module scene2d {
     class Override2dEngine extends scene2d_me.Override2dEngine {
     }
@@ -35,7 +34,7 @@ declare module layapan {
     import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar
     import LayaScene2D = LayaPan3D.LayaScene2D
  
-    class LayaOverride2dSceneManager extends layapan.me.LayaOverride2dSceneManager {
+    class LayaOverride2dSceneManager extends layapan_me.LayaOverride2dSceneManager {
         public layaForntPanel: any
         removeAllParticle: any
         public bloodManager: any
@@ -51,12 +50,12 @@ declare module layapan {
     class OtherLayaRectSprite extends Laya.Sprite {
 
     }
-    class OverrideSkill extends layapan.me.OverrideSkill {
+    class OverrideSkill extends layapan_me.OverrideSkill {
 
     }
-    class Frame3DAtlasParticle extends layapan.me.Frame3DAtlasParticle {
+    class Frame3DAtlasParticle extends layapan_me.Frame3DAtlasParticle {
     }
-    class LayaSceneChar extends layapan.me.LayaSceneChar {
+    class LayaSceneChar extends layapan_me.LayaSceneChar {
         public _titleEnable: any;
         public _charTitleVo: any;
         public charTitle: any

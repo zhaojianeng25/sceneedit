@@ -1,54 +1,10 @@
-﻿/*
-declare module layapan.me {
-    import CombineParticle = Pan3d.CombineParticle
-    import ParticleManager = Pan3d.ParticleManager
-    import Display3DParticle = Pan3d.Display3DParticle
-    import Display3dMovie = Pan3d.Display3dMovie
-    import BloodLineMeshVo = Pan3d.BloodLineMeshVo
-    import CharNameMeshVo = Pan3d.CharNameMeshVo
-    import CharTitleMeshVo = Pan3d.CharTitleMeshVo
-
-    class Frame3DAtlasParticle extends Display3DParticle {
-        public static getFrameParticle(pathurl: string, fileBaseName: string, info: any): CombineParticle;
-    }
-    class LayaOverride2dParticleManager extends ParticleManager {
-    }
-    class LayaOverride2dSceneManager extends Pan3d.SceneManager {
-        public addMovieDisplay($display: Pan3d.Display3dMovie): void;
-        public particleManager: LayaOverride2dParticleManager
-    }
-    class LayaSceneBaseChar extends Display3dMovie {
-    }
-    class LayaSceneChar extends LayaSceneBaseChar {
-  
-        protected _pScale: number ;
-        protected _mountChar: LayaSceneBaseChar;
-        protected _wingDisplay: LayaSceneBaseChar;
-        public tittleHeight: number 
-        protected _bloodEnable: boolean;
-        protected _charBloodVo: BloodLineMeshVo;
-        protected _nameEnable: boolean 
-        protected _charNameVo: CharNameMeshVo;
-        public charName: string
-        public isMount: boolean;
-        protected _charAngerVo: BloodLineMeshVo;
-        protected _isCamera2D: boolean;
-        protected _resultVisible: boolean 
-        public pRotationY: number
-        protected _bloodColor: number;
-        protected _titleEnable: boolean;
-        protected _charTitleVo: CharTitleMeshVo;
-        
-    }
-    
-}
-*/
+﻿ 
 
 
 
 declare module maineditor {
     import Display3DSprite = Pan3d.Display3DSprite
-    import LayaOverride2dSceneManager = layapan.me.LayaOverride2dSceneManager
+    import LayaOverride2dSceneManager = layapan_me.LayaOverride2dSceneManager
     class EdItorSceneManager extends LayaOverride2dSceneManager {
         public fbo: Pan3d.FBO;
     }
@@ -63,7 +19,7 @@ declare module LayaPan3D {
     import Vector2D = Pan3d.Vector2D
     import Display3D = Pan3d.Display3D
     import Display3dMovie = Pan3d.Display3dMovie
-    import LayaSceneChar = layapan.me.LayaSceneChar
+    import LayaSceneChar = layapan_me.LayaSceneChar
     import EdItorSceneManager = maineditor.EdItorSceneManager
     class LayaScene2dSceneChar extends  LayaSceneChar {
         public set2dPos($x: number, $y: number): void;
