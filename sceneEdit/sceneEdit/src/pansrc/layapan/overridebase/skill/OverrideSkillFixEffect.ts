@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
     import BaseEvent = Pan3d.BaseEvent;
     import IBind = Pan3d.IBind;
     import Vector3D = Pan3d.Vector3D;

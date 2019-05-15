@@ -1,4 +1,4 @@
-declare module layapan.me {
+declare module layapan_me {
     class LayaScene2dInit {
         static isConfig: boolean;
         static initData(): void;

@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
     export class LayaOverride2dEngine extends scene3d_me.OverrideEngine {
 
 

@@ -1,7 +1,7 @@
 /**
 * name 
 */
-module layapan.me {
+module layapan_me {
     import Display3DSprite = Pan3d.Display3DSprite;
     import BloodManager = Pan3d.BloodManager;
     import CharNameMeshVo = Pan3d.CharNameMeshVo;

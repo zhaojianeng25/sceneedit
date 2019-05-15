@@ -1,7 +1,7 @@
 /**
 * name
 */
-declare module layapan.me {
+declare module layapan_me {
     import CharNameMeshVo = Pan3d.CharNameMeshVo;
     import BloodLineMeshVo = Pan3d.BloodLineMeshVo;
     import Display3D = Pan3d.Display3D;

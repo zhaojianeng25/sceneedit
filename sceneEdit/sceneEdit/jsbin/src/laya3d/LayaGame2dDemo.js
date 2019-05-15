@@ -53,7 +53,7 @@ var LayaPan3D;
             info.frameScale = 0.1;
             info.loop = false;
             info.isShow = true; //是否在最上层
-            var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
+            var combineParticle = layapan_me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
             this.sceneManager.particleManager.addParticle(combineParticle);
             var v3d = this.getPos3dBy2D(v2d.x, v2d.y);
             combineParticle.x = v3d.x;

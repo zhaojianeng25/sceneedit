@@ -11,19 +11,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var ShadowManager = Pan3d.ShadowManager;
-        var LayaOverrideShadowManager = /** @class */ (function (_super) {
-            __extends(LayaOverrideShadowManager, _super);
-            function LayaOverrideShadowManager() {
-                return _super.call(this) || this;
-            }
-            return LayaOverrideShadowManager;
-        }(ShadowManager));
-        me.LayaOverrideShadowManager = LayaOverrideShadowManager;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+var layapan_me;
+(function (layapan_me) {
+    var ShadowManager = Pan3d.ShadowManager;
+    var LayaOverrideShadowManager = /** @class */ (function (_super) {
+        __extends(LayaOverrideShadowManager, _super);
+        function LayaOverrideShadowManager() {
+            return _super.call(this) || this;
+        }
+        return LayaOverrideShadowManager;
+    }(ShadowManager));
+    layapan_me.LayaOverrideShadowManager = LayaOverrideShadowManager;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverrideShadowManager.js.map

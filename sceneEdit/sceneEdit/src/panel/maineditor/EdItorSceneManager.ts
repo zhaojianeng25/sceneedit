@@ -13,7 +13,7 @@
     import Matrix3D = Pan3d.Matrix3D
     import GlReset = Pan3d.GlReset
 
-    import SceneManager = layapan.me.LayaOverride2dSceneManager
+    import SceneManager = layapan_me.LayaOverride2dSceneManager
 
     export class EdItorSceneManager extends SceneManager {
         constructor() {

@@ -1,4 +1,4 @@
-declare module layapan.me {
+declare module layapan_me {
     import SkillRes = Pan3d.SkillRes;
     import SkillData = Pan3d.SkillData;
     import SkillManager = Pan3d.SkillManager;

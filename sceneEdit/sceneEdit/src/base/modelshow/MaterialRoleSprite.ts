@@ -13,8 +13,8 @@
     import Dictionary = Pan3d.Dictionary
     import Skill = Pan3d.Skill
 
-    import OverrideSkill = layapan.me.OverrideSkill
-    import LayaOverride2dSceneManager = layapan.me.LayaOverride2dSceneManager
+    import OverrideSkill = layapan_me.OverrideSkill
+    import LayaOverride2dSceneManager = layapan_me.LayaOverride2dSceneManager
 
     import MaterialTree = materialui.MaterialTree
 

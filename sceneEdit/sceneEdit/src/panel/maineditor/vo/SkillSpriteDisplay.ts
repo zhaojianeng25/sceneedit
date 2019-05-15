@@ -60,7 +60,7 @@
                     } else {
                         playName = this.skillActionItem[this.skipNum % this.skillActionItem.length];
                     }
-                    var $skill: layapan.me.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName)   //skill_0022
+                    var $skill: layapan_me.OverrideSkill = tempScene.skillManager.getSkill(this.skillStaticMesh.skillUrl, playName)   //skill_0022
                     if ($skill) {
                         $skill.reset();
                         $skill.isDeath = false;

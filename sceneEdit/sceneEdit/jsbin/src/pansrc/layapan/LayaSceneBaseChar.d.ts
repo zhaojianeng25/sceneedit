@@ -1,7 +1,7 @@
 /**
 * name
 */
-declare module layapan.me {
+declare module layapan_me {
     import MeshData = Pan3d.MeshData;
     import GroupRes = Pan3d.GroupRes;
     import Vector3D = Pan3d.Vector3D;

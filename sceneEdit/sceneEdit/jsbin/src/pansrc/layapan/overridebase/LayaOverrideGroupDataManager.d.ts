@@ -1,4 +1,4 @@
-declare module layapan.me {
+declare module layapan_me {
     class LayaGroupRes extends Pan3d.GroupRes {
         constructor();
         scene: LayaOverride2dSceneManager;

@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
     import SkillType = Pan3d.SkillType;
     import SkillFixEffect = Pan3d.SkillFixEffect;
     import SkillTrajectory = Pan3d.SkillTrajectory;

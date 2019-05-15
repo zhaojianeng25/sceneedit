@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
     export class LayaScene2dInit {
         public static isConfig: boolean = false
         public static initData(): void {

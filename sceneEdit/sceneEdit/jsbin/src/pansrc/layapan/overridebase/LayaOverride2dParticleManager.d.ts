@@ -1,4 +1,4 @@
-declare module layapan.me {
+declare module layapan_me {
     import Shader3D = Pan3d.Shader3D;
     import Display3DParticle = Pan3d.Display3DParticle;
     import CombineParticle = Pan3d.CombineParticle;

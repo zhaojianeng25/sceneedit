@@ -153,7 +153,7 @@ module LayaPan3D {
         }
 
     }
-    export class LayaScene2dSceneChar extends layapan.me.LayaSceneChar {
+    export class LayaScene2dSceneChar extends layapan_me.LayaSceneChar {
 
         private posv2: Vector2D
         public set2dPos($x: number, $y: number): void {

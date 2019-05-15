@@ -1,4 +1,4 @@
-declare module layapan.me {
+declare module layapan_me {
     class OverrideSkillTrajectory extends Pan3d.SkillTrajectory {
         skill: OverrideSkill;
         reset(): void;

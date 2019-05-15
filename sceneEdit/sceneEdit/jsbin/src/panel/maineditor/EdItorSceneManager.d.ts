@@ -1,7 +1,7 @@
 declare module maineditor {
     import FBO = Pan3d.FBO;
     import Matrix3D = Pan3d.Matrix3D;
-    import SceneManager = layapan.me.LayaOverride2dSceneManager;
+    import SceneManager = layapan_me.LayaOverride2dSceneManager;
     class EdItorSceneManager extends SceneManager {
         constructor();
         fbo: FBO;

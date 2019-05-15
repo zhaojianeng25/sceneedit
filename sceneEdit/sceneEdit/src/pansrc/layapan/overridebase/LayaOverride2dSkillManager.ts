@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
     import Skill = Pan3d.Skill
     import ResManager = Pan3d.ResManager
     import Scene_data = Pan3d.Scene_data

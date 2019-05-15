@@ -18,7 +18,7 @@ var maineditor;
     var MathClass = Pan3d.MathClass;
     var FBO = Pan3d.FBO;
     var GlReset = Pan3d.GlReset;
-    var SceneManager = layapan.me.LayaOverride2dSceneManager;
+    var SceneManager = layapan_me.LayaOverride2dSceneManager;
     var EdItorSceneManager = /** @class */ (function (_super) {
         __extends(EdItorSceneManager, _super);
         function EdItorSceneManager() {

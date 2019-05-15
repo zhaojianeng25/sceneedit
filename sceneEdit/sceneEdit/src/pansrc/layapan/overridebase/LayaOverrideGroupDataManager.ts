@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
     export class LayaGroupRes extends Pan3d.GroupRes {
         public constructor() {
             super();

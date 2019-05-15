@@ -1,7 +1,7 @@
 /**
 * name 
 */
-module layapan.me {
+module layapan_me {
     import CombineParticle = Pan3d.CombineParticle
     import MeshData = Pan3d.MeshData
     import BindParticle = Pan3d.BindParticle

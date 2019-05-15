@@ -11,20 +11,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var OverrideSkillFixEffectKeyVo = /** @class */ (function (_super) {
-            __extends(OverrideSkillFixEffectKeyVo, _super);
-            function OverrideSkillFixEffectKeyVo() {
-                var _this = _super.call(this) || this;
-                console.log("OverrideSkillFixEffectKeyVo");
-                return _this;
-            }
-            return OverrideSkillFixEffectKeyVo;
-        }(Pan3d.SkillFixEffectKeyVo));
-        me.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+var layapan_me;
+(function (layapan_me) {
+    var OverrideSkillFixEffectKeyVo = /** @class */ (function (_super) {
+        __extends(OverrideSkillFixEffectKeyVo, _super);
+        function OverrideSkillFixEffectKeyVo() {
+            var _this = _super.call(this) || this;
+            console.log("OverrideSkillFixEffectKeyVo");
+            return _this;
+        }
+        return OverrideSkillFixEffectKeyVo;
+    }(Pan3d.SkillFixEffectKeyVo));
+    layapan_me.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=OverrideSkillKeyVo.js.map

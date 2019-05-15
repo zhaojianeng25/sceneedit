@@ -1,4 +1,4 @@
-﻿module layapan.me {
+﻿module layapan_me {
  
     import ShadowManager = Pan3d.ShadowManager
 

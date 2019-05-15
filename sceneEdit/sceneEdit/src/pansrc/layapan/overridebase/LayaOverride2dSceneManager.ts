@@ -1,5 +1,5 @@
 ﻿
-module layapan.me {
+module layapan_me {
     import Display3dMovie = Pan3d.Display3dMovie;
     export class LayaOverride2dSceneManager extends scene3d_me.OverrideSceneManager {
         private static sceneNum: number=0
@@ -65,12 +65,12 @@ module layapan.me {
                 }
             })
         }
-        public charPlaySkill($char: layapan.me.LayaSceneChar, $skillfile: string): void {
+        public charPlaySkill($char: layapan_me.LayaSceneChar, $skillfile: string): void {
             if (!$char._scene.ready) {
                 return;
             }
           
-            var $skill: layapan.me.OverrideSkill = this.skillManager.getSkill(getSkillUrl($skillfile), "skill_01");
+            var $skill: layapan_me.OverrideSkill = this.skillManager.getSkill(getSkillUrl($skillfile), "skill_01");
             if (!$skill.keyAry) {
                 return;
             }
