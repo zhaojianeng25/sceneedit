@@ -162,6 +162,7 @@ var prop;
             var temp = new prop.MeshMaterialLfetView2DUI(this.propPanle);
             temp.label = $obj[prop.ReflectionData.Key_Label];
             temp.FunKey = $obj[prop.ReflectionData.FunKey];
+            temp.suffix = $obj[prop.ReflectionData.Key_Suffix];
             temp.target = this;
             return temp;
         };

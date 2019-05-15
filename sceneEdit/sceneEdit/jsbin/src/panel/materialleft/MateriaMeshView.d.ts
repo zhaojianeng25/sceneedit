@@ -4,7 +4,7 @@ declare module materialleft {
     import UiMeshSprite = prop.UiMeshSprite;
     class MateriaMeshView extends MetaDataView {
         constructor(value: UiMeshSprite);
-        top: number;
+        resize(): void;
         getView(): Array<any>;
         materialTree: materialui.MaterialTree;
         private _materialTree;
@@ -16,6 +16,5 @@ declare module materialleft {
         sunDirect: Vector3D;
         sunColor: Vector3D;
         ambientColor: Vector3D;
-        resize(): void;
     }
 }

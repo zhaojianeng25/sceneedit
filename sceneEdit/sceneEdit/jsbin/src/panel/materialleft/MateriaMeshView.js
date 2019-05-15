@@ -22,18 +22,13 @@ var materialleft;
         function MateriaMeshView(value) {
             return _super.call(this, value) || this;
         }
-        Object.defineProperty(MateriaMeshView.prototype, "top", {
-            set: function (value) {
-                this._top = value;
-                this.resize();
-                console.log("MateriaMeshView", this._top);
-            },
-            enumerable: true,
-            configurable: true
-        });
+        MateriaMeshView.prototype.resize = function () {
+            this._top = 0;
+            _super.prototype.resize.call(this);
+        };
         MateriaMeshView.prototype.getView = function () {
             var ary = [
-                { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", target: this, Category: "模型" },
+                { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", Suffix: "prefab|zzw|objs", target: this, Category: "模型" },
                 {
                     Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
                         { name: "普通模式", type: 0 },
@@ -148,9 +143,6 @@ var materialleft;
             enumerable: true,
             configurable: true
         });
-        MateriaMeshView.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-        };
         return MateriaMeshView;
     }(MetaDataView));
     materialleft.MateriaMeshView = MateriaMeshView;

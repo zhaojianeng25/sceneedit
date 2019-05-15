@@ -13,7 +13,10 @@
             if ($container["propPanle"]) {//特殊添加组件面板
                 this.addChild($container["propPanle"])
             }
+
+    
         }
+    
         private removeNeedRemove(): void {
             for (var i: number = (this._containerList.length - 1); i >= 0; i--) {
                 if (this._containerList[i]["only"]) { //标记需要移除，不能同时存在的面板

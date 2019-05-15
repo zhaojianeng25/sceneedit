@@ -4,6 +4,9 @@ declare module prop {
         protected textureUrlText: TextLabelUI;
         protected texturePicUi: TexturePicUi;
         protected initView(): void;
+        protected texturePicUiChange($evt: ReflectionEvet): void;
+        private _suffix;
+        suffix: string;
         private wheelEventFun;
         onMouseWheel($evt: MouseWheelEvent): void;
         private butClik;

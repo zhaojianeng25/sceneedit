@@ -177,6 +177,7 @@
             var temp: MeshMaterialLfetView2DUI = new MeshMaterialLfetView2DUI(this.propPanle)
             temp.label = $obj[ReflectionData.Key_Label];
             temp.FunKey = $obj[ReflectionData.FunKey];
+            temp.suffix = $obj[ReflectionData.Key_Suffix];
             temp.target = this
             return temp;
         }

@@ -6,6 +6,7 @@ declare module materialui {
     import ConstItem = Pan3d.ConstItem;
     class MaterialTree extends Material {
         private _data;
+        showurl: string;
         zbuff: boolean;
         pointlight: boolean;
         private _compileData;

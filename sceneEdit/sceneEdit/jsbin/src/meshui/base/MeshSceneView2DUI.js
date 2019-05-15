@@ -53,8 +53,22 @@ var prop;
             this.height = 220;
             this.texturePicUi.ui.width = 200;
             this.texturePicUi.ui.height = 200;
+            this.texturePicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this);
             this.initScene();
         };
+        MeshSceneView2DUI.prototype.texturePicUiChange = function ($evt) {
+        };
+        Object.defineProperty(MeshSceneView2DUI.prototype, "suffix", {
+            get: function () {
+                return this._suffix;
+            },
+            set: function (value) {
+                this._suffix = value;
+                this.texturePicUi.suffix = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         MeshSceneView2DUI.prototype.onMouseWheel = function ($evt) {
             if (this.texturePicUi.ui.testPoint($evt.x, $evt.y)) {
                 this.sceneManager.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;

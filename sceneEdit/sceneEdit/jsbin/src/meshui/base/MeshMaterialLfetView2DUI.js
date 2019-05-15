@@ -27,17 +27,64 @@ var prop;
                 this.textLabelUI.x = this._x + 100000;
                 this.texturePicUi.x = this._x + 10;
                 this.textureUrlText.x = this._x + 10000;
+                this.resize();
             },
             enumerable: true,
             configurable: true
         });
-        MeshMaterialLfetView2DUI.prototype.refreshViewValue = function () {
-            var _this = this;
+        MeshMaterialLfetView2DUI.prototype.resize = function () {
+            if (this._width && this.texturePicUi) {
+                this._x = (this._width - 200) / 2;
+                this.texturePicUi.x = this._x;
+                this.texturePicUi.y = this._y + 5;
+            }
+        };
+        MeshMaterialLfetView2DUI.prototype.texturePicUiChange = function ($evt) {
             var temp = this.target[this.FunKey];
-            this.texturePicUi.url = "icon/base.jpg";
-            pack.PackObjDataManager.getInstance().getObjDataByUrl("pefab/模型/球/球.objs", function (value) {
+            temp.showurl = this.texturePicUi.url;
+            this.refrishShowMaterialModel(temp);
+        };
+        MeshMaterialLfetView2DUI.prototype.refrishShowMaterialModel = function (material) {
+            var _this = this;
+            var fileUrl = material.showurl;
+            if (!fileUrl) {
+                fileUrl = "pefab/模型/球/球.objs";
+            }
+            var tempArr = fileUrl.split(".");
+            var stuffstr = tempArr[tempArr.length - 1];
+            switch (stuffstr) {
+                case "prefab":
+                    pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, function (prefabStaticMesh) {
+                        _this.setObjUrlToSprite(prefabStaticMesh.objsurl);
+                    });
+                    break;
+                case "objs":
+                    this.setObjUrlToSprite(fileUrl);
+                    break;
+                default:
+                    console.log("没有处理的类型", stuffstr);
+                    break;
+            }
+        };
+        Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "width", {
+            set: function (value) {
+                this._width = value;
+                this.resize();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MeshMaterialLfetView2DUI.prototype.setObjUrlToSprite = function (objurl) {
+            var _this = this;
+            pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, function (value) {
+                console.log("更新模型", objurl);
                 _this.showSprite.objData = value;
             });
+        };
+        MeshMaterialLfetView2DUI.prototype.refreshViewValue = function () {
+            var temp = this.target[this.FunKey];
+            this.texturePicUi.url = "icon/base.jpg";
+            this.refrishShowMaterialModel(temp);
             this.showSprite.material = temp;
             console.log("refreshViewValue", temp);
         };

@@ -53,9 +53,22 @@
             this.texturePicUi.ui.width = 200
             this.texturePicUi.ui.height = 200
 
+            this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this)
 
             this.initScene()
    
+        }
+        protected texturePicUiChange($evt: ReflectionEvet): void {
+ 
+        }
+        private _suffix: string
+        public get suffix(): string {
+            return this._suffix;
+        }
+        public set suffix(value: string) {
+            this._suffix = value
+            this.texturePicUi.suffix = value;
+
         }
         private wheelEventFun: any
         public onMouseWheel($evt: MouseWheelEvent): void {

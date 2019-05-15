@@ -7,7 +7,8 @@
     import ConstItem = Pan3d.ConstItem
     export class MaterialTree extends Material {
         private _data: any;
- 
+
+        public showurl: string
         public zbuff: boolean
         public pointlight: boolean
         private _compileData: any;

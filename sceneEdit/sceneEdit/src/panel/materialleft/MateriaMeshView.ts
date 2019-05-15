@@ -14,18 +14,15 @@
             super(value);
            
         }
-        public set top(value: number) {
-            this._top = value;
-            this.resize()
-
-            console.log("MateriaMeshView", this._top)
-
+        public resize(): void {
+            this._top=0
+            super.resize()
         }
-
+  
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", target: this, Category: "模型" },
+                    { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", Suffix:"prefab|zzw|objs",target: this, Category: "模型" },
                     {
                         Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
              
@@ -120,12 +117,7 @@
             Scene_data.light.ambientColor[1] = value.y;
             Scene_data.light.ambientColor[2] = value.z;
         }
-        public resize(): void {
-            super.resize()
-     
-
-        }
-
+    
 
 
     }
