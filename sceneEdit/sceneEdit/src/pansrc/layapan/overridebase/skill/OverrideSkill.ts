@@ -1,14 +1,14 @@
 ﻿module layapan.me {
-    import SkillType = Pan3d.me.SkillType;
-    import SkillFixEffect = Pan3d.me.SkillFixEffect;
-    import SkillTrajectory = Pan3d.me.SkillTrajectory;
-    import SkillTrajectoryTargetKeyVo = Pan3d.me.SkillTrajectoryTargetKeyVo;
-    import SkillMulTrajectory = Pan3d.me.SkillMulTrajectory;
-    import SkillKey = Pan3d.me.SkillKey;
-    import SkillData = Pan3d.me.SkillData;
-    import SkillVo = Pan3d.me.SkillVo;
+    import SkillType = Pan3d.SkillType;
+    import SkillFixEffect = Pan3d.SkillFixEffect;
+    import SkillTrajectory = Pan3d.SkillTrajectory;
+    import SkillTrajectoryTargetKeyVo = Pan3d.SkillTrajectoryTargetKeyVo;
+    import SkillMulTrajectory = Pan3d.SkillMulTrajectory;
+    import SkillKey = Pan3d.SkillKey;
+    import SkillData = Pan3d.SkillData;
+    import SkillVo = Pan3d.SkillVo;
     
-    export class OverrideSkill extends Pan3d.me.Skill {
+    export class OverrideSkill extends Pan3d.Skill {
         public skillManager: LayaOverride2dSkillManager
         public baseName: string ="OverrideSkill"
         public constructor($skillManager: LayaOverride2dSkillManager = null) {

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SceneChar extends SceneBaseChar {
         _speedDirect: Vector3D;
         speedTX: number;

@@ -13,16 +13,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var BaseEvent = Pan3d.me.BaseEvent;
-    var Vector2D = Pan3d.me.Vector2D;
-    var Module = Pan3d.me.Module;
-    var BaseProcessor = Pan3d.me.BaseProcessor;
-    var UIManager = Pan3d.me.UIManager;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
-    var KeyboardType = Pan3d.me.KeyboardType;
-    var MouseType = Pan3d.me.MouseType;
-    var Rectangle = Pan3d.me.Rectangle;
-    var UIAtlas = Pan3d.me.UIAtlas;
+    var BaseEvent = Pan3d.BaseEvent;
+    var Vector2D = Pan3d.Vector2D;
+    var Module = Pan3d.Module;
+    var BaseProcessor = Pan3d.BaseProcessor;
+    var UIManager = Pan3d.UIManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var KeyboardType = Pan3d.KeyboardType;
+    var MouseType = Pan3d.MouseType;
+    var Rectangle = Pan3d.Rectangle;
+    var UIAtlas = Pan3d.UIAtlas;
     var LayerManager = win.LayerManager;
     var MaterialEvent = /** @class */ (function (_super) {
         __extends(MaterialEvent, _super);

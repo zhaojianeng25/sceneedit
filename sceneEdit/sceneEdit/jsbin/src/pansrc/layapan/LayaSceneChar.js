@@ -18,19 +18,19 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var Display3DSprite = Pan3d.me.Display3DSprite;
-        var ProgrmaManager = Pan3d.me.ProgrmaManager;
-        var Vector3D = Pan3d.me.Vector3D;
-        var Vector2D = Pan3d.me.Vector2D;
-        var Scene_data = Pan3d.me.Scene_data;
-        var MathClass = Pan3d.me.MathClass;
-        var TestTriangle = Pan3d.me.TestTriangle;
-        var LineDisplayShader = Pan3d.me.LineDisplayShader;
-        var LineDisplaySprite = Pan3d.me.LineDisplaySprite;
-        var CombineParticle = Pan3d.me.CombineParticle;
-        var CharAction = Pan3d.me.CharAction;
-        var BaseRes = Pan3d.me.BaseRes;
-        var ParticleManager = Pan3d.me.ParticleManager;
+        var Display3DSprite = Pan3d.Display3DSprite;
+        var ProgrmaManager = Pan3d.ProgrmaManager;
+        var Vector3D = Pan3d.Vector3D;
+        var Vector2D = Pan3d.Vector2D;
+        var Scene_data = Pan3d.Scene_data;
+        var MathClass = Pan3d.MathClass;
+        var TestTriangle = Pan3d.TestTriangle;
+        var LineDisplayShader = Pan3d.LineDisplayShader;
+        var LineDisplaySprite = Pan3d.LineDisplaySprite;
+        var CombineParticle = Pan3d.CombineParticle;
+        var CharAction = Pan3d.CharAction;
+        var BaseRes = Pan3d.BaseRes;
+        var ParticleManager = Pan3d.ParticleManager;
         var LayaSceneChar = /** @class */ (function (_super) {
             __extends(LayaSceneChar, _super);
             function LayaSceneChar() {
@@ -217,7 +217,7 @@ var layapan;
                         var particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + item.particleUrl);
                         ary.push(particle);
                         particle.bindTarget = this;
-                        particle.bindSocket = Pan3d.me.SceneChar.NONE_SLOT;
+                        particle.bindSocket = Pan3d.SceneChar.NONE_SLOT;
                         particle.dynamic = true;
                         this._scene.particleManager.addParticle(particle);
                         particle.setGroup(posV3d, rotationV3d, scaleV3d);
@@ -228,7 +228,7 @@ var layapan;
                         display.setMaterialUrl(item.materialUrl, item.materialInfoArr);
                         display.dynamic = true;
                         ary.push(display);
-                        display.setBind(this, Pan3d.me.SceneChar.NONE_SLOT);
+                        display.setBind(this, Pan3d.SceneChar.NONE_SLOT);
                         this._scene.addSpriteDisplay(display);
                         display.setGroup(posV3d, rotationV3d, scaleV3d);
                     }
@@ -671,7 +671,7 @@ var layapan;
             };
             LayaSceneChar.prototype.get2dPos = function () {
                 var $v2d = new Vector2D;
-                var $nScale = 0.25 / scene2d.me.Override2dEngine.htmlScale;
+                var $nScale = 0.25 / scene2d_me.Override2dEngine.htmlScale;
                 if (this._mountChar) {
                     $v2d.x = this._mountChar.px;
                     $v2d.y = this._mountChar.pz;
@@ -685,7 +685,7 @@ var layapan;
                 return $v2d;
             };
             LayaSceneChar.prototype.set2dPos = function ($x, $y) {
-                var $nScale = 0.25 / scene2d.me.Override2dEngine.htmlScale;
+                var $nScale = 0.25 / scene2d_me.Override2dEngine.htmlScale;
                 var $tx = $x * $nScale;
                 var $tz = $y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
                 this._px = $tx;

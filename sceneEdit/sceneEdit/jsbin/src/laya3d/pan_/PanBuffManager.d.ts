@@ -1,6 +1,6 @@
 declare module lou16.me {
-    import CharTitleUiVo = Pan3d.me.CharTitleUiVo;
-    import baseMeshVo = Pan3d.me.baseMeshVo;
+    import CharTitleUiVo = Pan3d.CharTitleUiVo;
+    import baseMeshVo = Pan3d.baseMeshVo;
     class BuffTitleUiVo extends CharTitleUiVo {
         private _buffTitleMesh;
         makeData(): void;

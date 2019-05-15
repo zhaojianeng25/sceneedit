@@ -13,19 +13,19 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Rectangle = Pan3d.me.Rectangle;
-    var Vector2D = Pan3d.me.Vector2D;
-    var TextureManager = Pan3d.me.TextureManager;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var TextAlign = Pan3d.me.TextAlign;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
-    var UIManager = Pan3d.me.UIManager;
-    var LabelTextFont = Pan3d.me.LabelTextFont;
-    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    var UIData = Pan3d.me.UIData;
-    var MouseType = Pan3d.me.MouseType;
-    var MathUtil = Pan3d.me.MathUtil;
-    var TextRegExp = Pan3d.me.TextRegExp;
+    var Rectangle = Pan3d.Rectangle;
+    var Vector2D = Pan3d.Vector2D;
+    var TextureManager = Pan3d.TextureManager;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TextAlign = Pan3d.TextAlign;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var UIManager = Pan3d.UIManager;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var Disp2DBaseText = Pan3d.Disp2DBaseText;
+    var UIData = Pan3d.UIData;
+    var MouseType = Pan3d.MouseType;
+    var MathUtil = Pan3d.MathUtil;
+    var TextRegExp = Pan3d.TextRegExp;
     var PanDragEvent = drag.PanDragEvent;
     var SelectFileListText = /** @class */ (function (_super) {
         __extends(SelectFileListText, _super);
@@ -80,7 +80,7 @@ var maineditor;
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
                 }
                 if (this.selectTabStr.indexOf(".material") != -1) {
-                    Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
+                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
                 }
             }
             else {
@@ -241,7 +241,7 @@ var maineditor;
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
             TextureManager.getInstance().getTexture("res/white.jpg", function ($texture) {
                 _this._sceneViewRender.textureRes = $texture;
-                Pan3d.me.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
+                Pan3d.TimeUtil.addFrameTick(function (t) { _this.upFrame(t); });
             });
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_ENTER, this.dragEnter, this);
@@ -262,7 +262,7 @@ var maineditor;
         MainEditorPanel.prototype.onPanellMouseWheel = function ($evt) {
             var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
             if ($slectUi && $slectUi.parent == this) {
-                var q = new Pan3d.me.Quaternion();
+                var q = new Pan3d.Quaternion();
                 q.fromMatrix(maineditor.MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
                 var m = q.toMatrix3D();
                 m.invert();

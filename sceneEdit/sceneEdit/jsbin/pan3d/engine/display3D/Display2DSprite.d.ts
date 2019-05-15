@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display2DSprite extends Display3D {
         batchPos: Array<Sprite>;
         watchCaramMatrix: Matrix3D;

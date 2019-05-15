@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3dMovie extends Display3DSprite {
         private _meshUrl;
         protected _skinMesh: SkinMesh;

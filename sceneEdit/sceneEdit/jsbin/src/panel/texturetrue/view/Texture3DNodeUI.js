@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var TextureManager = Pan3d.me.TextureManager;
-    var Scene_data = Pan3d.me.Scene_data;
-    var LoadManager = Pan3d.me.LoadManager;
-    var UIManager = Pan3d.me.UIManager;
+    var TextureManager = Pan3d.TextureManager;
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
+    var UIManager = Pan3d.UIManager;
     var Texture3DNodeUI = /** @class */ (function (_super) {
         __extends(Texture3DNodeUI, _super);
         function Texture3DNodeUI() {

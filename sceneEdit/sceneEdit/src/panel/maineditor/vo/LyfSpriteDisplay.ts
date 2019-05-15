@@ -1,8 +1,8 @@
 ﻿module maineditor {
 
-    import Matrix3D = Pan3d.me.Matrix3D
-    import CombineParticle = Pan3d.me.CombineParticle
-    import Display3DSprite = Pan3d.me.Display3DSprite
+    import Matrix3D = Pan3d.Matrix3D
+    import CombineParticle = Pan3d.CombineParticle
+    import Display3DSprite = Pan3d.Display3DSprite
 
     export class LyfSpriteDisplay extends Display3DSprite {
         public constructor() {
@@ -44,11 +44,11 @@
        
             var scene: EdItorSceneManager = <EdItorSceneManager>this._scene;
             scene.groupDataManager.scene = scene;
-            scene.groupDataManager.getGroupData(Pan3d.me.Scene_data.fileRoot + value, (groupRes: Pan3d.me.GroupRes) => {
+            scene.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + value, (groupRes: Pan3d.GroupRes) => {
                 for (var i: number = 0; i < groupRes.dataAry.length; i++) {
-                    var item: Pan3d.me.GroupItem = groupRes.dataAry[i];
-                    if (item.types == Pan3d.me.BaseRes.SCENE_PARTICLE_TYPE) {
-                        var $particle: Pan3d.me.CombineParticle = scene.particleManager.getParticleByte(Pan3d.me.Scene_data.fileRoot + item.particleUrl);
+                    var item: Pan3d.GroupItem = groupRes.dataAry[i];
+                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle: Pan3d.CombineParticle = scene.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
                         scene.particleManager.addParticle($particle);
                         $particle.bindTarget = this
 

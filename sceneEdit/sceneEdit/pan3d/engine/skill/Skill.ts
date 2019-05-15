@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Skill extends ResCount {
         protected skillVo: SkillVo;
         public name: string;

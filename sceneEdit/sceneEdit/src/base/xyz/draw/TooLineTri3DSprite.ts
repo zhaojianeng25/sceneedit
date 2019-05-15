@@ -1,12 +1,12 @@
 ﻿module xyz {
-    import Shader3D = Pan3d.me.Shader3D
-    import Display3D = Pan3d.me.Display3D;
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import TextureManager = Pan3d.me.TextureManager
-    import UIManager = Pan3d.me.UIManager;
-    import TextureRes = Pan3d.me.TextureRes;
-    import Matrix3D = Pan3d.me.Matrix3D
-    import Scene_data = Pan3d.me.Scene_data;
+    import Shader3D = Pan3d.Shader3D
+    import Display3D = Pan3d.Display3D;
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import TextureManager = Pan3d.TextureManager
+    import UIManager = Pan3d.UIManager;
+    import TextureRes = Pan3d.TextureRes;
+    import Matrix3D = Pan3d.Matrix3D
+    import Scene_data = Pan3d.Scene_data;
 
 
     export class TooLineTri3DShader extends Shader3D {

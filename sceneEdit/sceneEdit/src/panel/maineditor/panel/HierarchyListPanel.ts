@@ -1,58 +1,58 @@
 ﻿module maineditor {
-    import UICompenent = Pan3d.me.UICompenent
-    import FrameCompenent = Pan3d.me.FrameCompenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
-    import ColorType = Pan3d.me.ColorType
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TextAlign = Pan3d.me.TextAlign
-    import Rectangle = Pan3d.me.Rectangle
-    import Display3dMovie = Pan3d.me.Display3dMovie
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
-    import UIManager = Pan3d.me.UIManager
-    import CombineParticle = Pan3d.me.CombineParticle
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText
-    import UIRectangle = Pan3d.me.UIRectangle
-    import baseMeshVo = Pan3d.me.baseMeshVo
-    import UIMask = Pan3d.me.UIMask
-    import UiDraw = Pan3d.me.UiDraw
-    import UIData = Pan3d.me.UIData
-    import UIAtlas = Pan3d.me.UIAtlas
-    import MouseType = Pan3d.me.MouseType
+    import UICompenent = Pan3d.UICompenent
+    import FrameCompenent = Pan3d.FrameCompenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
+    import ColorType = Pan3d.ColorType
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextAlign = Pan3d.TextAlign
+    import Rectangle = Pan3d.Rectangle
+    import Display3dMovie = Pan3d.Display3dMovie
+    import ModuleEventManager = Pan3d.ModuleEventManager
+    import UIManager = Pan3d.UIManager
+    import CombineParticle = Pan3d.CombineParticle
+    import LabelTextFont = Pan3d.LabelTextFont
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText
+    import UIRectangle = Pan3d.UIRectangle
+    import baseMeshVo = Pan3d.baseMeshVo
+    import UIMask = Pan3d.UIMask
+    import UiDraw = Pan3d.UiDraw
+    import UIData = Pan3d.UIData
+    import UIAtlas = Pan3d.UIAtlas
+    import MouseType = Pan3d.MouseType
     import FileVo = pack.FileVo
-    import Vector2D = Pan3d.me.Vector2D
-    import Vector3D = Pan3d.me.Vector3D
-    import Scene_data = Pan3d.me.Scene_data
-    import TextureManager = Pan3d.me.TextureManager
-    import LoadManager = Pan3d.me.LoadManager
-    import KeyboardType = Pan3d.me.KeyboardType
-    import SkinMesh = Pan3d.me.SkinMesh
-    import MeshData = Pan3d.me.MeshData
-    import Dictionary = Pan3d.me.Dictionary
-    import AnimData = Pan3d.me.AnimData
+    import Vector2D = Pan3d.Vector2D
+    import Vector3D = Pan3d.Vector3D
+    import Scene_data = Pan3d.Scene_data
+    import TextureManager = Pan3d.TextureManager
+    import LoadManager = Pan3d.LoadManager
+    import KeyboardType = Pan3d.KeyboardType
+    import SkinMesh = Pan3d.SkinMesh
+    import MeshData = Pan3d.MeshData
+    import Dictionary = Pan3d.Dictionary
+    import AnimData = Pan3d.AnimData
 
-    import Display3DSprite = Pan3d.me.Display3DSprite
+    import Display3DSprite = Pan3d.Display3DSprite
 
-    import Shader3D = Pan3d.me.Shader3D
-    import GroupDataManager = Pan3d.me.GroupDataManager
-    import Material = Pan3d.me.Material
-    import GroupRes = Pan3d.me.GroupRes
-    import GroupItem = Pan3d.me.GroupItem
-    import BaseRes = Pan3d.me.BaseRes
-    import TexItem = Pan3d.me.TexItem
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
-    import ObjData = Pan3d.me.ObjData
-    import TextureRes = Pan3d.me.TextureRes
-    import Matrix3D = Pan3d.me.Matrix3D
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import BaseDiplay3dShader = Pan3d.me.BaseDiplay3dShader
-    import ConstItem = Pan3d.me.ConstItem
-    import Display3D = Pan3d.me.Display3D
-    import DynamicBaseTexItem = Pan3d.me.DynamicBaseTexItem
-    import DynamicBaseConstItem = Pan3d.me.DynamicBaseConstItem
-    import BaseEvent = Pan3d.me.BaseEvent
+    import Shader3D = Pan3d.Shader3D
+    import GroupDataManager = Pan3d.GroupDataManager
+    import Material = Pan3d.Material
+    import GroupRes = Pan3d.GroupRes
+    import GroupItem = Pan3d.GroupItem
+    import BaseRes = Pan3d.BaseRes
+    import TexItem = Pan3d.TexItem
+    import MaterialBaseParam = Pan3d.MaterialBaseParam
+    import ObjData = Pan3d.ObjData
+    import TextureRes = Pan3d.TextureRes
+    import Matrix3D = Pan3d.Matrix3D
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
+    import ConstItem = Pan3d.ConstItem
+    import Display3D = Pan3d.Display3D
+    import DynamicBaseTexItem = Pan3d.DynamicBaseTexItem
+    import DynamicBaseConstItem = Pan3d.DynamicBaseConstItem
+    import BaseEvent = Pan3d.BaseEvent
 
     import PrefabStaticMesh = pack.PrefabStaticMesh
     import CombineReflectionView = prop.CombineReflectionView
@@ -175,7 +175,7 @@
             }
             if (this.material) {
                 if (this._prefab.paramInfo) {
-                    this.materialParam = new Pan3d.me.MaterialBaseParam;
+                    this.materialParam = new Pan3d.MaterialBaseParam;
                     this.materialParam.material = this.material;
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.materialParam, this._prefab.paramInfo);
                 }
@@ -197,7 +197,7 @@
 
 
     }
-    export class FolderMeshVo extends Pan3d.me.baseMeshVo {
+    export class FolderMeshVo extends Pan3d.baseMeshVo {
         public ossListFile: OssListFile
         public childItem: Array<FolderMeshVo>
         public needDraw: boolean;
@@ -329,7 +329,7 @@
             this.resize();
             this.loadAssetImg(() => {
                 this.makeItemUiList()
-                Pan3d.me.TimeUtil.addFrameTick((t: number) => { this.update(t) });
+                Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
 
                 //  console.log("图片加载完")
             })
@@ -447,7 +447,7 @@
                 case "1":
                     if (this.selectFolderMeshVo) {
                         this.deleFile(EditorModel.getInstance().fileItem, this.selectFolderMeshVo.folderMeshVo)
-                        Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
+                        Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.CLEAR_XYZ_MOVE_DATA))
                         this.refrishFolder();
 
                     }
@@ -458,8 +458,8 @@
                     break
                 case "3":
 
-                    var pathurl: string = Pan3d.me.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url
-                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+                    var pathurl: string = Pan3d.Scene_data.fileRoot + this.selectFolderMeshVo.folderMeshVo.ossListFile.url
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
 
                     break
                 default:
@@ -590,7 +590,7 @@
             this.showMeshView(data, selctprefab)
 
 
-            Pan3d.me.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
+            Pan3d.ModuleEventManager.dispatchEvent(new xyz.MoveScaleRotatioinEvent(xyz.MoveScaleRotatioinEvent.MAKE_DTAT_ITEM_TO_CHANGE), data)
         }
 
         private hidefileItemBg(arr: Array<FolderMeshVo>): void {
@@ -932,7 +932,7 @@
 
             LoadManager.getInstance().load(Scene_data.fileRoot + mapUrl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
-                    var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray($dtstr);
+                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                     var $fileObj: any = JSON.parse($byte.readUTF());
                     this._sceneProjectVo = new SceneProjectVo($fileObj)
                     var $item: Array<FolderMeshVo> = this.wirteItem($fileObj.list)
@@ -992,12 +992,12 @@
 
 
 
-            var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray();
-            var $fileUrl: string = Pan3d.me.Scene_data.fileRoot + AppData.mapOpenUrl;
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + AppData.mapOpenUrl;
             $byte.writeUTF(JSON.stringify(tempObj))
 
             var $file: File = new File([$byte.buffer], "scene.map");
-            var pathurl: string = $fileUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+            var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
 
             pack.FileOssModel.upOssFile($file, pathurl, () => {
 

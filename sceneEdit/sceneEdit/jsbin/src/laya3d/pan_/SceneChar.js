@@ -155,7 +155,7 @@ var lou16;
             };
             SceneChar.prototype.set2dPos = function ($x, $y) {
                 _super.prototype.set2dPos.call(this, $x, $y);
-                this.pixelPos = new Pan3d.me.Vector2D($x, $y);
+                this.pixelPos = new Pan3d.Vector2D($x, $y);
             };
             SceneChar.prototype.updateFrame = function (t) {
                 if (this.moveToPosV2d) {
@@ -201,7 +201,7 @@ var lou16;
                 this.curentAction = $action;
                 this._completeState = 1;
                 var animData = this._animDic[$action];
-                this._actionTime = 2 * Pan3d.me.Scene_data.frameTime * animData.matrixAry.length;
+                this._actionTime = 2 * Pan3d.Scene_data.frameTime * animData.matrixAry.length;
                 this.updateFrame(0);
             };
             return SceneChar;

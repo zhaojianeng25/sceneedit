@@ -15,10 +15,10 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var ResManager = Pan3d.me.ResManager;
-        var Scene_data = Pan3d.me.Scene_data;
-        var SkillData = Pan3d.me.SkillData;
-        var SkillManager = Pan3d.me.SkillManager;
+        var ResManager = Pan3d.ResManager;
+        var Scene_data = Pan3d.Scene_data;
+        var SkillData = Pan3d.SkillData;
+        var SkillManager = Pan3d.SkillManager;
         var LayaOverride2dSkillManager = /** @class */ (function (_super) {
             __extends(LayaOverride2dSkillManager, _super);
             function LayaOverride2dSkillManager($sceneManager) {

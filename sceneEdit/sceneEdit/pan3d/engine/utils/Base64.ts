@@ -1,7 +1,7 @@
 /**
 * base64-arraybuffer
 */
-module Pan3d.me {
+module Pan3d {
     export class Base64 {
         static chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 

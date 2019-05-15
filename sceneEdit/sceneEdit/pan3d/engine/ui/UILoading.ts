@@ -1,4 +1,4 @@
-module Pan3d.me {
+module Pan3d {
     export class UILoading extends UIConatiner {
 
         private static _instance: UILoading;

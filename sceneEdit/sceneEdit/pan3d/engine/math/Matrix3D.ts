@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Matrix3D {
         public m: Float32Array;
         public isIdentity: boolean = true;

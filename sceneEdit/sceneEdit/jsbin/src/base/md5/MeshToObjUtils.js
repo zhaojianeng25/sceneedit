@@ -1,9 +1,9 @@
 var md5list;
 (function (md5list) {
-    var MeshData = Pan3d.me.MeshData;
-    var Quaternion = Pan3d.me.Quaternion;
-    var Vector3D = Pan3d.me.Vector3D;
-    var Scene_data = Pan3d.me.Scene_data;
+    var MeshData = Pan3d.MeshData;
+    var Quaternion = Pan3d.Quaternion;
+    var Vector3D = Pan3d.Vector3D;
+    var Scene_data = Pan3d.Scene_data;
     var MeshToObjUtils = /** @class */ (function () {
         function MeshToObjUtils() {
         }

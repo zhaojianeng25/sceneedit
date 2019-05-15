@@ -11,10 +11,10 @@
 //{	
 //import sys.utils.Stream;	
 
-module Pan3d.me {
+module Pan3d {
 
 
-    export  class Protocols {
+    export   class Protocols {
         /*无效动作*/
         private _send_func: Function;
         private _stream: Pan3dByteArray = new Pan3dByteArray;

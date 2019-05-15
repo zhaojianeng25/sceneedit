@@ -4,7 +4,7 @@
  * @class egret.Endian
  * @classdesc
  */
-module Pan3d.me {
+module Pan3d {
     export class Endian {
         /**
          * 表示多字节数字的最低有效字节位于字节序列的最前面。
@@ -694,8 +694,8 @@ module Pan3d.me {
             this.length = this.position + 1;
         }
 
-        public readVector3D($w: boolean = false): Pan3d.me.Vector3D {
-            var $p: Pan3d.me.Vector3D = new Pan3d.me.Vector3D;
+        public readVector3D($w: boolean = false): Pan3d.Vector3D {
+            var $p: Pan3d.Vector3D = new Pan3d.Vector3D;
             $p.x = this.readFloat()
             $p.y = this.readFloat()
             $p.z = this.readFloat()

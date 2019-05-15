@@ -6,7 +6,7 @@
      * 通过pop可以得到当前队列中的所有符合条件的事件消息，并调用相应的处理函数
      * @author linbc
      */
-declare module Pan3d.me {
+declare module Pan3d {
     class SyncEventFilter extends SyncEvent {
         /**
              * 标识为是个新对象

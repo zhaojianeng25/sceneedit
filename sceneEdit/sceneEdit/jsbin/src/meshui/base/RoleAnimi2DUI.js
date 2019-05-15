@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var LoadManager = Pan3d.me.LoadManager;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var RoleAnimi2DUI = /** @class */ (function (_super) {
         __extends(RoleAnimi2DUI, _super);
         function RoleAnimi2DUI() {
@@ -48,8 +48,8 @@ var prop;
         RoleAnimi2DUI.prototype.md5searchIconClik = function (evt) {
             var vo = this.target.data;
             console.log(vo.animPlayKey);
-            // var pathurl: string = Pan3d.me.Scene_data.fileRoot + value;
-            //  Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+            // var pathurl: string = Pan3d_me.Scene_data.fileRoot + value;
+            //  Pan3d_me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d_me.Scene_data.ossRoot, ""))
         };
         RoleAnimi2DUI.prototype.drawInAnimUrl = function () {
             var _this = this;

@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class CapsuleVo {
         public radius: number;
         public height: number;

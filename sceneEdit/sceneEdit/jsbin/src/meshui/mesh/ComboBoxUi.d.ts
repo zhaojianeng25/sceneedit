@@ -1,5 +1,5 @@
 declare module prop {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class ComboBoxUi extends TextLabelUI {
         constructor(w?: number, h?: number);
         protected initView(): void;

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ParticleBallData extends ParticleData {
         _totalNum: number;
         _acceleration: number;

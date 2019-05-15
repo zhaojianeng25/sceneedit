@@ -1,15 +1,15 @@
 ﻿module xyz {
 
-    import ObjData = Pan3d.me.ObjData;
-    import Camera3D = Pan3d.me.Camera3D;
-    import Vector2D = Pan3d.me.Vector2D;
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import Rectangle = Pan3d.me.Rectangle
-    import TestTriangle = Pan3d.me.TestTriangle
-    import Display3D = Pan3d.me.Display3D
-    import Engine = Pan3d.me.Engine
-    import MathUtil = Pan3d.me.MathUtil
-    import SceneManager = Pan3d.me.SceneManager
+    import ObjData = Pan3d.ObjData;
+    import Camera3D = Pan3d.Camera3D;
+    import Vector2D = Pan3d.Vector2D;
+    import Matrix3D = Pan3d.Matrix3D;
+    import Rectangle = Pan3d.Rectangle
+    import TestTriangle = Pan3d.TestTriangle
+    import Display3D = Pan3d.Display3D
+    import Engine = Pan3d.Engine
+    import MathUtil = Pan3d.MathUtil
+    import SceneManager = Pan3d.SceneManager
 
     export class TooMathHitModel {
 
@@ -60,7 +60,7 @@
 
                 if (TestTriangle.baseTri.checkPointIn(mouseV2)) {
                     var camPos: Vector3D = new Vector3D(scene.cam3D.x, scene.cam3D.y, scene.cam3D.z)
-                    var hitPos: Vector3D = Pan3d.me.MathUtil.getLinePlaneInterectPointByTri(camPos, clik3dVect, [A, B, C])
+                    var hitPos: Vector3D = Pan3d.MathUtil.getLinePlaneInterectPointByTri(camPos, clik3dVect, [A, B, C])
                     A = scene.cam3D.cameraMatrix.transformVector(A)
                     B = scene.cam3D.cameraMatrix.transformVector(B)
                     C = scene.cam3D.cameraMatrix.transformVector(C)

@@ -1,9 +1,9 @@
 declare module pack {
-    import RoleRes = Pan3d.me.RoleRes;
-    import SkinMesh = Pan3d.me.SkinMesh;
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray;
-    import MeshData = Pan3d.me.MeshData;
-    import MeshDataManager = Pan3d.me.MeshDataManager;
+    import RoleRes = Pan3d.RoleRes;
+    import SkinMesh = Pan3d.SkinMesh;
+    import Pan3dByteArray = Pan3d.Pan3dByteArray;
+    import MeshData = Pan3d.MeshData;
+    import MeshDataManager = Pan3d.MeshDataManager;
     class MeshDataChangeManager extends MeshDataManager {
         readData(byte: any, $batchNum: any, $url: any, $version: any): SkinMesh;
         readMesh2OneBuffer(byte: Pan3dByteArray, meshData: MeshData): void;

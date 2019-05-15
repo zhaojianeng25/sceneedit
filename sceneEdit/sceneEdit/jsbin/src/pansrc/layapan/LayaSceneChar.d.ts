@@ -2,18 +2,18 @@
 * name
 */
 declare module layapan.me {
-    import CharNameMeshVo = Pan3d.me.CharNameMeshVo;
-    import BloodLineMeshVo = Pan3d.me.BloodLineMeshVo;
-    import Display3D = Pan3d.me.Display3D;
-    import Skill = Pan3d.me.Skill;
-    import Vector3D = Pan3d.me.Vector3D;
-    import Vector2D = Pan3d.me.Vector2D;
-    import Display3dMovie = Pan3d.me.Display3dMovie;
-    import GroupRes = Pan3d.me.GroupRes;
+    import CharNameMeshVo = Pan3d.CharNameMeshVo;
+    import BloodLineMeshVo = Pan3d.BloodLineMeshVo;
+    import Display3D = Pan3d.Display3D;
+    import Skill = Pan3d.Skill;
+    import Vector3D = Pan3d.Vector3D;
+    import Vector2D = Pan3d.Vector2D;
+    import Display3dMovie = Pan3d.Display3dMovie;
+    import GroupRes = Pan3d.GroupRes;
     class LayaSceneChar extends LayaSceneBaseChar {
         static BLOOD_COLOR_HP: number;
         static BLOOD_COLOR_ANGER: number;
-        skillitem: Array<Pan3d.me.Skill>;
+        skillitem: Array<Pan3d.Skill>;
         isMount: boolean;
         static Defaul_Man_Avatar: number;
         static Defaul_WoMan_Avater: number;

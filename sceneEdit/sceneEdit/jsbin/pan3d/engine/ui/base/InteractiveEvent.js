@@ -13,21 +13,18 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var InteractiveEvent = /** @class */ (function (_super) {
-            __extends(InteractiveEvent, _super);
-            function InteractiveEvent() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            InteractiveEvent.Down = "down";
-            InteractiveEvent.Up = "Up";
-            InteractiveEvent.Move = "Move";
-            InteractiveEvent.PinchStart = "PinchStart";
-            InteractiveEvent.Pinch = "Pinch";
-            return InteractiveEvent;
-        }(me.BaseEvent));
-        me.InteractiveEvent = InteractiveEvent;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+    var InteractiveEvent = /** @class */ (function (_super) {
+        __extends(InteractiveEvent, _super);
+        function InteractiveEvent() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        InteractiveEvent.Down = "down";
+        InteractiveEvent.Up = "Up";
+        InteractiveEvent.Move = "Move";
+        InteractiveEvent.PinchStart = "PinchStart";
+        InteractiveEvent.Pinch = "Pinch";
+        return InteractiveEvent;
+    }(Pan3d.BaseEvent));
+    Pan3d.InteractiveEvent = InteractiveEvent;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=InteractiveEvent.js.map

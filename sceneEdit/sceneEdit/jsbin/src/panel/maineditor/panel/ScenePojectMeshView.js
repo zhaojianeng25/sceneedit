@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Vector3D = Pan3d.me.Vector3D;
+    var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
     var ScenePojectMeshView = /** @class */ (function (_super) {
@@ -38,7 +38,7 @@ var maineditor;
         Object.defineProperty(ScenePojectMeshView.prototype, "gridline", {
             get: function () {
                 if (!ScenePojectMeshView.gridLineSprite) {
-                    ScenePojectMeshView.gridLineSprite = new Pan3d.me.GridLineSprite();
+                    ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite();
                 }
                 if (this.sceneProjectVo.gildline) {
                     maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
@@ -57,7 +57,7 @@ var maineditor;
         });
         ScenePojectMeshView.prototype.textureChangeInfo = function (value) {
             this.sceneProjectVo.paramInfo = value;
-            this.sceneProjectVo.materialParam = new Pan3d.me.MaterialBaseParam;
+            this.sceneProjectVo.materialParam = new Pan3d.MaterialBaseParam;
             this.sceneProjectVo.materialParam.material = this.sceneProjectVo.material;
             pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.sceneProjectVo.materialParam, this.sceneProjectVo.paramInfo);
         };

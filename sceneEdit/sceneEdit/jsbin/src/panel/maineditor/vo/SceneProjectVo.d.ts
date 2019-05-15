@@ -1,6 +1,6 @@
 declare module maineditor {
-    import EventDispatcher = Pan3d.me.EventDispatcher;
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
     class SceneProjectVo extends EventDispatcher {
         paramInfo: Array<any>;
         materialParam: MaterialBaseParam;

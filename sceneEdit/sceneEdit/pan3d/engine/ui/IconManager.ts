@@ -1,4 +1,4 @@
-module Pan3d.me {
+module Pan3d {
     export class IconManager {
         private static _instance: IconManager;
         public static getInstance(): IconManager {

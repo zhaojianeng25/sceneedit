@@ -1,12 +1,12 @@
 ﻿
 module LayaPan3D {
  
-    import Shader3D = Pan3d.me.Shader3D
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import Matrix3D = Pan3d.me.Matrix3D
-    import Scene_data = Pan3d.me.Scene_data
-    import TextureManager = Pan3d.me.TextureManager
-    import TextureRes = Pan3d.me.TextureRes
+    import Shader3D = Pan3d.Shader3D
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import Matrix3D = Pan3d.Matrix3D
+    import Scene_data = Pan3d.Scene_data
+    import TextureManager = Pan3d.TextureManager
+    import TextureRes = Pan3d.TextureRes
  
 
     export class LayaScene2dPicShader extends Shader3D {
@@ -53,7 +53,7 @@ module LayaPan3D {
         }
 
     }
-    export class LayaScene2dPicSprit extends Pan3d.me.Display3D {
+    export class LayaScene2dPicSprit extends Pan3d.Display3D {
         constructor(value: string = null) {
             super();
             this.width = 100;
@@ -206,7 +206,7 @@ module LayaPan3D {
                     this.sceneManager.focus3D.x += (this.rootpos.x   / this.scene2dScale * 2);
                     this.sceneManager.focus3D.z += (this.rootpos.y  / this.scene2dScale * 2) / (Math.sin($num45 * Math.PI / 180)) * -1  
                 }
-                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData()
 
             }

@@ -1,21 +1,21 @@
 ﻿module prop {
-    import Vector3D = Pan3d.me.Vector3D
-    import UIRectangle = Pan3d.me.UIRectangle;
-    import TextureManager = Pan3d.me.TextureManager;
-    import EventDispatcher = Pan3d.me.EventDispatcher;
-    import TimeUtil = Pan3d.me.TimeUtil;
-    import UICompenent = Pan3d.me.UICompenent;
-    import UIManager = Pan3d.me.UIManager;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
-    import Rectangle = Pan3d.me.Rectangle;
-    import UIAtlas = Pan3d.me.UIAtlas
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import LoadManager = Pan3d.me.LoadManager
-    import UIConatiner = Pan3d.me.UIConatiner
-    import Scene_data = Pan3d.me.Scene_data;
+    import Vector3D = Pan3d.Vector3D
+    import UIRectangle = Pan3d.UIRectangle;
+    import TextureManager = Pan3d.TextureManager;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import TimeUtil = Pan3d.TimeUtil;
+    import UICompenent = Pan3d.UICompenent;
+    import UIManager = Pan3d.UIManager;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import Matrix3D = Pan3d.Matrix3D;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+    import Rectangle = Pan3d.Rectangle;
+    import UIAtlas = Pan3d.UIAtlas
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import LoadManager = Pan3d.LoadManager
+    import UIConatiner = Pan3d.UIConatiner
+    import Scene_data = Pan3d.Scene_data;
 
     
   
@@ -60,7 +60,7 @@
 
                 if (this._url.indexOf(".material") != -1) {
                     var fileUrl: string = this._url
-                    Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 } else {
                     if (this.haveDoubleCilk) {
                         console.log("选文件")

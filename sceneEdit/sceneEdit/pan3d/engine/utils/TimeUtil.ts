@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class TimeUtil {
         static START_TIME: number;
         public static funAry: Array<Function> = new Array;

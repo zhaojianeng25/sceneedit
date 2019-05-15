@@ -1,13 +1,13 @@
 ﻿module prop {
 
     
-    import UIAtlas = Pan3d.me.UIAtlas;
-    import TextureManager = Pan3d.me.TextureManager
-    import UIManager = Pan3d.me.UIManager
-    import UIRectangle = Pan3d.me.UIRectangle
-    import Scene_data = Pan3d.me.Scene_data
-    import LoadManager = Pan3d.me.LoadManager
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import UIAtlas = Pan3d.UIAtlas;
+    import TextureManager = Pan3d.TextureManager
+    import UIManager = Pan3d.UIManager
+    import UIRectangle = Pan3d.UIRectangle
+    import Scene_data = Pan3d.Scene_data
+    import LoadManager = Pan3d.LoadManager
+    import InteractiveEvent = Pan3d.InteractiveEvent
  
     export class Category2DUI extends BaseReflComponent {
 

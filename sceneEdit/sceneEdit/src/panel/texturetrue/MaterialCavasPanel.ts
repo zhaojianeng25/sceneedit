@@ -1,41 +1,41 @@
 ﻿module materialui {
 
-    import Rectangle = Pan3d.me.Rectangle
-    import Vector2D = Pan3d.me.Vector2D
-    import Scene_data = Pan3d.me.Scene_data
+    import Rectangle = Pan3d.Rectangle
+    import Vector2D = Pan3d.Vector2D
+    import Scene_data = Pan3d.Scene_data
 
-    import UICompenent = Pan3d.me.UICompenent
+    import UICompenent = Pan3d.UICompenent
     import Sprite = win.Sprite
 
 
-    import FrameCompenent = Pan3d.me.FrameCompenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import ColorType = Pan3d.me.ColorType
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TextAlign = Pan3d.me.TextAlign
+    import FrameCompenent = Pan3d.FrameCompenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import ColorType = Pan3d.ColorType
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextAlign = Pan3d.TextAlign
 
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
-    import UIManager = Pan3d.me.UIManager
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import UIConatiner = Pan3d.me.UIConatiner;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText
-    import UIRectangle = Pan3d.me.UIRectangle
-    import baseMeshVo = Pan3d.me.baseMeshVo
-    import UIMask = Pan3d.me.UIMask
-    import UiDraw = Pan3d.me.UiDraw
-    import UIData = Pan3d.me.UIData
-    import UIAtlas = Pan3d.me.UIAtlas
+    import ModuleEventManager = Pan3d.ModuleEventManager
+    import UIManager = Pan3d.UIManager
+    import LabelTextFont = Pan3d.LabelTextFont
+    import UIConatiner = Pan3d.UIConatiner;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText
+    import UIRectangle = Pan3d.UIRectangle
+    import baseMeshVo = Pan3d.baseMeshVo
+    import UIMask = Pan3d.UIMask
+    import UiDraw = Pan3d.UiDraw
+    import UIData = Pan3d.UIData
+    import UIAtlas = Pan3d.UIAtlas
     import Panel = win.Panel
     //ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
 
-    import Vector3D = Pan3d.me.Vector3D
+    import Vector3D = Pan3d.Vector3D
 
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import EventDispatcher = Pan3d.me.EventDispatcher;
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
+    import Matrix3D = Pan3d.Matrix3D;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
 
-    import TimeUtil = Pan3d.me.TimeUtil;
-    import TextureManager = Pan3d.me.TextureManager
+    import TimeUtil = Pan3d.TimeUtil;
+    import TextureManager = Pan3d.TextureManager
 
 
 

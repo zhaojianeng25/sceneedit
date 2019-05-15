@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var TextureManager = Pan3d.me.TextureManager;
-    var Scene_data = Pan3d.me.Scene_data;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var TextureManager = Pan3d.TextureManager;
+    var Scene_data = Pan3d.Scene_data;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
     var Texturue2DUI = /** @class */ (function (_super) {
         __extends(Texturue2DUI, _super);
         function Texturue2DUI() {
@@ -39,8 +39,8 @@ var prop;
             this.searchFileByPath(this.target[this.FunKey]);
         };
         Texturue2DUI.prototype.searchFileByPath = function (value) {
-            var pathurl = Pan3d.me.Scene_data.fileRoot + value;
-            Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""));
+            var pathurl = Pan3d.Scene_data.fileRoot + value;
+            Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""));
         };
         Texturue2DUI.prototype.getPerentPath = function (value) {
             var idex = value.lastIndexOf("/");

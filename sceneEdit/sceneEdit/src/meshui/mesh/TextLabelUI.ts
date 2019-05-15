@@ -1,19 +1,19 @@
 ﻿module prop {
-    import Vector3D = Pan3d.me.Vector3D
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    import LabelTextFont = Pan3d.me.LabelTextFont;
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import EventDispatcher = Pan3d.me.EventDispatcher;
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
-    import UIManager = Pan3d.me.UIManager;
-    import Rectangle = Pan3d.me.Rectangle;
-    import TimeUtil = Pan3d.me.TimeUtil;
-    import TextAlign = Pan3d.me.TextAlign;
-    import UICompenent = Pan3d.me.UICompenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import UIConatiner = Pan3d.me.UIConatiner
-    import UIAtlas = Pan3d.me.UIAtlas
-    import TextureManager = Pan3d.me.TextureManager
+    import Vector3D = Pan3d.Vector3D
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import LabelTextFont = Pan3d.LabelTextFont;
+    import Matrix3D = Pan3d.Matrix3D;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+    import UIManager = Pan3d.UIManager;
+    import Rectangle = Pan3d.Rectangle;
+    import TimeUtil = Pan3d.TimeUtil;
+    import TextAlign = Pan3d.TextAlign;
+    import UICompenent = Pan3d.UICompenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import UIConatiner = Pan3d.UIConatiner
+    import UIAtlas = Pan3d.UIAtlas
+    import TextureManager = Pan3d.TextureManager
 
      
 
@@ -119,7 +119,7 @@
         }
     }
 
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import InteractiveEvent = Pan3d.InteractiveEvent
     export class TextLabelUI extends BaseMeshUi{
         public constructor(w: number = 128, h: number = 30) {
             super(w, h);

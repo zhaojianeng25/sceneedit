@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialleft;
 (function (materialleft) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var Vector3D = Pan3d.me.Vector3D;
+    var Scene_data = Pan3d.Scene_data;
+    var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
     var MateriaMeshView = /** @class */ (function (_super) {

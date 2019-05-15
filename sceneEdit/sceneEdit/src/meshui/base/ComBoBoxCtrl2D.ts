@@ -1,7 +1,7 @@
 ﻿module prop {
-    import Vector2D = Pan3d.me.Vector2D;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
+    import Vector2D = Pan3d.Vector2D;
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import ModuleEventManager = Pan3d.ModuleEventManager
     
 
     export class ComBoBoxCtrl2D extends BaseReflComponent {

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class StringIndexer {
         protected _indexerExp: Array<RegExp>;
         protected _objs: Array<Array<GuidObject>>;

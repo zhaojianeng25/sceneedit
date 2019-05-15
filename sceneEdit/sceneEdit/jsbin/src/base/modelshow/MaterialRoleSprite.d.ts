@@ -1,10 +1,10 @@
 declare module left {
-    import Display3dMovie = Pan3d.me.Display3dMovie;
-    import MeshData = Pan3d.me.MeshData;
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam;
-    import Material = Pan3d.me.Material;
-    import SkinMesh = Pan3d.me.SkinMesh;
-    import Skill = Pan3d.me.Skill;
+    import Display3dMovie = Pan3d.Display3dMovie;
+    import MeshData = Pan3d.MeshData;
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
+    import Material = Pan3d.Material;
+    import SkinMesh = Pan3d.SkinMesh;
+    import Skill = Pan3d.Skill;
     class MaterialRoleSprite extends Display3dMovie {
         update(): void;
         skinMesh: SkinMesh;

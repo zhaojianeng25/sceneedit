@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class LineDisplaySprite extends Display3D {
         constructor();
         lineVecPos: Array<number>;

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MeshData extends ObjData {
         boneIDAry: Array<number>;
         boneWeightAry: Array<number>;

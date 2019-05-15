@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Movie2DShader extends Shader3D {
         static MOVIE2D_SHADER: string = "Movie2DShader";
         constructor() {

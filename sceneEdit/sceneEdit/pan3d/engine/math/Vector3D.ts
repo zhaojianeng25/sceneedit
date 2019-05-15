@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Vector3D {
         x: number = 0;
         y: number = 0;

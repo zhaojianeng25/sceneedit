@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Display3D extends Object3D {
         public objData: ObjData;
         public program: WebGLProgram;
@@ -8,7 +8,7 @@
         protected _onStage: boolean;
         public sceneVisible: boolean = true;
         protected _hasDestory: boolean = false;
-        public _scene: Pan3d.me.SceneManager;
+        public _scene: Pan3d.SceneManager;
         constructor() {
             super();
             this._onStage = false;

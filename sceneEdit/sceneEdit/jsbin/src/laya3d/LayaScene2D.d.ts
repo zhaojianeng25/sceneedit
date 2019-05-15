@@ -1,6 +1,6 @@
 declare module LayaPan3D {
-    import Shader3D = Pan3d.me.Shader3D;
-    import TextureRes = Pan3d.me.TextureRes;
+    import Shader3D = Pan3d.Shader3D;
+    import TextureRes = Pan3d.TextureRes;
     class LayaScene2dPicShader extends Shader3D {
         static LayaScene2dPicShader: string;
         constructor();
@@ -8,7 +8,7 @@ declare module LayaPan3D {
         getVertexShaderString(): string;
         getFragmentShaderString(): string;
     }
-    class LayaScene2dPicSprit extends Pan3d.me.Display3D {
+    class LayaScene2dPicSprit extends Pan3d.Display3D {
         constructor(value?: string);
         private static objdata2D;
         protected initData(): void;

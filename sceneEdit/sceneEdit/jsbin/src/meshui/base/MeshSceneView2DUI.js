@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var TimeUtil = Pan3d.me.TimeUtil;
-    var MouseType = Pan3d.me.MouseType;
-    var LineDisplayShader = Pan3d.me.LineDisplayShader;
-    var GridLineSprite = Pan3d.me.GridLineSprite;
-    var ProgrmaManager = Pan3d.me.ProgrmaManager;
-    var Camera3D = Pan3d.me.Camera3D;
-    var Rectangle = Pan3d.me.Rectangle;
+    var Scene_data = Pan3d.Scene_data;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TimeUtil = Pan3d.TimeUtil;
+    var MouseType = Pan3d.MouseType;
+    var LineDisplayShader = Pan3d.LineDisplayShader;
+    var GridLineSprite = Pan3d.GridLineSprite;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Camera3D = Pan3d.Camera3D;
+    var Rectangle = Pan3d.Rectangle;
     //import MaterialRoleSprite = left.MaterialRoleSprite;
     //import ModelSprite = maineditor.ModelSprite;
     //import SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
@@ -105,7 +105,7 @@ var prop;
         };
         MeshSceneView2DUI.prototype.oneByFrame = function () {
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
-                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture();
                 var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;

@@ -1,7 +1,7 @@
 ﻿module materialui {
-    import MouseType = Pan3d.me.MouseType
-    import BaseEvent = Pan3d.me.BaseEvent
-    import KeyboardType = Pan3d.me.KeyboardType
+    import MouseType = Pan3d.MouseType
+    import BaseEvent = Pan3d.BaseEvent
+    import KeyboardType = Pan3d.KeyboardType
     
 
     export class MathFunNodeUI extends BaseMaterialNodeUI {

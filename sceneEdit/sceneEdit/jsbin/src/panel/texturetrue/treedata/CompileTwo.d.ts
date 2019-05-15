@@ -1,5 +1,5 @@
 declare module materialui {
-    import TextureCube = Pan3d.me.TextureCube;
+    import TextureCube = Pan3d.TextureCube;
     class CompileTwo {
         static SPACE: string;
         static COMMA: string;

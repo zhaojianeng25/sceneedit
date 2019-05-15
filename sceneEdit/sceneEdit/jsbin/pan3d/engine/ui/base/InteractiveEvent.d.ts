@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class InteractiveEvent extends BaseEvent {
         static Down: string;
         static Up: string;

@@ -1,38 +1,38 @@
 ﻿module maineditor {
 
-    import Rectangle = Pan3d.me.Rectangle
-    import Vector2D = Pan3d.me.Vector2D
-    import Scene_data = Pan3d.me.Scene_data
+    import Rectangle = Pan3d.Rectangle
+    import Vector2D = Pan3d.Vector2D
+    import Scene_data = Pan3d.Scene_data
 
-    import UICompenent = Pan3d.me.UICompenent
+    import UICompenent = Pan3d.UICompenent
 
 
-    import TextureManager = Pan3d.me.TextureManager
-    import FrameCompenent = Pan3d.me.FrameCompenent
-    import Grid9Compenent = Pan3d.me.Grid9Compenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import ColorType = Pan3d.me.ColorType
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TextAlign = Pan3d.me.TextAlign
+    import TextureManager = Pan3d.TextureManager
+    import FrameCompenent = Pan3d.FrameCompenent
+    import Grid9Compenent = Pan3d.Grid9Compenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import ColorType = Pan3d.ColorType
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextAlign = Pan3d.TextAlign
 
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
-    import UIManager = Pan3d.me.UIManager
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import UIConatiner = Pan3d.me.UIConatiner;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText
-    import UIRectangle = Pan3d.me.UIRectangle
-    import UIRenderOnlyPicComponent = Pan3d.me.UIRenderOnlyPicComponent
-    import baseMeshVo = Pan3d.me.baseMeshVo
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import UIMask = Pan3d.me.UIMask
-    import UiDraw = Pan3d.me.UiDraw
-    import UIData = Pan3d.me.UIData
-    import UIAtlas = Pan3d.me.UIAtlas
-    import Shader3D = Pan3d.me.Shader3D
-    import TextureRes = Pan3d.me.TextureRes
-    import MouseType = Pan3d.me.MouseType
-    import MathUtil = Pan3d.me.MathUtil
-    import TextRegExp = Pan3d.me.TextRegExp
+    import ModuleEventManager = Pan3d.ModuleEventManager
+    import UIManager = Pan3d.UIManager
+    import LabelTextFont = Pan3d.LabelTextFont
+    import UIConatiner = Pan3d.UIConatiner;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText
+    import UIRectangle = Pan3d.UIRectangle
+    import UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent
+    import baseMeshVo = Pan3d.baseMeshVo
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import UIMask = Pan3d.UIMask
+    import UiDraw = Pan3d.UiDraw
+    import UIData = Pan3d.UIData
+    import UIAtlas = Pan3d.UIAtlas
+    import Shader3D = Pan3d.Shader3D
+    import TextureRes = Pan3d.TextureRes
+    import MouseType = Pan3d.MouseType
+    import MathUtil = Pan3d.MathUtil
+    import TextRegExp = Pan3d.TextRegExp
  
 
     import PanDragEvent = drag.PanDragEvent
@@ -109,7 +109,7 @@
                 }
                 if (this.selectTabStr.indexOf(".material") != -1) {
 
-                    Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
+                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
                 }
 
 
@@ -302,7 +302,7 @@
             this.a_scene_view = this.addChild(this._sceneViewRender.getComponent("a_scene_view"));
             TextureManager.getInstance().getTexture("res/white.jpg", ($texture: TextureRes) => {
                 this._sceneViewRender.textureRes = $texture;
-                Pan3d.me.TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
+                Pan3d.TimeUtil.addFrameTick((t: number) => { this.upFrame(t) });
             });
 
             this.a_scene_view.addEventListener(PanDragEvent.DRAG_DROP, this.dragDrop, this);
@@ -328,9 +328,9 @@
             var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
             if ($slectUi && $slectUi.parent == this) {
 
-                var q: Pan3d.me.Quaternion = new Pan3d.me.Quaternion();
+                var q: Pan3d.Quaternion = new Pan3d.Quaternion();
                 q.fromMatrix(MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
-                var m: Pan3d.me.Matrix3D = q.toMatrix3D()
+                var m: Pan3d.Matrix3D = q.toMatrix3D()
                 m.invert()
                 var $add: Vector3D = m.transformVector(new Vector3D(0, 0, $evt.wheelDelta / 100 ))
                 MainEditorProcessor.edItorSceneManager.cam3D.x += $add.x
@@ -390,7 +390,7 @@
        
             if (this.hasStage) {
                 MainEditorProcessor.edItorSceneManager.textureRes = this._sceneViewRender.textureRes;
-                var cam3D: Pan3d.me.Camera3D = MainEditorProcessor.edItorSceneManager.cam3D
+                var cam3D: Pan3d.Camera3D = MainEditorProcessor.edItorSceneManager.cam3D
                 cam3D.cavanRect.x = this.a_scene_view.x + this.left;
                 cam3D.cavanRect.y = this.a_scene_view.y + this.top;
                 cam3D.cavanRect.width = this.a_scene_view.width;

@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var Rectangle = Pan3d.me.Rectangle;
-    var Scene_data = Pan3d.me.Scene_data;
-    var UIRenderComponent = Pan3d.me.UIRenderComponent;
-    var UIManager = Pan3d.me.UIManager;
-    var UIConatiner = Pan3d.me.UIConatiner;
-    var UIAtlas = Pan3d.me.UIAtlas;
+    var Rectangle = Pan3d.Rectangle;
+    var Scene_data = Pan3d.Scene_data;
+    var UIRenderComponent = Pan3d.UIRenderComponent;
+    var UIManager = Pan3d.UIManager;
+    var UIConatiner = Pan3d.UIConatiner;
+    var UIAtlas = Pan3d.UIAtlas;
     //ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
-    var Vector3D = Pan3d.me.Vector3D;
-    var TextureManager = Pan3d.me.TextureManager;
+    var Vector3D = Pan3d.Vector3D;
+    var TextureManager = Pan3d.TextureManager;
     var TextureContext = /** @class */ (function (_super) {
         __extends(TextureContext, _super);
         function TextureContext(w, h) {

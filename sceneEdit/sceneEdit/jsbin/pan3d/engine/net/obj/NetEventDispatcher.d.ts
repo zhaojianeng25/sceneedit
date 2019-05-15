@@ -4,7 +4,7 @@
 * 事件ID与事件回调处于不同的数组，通过相同的数组下标关联
 * @author linbc
 */
-declare module Pan3d.me {
+declare module Pan3d {
     class NetEventDispatcher {
         static KEY_TYPE_INT: number;
         static KEY_TYPE_STRING: number;

@@ -3,8 +3,8 @@
 
 module md5list {
 
-    import Dictionary = Pan3d.me.Dictionary
-    import ObjectBone = Pan3d.me.ObjectBone;
+    import Dictionary = Pan3d.Dictionary
+    import ObjectBone = Pan3d.ObjectBone;
 
     export class Md5Analysis {
 

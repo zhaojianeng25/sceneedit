@@ -1,10 +1,10 @@
 ﻿module materialui {
-    import ModuleEventManager = Pan3d.me.ModuleEventManager;
-    import Scene_data = Pan3d.me.Scene_data;
-    import LoadManager = Pan3d.me.LoadManager
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import ModuleEventManager = Pan3d.ModuleEventManager;
+    import Scene_data = Pan3d.Scene_data;
+    import LoadManager = Pan3d.LoadManager
+    import InteractiveEvent = Pan3d.InteractiveEvent
     import Panel = win.Panel;
-    import TextureManager = Pan3d.me.TextureManager
+    import TextureManager = Pan3d.TextureManager
     import LayerManager = win.LayerManager
     import MenuListData = menutwo.MenuListData
 
@@ -193,7 +193,7 @@
 
 
 
-                    Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));
                     break;
                 default:
                     break;
@@ -220,7 +220,7 @@
             return new File([u8arr], filename, { type: mime });
         }
         public MakeTempWebMaterialTree($temp: MaterialTree, $info: any ) {
-            var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray();
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }))
             pack.PackMaterialManager.getInstance().getMaterialByUrl($temp.url, (value: materialui.MaterialTree) => {
                pack.PackMaterialManager.getInstance().makeMaterialShaderByByte($byte, $temp.url, value)
@@ -250,12 +250,12 @@
                         }
                     }
                 }
-            var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray();
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             $byte.writeUTF(JSON.stringify({ data: $temp.data, info: $info }))
             var $file: File = new File([$byte.buffer], "ossfile.txt");
  
-            var pathUrl: string = Pan3d.me.Scene_data.fileRoot + $url
-            var pathurl: string = pathUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+            var pathUrl: string = Pan3d.Scene_data.fileRoot + $url
+            var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             console.log(pathUrl)
             pack.FileOssModel.upOssFile($file, pathurl, () => {
                 console.log("材质上传成功");
@@ -271,7 +271,7 @@
             var $texturl: string = "texturelist/" + value + ".txt"
             LoadManager.getInstance().load(Scene_data.fileRoot + $texturl, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
-                    var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray($dtstr);
+                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                     $byte.position = 0
                     var $temp: any = JSON.parse($byte.readUTF());
                     var $tempMaterial: MaterialTree = new MaterialTree

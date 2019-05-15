@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Display3dMovie extends Display3DSprite  {
         private _meshUrl: string;
         protected _skinMesh: SkinMesh;

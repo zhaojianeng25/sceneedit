@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class DynamicTexItem extends DynamicBaseTexItem {
         url: string;
         private _textureDynamic;

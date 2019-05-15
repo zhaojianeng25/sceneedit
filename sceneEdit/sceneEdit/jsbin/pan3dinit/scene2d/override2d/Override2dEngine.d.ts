@@ -1,5 +1,5 @@
-declare module scene2d.me {
-    class Override2dEngine extends scene3d.me.OverrideEngine {
+declare module scene2d_me {
+    class Override2dEngine extends scene3d_me.OverrideEngine {
         constructor();
         static htmlScale: number;
         static initConfig(): void;

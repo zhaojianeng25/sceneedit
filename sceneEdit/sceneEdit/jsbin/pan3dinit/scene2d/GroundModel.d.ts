@@ -1,22 +1,22 @@
-declare module scene2d.me {
-    class Ground2dBaseShader extends Pan3d.me.Shader3D {
+declare module scene2d_me {
+    class Ground2dBaseShader extends Pan3d.Shader3D {
         static Ground2dBaseShader: string;
         constructor();
         binLocation($context: WebGLRenderingContext): void;
         getVertexShaderString(): string;
         getFragmentShaderString(): string;
     }
-    class Ground2dBaseSprite extends Pan3d.me.Display3D {
+    class Ground2dBaseSprite extends Pan3d.Display3D {
         constructor();
         protected initData(): void;
         private loadTexture;
         setPicUrl($url: string): void;
-        _uvTextureRes: Pan3d.me.TextureRes;
+        _uvTextureRes: Pan3d.TextureRes;
         upToGpu(): void;
         update(): void;
         width: number;
         height: number;
-        static perentpos: Pan3d.me.Vector2D;
+        static perentpos: Pan3d.Vector2D;
         private getMoveSizeData;
     }
     class GroundModel {
@@ -24,7 +24,7 @@ declare module scene2d.me {
         static getInstance(): GroundModel;
         constructor();
         update(): void;
-        addGroundPicByeUrl($url?: string, $rect?: Pan3d.me.Rectangle): Ground2dBaseSprite;
+        addGroundPicByeUrl($url?: string, $rect?: Pan3d.Rectangle): Ground2dBaseSprite;
         private _groundItem;
     }
 }

@@ -1,5 +1,5 @@
 declare module maineditor {
-    import Display3DSprite = Pan3d.me.Display3DSprite;
+    import Display3DSprite = Pan3d.Display3DSprite;
     class SkillSpriteDisplay extends Display3DSprite {
         constructor();
         updateMatrix(): void;

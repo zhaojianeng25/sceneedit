@@ -1,9 +1,9 @@
 ﻿module editscene {
-    import BaseEvent = Pan3d.me.BaseEvent;
-    import Module = Pan3d.me.Module;
-    import Processor = Pan3d.me.Processor;
-    import BaseProcessor = Pan3d.me.BaseProcessor;
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
+    import BaseEvent = Pan3d.BaseEvent;
+    import Module = Pan3d.Module;
+    import Processor = Pan3d.Processor;
+    import BaseProcessor = Pan3d.BaseProcessor;
+    import ModuleEventManager = Pan3d.ModuleEventManager
  
 
 

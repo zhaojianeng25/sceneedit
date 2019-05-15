@@ -13,35 +13,32 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var SkillData = /** @class */ (function (_super) {
-            __extends(SkillData, _super);
-            function SkillData() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.srcList = new Array();
-                return _this;
+    var SkillData = /** @class */ (function (_super) {
+        __extends(SkillData, _super);
+        function SkillData() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.srcList = new Array();
+            return _this;
+        }
+        SkillData.prototype.addSrcSkill = function ($skill) {
+            this.srcList.push($skill);
+        };
+        SkillData.prototype.destory = function () {
+            for (var i = 0; i < this.srcList.length; i++) {
+                this.srcList[i].destory();
+                Pan3d.SkillManager.getInstance().gcSkill(this.srcList[i]);
             }
-            SkillData.prototype.addSrcSkill = function ($skill) {
-                this.srcList.push($skill);
-            };
-            SkillData.prototype.destory = function () {
-                for (var i = 0; i < this.srcList.length; i++) {
-                    this.srcList[i].destory();
-                    me.SkillManager.getInstance().gcSkill(this.srcList[i]);
+        };
+        SkillData.prototype.testDestory = function () {
+            for (var i = 0; i < this.srcList.length; i++) {
+                if (!(this.srcList[i].isDeath && this.srcList[i].idleTime >= Pan3d.ResCount.GCTime)) {
+                    return false;
                 }
-            };
-            SkillData.prototype.testDestory = function () {
-                for (var i = 0; i < this.srcList.length; i++) {
-                    if (!(this.srcList[i].isDeath && this.srcList[i].idleTime >= me.ResCount.GCTime)) {
-                        return false;
-                    }
-                }
-                return true;
-            };
-            return SkillData;
-        }(me.ResCount));
-        me.SkillData = SkillData;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+            }
+            return true;
+        };
+        return SkillData;
+    }(Pan3d.ResCount));
+    Pan3d.SkillData = SkillData;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=SkillData.js.map

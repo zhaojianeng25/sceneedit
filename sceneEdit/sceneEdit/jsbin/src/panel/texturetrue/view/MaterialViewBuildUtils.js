@@ -1,6 +1,6 @@
 var materialui;
 (function (materialui) {
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var MaterialViewBuildUtils = /** @class */ (function () {
         function MaterialViewBuildUtils() {
         }

@@ -3,8 +3,8 @@ var TextEditStart = /** @class */ (function () {
     }
     TextEditStart.initCanvas = function ($caves) {
         mainpan3d_me.canvas = $caves;
-        Pan3d.me.Scene_data.fileRoot = "res/";
-        Pan3d.me.Engine.init($caves);
+        Pan3d.Scene_data.fileRoot = "res/";
+        Pan3d.Engine.init($caves);
         window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
         if (requestAnimationFrame) {
             requestAnimationFrame(TextEditStart.step);
@@ -17,7 +17,7 @@ var TextEditStart = /** @class */ (function () {
         if (mainpan3d_me.canvas) {
             mainpan3d_me.canvas.width = document.body.clientWidth;
             mainpan3d_me.canvas.height = document.body.clientHeight;
-            Pan3d.me.Engine.resetSize(mainpan3d_me.canvas.width, mainpan3d_me.canvas.height); //设置canvas大小
+            Pan3d.Engine.resetSize(mainpan3d_me.canvas.width, mainpan3d_me.canvas.height); //设置canvas大小
             win.LayerManager.getInstance().resize();
         }
     };
@@ -26,9 +26,9 @@ var TextEditStart = /** @class */ (function () {
         TextEditStart.upFrame();
     };
     TextEditStart.upFrame = function () {
-        Pan3d.me.TimeUtil.update();
-        Pan3d.me.Scene_data.context3D.update();
-        var gl = Pan3d.me.Scene_data.context3D.renderContext;
+        Pan3d.TimeUtil.update();
+        Pan3d.Scene_data.context3D.update();
+        var gl = Pan3d.Scene_data.context3D.renderContext;
         gl.clearColor(83 / 255, 83 / 255, 83 / 255, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
         win.LayerManager.getInstance().update();

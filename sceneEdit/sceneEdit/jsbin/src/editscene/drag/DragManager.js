@@ -14,7 +14,7 @@ var drag;
         }
         DragManager.doDragdoDrag = function (dragInitiator, node) {
             this.dragSource = node;
-            Pan3d.me.ModuleEventManager.dispatchEvent(new drag.PanDragEvent(drag.PanDragEvent.DRAG_SHOW));
+            Pan3d.ModuleEventManager.dispatchEvent(new drag.PanDragEvent(drag.PanDragEvent.DRAG_SHOW));
         };
         DragManager.NONE = "none";
         DragManager.COPY = "copy";

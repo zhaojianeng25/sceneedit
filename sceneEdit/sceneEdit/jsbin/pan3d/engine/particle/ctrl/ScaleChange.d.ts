@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ScaleChange extends BaseAnim {
         maxNum: number;
         minNum: number;

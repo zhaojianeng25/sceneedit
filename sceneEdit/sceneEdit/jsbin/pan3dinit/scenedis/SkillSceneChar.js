@@ -36,7 +36,7 @@ var scenedis;
                 if ($suffix === void 0) { $suffix = ""; }
             };
             return SkillSceneChar;
-        }(Pan3d.me.SceneChar));
+        }(Pan3d.SceneChar));
         me.SkillSceneChar = SkillSceneChar;
     })(me = scenedis.me || (scenedis.me = {}));
 })(scenedis || (scenedis = {}));

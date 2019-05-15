@@ -1,9 +1,9 @@
 declare module materialui {
-    import TexItem = Pan3d.me.TexItem;
-    import TextureCube = Pan3d.me.TextureCube;
-    import Material = Pan3d.me.Material;
-    import Shader3D = Pan3d.me.Shader3D;
-    import ConstItem = Pan3d.me.ConstItem;
+    import TexItem = Pan3d.TexItem;
+    import TextureCube = Pan3d.TextureCube;
+    import Material = Pan3d.Material;
+    import Shader3D = Pan3d.Shader3D;
+    import ConstItem = Pan3d.ConstItem;
     class MaterialTree extends Material {
         private _data;
         zbuff: boolean;

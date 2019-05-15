@@ -1,5 +1,5 @@
 ﻿module prop {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import InteractiveEvent = Pan3d.InteractiveEvent
     export class TextField2DUI extends BaseReflComponent {
 
         private textLabelUI: TextLabelUI;

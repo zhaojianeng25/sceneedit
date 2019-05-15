@@ -1,15 +1,15 @@
 ﻿
 module LayaPan3D {
 
-    import Scene_data = Pan3d.me.Scene_data;
-    import GlReset = Pan3d.me. GlReset;
-    import LineDisplayShader = Pan3d.me.LineDisplayShader;
-    import GridLineSprite = Pan3d.me.GridLineSprite;
-    import ProgrmaManager = Pan3d.me.ProgrmaManager;
-    import BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-    import Camera3D = Pan3d.me.Camera3D;
-    import Rectangle = Pan3d.me.Rectangle;
-    import FBO = Pan3d.me.FBO;
+    import Scene_data = Pan3d.Scene_data;
+    import GlReset = Pan3d. GlReset;
+    import LineDisplayShader = Pan3d.LineDisplayShader;
+    import GridLineSprite = Pan3d.GridLineSprite;
+    import ProgrmaManager = Pan3d.ProgrmaManager;
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    import Camera3D = Pan3d.Camera3D;
+    import Rectangle = Pan3d.Rectangle;
+    import FBO = Pan3d.FBO;
 
     import MaterialRoleSprite = left.MaterialRoleSprite;
     import ModelSprite = maineditor.ModelSprite;

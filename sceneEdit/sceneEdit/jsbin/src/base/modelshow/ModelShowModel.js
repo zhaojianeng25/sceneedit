@@ -1,8 +1,8 @@
 var left;
 (function (left) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var TimeUtil = Pan3d.me.TimeUtil;
-    var MaterialShader = Pan3d.me.MaterialShader;
+    var Scene_data = Pan3d.Scene_data;
+    var TimeUtil = Pan3d.TimeUtil;
+    var MaterialShader = Pan3d.MaterialShader;
     var ModelShowModel = /** @class */ (function () {
         function ModelShowModel() {
         }

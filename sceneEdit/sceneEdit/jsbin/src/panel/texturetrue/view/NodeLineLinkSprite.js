@@ -13,18 +13,18 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var Shader3D = Pan3d.me.Shader3D;
-    var Vector2D = Pan3d.me.Vector2D;
-    var Vector3D = Pan3d.me.Vector3D;
-    var UICompenent = Pan3d.me.UICompenent;
-    var UIData = Pan3d.me.UIData;
-    var ProgrmaManager = Pan3d.me.ProgrmaManager;
-    var Matrix3D = Pan3d.me.Matrix3D;
-    var ObjData = Pan3d.me.ObjData;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var UIRenderComponent = Pan3d.me.UIRenderComponent;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Scene_data = Pan3d.Scene_data;
+    var Shader3D = Pan3d.Shader3D;
+    var Vector2D = Pan3d.Vector2D;
+    var Vector3D = Pan3d.Vector3D;
+    var UICompenent = Pan3d.UICompenent;
+    var UIData = Pan3d.UIData;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Matrix3D = Pan3d.Matrix3D;
+    var ObjData = Pan3d.ObjData;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var UIRenderComponent = Pan3d.UIRenderComponent;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIPanel = win.UIPanel;
     var NodeLineLinkShader = /** @class */ (function (_super) {
         __extends(NodeLineLinkShader, _super);

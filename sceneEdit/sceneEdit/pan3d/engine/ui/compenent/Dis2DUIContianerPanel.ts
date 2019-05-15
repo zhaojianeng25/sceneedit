@@ -1,6 +1,6 @@
 ﻿
 
-module Pan3d.me {
+module Pan3d {
     export class Disp2DBaseText {
         public ui: UICompenent;
         public textureStr: string;  //在材质中的位置对应名字
@@ -107,7 +107,7 @@ module Pan3d.me {
         private _voNum: number;//最大同屏数量
         private _voRect: Rectangle;//单元尺寸
         protected _uiItem: Array<Disp2DBaseText>;
-        protected _lostItem: Array<Pan3d.me.baseMeshVo>;//没有上传成功的
+        protected _lostItem: Array<Pan3d.baseMeshVo>;//没有上传成功的
 
         //根据数量创建单元格UICompenent 并存在数组中，待需要时应用
         private makeBaseUi($classVo: any): void {

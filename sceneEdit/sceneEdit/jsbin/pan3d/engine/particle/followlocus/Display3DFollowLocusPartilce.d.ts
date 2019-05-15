@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3DFollowLocusPartilce extends Display3DParticle {
         protected _bindPosAry: Array<Array<number>>;
         protected _gpuVc: Float32Array;

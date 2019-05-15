@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var inputres;
 (function (inputres) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var Pan3dByteArray = Pan3d.me.Pan3dByteArray;
-    var ByteArray = Pan3d.me.Pan3dByteArray;
-    var ObjDataManager = Pan3d.me.ObjDataManager;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Scene_data = Pan3d.Scene_data;
+    var Pan3dByteArray = Pan3d.Pan3dByteArray;
+    var ByteArray = Pan3d.Pan3dByteArray;
+    var ObjDataManager = Pan3d.ObjDataManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var SceneRes = /** @class */ (function (_super) {
         __extends(SceneRes, _super);
         function SceneRes() {
@@ -34,7 +34,7 @@ var inputres;
         SceneRes.prototype.saveImgToSever = function (imgAryBuffer, httpUrl) {
             var $img = new Image();
             $img.url = httpUrl.replace(Scene_data.fileRoot, "");
-            $img.src = 'data:image/png;base64,' + Pan3d.me.Base64.encode(imgAryBuffer);
+            $img.src = 'data:image/png;base64,' + Pan3d.Base64.encode(imgAryBuffer);
             var $upfile = this.dataURLtoFile($img.src, $img.url);
             this.upOssFile($upfile, httpUrl);
         };
@@ -142,7 +142,7 @@ var inputres;
             }
         };
         return SceneRes;
-    }(Pan3d.me.SceneRes));
+    }(Pan3d.SceneRes));
     inputres.SceneRes = SceneRes;
     var ImputGameResModel = /** @class */ (function () {
         function ImputGameResModel() {
@@ -235,7 +235,7 @@ var inputres;
         };
         ImputGameResModel.prototype.makePerfabToSever = function (name, objsurl, imgItem, buildinfo) {
             var _this = this;
-            var $byte = new Pan3d.me.Pan3dByteArray();
+            var $byte = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh = new pack.PrefabStaticMesh();
             prefabStaticMesh.url = this.sceneRes.fileRoot + "prefab/" + name + ".prefab"; //放到指定路径
             prefabStaticMesh.objsurl = this.sceneRes.fileRoot + objsurl.replace(".xml", ".objs");
@@ -249,12 +249,12 @@ var inputres;
                 paramVo.data = this.sceneRes.fileRoot + imgItem[i].url;
                 prefabStaticMesh.paramInfo.push(paramVo);
             }
-            var $fileUrl = Pan3d.me.Scene_data.fileRoot + prefabStaticMesh.url;
+            var $fileUrl = Pan3d.Scene_data.fileRoot + prefabStaticMesh.url;
             var $temp = prefabStaticMesh.getObject();
             $temp.version = pack.FileOssModel.version;
             $byte.writeUTF(JSON.stringify($temp));
             var $file = new File([$byte.buffer], "temp.prefab");
-            var pathurl = $fileUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+            var pathurl = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.upOssFile($file, pathurl, function () {
                 var obj = {};
                 obj.name = _this.getNameByPath(prefabStaticMesh.url);

@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class AxisMove extends BaseAnim {
         public axis: Vector3D;
         public set data(value: Array<any>) {

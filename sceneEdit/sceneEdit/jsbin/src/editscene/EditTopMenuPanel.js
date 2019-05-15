@@ -13,20 +13,20 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var editscene;
 (function (editscene) {
-    var UIRenderComponent = Pan3d.me.UIRenderComponent;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var TextAlign = Pan3d.me.TextAlign;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
-    var UIManager = Pan3d.me.UIManager;
-    var LabelTextFont = Pan3d.me.LabelTextFont;
-    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    var TextureManager = Pan3d.me.TextureManager;
-    var Rectangle = Pan3d.me.Rectangle;
-    var UIAtlas = Pan3d.me.UIAtlas;
-    var ByteArray = Pan3d.me.Pan3dByteArray;
-    var LoadManager = Pan3d.me.LoadManager;
-    var Scene_data = Pan3d.me.Scene_data;
-    var Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
+    var UIRenderComponent = Pan3d.UIRenderComponent;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TextAlign = Pan3d.TextAlign;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var UIManager = Pan3d.UIManager;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var Disp2DBaseText = Pan3d.Disp2DBaseText;
+    var TextureManager = Pan3d.TextureManager;
+    var Rectangle = Pan3d.Rectangle;
+    var UIAtlas = Pan3d.UIAtlas;
+    var ByteArray = Pan3d.Pan3dByteArray;
+    var LoadManager = Pan3d.LoadManager;
+    var Scene_data = Pan3d.Scene_data;
+    var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var MenuListData = /** @class */ (function () {
         function MenuListData($label, $key) {
             if ($key === void 0) { $key = null; }
@@ -265,8 +265,8 @@ var editscene;
                 var temp = JSON.parse($str);
                 temp.textureurl = "base.material";
                 var $file = new File([JSON.stringify(temp)], "ossfile.txt");
-                var pathUrl = Pan3d.me.Scene_data.fileRoot + $url;
-                var pathurl = pathUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+                var pathUrl = Pan3d.Scene_data.fileRoot + $url;
+                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile($file, pathurl, function () {
                     console.log("上传成功");
                 });
@@ -274,7 +274,7 @@ var editscene;
         };
         EditTopMenuPanel.prototype.showMainUi = function () {
             this.clearAll();
-            Pan3d.me.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
+            Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem, 20, 0);
         };
         EditTopMenuPanel.prototype.onStageMouseUp = function ($evt) {

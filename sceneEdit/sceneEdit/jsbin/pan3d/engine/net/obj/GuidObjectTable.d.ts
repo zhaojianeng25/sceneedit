@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class GuidObjectTable extends SyncEvent {
         protected _objs: Object;
         private _newEvent;

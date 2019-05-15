@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class GroupRes extends BaseRes {
         private _fun;
         dataAry: Array<GroupItem>;

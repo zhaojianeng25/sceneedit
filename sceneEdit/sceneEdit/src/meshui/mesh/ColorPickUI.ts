@@ -1,12 +1,12 @@
 ﻿module prop {
-    import UICompenent = Pan3d.me.UICompenent;
-    import Vector3D = Pan3d.me.Vector3D
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import UIAtlas = Pan3d.me.UIAtlas;
-    import UIRectangle = Pan3d.me.UIRectangle;
-    import UIManager = Pan3d.me.UIManager;
-    import TextureManager = Pan3d.me.TextureManager;
-    import ModuleEventManager = Pan3d.me.ModuleEventManager;
+    import UICompenent = Pan3d.UICompenent;
+    import Vector3D = Pan3d.Vector3D
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import UIAtlas = Pan3d.UIAtlas;
+    import UIRectangle = Pan3d.UIRectangle;
+    import UIManager = Pan3d.UIManager;
+    import TextureManager = Pan3d.TextureManager;
+    import ModuleEventManager = Pan3d.ModuleEventManager;
     export class ColorPickUI extends TextLabelUI {
         public constructor(w: number = 64, h: number = 64) {
             super(w, h);

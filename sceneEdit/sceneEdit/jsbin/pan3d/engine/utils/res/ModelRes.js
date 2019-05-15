@@ -13,48 +13,45 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var ModelRes = /** @class */ (function (_super) {
-            __extends(ModelRes, _super);
-            function ModelRes() {
-                return _super !== null && _super.apply(this, arguments) || this;
+    var ModelRes = /** @class */ (function (_super) {
+        __extends(ModelRes, _super);
+        function ModelRes() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        ModelRes.prototype.load = function (url, $fun) {
+            var _this = this;
+            this._fun = $fun;
+            Pan3d.LoadManager.getInstance().load(url, Pan3d.LoadManager.BYTE_TYPE, function ($byte) {
+                _this.loadComplete($byte);
+            });
+        };
+        ModelRes.prototype.loadComplete = function ($byte) {
+            var _this = this;
+            this._byte = new Pan3d.Pan3dByteArray($byte);
+            this._byte.position = 0;
+            this.read(function () { _this.readNexte(); }); //img
+        };
+        ModelRes.prototype.readNexte = function () {
+            this.read(); //obj
+            this.read(); //material
+            this.objUrl = this._byte.readUTF();
+            this.materialUrl = this._byte.readUTF();
+            if (this._byte.readBoolean()) {
+                this.light = new Pan3d.LightVo();
+                this.light.ambientColor[0] = this._byte.readFloat();
+                this.light.ambientColor[1] = this._byte.readFloat();
+                this.light.ambientColor[2] = this._byte.readFloat();
+                this.light.sunColor[0] = this._byte.readFloat();
+                this.light.sunColor[1] = this._byte.readFloat();
+                this.light.sunColor[2] = this._byte.readFloat();
+                this.light.sunDirect[0] = this._byte.readFloat();
+                this.light.sunDirect[1] = this._byte.readFloat();
+                this.light.sunDirect[2] = this._byte.readFloat();
             }
-            ModelRes.prototype.load = function (url, $fun) {
-                var _this = this;
-                this._fun = $fun;
-                me.LoadManager.getInstance().load(url, me.LoadManager.BYTE_TYPE, function ($byte) {
-                    _this.loadComplete($byte);
-                });
-            };
-            ModelRes.prototype.loadComplete = function ($byte) {
-                var _this = this;
-                this._byte = new me.Pan3dByteArray($byte);
-                this._byte.position = 0;
-                this.read(function () { _this.readNexte(); }); //img
-            };
-            ModelRes.prototype.readNexte = function () {
-                this.read(); //obj
-                this.read(); //material
-                this.objUrl = this._byte.readUTF();
-                this.materialUrl = this._byte.readUTF();
-                if (this._byte.readBoolean()) {
-                    this.light = new me.LightVo();
-                    this.light.ambientColor[0] = this._byte.readFloat();
-                    this.light.ambientColor[1] = this._byte.readFloat();
-                    this.light.ambientColor[2] = this._byte.readFloat();
-                    this.light.sunColor[0] = this._byte.readFloat();
-                    this.light.sunColor[1] = this._byte.readFloat();
-                    this.light.sunColor[2] = this._byte.readFloat();
-                    this.light.sunDirect[0] = this._byte.readFloat();
-                    this.light.sunDirect[1] = this._byte.readFloat();
-                    this.light.sunDirect[2] = this._byte.readFloat();
-                }
-                this._fun();
-            };
-            return ModelRes;
-        }(me.BaseRes));
-        me.ModelRes = ModelRes;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+            this._fun();
+        };
+        return ModelRes;
+    }(Pan3d.BaseRes));
+    Pan3d.ModelRes = ModelRes;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=ModelRes.js.map

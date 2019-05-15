@@ -1,5 +1,5 @@
 declare module materialleft {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class MaterialLeftPanel extends win.BaseWindow {
         only: boolean;
         constructor();

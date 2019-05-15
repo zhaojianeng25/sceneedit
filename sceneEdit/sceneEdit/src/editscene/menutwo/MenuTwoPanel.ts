@@ -1,19 +1,19 @@
 ﻿module menutwo {
-    import UICompenent = Pan3d.me.UICompenent
-    import FrameCompenent = Pan3d.me.FrameCompenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import ColorType = Pan3d.me.ColorType
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TextAlign = Pan3d.me.TextAlign
+    import UICompenent = Pan3d.UICompenent
+    import FrameCompenent = Pan3d.FrameCompenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import ColorType = Pan3d.ColorType
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextAlign = Pan3d.TextAlign
  
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
-    import UIManager = Pan3d.me.UIManager
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText
-    import UIRectangle = Pan3d.me.UIRectangle
-    import TextureManager = Pan3d.me.TextureManager
-    import Rectangle = Pan3d.me.Rectangle
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel
+    import ModuleEventManager = Pan3d.ModuleEventManager
+    import UIManager = Pan3d.UIManager
+    import LabelTextFont = Pan3d.LabelTextFont
+    import Disp2DBaseText = Pan3d.Disp2DBaseText
+    import UIRectangle = Pan3d.UIRectangle
+    import TextureManager = Pan3d.TextureManager
+    import Rectangle = Pan3d.Rectangle
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
  
     export class MenuListData {
         public label: string
@@ -87,7 +87,7 @@
         private skipNum: number=0
         public showMainUi(): void {
             this.clearAll();
-            Pan3d.me.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
+            Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem,0);
         }
         private onStageMouseUp(evt: InteractiveEvent): void {

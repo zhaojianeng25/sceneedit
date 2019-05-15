@@ -2,13 +2,13 @@
 * name
 */
 declare module layapan.me {
-    import MeshData = Pan3d.me.MeshData;
-    import GroupRes = Pan3d.me.GroupRes;
-    import Vector3D = Pan3d.me.Vector3D;
-    import Material = Pan3d.me.Material;
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam;
-    import Skill = Pan3d.me.Skill;
-    class LayaSceneBaseChar extends Pan3d.me.Display3dMovie {
+    import MeshData = Pan3d.MeshData;
+    import GroupRes = Pan3d.GroupRes;
+    import Vector3D = Pan3d.Vector3D;
+    import Material = Pan3d.Material;
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
+    import Skill = Pan3d.Skill;
+    class LayaSceneBaseChar extends Pan3d.Display3dMovie {
         private _avatar;
         _visible: boolean;
         changeColor: Array<number>;

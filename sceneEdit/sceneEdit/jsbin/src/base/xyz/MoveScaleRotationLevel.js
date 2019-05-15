@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Display3D = Pan3d.me.Display3D;
-    var Matrix3D = Pan3d.me.Matrix3D;
+    var Display3D = Pan3d.Display3D;
+    var Matrix3D = Pan3d.Matrix3D;
     var MoveScaleRotationLevel = /** @class */ (function (_super) {
         __extends(MoveScaleRotationLevel, _super);
         function MoveScaleRotationLevel() {

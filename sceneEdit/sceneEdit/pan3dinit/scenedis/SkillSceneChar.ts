@@ -1,7 +1,7 @@
 ﻿module scenedis.me {
 
 
-    export class SkillSceneChar extends Pan3d.me.SceneChar {
+    export class SkillSceneChar extends Pan3d.SceneChar {
 
         public onMeshLoaded(): void {
             super.onMeshLoaded()

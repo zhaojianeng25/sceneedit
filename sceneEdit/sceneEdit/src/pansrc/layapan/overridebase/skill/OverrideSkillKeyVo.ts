@@ -1,13 +1,13 @@
 ﻿
 module layapan.me {
-    import SkillType = Pan3d.me.SkillType;
-    import SkillFixEffect = Pan3d.me.SkillFixEffect;
-    import SkillTrajectory = Pan3d.me.SkillTrajectory;
-    import SkillTrajectoryTargetKeyVo = Pan3d.me.SkillTrajectoryTargetKeyVo;
-    import SkillMulTrajectory = Pan3d.me.SkillMulTrajectory;
-    import SkillKey = Pan3d.me.SkillKey;
+    import SkillType = Pan3d.SkillType;
+    import SkillFixEffect = Pan3d.SkillFixEffect;
+    import SkillTrajectory = Pan3d.SkillTrajectory;
+    import SkillTrajectoryTargetKeyVo = Pan3d.SkillTrajectoryTargetKeyVo;
+    import SkillMulTrajectory = Pan3d.SkillMulTrajectory;
+    import SkillKey = Pan3d.SkillKey;
 
-    export class OverrideSkillFixEffectKeyVo extends Pan3d.me.SkillFixEffectKeyVo {
+    export class OverrideSkillFixEffectKeyVo extends Pan3d.SkillFixEffectKeyVo {
         public constructor() {
             super();
             console.log("OverrideSkillFixEffectKeyVo")

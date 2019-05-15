@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SceneRes extends BaseRes {
         static sceneConfigData: any;
         private _completeFun;

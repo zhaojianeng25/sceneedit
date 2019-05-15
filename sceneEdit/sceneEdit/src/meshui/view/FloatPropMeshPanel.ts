@@ -1,6 +1,6 @@
 ﻿module prop {
     
-    import ModuleEventManager = Pan3d.me.ModuleEventManager;
+    import ModuleEventManager = Pan3d.ModuleEventManager;
     export class FloatPropMeshPanel extends MetaDataView {
 
         private constFloatNodeUI:materialui.ConstFloatNodeUI;

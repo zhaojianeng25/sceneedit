@@ -13,14 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var UIManager = Pan3d.me.UIManager;
-    var Vector2D = Pan3d.me.Vector2D;
-    var TextAlign = Pan3d.me.TextAlign;
-    var LabelTextFont = Pan3d.me.LabelTextFont;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var UIRenderComponent = Pan3d.me.UIRenderComponent;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
-    var Scene_data = Pan3d.me.Scene_data;
+    var UIManager = Pan3d.UIManager;
+    var Vector2D = Pan3d.Vector2D;
+    var TextAlign = Pan3d.TextAlign;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var UIRenderComponent = Pan3d.UIRenderComponent;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
+    var Scene_data = Pan3d.Scene_data;
     var UIPanel = win.UIPanel;
     var BaseMaterialNodeUI = /** @class */ (function (_super) {
         __extends(BaseMaterialNodeUI, _super);

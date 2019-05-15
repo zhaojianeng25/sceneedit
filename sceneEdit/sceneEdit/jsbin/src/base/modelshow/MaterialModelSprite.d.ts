@@ -1,7 +1,7 @@
 declare module left {
-    import Display3DSprite = Pan3d.me.Display3DSprite;
-    import Material = Pan3d.me.Material;
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam;
+    import Display3DSprite = Pan3d.Display3DSprite;
+    import Material = Pan3d.Material;
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
     class MaterialModelSprite extends Display3DSprite {
         constructor();
         setMaterialVc($material: Material, $mp?: MaterialBaseParam): void;

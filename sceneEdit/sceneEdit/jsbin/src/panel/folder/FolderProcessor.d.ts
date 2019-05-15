@@ -1,9 +1,9 @@
 declare module folder {
-    import BaseEvent = Pan3d.me.BaseEvent;
-    import Module = Pan3d.me.Module;
-    import Processor = Pan3d.me.Processor;
-    import BaseProcessor = Pan3d.me.BaseProcessor;
-    import Vector2D = Pan3d.me.Vector2D;
+    import BaseEvent = Pan3d.BaseEvent;
+    import Module = Pan3d.Module;
+    import Processor = Pan3d.Processor;
+    import BaseProcessor = Pan3d.BaseProcessor;
+    import Vector2D = Pan3d.Vector2D;
     class FolderEvent extends BaseEvent {
         static SHOW_FOLDER_PANEL: string;
         static EDITSCENE_RESET_SIZE: string;

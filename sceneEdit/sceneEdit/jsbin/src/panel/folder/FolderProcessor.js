@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var folder;
 (function (folder) {
-    var BaseEvent = Pan3d.me.BaseEvent;
-    var Module = Pan3d.me.Module;
-    var BaseProcessor = Pan3d.me.BaseProcessor;
-    var Rectangle = Pan3d.me.Rectangle;
+    var BaseEvent = Pan3d.BaseEvent;
+    var Module = Pan3d.Module;
+    var BaseProcessor = Pan3d.BaseProcessor;
+    var Rectangle = Pan3d.Rectangle;
     var Panel = win.Panel;
     var FileListPanel = filelist.FileListPanel;
     var BaseFolderWindow = basefolderwin.BaseFolderWindow;

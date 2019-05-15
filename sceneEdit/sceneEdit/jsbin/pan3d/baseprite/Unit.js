@@ -13,20 +13,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var Unit = /** @class */ (function (_super) {
-            __extends(Unit, _super);
-            function Unit() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.path = new Array;
-                _this.isMain = false;
-                _this.originalRotation = 0;
-                return _this;
-            }
-            return Unit;
-        }(me.GuidObject));
-        me.Unit = Unit;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+    var Unit = /** @class */ (function (_super) {
+        __extends(Unit, _super);
+        function Unit() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.path = new Array;
+            _this.isMain = false;
+            _this.originalRotation = 0;
+            return _this;
+        }
+        return Unit;
+    }(Pan3d.GuidObject));
+    Pan3d.Unit = Unit;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=Unit.js.map

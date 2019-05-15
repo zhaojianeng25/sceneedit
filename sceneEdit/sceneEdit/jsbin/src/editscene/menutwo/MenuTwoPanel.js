@@ -13,14 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var menutwo;
 (function (menutwo) {
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var TextAlign = Pan3d.me.TextAlign;
-    var UIManager = Pan3d.me.UIManager;
-    var LabelTextFont = Pan3d.me.LabelTextFont;
-    var Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    var TextureManager = Pan3d.me.TextureManager;
-    var Rectangle = Pan3d.me.Rectangle;
-    var Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TextAlign = Pan3d.TextAlign;
+    var UIManager = Pan3d.UIManager;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var Disp2DBaseText = Pan3d.Disp2DBaseText;
+    var TextureManager = Pan3d.TextureManager;
+    var Rectangle = Pan3d.Rectangle;
+    var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     var MenuListData = /** @class */ (function () {
         function MenuListData($label, $key) {
             if ($key === void 0) { $key = null; }
@@ -75,7 +75,7 @@ var menutwo;
         };
         MenuTwoPanel.prototype.showMainUi = function () {
             this.clearAll();
-            Pan3d.me.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
+            Pan3d.Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
             this.showSon(this.menuXmlItem, 0);
         };
         MenuTwoPanel.prototype.onStageMouseUp = function (evt) {

@@ -22,9 +22,9 @@ var keyChi: Array<string> = [
 function getChiNum($id: number): string {
     return keyChi[$id];
 }
-function hexToArgb(expColor: number, is32: boolean = true, color: Pan3d.me.Vector3D = null): Pan3d.me. Vector3D {
+function hexToArgb(expColor: number, is32: boolean = true, color: Pan3d.Vector3D = null): Pan3d. Vector3D {
     if (!color) {
-        color = new Pan3d.me. Vector3D();
+        color = new Pan3d. Vector3D();
     }
     color.w = is32 ? (expColor >> 24) & 0xFF : 0;
     color.x = (expColor >> 16) & 0xFF;
@@ -33,14 +33,14 @@ function hexToArgb(expColor: number, is32: boolean = true, color: Pan3d.me.Vecto
     return color;
 }
 
-function hexToArgbNum(expColor: number, is32: boolean = true, color: Pan3d.me.Vector3D = null): Pan3d.me. Vector3D {
+function hexToArgbNum(expColor: number, is32: boolean = true, color: Pan3d.Vector3D = null): Pan3d. Vector3D {
     color = hexToArgb(expColor, is32, color);
     color.scaleBy(1 / 0xFF);
     return color;
 }
 
 function getBaseUrl(): string {
-    if (Pan3d.me.Scene_data.supportBlob) {
+    if (Pan3d.Scene_data.supportBlob) {
         return "";
     } else {
         return "_base";
@@ -48,7 +48,7 @@ function getBaseUrl(): string {
 }
 /**描边路径 */
 function strokeFilter(ctx: CanvasRenderingContext2D, width: number, height: number, color: number): void {
-    var colorVec: Pan3d.me.Vector3D = hexToArgb(color);
+    var colorVec: Pan3d.Vector3D = hexToArgb(color);
     var imgData: ImageData = ctx.getImageData(0, 0, width, height);
     var data = imgData.data;
 
@@ -195,12 +195,12 @@ function unZip($aryBuf: ArrayBuffer): ArrayBuffer {
 }
 
 
-function getZipByte($byte: Pan3d.me.Pan3dByteArray): Pan3d.me. Pan3dByteArray {
+function getZipByte($byte: Pan3d.Pan3dByteArray): Pan3d. Pan3dByteArray {
     var zipLen: number = $byte.readInt();
     var aryBuf: ArrayBuffer = $byte.buffer.slice($byte.position, $byte.position + zipLen);
     $byte.position += zipLen;
     var zipedBuf: ArrayBuffer = unZip(aryBuf)
-    return new Pan3d.me. Pan3dByteArray(zipedBuf)
+    return new Pan3d. Pan3dByteArray(zipedBuf)
 }
 
 

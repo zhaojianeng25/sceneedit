@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class BinLogStru extends SyncEvent {
         private static _pool;
         static malloc(): BinLogStru;

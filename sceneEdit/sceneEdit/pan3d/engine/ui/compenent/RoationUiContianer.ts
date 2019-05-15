@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class RoationUIShader extends Shader3D {
         static RoationUiShader: string = "RoationUiShader";
         constructor() {

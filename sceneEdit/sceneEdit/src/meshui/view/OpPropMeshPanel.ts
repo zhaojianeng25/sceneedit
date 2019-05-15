@@ -1,7 +1,7 @@
 ﻿module prop {
-    import Scene_data = Pan3d.me.Scene_data;
-    import Vector3D = Pan3d.me.Vector3D
-    import ModuleEventManager = Pan3d.me.ModuleEventManager;
+    import Scene_data = Pan3d.Scene_data;
+    import Vector3D = Pan3d.Vector3D
+    import ModuleEventManager = Pan3d.ModuleEventManager;
 
 
     export class OpPropMeshPanel extends MetaDataView {

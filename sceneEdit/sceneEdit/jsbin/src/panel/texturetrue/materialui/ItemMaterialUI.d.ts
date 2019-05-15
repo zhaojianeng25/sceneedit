@@ -1,7 +1,7 @@
 declare module materialui {
-    import EventDispatcher = Pan3d.me.EventDispatcher;
-    import FrameCompenent = Pan3d.me.FrameCompenent;
-    import Vector2D = Pan3d.me.Vector2D;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import FrameCompenent = Pan3d.FrameCompenent;
+    import Vector2D = Pan3d.Vector2D;
     class ItemMaterialUI extends EventDispatcher {
         private _type;
         hasConnet: boolean;

@@ -1,12 +1,12 @@
 ﻿module pack {
-    import LoadManager = Pan3d.me.LoadManager
-    import Scene_data = Pan3d.me.Scene_data
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
+    import LoadManager = Pan3d.LoadManager
+    import Scene_data = Pan3d.Scene_data
+    import Pan3dByteArray = Pan3d.Pan3dByteArray
     import PrefabStaticMesh = pack.PrefabStaticMesh
-    import ConstItem = Pan3d.me.ConstItem
-    import TexItem = Pan3d.me.TexItem
-    import TextureManager = Pan3d.me.TextureManager;
-    import TextureRes = Pan3d.me.TextureRes
+    import ConstItem = Pan3d.ConstItem
+    import TexItem = Pan3d.TexItem
+    import TextureManager = Pan3d.TextureManager;
+    import TextureRes = Pan3d.TextureRes
     
 
 
@@ -27,7 +27,7 @@
         public replaceMaterialByUrl($url: string): void {
             LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE,
                 ($dtstr: ArrayBuffer) => {
-                    var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray($dtstr);
+                    var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                     $byte.position = 0
                     var $temp: any = JSON.parse($byte.readUTF());
                     if (this.dic[$url]) { //有了就反回
@@ -76,7 +76,7 @@
             }
             console.log("----")
         }
-        public makeMaterialShaderByByte($byte: Pan3d.me.Pan3dByteArray, $url: string, Met: materialui.MaterialTree = null): materialui.MaterialTree {
+        public makeMaterialShaderByByte($byte: Pan3d.Pan3dByteArray, $url: string, Met: materialui.MaterialTree = null): materialui.MaterialTree {
             $byte.position = 0
             var $temp: any = JSON.parse($byte.readUTF());
 
@@ -153,7 +153,7 @@
 
                 LoadManager.getInstance().load(Scene_data.fileRoot + $url, LoadManager.BYTE_TYPE,
                     ($dtstr: ArrayBuffer) => {
-                        var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray($dtstr);
+                        var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($dtstr);
                         var $materialTree: materialui.MaterialTree = this.makeMaterialShaderByByte($byte, $url)
 
                         if (!this.dic[$url]) {
@@ -204,7 +204,7 @@
             if (texItem.type == TexItem.CUBEMAP) {
                 LoadManager.getInstance().load(Scene_data.fileRoot + texItem.url, LoadManager.IMG_TYPE, ($img: any, $info: any) => {
                     texItem.textureRes = new TextureRes
-                    texItem.textureRes.texture = Pan3d.me.CubemapLoad.makeTempCubeTextture($img)
+                    texItem.textureRes.texture = Pan3d.CubemapLoad.makeTempCubeTextture($img)
                 })
             } else {
                 TextureManager.getInstance().getTexture(Scene_data.fileRoot + texItem.url, ($texture: TextureRes) => {

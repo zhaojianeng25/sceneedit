@@ -13,42 +13,39 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var Display3D = /** @class */ (function (_super) {
-            __extends(Display3D, _super);
-            function Display3D() {
-                var _this = _super.call(this) || this;
-                _this.sceneVisible = true;
-                _this._hasDestory = false;
-                _this._onStage = false;
-                return _this;
+    var Display3D = /** @class */ (function (_super) {
+        __extends(Display3D, _super);
+        function Display3D() {
+            var _this = _super.call(this) || this;
+            _this.sceneVisible = true;
+            _this._hasDestory = false;
+            _this._onStage = false;
+            return _this;
+        }
+        Display3D.prototype.update = function () {
+        };
+        Object.defineProperty(Display3D.prototype, "onStage", {
+            get: function () {
+                return this._onStage;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Display3D.prototype.addStage = function () {
+            this._onStage = true;
+        };
+        Display3D.prototype.removeStage = function () {
+            this._onStage = false;
+        };
+        Display3D.prototype.resize = function () {
+        };
+        Display3D.prototype.destory = function () {
+            if (this.objData) {
+                this.objData.useNum--;
             }
-            Display3D.prototype.update = function () {
-            };
-            Object.defineProperty(Display3D.prototype, "onStage", {
-                get: function () {
-                    return this._onStage;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Display3D.prototype.addStage = function () {
-                this._onStage = true;
-            };
-            Display3D.prototype.removeStage = function () {
-                this._onStage = false;
-            };
-            Display3D.prototype.resize = function () {
-            };
-            Display3D.prototype.destory = function () {
-                if (this.objData) {
-                    this.objData.useNum--;
-                }
-            };
-            return Display3D;
-        }(me.Object3D));
-        me.Display3D = Display3D;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+        };
+        return Display3D;
+    }(Pan3d.Object3D));
+    Pan3d.Display3D = Display3D;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=Display3D.js.map

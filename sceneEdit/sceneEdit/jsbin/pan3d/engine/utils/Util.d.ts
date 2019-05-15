@@ -5,8 +5,8 @@ declare function makeImage(): any;
 declare var keyChi: Array<string>;
 /**阿拉伯数字转换成中文数字 */
 declare function getChiNum($id: number): string;
-declare function hexToArgb(expColor: number, is32?: boolean, color?: Pan3d.me.Vector3D): Pan3d.me.Vector3D;
-declare function hexToArgbNum(expColor: number, is32?: boolean, color?: Pan3d.me.Vector3D): Pan3d.me.Vector3D;
+declare function hexToArgb(expColor: number, is32?: boolean, color?: Pan3d.Vector3D): Pan3d.Vector3D;
+declare function hexToArgbNum(expColor: number, is32?: boolean, color?: Pan3d.Vector3D): Pan3d.Vector3D;
 declare function getBaseUrl(): string;
 /**描边路径 */
 declare function strokeFilter(ctx: CanvasRenderingContext2D, width: number, height: number, color: number): void;
@@ -19,7 +19,7 @@ declare function random($num: number): number;
 declare function randomByItem(arr: Array<any>): any;
 declare function makeArray(a: Array<any>, b: Array<any>): void;
 declare function unZip($aryBuf: ArrayBuffer): ArrayBuffer;
-declare function getZipByte($byte: Pan3d.me.Pan3dByteArray): Pan3d.me.Pan3dByteArray;
+declare function getZipByte($byte: Pan3d.Pan3dByteArray): Pan3d.Pan3dByteArray;
 declare function getUrlParam(name: string): string;
 declare function copy2clipboard(val: string): void;
 declare function getBit($num: number, offset: number): boolean;

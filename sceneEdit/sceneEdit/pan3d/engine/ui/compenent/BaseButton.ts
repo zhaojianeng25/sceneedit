@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class BaseButton extends UICompenent {
         //按钮按下纹理坐标
         public trDown: Rectangle;

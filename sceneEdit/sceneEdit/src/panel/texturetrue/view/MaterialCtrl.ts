@@ -1,6 +1,6 @@
 ﻿module materialui {
-    import UIManager = Pan3d.me.UIManager;
-    import UIConatiner = Pan3d.me.UIConatiner
+    import UIManager = Pan3d.UIManager;
+    import UIConatiner = Pan3d.UIConatiner
     import Panel = win.Panel
     export class MaterialCtrl {
         private static _instance: MaterialCtrl;

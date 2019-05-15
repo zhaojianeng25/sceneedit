@@ -15,9 +15,9 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var BaseEvent = Pan3d.me.BaseEvent;
-        var Vector3D = Pan3d.me.Vector3D;
-        var Matrix3D = Pan3d.me.Matrix3D;
+        var BaseEvent = Pan3d.BaseEvent;
+        var Vector3D = Pan3d.Vector3D;
+        var Matrix3D = Pan3d.Matrix3D;
         var OverrideSkillFixEffect = /** @class */ (function (_super) {
             __extends(OverrideSkillFixEffect, _super);
             function OverrideSkillFixEffect($skillvo) {
@@ -60,7 +60,7 @@ var layapan;
                     v3d.x += this.active.x;
                     v3d.y += this.active.y;
                     v3d.z += this.active.z;
-                    var $SkillBugBind = new Pan3d.me.SkillBugBind();
+                    var $SkillBugBind = new Pan3d.SkillBugBind();
                     $SkillBugBind.bindMatrix = new Matrix3D;
                     $SkillBugBind.bindMatrix.appendRotation(this.rotation.x, Vector3D.X_AXIS);
                     $SkillBugBind.bindMatrix.appendRotation(this.rotation.y, Vector3D.Y_AXIS);
@@ -71,7 +71,7 @@ var layapan;
                 }
             };
             return OverrideSkillFixEffect;
-        }(Pan3d.me.SkillFixEffect));
+        }(Pan3d.SkillFixEffect));
         me.OverrideSkillFixEffect = OverrideSkillFixEffect;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

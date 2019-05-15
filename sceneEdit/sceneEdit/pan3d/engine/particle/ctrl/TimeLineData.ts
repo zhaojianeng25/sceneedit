@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class TimeLineData {
         public dataAry: Array<any> = new Array;
         public maxFrameNum: number;

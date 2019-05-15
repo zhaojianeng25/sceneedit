@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ModuleEventManager {
         private static _instance;
         static addEvents(ary: Array<BaseEvent>, $fun: Function, $thisObj: any): void;

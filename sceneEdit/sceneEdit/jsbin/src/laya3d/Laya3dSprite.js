@@ -13,13 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var LineDisplayShader = Pan3d.me.LineDisplayShader;
-    var GridLineSprite = Pan3d.me.GridLineSprite;
-    var ProgrmaManager = Pan3d.me.ProgrmaManager;
-    var BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-    var Camera3D = Pan3d.me.Camera3D;
-    var Rectangle = Pan3d.me.Rectangle;
-    var FBO = Pan3d.me.FBO;
+    var LineDisplayShader = Pan3d.LineDisplayShader;
+    var GridLineSprite = Pan3d.GridLineSprite;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    var Camera3D = Pan3d.Camera3D;
+    var Rectangle = Pan3d.Rectangle;
+    var FBO = Pan3d.FBO;
     var MaterialRoleSprite = left.MaterialRoleSprite;
     var ModelSprite = maineditor.ModelSprite;
     var SkillSpriteDisplay = maineditor.SkillSpriteDisplay;

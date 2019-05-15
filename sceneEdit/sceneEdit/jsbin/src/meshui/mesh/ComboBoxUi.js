@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var LabelTextFont = Pan3d.me.LabelTextFont;
-    var TextAlign = Pan3d.me.TextAlign;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var TextAlign = Pan3d.TextAlign;
     var ComboBoxUi = /** @class */ (function (_super) {
         __extends(ComboBoxUi, _super);
         function ComboBoxUi(w, h) {

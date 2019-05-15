@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class RoleRes extends BaseRes {
 
         public roleUrl: string;

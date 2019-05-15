@@ -2,7 +2,7 @@
 
 
  
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
+    import InteractiveEvent = Pan3d.InteractiveEvent
 
     export class CheckBox2DUI extends BaseReflComponent {
  

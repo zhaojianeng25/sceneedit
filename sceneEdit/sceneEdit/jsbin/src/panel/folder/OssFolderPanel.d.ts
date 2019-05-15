@@ -1,12 +1,12 @@
 declare module ossfolder {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
     import FileVo = pack.FileVo;
     class OssListFile {
         isOpen: boolean;
         baseFile: FileVo;
     }
-    class FolderMeshVo extends Pan3d.me.baseMeshVo {
+    class FolderMeshVo extends Pan3d.baseMeshVo {
         ossListFile: OssListFile;
         childItem: Array<FolderMeshVo>;
         needDraw: boolean;

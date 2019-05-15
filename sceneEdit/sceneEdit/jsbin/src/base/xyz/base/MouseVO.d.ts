@@ -1,5 +1,5 @@
 declare module xyz {
-    import Object3D = Pan3d.me.Object3D;
+    import Object3D = Pan3d.Object3D;
     class MouseVO extends Object3D {
         _mouseDown: Boolean;
         last_mouse_x: number;

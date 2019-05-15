@@ -1,8 +1,8 @@
 ﻿module prop {
-    import UICompenent = Pan3d.me.UICompenent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import TextAlign = Pan3d.me.TextAlign
+    import UICompenent = Pan3d.UICompenent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import LabelTextFont = Pan3d.LabelTextFont
+    import TextAlign = Pan3d.TextAlign
 
     export class ComboBoxUi extends TextLabelUI {
 

@@ -1,6 +1,6 @@
 var materialui;
 (function (materialui) {
-    var Vector2D = Pan3d.me.Vector2D;
+    var Vector2D = Pan3d.Vector2D;
     var BezierClasszip = /** @class */ (function () {
         function BezierClasszip() {
         }
@@ -27,9 +27,9 @@ var materialui;
         return BezierClasszip;
     }());
     materialui.BezierClasszip = BezierClasszip;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var Scene_data = Pan3d.me.Scene_data;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var Scene_data = Pan3d.Scene_data;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var MaterialNodeLineUI = /** @class */ (function () {
         function MaterialNodeLineUI() {
             this.lineRender = new materialui.NodeLineLinkComponent;

@@ -1,18 +1,18 @@
 ﻿module pack {
-    import LoadManager = Pan3d.me.LoadManager
-    import Scene_data = Pan3d.me.Scene_data
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
+    import LoadManager = Pan3d.LoadManager
+    import Scene_data = Pan3d.Scene_data
+    import Pan3dByteArray = Pan3d.Pan3dByteArray
     import RoleStaticMesh = pack.RoleStaticMesh
-    import Display3dMovie = Pan3d.me.Display3dMovie
-    import MeshData = Pan3d.me.MeshData
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
-    import Material = Pan3d.me.Material
-    import TexItem = Pan3d.me.TexItem
-    import AnimData = Pan3d.me.AnimData
-    import SkinMesh = Pan3d.me.SkinMesh
+    import Display3dMovie = Pan3d.Display3dMovie
+    import MeshData = Pan3d.MeshData
+    import MaterialBaseParam = Pan3d.MaterialBaseParam
+    import Material = Pan3d.Material
+    import TexItem = Pan3d.TexItem
+    import AnimData = Pan3d.AnimData
+    import SkinMesh = Pan3d.SkinMesh
  
-    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
-    import Dictionary = Pan3d.me.Dictionary
+    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
+    import Dictionary = Pan3d.Dictionary
  
 
 

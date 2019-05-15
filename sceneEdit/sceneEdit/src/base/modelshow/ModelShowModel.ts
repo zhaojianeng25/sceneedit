@@ -1,16 +1,16 @@
 ﻿module left {
-    import Scene_data = Pan3d.me.Scene_data;
-    import TimeUtil = Pan3d.me.TimeUtil;
-    import MaterialManager = Pan3d.me.MaterialManager
+    import Scene_data = Pan3d.Scene_data;
+    import TimeUtil = Pan3d.TimeUtil;
+    import MaterialManager = Pan3d.MaterialManager
  
-    import LineDisplayShader = Pan3d.me.LineDisplayShader;
-    import GridLineSprite = Pan3d.me.GridLineSprite;
-    import ProgrmaManager = Pan3d.me.ProgrmaManager;
-    import Shader3D = Pan3d.me.Shader3D;
-    import MaterialShader = Pan3d.me.MaterialShader;
-    import UIRenderOnlyPicComponent = Pan3d.me.UIRenderOnlyPicComponent;
-    import Material = Pan3d.me.Material;
-    import Display3D = Pan3d.me.Display3D
+    import LineDisplayShader = Pan3d.LineDisplayShader;
+    import GridLineSprite = Pan3d.GridLineSprite;
+    import ProgrmaManager = Pan3d.ProgrmaManager;
+    import Shader3D = Pan3d.Shader3D;
+    import MaterialShader = Pan3d.MaterialShader;
+    import UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
+    import Material = Pan3d.Material;
+    import Display3D = Pan3d.Display3D
     
     
     export class ModelShowModel {

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MathUtil {
         /**
          * 2D坐标转换成3D坐标，当然要给一个相离镜头的深度

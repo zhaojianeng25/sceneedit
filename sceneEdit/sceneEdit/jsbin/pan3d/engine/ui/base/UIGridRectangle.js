@@ -13,19 +13,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var UIGridRentangle = /** @class */ (function (_super) {
-            __extends(UIGridRentangle, _super);
-            function UIGridRentangle() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.ogw = 0;
-                _this.ogh = 0;
-                return _this;
-            }
-            return UIGridRentangle;
-        }(me.UIRectangle));
-        me.UIGridRentangle = UIGridRentangle;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+    var UIGridRentangle = /** @class */ (function (_super) {
+        __extends(UIGridRentangle, _super);
+        function UIGridRentangle() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.ogw = 0;
+            _this.ogh = 0;
+            return _this;
+        }
+        return UIGridRentangle;
+    }(Pan3d.UIRectangle));
+    Pan3d.UIGridRentangle = UIGridRentangle;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=UIGridRectangle.js.map

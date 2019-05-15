@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3dShadow extends Display3D {
         static texture: WebGLTexture;
         shadowList: Array<Shadow>;

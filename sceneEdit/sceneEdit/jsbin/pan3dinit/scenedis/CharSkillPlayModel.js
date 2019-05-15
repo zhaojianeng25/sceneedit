@@ -38,37 +38,37 @@ var scenedis;
                 this.weaponNum = 50010 + this.paramId;
             };
             CharSkillPlayModel.prototype.makeAttackChar = function () {
-                var $sc = new Pan3d.me.SceneChar();
+                var $sc = new Pan3d.SceneChar();
                 $sc.z = 100;
                 $sc.setRoleUrl(getRoleUrl("7001"));
-                Pan3d.me.SceneManager.getInstance().addMovieDisplay($sc);
+                Pan3d.SceneManager.getInstance().addMovieDisplay($sc);
                 this.attackTarget = $sc;
                 this.attackTarget.x = random(50) + 30;
                 this.attackTarget.z = random(50) + 30;
             };
             CharSkillPlayModel.prototype.makeMainChar = function () {
                 var _this = this;
-                Pan3d.me.SkillManager.getInstance().preLoadSkill(getSkillUrl(this.skillFileName));
+                Pan3d.SkillManager.getInstance().preLoadSkill(getSkillUrl(this.skillFileName));
                 var $sc = new scenedis.me.SkillSceneChar();
                 $sc.setRoleUrl(getRoleUrl(this.charIdstr));
-                Pan3d.me.SceneManager.getInstance().addMovieDisplay($sc);
+                Pan3d.SceneManager.getInstance().addMovieDisplay($sc);
                 $sc.setWeaponByAvatar(this.weaponNum);
                 this.mainChar = $sc;
                 $sc.changeActionFun = function () { _this.playSkill(); };
                 $sc.loadFinishFun = function () {
-                    Pan3d.me.ResManager.getInstance().loadSkillRes(Pan3d.me.Scene_data.fileRoot + getSkillUrl(_this.skillFileName), function ($skillRes) {
-                        Pan3d.me.SkillManager.getInstance().preLoadSkill(getSkillUrl(_this.skillFileName));
-                        Pan3d.me.TimeUtil.addTimeOut(1000, function () { _this.playSkill(); });
-                        console.log(Pan3d.me.TimeUtil.getTimer());
+                    Pan3d.ResManager.getInstance().loadSkillRes(Pan3d.Scene_data.fileRoot + getSkillUrl(_this.skillFileName), function ($skillRes) {
+                        Pan3d.SkillManager.getInstance().preLoadSkill(getSkillUrl(_this.skillFileName));
+                        Pan3d.TimeUtil.addTimeOut(1000, function () { _this.playSkill(); });
+                        console.log(Pan3d.TimeUtil.getTimer());
                     });
                 };
             };
             CharSkillPlayModel.prototype.playSkill = function () {
                 var $effectName = this.skillEffectItem[this.skipId % this.skillEffectItem.length];
-                var $skill = Pan3d.me.SkillManager.getInstance().getSkill(getSkillUrl(this.skillFileName), $effectName);
+                var $skill = Pan3d.SkillManager.getInstance().getSkill(getSkillUrl(this.skillFileName), $effectName);
                 if ($skill.keyAry) {
                     if (this.textPlaySkillFun) {
-                        Pan3d.me.TimeUtil.removeTimeTick(this.textPlaySkillFun);
+                        Pan3d.TimeUtil.removeTimeTick(this.textPlaySkillFun);
                         this.textPlaySkillFun = null;
                     }
                 }
@@ -104,7 +104,7 @@ var scenedis;
                     else {
                         this.attackTarget.x = random(50) + 30;
                         this.attackTarget.z = random(50) + 30;
-                        var $tempPos = new Pan3d.me.Vector3D(this.attackTarget.x, this.attackTarget.y, this.attackTarget.z);
+                        var $tempPos = new Pan3d.Vector3D(this.attackTarget.x, this.attackTarget.y, this.attackTarget.z);
                         var $hitPosItem = new Array();
                         $hitPosItem.push($tempPos);
                         $skill.configFixEffect(this.mainChar, null, $hitPosItem);

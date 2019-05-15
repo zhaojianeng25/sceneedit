@@ -1,6 +1,6 @@
 declare module inputres {
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray;
-    class SceneRes extends Pan3d.me.SceneRes {
+    import Pan3dByteArray = Pan3d.Pan3dByteArray;
+    class SceneRes extends Pan3d.SceneRes {
         bfun: Function;
         readScene(): void;
         private saveImgToSever;

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MathClass {
         constructor();
         static getCamView(_Cam: Camera3D, _focus_3d: Object3D): Float32Array;

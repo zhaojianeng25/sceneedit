@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Shader3D = Pan3d.me.Shader3D;
-    var ProgrmaManager = Pan3d.me.ProgrmaManager;
-    var Matrix3D = Pan3d.me.Matrix3D;
-    var Scene_data = Pan3d.me.Scene_data;
-    var TextureManager = Pan3d.me.TextureManager;
+    var Shader3D = Pan3d.Shader3D;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Matrix3D = Pan3d.Matrix3D;
+    var Scene_data = Pan3d.Scene_data;
+    var TextureManager = Pan3d.TextureManager;
     var LayaScene2dPicShader = /** @class */ (function (_super) {
         __extends(LayaScene2dPicShader, _super);
         function LayaScene2dPicShader() {
@@ -140,7 +140,7 @@ var LayaPan3D;
             }
         };
         return LayaScene2dPicSprit;
-    }(Pan3d.me.Display3D));
+    }(Pan3d.Display3D));
     LayaPan3D.LayaScene2dPicSprit = LayaScene2dPicSprit;
     var LayaScene2dSceneChar = /** @class */ (function (_super) {
         __extends(LayaScene2dSceneChar, _super);
@@ -201,7 +201,7 @@ var LayaPan3D;
                     this.sceneManager.focus3D.x += (this.rootpos.x / this.scene2dScale * 2);
                     this.sceneManager.focus3D.z += (this.rootpos.y / this.scene2dScale * 2) / (Math.sin($num45 * Math.PI / 180)) * -1;
                 }
-                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }
         };

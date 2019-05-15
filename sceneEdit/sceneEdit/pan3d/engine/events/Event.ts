@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class BaseEvent {
         public type: string;
         public data: any

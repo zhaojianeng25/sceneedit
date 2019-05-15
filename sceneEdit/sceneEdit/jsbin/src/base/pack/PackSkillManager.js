@@ -1,7 +1,7 @@
 var pack;
 (function (pack) {
-    var LoadManager = Pan3d.me.LoadManager;
-    var Scene_data = Pan3d.me.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
+    var Scene_data = Pan3d.Scene_data;
     var PackSkillManager = /** @class */ (function () {
         function PackSkillManager() {
             this.dic = {};

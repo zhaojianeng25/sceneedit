@@ -11,10 +11,10 @@
             $sc.setWingByID("901");
             $sc.setMountById("4103");
             $sc.setWeaponByAvatar(50011);
-            $sc.play(Pan3d.me.CharAction.STAND_MOUNT);
+            $sc.play(Pan3d.CharAction.STAND_MOUNT);
 
 
-            Pan3d.me. SceneManager.getInstance().addMovieDisplay($sc);
+            Pan3d. SceneManager.getInstance().addMovieDisplay($sc);
 
 
 

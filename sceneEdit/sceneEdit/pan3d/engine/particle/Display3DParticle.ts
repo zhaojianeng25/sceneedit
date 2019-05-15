@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Display3DParticle extends Object3D {
 
         public visible: boolean;

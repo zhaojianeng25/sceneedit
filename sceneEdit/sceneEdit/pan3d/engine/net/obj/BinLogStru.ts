@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class BinLogStru extends SyncEvent {
         private static _pool: Array<BinLogStru> = new Array;
         /*获得一个可以使用的对象*/

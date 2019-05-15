@@ -13,14 +13,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var left;
 (function (left) {
-    var Display3dMovie = Pan3d.me.Display3dMovie;
-    var MeshData = Pan3d.me.MeshData;
-    var TexItem = Pan3d.me.TexItem;
-    var AnimData = Pan3d.me.AnimData;
-    var SkinMesh = Pan3d.me.SkinMesh;
-    var BaseEvent = Pan3d.me.BaseEvent;
-    var Scene_data = Pan3d.me.Scene_data;
-    var Dictionary = Pan3d.me.Dictionary;
+    var Display3dMovie = Pan3d.Display3dMovie;
+    var MeshData = Pan3d.MeshData;
+    var TexItem = Pan3d.TexItem;
+    var AnimData = Pan3d.AnimData;
+    var SkinMesh = Pan3d.SkinMesh;
+    var BaseEvent = Pan3d.BaseEvent;
+    var Scene_data = Pan3d.Scene_data;
+    var Dictionary = Pan3d.Dictionary;
     var MaterialRoleSprite = /** @class */ (function (_super) {
         __extends(MaterialRoleSprite, _super);
         function MaterialRoleSprite() {
@@ -197,7 +197,7 @@ var left;
         MaterialRoleSprite.prototype.meshParamInfo = function () {
             for (var i = 0; i < this.skinMesh.meshAry.length; i++) {
                 if (this.skinMesh.meshAry[i].material && this.skinMesh.meshAry[i].paramInfo) {
-                    this.skinMesh.meshAry[i].materialParam = new Pan3d.me.MaterialBaseParam;
+                    this.skinMesh.meshAry[i].materialParam = new Pan3d.MaterialBaseParam;
                     this.skinMesh.meshAry[i].materialParam.material = this.skinMesh.meshAry[i].material;
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(this.skinMesh.meshAry[i].materialParam, this.skinMesh.meshAry[i].paramInfo);
                 }

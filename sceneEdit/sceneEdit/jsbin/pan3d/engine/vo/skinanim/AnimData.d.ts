@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class DualQuatFloat32Array {
         quat: Float32Array;
         pos: Float32Array;

@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Vector2D = Pan3d.me.Vector2D;
-    var Object3D = Pan3d.me.Object3D;
+    var Vector2D = Pan3d.Vector2D;
+    var Object3D = Pan3d.Object3D;
     var LayaScene3D = /** @class */ (function (_super) {
         __extends(LayaScene3D, _super);
         function LayaScene3D(value, bfun) {
@@ -26,10 +26,10 @@ var LayaPan3D;
             return _this;
         }
         LayaScene3D.prototype.addEvents = function () {
-            this.on(Pan3d.me.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.me.MouseType.MouseWheel, this, this.onMouseWheel);
-            Laya.stage.on(Pan3d.me.MouseType.MouseUp, this, this.onMouseUp);
-            Laya.stage.on(Pan3d.me.MouseType.MouseMove, this, this.onMouseMove);
+            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
+            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
+            Laya.stage.on(Pan3d.MouseType.MouseUp, this, this.onMouseUp);
+            Laya.stage.on(Pan3d.MouseType.MouseMove, this, this.onMouseMove);
         };
         LayaScene3D.prototype.addSceneModel = function () {
             this.addDisplay();
@@ -62,7 +62,7 @@ var LayaPan3D;
         };
         LayaScene3D.prototype.upData = function () {
             if (this.sceneManager) {
-                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }
         };

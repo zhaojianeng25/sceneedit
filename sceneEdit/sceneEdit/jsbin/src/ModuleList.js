@@ -36,7 +36,7 @@ var ModuleList = /** @class */ (function () {
     ModuleList.startup = function () {
         var allModules = ModuleList.getModuleList();
         for (var i = 0; i < allModules.length; i++) {
-            Pan3d.me.Module.registerModule(allModules[i]);
+            Pan3d.Module.registerModule(allModules[i]);
         }
     };
     return ModuleList;

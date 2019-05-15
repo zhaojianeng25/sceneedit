@@ -1,15 +1,15 @@
 declare module filelist {
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    import Rectangle = Pan3d.me.Rectangle;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import Rectangle = Pan3d.Rectangle;
     import FileVo = pack.FileVo;
     class SampleFileVo {
         id: number;
         perent: number;
         data: FileVo;
     }
-    class FileListMeshVo extends Pan3d.me.baseMeshVo {
+    class FileListMeshVo extends Pan3d.baseMeshVo {
         private _name;
         fileXmlVo: SampleFileVo;
         ty: number;

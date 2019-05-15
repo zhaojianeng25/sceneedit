@@ -1,12 +1,12 @@
 var pack;
 (function (pack) {
-    var LoadManager = Pan3d.me.LoadManager;
-    var Scene_data = Pan3d.me.Scene_data;
-    var Pan3dByteArray = Pan3d.me.Pan3dByteArray;
+    var LoadManager = Pan3d.LoadManager;
+    var Scene_data = Pan3d.Scene_data;
+    var Pan3dByteArray = Pan3d.Pan3dByteArray;
     var PrefabStaticMesh = pack.PrefabStaticMesh;
-    var TextureManager = Pan3d.me.TextureManager;
-    var DynamicBaseConstItem = Pan3d.me.DynamicBaseConstItem;
-    var DynamicBaseTexItem = Pan3d.me.DynamicBaseTexItem;
+    var TextureManager = Pan3d.TextureManager;
+    var DynamicBaseConstItem = Pan3d.DynamicBaseConstItem;
+    var DynamicBaseTexItem = Pan3d.DynamicBaseTexItem;
     var PackPrefabManager = /** @class */ (function () {
         function PackPrefabManager() {
             this.dic = {};

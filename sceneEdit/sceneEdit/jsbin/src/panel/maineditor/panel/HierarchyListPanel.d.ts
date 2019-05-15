@@ -1,10 +1,10 @@
 declare module maineditor {
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    import Vector2D = Pan3d.me.Vector2D;
-    import Shader3D = Pan3d.me.Shader3D;
-    import Display3D = Pan3d.me.Display3D;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import Vector2D = Pan3d.Vector2D;
+    import Shader3D = Pan3d.Shader3D;
+    import Display3D = Pan3d.Display3D;
     import PrefabStaticMesh = pack.PrefabStaticMesh;
     class TestDiplay3dShader extends Shader3D {
         static TestDiplay3dShader: string;
@@ -26,7 +26,7 @@ declare module maineditor {
     }
     class OssListFile extends HierarchyFileNode {
     }
-    class FolderMeshVo extends Pan3d.me.baseMeshVo {
+    class FolderMeshVo extends Pan3d.baseMeshVo {
         ossListFile: OssListFile;
         childItem: Array<FolderMeshVo>;
         needDraw: boolean;

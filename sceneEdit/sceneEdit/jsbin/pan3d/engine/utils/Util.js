@@ -23,7 +23,7 @@ function hexToArgb(expColor, is32, color) {
     if (is32 === void 0) { is32 = true; }
     if (color === void 0) { color = null; }
     if (!color) {
-        color = new Pan3d.me.Vector3D();
+        color = new Pan3d.Vector3D();
     }
     color.w = is32 ? (expColor >> 24) & 0xFF : 0;
     color.x = (expColor >> 16) & 0xFF;
@@ -39,7 +39,7 @@ function hexToArgbNum(expColor, is32, color) {
     return color;
 }
 function getBaseUrl() {
-    if (Pan3d.me.Scene_data.supportBlob) {
+    if (Pan3d.Scene_data.supportBlob) {
         return "";
     }
     else {
@@ -180,7 +180,7 @@ function getZipByte($byte) {
     var aryBuf = $byte.buffer.slice($byte.position, $byte.position + zipLen);
     $byte.position += zipLen;
     var zipedBuf = unZip(aryBuf);
-    return new Pan3d.me.Pan3dByteArray(zipedBuf);
+    return new Pan3d.Pan3dByteArray(zipedBuf);
 }
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");

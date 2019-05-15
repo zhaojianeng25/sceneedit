@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SkillEffect extends SkillKey {
         active: Object3D;
         addToRender(): void;

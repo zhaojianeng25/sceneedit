@@ -5,7 +5,7 @@ declare module LayaPan3D {
         private mainChar;
         private addSceneModel;
         private addFramePartice;
-        addGrouandPic(value: string, rect: Pan3d.me.Rectangle): LayaScene2dPicSprit;
+        addGrouandPic(value: string, rect: Pan3d.Rectangle): LayaScene2dPicSprit;
         protected addEvents(): void;
         upData(): void;
         private onMouseWheel;

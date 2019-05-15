@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class ObjData extends ResCount {
         public dataView: DataView;
         public vertices: Array<number> = new Array;

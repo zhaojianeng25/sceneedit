@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var LayaPan3D;
 (function (LayaPan3D) {
-    var Vector3D = Pan3d.me.Vector3D;
-    var Vector2D = Pan3d.me.Vector2D;
-    var Scene_data = Pan3d.me.Scene_data;
+    var Vector3D = Pan3d.Vector3D;
+    var Vector2D = Pan3d.Vector2D;
+    var Scene_data = Pan3d.Scene_data;
     var LayaGame2dDemo = /** @class */ (function (_super) {
         __extends(LayaGame2dDemo, _super);
         function LayaGame2dDemo(value, bfun) {
@@ -36,11 +36,11 @@ var LayaPan3D;
             $baseChar.set2dPos(100, 100);
             $baseChar.rotationY = 180;
             this.mainChar = $baseChar;
-            var rect100 = new Pan3d.me.Rectangle(0, 0, 200, 200);
+            var rect100 = new Pan3d.Rectangle(0, 0, 200, 200);
             for (var i = 0; i < 6; i++) {
                 for (var j = 0; j < 4; j++) {
                     if (i == j) {
-                        this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.me.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
+                        this.addGrouandPic("map/5/maps/" + j + "_" + i + ".jpg", new Pan3d.Rectangle(i * rect100.width, j * rect100.height, rect100.width, rect100.height));
                     }
                 }
             }
@@ -69,8 +69,8 @@ var LayaPan3D;
             return tempPic;
         };
         LayaGame2dDemo.prototype.addEvents = function () {
-            this.on(Pan3d.me.MouseType.MouseDown, this, this.onStartDrag);
-            this.on(Pan3d.me.MouseType.MouseWheel, this, this.onMouseWheel);
+            this.on(Pan3d.MouseType.MouseDown, this, this.onStartDrag);
+            this.on(Pan3d.MouseType.MouseWheel, this, this.onMouseWheel);
             this.rootpos = new Vector2D(-100, -100);
         };
         LayaGame2dDemo.prototype.upData = function () {

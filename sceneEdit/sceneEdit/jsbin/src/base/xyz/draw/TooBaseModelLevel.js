@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Display3D = Pan3d.me.Display3D;
+    var Display3D = Pan3d.Display3D;
     var TooBaseModelLevel = /** @class */ (function (_super) {
         __extends(TooBaseModelLevel, _super);
         function TooBaseModelLevel(value) {

@@ -1,6 +1,6 @@
 ﻿module materialleft {
-    import Scene_data = Pan3d.me.Scene_data;
-    import Vector3D = Pan3d.me.Vector3D;
+    import Scene_data = Pan3d.Scene_data;
+    import Vector3D = Pan3d.Vector3D;
     import MetaDataView = prop.MetaDataView;
     import ReflectionData = prop.ReflectionData;
     import UiMeshSprite = prop.UiMeshSprite

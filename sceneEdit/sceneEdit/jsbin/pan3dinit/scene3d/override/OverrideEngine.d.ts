@@ -1,5 +1,5 @@
-declare module scene3d.me {
-    class OverrideEngine extends Pan3d.me.Engine {
+declare module scene3d_me {
+    class OverrideEngine extends Pan3d.Engine {
         constructor();
         static initConfig(): void;
         static update(): void;

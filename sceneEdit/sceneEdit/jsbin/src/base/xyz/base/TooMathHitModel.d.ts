@@ -1,9 +1,9 @@
 declare module xyz {
-    import Vector2D = Pan3d.me.Vector2D;
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import Rectangle = Pan3d.me.Rectangle;
-    import Display3D = Pan3d.me.Display3D;
-    import SceneManager = Pan3d.me.SceneManager;
+    import Vector2D = Pan3d.Vector2D;
+    import Matrix3D = Pan3d.Matrix3D;
+    import Rectangle = Pan3d.Rectangle;
+    import Display3D = Pan3d.Display3D;
+    import SceneManager = Pan3d.SceneManager;
     class TooMathHitModel {
         private static getViewMatrx3D;
         static testHitModel(display3D: Display3D, scene: SceneManager, mouseV2: Vector2D): number;

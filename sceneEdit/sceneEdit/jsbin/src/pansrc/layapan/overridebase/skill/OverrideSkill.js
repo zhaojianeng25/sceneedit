@@ -15,8 +15,8 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var SkillType = Pan3d.me.SkillType;
-        var SkillVo = Pan3d.me.SkillVo;
+        var SkillType = Pan3d.SkillType;
+        var SkillVo = Pan3d.SkillVo;
         var OverrideSkill = /** @class */ (function (_super) {
             __extends(OverrideSkill, _super);
             function OverrideSkill($skillManager) {
@@ -73,7 +73,7 @@ var layapan;
                 }
             };
             return OverrideSkill;
-        }(Pan3d.me.Skill));
+        }(Pan3d.Skill));
         me.OverrideSkill = OverrideSkill;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

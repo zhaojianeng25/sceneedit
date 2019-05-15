@@ -1,19 +1,19 @@
 ﻿module prop {
-    import TextureManager = Pan3d.me.TextureManager
-    import Scene_data = Pan3d.me.Scene_data
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TimeUtil = Pan3d.me.TimeUtil
-    import MouseType = Pan3d.me.MouseType;
+    import TextureManager = Pan3d.TextureManager
+    import Scene_data = Pan3d.Scene_data
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TimeUtil = Pan3d.TimeUtil
+    import MouseType = Pan3d.MouseType;
  
-    import GlReset = Pan3d.me.GlReset;
-    import LineDisplayShader = Pan3d.me.LineDisplayShader;
-    import GridLineSprite = Pan3d.me.GridLineSprite;
-    import ProgrmaManager = Pan3d.me.ProgrmaManager;
-    import BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-    import Camera3D = Pan3d.me.Camera3D;
-    import Rectangle = Pan3d.me.Rectangle;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import FBO = Pan3d.me.FBO;
+    import GlReset = Pan3d.GlReset;
+    import LineDisplayShader = Pan3d.LineDisplayShader;
+    import GridLineSprite = Pan3d.GridLineSprite;
+    import ProgrmaManager = Pan3d.ProgrmaManager;
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    import Camera3D = Pan3d.Camera3D;
+    import Rectangle = Pan3d.Rectangle;
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import FBO = Pan3d.FBO;
 
     //import MaterialRoleSprite = left.MaterialRoleSprite;
     //import ModelSprite = maineditor.ModelSprite;
@@ -123,7 +123,7 @@
         private oneByFrame(): void {
  
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
-                Pan3d.me.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture()
                 var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture

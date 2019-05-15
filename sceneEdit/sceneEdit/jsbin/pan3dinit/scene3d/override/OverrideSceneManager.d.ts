@@ -1,5 +1,5 @@
-declare module scene3d.me {
-    class OverrideSceneManager extends Pan3d.me.SceneManager {
+declare module scene3d_me {
+    class OverrideSceneManager extends Pan3d.SceneManager {
         constructor();
         static initConfig(): void;
         update(): void;

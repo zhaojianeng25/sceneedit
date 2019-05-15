@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var EventDispatcher = Pan3d.me.EventDispatcher;
+    var EventDispatcher = Pan3d.EventDispatcher;
     var SceneProjectVo = /** @class */ (function (_super) {
         __extends(SceneProjectVo, _super);
         function SceneProjectVo(value) {
@@ -29,7 +29,7 @@ var maineditor;
             if (this.textureurl) {
                 pack.PackMaterialManager.getInstance().getMaterialByUrl(this.textureurl, function ($materialTree) {
                     _this.material = $materialTree;
-                    _this.materialParam = new Pan3d.me.MaterialBaseParam;
+                    _this.materialParam = new Pan3d.MaterialBaseParam;
                     _this.materialParam.material = _this.material;
                     pack.PackPrefabManager.getInstance().makeMaterialBaseParam(_this.materialParam, _this.paramInfo);
                 });

@@ -1,7 +1,7 @@
 declare module colorview {
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Vector3D = Pan3d.me.Vector3D;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Vector3D = Pan3d.Vector3D;
     import UIPanel = win.UIPanel;
     class ColorPanel extends UIPanel {
         _bottomRender: UIRenderComponent;

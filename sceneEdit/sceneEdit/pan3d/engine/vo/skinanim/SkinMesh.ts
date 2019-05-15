@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
 
     export class SkinMesh extends ResCount {
         public meshAry: Array<MeshData> = new Array;

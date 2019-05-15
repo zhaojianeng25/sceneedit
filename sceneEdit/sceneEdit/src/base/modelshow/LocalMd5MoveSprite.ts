@@ -7,7 +7,7 @@ module left {
     import Md5Analysis = md5list.Md5Analysis
     import MeshImportSort = md5list.MeshImportSort
     import MeshToObjUtils = md5list.MeshToObjUtils
-    import Matrix3D = Pan3d.me.Matrix3D
+    import Matrix3D = Pan3d.Matrix3D
     export class LocalMd5MoveSprite extends Md5MoveSprite {
         private meshItem: Array<Md5MoveSprite>;
         constructor() {

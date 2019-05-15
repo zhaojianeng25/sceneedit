@@ -1,7 +1,7 @@
 declare module win {
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import UIConatiner = Pan3d.me.UIConatiner;
-    class UIPanelEvent extends Pan3d.me.BaseEvent {
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import UIConatiner = Pan3d.UIConatiner;
+    class UIPanelEvent extends Pan3d.BaseEvent {
         static DISPOSE_PANEL_EVENT: string;
         panel: UIPanel;
     }

@@ -1,7 +1,7 @@
 declare module win {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Vector2D = Pan3d.me.Vector2D;
-    import UICompenent = Pan3d.me.UICompenent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Vector2D = Pan3d.Vector2D;
+    import UICompenent = Pan3d.UICompenent;
     class GameUIInstance {
         constructor();
         static uiContainer: Sprite;

@@ -1,6 +1,6 @@
 declare module editscene {
     import Sprite = win.Sprite;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class TempSceneLine extends win.BaseWindow {
         private leftLine;
         private rightLine;

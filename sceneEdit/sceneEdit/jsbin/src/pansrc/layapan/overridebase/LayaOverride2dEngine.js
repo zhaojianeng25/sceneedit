@@ -22,18 +22,18 @@ var layapan;
             }
             LayaOverride2dEngine.initConfig = function () {
                 var _this = this;
-                Pan3d.me.UIData.resize = function () { _this.uiScaleresize(); }; //更换update
-                Pan3d.me.Engine.update = function () { _this.update(); }; //更换update
-                Pan3d.me.Engine.init = function ($caves) { scene2d.me.Override2dEngine.init($caves); }; //更换引擎初始化
-                Pan3d.me.Engine.resetSize = function (width, height) { scene2d.me.Override2dEngine.resetSize(width, height); }; //更尺寸变化
-                Pan3d.me.Engine.resetViewMatrx3D = function () { scene2d.me.Override2dEngine.resetViewMatrx3D(); };
+                Pan3d.UIData.resize = function () { _this.uiScaleresize(); }; //更换update
+                Pan3d.Engine.update = function () { _this.update(); }; //更换update
+                Pan3d.Engine.init = function ($caves) { scene2d_me.Override2dEngine.init($caves); }; //更换引擎初始化
+                Pan3d.Engine.resetSize = function (width, height) { scene2d_me.Override2dEngine.resetSize(width, height); }; //更尺寸变化
+                Pan3d.Engine.resetViewMatrx3D = function () { scene2d_me.Override2dEngine.resetViewMatrx3D(); };
             };
             LayaOverride2dEngine.uiScaleresize = function () {
                 console.log("重置什么也不做");
-                Pan3d.me.UIData.Scale = 1;
+                Pan3d.UIData.Scale = 1;
             };
             return LayaOverride2dEngine;
-        }(scene3d.me.OverrideEngine));
+        }(scene3d_me.OverrideEngine));
         me.LayaOverride2dEngine = LayaOverride2dEngine;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

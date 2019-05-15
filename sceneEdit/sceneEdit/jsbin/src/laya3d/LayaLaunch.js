@@ -3,7 +3,7 @@ var Loader = Laya.Loader;
 var LEvent = Laya.Event;
 var Stage = Laya.Stage;
 var Sprite = Laya.Sprite;
-var Pan3dByteArray = Pan3d.me.Pan3dByteArray;
+var Pan3dByteArray = Pan3d.Pan3dByteArray;
 var LayaScene2D = LayaPan3D.LayaScene2D;
 var LayaScene3D = LayaPan3D.LayaScene3D;
 var LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
@@ -51,10 +51,10 @@ var LayaLaunch = /** @class */ (function () {
         Laya.stage.alignH = Stage.ALIGN_TOP;
         Laya.stage.scaleMode = "full";
         Laya.stage.bgColor = "#232628";
-        Pan3d.me.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-        Pan3d.me.Scene_data.fileuiRoot = "res/";
-        Pan3d.me.Scene_data.fileRoot = Pan3d.me.Scene_data.ossRoot + "baseedit/";
-        Pan3d.me.Engine.init(this._canvas);
+        Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+        Pan3d.Scene_data.fileuiRoot = "res/";
+        Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
+        Pan3d.Engine.init(this._canvas);
         var midBox = new Laya.Box();
         Laya.stage.addChild(midBox);
         var topBox = new Laya.Box();
@@ -85,12 +85,12 @@ var LayaLaunch = /** @class */ (function () {
         var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB);
         picB.pos(0, 220);
-        this.lastTm = Pan3d.me.TimeUtil.getTimer();
+        this.lastTm = Pan3d.TimeUtil.getTimer();
         Laya.stage.frameLoop(1, this, function () {
-            var t = Pan3d.me.TimeUtil.getTimer() - _this.lastTm;
+            var t = Pan3d.TimeUtil.getTimer() - _this.lastTm;
             //  Pan3d.TimeUtil.START_TIME += t * -1;
-            _this.lastTm = Pan3d.me.TimeUtil.getTimer();
-            Pan3d.me.TimeUtil.update();
+            _this.lastTm = Pan3d.TimeUtil.getTimer();
+            Pan3d.TimeUtil.update();
         });
     };
     LayaLaunch.initCanvas = function ($caves) {

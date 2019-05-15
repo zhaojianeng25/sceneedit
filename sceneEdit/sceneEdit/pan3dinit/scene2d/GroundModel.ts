@@ -1,6 +1,6 @@
-﻿module scene2d.me {
+﻿module scene2d_me {
 
-    export class Ground2dBaseShader extends Pan3d.me.Shader3D {
+    export class Ground2dBaseShader extends Pan3d.Shader3D {
         static Ground2dBaseShader: string = "Ground2dBaseShader";
         constructor() {
             super();
@@ -47,7 +47,7 @@
 
     }
 
-    export class Ground2dBaseSprite extends Pan3d.me.Display3D {
+    export class Ground2dBaseSprite extends Pan3d.Display3D {
 
         constructor() {
             super();
@@ -58,11 +58,11 @@
             this.initData()
         }
         protected initData(): void {
-            Pan3d.me.ProgrmaManager.getInstance().registe(Ground2dBaseShader.Ground2dBaseShader, new Ground2dBaseShader);
-            this.shader = Pan3d.me.ProgrmaManager.getInstance().getProgram(Ground2dBaseShader.Ground2dBaseShader);
+            Pan3d.ProgrmaManager.getInstance().registe(Ground2dBaseShader.Ground2dBaseShader, new Ground2dBaseShader);
+            this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Ground2dBaseShader.Ground2dBaseShader);
             this.program = this.shader.program;
 
-            this.objData = new Pan3d.me.ObjData;
+            this.objData = new Pan3d.ObjData;
             this.objData.vertices = new Array();
             this.objData.vertices.push(0, -1, 0);
             this.objData.vertices.push(1, -1, 0);
@@ -83,49 +83,49 @@
             this.upToGpu();
         }
         private loadTexture(): void {
-            var $ctx: CanvasRenderingContext2D = Pan3d.me.UIManager.getInstance().getContext2D(128, 128, false);
+            var $ctx: CanvasRenderingContext2D = Pan3d.UIManager.getInstance().getContext2D(128, 128, false);
             $ctx.fillStyle = "rgb(255,255,255)";
             $ctx.fillRect(0, 0, 128, 128);
-            this._uvTextureRes = Pan3d.me. TextureManager.getInstance().getCanvasTexture($ctx)
+            this._uvTextureRes = Pan3d. TextureManager.getInstance().getCanvasTexture($ctx)
 
 
       
         }
         public setPicUrl($url: string): void {
           //  var $url: string = Scene_data.fileRoot + "pan/zymap2d/scene/1007/maps/0_0.jpg"
-            Pan3d.me.TextureManager.getInstance().getTexture($url, ($texture: Pan3d.me. TextureRes) => {
+            Pan3d.TextureManager.getInstance().getTexture($url, ($texture: Pan3d. TextureRes) => {
                 this._uvTextureRes = $texture;
             });
         }
-        public _uvTextureRes: Pan3d.me.TextureRes
+        public _uvTextureRes: Pan3d.TextureRes
 
         public upToGpu(): void {
             if (this.objData.indexs.length) {
                 this.objData.treNum = this.objData.indexs.length
-                this.objData.vertexBuffer = Pan3d.me.Scene_data.context3D.uploadBuff3D(this.objData.vertices);
-                this.objData.uvBuffer = Pan3d.me. Scene_data.context3D.uploadBuff3D(this.objData.uvs);
-                this.objData.indexBuffer = Pan3d.me. Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
+                this.objData.vertexBuffer = Pan3d.Scene_data.context3D.uploadBuff3D(this.objData.vertices);
+                this.objData.uvBuffer = Pan3d. Scene_data.context3D.uploadBuff3D(this.objData.uvs);
+                this.objData.indexBuffer = Pan3d. Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
             }
         }
         public update(): void {
             if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
-                Pan3d.me.  Scene_data.context3D.setProgram(this.program);
-                Pan3d.me. Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-                Pan3d.me. Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-                Pan3d.me. Scene_data.context3D.setVc4fv(this.shader, "movesize", this.getMoveSizeData());
-                Pan3d.me.  Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-                Pan3d.me.   Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
+                Pan3d.  Scene_data.context3D.setProgram(this.program);
+                Pan3d. Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
+                Pan3d. Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
+                Pan3d. Scene_data.context3D.setVc4fv(this.shader, "movesize", this.getMoveSizeData());
+                Pan3d.  Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+                Pan3d.   Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }
         }
         public width: number;
         public height: number;
-        public static perentpos: Pan3d.me.Vector2D = new Pan3d.me.Vector2D()
+        public static perentpos: Pan3d.Vector2D = new Pan3d.Vector2D()
         private getMoveSizeData(): Array<number> {
             
-            var $tx: number = (this.x + Ground2dBaseSprite.perentpos.x) / (Pan3d.me.Scene_data.stageWidth / 2) - 1;
-            var $ty: number = 1 - (this.y + Ground2dBaseSprite.perentpos.y) / (Pan3d.me.Scene_data.stageHeight / 2);
-            var $tw: number = this.width / (Pan3d.me.Scene_data.stageWidth / 2);
-            var $th: number = this.height / (Pan3d.me.Scene_data.stageHeight / 2);
+            var $tx: number = (this.x + Ground2dBaseSprite.perentpos.x) / (Pan3d.Scene_data.stageWidth / 2) - 1;
+            var $ty: number = 1 - (this.y + Ground2dBaseSprite.perentpos.y) / (Pan3d.Scene_data.stageHeight / 2);
+            var $tw: number = this.width / (Pan3d.Scene_data.stageWidth / 2);
+            var $th: number = this.height / (Pan3d.Scene_data.stageHeight / 2);
             return [$tx, $ty, $tw, $th]
         }
     }
@@ -143,14 +143,14 @@
         }
         public update(): void {
 
-            Pan3d.me.Scene_data.context3D.setWriteDepth(false);
-            Pan3d.me.Scene_data.context3D.setDepthTest(false);
+            Pan3d.Scene_data.context3D.setWriteDepth(false);
+            Pan3d.Scene_data.context3D.setDepthTest(false);
             for (var i: number = 0; i < this._groundItem.length; i++) {
                 this._groundItem[i].update();
             }
 
         }
-        public addGroundPicByeUrl($url: string = null, $rect: Pan3d.me.Rectangle = null): Ground2dBaseSprite {
+        public addGroundPicByeUrl($url: string = null, $rect: Pan3d.Rectangle = null): Ground2dBaseSprite {
 
             var $dis: Ground2dBaseSprite = new Ground2dBaseSprite();
             if ($url) {

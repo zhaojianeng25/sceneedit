@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SyncEvent {
         static OBJ_OPT_NEW: number;
         static OBJ_OPT_DELETE: number;

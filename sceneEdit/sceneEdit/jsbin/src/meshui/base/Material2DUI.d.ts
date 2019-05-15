@@ -9,7 +9,7 @@ declare module prop {
         paramChange(item: Array<any>): void;
         private showMaterialParamUi;
         resize(): void;
-        protected searchClik(evt: Pan3d.me.InteractiveEvent): void;
+        protected searchClik(evt: Pan3d.InteractiveEvent): void;
         private makeTempInfo;
     }
 }

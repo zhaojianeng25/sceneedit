@@ -13,18 +13,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var UIVirtualContainer = /** @class */ (function (_super) {
-            __extends(UIVirtualContainer, _super);
-            function UIVirtualContainer() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.visible = true;
-                return _this;
-            }
-            return UIVirtualContainer;
-        }(me.UIConatiner));
-        me.UIVirtualContainer = UIVirtualContainer;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+    var UIVirtualContainer = /** @class */ (function (_super) {
+        __extends(UIVirtualContainer, _super);
+        function UIVirtualContainer() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.visible = true;
+            return _this;
+        }
+        return UIVirtualContainer;
+    }(Pan3d.UIConatiner));
+    Pan3d.UIVirtualContainer = UIVirtualContainer;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=UIVirtualContainer.js.map

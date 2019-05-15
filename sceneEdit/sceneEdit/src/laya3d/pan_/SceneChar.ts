@@ -118,14 +118,14 @@ module lou16.me {
 			//}
 		}
 
-        public moveTopos(v: Pan3d.me.Vector2D): void {
+        public moveTopos(v: Pan3d.Vector2D): void {
             this.moveToPosV2d = v;
-            var $nmr: Pan3d.me.Vector2D = this.pixelPos.sub(this.moveToPosV2d);
+            var $nmr: Pan3d.Vector2D = this.pixelPos.sub(this.moveToPosV2d);
 			this.pRotationY = 180 - Math.atan2($nmr.x, $nmr.y) * 180 / Math.PI;
 		}
 		public set2dPos($x: number, $y: number): void {
             super.set2dPos($x, $y);
-            this.pixelPos = new Pan3d.me.Vector2D($x, $y)
+            this.pixelPos = new Pan3d.Vector2D($x, $y)
 
 
  
@@ -181,8 +181,8 @@ module lou16.me {
 		showActionEnd($action: string): void {
 			this.curentAction = $action;
             this._completeState = 1;
-            var animData: Pan3d.me. AnimData = this._animDic[$action];
-            this._actionTime = 2 * Pan3d.me. Scene_data.frameTime * animData.matrixAry.length;
+            var animData: Pan3d. AnimData = this._animDic[$action];
+            this._actionTime = 2 * Pan3d. Scene_data.frameTime * animData.matrixAry.length;
 			this.updateFrame(0);
         }
     

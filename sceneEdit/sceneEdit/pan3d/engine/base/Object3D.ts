@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Object3D extends EventDispatcher {
         protected _x: number;
         protected _y: number;

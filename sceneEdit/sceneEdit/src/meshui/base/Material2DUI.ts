@@ -1,7 +1,7 @@
 ﻿module prop {
-    import TextureManager = Pan3d.me.TextureManager
-    import Scene_data = Pan3d.me.Scene_data
-    import Material = Pan3d.me.Material
+    import TextureManager = Pan3d.TextureManager
+    import Scene_data = Pan3d.Scene_data
+    import Material = Pan3d.Material
    
     export class Material2DUI extends Texturue2DUI {
         private textureTree: materialui.MaterialTree
@@ -60,7 +60,7 @@
           
             }
         }
-        protected searchClik(evt: Pan3d.me.InteractiveEvent): void {
+        protected searchClik(evt: Pan3d.InteractiveEvent): void {
             console.log(this.textureTree.url)
             this.searchFileByPath(this.textureTree.url)
         }

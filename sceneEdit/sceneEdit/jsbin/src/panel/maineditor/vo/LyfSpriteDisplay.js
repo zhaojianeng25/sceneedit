@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Display3DSprite = Pan3d.me.Display3DSprite;
+    var Display3DSprite = Pan3d.Display3DSprite;
     var LyfSpriteDisplay = /** @class */ (function (_super) {
         __extends(LyfSpriteDisplay, _super);
         function LyfSpriteDisplay() {
@@ -51,11 +51,11 @@ var maineditor;
             var _this = this;
             var scene = this._scene;
             scene.groupDataManager.scene = scene;
-            scene.groupDataManager.getGroupData(Pan3d.me.Scene_data.fileRoot + value, function (groupRes) {
+            scene.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + value, function (groupRes) {
                 for (var i = 0; i < groupRes.dataAry.length; i++) {
                     var item = groupRes.dataAry[i];
-                    if (item.types == Pan3d.me.BaseRes.SCENE_PARTICLE_TYPE) {
-                        var $particle = scene.particleManager.getParticleByte(Pan3d.me.Scene_data.fileRoot + item.particleUrl);
+                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle = scene.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
                         scene.particleManager.addParticle($particle);
                         $particle.bindTarget = _this;
                         _this.particleItem.push($particle);

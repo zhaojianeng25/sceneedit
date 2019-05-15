@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var win;
 (function (win) {
-    var UIConatiner = Pan3d.me.UIConatiner;
+    var UIConatiner = Pan3d.UIConatiner;
     var UIPanelEvent = /** @class */ (function (_super) {
         __extends(UIPanelEvent, _super);
         function UIPanelEvent() {
@@ -21,7 +21,7 @@ var win;
         }
         UIPanelEvent.DISPOSE_PANEL_EVENT = "dispose_panel_event";
         return UIPanelEvent;
-    }(Pan3d.me.BaseEvent));
+    }(Pan3d.BaseEvent));
     win.UIPanelEvent = UIPanelEvent;
     var UIPanel = /** @class */ (function (_super) {
         __extends(UIPanel, _super);
@@ -30,7 +30,7 @@ var win;
         }
         UIPanel.prototype.onAdd = function () {
             if (this._disposeEventFun) {
-                Pan3d.me.TimeUtil.removeTimeOut(this._disposeEventFun);
+                Pan3d.TimeUtil.removeTimeOut(this._disposeEventFun);
             }
         };
         UIPanel.prototype.onRemove = function () {
@@ -39,10 +39,10 @@ var win;
                 this._disposeEventFun = function () {
                     var evt = new UIPanelEvent(UIPanelEvent.DISPOSE_PANEL_EVENT);
                     evt.panel = _this;
-                    Pan3d.me.ModuleEventManager.dispatchEvent(evt);
+                    Pan3d.ModuleEventManager.dispatchEvent(evt);
                 };
             }
-            Pan3d.me.TimeUtil.addTimeOut(20000000, this._disposeEventFun);
+            Pan3d.TimeUtil.addTimeOut(20000000, this._disposeEventFun);
         };
         UIPanel.prototype.addRender = function ($uiRender) {
             var index = this.renderList.indexOf($uiRender);

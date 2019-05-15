@@ -1,8 +1,8 @@
 declare module maineditor {
-    import BaseEvent = Pan3d.me.BaseEvent;
-    import Module = Pan3d.me.Module;
-    import Processor = Pan3d.me.Processor;
-    import BaseProcessor = Pan3d.me.BaseProcessor;
+    import BaseEvent = Pan3d.BaseEvent;
+    import Module = Pan3d.Module;
+    import Processor = Pan3d.Processor;
+    import BaseProcessor = Pan3d.BaseProcessor;
     class MainEditorEvent extends BaseEvent {
         static LOAD_SCENE_MAP: string;
         static INIT_MAIN_EDITOR_PANEL: string;

@@ -1,7 +1,7 @@
 ﻿module editscene {
-    import TextRegExp = Pan3d.me.TextRegExp
-    import UIManager = Pan3d.me.UIManager
-    import MouseType = Pan3d.me.MouseType
+    import TextRegExp = Pan3d.TextRegExp
+    import UIManager = Pan3d.UIManager
+    import MouseType = Pan3d.MouseType
 
     import Panel = win.Panel;
 
@@ -69,7 +69,7 @@
               
         }
         private changeBfun: Function;
-        public changeName(rect: Pan3d.me.Rectangle, str: string, bfun: Function): void {
+        public changeName(rect: Pan3d.Rectangle, str: string, bfun: Function): void {
             this.changeBfun = bfun;
             this.setInputTxtPos()
             win.LayerManager.isHideMouseEvent = true;

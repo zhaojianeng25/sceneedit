@@ -1,5 +1,5 @@
 declare module xyz {
-    import Display3D = Pan3d.me.Display3D;
+    import Display3D = Pan3d.Display3D;
     class TooBaseModelLevel extends Display3D {
         parent: MoveScaleRotationLevel;
         constructor(value: MoveScaleRotationLevel);

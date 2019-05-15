@@ -10,7 +10,7 @@ declare module lou16.me {
         nameEnable: boolean;
         titleEnable: boolean;
         refreshPos(): void;
-        moveTopos(v: Pan3d.me.Vector2D): void;
+        moveTopos(v: Pan3d.Vector2D): void;
         set2dPos($x: number, $y: number): void;
         private pixelPos;
         private moveToPosV2d;

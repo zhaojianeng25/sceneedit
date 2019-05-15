@@ -1,5 +1,5 @@
 ﻿module prop {
-    import Vector3D = Pan3d.me.Vector3D
+    import Vector3D = Pan3d.Vector3D
     export class Vec3dCtrlUI extends BaseReflComponent {
 
         protected textLabelUI: TextLabelUI;

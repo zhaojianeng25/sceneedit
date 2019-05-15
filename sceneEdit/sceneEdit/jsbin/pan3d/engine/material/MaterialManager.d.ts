@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MaterialManager extends ResGC {
         private _loadDic;
         private _resDic;

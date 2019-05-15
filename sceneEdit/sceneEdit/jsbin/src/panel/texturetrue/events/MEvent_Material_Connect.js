@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialui;
 (function (materialui) {
-    var BaseEvent = Pan3d.me.BaseEvent;
+    var BaseEvent = Pan3d.BaseEvent;
     var MEvent_Material_Connect = /** @class */ (function (_super) {
         __extends(MEvent_Material_Connect, _super);
         function MEvent_Material_Connect() {

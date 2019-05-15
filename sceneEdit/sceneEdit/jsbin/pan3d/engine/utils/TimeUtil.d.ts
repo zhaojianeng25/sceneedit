@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class TimeUtil {
         static START_TIME: number;
         static funAry: Array<Function>;

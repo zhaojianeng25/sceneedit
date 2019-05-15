@@ -1,10 +1,10 @@
 ﻿module win {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import Vector2D = Pan3d.me.Vector2D
-    import Rectangle = Pan3d.me.Rectangle;
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import Vector2D = Pan3d.Vector2D
+    import Rectangle = Pan3d.Rectangle;
  
-    import UICompenent = Pan3d.me.UICompenent
-    import Scene_data = Pan3d.me.Scene_data
+    import UICompenent = Pan3d.UICompenent
+    import Scene_data = Pan3d.Scene_data
 
     export class GameUIInstance {
         public constructor() {
@@ -64,7 +64,7 @@
         }
      
         public update(): void {
-            Pan3d.me.Scene_data.context3D.setDepthTest(false);
+            Pan3d.Scene_data.context3D.setDepthTest(false);
             for (var i: number = 0; this.children&& i < this.children.length; i++) {
                 this.children[i].update()
             }

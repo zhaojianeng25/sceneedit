@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var MathFunMeshPanel = /** @class */ (function (_super) {
         __extends(MathFunMeshPanel, _super);
         function MathFunMeshPanel() {

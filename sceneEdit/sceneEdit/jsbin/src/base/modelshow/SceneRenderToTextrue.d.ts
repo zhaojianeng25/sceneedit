@@ -1,6 +1,6 @@
 declare module left {
-    import FBO = Pan3d.me.FBO;
-    import Display3D = Pan3d.me.Display3D;
+    import FBO = Pan3d.FBO;
+    import Display3D = Pan3d.Display3D;
     class SceneRenderToTextrue {
         private static _instance;
         static getInstance(): SceneRenderToTextrue;

@@ -1,6 +1,6 @@
 ﻿module prop {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import Scene_data = Pan3d.me.Scene_data
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import Scene_data = Pan3d.Scene_data
     export class TextureFunPanel extends win.BaseWindow {
  
         protected loadConfigCom(): void {
@@ -121,7 +121,7 @@
  
         }
         private changeData(): void {
-            Pan3d.me.  ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            Pan3d.  ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
         }
         private static _instance: TextureFunPanel;
         public static getInstance(): TextureFunPanel {
@@ -137,7 +137,7 @@
             this.layaPanel = new win.Panel()
             win.LayerManager.getInstance().addPanel(this.layaPanel, 501);
 
-            this.setRect(new Pan3d.me.Rectangle(100, 100, 500, 400))
+            this.setRect(new Pan3d.Rectangle(100, 100, 500, 400))
     ;
         }
         public showPanel(value: materialui.MathFunNodeUI): void {

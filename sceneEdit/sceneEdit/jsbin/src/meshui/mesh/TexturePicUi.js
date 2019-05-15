@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var TextureManager = Pan3d.me.TextureManager;
-    var TimeUtil = Pan3d.me.TimeUtil;
-    var UIManager = Pan3d.me.UIManager;
-    var Scene_data = Pan3d.me.Scene_data;
+    var TextureManager = Pan3d.TextureManager;
+    var TimeUtil = Pan3d.TimeUtil;
+    var UIManager = Pan3d.UIManager;
+    var Scene_data = Pan3d.Scene_data;
     var TexturePicUi = /** @class */ (function (_super) {
         __extends(TexturePicUi, _super);
         function TexturePicUi(w, h) {
@@ -56,7 +56,7 @@ var prop;
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
                 if (this._url.indexOf(".material") != -1) {
                     var fileUrl = this._url;
-                    Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 }
                 else {
                     if (this.haveDoubleCilk) {

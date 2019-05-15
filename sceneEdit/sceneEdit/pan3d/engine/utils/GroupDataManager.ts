@@ -1,4 +1,4 @@
-module Pan3d.me {
+module Pan3d {
     export class GroupDataManager extends ResGC {
         protected _loadDic: Object = new Object;
         private static _instance: GroupDataManager;

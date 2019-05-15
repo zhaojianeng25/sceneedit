@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SceneBaseChar extends Display3dMovie {
         private _avatar;
         _visible: boolean;

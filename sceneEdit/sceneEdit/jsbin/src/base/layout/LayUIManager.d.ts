@@ -1,8 +1,8 @@
 declare module win {
-    import UIConatiner = Pan3d.me.UIConatiner;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Vector2D = Pan3d.me.Vector2D;
+    import UIConatiner = Pan3d.UIConatiner;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Vector2D = Pan3d.Vector2D;
     class LayUIManager {
         private _uiList;
         _containerList: Array<UIConatiner>;

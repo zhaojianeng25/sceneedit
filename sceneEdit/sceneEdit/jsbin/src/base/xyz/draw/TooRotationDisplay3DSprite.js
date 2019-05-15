@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var cctv;
 (function (cctv) {
-    var Shader3D = Pan3d.me.Shader3D;
-    var Display3D = Pan3d.me.Display3D;
-    var ProgrmaManager = Pan3d.me.ProgrmaManager;
-    var Matrix3D = Pan3d.me.Matrix3D;
-    var Scene_data = Pan3d.me.Scene_data;
+    var Shader3D = Pan3d.Shader3D;
+    var Display3D = Pan3d.Display3D;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Matrix3D = Pan3d.Matrix3D;
+    var Scene_data = Pan3d.Scene_data;
     var TooJianTouDisplay3DShader = /** @class */ (function (_super) {
         __extends(TooJianTouDisplay3DShader, _super);
         function TooJianTouDisplay3DShader() {

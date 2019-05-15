@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class ParticleBallGpuData extends ParticleGpuData {
         public basePos: Array<number>;
         public basePosBuffer: WebGLBuffer;

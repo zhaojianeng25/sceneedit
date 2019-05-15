@@ -1,7 +1,7 @@
 declare module layapan.me {
-    import SkillRes = Pan3d.me.SkillRes;
-    import SkillData = Pan3d.me.SkillData;
-    import SkillManager = Pan3d.me.SkillManager;
+    import SkillRes = Pan3d.SkillRes;
+    import SkillData = Pan3d.SkillData;
+    import SkillManager = Pan3d.SkillManager;
     class LayaOverride2dSkillManager extends SkillManager {
         sceneManager: LayaOverride2dSceneManager;
         constructor($sceneManager: LayaOverride2dSceneManager);

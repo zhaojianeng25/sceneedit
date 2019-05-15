@@ -1,8 +1,8 @@
 ﻿module win {
-    import Rectangle = Pan3d.me.Rectangle
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import Vector2D = Pan3d.me.Vector2D
-    import UICompenent = Pan3d.me.UICompenent
+    import Rectangle = Pan3d.Rectangle
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import Vector2D = Pan3d.Vector2D
+    import UICompenent = Pan3d.UICompenent
     export class Sprite extends LayUIManager {
 
 

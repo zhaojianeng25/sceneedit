@@ -1,14 +1,14 @@
 ﻿module layapan.me {
-    import Shader3D = Pan3d.me.Shader3D
-    import Display3DParticle = Pan3d.me.Display3DParticle
-    import CombineParticle = Pan3d.me.CombineParticle
-    import CombineParticleData = Pan3d.me.CombineParticleData
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
-    import ParticleManager = Pan3d.me.ParticleManager
-    import LoadManager = Pan3d.me.LoadManager
-    import TextureManager = Pan3d.me.TextureManager
-    import Scene_data = Pan3d.me.Scene_data
-    import TextureRes = Pan3d.me.TextureRes
+    import Shader3D = Pan3d.Shader3D
+    import Display3DParticle = Pan3d.Display3DParticle
+    import CombineParticle = Pan3d.CombineParticle
+    import CombineParticleData = Pan3d.CombineParticleData
+    import Pan3dByteArray = Pan3d.Pan3dByteArray
+    import ParticleManager = Pan3d.ParticleManager
+    import LoadManager = Pan3d.LoadManager
+    import TextureManager = Pan3d.TextureManager
+    import Scene_data = Pan3d.Scene_data
+    import TextureRes = Pan3d.TextureRes
     
 
     export class Frame3DParticleShader extends Shader3D {
@@ -67,8 +67,8 @@
         public constructor() {
             super();
             this.beginTime =0
-            Pan3d.me.ProgrmaManager.getInstance().registe(Frame3DParticleShader.Frame3DParticleShader, new Frame3DParticleShader)
-            this.shader = Pan3d.me.ProgrmaManager.getInstance().getProgram(Frame3DParticleShader.Frame3DParticleShader)
+            Pan3d.ProgrmaManager.getInstance().registe(Frame3DParticleShader.Frame3DParticleShader, new Frame3DParticleShader)
+            this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DParticleShader.Frame3DParticleShader)
             this.initData()
 
         }
@@ -168,7 +168,7 @@
             }
             if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
                 Scene_data.context3D.setProgram(this.shader.program);
-                this.posMatrix = new Pan3d.me.Matrix3D
+                this.posMatrix = new Pan3d.Matrix3D
                 if (this.bindVecter3d) {
                     this.posMatrix.appendScale(2, 2, 1);
                     this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z)
@@ -189,7 +189,7 @@
 
         public frame: any
         public sourceSize: any
-        public spriteSourceSize: Pan3d.me.Vector2D
+        public spriteSourceSize: Pan3d.Vector2D
         public key: string
 
         public meshData(value: any): void {
@@ -256,8 +256,8 @@
             super();
             this.uvchangeData = [0, 0, 1, 1]
             this.beginTime = 0
-            Pan3d.me.ProgrmaManager.getInstance().registe(Frame3DAtlasShader.Frame3DAtlasShader, new Frame3DAtlasShader)
-            this.shader = Pan3d.me.ProgrmaManager.getInstance().getProgram(Frame3DAtlasShader.Frame3DAtlasShader)
+            Pan3d.ProgrmaManager.getInstance().registe(Frame3DAtlasShader.Frame3DAtlasShader, new Frame3DAtlasShader)
+            this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DAtlasShader.Frame3DAtlasShader)
             this.initData()
 
         }
@@ -392,7 +392,7 @@
                 }
      
                 Scene_data.context3D.setProgram(this.shader.program);
-                this.posMatrix = new Pan3d.me.Matrix3D
+                this.posMatrix = new Pan3d.Matrix3D
                 this.posMatrix.appendScale(this.scaleX, this.scaleY, 1);
                 
                 if (this.bindVecter3d) {

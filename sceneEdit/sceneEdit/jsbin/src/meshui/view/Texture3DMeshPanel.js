@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var Texture3DMeshPanel = /** @class */ (function (_super) {
         __extends(Texture3DMeshPanel, _super);
         function Texture3DMeshPanel() {

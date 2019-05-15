@@ -1,5 +1,5 @@
 ﻿
-module Pan3d.me {
+module Pan3d {
     export class GroundDataMesh {
         public tx: number;
         public ty: number;

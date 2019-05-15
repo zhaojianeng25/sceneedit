@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var filelist;
 (function (filelist) {
-    var Scene_data = Pan3d.me.Scene_data;
+    var Scene_data = Pan3d.Scene_data;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
     var SkillMeshView = /** @class */ (function (_super) {
@@ -103,7 +103,7 @@ var filelist;
         });
         SkillMeshView.prototype.mashSkillActionInfo = function () {
             var _this = this;
-            Pan3d.me.ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + this._skillStaticMesh.skillUrl, function ($skillRes) {
+            Pan3d.ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + this._skillStaticMesh.skillUrl, function ($skillRes) {
                 for (var i = 0; i < _this.ui.length; i++) {
                     var tempUi = _this.ui[i];
                     if (tempUi instanceof prop.ComBoBoxCtrl2D) {
@@ -124,7 +124,7 @@ var filelist;
         };
         SkillMeshView.prototype.saveToSever = function () {
             var _this = this;
-            this.lastTm = Pan3d.me.TimeUtil.getTimer();
+            this.lastTm = Pan3d.TimeUtil.getTimer();
             // this.isSaveNow = true
             if (!this.isSaveNow) {
                 this.isSaveNow = true;
@@ -133,13 +133,13 @@ var filelist;
                 $temp.version = pack.FileOssModel.version;
                 var $roleStr = JSON.stringify($temp);
                 var $file = new File([$roleStr], "ossfile.txt");
-                var pathUrl = Pan3d.me.Scene_data.fileRoot + this._skillStaticMesh.url;
-                var pathurl = pathUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+                var pathUrl = Pan3d.Scene_data.fileRoot + this._skillStaticMesh.url;
+                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 console.log("提交上传ing...", pathurl);
                 pack.FileOssModel.upOssFile($file, pathurl, function () {
                     if (_this.lastTm != _this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次");
-                        Pan3d.me.TimeUtil.addTimeOut(1000, function () {
+                        Pan3d.TimeUtil.addTimeOut(1000, function () {
                             _this.isSaveNow = false;
                             _this.saveToSever();
                         });

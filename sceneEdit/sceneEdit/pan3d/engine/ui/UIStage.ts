@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class UIStage extends EventDispatcher {
 
         public interactiveEvent(e: InteractiveEvent): boolean {

@@ -1,13 +1,13 @@
 var pack;
 (function (pack) {
-    var LoadManager = Pan3d.me.LoadManager;
-    var Scene_data = Pan3d.me.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
+    var Scene_data = Pan3d.Scene_data;
     var RoleStaticMesh = pack.RoleStaticMesh;
-    var MeshData = Pan3d.me.MeshData;
-    var AnimData = Pan3d.me.AnimData;
-    var SkinMesh = Pan3d.me.SkinMesh;
-    var DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array;
-    var Dictionary = Pan3d.me.Dictionary;
+    var MeshData = Pan3d.MeshData;
+    var AnimData = Pan3d.AnimData;
+    var SkinMesh = Pan3d.SkinMesh;
+    var DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
+    var Dictionary = Pan3d.Dictionary;
     var PackRoleManager = /** @class */ (function () {
         function PackRoleManager() {
             this.dic = {};

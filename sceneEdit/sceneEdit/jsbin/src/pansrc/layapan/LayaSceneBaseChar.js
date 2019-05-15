@@ -18,14 +18,14 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var CombineParticle = Pan3d.me.CombineParticle;
-        var Scene_data = Pan3d.me.Scene_data;
-        var ParticleManager = Pan3d.me.ParticleManager;
-        var Vector3D = Pan3d.me.Vector3D;
-        var BaseRes = Pan3d.me.BaseRes;
-        var MaterialAnimShader = Pan3d.me.MaterialAnimShader;
-        var Display3DSprite = Pan3d.me.Display3DSprite;
-        var ShadowManager = Pan3d.me.ShadowManager;
+        var CombineParticle = Pan3d.CombineParticle;
+        var Scene_data = Pan3d.Scene_data;
+        var ParticleManager = Pan3d.ParticleManager;
+        var Vector3D = Pan3d.Vector3D;
+        var BaseRes = Pan3d.BaseRes;
+        var MaterialAnimShader = Pan3d.MaterialAnimShader;
+        var Display3DSprite = Pan3d.Display3DSprite;
+        var ShadowManager = Pan3d.ShadowManager;
         var LayaSceneBaseChar = /** @class */ (function (_super) {
             __extends(LayaSceneBaseChar, _super);
             function LayaSceneBaseChar() {
@@ -287,7 +287,7 @@ var layapan;
                 }
             };
             return LayaSceneBaseChar;
-        }(Pan3d.me.Display3dMovie));
+        }(Pan3d.Display3dMovie));
         me.LayaSceneBaseChar = LayaSceneBaseChar;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

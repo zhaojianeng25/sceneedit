@@ -1,6 +1,6 @@
 var win;
 (function (win) {
-    var Scene_data = Pan3d.me.Scene_data;
+    var Scene_data = Pan3d.Scene_data;
     var GameUIInstance = /** @class */ (function () {
         function GameUIInstance() {
         }
@@ -44,7 +44,7 @@ var win;
             }
         };
         LayerManager.prototype.update = function () {
-            Pan3d.me.Scene_data.context3D.setDepthTest(false);
+            Pan3d.Scene_data.context3D.setDepthTest(false);
             for (var i = 0; this.children && i < this.children.length; i++) {
                 this.children[i].update();
             }

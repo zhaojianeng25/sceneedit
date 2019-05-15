@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class PuiData {
         /** 方形高亮64*64 */
         public static A_HIGHT_F: string = "A_hight_f"

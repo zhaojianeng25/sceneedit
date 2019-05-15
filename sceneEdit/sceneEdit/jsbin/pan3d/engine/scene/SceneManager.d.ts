@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SceneManager {
         cam3D: Camera3D;
         viewMatrx3D: Matrix3D;

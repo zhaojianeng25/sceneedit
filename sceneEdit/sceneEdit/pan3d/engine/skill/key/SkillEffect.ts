@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class SkillEffect extends SkillKey {
         public active: Object3D;
 

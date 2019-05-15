@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class LoadManager {
         public static BYTE_TYPE: string = "BYTE_TYPE";
         public static IMG_TYPE: string = "IMG_TYPE";
@@ -167,7 +167,7 @@
         }
 
         public loadByteImg(): void {
-            this._img.src = 'data:image/png;base64,' + Pan3d.me.Base64.encode(this._xhr.response);
+            this._img.src = 'data:image/png;base64,' + Pan3d.Base64.encode(this._xhr.response);
         }
 
         public loadImg(): void {

@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var xyz;
 (function (xyz) {
-    var Object3D = Pan3d.me.Object3D;
+    var Object3D = Pan3d.Object3D;
     var TooObjectHitBox = /** @class */ (function (_super) {
         __extends(TooObjectHitBox, _super);
         function TooObjectHitBox($x, $y, $z) {

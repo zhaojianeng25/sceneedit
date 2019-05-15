@@ -1,19 +1,19 @@
 ﻿
 
 module md5list {
-    import Shader3D = Pan3d.me.Shader3D
-    import Display3DSprite = Pan3d.me.Display3DSprite
-    import ProgrmaManager = Pan3d.me.ProgrmaManager;
-    import UIManager = Pan3d.me.UIManager
-    import MeshData = Pan3d.me.MeshData
-    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
-    import Scene_data = Pan3d.me.Scene_data
-    import LoadManager = Pan3d.me.LoadManager
-    import TextureManager = Pan3d.me.TextureManager
-    import TextureRes = Pan3d.me.TextureRes
-    import Matrix3D = Pan3d.me.Matrix3D
-    import Vector3D = Pan3d.me.Vector3D
-    import Quaternion = Pan3d.me.Quaternion
+    import Shader3D = Pan3d.Shader3D
+    import Display3DSprite = Pan3d.Display3DSprite
+    import ProgrmaManager = Pan3d.ProgrmaManager;
+    import UIManager = Pan3d.UIManager
+    import MeshData = Pan3d.MeshData
+    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
+    import Scene_data = Pan3d.Scene_data
+    import LoadManager = Pan3d.LoadManager
+    import TextureManager = Pan3d.TextureManager
+    import TextureRes = Pan3d.TextureRes
+    import Matrix3D = Pan3d.Matrix3D
+    import Vector3D = Pan3d.Vector3D
+    import Quaternion = Pan3d.Quaternion
     export class Md5MeshShader extends Shader3D {
         static Md5MeshShader: string = "Md5MeshShader";
         constructor() {

@@ -1,9 +1,9 @@
 declare module md5list {
-    import Display3DSprite = Pan3d.me.Display3DSprite;
-    import ObjData = Pan3d.me.ObjData;
-    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array;
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import TextureRes = Pan3d.me.TextureRes;
+    import Display3DSprite = Pan3d.Display3DSprite;
+    import ObjData = Pan3d.ObjData;
+    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
+    import Matrix3D = Pan3d.Matrix3D;
+    import TextureRes = Pan3d.TextureRes;
     class Md5MoveSprite extends Display3DSprite {
         private md5shader;
         constructor();

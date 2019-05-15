@@ -1,18 +1,18 @@
 ﻿module drag {
 
-    import UICompenent = Pan3d.me.UICompenent
-    import FrameCompenent = Pan3d.me.FrameCompenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import ColorType = Pan3d.me.ColorType
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TextAlign = Pan3d.me.TextAlign
-    import Rectangle = Pan3d.me.Rectangle
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
-    import UIManager = Pan3d.me.UIManager
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import UIConatiner = Pan3d.me.UIConatiner
-    import UIAtlas = Pan3d.me.UIAtlas
-    import TextureManager = Pan3d.me.TextureManager
+    import UICompenent = Pan3d.UICompenent
+    import FrameCompenent = Pan3d.FrameCompenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import ColorType = Pan3d.ColorType
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextAlign = Pan3d.TextAlign
+    import Rectangle = Pan3d.Rectangle
+    import ModuleEventManager = Pan3d.ModuleEventManager
+    import UIManager = Pan3d.UIManager
+    import LabelTextFont = Pan3d.LabelTextFont
+    import UIConatiner = Pan3d.UIConatiner
+    import UIAtlas = Pan3d.UIAtlas
+    import TextureManager = Pan3d.TextureManager
 
     import UIPanel = win.UIPanel
 

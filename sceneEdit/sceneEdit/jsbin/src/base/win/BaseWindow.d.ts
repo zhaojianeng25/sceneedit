@@ -1,13 +1,13 @@
 declare module win {
-    import UICompenent = Pan3d.me.UICompenent;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import Grid9Compenent = Pan3d.me.Grid9Compenent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Rectangle = Pan3d.me.Rectangle;
-    import UIConatiner = Pan3d.me.UIConatiner;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    import UIMask = Pan3d.me.UIMask;
-    import Vector2D = Pan3d.me.Vector2D;
+    import UICompenent = Pan3d.UICompenent;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import Grid9Compenent = Pan3d.Grid9Compenent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Rectangle = Pan3d.Rectangle;
+    import UIConatiner = Pan3d.UIConatiner;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import UIMask = Pan3d.UIMask;
+    import Vector2D = Pan3d.Vector2D;
     class BaseWindow extends UIConatiner {
         private useMoseMove;
         protected onMouseWheelFun: any;
@@ -75,7 +75,7 @@ declare module win {
         private _voNum;
         private _voRect;
         protected _uiItem: Array<Disp2DBaseText>;
-        protected _lostItem: Array<Pan3d.me.baseMeshVo>;
+        protected _lostItem: Array<Pan3d.baseMeshVo>;
         private makeBaseUi;
         showTemp($data: any): Disp2DBaseText;
         private makeOtherRender;

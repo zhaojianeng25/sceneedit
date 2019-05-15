@@ -1,5 +1,5 @@
 ﻿module layapan.me {
-    export class LayaOverride2dEngine extends scene3d.me.OverrideEngine {
+    export class LayaOverride2dEngine extends scene3d_me.OverrideEngine {
 
 
         constructor() {
@@ -9,16 +9,16 @@
 
         public static initConfig(): void {
    
-            Pan3d.me.UIData.resize = () => { this.uiScaleresize() }  //更换update
-            Pan3d.me.Engine.update = () => { this.update() }  //更换update
-            Pan3d.me.Engine.init = ($caves: HTMLCanvasElement) => { scene2d.me.Override2dEngine.init($caves) } //更换引擎初始化
-            Pan3d.me.Engine.resetSize = (width?: number, height?: number) => { scene2d.me.Override2dEngine.resetSize(width, height) } //更尺寸变化
+            Pan3d.UIData.resize = () => { this.uiScaleresize() }  //更换update
+            Pan3d.Engine.update = () => { this.update() }  //更换update
+            Pan3d.Engine.init = ($caves: HTMLCanvasElement) => { scene2d_me.Override2dEngine.init($caves) } //更换引擎初始化
+            Pan3d.Engine.resetSize = (width?: number, height?: number) => { scene2d_me.Override2dEngine.resetSize(width, height) } //更尺寸变化
 
-            Pan3d.me.Engine.resetViewMatrx3D = () => { scene2d.me.Override2dEngine.resetViewMatrx3D() }
+            Pan3d.Engine.resetViewMatrx3D = () => { scene2d_me.Override2dEngine.resetViewMatrx3D() }
         }
         public static uiScaleresize(): void {
             console.log("重置什么也不做")
-            Pan3d.me.UIData.Scale = 1
+            Pan3d.UIData.Scale = 1
         }
        
 

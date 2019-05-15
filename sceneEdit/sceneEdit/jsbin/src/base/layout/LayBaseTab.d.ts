@@ -1,7 +1,7 @@
 declare module win {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Rectangle = Pan3d.me.Rectangle;
-    import UIConatiner = Pan3d.me.UIConatiner;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Rectangle = Pan3d.Rectangle;
+    import UIConatiner = Pan3d.UIConatiner;
     class LayBaseTab extends UIConatiner {
         static imgBaseDic: any;
         constructor();

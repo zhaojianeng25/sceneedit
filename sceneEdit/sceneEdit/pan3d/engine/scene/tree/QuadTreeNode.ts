@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class QuadTreeNode {
         public x: number;
         public y: number;

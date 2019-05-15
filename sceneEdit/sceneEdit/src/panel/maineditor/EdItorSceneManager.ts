@@ -1,17 +1,17 @@
 ﻿module maineditor {
 
-    import Scene_data = Pan3d.me.Scene_data
-    import TimeUtil = Pan3d.me.TimeUtil
-    import MathClass = Pan3d.me.MathClass
-    import ParticleManager = Pan3d.me.ParticleManager
-    import SkillManager = Pan3d.me.SkillManager
-    import FBO = Pan3d.me.FBO
-    import Engine = Pan3d.me.Engine
-    import TextureRes = Pan3d.me.TextureRes
-    import Camera3D = Pan3d.me.Camera3D
-    import Object3D = Pan3d.me.Object3D
-    import Matrix3D = Pan3d.me.Matrix3D
-    import GlReset = Pan3d.me.GlReset
+    import Scene_data = Pan3d.Scene_data
+    import TimeUtil = Pan3d.TimeUtil
+    import MathClass = Pan3d.MathClass
+    import ParticleManager = Pan3d.ParticleManager
+    import SkillManager = Pan3d.SkillManager
+    import FBO = Pan3d.FBO
+    import Engine = Pan3d.Engine
+    import TextureRes = Pan3d.TextureRes
+    import Camera3D = Pan3d.Camera3D
+    import Object3D = Pan3d.Object3D
+    import Matrix3D = Pan3d.Matrix3D
+    import GlReset = Pan3d.GlReset
 
     import SceneManager = layapan.me.LayaOverride2dSceneManager
 
@@ -72,7 +72,7 @@
             }
             GlReset.resetBasePrarame(Scene_data.context3D.renderContext);
         }
-        public textureRes: Pan3d.me.TextureRes;
+        public textureRes: Pan3d.TextureRes;
         public update(): void {
             var lastCam3D: Camera3D = Scene_data.cam3D
             var lastfocus3D: Object3D = Scene_data.focus3D
@@ -123,18 +123,18 @@
             triItem.push(new Vector3D(-100, 0, 100));
             triItem.push(new Vector3D(+100, 0, 100));
 
-            return Pan3d.me.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
+            return Pan3d.MathUtil.getLinePlaneInterectPointByTri(new Vector3D($scene.cam3D.x, $scene.cam3D.y, $scene.cam3D.z), $hipPos, triItem)
 
         }
 
-        public playLyf($url: string, $pos: Pan3d.me.Vector3D, $r: number = 0): void {
+        public playLyf($url: string, $pos: Pan3d.Vector3D, $r: number = 0): void {
 
             this.groupDataManager.scene = this
-            this.groupDataManager.getGroupData(Pan3d.me.Scene_data.fileRoot + $url, (groupRes: Pan3d.me.GroupRes) => {
+            this.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + $url, (groupRes: Pan3d.GroupRes) => {
                 for (var i: number = 0; i < groupRes.dataAry.length; i++) {
-                    var item: Pan3d.me.GroupItem = groupRes.dataAry[i];
-                    if (item.types == Pan3d.me.BaseRes.SCENE_PARTICLE_TYPE) {
-                        var $particle: Pan3d.me.CombineParticle = this.particleManager.getParticleByte(Pan3d.me.Scene_data.fileRoot + item.particleUrl);
+                    var item: Pan3d.GroupItem = groupRes.dataAry[i];
+                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle: Pan3d.CombineParticle = this.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
                         $particle.x = $pos.x;
                         $particle.y = $pos.y;
                         $particle.z = $pos.z;

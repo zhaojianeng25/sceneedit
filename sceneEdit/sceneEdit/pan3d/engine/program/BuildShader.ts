@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class BuildShader extends Shader3D {
         static buildShader: string = "BuildShader";
         constructor() {

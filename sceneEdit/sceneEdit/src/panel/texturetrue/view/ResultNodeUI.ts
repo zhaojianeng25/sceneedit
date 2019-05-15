@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import UICompenent = Pan3d.me.UICompenent
+    import UICompenent = Pan3d.UICompenent
     export class ResultNodeUI extends BaseMaterialNodeUI {
 
         private diffuseItem: ItemMaterialUI;

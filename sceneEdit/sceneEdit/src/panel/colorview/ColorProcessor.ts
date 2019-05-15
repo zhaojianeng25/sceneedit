@@ -1,10 +1,10 @@
 ﻿module colorview {
-    import BaseEvent = Pan3d.me.BaseEvent;
-    import Vector3D = Pan3d.me.Vector3D;
-    import Module = Pan3d.me.Module;
-    import Processor = Pan3d.me.Processor;
-    import BaseProcessor = Pan3d.me.BaseProcessor;
-    import UIManager = Pan3d.me.UIManager;
+    import BaseEvent = Pan3d.BaseEvent;
+    import Vector3D = Pan3d.Vector3D;
+    import Module = Pan3d.Module;
+    import Processor = Pan3d.Processor;
+    import BaseProcessor = Pan3d.BaseProcessor;
+    import UIManager = Pan3d.UIManager;
     export class ColorEvent extends BaseEvent {
         public static SHOW_COLOR_PANEL: string = "SHOW_COLOR_PANEL";  
         public static HIDE_COLOR_PANEL: string = "HIDE_COLOR_PANEL";  

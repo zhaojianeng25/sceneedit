@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var materialleft;
 (function (materialleft) {
-    var ByteArray = Pan3d.me.Pan3dByteArray;
+    var ByteArray = Pan3d.Pan3dByteArray;
     var ModelShowModel = left.ModelShowModel;
     var MaterialLeftPanel = /** @class */ (function (_super) {
         __extends(MaterialLeftPanel, _super);

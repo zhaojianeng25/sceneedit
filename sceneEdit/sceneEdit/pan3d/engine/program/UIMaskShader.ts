@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class UIMaskShader extends Shader3D {
         static UI_MASK_SHADER: string = "UImaskShader";
         constructor() {

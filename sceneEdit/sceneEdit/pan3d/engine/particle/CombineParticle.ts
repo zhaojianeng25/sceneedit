@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class CombineParticle extends EventDispatcher {
         //private _sourceComNum: number; 
         //private _sourceAllNum: number;

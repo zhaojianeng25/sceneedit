@@ -15,7 +15,7 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var ShadowManager = Pan3d.me.ShadowManager;
+        var ShadowManager = Pan3d.ShadowManager;
         var LayaOverrideShadowManager = /** @class */ (function (_super) {
             __extends(LayaOverrideShadowManager, _super);
             function LayaOverrideShadowManager() {

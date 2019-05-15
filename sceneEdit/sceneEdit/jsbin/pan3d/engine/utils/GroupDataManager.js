@@ -13,50 +13,47 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var GroupDataManager = /** @class */ (function (_super) {
-            __extends(GroupDataManager, _super);
-            function GroupDataManager() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this._loadDic = new Object;
-                return _this;
+    var GroupDataManager = /** @class */ (function (_super) {
+        __extends(GroupDataManager, _super);
+        function GroupDataManager() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this._loadDic = new Object;
+            return _this;
+        }
+        GroupDataManager.getInstance = function () {
+            if (!this._instance) {
+                this._instance = new GroupDataManager();
             }
-            GroupDataManager.getInstance = function () {
-                if (!this._instance) {
-                    this._instance = new GroupDataManager();
-                }
-                return this._instance;
-            };
-            GroupDataManager.prototype.getGroupData = function ($url, $fun) {
-                var _this = this;
-                if (this._dic[$url]) {
-                    var gr = this._dic[$url];
-                    gr.useNum++;
-                    $fun(gr);
-                    return;
-                }
-                if (this._loadDic[$url]) {
-                    this._loadDic[$url].push($fun);
-                    return;
-                }
-                this._loadDic[$url] = new Array;
+            return this._instance;
+        };
+        GroupDataManager.prototype.getGroupData = function ($url, $fun) {
+            var _this = this;
+            if (this._dic[$url]) {
+                var gr = this._dic[$url];
+                gr.useNum++;
+                $fun(gr);
+                return;
+            }
+            if (this._loadDic[$url]) {
                 this._loadDic[$url].push($fun);
-                var group = new me.GroupRes();
-                group.load($url, function () {
-                    var ary = _this._loadDic[$url];
-                    for (var i = 0; i < ary.length; i++) {
-                        var fun = ary[i];
-                        fun(group);
-                    }
-                    _this._dic[$url] = group;
-                    delete _this._loadDic[$url];
-                    group.initReg();
-                });
-            };
-            return GroupDataManager;
-        }(me.ResGC));
-        me.GroupDataManager = GroupDataManager;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+                return;
+            }
+            this._loadDic[$url] = new Array;
+            this._loadDic[$url].push($fun);
+            var group = new Pan3d.GroupRes();
+            group.load($url, function () {
+                var ary = _this._loadDic[$url];
+                for (var i = 0; i < ary.length; i++) {
+                    var fun = ary[i];
+                    fun(group);
+                }
+                _this._dic[$url] = group;
+                delete _this._loadDic[$url];
+                group.initReg();
+            });
+        };
+        return GroupDataManager;
+    }(Pan3d.ResGC));
+    Pan3d.GroupDataManager = GroupDataManager;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=GroupDataManager.js.map

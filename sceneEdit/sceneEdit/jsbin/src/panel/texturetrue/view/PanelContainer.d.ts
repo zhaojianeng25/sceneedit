@@ -1,5 +1,5 @@
 declare module materialui {
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
     import UIPanel = win.UIPanel;
     class PanelContainer {
         private uiRender;

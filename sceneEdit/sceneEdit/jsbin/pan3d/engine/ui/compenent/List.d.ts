@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class List extends UICompenent {
         protected _itemRenderAry: Array<ListItemRender>;
         private _contentX;

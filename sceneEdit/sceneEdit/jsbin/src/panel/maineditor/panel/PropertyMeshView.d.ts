@@ -1,5 +1,5 @@
 declare module maineditor {
-    import Vector3D = Pan3d.me.Vector3D;
+    import Vector3D = Pan3d.Vector3D;
     import MetaDataView = prop.MetaDataView;
     class PropertyMeshView extends MetaDataView {
         private xyzPosData;

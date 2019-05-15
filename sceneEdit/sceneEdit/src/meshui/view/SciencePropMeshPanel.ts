@@ -1,6 +1,6 @@
 ﻿module prop {
-    import Scene_data = Pan3d.me.Scene_data;
-    import Vector3D = Pan3d.me.Vector3D;
+    import Scene_data = Pan3d.Scene_data;
+    import Vector3D = Pan3d.Vector3D;
 
 
     export class SciencePropMeshPanel extends MetaDataView {

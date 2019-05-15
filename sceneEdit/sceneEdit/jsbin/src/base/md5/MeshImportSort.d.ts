@@ -1,8 +1,8 @@
 declare module md5list {
-    import Vector3D = Pan3d.me.Vector3D;
-    import MeshData = Pan3d.me.MeshData;
-    import Dictionary = Pan3d.me.Dictionary;
-    import ObjectBone = Pan3d.me.ObjectBone;
+    import Vector3D = Pan3d.Vector3D;
+    import MeshData = Pan3d.MeshData;
+    import Dictionary = Pan3d.Dictionary;
+    import ObjectBone = Pan3d.ObjectBone;
     class ObjectTri {
         id: number;
         t0: number;

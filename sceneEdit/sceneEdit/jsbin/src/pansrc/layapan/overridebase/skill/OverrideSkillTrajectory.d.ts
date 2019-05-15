@@ -1,9 +1,9 @@
 declare module layapan.me {
-    class OverrideSkillTrajectory extends Pan3d.me.SkillTrajectory {
+    class OverrideSkillTrajectory extends Pan3d.SkillTrajectory {
         skill: OverrideSkill;
         reset(): void;
         addToRender(): void;
-        endPlayFun(e?: Pan3d.me.BaseEvent): void;
-        setInfo(obj: Pan3d.me.SkillKeyVo): void;
+        endPlayFun(e?: Pan3d.BaseEvent): void;
+        setInfo(obj: Pan3d.SkillKeyVo): void;
     }
 }

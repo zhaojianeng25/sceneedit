@@ -1,7 +1,7 @@
 ﻿module filelist {
-    import Scene_data = Pan3d.me.Scene_data;
-    import Vector3D = Pan3d.me.Vector3D;
-    import Material = Pan3d.me.Material
+    import Scene_data = Pan3d.Scene_data;
+    import Vector3D = Pan3d.Vector3D;
+    import Material = Pan3d.Material
  
     import RoleStaticMesh = pack.RoleStaticMesh
     import MetaDataView = prop.MetaDataView;
@@ -31,8 +31,8 @@
  
             switch (value) {
                 case "clikFileRole":
-                   var pathurl: string = Pan3d.me.Scene_data.fileRoot +this._roleStaticMesh.url
-                     Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.me.Scene_data.ossRoot, ""))
+                   var pathurl: string = Pan3d.Scene_data.fileRoot +this._roleStaticMesh.url
+                     Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
                     break
                 default:
                     console.log("没有对象", value)
@@ -73,7 +73,7 @@
 
         }
         private chuangeData(): void {
-            this._roleStaticMesh.dispatchEvent(new Pan3d.me.BaseEvent(Pan3d.me.BaseEvent.COMPLETE))
+            this._roleStaticMesh.dispatchEvent(new Pan3d.BaseEvent(Pan3d.BaseEvent.COMPLETE))
         }
    
         public set roleurl(value: string) {
@@ -122,7 +122,7 @@
         private lastTm: number
         private saveTm: number
         public saveToSever(): void {
-            this.lastTm = Pan3d.me.TimeUtil.getTimer()
+            this.lastTm = Pan3d.TimeUtil.getTimer()
             // this.isSaveNow = true
 
             if (!this.isSaveNow) {
@@ -131,15 +131,15 @@
 
                 var $roleStr: string = this.getChangeRoleStr()
                 var $file: File = new File([$roleStr], "ossfile.txt");
-                var pathUrl: string = Pan3d.me.Scene_data.fileRoot + this._roleStaticMesh.url
-                var pathurl: string = pathUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+                var pathUrl: string = Pan3d.Scene_data.fileRoot + this._roleStaticMesh.url
+                var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
 
                 console.log("提交上传ing...", pathurl);
                 pack.FileOssModel.upOssFile($file, pathurl, () => {
 
                     if (this.lastTm != this.saveTm) {
                         console.log("不是最后一次，所以需要再存一次")
-                        Pan3d.me.TimeUtil.addTimeOut(1000, () => {
+                        Pan3d.TimeUtil.addTimeOut(1000, () => {
                             this.isSaveNow = false
                             this.saveToSever();
                         })

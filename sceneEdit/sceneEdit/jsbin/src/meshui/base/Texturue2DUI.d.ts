@@ -1,5 +1,5 @@
 declare module prop {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class Texturue2DUI extends BaseReflComponent {
         protected textLabelUI: TextLabelUI;
         protected textureUrlText: TextLabelUI;

@@ -23,18 +23,18 @@ var layapan;
             LayaGroupRes.prototype.readParticle = function () {
                 var objNum = this._byte.readInt();
                 //this.particleAry = new Array;
-                var time = Pan3d.me.TimeUtil.getTimer();
+                var time = Pan3d.TimeUtil.getTimer();
                 for (var i = 0; i < objNum; i++) {
-                    var url = Pan3d.me.Scene_data.fileRoot + this._byte.readUTF();
+                    var url = Pan3d.Scene_data.fileRoot + this._byte.readUTF();
                     var size = this._byte.readInt();
-                    var dataByte = new Pan3d.me.Pan3dByteArray;
+                    var dataByte = new Pan3d.Pan3dByteArray;
                     dataByte.length = size;
                     this._byte.readBytes(dataByte, 0, size);
                     this.scene.particleManager.addResByte(url, dataByte);
                 }
             };
             return LayaGroupRes;
-        }(Pan3d.me.GroupRes));
+        }(Pan3d.GroupRes));
         me.LayaGroupRes = LayaGroupRes;
         var LayaOverrideGroupDataManager = /** @class */ (function (_super) {
             __extends(LayaOverrideGroupDataManager, _super);
@@ -69,7 +69,7 @@ var layapan;
                 });
             };
             return LayaOverrideGroupDataManager;
-        }(Pan3d.me.GroupDataManager));
+        }(Pan3d.GroupDataManager));
         me.LayaOverrideGroupDataManager = LayaOverrideGroupDataManager;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

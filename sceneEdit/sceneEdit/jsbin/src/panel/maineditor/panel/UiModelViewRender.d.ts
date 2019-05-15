@@ -1,8 +1,8 @@
 declare module maineditor {
-    import UIRenderOnlyPicComponent = Pan3d.me.UIRenderOnlyPicComponent;
-    import Shader3D = Pan3d.me.Shader3D;
-    import Material = Pan3d.me.Material;
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam;
+    import UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent;
+    import Shader3D = Pan3d.Shader3D;
+    import Material = Pan3d.Material;
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
     class UiModelViewShder extends Shader3D {
         static UiModelViewShder: string;
         constructor();

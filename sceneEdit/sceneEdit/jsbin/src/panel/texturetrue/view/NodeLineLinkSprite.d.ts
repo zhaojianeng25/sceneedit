@@ -1,9 +1,9 @@
 declare module materialui {
-    import Shader3D = Pan3d.me.Shader3D;
-    import Vector2D = Pan3d.me.Vector2D;
-    import UICompenent = Pan3d.me.UICompenent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
+    import Shader3D = Pan3d.Shader3D;
+    import Vector2D = Pan3d.Vector2D;
+    import UICompenent = Pan3d.UICompenent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
     import UIPanel = win.UIPanel;
     class NodeLineLinkShader extends Shader3D {
         static NodeLineLinkShader: string;

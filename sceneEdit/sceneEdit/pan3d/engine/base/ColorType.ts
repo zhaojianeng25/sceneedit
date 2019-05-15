@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class ColorType {
         public static Orange7a2f21: string = "[7a2f21]" //桔
         public static Orange9a683f: string = "[9a683f]" //

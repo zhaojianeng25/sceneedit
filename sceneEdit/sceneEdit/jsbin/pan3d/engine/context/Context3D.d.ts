@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class GlReset {
         static saveBasePrarame(gl: WebGLRenderingContext): void;
         private static GlarrayBuffer;

@@ -1,5 +1,5 @@
 declare module materialleft {
-    import Vector3D = Pan3d.me.Vector3D;
+    import Vector3D = Pan3d.Vector3D;
     import MetaDataView = prop.MetaDataView;
     import UiMeshSprite = prop.UiMeshSprite;
     class MateriaMeshView extends MetaDataView {

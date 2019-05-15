@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Engine {
         static init($caves: HTMLCanvasElement): void;
         static resReady(): void;

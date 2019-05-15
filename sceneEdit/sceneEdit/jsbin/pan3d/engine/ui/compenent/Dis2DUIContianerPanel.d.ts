@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Disp2DBaseText {
         ui: UICompenent;
         textureStr: string;
@@ -27,7 +27,7 @@ declare module Pan3d.me {
         private _voNum;
         private _voRect;
         protected _uiItem: Array<Disp2DBaseText>;
-        protected _lostItem: Array<Pan3d.me.baseMeshVo>;
+        protected _lostItem: Array<Pan3d.baseMeshVo>;
         private makeBaseUi;
         showTemp($data: any): Disp2DBaseText;
         private clearLostItem;

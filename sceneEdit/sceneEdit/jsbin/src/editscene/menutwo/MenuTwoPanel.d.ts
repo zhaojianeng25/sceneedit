@@ -1,7 +1,7 @@
 declare module menutwo {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     class MenuListData {
         label: string;
         level: number;

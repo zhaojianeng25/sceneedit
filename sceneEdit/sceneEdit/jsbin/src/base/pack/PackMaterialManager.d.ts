@@ -8,7 +8,7 @@ declare module pack {
         replaceMaterialByUrl($url: string): void;
         private makeRoleShader;
         outShader($str: string): void;
-        makeMaterialShaderByByte($byte: Pan3d.me.Pan3dByteArray, $url: string, Met?: materialui.MaterialTree): materialui.MaterialTree;
+        makeMaterialShaderByByte($byte: Pan3d.Pan3dByteArray, $url: string, Met?: materialui.MaterialTree): materialui.MaterialTree;
         getMaterialByUrl($url: string, bfun: Function): void;
         private makeConstList;
         private makeFc;

@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextField2DUI = /** @class */ (function (_super) {
         __extends(TextField2DUI, _super);
         function TextField2DUI() {

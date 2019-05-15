@@ -16,12 +16,12 @@ var lou16;
     var me;
     (function (me) {
         var TextArea = Laya.TextArea;
-        var LineDisplayShader = Pan3d.me.LineDisplayShader;
-        var ProgrmaManager = Pan3d.me.ProgrmaManager;
-        var GridLineSprite = Pan3d.me.GridLineSprite;
-        var BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-        var Camera3D = Pan3d.me.Camera3D;
-        var Rectangle = Pan3d.me.Rectangle;
+        var LineDisplayShader = Pan3d.LineDisplayShader;
+        var ProgrmaManager = Pan3d.ProgrmaManager;
+        var GridLineSprite = Pan3d.GridLineSprite;
+        var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+        var Camera3D = Pan3d.Camera3D;
+        var Rectangle = Pan3d.Rectangle;
         var PanSceneSprite = /** @class */ (function (_super) {
             __extends(PanSceneSprite, _super);
             function PanSceneSprite() {

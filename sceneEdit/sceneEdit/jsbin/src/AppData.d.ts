@@ -1,5 +1,5 @@
-declare class AppData extends Pan3d.me.GameStart {
-    static stagePos: Pan3d.me.Vector2D;
+declare class AppData extends Pan3d.GameStart {
+    static stagePos: Pan3d.Vector2D;
     static altKey: boolean;
     static rightPanel: win.Panel;
     static centenPanel: win.Panel;

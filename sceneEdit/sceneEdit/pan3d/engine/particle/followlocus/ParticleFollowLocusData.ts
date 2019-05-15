@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class ParticleFollowLocusData extends ParticleData {
         public _fenduanshu: number;//分段数
 

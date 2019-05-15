@@ -3,7 +3,7 @@
 * 
 * pramaType 0 表示无类型 1表示 float 2表示 vec2 3表示vec3
 */
-module Pan3d.me {
+module Pan3d {
     export class ConstItem {
         private _id: number;
         public name: string;

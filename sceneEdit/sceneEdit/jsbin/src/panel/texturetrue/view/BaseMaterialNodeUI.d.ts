@@ -1,9 +1,9 @@
 declare module materialui {
-    import UIAtlas = Pan3d.me.UIAtlas;
-    import UICompenent = Pan3d.me.UICompenent;
-    import FrameCompenent = Pan3d.me.FrameCompenent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
+    import UIAtlas = Pan3d.UIAtlas;
+    import UICompenent = Pan3d.UICompenent;
+    import FrameCompenent = Pan3d.FrameCompenent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
     import UIPanel = win.UIPanel;
     class BaseMaterialNodeUI extends UIPanel {
         _bottomRender: UIRenderComponent;

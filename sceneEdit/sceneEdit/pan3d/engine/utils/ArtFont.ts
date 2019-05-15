@@ -1,5 +1,5 @@
 ﻿
-module Pan3d.me {
+module Pan3d {
     export class ArtFont {
         public fontData: Dictionary;
         public fontData_Unit: Dictionary;

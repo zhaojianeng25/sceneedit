@@ -1,5 +1,5 @@
 declare module filelist {
-    import Material = Pan3d.me.Material;
+    import Material = Pan3d.Material;
     import MetaDataView = prop.MetaDataView;
     class RoleMeshView extends MetaDataView {
         private _roleStaticMesh;

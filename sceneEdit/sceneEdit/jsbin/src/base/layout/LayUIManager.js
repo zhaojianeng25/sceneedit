@@ -1,11 +1,11 @@
 var win;
 (function (win) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var UIManager = Pan3d.me.UIManager;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var MouseType = Pan3d.me.MouseType;
-    var Vector2D = Pan3d.me.Vector2D;
-    var MathClass = Pan3d.me.MathClass;
+    var Scene_data = Pan3d.Scene_data;
+    var UIManager = Pan3d.UIManager;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var MouseType = Pan3d.MouseType;
+    var Vector2D = Pan3d.Vector2D;
+    var MathClass = Pan3d.MathClass;
     var LayUIManager = /** @class */ (function () {
         function LayUIManager() {
             this.lastTime = 0;

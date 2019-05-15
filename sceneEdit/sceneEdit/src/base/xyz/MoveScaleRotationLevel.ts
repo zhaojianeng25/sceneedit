@@ -1,9 +1,9 @@
 ﻿module xyz {
-    import Display3D = Pan3d.me.Display3D
-    import Matrix3D = Pan3d.me.Matrix3D
-    import MathUtil = Pan3d.me.MathUtil
-    import BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-    import UIConatiner = Pan3d.me.UIConatiner;
+    import Display3D = Pan3d.Display3D
+    import Matrix3D = Pan3d.Matrix3D
+    import MathUtil = Pan3d.MathUtil
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    import UIConatiner = Pan3d.UIConatiner;
     export class MoveScaleRotationLevel extends Display3D {
       
         private _tooMoveLevel: TooMoveLevel;

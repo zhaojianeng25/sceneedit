@@ -25,8 +25,8 @@ declare module prop {
         protected initView(): void;
         destory(): void;
         resize(): void;
-        protected drawOutColor(ui: Pan3d.me.UICompenent, $vcolor: Vector3D): void;
-        protected drawUrlImgToUi(ui: Pan3d.me.UICompenent, url: string): void;
-        protected drawImgToUi(ui: Pan3d.me.UICompenent, $img: any): void;
+        protected drawOutColor(ui: Pan3d.UICompenent, $vcolor: Vector3D): void;
+        protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void;
+        protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void;
     }
 }

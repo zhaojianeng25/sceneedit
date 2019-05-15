@@ -1,6 +1,6 @@
 declare module materialui {
-    import UICompenent = Pan3d.me.UICompenent;
-    import UIConatiner = Pan3d.me.UIConatiner;
+    import UICompenent = Pan3d.UICompenent;
+    import UIConatiner = Pan3d.UIConatiner;
     class TextureContext extends UIConatiner {
         private _bRender;
         private tempUiName;

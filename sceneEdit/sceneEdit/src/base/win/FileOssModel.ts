@@ -1,8 +1,8 @@
 ﻿module pack {
-    import Scene_data = Pan3d.me.Scene_data
-    import Engine = Pan3d.me.Engine
-    import MathClass = Pan3d.me.MathClass
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
+    import Scene_data = Pan3d.Scene_data
+    import Engine = Pan3d.Engine
+    import MathClass = Pan3d.MathClass
+    import ModuleEventManager = Pan3d.ModuleEventManager
 
 
 
@@ -80,7 +80,7 @@
 
             //  console.log("保存文件夹目录", $dir, fileArr)
 
-            var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray()
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray()
             $byte.writeUTF(JSON.stringify(fileArr))
             var $file: File = new File([$byte.buffer], this.indexFileName);
             var pathurl: string = $dir
@@ -96,8 +96,8 @@
 
         private static getDicByUrl($dir: string, bfun: Function, errBfun: Function): void {
             var filePath: string = Scene_data.ossRoot + $dir + this.indexFileName
-            Pan3d.me.LoadManager.getInstance().load(filePath, Pan3d.me.LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
-                var $dicByte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray($byte);
+            Pan3d.LoadManager.getInstance().load(filePath, Pan3d.LoadManager.BYTE_TYPE, ($byte: ArrayBuffer) => {
+                var $dicByte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray($byte);
                 var $tempItem: Array<any> = JSON.parse($dicByte.readUTF());
                 var fileArr: Array<FileVo> = []
                 for (var i: number = 0; i < $tempItem.length; i++) {
@@ -202,7 +202,7 @@
                     bfun();
                 } else {
                     console.log("链接错误，重试");
-                    Pan3d.me.TimeUtil.addTimeOut(2000, () => {
+                    Pan3d.TimeUtil.addTimeOut(2000, () => {
                         this.getWarpperByUrl(bfun)
                     })
                 }
@@ -355,7 +355,7 @@
 
             // $bfun = null;
 
-            let timestamp: string = String(Pan3d.me.TimeUtil.getTimer());
+            let timestamp: string = String(Pan3d.TimeUtil.getTimer());
             let keystr: string = "ABC";
             let self_sign: string = "ABC";
 

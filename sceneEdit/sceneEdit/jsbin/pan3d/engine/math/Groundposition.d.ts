@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Groundposition {
         constructor();
         private static _plantObjectMath;

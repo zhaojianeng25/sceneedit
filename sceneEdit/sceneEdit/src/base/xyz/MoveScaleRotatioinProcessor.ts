@@ -1,21 +1,21 @@
 ﻿module xyz {
-    import BaseEvent = Pan3d.me.BaseEvent;
-    import Vector3D = Pan3d.me.Vector3D;
-    import Module = Pan3d.me.Module;
-    import Processor = Pan3d.me.Processor;
-    import BaseProcessor = Pan3d.me.BaseProcessor;
-    import UIManager = Pan3d.me.UIManager;
-    import SceneManager = Pan3d.me.SceneManager
-    import BaseDiplay3dSprite = Pan3d.me.BaseDiplay3dSprite;
-    import MouseType = Pan3d.me.MouseType
-    import Matrix3D = Pan3d.me.Matrix3D
-    import MathUtil = Pan3d.me.MathUtil
-    import Object3D = Pan3d.me.Object3D
-    import Quaternion = Pan3d.me.Quaternion
-    import UICompenent = Pan3d.me.UICompenent
-    import UIConatiner = Pan3d.me.UIConatiner
-    import Display3D = Pan3d.me.Display3D
-    import KeyboardType = Pan3d.me.KeyboardType
+    import BaseEvent = Pan3d.BaseEvent;
+    import Vector3D = Pan3d.Vector3D;
+    import Module = Pan3d.Module;
+    import Processor = Pan3d.Processor;
+    import BaseProcessor = Pan3d.BaseProcessor;
+    import UIManager = Pan3d.UIManager;
+    import SceneManager = Pan3d.SceneManager
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    import MouseType = Pan3d.MouseType
+    import Matrix3D = Pan3d.Matrix3D
+    import MathUtil = Pan3d.MathUtil
+    import Object3D = Pan3d.Object3D
+    import Quaternion = Pan3d.Quaternion
+    import UICompenent = Pan3d.UICompenent
+    import UIConatiner = Pan3d.UIConatiner
+    import Display3D = Pan3d.Display3D
+    import KeyboardType = Pan3d.KeyboardType
 
     export class MoveScaleRotatioinEvent extends BaseEvent {
         public static INIT_MOVE_SCALE_ROTATION: string = "INIT_MOVE_SCALE_ROTATION";  

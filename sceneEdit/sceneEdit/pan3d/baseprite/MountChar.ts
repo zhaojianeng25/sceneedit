@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class MountChar extends SceneBaseChar {
 
         public setData($rank: number, $iid: number): void {

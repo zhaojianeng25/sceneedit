@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class MaterialShader extends Shader3D {
         public static MATERIAL_SHADER: string = "Material_shader";
         constructor() {

@@ -13,16 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var ParticleGpuData = /** @class */ (function (_super) {
-            __extends(ParticleGpuData, _super);
-            function ParticleGpuData() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return ParticleGpuData;
-        }(me.ObjData));
-        me.ParticleGpuData = ParticleGpuData;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+    var ParticleGpuData = /** @class */ (function (_super) {
+        __extends(ParticleGpuData, _super);
+        function ParticleGpuData() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return ParticleGpuData;
+    }(Pan3d.ObjData));
+    Pan3d.ParticleGpuData = ParticleGpuData;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=ParticleGpuData.js.map

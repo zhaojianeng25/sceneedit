@@ -1,7 +1,7 @@
 ﻿module pack {
-    import LoadManager = Pan3d.me.LoadManager
-    import Scene_data = Pan3d.me.Scene_data
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray
+    import LoadManager = Pan3d.LoadManager
+    import Scene_data = Pan3d.Scene_data
+    import Pan3dByteArray = Pan3d.Pan3dByteArray
  
  
     export class PackSkillManager {

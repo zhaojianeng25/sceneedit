@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class AxisRotaion extends BaseAnim {
         public axis: Vector3D;
         public axisPos: Vector3D;

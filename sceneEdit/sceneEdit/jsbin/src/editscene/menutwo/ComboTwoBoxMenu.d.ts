@@ -1,6 +1,6 @@
 declare module menutwo {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     class ComboTwoBoxMenu extends Dis2DUIContianerPanel {
         constructor();
         private _comboxData;

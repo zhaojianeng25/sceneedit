@@ -1,5 +1,5 @@
 ﻿module materialui {
-    import Vector2D = Pan3d.me.Vector2D
+    import Vector2D = Pan3d.Vector2D
     export class ConstVec2NodeUI extends BaseMaterialNodeUI {
         private  outItem: ItemMaterialUI;
  

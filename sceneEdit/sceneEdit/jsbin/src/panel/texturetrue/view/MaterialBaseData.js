@@ -1,6 +1,6 @@
 var materialui;
 (function (materialui) {
-    var Vector3D = Pan3d.me.Vector3D;
+    var Vector3D = Pan3d.Vector3D;
     var MaterialBaseData = /** @class */ (function () {
         function MaterialBaseData() {
             this.baseColor = new Vector3D;

@@ -1,8 +1,8 @@
 ﻿module xyz {
-    import Object3D = Pan3d.me.Object3D
-    import Matrix3D = Pan3d.me.Matrix3D
-    import Quaternion = Pan3d.me.Quaternion
-    import Display3D = Pan3d.me.Display3D
+    import Object3D = Pan3d.Object3D
+    import Matrix3D = Pan3d.Matrix3D
+    import Quaternion = Pan3d.Quaternion
+    import Display3D = Pan3d.Display3D
 
 
     export class TooXyzPosData  {

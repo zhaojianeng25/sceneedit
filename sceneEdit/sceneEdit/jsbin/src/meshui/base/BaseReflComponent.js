@@ -1,9 +1,9 @@
 var prop;
 (function (prop) {
-    var TextureManager = Pan3d.me.TextureManager;
-    var UIManager = Pan3d.me.UIManager;
-    var Scene_data = Pan3d.me.Scene_data;
-    var LoadManager = Pan3d.me.LoadManager;
+    var TextureManager = Pan3d.TextureManager;
+    var UIManager = Pan3d.UIManager;
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
     var BaseReflComponent = /** @class */ (function () {
         function BaseReflComponent(value) {
             this._width = 1;

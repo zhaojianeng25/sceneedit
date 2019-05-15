@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class SelfRotation extends BaseAnim {
 
         public set data(value: Array<any>) {

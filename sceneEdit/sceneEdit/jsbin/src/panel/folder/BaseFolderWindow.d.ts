@@ -1,6 +1,6 @@
 declare module basefolderwin {
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Rectangle = Pan3d.me.Rectangle;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Rectangle = Pan3d.Rectangle;
     class BaseFolderWindow extends win.BaseWindow {
         constructor();
         setRect(value: Rectangle): void;

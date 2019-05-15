@@ -13,25 +13,22 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var Display3DModelObjParticle = /** @class */ (function (_super) {
-            __extends(Display3DModelObjParticle, _super);
-            function Display3DModelObjParticle() {
-                return _super.call(this) || this;
+    var Display3DModelObjParticle = /** @class */ (function (_super) {
+        __extends(Display3DModelObjParticle, _super);
+        function Display3DModelObjParticle() {
+            return _super.call(this) || this;
+        }
+        Display3DModelObjParticle.prototype.update = function () {
+            if (this._depthMode) {
+                Pan3d.Scene_data.context3D.setDepthTest(true);
             }
-            Display3DModelObjParticle.prototype.update = function () {
-                if (this._depthMode) {
-                    me.Scene_data.context3D.setDepthTest(true);
-                }
-                _super.prototype.update.call(this);
-                if (this._depthMode) {
-                    me.Scene_data.context3D.setDepthTest(false);
-                }
-            };
-            return Display3DModelObjParticle;
-        }(me.Display3DModelPartilce));
-        me.Display3DModelObjParticle = Display3DModelObjParticle;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+            _super.prototype.update.call(this);
+            if (this._depthMode) {
+                Pan3d.Scene_data.context3D.setDepthTest(false);
+            }
+        };
+        return Display3DModelObjParticle;
+    }(Pan3d.Display3DModelPartilce));
+    Pan3d.Display3DModelObjParticle = Display3DModelObjParticle;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=Display3DModelObjParticle.js.map

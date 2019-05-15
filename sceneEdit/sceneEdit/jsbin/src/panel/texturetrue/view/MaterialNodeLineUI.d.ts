@@ -1,5 +1,5 @@
 declare module materialui {
-    import Vector2D = Pan3d.me.Vector2D;
+    import Vector2D = Pan3d.Vector2D;
     class BezierClasszip {
         static drawbezier(_array: Array<Vector2D>, _time: number): Vector2D;
         private static mathmidpoint;

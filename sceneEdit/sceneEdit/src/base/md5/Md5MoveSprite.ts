@@ -1,18 +1,18 @@
 ﻿
 module md5list {
-    import Display3DSprite = Pan3d.me.Display3DSprite
-    import Shader3D = Pan3d.me.Shader3D
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import LoadManager = Pan3d.me.LoadManager
-    import ObjData = Pan3d.me.ObjData
-    import Quaternion = Pan3d.me.Quaternion
-    import DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array
-    import Matrix3D = Pan3d.me.Matrix3D
-    import UIManager = Pan3d.me.UIManager
-    import TextureManager = Pan3d.me.TextureManager
-    import TextureRes = Pan3d.me.TextureRes
-    import Vector3D = Pan3d.me.Vector3D
-    import Scene_data = Pan3d.me.Scene_data
+    import Display3DSprite = Pan3d.Display3DSprite
+    import Shader3D = Pan3d.Shader3D
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import LoadManager = Pan3d.LoadManager
+    import ObjData = Pan3d.ObjData
+    import Quaternion = Pan3d.Quaternion
+    import DualQuatFloat32Array = Pan3d.DualQuatFloat32Array
+    import Matrix3D = Pan3d.Matrix3D
+    import UIManager = Pan3d.UIManager
+    import TextureManager = Pan3d.TextureManager
+    import TextureRes = Pan3d.TextureRes
+    import Vector3D = Pan3d.Vector3D
+    import Scene_data = Pan3d.Scene_data
 
 
     export class Md5MoveSprite extends Display3DSprite {
@@ -117,8 +117,8 @@ module md5list {
             Scene_data.context3D.setVa(3, 4, this.md5MeshData.boneWeightBuffer);
  
 
-            var t: number = Pan3d.me.TimeUtil.getTimer() - this.lastTm;
-            this.lastTm = Pan3d.me.TimeUtil.getTimer()
+            var t: number = Pan3d.TimeUtil.getTimer() - this.lastTm;
+            this.lastTm = Pan3d.TimeUtil.getTimer()
             this._actionTime += t;
 
 

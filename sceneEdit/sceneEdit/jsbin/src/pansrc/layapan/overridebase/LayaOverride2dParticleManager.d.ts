@@ -1,10 +1,10 @@
 declare module layapan.me {
-    import Shader3D = Pan3d.me.Shader3D;
-    import Display3DParticle = Pan3d.me.Display3DParticle;
-    import CombineParticle = Pan3d.me.CombineParticle;
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray;
-    import ParticleManager = Pan3d.me.ParticleManager;
-    import TextureRes = Pan3d.me.TextureRes;
+    import Shader3D = Pan3d.Shader3D;
+    import Display3DParticle = Pan3d.Display3DParticle;
+    import CombineParticle = Pan3d.CombineParticle;
+    import Pan3dByteArray = Pan3d.Pan3dByteArray;
+    import ParticleManager = Pan3d.ParticleManager;
+    import TextureRes = Pan3d.TextureRes;
     class Frame3DParticleShader extends Shader3D {
         static Frame3DParticleShader: string;
         constructor();
@@ -34,7 +34,7 @@ declare module layapan.me {
     class AtlasFrameVo {
         frame: any;
         sourceSize: any;
-        spriteSourceSize: Pan3d.me.Vector2D;
+        spriteSourceSize: Pan3d.Vector2D;
         key: string;
         meshData(value: any): void;
     }

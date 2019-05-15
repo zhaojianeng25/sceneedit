@@ -15,16 +15,16 @@ var lou16;
 (function (lou16) {
     var me;
     (function (me) {
-        var CharTitleUiVo = Pan3d.me.CharTitleUiVo;
-        var Scene_data = Pan3d.me.Scene_data;
-        var UIManager = Pan3d.me.UIManager;
-        var TextureManager = Pan3d.me.TextureManager;
-        var Vector3D = Pan3d.me.Vector3D;
-        var UIData = Pan3d.me.UIData;
-        var UiDraw = Pan3d.me.UiDraw;
-        var Dis2DUIContianerPanel = Pan3d.me.Dis2DUIContianerPanel;
-        var Rectangle = Pan3d.me.Rectangle;
-        var baseMeshVo = Pan3d.me.baseMeshVo;
+        var CharTitleUiVo = Pan3d.CharTitleUiVo;
+        var Scene_data = Pan3d.Scene_data;
+        var UIManager = Pan3d.UIManager;
+        var TextureManager = Pan3d.TextureManager;
+        var Vector3D = Pan3d.Vector3D;
+        var UIData = Pan3d.UIData;
+        var UiDraw = Pan3d.UiDraw;
+        var Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
+        var Rectangle = Pan3d.Rectangle;
+        var baseMeshVo = Pan3d.baseMeshVo;
         var BuffTitleUiVo = /** @class */ (function (_super) {
             __extends(BuffTitleUiVo, _super);
             function BuffTitleUiVo() {

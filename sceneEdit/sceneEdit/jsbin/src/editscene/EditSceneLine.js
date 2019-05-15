@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var editscene;
 (function (editscene) {
-    var Rectangle = Pan3d.me.Rectangle;
+    var Rectangle = Pan3d.Rectangle;
     var Sprite = win.Sprite;
-    var InteractiveEvent = Pan3d.me.InteractiveEvent;
-    var Vector2D = Pan3d.me.Vector2D;
-    var Scene_data = Pan3d.me.Scene_data;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var Vector2D = Pan3d.Vector2D;
+    var Scene_data = Pan3d.Scene_data;
     var TempSceneLine = /** @class */ (function (_super) {
         __extends(TempSceneLine, _super);
         function TempSceneLine() {
@@ -192,8 +192,8 @@ var editscene;
                 AppData.centenPanel.width = Scene_data.stageWidth - leftNum - rightNum;
                 AppData.centenPanel.resize();
                 var rect = new Rectangle(0, Scene_data.stageHeight - bottomNum + 2, Scene_data.stageWidth - rightNum, bottomNum);
-                Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
-                Pan3d.me.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_RESIZE), rect);
+                Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.EDITSCENE_RESET_SIZE), rect);
+                Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.EDITE_SCENE_RESIZE), rect);
                 prop.PropModel.getInstance().resize();
             }
         };

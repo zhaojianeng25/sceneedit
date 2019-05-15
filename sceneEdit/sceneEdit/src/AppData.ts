@@ -1,7 +1,7 @@
 ﻿
 
-class AppData extends Pan3d.me.GameStart {
-    public static stagePos: Pan3d.me.Vector2D;
+class AppData extends Pan3d.GameStart {
+    public static stagePos: Pan3d.Vector2D;
     public static altKey: boolean;
 
     public static rightPanel: win.Panel
@@ -33,37 +33,37 @@ class AppData extends Pan3d.me.GameStart {
     }
 
     public init(): void {
-        Pan3d.me.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-        Pan3d.me.Scene_data.fileuiRoot = "res/";
-        Pan3d.me.Scene_data.fileRoot = Pan3d.me.Scene_data.ossRoot + "baseedit/";
+        Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+        Pan3d.Scene_data.fileuiRoot = "res/";
+        Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
       
         ModuleList.startup();//启动所有模块
 
-        Pan3d.me.UIData.Scale = 1
+        Pan3d.UIData.Scale = 1
 
-        var uiAtlas: Pan3d.me.UIAtlas = new  Pan3d.me.UIAtlas();
+        var uiAtlas: Pan3d.UIAtlas = new  Pan3d.UIAtlas();
         uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
-        Pan3d.me.TextureManager.getInstance().getImgResByurl(Pan3d.me.Scene_data.fileRoot + "icon/base.jpg"); //预备加载一下，其实可以不必要
+        Pan3d.TextureManager.getInstance().getImgResByurl(Pan3d.Scene_data.fileRoot + "icon/base.jpg"); //预备加载一下，其实可以不必要
 
 
     }
     private loadConfigCom(): void {
         win.LayerManager.getInstance().initData();
-        Pan3d.me.GameMouseManager.getInstance().addMouseEvent();
+        Pan3d.GameMouseManager.getInstance().addMouseEvent();
 
 
-        Pan3d.me.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL));//布局 
-        Pan3d.me.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INIT_MATERIA_PANEL));  //材质init
-        Pan3d.me.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INIT_MAIN_EDITOR_PANEL)); //场景编辑init
-        Pan3d.me.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));  //显示文件夹
-        Pan3d.me.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL)); //显示场景编辑
+        Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL));//布局 
+        Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INIT_MATERIA_PANEL));  //材质init
+        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INIT_MAIN_EDITOR_PANEL)); //场景编辑init
+        Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));  //显示文件夹
+        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL)); //显示场景编辑
 
  
 
-        Pan3d.me.UIData.resize = () => { this.resize() } //更尺寸变化
+        Pan3d.UIData.resize = () => { this.resize() } //更尺寸变化
     }
     private resize(): void {
-        Pan3d.me.UIData.Scale = 1;
+        Pan3d.UIData.Scale = 1;
     }
 
 

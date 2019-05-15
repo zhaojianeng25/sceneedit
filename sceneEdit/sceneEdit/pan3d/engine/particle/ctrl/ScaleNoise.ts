@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class ScaleNoise extends BaseAnim {
         public amplitude: number;
 

@@ -1,8 +1,8 @@
 declare module md5list {
-    import Shader3D = Pan3d.me.Shader3D;
-    import Display3DSprite = Pan3d.me.Display3DSprite;
-    import MeshData = Pan3d.me.MeshData;
-    import TextureRes = Pan3d.me.TextureRes;
+    import Shader3D = Pan3d.Shader3D;
+    import Display3DSprite = Pan3d.Display3DSprite;
+    import MeshData = Pan3d.MeshData;
+    import TextureRes = Pan3d.TextureRes;
     class Md5MeshShader extends Shader3D {
         static Md5MeshShader: string;
         constructor();

@@ -1,18 +1,18 @@
 ﻿module inputres {
-    import Scene_data = Pan3d.me.Scene_data
-    import FBO = Pan3d.me.FBO
-    import Display3D = Pan3d.me.Display3D
-    import MathClass = Pan3d.me.MathClass
-    import Engine = Pan3d.me.Engine
-    import Pan3dByteArray = Pan3d.me.Pan3dByteArray;
-    import ByteArray = Pan3d.me.Pan3dByteArray
-    import LoadManager = Pan3d.me.LoadManager;
-    import ObjDataManager = Pan3d.me.ObjDataManager;
-    import TextureManager = Pan3d.me.TextureManager
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
+    import Scene_data = Pan3d.Scene_data
+    import FBO = Pan3d.FBO
+    import Display3D = Pan3d.Display3D
+    import MathClass = Pan3d.MathClass
+    import Engine = Pan3d.Engine
+    import Pan3dByteArray = Pan3d.Pan3dByteArray;
+    import ByteArray = Pan3d.Pan3dByteArray
+    import LoadManager = Pan3d.LoadManager;
+    import ObjDataManager = Pan3d.ObjDataManager;
+    import TextureManager = Pan3d.TextureManager
+    import ModuleEventManager = Pan3d.ModuleEventManager
 
 
-    export class SceneRes extends Pan3d.me.SceneRes {
+    export class SceneRes extends Pan3d.SceneRes {
         public bfun: Function;
         public readScene(): void {
             super.readScene();
@@ -21,7 +21,7 @@
         private saveImgToSever(imgAryBuffer: ArrayBuffer, httpUrl:string): void {
             var $img: any = new Image()
             $img.url = httpUrl.replace(Scene_data.fileRoot, "");
-            $img.src = 'data:image/png;base64,' + Pan3d.me.Base64.encode(imgAryBuffer);
+            $img.src = 'data:image/png;base64,' + Pan3d.Base64.encode(imgAryBuffer);
             var $upfile: File = this.dataURLtoFile($img.src, $img.url);
             this.upOssFile($upfile, httpUrl)
         }
@@ -237,7 +237,7 @@
             return value.substr(value.lastIndexOf("/") + 1, value.length)
         }
         private makePerfabToSever(name: string, objsurl: string, imgItem: Array<any>, buildinfo: any): void {
-            var $byte: Pan3d.me.Pan3dByteArray = new Pan3d.me.Pan3dByteArray();
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
             var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
          
             prefabStaticMesh.url = this.sceneRes.fileRoot+"prefab/" +name + ".prefab"  //放到指定路径
@@ -253,7 +253,7 @@
                 prefabStaticMesh.paramInfo.push(paramVo);
  
             }
-            var $fileUrl: string = Pan3d.me.Scene_data.fileRoot + prefabStaticMesh.url
+            var $fileUrl: string = Pan3d.Scene_data.fileRoot + prefabStaticMesh.url
 
 
             var $temp: any = prefabStaticMesh.getObject();
@@ -261,7 +261,7 @@
             $byte.writeUTF(JSON.stringify($temp))
  
             var $file: File = new File([$byte.buffer], "temp.prefab");
-            var pathurl: string = $fileUrl.replace(Pan3d.me.Scene_data.ossRoot, "");
+            var pathurl: string = $fileUrl.replace(Pan3d.Scene_data.ossRoot, "");
 
  
             pack.FileOssModel.upOssFile($file, pathurl, () => {

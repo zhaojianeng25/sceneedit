@@ -1,6 +1,6 @@
 declare module md5list {
-    import MeshData = Pan3d.me.MeshData;
-    import ObjectBone = Pan3d.me.ObjectBone;
+    import MeshData = Pan3d.MeshData;
+    import ObjectBone = Pan3d.ObjectBone;
     class MeshToObjUtils {
         getObj(mesh: Md5MeshData): MeshData;
         private getW;

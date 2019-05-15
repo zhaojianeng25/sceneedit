@@ -1,5 +1,5 @@
 declare module left {
-    import MaterialShader = Pan3d.me.MaterialShader;
+    import MaterialShader = Pan3d.MaterialShader;
     class BuildMaterialShader extends MaterialShader {
         static BuildMaterialShader: string;
         constructor();

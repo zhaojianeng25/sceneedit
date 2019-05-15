@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Display3dBg extends Display3D {
 
         protected texture: WebGLTexture;

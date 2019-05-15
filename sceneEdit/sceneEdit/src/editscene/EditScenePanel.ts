@@ -1,7 +1,7 @@
 ﻿module editscene {
     import Panel = win.Panel;
-    import Rectangle = Pan3d.me.Rectangle
-    import UIConatiner = Pan3d.me.UIConatiner
+    import Rectangle = Pan3d.Rectangle
+    import UIConatiner = Pan3d.UIConatiner
     import LayoutbaseBg = win.LayoutbaseBg
  
     export class CentenPanel extends Panel {

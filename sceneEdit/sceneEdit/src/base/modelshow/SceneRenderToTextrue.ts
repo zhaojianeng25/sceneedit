@@ -1,10 +1,10 @@
 ﻿
 module left {
-    import Scene_data = Pan3d.me.Scene_data
-    import FBO = Pan3d.me.FBO
-    import Display3D = Pan3d.me.Display3D
-    import MathClass = Pan3d.me.MathClass
-    import Engine = Pan3d.me.Engine
+    import Scene_data = Pan3d.Scene_data
+    import FBO = Pan3d.FBO
+    import Display3D = Pan3d.Display3D
+    import MathClass = Pan3d.MathClass
+    import Engine = Pan3d.Engine
 
 
     export class SceneRenderToTextrue {

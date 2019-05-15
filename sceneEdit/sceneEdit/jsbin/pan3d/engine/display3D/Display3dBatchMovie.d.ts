@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Display3dBatchMovie extends Display3dMovie {
         batchNum: number;
         batchPos: Array<Movie3D>;

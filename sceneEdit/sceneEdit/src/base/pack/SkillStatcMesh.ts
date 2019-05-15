@@ -1,6 +1,6 @@
 ﻿module pack {
  
-    import EventDispatcher = Pan3d.me.EventDispatcher
+    import EventDispatcher = Pan3d.EventDispatcher
     export class SkillStatcMesh extends EventDispatcher implements ITile {
         public skillUrl: string;
         public roleUrl: string;

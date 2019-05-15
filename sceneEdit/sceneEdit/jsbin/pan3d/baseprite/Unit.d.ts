@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class Unit extends GuidObject {
         path: Array<Vector2D>;
         sceneChar: SceneChar;

@@ -15,14 +15,14 @@ var layapan;
 (function (layapan) {
     var me;
     (function (me) {
-        var Shader3D = Pan3d.me.Shader3D;
-        var Display3DParticle = Pan3d.me.Display3DParticle;
-        var CombineParticle = Pan3d.me.CombineParticle;
-        var CombineParticleData = Pan3d.me.CombineParticleData;
-        var ParticleManager = Pan3d.me.ParticleManager;
-        var LoadManager = Pan3d.me.LoadManager;
-        var TextureManager = Pan3d.me.TextureManager;
-        var Scene_data = Pan3d.me.Scene_data;
+        var Shader3D = Pan3d.Shader3D;
+        var Display3DParticle = Pan3d.Display3DParticle;
+        var CombineParticle = Pan3d.CombineParticle;
+        var CombineParticleData = Pan3d.CombineParticleData;
+        var ParticleManager = Pan3d.ParticleManager;
+        var LoadManager = Pan3d.LoadManager;
+        var TextureManager = Pan3d.TextureManager;
+        var Scene_data = Pan3d.Scene_data;
         var Frame3DParticleShader = /** @class */ (function (_super) {
             __extends(Frame3DParticleShader, _super);
             function Frame3DParticleShader() {
@@ -71,8 +71,8 @@ var layapan;
             function Frame3DParticle() {
                 var _this = _super.call(this) || this;
                 _this.beginTime = 0;
-                Pan3d.me.ProgrmaManager.getInstance().registe(Frame3DParticleShader.Frame3DParticleShader, new Frame3DParticleShader);
-                _this.shader = Pan3d.me.ProgrmaManager.getInstance().getProgram(Frame3DParticleShader.Frame3DParticleShader);
+                Pan3d.ProgrmaManager.getInstance().registe(Frame3DParticleShader.Frame3DParticleShader, new Frame3DParticleShader);
+                _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DParticleShader.Frame3DParticleShader);
                 _this.initData();
                 return _this;
             }
@@ -157,7 +157,7 @@ var layapan;
                 }
                 if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
                     Scene_data.context3D.setProgram(this.shader.program);
-                    this.posMatrix = new Pan3d.me.Matrix3D;
+                    this.posMatrix = new Pan3d.Matrix3D;
                     if (this.bindVecter3d) {
                         this.posMatrix.appendScale(2, 2, 1);
                         this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z);
@@ -236,8 +236,8 @@ var layapan;
                 var _this = _super.call(this) || this;
                 _this.uvchangeData = [0, 0, 1, 1];
                 _this.beginTime = 0;
-                Pan3d.me.ProgrmaManager.getInstance().registe(Frame3DAtlasShader.Frame3DAtlasShader, new Frame3DAtlasShader);
-                _this.shader = Pan3d.me.ProgrmaManager.getInstance().getProgram(Frame3DAtlasShader.Frame3DAtlasShader);
+                Pan3d.ProgrmaManager.getInstance().registe(Frame3DAtlasShader.Frame3DAtlasShader, new Frame3DAtlasShader);
+                _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DAtlasShader.Frame3DAtlasShader);
                 _this.initData();
                 return _this;
             }
@@ -342,7 +342,7 @@ var layapan;
                         Scene_data.context3D.setDepthTest(true);
                     }
                     Scene_data.context3D.setProgram(this.shader.program);
-                    this.posMatrix = new Pan3d.me.Matrix3D;
+                    this.posMatrix = new Pan3d.Matrix3D;
                     this.posMatrix.appendScale(this.scaleX, this.scaleY, 1);
                     if (this.bindVecter3d) {
                         this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z);

@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Display3DFacetParticle extends Display3DParticle {
 
         private _lifeVisible: boolean = true;

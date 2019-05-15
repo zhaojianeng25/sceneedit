@@ -23,7 +23,7 @@ var layapan;
                 return _this;
             }
             return OverrideSkillFixEffectKeyVo;
-        }(Pan3d.me.SkillFixEffectKeyVo));
+        }(Pan3d.SkillFixEffectKeyVo));
         me.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
     })(me = layapan.me || (layapan.me = {}));
 })(layapan || (layapan = {}));

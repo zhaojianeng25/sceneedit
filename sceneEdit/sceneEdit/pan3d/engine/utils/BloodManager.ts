@@ -1,6 +1,6 @@
 ﻿
 
-module Pan3d.me {
+module Pan3d {
     export class TextJumpType {
         public static NORMALDAMAGE: number = 1;//普通伤害
         public static CRIT: number = 2;//暴击
@@ -113,7 +113,7 @@ module Pan3d.me {
             var alpha: number = 0;
 
             //当前处于哪一帧
-            if (vo.type == Pan3d.me.TextJumpType.EXPERIENCE) {
+            if (vo.type == Pan3d.TextJumpType.EXPERIENCE) {
                 var v2d: Vector2D = new Vector2D;
                 if (t < 0) {
                     v2d.x = -9999
@@ -299,7 +299,7 @@ module Pan3d.me {
                 v2d.x = -9999
             }
 
-            if (vo.type == Pan3d.me.TextJumpType.EXPERIENCE) {
+            if (vo.type == Pan3d.TextJumpType.EXPERIENCE) {
                 v2d.x = 300 / UIData.Scale;
                 v2d.y = Scene_data.stageHeight / UIData.Scale - 50;
             }
@@ -310,8 +310,8 @@ module Pan3d.me {
             var alpha: number;
             //选定初始化飘字位置 
             switch (vo.type) {
-                case Pan3d.me.TextJumpType.NORMALDAMAGE:
-                case Pan3d.me.TextJumpType.MYNORMALDAMAGE:
+                case Pan3d.TextJumpType.NORMALDAMAGE:
+                case Pan3d.TextJumpType.MYNORMALDAMAGE:
                     //头顶
                     posx = v2d.x
                     if (t < 4) {
@@ -366,7 +366,7 @@ module Pan3d.me {
                     }
                     break;
 
-                case Pan3d.me.TextJumpType.CRIT:
+                case Pan3d.TextJumpType.CRIT:
                     //暴击
                     posx = v2d.x
                     if (t < 4) {
@@ -420,9 +420,9 @@ module Pan3d.me {
                         }
                     }
                     break;
-                case Pan3d.me.TextJumpType.NORMALDAMAGEUP:
-                case Pan3d.me.TextJumpType.CRITUP:
-                case Pan3d.me.TextJumpType.MYNORMALDAMAGEUP:
+                case Pan3d.TextJumpType.NORMALDAMAGEUP:
+                case Pan3d.TextJumpType.CRITUP:
+                case Pan3d.TextJumpType.MYNORMALDAMAGEUP:
                     //头顶
                     posx = v2d.x
                     if (t < 4) {
@@ -463,7 +463,7 @@ module Pan3d.me {
                     }
 
                     break;
-                case Pan3d.me.TextJumpType.TREATMENT:
+                case Pan3d.TextJumpType.TREATMENT:
                     //头顶
                     posx = v2d.x
                     posy = v2d.y - (t * 1.5);
@@ -477,7 +477,7 @@ module Pan3d.me {
                         alpha = 1 - ((t - 11) / 48);
                     }
                     break;
-                case Pan3d.me.TextJumpType.EXPERIENCE:
+                case Pan3d.TextJumpType.EXPERIENCE:
                     //玩家名
                     posy = v2d.y -= 15
                     posy = posy - (t * 0.5);
@@ -499,8 +499,8 @@ module Pan3d.me {
                         alpha = 1 - ((t - 39) / 20);
                     }
                     break;
-                case Pan3d.me.TextJumpType.ATTACKADD:
-                case Pan3d.me.TextJumpType.ATTACKREDUCE:
+                case Pan3d.TextJumpType.ATTACKADD:
+                case Pan3d.TextJumpType.ATTACKREDUCE:
                     //右边
                     posx = v2d.x += 110
                     posy = v2d.y - (t * 1.8);
@@ -518,10 +518,10 @@ module Pan3d.me {
                         alpha = 1 - ((t - 23) / 36);
                     }
                     break;
-                case Pan3d.me.TextJumpType.DODGE:
-                case Pan3d.me.TextJumpType.MISS:
-                case Pan3d.me.TextJumpType.VERTIGO:
-                case Pan3d.me.TextJumpType.FREEZE:
+                case Pan3d.TextJumpType.DODGE:
+                case Pan3d.TextJumpType.MISS:
+                case Pan3d.TextJumpType.VERTIGO:
+                case Pan3d.TextJumpType.FREEZE:
                     //左边
                     posx = v2d.x -= 50
                     if (t < 12) {
@@ -682,7 +682,7 @@ module Pan3d.me {
     }
 }
 
-module Pan3d.me {
+module Pan3d {
     export class BloodUIShader extends Shader3D {
         static BloodUIShader: string = "BloodUIShader";
         constructor() {
@@ -956,8 +956,8 @@ module Pan3d.me {
 }
 
 
-module Pan3d.me {
-    export class CharTitleMeshVo extends Pan3d.me.baseMeshVo {
+module Pan3d {
+    export class CharTitleMeshVo extends Pan3d.baseMeshVo {
         private _num: number;
         public needDraw: boolean;
         public destory(): void {
@@ -973,7 +973,7 @@ module Pan3d.me {
             return this._num;
         }
     }
-    export  class CharNameMeshVo extends Pan3d.me.baseMeshVo {
+    export  class CharNameMeshVo extends Pan3d.baseMeshVo {
         private _name: string;
         public needDraw: boolean;
         public set name(value: string) {
@@ -990,7 +990,7 @@ module Pan3d.me {
             this.clear = true
         }
     }
-    export class BloodLineMeshVo extends Pan3d.me.baseMeshVo {
+    export class BloodLineMeshVo extends Pan3d.baseMeshVo {
         public num: number;
         public colortype: number;
         public destory(): void {
@@ -1002,7 +1002,7 @@ module Pan3d.me {
     }
 
 
-    export class JumpTextMeshVo extends Pan3d.me.baseMeshVo {
+    export class JumpTextMeshVo extends Pan3d.baseMeshVo {
         public str: string
         public destory(): void {
             this.pos = null;
@@ -1030,18 +1030,18 @@ module Pan3d.me {
         private _charNameContianerPanel: Dis2DUIContianerPanel;//名字;
         private _jumpTxtContianerPanel: AlphaUiContianer;//跳字;
         private _expjumpTxtContianerPanel: AlphaUiContianer;//经验跳字;
-        private _bloodLineUIConatiner: Pan3d.me.BloodLineUIConatiner//血条;
+        private _bloodLineUIConatiner: Pan3d.BloodLineUIConatiner//血条;
 
 
         public uiContianerItem: Array<Dis2DUIContianerBase>;
         public constructor() {
             this.uiContianerItem = new Array()
-            this._charTitleContianerPanel = new Dis2DUIContianerPanel(Pan3d.me.CharTitleUiVo, new Rectangle(0, 0, 131, 69), 10);
-            this._charNameContianerPanel = new Dis2DUIContianerPanel(Pan3d.me.CharNameUiVo, new Rectangle(0, 0, 256, 24), 50);
-            this._jumpTxtContianerPanel = new AlphaUiContianer(Pan3d.me.TextJumpUiDrawAndRefreash, new Rectangle(0, 0, 256, 50), 10);
-            this._expjumpTxtContianerPanel = new AlphaUiContianer(Pan3d.me.ExpTextJumpUiDrawAndRefreash, new Rectangle(0, 0, 512, 100), 5);
+            this._charTitleContianerPanel = new Dis2DUIContianerPanel(Pan3d.CharTitleUiVo, new Rectangle(0, 0, 131, 69), 10);
+            this._charNameContianerPanel = new Dis2DUIContianerPanel(Pan3d.CharNameUiVo, new Rectangle(0, 0, 256, 24), 50);
+            this._jumpTxtContianerPanel = new AlphaUiContianer(Pan3d.TextJumpUiDrawAndRefreash, new Rectangle(0, 0, 256, 50), 10);
+            this._expjumpTxtContianerPanel = new AlphaUiContianer(Pan3d.ExpTextJumpUiDrawAndRefreash, new Rectangle(0, 0, 512, 100), 5);
 
-            this._bloodLineUIConatiner = new Pan3d.me.BloodLineUIConatiner();
+            this._bloodLineUIConatiner = new Pan3d.BloodLineUIConatiner();
 
             this.uiContianerItem.push(this._charTitleContianerPanel)
             this.uiContianerItem.push(this._charNameContianerPanel)
@@ -1078,7 +1078,7 @@ module Pan3d.me {
             return $vo;
         }
 
-        public setJumpNum($textJumpUiVo: Pan3d.me.TextJumpUiVo): void {
+        public setJumpNum($textJumpUiVo: Pan3d.TextJumpUiVo): void {
             // if (!$color) {
             //     $color = $num > 0 ? ArtFont.Green : ArtFont.Red
             // }
@@ -1090,7 +1090,7 @@ module Pan3d.me {
             this._jumpTxtContianerPanel.showTemp($textJumpUiVo);
         }
 
-        public setExpJumpNum($textJumpUiVo: Pan3d.me.TextJumpUiVo): void {
+        public setExpJumpNum($textJumpUiVo: Pan3d.TextJumpUiVo): void {
             this._expjumpTxtContianerPanel.showTemp($textJumpUiVo);
         }
 

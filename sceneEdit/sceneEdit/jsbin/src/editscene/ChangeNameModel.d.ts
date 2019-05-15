@@ -11,7 +11,7 @@ declare module editscene {
         private onMouseDownFun;
         getTextMetrics($str: string, fontsize?: number): TextMetrics;
         private changeBfun;
-        changeName(rect: Pan3d.me.Rectangle, str: string, bfun: Function): void;
+        changeName(rect: Pan3d.Rectangle, str: string, bfun: Function): void;
         private onMouseDown;
     }
 }

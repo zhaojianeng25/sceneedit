@@ -1,6 +1,6 @@
 declare module prop {
-    import Vector3D = Pan3d.me.Vector3D;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import Vector3D = Pan3d.Vector3D;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class ColorPickUI extends TextLabelUI {
         constructor(w?: number, h?: number);
         protected initView(): void;

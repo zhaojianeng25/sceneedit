@@ -1,5 +1,5 @@
 declare module drag {
-    import UIConatiner = Pan3d.me.UIConatiner;
+    import UIConatiner = Pan3d.UIConatiner;
     interface IDragManager {
         doDrag(dragInitiator: UIConatiner, dragSource: DragSource, mouseEvent: MouseEvent): any;
     }

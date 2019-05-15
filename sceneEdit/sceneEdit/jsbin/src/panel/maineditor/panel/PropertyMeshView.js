@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
-    var Vector3D = Pan3d.me.Vector3D;
+    var Vector3D = Pan3d.Vector3D;
     var MetaDataView = prop.MetaDataView;
     var ReflectionData = prop.ReflectionData;
     var PropertyMeshView = /** @class */ (function (_super) {

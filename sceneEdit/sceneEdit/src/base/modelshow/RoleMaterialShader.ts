@@ -1,5 +1,5 @@
 ﻿module left {
-    import MaterialAnimShader = Pan3d.me.MaterialAnimShader
+    import MaterialAnimShader = Pan3d.MaterialAnimShader
     export class RoleMaterialShader extends MaterialAnimShader {
         public static RoleMaterialShader: string = "RoleMaterialShader";
         constructor() {

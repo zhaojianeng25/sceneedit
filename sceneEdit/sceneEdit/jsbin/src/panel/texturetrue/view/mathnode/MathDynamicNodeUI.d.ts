@@ -1,5 +1,5 @@
 declare module materialui {
-    import BaseEvent = Pan3d.me.BaseEvent;
+    import BaseEvent = Pan3d.BaseEvent;
     class MathDynamicNodeUI extends BaseMaterialNodeUI {
         private intAItem;
         private intBItem;

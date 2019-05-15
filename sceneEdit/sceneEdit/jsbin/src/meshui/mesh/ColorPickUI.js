@@ -13,10 +13,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
-    var Vector3D = Pan3d.me.Vector3D;
-    var UIManager = Pan3d.me.UIManager;
-    var TextureManager = Pan3d.me.TextureManager;
-    var ModuleEventManager = Pan3d.me.ModuleEventManager;
+    var Vector3D = Pan3d.Vector3D;
+    var UIManager = Pan3d.UIManager;
+    var TextureManager = Pan3d.TextureManager;
+    var ModuleEventManager = Pan3d.ModuleEventManager;
     var ColorPickUI = /** @class */ (function (_super) {
         __extends(ColorPickUI, _super);
         function ColorPickUI(w, h) {

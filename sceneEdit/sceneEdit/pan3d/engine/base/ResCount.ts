@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class ResCount extends GC {
         protected _useNum: number = 0;
         public idleTime: number = 0;

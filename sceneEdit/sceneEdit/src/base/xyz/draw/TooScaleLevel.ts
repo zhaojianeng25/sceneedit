@@ -1,13 +1,13 @@
 ﻿module xyz {
-    import Shader3D = Pan3d.me.Shader3D
-    import Display3D = Pan3d.me.Display3D;
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import TextureManager = Pan3d.me.TextureManager
-    import UIManager = Pan3d.me.UIManager;
-    import TextureRes = Pan3d.me.TextureRes;
-    import Matrix3D = Pan3d.me.Matrix3D
-    import Scene_data = Pan3d.me.Scene_data;
-    import LineDisplaySprite = Pan3d.me.LineDisplaySprite
+    import Shader3D = Pan3d.Shader3D
+    import Display3D = Pan3d.Display3D;
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import TextureManager = Pan3d.TextureManager
+    import UIManager = Pan3d.UIManager;
+    import TextureRes = Pan3d.TextureRes;
+    import Matrix3D = Pan3d.Matrix3D
+    import Scene_data = Pan3d.Scene_data;
+    import LineDisplaySprite = Pan3d.LineDisplaySprite
 
 
     export class TooScaleLevel extends TooBaseModelLevel {
@@ -102,7 +102,7 @@
         private getMouseHitPanelPos(mouseVect2d: Vector2D): Vector3D {
             var clik3dVect: Vector3D = TooMathHitModel.getCamFontDistent(this._scene, mouseVect2d, 100); //鼠标前面的3D坐标
             var cam3d: Vector3D = new Vector3D(this._scene.cam3D.x, this._scene.cam3D.y, this._scene.cam3D.z)
-            var pos: Vector3D = Pan3d.me.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
+            var pos: Vector3D = Pan3d.MathUtil.getLinePlaneInterectPointByTri(cam3d, clik3dVect, this.pointItem);
 
             var $m: Matrix3D = this.lastMatrix3d.clone()
             $m.invert()

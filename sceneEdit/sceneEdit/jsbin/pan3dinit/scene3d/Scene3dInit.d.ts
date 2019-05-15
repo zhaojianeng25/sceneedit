@@ -1,4 +1,4 @@
-declare module scene3d.me {
+declare module scene3d_me {
     class Scene3dInit {
         static isConfig: boolean;
         static initData(): void;

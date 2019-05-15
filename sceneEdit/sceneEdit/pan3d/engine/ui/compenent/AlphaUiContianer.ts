@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class AlphaUIShader extends Shader3D {
         static AlphaUiShader: string = "AlphaUiShader";
         constructor() {

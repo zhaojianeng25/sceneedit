@@ -13,16 +13,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var pack;
 (function (pack) {
-    var RoleRes = Pan3d.me.RoleRes;
-    var SkinMesh = Pan3d.me.SkinMesh;
-    var BaseRes = Pan3d.me.BaseRes;
-    var MeshData = Pan3d.me.MeshData;
-    var AnimData = Pan3d.me.AnimData;
-    var Dictionary = Pan3d.me.Dictionary;
-    var DualQuatFloat32Array = Pan3d.me.DualQuatFloat32Array;
-    var MeshDataManager = Pan3d.me.MeshDataManager;
-    var Scene_data = Pan3d.me.Scene_data;
-    var LoadManager = Pan3d.me.LoadManager;
+    var RoleRes = Pan3d.RoleRes;
+    var SkinMesh = Pan3d.SkinMesh;
+    var BaseRes = Pan3d.BaseRes;
+    var MeshData = Pan3d.MeshData;
+    var AnimData = Pan3d.AnimData;
+    var Dictionary = Pan3d.Dictionary;
+    var DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
+    var MeshDataManager = Pan3d.MeshDataManager;
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
     var MeshDataChangeManager = /** @class */ (function (_super) {
         __extends(MeshDataChangeManager, _super);
         function MeshDataChangeManager() {

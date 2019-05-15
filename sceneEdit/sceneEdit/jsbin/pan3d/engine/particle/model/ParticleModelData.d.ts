@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ParticleModelData extends ParticleData {
         _maxAnimTime: number;
         _depthMode: number;

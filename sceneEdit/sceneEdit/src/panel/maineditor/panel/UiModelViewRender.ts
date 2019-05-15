@@ -1,39 +1,39 @@
 ﻿module maineditor {
 
-    import Rectangle = Pan3d.me.Rectangle
-    import Vector2D = Pan3d.me.Vector2D
-    import Scene_data = Pan3d.me.Scene_data
+    import Rectangle = Pan3d.Rectangle
+    import Vector2D = Pan3d.Vector2D
+    import Scene_data = Pan3d.Scene_data
 
-    import UICompenent = Pan3d.me.UICompenent
+    import UICompenent = Pan3d.UICompenent
 
 
-    import TextureManager = Pan3d.me.TextureManager
-    import FrameCompenent = Pan3d.me.FrameCompenent
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import ColorType = Pan3d.me.ColorType
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import TextAlign = Pan3d.me.TextAlign
+    import TextureManager = Pan3d.TextureManager
+    import FrameCompenent = Pan3d.FrameCompenent
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import ColorType = Pan3d.ColorType
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import TextAlign = Pan3d.TextAlign
 
-    import ModuleEventManager = Pan3d.me.ModuleEventManager
-    import UIManager = Pan3d.me.UIManager
-    import LabelTextFont = Pan3d.me.LabelTextFont
-    import UIConatiner = Pan3d.me.UIConatiner;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText
-    import UIRectangle = Pan3d.me.UIRectangle
-    import UIRenderOnlyPicComponent = Pan3d.me.UIRenderOnlyPicComponent
-    import baseMeshVo = Pan3d.me.baseMeshVo
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import UIMask = Pan3d.me.UIMask
-    import UiDraw = Pan3d.me.UiDraw
-    import UIData = Pan3d.me.UIData
-    import UIAtlas = Pan3d.me.UIAtlas
-    import Shader3D = Pan3d.me.Shader3D
-    import TextureRes = Pan3d.me.TextureRes
-    import MouseType = Pan3d.me.MouseType
-    import MathUtil = Pan3d.me.MathUtil
-    import Material = Pan3d.me.Material
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam
-    import TimeUtil = Pan3d.me.TimeUtil
+    import ModuleEventManager = Pan3d.ModuleEventManager
+    import UIManager = Pan3d.UIManager
+    import LabelTextFont = Pan3d.LabelTextFont
+    import UIConatiner = Pan3d.UIConatiner;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText
+    import UIRectangle = Pan3d.UIRectangle
+    import UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent
+    import baseMeshVo = Pan3d.baseMeshVo
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import UIMask = Pan3d.UIMask
+    import UiDraw = Pan3d.UiDraw
+    import UIData = Pan3d.UIData
+    import UIAtlas = Pan3d.UIAtlas
+    import Shader3D = Pan3d.Shader3D
+    import TextureRes = Pan3d.TextureRes
+    import MouseType = Pan3d.MouseType
+    import MathUtil = Pan3d.MathUtil
+    import Material = Pan3d.Material
+    import MaterialBaseParam = Pan3d.MaterialBaseParam
+    import TimeUtil = Pan3d.TimeUtil
 
     import PanDragEvent = drag.PanDragEvent
 
@@ -143,10 +143,10 @@ gl_FragColor = ft2;
         public set sceneProjectVo(value: SceneProjectVo) {
             if (value) {
                 if (this._sceneProjectVo) {
-                    this._sceneProjectVo.removeEventListener(Pan3d.me.BaseEvent.COMPLETE, this.sceneProjectUpData, this)
+                    this._sceneProjectVo.removeEventListener(Pan3d.BaseEvent.COMPLETE, this.sceneProjectUpData, this)
                 }
                 this._sceneProjectVo = value
-                this._sceneProjectVo.addEventListener(Pan3d.me.BaseEvent.COMPLETE, this.sceneProjectUpData, this)
+                this._sceneProjectVo.addEventListener(Pan3d.BaseEvent.COMPLETE, this.sceneProjectUpData, this)
                 this.sceneProjectUpData();
             }
         }

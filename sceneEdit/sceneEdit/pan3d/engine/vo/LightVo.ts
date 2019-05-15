@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class LightVo {
         public sunDirect: Array<number> = new Array(0, 1, 0);
         public sunColor: Array<number> = new Array(2, 0, 0);

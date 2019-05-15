@@ -1,5 +1,5 @@
 declare module xyz {
-    import Display3D = Pan3d.me.Display3D;
+    import Display3D = Pan3d.Display3D;
     class MoveScaleRotationLevel extends Display3D {
         private _tooMoveLevel;
         private _tooRotationLevel;

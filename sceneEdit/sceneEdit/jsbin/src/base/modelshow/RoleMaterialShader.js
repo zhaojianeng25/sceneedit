@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var left;
 (function (left) {
-    var MaterialAnimShader = Pan3d.me.MaterialAnimShader;
+    var MaterialAnimShader = Pan3d.MaterialAnimShader;
     var RoleMaterialShader = /** @class */ (function (_super) {
         __extends(RoleMaterialShader, _super);
         function RoleMaterialShader() {

@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class SkillManager extends ResGC {
         //private _dic: Object;
         public _skillDic: Object;

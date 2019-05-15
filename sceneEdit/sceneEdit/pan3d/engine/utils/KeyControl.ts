@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class MouseType {
         public static MouseDown = "mousedown";
         public static MouseUp = "mouseup";

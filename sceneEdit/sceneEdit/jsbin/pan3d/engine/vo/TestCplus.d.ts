@@ -6,6 +6,6 @@ declare class Test {
     name: string;
     age: number;
     private _byte;
-    readData($bytes: Pan3d.me.Pan3dByteArray): void;
+    readData($bytes: Pan3d.Pan3dByteArray): void;
     writeData(): void;
 }

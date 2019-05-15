@@ -1,9 +1,9 @@
 declare module xyz {
-    import BaseEvent = Pan3d.me.BaseEvent;
-    import Module = Pan3d.me.Module;
-    import Processor = Pan3d.me.Processor;
-    import BaseProcessor = Pan3d.me.BaseProcessor;
-    import UIConatiner = Pan3d.me.UIConatiner;
+    import BaseEvent = Pan3d.BaseEvent;
+    import Module = Pan3d.Module;
+    import Processor = Pan3d.Processor;
+    import BaseProcessor = Pan3d.BaseProcessor;
+    import UIConatiner = Pan3d.UIConatiner;
     class MoveScaleRotatioinEvent extends BaseEvent {
         static INIT_MOVE_SCALE_ROTATION: string;
         static INIT_UICONTAINER_TO_XYZ: string;

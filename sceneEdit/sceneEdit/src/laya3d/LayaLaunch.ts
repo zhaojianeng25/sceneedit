@@ -5,7 +5,7 @@ import Stage = Laya.Stage;
 import Sprite = Laya.Sprite
 
 
-import Pan3dByteArray = Pan3d.me.Pan3dByteArray;
+import Pan3dByteArray = Pan3d.Pan3dByteArray;
 
 import LayaScene2D = LayaPan3D.LayaScene2D;
 import LayaScene3D = LayaPan3D.LayaScene3D;
@@ -56,13 +56,13 @@ class LayaLaunch {
 
 
 
-        Pan3d.me.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
-        Pan3d.me.Scene_data.fileuiRoot = "res/";
-        Pan3d.me.Scene_data.fileRoot = Pan3d.me.Scene_data.ossRoot + "baseedit/";
+        Pan3d.Scene_data.ossRoot = "https://webpan.oss-cn-shanghai.aliyuncs.com/";
+        Pan3d.Scene_data.fileuiRoot = "res/";
+        Pan3d.Scene_data.fileRoot = Pan3d.Scene_data.ossRoot + "baseedit/";
 
 
 
-        Pan3d.me.Engine.init(this._canvas);
+        Pan3d.Engine.init(this._canvas);
 
 
 
@@ -112,12 +112,12 @@ class LayaLaunch {
         midBox.addChild(picB)
         picB.pos(0, 220)
 
-        this.lastTm = Pan3d.me.TimeUtil.getTimer()
+        this.lastTm = Pan3d.TimeUtil.getTimer()
         Laya.stage.frameLoop(1, this, () => {
-            var t = Pan3d.me.TimeUtil.getTimer() - this.lastTm;
+            var t = Pan3d.TimeUtil.getTimer() - this.lastTm;
             //  Pan3d.TimeUtil.START_TIME += t * -1;
-            this.lastTm = Pan3d.me.TimeUtil.getTimer()
-            Pan3d.me.TimeUtil.update()
+            this.lastTm = Pan3d.TimeUtil.getTimer()
+            Pan3d.TimeUtil.update()
         })
     }
 

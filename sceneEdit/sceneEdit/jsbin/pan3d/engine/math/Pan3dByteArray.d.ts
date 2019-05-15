@@ -4,7 +4,7 @@
  * @class egret.Endian
  * @classdesc
  */
-declare module Pan3d.me {
+declare module Pan3d {
     class Endian {
         /**
          * 表示多字节数字的最低有效字节位于字节序列的最前面。
@@ -258,7 +258,7 @@ declare module Pan3d.me {
         writeUTF(value: string): void;
         writeString(value: string): void;
         writeStringByLen(value: string, len: number): void;
-        readVector3D($w?: boolean): Pan3d.me.Vector3D;
+        readVector3D($w?: boolean): Pan3d.Vector3D;
         /**
          * 将 UTF-8 字符串写入字节流。类似于 writeUTF() 方法，但 writeUTFBytes() 不使用 16 位长度的词为字符串添加前缀
          * @param value 要写入的字符串值

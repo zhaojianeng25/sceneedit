@@ -1,7 +1,7 @@
 ﻿module editscene {
     import Panel = win.Panel;
  
-    import UIConatiner = Pan3d.me.UIConatiner
+    import UIConatiner = Pan3d.UIConatiner
  
     export class EditLeftPanel extends Panel {
         public static leftPanel: EditLeftPanel

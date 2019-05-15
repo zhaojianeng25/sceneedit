@@ -13,10 +13,10 @@ class ModuleList {
     public constructor() {
 
     }
-    private static getModuleList(): Array<Pan3d.me.Module> {
+    private static getModuleList(): Array<Pan3d.Module> {
         //所有的需要注册的模块  都写在这里
 
-        var $arr: Array<Pan3d.me.Module> = [
+        var $arr: Array<Pan3d.Module> = [
             new materialui.MaterialModule(), //材质
             new colorview.ColorModule(), //右菜单
             new menutwo.MenuTwoModule(), //右菜单
@@ -37,9 +37,9 @@ class ModuleList {
      * 启动所有模块 
      */
     public static startup(): void {
-        var allModules: Array<Pan3d.me.Module> = ModuleList.getModuleList();
+        var allModules: Array<Pan3d.Module> = ModuleList.getModuleList();
         for (var i: number = 0; i < allModules.length; i++) {
-            Pan3d.me.Module.registerModule(allModules[i]);
+            Pan3d.Module.registerModule(allModules[i]);
         }
     }
 

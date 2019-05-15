@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class SkillKeyVo {
         public frame: number = 0;
         public url: string;

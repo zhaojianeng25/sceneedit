@@ -13,34 +13,34 @@ var scenedis;
             };
             ModelshowMouseManager.prototype.addMouseEvent = function () {
                 var _this = this;
-                if (Pan3d.me.Scene_data.isPc) {
-                    document.addEventListener(Pan3d.me.MouseType.MouseDown, function ($evt) { _this.onMouse($evt); });
-                    document.addEventListener(Pan3d.me.MouseType.MouseUp, function ($evt) { _this.onMouse($evt); });
-                    document.addEventListener(Pan3d.me.MouseType.MouseMove, function ($evt) { _this.onMouse($evt); });
-                    document.addEventListener(Pan3d.me.MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
+                if (Pan3d.Scene_data.isPc) {
+                    document.addEventListener(Pan3d.MouseType.MouseDown, function ($evt) { _this.onMouse($evt); });
+                    document.addEventListener(Pan3d.MouseType.MouseUp, function ($evt) { _this.onMouse($evt); });
+                    document.addEventListener(Pan3d.MouseType.MouseMove, function ($evt) { _this.onMouse($evt); });
+                    document.addEventListener(Pan3d.MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
                 }
                 else {
-                    document.addEventListener(Pan3d.me.MouseType.TouchMove, function ($evt) { _this.mouseToEvent($evt); });
-                    document.addEventListener(Pan3d.me.MouseType.TouchEnd, function ($evt) { _this.mouseToEvent($evt); });
-                    document.addEventListener(Pan3d.me.MouseType.TouchStart, function ($evt) { _this.mouseToEvent($evt); });
+                    document.addEventListener(Pan3d.MouseType.TouchMove, function ($evt) { _this.mouseToEvent($evt); });
+                    document.addEventListener(Pan3d.MouseType.TouchEnd, function ($evt) { _this.mouseToEvent($evt); });
+                    document.addEventListener(Pan3d.MouseType.TouchStart, function ($evt) { _this.mouseToEvent($evt); });
                 }
             };
             ModelshowMouseManager.prototype.onMouseWheel = function ($evt) {
             };
             ModelshowMouseManager.prototype.onMouse = function ($e) {
                 var evt;
-                var point = new Pan3d.me.Vector2D();
+                var point = new Pan3d.Vector2D();
                 if ($e instanceof MouseEvent) {
-                    if ($e.type == Pan3d.me.MouseType.MouseDown) {
-                        evt = new Pan3d.me.InteractiveEvent(Pan3d.me.InteractiveEvent.Down);
+                    if ($e.type == Pan3d.MouseType.MouseDown) {
+                        evt = new Pan3d.InteractiveEvent(Pan3d.InteractiveEvent.Down);
                     }
-                    else if ($e.type == Pan3d.me.MouseType.MouseUp) {
-                        evt = new Pan3d.me.InteractiveEvent(Pan3d.me.InteractiveEvent.Up);
+                    else if ($e.type == Pan3d.MouseType.MouseUp) {
+                        evt = new Pan3d.InteractiveEvent(Pan3d.InteractiveEvent.Up);
                     }
-                    else if ($e.type == Pan3d.me.MouseType.MouseMove) {
-                        evt = new Pan3d.me.InteractiveEvent(Pan3d.me.InteractiveEvent.Move);
+                    else if ($e.type == Pan3d.MouseType.MouseMove) {
+                        evt = new Pan3d.InteractiveEvent(Pan3d.InteractiveEvent.Move);
                     }
-                    else if ($e.type == Pan3d.me.MouseType.MouseClick) {
+                    else if ($e.type == Pan3d.MouseType.MouseClick) {
                     }
                     point.x = $e.pageX;
                     point.y = $e.pageY;
@@ -49,17 +49,17 @@ var scenedis;
             };
             ModelshowMouseManager.prototype.mouseToEvent = function ($touchEvent) {
                 var evt;
-                var point = new Pan3d.me.Vector2D();
-                if ($touchEvent.type == Pan3d.me.MouseType.TouchStart) {
-                    evt = new Pan3d.me.InteractiveEvent(Pan3d.me.InteractiveEvent.Down);
+                var point = new Pan3d.Vector2D();
+                if ($touchEvent.type == Pan3d.MouseType.TouchStart) {
+                    evt = new Pan3d.InteractiveEvent(Pan3d.InteractiveEvent.Down);
                 }
-                else if ($touchEvent.type == Pan3d.me.MouseType.TouchEnd) {
-                    evt = new Pan3d.me.InteractiveEvent(Pan3d.me.InteractiveEvent.Up);
+                else if ($touchEvent.type == Pan3d.MouseType.TouchEnd) {
+                    evt = new Pan3d.InteractiveEvent(Pan3d.InteractiveEvent.Up);
                     point.x = $touchEvent.changedTouches[0].pageX;
                     point.y = $touchEvent.changedTouches[0].pageY;
                 }
-                else if ($touchEvent.type == Pan3d.me.MouseType.TouchMove) {
-                    evt = new Pan3d.me.InteractiveEvent(Pan3d.me.InteractiveEvent.Move);
+                else if ($touchEvent.type == Pan3d.MouseType.TouchMove) {
+                    evt = new Pan3d.InteractiveEvent(Pan3d.InteractiveEvent.Move);
                 }
                 if ($touchEvent.touches.length) {
                     point.x = $touchEvent.touches[$touchEvent.touches.length - 1].clientX;
@@ -68,9 +68,9 @@ var scenedis;
                 this.makeMouseEvent(evt, point);
             };
             ModelshowMouseManager.prototype.makeMouseEvent = function (evt, point) {
-                var temp = Pan3d.me.UIManager.getInstance().mouseEvetData(evt, point);
+                var temp = Pan3d.UIManager.getInstance().mouseEvetData(evt, point);
                 if (!temp) {
-                    if (evt.type == Pan3d.me.InteractiveEvent.Up) {
+                    if (evt.type == Pan3d.InteractiveEvent.Up) {
                         this.clikSceneGround(point);
                     }
                 }

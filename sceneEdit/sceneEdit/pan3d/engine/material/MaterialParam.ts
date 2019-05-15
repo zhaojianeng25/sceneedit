@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class MaterialParam extends MaterialBaseParam {
         //public material: Material;
         public materialUrl: string;

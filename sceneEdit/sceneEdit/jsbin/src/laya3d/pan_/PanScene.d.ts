@@ -2,7 +2,7 @@
 * name
 */
 declare module lou16.me {
-    import CombineParticle = Pan3d.me.CombineParticle;
+    import CombineParticle = Pan3d.CombineParticle;
     class PanScene extends maineditor.EdItorSceneManager {
         static MODE_2D: number;
         static MODE_3D: number;

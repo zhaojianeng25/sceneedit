@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class PathManager {
         private static dic;
         static reg(types: number, cls: any): void;

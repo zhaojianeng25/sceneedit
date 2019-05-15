@@ -1,6 +1,6 @@
 declare module xyz {
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import Display3D = Pan3d.me.Display3D;
+    import Matrix3D = Pan3d.Matrix3D;
+    import Display3D = Pan3d.Display3D;
     class TooXyzPosData {
         id: number;
         type: number;

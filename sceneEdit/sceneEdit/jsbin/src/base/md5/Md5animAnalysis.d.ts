@@ -1,6 +1,6 @@
 declare module md5list {
-    import Matrix3D = Pan3d.me.Matrix3D;
-    import ObjectBone = Pan3d.me.ObjectBone;
+    import Matrix3D = Pan3d.Matrix3D;
+    import ObjectBone = Pan3d.ObjectBone;
     class Md5animAnalysis {
         allFrames: Array<Array<ObjectBone>>;
         framesok: Boolean;

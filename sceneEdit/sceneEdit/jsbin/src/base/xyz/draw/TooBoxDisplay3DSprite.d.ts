@@ -1,6 +1,6 @@
 declare module xyz {
-    import Shader3D = Pan3d.me.Shader3D;
-    import Display3D = Pan3d.me.Display3D;
+    import Shader3D = Pan3d.Shader3D;
+    import Display3D = Pan3d.Display3D;
     class TooBoxDisplay3DShader extends Shader3D {
         static TooBoxDisplay3DShader: string;
         constructor();

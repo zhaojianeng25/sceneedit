@@ -1,9 +1,9 @@
 declare module maineditor {
-    import Rectangle = Pan3d.me.Rectangle;
-    import UICompenent = Pan3d.me.UICompenent;
-    import UIRenderComponent = Pan3d.me.UIRenderComponent;
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
-    import Disp2DBaseText = Pan3d.me.Disp2DBaseText;
+    import Rectangle = Pan3d.Rectangle;
+    import UICompenent = Pan3d.UICompenent;
+    import UIRenderComponent = Pan3d.UIRenderComponent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
+    import Disp2DBaseText = Pan3d.Disp2DBaseText;
     class SelectFileListText extends Disp2DBaseText {
         bgUi: UICompenent;
         textMetrics: TextMetrics;

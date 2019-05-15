@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class ArtFont {
         fontData: Dictionary;
         fontData_Unit: Dictionary;

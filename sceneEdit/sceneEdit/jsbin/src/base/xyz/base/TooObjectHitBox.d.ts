@@ -1,6 +1,6 @@
 declare module xyz {
-    import Object3D = Pan3d.me.Object3D;
-    import Vector3D = Pan3d.me.Vector3D;
+    import Object3D = Pan3d.Object3D;
+    import Vector3D = Pan3d.Vector3D;
     class TooObjectHitBox extends Object3D {
         beginx: number;
         beginy: number;

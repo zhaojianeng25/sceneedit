@@ -1,9 +1,9 @@
 var left;
 (function (left) {
-    var Scene_data = Pan3d.me.Scene_data;
-    var FBO = Pan3d.me.FBO;
-    var MathClass = Pan3d.me.MathClass;
-    var Engine = Pan3d.me.Engine;
+    var Scene_data = Pan3d.Scene_data;
+    var FBO = Pan3d.FBO;
+    var MathClass = Pan3d.MathClass;
+    var Engine = Pan3d.Engine;
     var SceneRenderToTextrue = /** @class */ (function () {
         function SceneRenderToTextrue() {
             this.fw = 1024;

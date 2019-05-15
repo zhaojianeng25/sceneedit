@@ -1,5 +1,5 @@
 declare module pack {
-    import MaterialBaseParam = Pan3d.me.MaterialBaseParam;
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
     class PackPrefabManager {
         private static _instance;
         static getInstance(): PackPrefabManager;

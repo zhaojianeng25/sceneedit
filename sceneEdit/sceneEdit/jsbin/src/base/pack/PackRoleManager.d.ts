@@ -1,5 +1,5 @@
 declare module pack {
-    import Dictionary = Pan3d.me.Dictionary;
+    import Dictionary = Pan3d.Dictionary;
     class PackRoleManager {
         private static _instance;
         static getInstance(): PackRoleManager;

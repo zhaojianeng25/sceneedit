@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class AxisRotaion extends BaseAnim {
         axis: Vector3D;
         axisPos: Vector3D;

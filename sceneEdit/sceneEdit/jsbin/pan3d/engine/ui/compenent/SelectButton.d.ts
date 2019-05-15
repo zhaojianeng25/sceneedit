@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class SelectButton extends BaseButton {
         private _selected;
         constructor();

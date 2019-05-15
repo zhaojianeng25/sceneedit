@@ -1,5 +1,5 @@
 declare module prop {
-    import Vector3D = Pan3d.me.Vector3D;
+    import Vector3D = Pan3d.Vector3D;
     class SciencePropMeshPanel extends MetaDataView {
         getView(): Array<any>;
         data: any;

@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class MaterialBaseParam extends GC {
         material: Material;
         dynamicTexList: Array<any>;

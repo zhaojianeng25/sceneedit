@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class MeshDataManager extends ResGC {
         // private _dic: Object;
         private _loadDic: Object;

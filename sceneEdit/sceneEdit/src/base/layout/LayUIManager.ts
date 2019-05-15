@@ -1,17 +1,17 @@
 ﻿module win {
 
-    import Scene_data = Pan3d.me.Scene_data;
-    import UIConatiner = Pan3d.me.UIConatiner;
-    import UIStage = Pan3d.me.UIStage
-    import UIRenderComponent = Pan3d.me.UIRenderComponent
-    import TextAlign = Pan3d.me.TextAlign
-    import UIManager = Pan3d.me.UIManager
-    import InteractiveEvent = Pan3d.me.InteractiveEvent
-    import ProgrmaManager = Pan3d.me.ProgrmaManager
-    import MouseType = Pan3d.me.MouseType
-    import Vector2D = Pan3d.me.Vector2D
-    import MathClass = Pan3d.me.MathClass
-    import TimeUtil = Pan3d.me.TimeUtil
+    import Scene_data = Pan3d.Scene_data;
+    import UIConatiner = Pan3d.UIConatiner;
+    import UIStage = Pan3d.UIStage
+    import UIRenderComponent = Pan3d.UIRenderComponent
+    import TextAlign = Pan3d.TextAlign
+    import UIManager = Pan3d.UIManager
+    import InteractiveEvent = Pan3d.InteractiveEvent
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import MouseType = Pan3d.MouseType
+    import Vector2D = Pan3d.Vector2D
+    import MathClass = Pan3d.MathClass
+    import TimeUtil = Pan3d.TimeUtil
 
     export class LayUIManager    {
 

@@ -5,7 +5,7 @@ interface IDictionary {
     keys(): string[];
     values(): any[];
 }
-declare module Pan3d.me {
+declare module Pan3d {
     class Dictionary implements IDictionary {
         _keys: string[];
         _values: any[];

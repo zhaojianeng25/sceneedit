@@ -1,4 +1,4 @@
-declare module Pan3d.me {
+declare module Pan3d {
     class PuiData {
         /** 方形高亮64*64 */
         static A_HIGHT_F: string;

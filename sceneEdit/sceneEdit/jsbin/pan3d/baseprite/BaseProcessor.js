@@ -13,16 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Pan3d;
 (function (Pan3d) {
-    var me;
-    (function (me) {
-        var BaseProcessor = /** @class */ (function (_super) {
-            __extends(BaseProcessor, _super);
-            function BaseProcessor() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return BaseProcessor;
-        }(me.Processor));
-        me.BaseProcessor = BaseProcessor;
-    })(me = Pan3d.me || (Pan3d.me = {}));
+    var BaseProcessor = /** @class */ (function (_super) {
+        __extends(BaseProcessor, _super);
+        function BaseProcessor() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return BaseProcessor;
+    }(Pan3d.Processor));
+    Pan3d.BaseProcessor = BaseProcessor;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=BaseProcessor.js.map

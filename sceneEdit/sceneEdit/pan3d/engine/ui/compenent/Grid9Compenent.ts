@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Grid9Compenent extends UICompenent {
         public ogw: number;
         public ogh: number;

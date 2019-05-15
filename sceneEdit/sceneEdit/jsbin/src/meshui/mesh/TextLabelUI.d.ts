@@ -1,7 +1,7 @@
 declare module prop {
-    import EventDispatcher = Pan3d.me.EventDispatcher;
-    import UICompenent = Pan3d.me.UICompenent;
-    import UIConatiner = Pan3d.me.UIConatiner;
+    import EventDispatcher = Pan3d.EventDispatcher;
+    import UICompenent = Pan3d.UICompenent;
+    import UIConatiner = Pan3d.UIConatiner;
     class TextureContext extends UIConatiner {
         private _bRender;
         private tempUiName;
@@ -24,7 +24,7 @@ declare module prop {
         x: number;
         y: number;
     }
-    import InteractiveEvent = Pan3d.me.InteractiveEvent;
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class TextLabelUI extends BaseMeshUi {
         constructor(w?: number, h?: number);
         protected initView(): void;

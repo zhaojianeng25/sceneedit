@@ -1,8 +1,8 @@
 var materialui;
 (function (materialui) {
-    var LabelTextFont = Pan3d.me.LabelTextFont;
-    var UIManager = Pan3d.me.UIManager;
-    var TextAlign = Pan3d.me.TextAlign;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var UIManager = Pan3d.UIManager;
+    var TextAlign = Pan3d.TextAlign;
     var PanelContainer = /** @class */ (function () {
         function PanelContainer($panel, $label, $render) {
             this.panel = $panel;

@@ -1,4 +1,4 @@
-﻿module Pan3d.me {
+﻿module Pan3d {
     export class Curve {
         public type: number;
         public valueVec: Array<Array<number>>;

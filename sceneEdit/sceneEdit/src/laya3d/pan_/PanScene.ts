@@ -3,7 +3,7 @@
 */
 module lou16.me {
 
-    import CombineParticle = Pan3d.me.CombineParticle
+    import CombineParticle = Pan3d.CombineParticle
  
     export class PanScene extends maineditor.EdItorSceneManager {
 		// 镜头模式
