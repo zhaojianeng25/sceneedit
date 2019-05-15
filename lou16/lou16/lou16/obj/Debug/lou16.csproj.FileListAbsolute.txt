@@ -1,0 +1,7 @@
+E:\github\sceneEdit\lou16\lou16\lou16\bin\lou16.dll.config
+E:\github\sceneEdit\lou16\lou16\lou16\bin\lou16.dll
+E:\github\sceneEdit\lou16\lou16\lou16\bin\lou16.pdb
+E:\github\sceneEdit\lou16\lou16\lou16\obj\Debug\lou16.csprojAssemblyReference.cache
+E:\github\sceneEdit\lou16\lou16\lou16\obj\Debug\lou16.csproj.CoreCompileInputs.cache
+E:\github\sceneEdit\lou16\lou16\lou16\obj\Debug\lou16.dll
+E:\github\sceneEdit\lou16\lou16\lou16\obj\Debug\lou16.pdb
