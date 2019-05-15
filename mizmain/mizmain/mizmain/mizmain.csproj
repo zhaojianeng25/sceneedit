@@ -38,6 +38,19 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="libs\BattleEnum.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\LayaSceneBaseChar.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\LayaSceneChar.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaOverride2dEngine.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaOverride2dParticleManager.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaOverride2dSceneManager.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaOverride2dSkillManager.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaOverrideGroupDataManager.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaOverrideShadowManager.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\LayaScene2dInit.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\skill\OverrideSkill.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\skill\OverrideSkillFixEffect.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\skill\OverrideSkillKeyVo.d.ts" />
+    <TypeScriptCompile Include="libs\dts\layapan\overridebase\skill\OverrideSkillTrajectory.d.ts" />
     <TypeScriptCompile Include="libs\dts\pan3dinit\mainpan3d.d.ts" />
     <TypeScriptCompile Include="libs\dts\pan3dinit\scene2d\AppDataArpg.d.ts" />
     <TypeScriptCompile Include="libs\dts\pan3dinit\scene2d\CanvasPostionModel.d.ts" />

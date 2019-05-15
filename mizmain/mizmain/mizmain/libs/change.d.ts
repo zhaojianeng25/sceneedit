@@ -1,23 +1,77 @@
 ﻿
+declare class ModelsCreate extends layapan.LayaInsideSprite {
+    modeldelt(): void
+    modelcreate: any
+    mouseEnabled: any
+    mouseThrough: any
+    role3d: any
+}
+declare class TestRole2dPanel extends layapan.LayaInsideSprite{
+}
+declare class mainpan3d   {
+    public static canvas: HTMLCanvasElement
+}
+
+declare module scene2d {
+    class Override2dEngine extends scene2d_me.Override2dEngine {
+    }
+    class CanvasPostionModel extends scene2d_me.CanvasPostionModel {
+    }
+}
+declare module topfront {
+
+    export class BaseFrontVo {
+
+    }
+
+}
+
+
+ 
 declare module layapan {
     import CharNameMeshVo = Pan3d.CharNameMeshVo;
     import BloodLineMeshVo = Pan3d.BloodLineMeshVo;
-    import EdItorSceneManager = maineditor.EdItorSceneManager
+ 
     import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar
-    class LayaSceneChar extends LayaScene2dSceneChar {
+    import LayaScene2D = LayaPan3D.LayaScene2D
+ 
+    class LayaOverride2dSceneManager extends layapan.me.LayaOverride2dSceneManager {
+        public layaForntPanel: any
+        removeAllParticle: any
+        public bloodManager: any
+    }
+    class LayaInsideSprite extends Laya.Sprite {
+        public scene: LayaOverride2dSceneManager;
+        public ape: any;
+        public addSceneChar(value: any): void;
+        public removeSceneChar(value: any): void;
+        public _layaRenderIndex: any
+    }
+  
+    class OtherLayaRectSprite extends Laya.Sprite {
 
     }
-    class BloodManager  {
-        public getCharNameMeshVo(value: string): CharNameMeshVo;
-        public getBloodLineMeshVo(): BloodLineMeshVo;
-        public getCharTitleMeshVo(value: any): any
+    class OverrideSkill extends layapan.me.OverrideSkill {
 
     }
-    class LayaOverride2dSceneManager extends EdItorSceneManager {
-        public bloodManager: BloodManager
+    class Frame3DAtlasParticle extends layapan.me.Frame3DAtlasParticle {
+    }
+    class LayaSceneChar extends layapan.me.LayaSceneChar {
+        public _titleEnable: any;
+        public _charTitleVo: any;
+        public charTitle: any
+        public playBfun: any
+        public isBuff: any
+        public setWeaponSlotByAvatar: any
+        public _isBattle: any
+    }
+    class Pan3dInSideLaya {
+        public static overrideMethods: any
+    }
+    class LayaScene2dInit   {
+        public static isConfig: boolean
+        public static initData(): void
+        public static sceneItem: Array<LayaOverride2dSceneManager>;
 
     }
-
-
-    
 }

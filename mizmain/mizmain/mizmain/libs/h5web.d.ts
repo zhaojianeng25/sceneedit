@@ -1,4 +1,4 @@
-﻿
+﻿/*
 declare module layapan.me {
     import CombineParticle = Pan3d.CombineParticle
     import ParticleManager = Pan3d.ParticleManager
@@ -24,7 +24,7 @@ declare module layapan.me {
         protected _pScale: number ;
         protected _mountChar: LayaSceneBaseChar;
         protected _wingDisplay: LayaSceneBaseChar;
-        protected tittleHeight: number 
+        public tittleHeight: number 
         protected _bloodEnable: boolean;
         protected _charBloodVo: BloodLineMeshVo;
         protected _nameEnable: boolean 
@@ -34,7 +34,7 @@ declare module layapan.me {
         protected _charAngerVo: BloodLineMeshVo;
         protected _isCamera2D: boolean;
         protected _resultVisible: boolean 
-        protected pRotationY: number
+        public pRotationY: number
         protected _bloodColor: number;
         protected _titleEnable: boolean;
         protected _charTitleVo: CharTitleMeshVo;
@@ -42,6 +42,10 @@ declare module layapan.me {
     }
     
 }
+*/
+
+
+
 declare module maineditor {
     import Display3DSprite = Pan3d.Display3DSprite
     import LayaOverride2dSceneManager = layapan.me.LayaOverride2dSceneManager

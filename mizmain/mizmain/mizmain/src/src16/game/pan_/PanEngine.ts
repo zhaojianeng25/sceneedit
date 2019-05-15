@@ -73,33 +73,7 @@ module pan{
 				}else{
 					var $width = 0;
 					var $height = 0;
-					switch(vo.type){
-						case TextJumpType.DODGE:
-						case TextJumpType.FREEZE:
-						case TextJumpType.MISS:
-							$width = 75;
-							$height = 50;
-							break;
-						case TextJumpType.VERTIGO:
-						case TextJumpType.RESISTANCE:
-							$width = 82;
-							$height = 46;
-							break;
-						case TextJumpType.ATTACKADD:
-						case TextJumpType.ATTACKREDUCE:
-							$width = 100;
-							$height = 42;
-							break;
-						case TextJumpType.DEFENSEADD:
-						case TextJumpType.DEFENSEREDUCE:
-							$width = 100;
-							$height = 42;
-							break;
-						case TextJumpType.IMMUNE:
-							$width = 73;
-							$height = 54;
-							break;
-					}
+				 
 					if($width && $height){
 						var rec = this.parent.uiAtlas.getRec(this.textureStr);
 						var ctx = Pan3d.UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);

@@ -105,7 +105,7 @@ module pan {
 			// 技能预加载
 			this.skillManager.preLoadSkill(getSkillUrl('spell_0001'));
 
-			this.changeBloodManager(new layapan.LayaBloodManager)
+		//	this.changeBloodManager(new layapan.LayaBloodManager)
 			this._focus3D = new Object3D;
 			this._camDistance = 250;
 
@@ -271,50 +271,7 @@ module pan {
 
 		// 飘字
 		flyText(type: number, data: any, isbottom: boolean = false):void{
-			if (type == battle.FlyTextType.NUM_TAB){
-				// 数字 
-		   		 var e: topfront.BaseFrontVo = this.layaForntPanel.drawLabel(1, { color: data.color, num: data.num }, false);
-           		 e.x =data.x-e.width/2;
-           		 e.y = data.y - 160;
-            	 e.alpha = 1;
-
-            	 e.timeLen = 1000 //1秒后会自己动清理  //默认为10秒会清理
-           		 e.fun = (taget: topfront.BaseFrontVo, t: number) => { //每个对象的帧回调， 有对象和T时间值
-                 taget.y--
-           	  }
-			}else if(type == battle.FlyTextType.NUM_PIC)//数字+底图
-			{
-				var b: topfront.BaseFrontVo = this.layaForntPanel.drawLabel(2, "wenzibeijing", true);
-           	 	b.x = data.x-b.width/2;
-            	b.y = data.y - 160;
-			
-				var e: topfront.BaseFrontVo = this.layaForntPanel.drawLabel(1, data, false);
-            	e.x = b.x + 30;
-            	e.y = b.y;
-            	e.alpha = 1;
-
-            	e.timeLen = 2000 //1秒后会自己动清理  //默认为10秒会清理
-            	e.fun = (taget: topfront.BaseFrontVo, t: number) => { //每个对象的帧回调， 有对象和T时间值
-                	taget.y--
-                	taget.alpha =1-t;
-            	}
-				b.timeLen = 2000 //1秒后会自己动清理  //默认为10秒会清理
-				b.fun = (taget: topfront.BaseFrontVo, t: number) => { //每个对象的帧回调， 有对象和T时间值
-             		taget.y--
-                	taget.alpha =1-t;
-            	}
-			}else if(type == battle.FlyTextType.PIC){
-				//文字
-				var b: topfront.BaseFrontVo = this.layaForntPanel.drawLabel(2, data.name, true);
-            	b.x = data.x-b.width/2;
-           		b.y = data.y - 80;
-				b.timeLen = 2000
-				b.scale = 0.6
-				b.fun = (taget: topfront.BaseFrontVo, t: number) => { //每个对象的帧回调， 有对象和T时间值
-                taget.y--
-                taget.alpha =1-t;
-            	}
-			}
+			 
 		}
 
 		/**显示buff*/
