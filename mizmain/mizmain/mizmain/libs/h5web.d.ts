@@ -6,6 +6,7 @@ declare module layapan.me {
     import Display3dMovie = Pan3d.Display3dMovie
     import BloodLineMeshVo = Pan3d.BloodLineMeshVo
     import CharNameMeshVo = Pan3d.CharNameMeshVo
+    import CharTitleMeshVo = Pan3d.CharTitleMeshVo
 
     class Frame3DAtlasParticle extends Display3DParticle {
         public static getFrameParticle(pathurl: string, fileBaseName: string, info: any): CombineParticle;
@@ -33,7 +34,11 @@ declare module layapan.me {
         protected _charAngerVo: BloodLineMeshVo;
         protected _isCamera2D: boolean;
         protected _resultVisible: boolean 
-        protected pRotationY:number
+        protected pRotationY: number
+        protected _bloodColor: number;
+        protected _titleEnable: boolean;
+        protected _charTitleVo: CharTitleMeshVo;
+        
     }
     
 }

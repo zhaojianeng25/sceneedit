@@ -328,40 +328,4 @@ var game14lou;
     }());
     game14lou.Launch14lou = Launch14lou;
 })(game14lou || (game14lou = {}));
-////////////////////////////////////////////////////////////
-// 打印
-var MAX_LOG_LEVEL = 4;
-var log_level = MAX_LOG_LEVEL;
-// 本地调试
-var isDebug = false;
-function logTrace() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-}
-function logd() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-}
-function logl() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-}
-function logw() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-}
-function loge() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-}
 //# sourceMappingURL=Launch14lou.js.map

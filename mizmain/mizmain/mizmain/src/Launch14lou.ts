@@ -438,31 +438,5 @@ module game14lou {
     }
 
 }
-
-    ////////////////////////////////////////////////////////////
-    // 打印
-    let MAX_LOG_LEVEL = 4
-    let log_level = MAX_LOG_LEVEL
-
-    // 本地调试
-    var isDebug: boolean = false;
-
-    function logTrace(...args: any[]): void {
-
-    }
-    function logd(...args: any[]): void {
-
-    }
-
-    function logl(...args: any[]): void {
-
-    }
-
-    function logw(...args: any[]): void {
-
-    }
-
-    function loge(...args: any[]): void {
-
-    }
+ 
  
