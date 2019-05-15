@@ -42,10 +42,11 @@
 
 
         }
+        private defFileUrl: string = "pefab/模型/球/球.objs"
         private refrishShowMaterialModel(material: materialui.MaterialTree): void {
             var fileUrl: string = material.showurl;
             if (!fileUrl) {
-                fileUrl = "pefab/模型/球/球.objs"
+                fileUrl = this.defFileUrl;
             }
             var tempArr: Array<string> = fileUrl.split(".")
             var stuffstr: string = tempArr[tempArr.length - 1]
@@ -55,7 +56,6 @@
                     pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, (prefabStaticMesh: pack.PrefabStaticMesh) => {
                         this.setObjUrlToSprite(prefabStaticMesh.objsurl)
                     })
-
                     break;
                 case "objs":
 
@@ -82,20 +82,22 @@
         private setObjUrlToSprite(objurl: string): void {
             pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, (value: ObjData) => {
                 console.log("更新模型", objurl)
-                this.showSprite.objData = value;
+
+                if (!this.showSprite.objData||this.defFileUrl != objurl) {
+                    this.showSprite.objData = value;
+                }
+             
             })
         }
         private showSprite: left.MaterialModelSprite ;
         public refreshViewValue(): void {
             var temp : materialui.MaterialTree = this.target[this.FunKey];
             this.texturePicUi.url = "icon/base.jpg";
-
-            this.refrishShowMaterialModel(temp)
-
-        
+            this.setObjUrlToSprite(this.defFileUrl) //选给默认对象
             this.showSprite.material = temp;
-
-            console.log("refreshViewValue",temp)
+            this.refrishShowMaterialModel(temp)
+        
+ 
  
         }
        

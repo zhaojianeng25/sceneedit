@@ -17,6 +17,7 @@ var prop;
         __extends(MeshMaterialLfetView2DUI, _super);
         function MeshMaterialLfetView2DUI(value) {
             var _this = _super.call(this, value) || this;
+            _this.defFileUrl = "pefab/模型/球/球.objs";
             _this.showSprite = new left.MaterialModelSprite();
             _this.sceneManager.addDisplay(_this.showSprite);
             return _this;
@@ -48,7 +49,7 @@ var prop;
             var _this = this;
             var fileUrl = material.showurl;
             if (!fileUrl) {
-                fileUrl = "pefab/模型/球/球.objs";
+                fileUrl = this.defFileUrl;
             }
             var tempArr = fileUrl.split(".");
             var stuffstr = tempArr[tempArr.length - 1];
@@ -78,15 +79,17 @@ var prop;
             var _this = this;
             pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, function (value) {
                 console.log("更新模型", objurl);
-                _this.showSprite.objData = value;
+                if (!_this.showSprite.objData || _this.defFileUrl != objurl) {
+                    _this.showSprite.objData = value;
+                }
             });
         };
         MeshMaterialLfetView2DUI.prototype.refreshViewValue = function () {
             var temp = this.target[this.FunKey];
             this.texturePicUi.url = "icon/base.jpg";
-            this.refrishShowMaterialModel(temp);
+            this.setObjUrlToSprite(this.defFileUrl); //选给默认对象
             this.showSprite.material = temp;
-            console.log("refreshViewValue", temp);
+            this.refrishShowMaterialModel(temp);
         };
         return MeshMaterialLfetView2DUI;
     }(prop.MeshSceneView2DUI));

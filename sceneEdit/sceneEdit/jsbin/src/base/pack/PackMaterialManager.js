@@ -94,6 +94,7 @@ var pack;
             if ($materialTree.hasTime) {
                 $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y);
             }
+            $materialTree.showurl = $temp.info.showurl;
             $materialTree.blendMode = $temp.info.blendMode;
             $materialTree.writeZbuffer = $temp.info.writeZbuffer;
             $materialTree.zbuff = $temp.info.zbuff;

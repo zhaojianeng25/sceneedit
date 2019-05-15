@@ -3,6 +3,7 @@ declare module prop {
         x: number;
         resize(): void;
         protected texturePicUiChange($evt: ReflectionEvet): void;
+        private defFileUrl;
         private refrishShowMaterialModel;
         width: number;
         constructor(value: UiMeshSprite);

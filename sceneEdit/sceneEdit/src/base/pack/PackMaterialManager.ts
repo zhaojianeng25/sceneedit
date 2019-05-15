@@ -111,10 +111,12 @@
             if ($materialTree.hasTime) {
                 $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y)
             }
-
+            $materialTree.showurl = $temp.info.showurl;
             $materialTree.blendMode = $temp.info.blendMode;
             $materialTree.writeZbuffer = $temp.info.writeZbuffer;
             $materialTree.zbuff = $temp.info.zbuff;
+
+            
 
             $materialTree.useLightUv = $buildShader.paramAry[2]
             $materialTree.texList = this.makeTextList($temp.info.texList);

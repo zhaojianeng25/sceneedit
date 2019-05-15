@@ -307,8 +307,7 @@
             obj.writeZbuffer = this.baseMaterialTree.writeZbuffer
             obj.zbuff = this.baseMaterialTree.zbuff
             obj.blendMode = this.baseMaterialTree.blendMode
-            
-
+            obj.showurl = this.baseMaterialTree.showurl
             obj.backCull = this.baseMaterialTree.backCull
 
             obj.texList = this.baseMaterialTree.texList
