@@ -13,9 +13,12 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "filename", target: this, Category: "属性" },
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "filename", target: this, Category: "角色", ClikEventKey: "clikFileSkill" },
+                    { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "skillmeshUrl", target: this, Category: "角色" },
+
 
                     { Type: ReflectionData.Texturue2DUI, Label: "角色:", FunKey: "roleurl", Suffix: "zzw", target: this, Category: "属性" },
+
                     { Type: ReflectionData.Texturue2DUI, Label: "技能:", FunKey: "skillurl", Suffix: "txt", target: this, Category: "属性" },
 
                     { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [], Category: "属性" },
@@ -23,6 +26,24 @@
   
                 ];
             return ary;
+        }
+        public set skillmeshUrl(value: string) {
+ 
+        }
+        public get skillmeshUrl(): string {
+            return this._skillStaticMesh.url
+        }
+        public eventKey(value: string): void {
+            switch (value) {
+                case "clikFileSkill":
+                    var pathurl: string = Pan3d.Scene_data.fileRoot + this.skillmeshUrl
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
+                    break
+                default:
+                    console.log("没有对象", value)
+                    break
+            }
+
         }
         public set intervalTm(value: number) {
             this._skillStaticMesh.interval = value;

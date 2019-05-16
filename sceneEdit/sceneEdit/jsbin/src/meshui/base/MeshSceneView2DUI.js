@@ -152,6 +152,16 @@ var prop;
                     prefabSprite.setPreFabUrl(value);
                     this.sceneManager.addDisplay(prefabSprite);
                 }
+                if (value.indexOf(".zzw") != -1) {
+                    var roleSprite = new left.MaterialRoleSprite();
+                    roleSprite.setRoleZwwUrl(value);
+                    this.sceneManager.addMovieDisplay(roleSprite);
+                }
+                if (value.indexOf(".skill") != -1) {
+                    var skillsprite = new maineditor.SkillSpriteDisplay();
+                    skillsprite.addSkillByUrl(value);
+                    this.sceneManager.addDisplay(skillsprite);
+                }
                 this.modelKey[value] = true;
             }
         };

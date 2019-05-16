@@ -14,7 +14,8 @@
             var ary: Array<any> =
                 [
                     { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "角色", ClikEventKey: "clikFileRole" },
-          
+
+                    { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "roleurl", target: this, Category: "角色" },
             
                     { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: ( ) => { this.animChange( ) }, target: this, Suffix: "md5mesh", Category: "action" },
 
@@ -27,6 +28,7 @@
                 ];
             return ary;
         }
+ 
         public eventKey(value: string): void {
  
             switch (value) {

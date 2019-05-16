@@ -3,6 +3,8 @@ declare module filelist {
     class SkillMeshView extends MetaDataView {
         private _skillStaticMesh;
         getView(): Array<any>;
+        skillmeshUrl: string;
+        eventKey(value: string): void;
         intervalTm: number;
         actionname: number;
         filename: string;
