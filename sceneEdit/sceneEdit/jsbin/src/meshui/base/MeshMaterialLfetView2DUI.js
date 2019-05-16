@@ -33,9 +33,16 @@ var prop;
         });
         MeshMaterialLfetView2DUI.prototype.resize = function () {
             if (this._width && this.texturePicUi) {
-                this._x = (this._width - 200) / 2;
+                //this._x = (this._width - 200) / 2;
+                //this.texturePicUi.x = this._x;
+                //this.texturePicUi.y = this._y + 5
+                this._height = this._width;
+                var showSize = this._width - 2;
+                this.texturePicUi.ui.width = showSize;
+                this.texturePicUi.ui.height = showSize;
+                this._x = (this._width - showSize) / 2;
                 this.texturePicUi.x = this._x;
-                this.texturePicUi.y = this._y + 5;
+                this.texturePicUi.y = this._y + 0;
             }
         };
         MeshMaterialLfetView2DUI.prototype.texturePicUiChange = function ($evt) {

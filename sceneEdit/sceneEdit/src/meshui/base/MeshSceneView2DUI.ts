@@ -141,6 +141,8 @@
                 var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture
 
+                var maxNum: number = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height)
+                this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum )
 
             }
         }

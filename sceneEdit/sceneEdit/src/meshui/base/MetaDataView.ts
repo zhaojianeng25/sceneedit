@@ -114,9 +114,11 @@
             for (var i: number = 0; this.ui&& i < this.ui.length; i++) {
                 this.ui[i].y = ty;
                 this.ui[i].x = 20;
-                ty += this.ui[i].height;
+         
                 this.ui[i].width = this.width
                 this.ui[i].resize()
+
+                ty += this.ui[i].height;
   
             }
             this._height = ty - this._top;

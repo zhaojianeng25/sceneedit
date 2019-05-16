@@ -15,7 +15,7 @@
            
         }
         public resize(): void {
-            this._top=0
+            this._top = 0
             super.resize()
         }
   

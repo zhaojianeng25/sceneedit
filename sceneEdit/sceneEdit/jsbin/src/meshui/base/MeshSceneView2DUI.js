@@ -123,6 +123,8 @@ var prop;
                 this.sceneManager.renderToTexture();
                 var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;
+                var maxNum = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height);
+                this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum);
             }
         };
         MeshSceneView2DUI.prototype.destory = function () {
