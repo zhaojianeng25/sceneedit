@@ -115,6 +115,17 @@ var Pan3d;
             this.animDic = null;
             this.hasDestory = true;
         };
+        SkinMesh.prototype.clone = function () {
+            var temp = new SkinMesh();
+            for (var key in this) {
+                temp[key] = this[key];
+            }
+            temp.meshAry = [];
+            for (var i = 0; i < this.meshAry.length; i++) {
+                temp.meshAry.push(this.meshAry[i].clone());
+            }
+            return temp;
+        };
         return SkinMesh;
     }(Pan3d.ResCount));
     Pan3d.SkinMesh = SkinMesh;

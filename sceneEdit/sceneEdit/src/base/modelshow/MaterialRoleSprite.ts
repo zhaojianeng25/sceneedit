@@ -21,8 +21,11 @@
     
     export class MaterialRoleSprite extends Display3dMovie {
         public update(): void {
-           
-            super.update();
+
+            if (this.sceneVisible) {
+                super.update();
+            }
+         
         }
         public get skinMesh(): SkinMesh {
             return this._skinMesh;
@@ -211,7 +214,7 @@
                 this.meshParamInfo();
             })
         }
-        private meshParamInfo(): void {
+        protected meshParamInfo(): void {
             for (var i: number = 0; i < this.skinMesh.meshAry.length; i++) {
                 if (this.skinMesh.meshAry[i].material && (<any>this.skinMesh.meshAry[i]).paramInfo) {
                     this.skinMesh.meshAry[i].materialParam = new Pan3d.MaterialBaseParam;

@@ -21,5 +21,6 @@ declare module Pan3d {
         private loadByteMeshDataMaterial;
         setAction(actionAry: Array<string>, roleUrl: string): void;
         destory(): void;
+        clone(): SkinMesh;
     }
 }

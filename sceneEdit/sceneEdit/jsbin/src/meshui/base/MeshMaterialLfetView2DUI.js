@@ -18,8 +18,6 @@ var prop;
         function MeshMaterialLfetView2DUI(value) {
             var _this = _super.call(this, value) || this;
             _this.defFileUrl = "pefab/模型/球/球.objs";
-            _this.showSprite = new left.MaterialModelSprite();
-            _this.sceneManager.addDisplay(_this.showSprite);
             return _this;
         }
         Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "x", {
@@ -64,8 +62,30 @@ var prop;
                     break;
                 default:
                     console.log("没有处理的类型", stuffstr);
+                    this.setZzwUrlToRole(fileUrl);
                     break;
             }
+        };
+        MeshMaterialLfetView2DUI.prototype.setZzwUrlToRole = function (zzwUrl) {
+            var _this = this;
+            if (!this.roleSprite) {
+                this.roleSprite = new left.MaterialRoleSprite();
+                this.sceneManager.addMovieDisplay(this.roleSprite);
+            }
+            pack.PackRoleManager.getInstance().getRoleZzwByUrl(zzwUrl, function (value) {
+                _this.roleSprite.animDic = value.animDic;
+                _this.roleSprite.skinMesh = value.skinMesh.clone();
+                var temp = _this.target[_this.FunKey];
+                for (var i = 0; i < _this.roleSprite.skinMesh.meshAry.length; i++) {
+                    _this.roleSprite.skinMesh.meshAry[i].material = temp;
+                    _this.roleSprite.skinMesh.meshAry[i].materialParam = null;
+                }
+                _this.roleSprite.curentAction = "walk";
+                _this.roleSprite.sceneVisible = true;
+                if (_this.modelSprite) {
+                    _this.modelSprite.sceneVisible = false;
+                }
+            });
         };
         Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "width", {
             set: function (value) {
@@ -77,10 +97,18 @@ var prop;
         });
         MeshMaterialLfetView2DUI.prototype.setObjUrlToSprite = function (objurl) {
             var _this = this;
+            if (!this.modelSprite) {
+                this.modelSprite = new left.MaterialModelSprite();
+                this.sceneManager.addDisplay(this.modelSprite);
+            }
             pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, function (value) {
                 console.log("更新模型", objurl);
-                if (!_this.showSprite.objData || _this.defFileUrl != objurl) {
-                    _this.showSprite.objData = value;
+                if (!_this.modelSprite.objData || _this.defFileUrl != objurl) {
+                    _this.modelSprite.objData = value;
+                }
+                _this.modelSprite.sceneVisible = true;
+                if (_this.roleSprite) {
+                    _this.roleSprite.sceneVisible = false;
                 }
             });
         };
@@ -88,7 +116,7 @@ var prop;
             var temp = this.target[this.FunKey];
             this.texturePicUi.url = "icon/base.jpg";
             this.setObjUrlToSprite(this.defFileUrl); //选给默认对象
-            this.showSprite.material = temp;
+            this.modelSprite.material = temp;
             this.refrishShowMaterialModel(temp);
         };
         return MeshMaterialLfetView2DUI;

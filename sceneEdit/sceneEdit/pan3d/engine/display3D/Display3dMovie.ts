@@ -50,6 +50,7 @@
 
             this._enablePhysics = false;
         }
+   
         public get curentAction(): string {
             return this._curentAction;
         }

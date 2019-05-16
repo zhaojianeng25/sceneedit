@@ -175,7 +175,7 @@ module left {
        
         }
         public update(): void {
-            if (this.isTextureLoadFinish) {
+            if (this.isTextureLoadFinish && this.sceneVisible) {
                 if (this.material) {
                     var $materialTree: MaterialTree = <MaterialTree>this.material;
                     $materialTree.shader = $materialTree.modelShader;

@@ -58,17 +58,39 @@
                     })
                     break;
                 case "objs":
-
                     this.setObjUrlToSprite(fileUrl)
-
 
                     break;
 
                 default:
                     console.log("没有处理的类型", stuffstr)
+                    this.setZzwUrlToRole(fileUrl)
                     break
             }
         }
+        private setZzwUrlToRole(zzwUrl:string): void {
+            if (!this.roleSprite) {
+                this.roleSprite = new left.MaterialRoleSprite();
+                this.sceneManager.addMovieDisplay(this.roleSprite);
+            }
+            pack.PackRoleManager.getInstance().getRoleZzwByUrl(zzwUrl, (value: pack.RoleStaticMesh) => {
+                this.roleSprite.animDic = value.animDic;
+                this.roleSprite.skinMesh = value.skinMesh.clone()
+                var temp: materialui.MaterialTree = this.target[this.FunKey];
+                for (var i: number = 0; i < this.roleSprite.skinMesh.meshAry.length;i++) {
+                    this.roleSprite.skinMesh.meshAry[i].material = temp
+                    this.roleSprite.skinMesh.meshAry[i].materialParam = null
+                }
+                this.roleSprite.curentAction = "walk";
+                this.roleSprite.sceneVisible = true
+                if (this.modelSprite) {
+                    this.modelSprite.sceneVisible = false
+                }
+
+            })
+          
+        }
+    
         public set width(value: number) {
             this._width = value;
             this.resize()
@@ -76,25 +98,35 @@
 
         public constructor(value: UiMeshSprite) {
             super(value);
-            this.showSprite = new left.MaterialModelSprite ();
-            this.sceneManager.addDisplay(this.showSprite);
+      
         }
         private setObjUrlToSprite(objurl: string): void {
+
+            if (!this.modelSprite) {
+                this.modelSprite = new left.MaterialModelSprite();
+                this.sceneManager.addDisplay(this.modelSprite);
+            }
             pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, (value: ObjData) => {
                 console.log("更新模型", objurl)
 
-                if (!this.showSprite.objData||this.defFileUrl != objurl) {
-                    this.showSprite.objData = value;
+                if (!this.modelSprite.objData||this.defFileUrl != objurl) {
+                    this.modelSprite.objData = value;
                 }
+                this.modelSprite.sceneVisible = true
+                if (this.roleSprite) {
+                    this.roleSprite.sceneVisible = false
+                }
+
              
             })
         }
-        private showSprite: left.MaterialModelSprite ;
+        private modelSprite: left.MaterialModelSprite;
+        private roleSprite: left.MaterialRoleSprite
         public refreshViewValue(): void {
             var temp : materialui.MaterialTree = this.target[this.FunKey];
             this.texturePicUi.url = "icon/base.jpg";
             this.setObjUrlToSprite(this.defFileUrl) //选给默认对象
-            this.showSprite.material = temp;
+            this.modelSprite.material = temp;
             this.refrishShowMaterialModel(temp)
         
  

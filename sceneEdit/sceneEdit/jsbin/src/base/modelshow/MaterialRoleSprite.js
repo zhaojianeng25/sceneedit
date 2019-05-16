@@ -27,7 +27,9 @@ var left;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         MaterialRoleSprite.prototype.update = function () {
-            _super.prototype.update.call(this);
+            if (this.sceneVisible) {
+                _super.prototype.update.call(this);
+            }
         };
         Object.defineProperty(MaterialRoleSprite.prototype, "skinMesh", {
             get: function () {

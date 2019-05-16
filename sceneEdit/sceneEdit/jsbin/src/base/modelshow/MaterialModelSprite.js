@@ -174,7 +174,7 @@ var left;
             configurable: true
         });
         MaterialModelSprite.prototype.update = function () {
-            if (this.isTextureLoadFinish) {
+            if (this.isTextureLoadFinish && this.sceneVisible) {
                 if (this.material) {
                     var $materialTree = this.material;
                     $materialTree.shader = $materialTree.modelShader;

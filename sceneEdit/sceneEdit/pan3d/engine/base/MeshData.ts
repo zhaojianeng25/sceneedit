@@ -48,6 +48,13 @@
         
 
         }
+        public clone(): MeshData {//不完整的备份
+            var temp: any = new MeshData()
+            for (var key in this) {
+                temp[key] = this[key];
+            }
+            return temp
+        }
         public destory(): void {
             super.destory();
 

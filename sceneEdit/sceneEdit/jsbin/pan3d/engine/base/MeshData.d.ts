@@ -17,6 +17,7 @@ declare module Pan3d {
         bindPosMatrixAry: Array<Matrix3D>;
         bindPosInvertMatrixAry: Array<Matrix3D>;
         getBindPosMatrix(): void;
+        clone(): MeshData;
         destory(): void;
     }
     class BindParticle {

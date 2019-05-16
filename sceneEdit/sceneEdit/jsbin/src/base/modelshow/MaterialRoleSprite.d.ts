@@ -21,6 +21,6 @@ declare module left {
         private getmeshBoneQPAryDic;
         roleStaticMesh: pack.RoleStaticMesh;
         setRoleZwwUrl(url: string): void;
-        private meshParamInfo;
+        protected meshParamInfo(): void;
     }
 }

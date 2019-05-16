@@ -133,6 +133,20 @@
 
         }
 
+        public clone(): SkinMesh { //不完整的备份
+            var temp: any = new SkinMesh()
+            for (var key in this) {
+                temp[key] = this[key];
+            }
+            temp.meshAry = []
+            for (var i: number = 0; i < this.meshAry.length; i++) {
+                temp.meshAry.push(this.meshAry[i].clone());
+            }
+
+            return temp
+
+        }
+
 
 
 

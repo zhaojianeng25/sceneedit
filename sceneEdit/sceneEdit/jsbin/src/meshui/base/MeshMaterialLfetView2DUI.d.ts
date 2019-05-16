@@ -5,10 +5,12 @@ declare module prop {
         protected texturePicUiChange($evt: ReflectionEvet): void;
         private defFileUrl;
         private refrishShowMaterialModel;
+        private setZzwUrlToRole;
         width: number;
         constructor(value: UiMeshSprite);
         private setObjUrlToSprite;
-        private showSprite;
+        private modelSprite;
+        private roleSprite;
         refreshViewValue(): void;
     }
 }

@@ -39,6 +39,13 @@ var Pan3d;
             this.bindPosMatrixAry = ary;
             this.bindPosInvertMatrixAry = invertAry;
         };
+        MeshData.prototype.clone = function () {
+            var temp = new MeshData();
+            for (var key in this) {
+                temp[key] = this[key];
+            }
+            return temp;
+        };
         MeshData.prototype.destory = function () {
             _super.prototype.destory.call(this);
             if (this.materialParam) {
