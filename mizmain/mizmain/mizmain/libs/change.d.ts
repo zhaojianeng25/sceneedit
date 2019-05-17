@@ -18,9 +18,7 @@ declare module scene2d {
     class CanvasPostionModel extends scene2d_me.CanvasPostionModel {
     }
 }
- 
 
- 
 declare module layapan {
     import CharNameMeshVo = Pan3d.CharNameMeshVo;
     import BloodLineMeshVo = Pan3d.BloodLineMeshVo;
