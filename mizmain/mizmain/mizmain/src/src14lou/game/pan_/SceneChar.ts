@@ -61,7 +61,8 @@ module pan {
 					this._charTitleVo.num = this.charTitle;
 					this._charTitleVo.needDraw = true;
 					this._charTitleVo.clear =  false;
-					this._charTitleVo.isrebulit = false;
+                    this._charTitleVo.isrebulit = false;
+                   
 				}
 			}else{
 				if(this._charTitleVo)
