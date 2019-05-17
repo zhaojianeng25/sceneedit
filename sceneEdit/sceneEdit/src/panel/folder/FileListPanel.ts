@@ -611,6 +611,7 @@
  
                             var tempFileMView: FileMeshView = new FileMeshView(prop.PropModel.getInstance().propPanle)
                             tempFileMView.data = fileUrl;
+                            prop.PropModel.getInstance().showPefabMesh(tempFileMView);
                        
                             break;
 

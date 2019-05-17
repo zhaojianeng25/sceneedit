@@ -499,6 +499,7 @@ var filelist;
                         case FileVo.LYF:
                             var tempFileMView = new filelist.FileMeshView(prop.PropModel.getInstance().propPanle);
                             tempFileMView.data = fileUrl;
+                            prop.PropModel.getInstance().showPefabMesh(tempFileMView);
                             break;
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);

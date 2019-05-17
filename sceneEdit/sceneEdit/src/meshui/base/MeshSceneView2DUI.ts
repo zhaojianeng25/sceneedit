@@ -56,6 +56,7 @@
             this.texturePicUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this)
 
             this.initScene()
+ 
    
         }
         protected texturePicUiChange($evt: ReflectionEvet): void {
