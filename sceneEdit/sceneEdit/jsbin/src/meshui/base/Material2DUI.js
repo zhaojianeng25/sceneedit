@@ -68,6 +68,8 @@ var prop;
             _super.prototype.resize.call(this);
             if (this._materialTreeMc) {
                 this._materialTreeMc.resize();
+                this._materialTreeMc.y = this._y + 100;
+                this.height = 100 + this._materialTreeMc.height;
             }
         };
         Material2DUI.prototype.searchClik = function (evt) {

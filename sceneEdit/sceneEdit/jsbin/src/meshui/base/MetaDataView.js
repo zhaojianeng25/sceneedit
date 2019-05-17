@@ -111,7 +111,6 @@ var prop;
                             var tempUi = this.creatComponent(data[i]);
                             tempUi.Category = data[i].Category;
                             this.ui.splice(indx++, 0, tempUi);
-                            this.resize();
                             tempUi.refreshViewValue();
                         }
                     }

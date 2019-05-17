@@ -107,6 +107,7 @@
                         this.ui.splice(i, 1)
                     }
                 }
+          
             } else {
  
                 var data: Array<any> = this.getView();
@@ -117,7 +118,6 @@
                             var tempUi: BaseReflComponent = this.creatComponent(data[i])
                             tempUi.Category = data[i].Category;
                             this.ui.splice(indx++, 0, tempUi);
-                            this.resize();
                             tempUi.refreshViewValue();
                         }
                     }

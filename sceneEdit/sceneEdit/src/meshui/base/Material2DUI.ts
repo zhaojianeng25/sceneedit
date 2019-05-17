@@ -48,7 +48,6 @@
             this.textureTree = this.target[this.FunKey]
             this._materialTreeMc.setData(this.makeTempInfo(this.textureTree))
             this._materialTreeMc.y = this._y + 100
- 
             this.height = 100 + this._materialTreeMc.height
            
  
@@ -57,6 +56,9 @@
             super.resize()
             if (this._materialTreeMc) {
                 this._materialTreeMc.resize();
+
+                this._materialTreeMc.y = this._y + 100
+                this.height = 100 + this._materialTreeMc.height
           
             }
         }
