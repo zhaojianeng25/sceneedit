@@ -1,5 +1,7 @@
 declare module Pan3d {
     class UIRenderComponent {
+        public getUiListLen(): number 
+       
         protected _uiList: Array<UICompenent>;
         readonly uiListLen: number;
         objData: ObjData;

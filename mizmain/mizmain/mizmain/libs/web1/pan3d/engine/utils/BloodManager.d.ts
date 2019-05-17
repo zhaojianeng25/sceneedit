@@ -14,6 +14,14 @@ declare module Pan3d {
         static MYNORMALDAMAGE: number;
         static MYNORMALDAMAGEUP: number;
         static MISS: number;
+
+ 
+          static DEFENSEADD: number 
+          static DEFENSEREDUCE: number 
+          static POISONING: number 
+          static IMMUNE: number 
+          static RESISTANCE: number  
+
     }
     class TextJumpUiVo {
         pos: Vector3D;
@@ -109,7 +117,8 @@ declare module Pan3d {
         private _num;
         needDraw: boolean;
         destory(): void;
-        num: number;
+        num: string;
+        isrebulit: boolean;
     }
     class CharNameMeshVo extends Pan3d.baseMeshVo {
         private _name;

@@ -41,7 +41,7 @@ declare module layapan_me {
         setMount(v: string): boolean;
         protected _wingDisplay: LayaSceneBaseChar;
         setWing(v: string): void;
-        private _weaponNum;
+        protected _weaponNum;
         setWeapon(num: number): void;
         setWeaponByAvatar(avatar: number, $suffix?: string): void;
         addPart($key: string, $bindSocket: string, $url: string): void;

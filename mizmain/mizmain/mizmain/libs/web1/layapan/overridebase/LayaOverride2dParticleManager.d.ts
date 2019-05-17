@@ -72,5 +72,6 @@ declare module layapan_me {
         registerUrl($url: string): void;
         releaseUrl($url: string): void;
         addResByte($url: string, $data: Pan3dByteArray): void;
+        removeAllParticle(): void
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿ 
+
 declare class ModelsCreate extends layapan.LayaInsideSprite {
     modeldelt(): void
     modelcreate: any
@@ -17,20 +18,12 @@ declare module scene2d {
     class CanvasPostionModel extends scene2d_me.CanvasPostionModel {
     }
 }
-declare module topfront {
-
-    export class BaseFrontVo {
-
-    }
-
-}
-
+ 
 
  
 declare module layapan {
     import CharNameMeshVo = Pan3d.CharNameMeshVo;
     import BloodLineMeshVo = Pan3d.BloodLineMeshVo;
- 
     import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar
     import LayaScene2D = LayaPan3D.LayaScene2D
  
@@ -53,17 +46,17 @@ declare module layapan {
     class OverrideSkill extends layapan_me.OverrideSkill {
 
     }
+ 
+    class LayaJumpUiDrawAndRefreash256 extends Pan3d.ExpTextJumpUiDrawAndRefreash {
+
+    }
+    export class LayaBloodManager extends Pan3d.BloodManager {
+
+    }
+
     class Frame3DAtlasParticle extends layapan_me.Frame3DAtlasParticle {
     }
-    class LayaSceneChar extends layapan_me.LayaSceneChar {
-        public _titleEnable: any;
-        public _charTitleVo: any;
-        public charTitle: any
-        public playBfun: any
-        public isBuff: any
-        public setWeaponSlotByAvatar: any
-        public _isBattle: any
-    }
+ 
     class Pan3dInSideLaya {
         public static overrideMethods: any
     }
