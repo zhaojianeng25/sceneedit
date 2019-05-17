@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{2A9562D5-24A0-4F44-94C5-EADCD36C5804}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="main.html" />
+    <Content Include="index.html" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bins\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="libs\BattleEnum.d.ts" />
+    <TypeScriptCompile Include="libs\change.d.ts" />
+    <TypeScriptCompile Include="libs\h5web.d.ts" />
+    <TypeScriptCompile Include="libs\LayaAir.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\LayaSceneBaseChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\LayaSceneChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaOverride2dEngine.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaOverride2dParticleManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaOverride2dSceneManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaOverride2dSkillManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaOverrideGroupDataManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaOverrideShadowManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\LayaScene2dInit.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\skill\OverrideSkill.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\skill\OverrideSkillFixEffect.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\skill\OverrideSkillKeyVo.d.ts" />
+    <TypeScriptCompile Include="libs\web1\layapan\overridebase\skill\OverrideSkillTrajectory.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\mainpan3d.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\AppDataArpg.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\CanvasPostionModel.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\GroundModel.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\override2d\Override2dEngine.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\override2d\Override2dSceneManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\Scene2dChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene2d\Scene2dInit.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene3d\override\OverrideBloodManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene3d\override\OverrideEngine.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene3d\override\OverrideSceneManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scene3d\Scene3dInit.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scenedis\CharModelShow.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scenedis\CharSkillPlayModel.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scenedis\ModelSceneChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scenedis\ModelshowMouseManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scenedis\SceneMouseEventModel.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3dinit\scenedis\SkillSceneChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\BaseProcessor.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\CharAction.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\GameInstance.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\GameMouseManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\GameStart.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\MountChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\SceneBaseChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\SceneChar.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\baseprite\Unit.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\BitMapData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\Camera3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\ColorType.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\Dictionary.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\GC.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\MeshData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\ObjData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\Object3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\ResCount.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\base\ResGC.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\context\Context3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\context\Scene_data.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\BaseDiplay3dSprite.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display2dMovie.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display2DSprite.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3dBatchMovie.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3dBg.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3dMovie.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3dShadow.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3DSky.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3DSprite.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\Display3DUISprite.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\interfaces\IBind.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\display3D\terrain\TerrainDisplay3DSprite.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\Engine.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\events\Event.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\events\EventDispatcher.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\FpsStage.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\ConstItem.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\DynamicBaseConstItem.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\DynamicBaseTexItem.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\DynamicConstItem.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\DynamicTexItem.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\Material.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\MaterialBaseParam.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\MaterialManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\MaterialParam.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\TexItem.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\TextureCube.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\TextureManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\material\TextureRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Calculation.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Circle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Groundposition.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\MathClass.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\MathUtil.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Matrix3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Pan3dByteArray.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Quaternion.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Rectangle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\TestTriangle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Vector2D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\math\Vector3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\NetManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\BinLogStru.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\GuidObject.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\GuidObjectTable.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\NetEventDispatcher.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\ObjectDef.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\StringIndexer.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\SyncEvent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\SyncEventFilter.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\SyncEventRecorder.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\obj\UpdateMask.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\script\clientmsg.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\script\clientstru.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\net\script\Protocols.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ball\Display3DBallPartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ball\Display3DBallShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ball\ParticleBallData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ball\ParticleBallGpuData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\bone\Display3DBonePartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\bone\ParticleBoneData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\CombineParticle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\CombineParticleData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\AxisMove.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\AxisRotaion.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\BaseAnim.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\KeyFrame.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\ScaleAnim.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\ScaleChange.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\ScaleNoise.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\SelfRotation.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\TimeLine.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ctrl\TimeLineData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\Display3DParticle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\facet\Display3DFacetParticle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\facet\Display3DFacetShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\facet\ParticleFacetData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\followlocus\Display3DFollowLocusPartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\followlocus\Display3DFollowLocusShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\followlocus\ParticleFollowLocusData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\follow\Display3DFollowPartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\follow\Display3DFollowShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\follow\ParticleFollowData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\locusball\Display3DLocusBallPartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\locusball\ParticleLocusballData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\locus\Display3DLocusPartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\locus\Display3DLocusShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\locus\ParticleLocusData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\model\Display3dModelAnimParticle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\model\Display3DModelObjParticle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\model\Display3DModelPartilce.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\model\ParticleModelData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ParticleData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ParticleGpuData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\particle\ParticleManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\BuildShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\Display3DShadowShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\MaterialAnimShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\MaterialBatchAnimShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\MaterialShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\Movie2DShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\ProgramManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\Shader3D.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\SkyShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\Sprite2DShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\TerrainDisplay3DShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\UIImageShager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\UIMaskShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\program\UIShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\grldLevel\LineDisplayShader.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\grldLevel\LineDisplaySprite.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\SceneManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\SceneRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\SceneResLow.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\tree\QuadTreeNode.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\tree\SceneQuadTree.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\scene\ViewFrustum.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\key\SkillEffect.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\key\SkillFixEffect.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\key\SkillKey.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\key\SkillMulTrajectory.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\key\SkillTrajectory.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\path\PathManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\path\SkillMulPath.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\path\SkillPath.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\path\SkillSinPath.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\Skill.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\SkillData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\SkillManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\vo\SkillKeyVo.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\skill\vo\SkillVo.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\FrameUIRender.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\InteractiveEvent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\TextAlign.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIAtlas.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIBackImg.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UICompenent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIContainer.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIGridRectangle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIListRenderComponent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIMask.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIRectangle.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIRenderComponent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\base\UIVirtualContainer.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\AlphaUiContianer.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\BaseButton.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\Button.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\CdUICompenent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\Dis2DUIContianerPanel.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\FrameCompenent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\Grid9Compenent.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\GridList.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\List.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\RoationUiContianer.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\SelectButton.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\compenent\SList.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\IconManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\PuiData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\UILoading.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\UIManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\ui\UIStage.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\AnimManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\ArtFont.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\AstarUtil.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\Base64.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\BloodManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\ColorTransition.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\curves\Curve.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\GroupDataManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\KeyboardType.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\KeyControl.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\LabelTextFont.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\LightProbeManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\LoadManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\MeshDataManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\ObjDataManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\BaseRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\GroupRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\ModelRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\ResManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\RoleRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\RoleResLow.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\res\SkillRes.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\shadow\Shadow.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\shadow\ShadowManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\SoundManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\TimeUtil.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\utils\Util.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\collistion\CapsuleVo.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\collistion\CollisionVo.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\LightVo.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\skinanim\AnimData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\skinanim\BoneSocketData.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\skinanim\SkinMesh.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\engine\vo\TestCplus.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\mvcframe\Module.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\mvcframe\ModuleEventManager.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\mvcframe\Processor.d.ts" />
+    <TypeScriptCompile Include="libs\web1\pan3d\UnitFunction.d.ts" />
+    <TypeScriptCompile Include="src\Game3dDemo.ts" />
+    <TypeScriptCompile Include="src\Game2dDemo.ts" />
+    <TypeScriptCompile Include="src\LayaLaunch.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>arpg</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>12290</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:12291/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptOutDir>$(ProjectDir)/jsbin</TypeScriptOutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>attrib -r /s "$(ProjectDir)*.js"</PreBuildEvent>
+  </PropertyGroup>
+</Project>
