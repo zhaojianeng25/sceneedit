@@ -59,8 +59,7 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                   
-         
+ 
                 ];
             return ary;
         }
@@ -83,33 +82,63 @@
                     this.categoryKey[data[i].Category] = true
                     var tempCategory2DUI: Category2DUI = this.getCategoryUI(data[i].Category)
                     tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                  
                     this.ui.push(tempCategory2DUI);
                 }
                 if (!Boolean(this.hideCategoryKey[data[i].Category])) {
-                    this.ui.push(this.creatComponent(data[i]));
+                    var tempUi: BaseReflComponent = this.creatComponent(data[i])
+                    tempUi.Category = data[i].Category;
+                    this.ui.push(tempUi);
                 }
              
             }
-            this.addComponentView();
+            this.resize();
         }
         private hideCategoryKey: any = {};
         public categoryFun: Function
         public categoryClikUp(value: string): void {
-
-            this.destory()
-
             this.hideCategoryKey[value] = !this.hideCategoryKey[value];
-
-
-            this.creat(this.getView());
-            this.refreshViewValue();
-            this.categoryFun && this.categoryFun();
-       
+            if (this.hideCategoryKey[value]) {
  
-        }
-        private addComponentView(): void {
+                for (var i: number = this.ui.length - 1; i >= 0; i--) {
+                    var $ui: BaseReflComponent = this.ui[i]
+                    if ($ui.Category == value) {
+                        $ui.destory()
+                        this.ui.splice(i, 1)
+                    }
+                }
+            } else {
+ 
+                var data: Array<any> = this.getView();
+                var indx: number = this.getUiIndxByCategory(value)
+                for (var i: number = 0; i < data.length; i++) {
+                    if (data[i].Category == value) {
+                        if (!Boolean(this.hideCategoryKey[data[i].Category])) {
+                            var tempUi: BaseReflComponent = this.creatComponent(data[i])
+                            tempUi.Category = data[i].Category;
+                            this.ui.splice(indx++, 0, tempUi);
+                            this.resize();
+                            tempUi.refreshViewValue();
+                        }
+                    }
+ 
+                }
+            }
             this.resize();
+            this.categoryFun && this.categoryFun();
         }
+        private getUiIndxByCategory(value: string): number {
+            for (var i: number = 0; i < this.ui.length; i++) {
+                var $ui: BaseReflComponent = this.ui[i]
+                if ($ui instanceof Category2DUI) {
+                    if ($ui.label == value) {
+                        return i+1;
+                    }
+                }
+            }
+            console.log("必须找到标签，显示这行说明就错。不应该到这里")
+        }
+   
         public resize(): void {
             var ty: number = this._top
             for (var i: number = 0; this.ui&& i < this.ui.length; i++) {

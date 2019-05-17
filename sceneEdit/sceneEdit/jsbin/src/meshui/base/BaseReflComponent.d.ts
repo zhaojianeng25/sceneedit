@@ -1,6 +1,7 @@
 declare module prop {
     class BaseReflComponent {
         propPanle: UiMeshSprite;
+        Category: string;
         protected _width: number;
         protected _height: number;
         protected _x: number;

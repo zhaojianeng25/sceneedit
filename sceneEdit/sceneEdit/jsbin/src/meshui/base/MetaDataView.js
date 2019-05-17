@@ -84,20 +84,52 @@ var prop;
                     this.ui.push(tempCategory2DUI);
                 }
                 if (!Boolean(this.hideCategoryKey[data[i].Category])) {
-                    this.ui.push(this.creatComponent(data[i]));
+                    var tempUi = this.creatComponent(data[i]);
+                    tempUi.Category = data[i].Category;
+                    this.ui.push(tempUi);
                 }
             }
-            this.addComponentView();
+            this.resize();
         };
         MetaDataView.prototype.categoryClikUp = function (value) {
-            this.destory();
             this.hideCategoryKey[value] = !this.hideCategoryKey[value];
-            this.creat(this.getView());
-            this.refreshViewValue();
+            if (this.hideCategoryKey[value]) {
+                for (var i = this.ui.length - 1; i >= 0; i--) {
+                    var $ui = this.ui[i];
+                    if ($ui.Category == value) {
+                        $ui.destory();
+                        this.ui.splice(i, 1);
+                    }
+                }
+            }
+            else {
+                var data = this.getView();
+                var indx = this.getUiIndxByCategory(value);
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Category == value) {
+                        if (!Boolean(this.hideCategoryKey[data[i].Category])) {
+                            var tempUi = this.creatComponent(data[i]);
+                            tempUi.Category = data[i].Category;
+                            this.ui.splice(indx++, 0, tempUi);
+                            this.resize();
+                            tempUi.refreshViewValue();
+                        }
+                    }
+                }
+            }
+            this.resize();
             this.categoryFun && this.categoryFun();
         };
-        MetaDataView.prototype.addComponentView = function () {
-            this.resize();
+        MetaDataView.prototype.getUiIndxByCategory = function (value) {
+            for (var i = 0; i < this.ui.length; i++) {
+                var $ui = this.ui[i];
+                if ($ui instanceof prop.Category2DUI) {
+                    if ($ui.label == value) {
+                        return i + 1;
+                    }
+                }
+            }
+            console.log("必须找到标签，显示这行说明就错。不应该到这里");
         };
         MetaDataView.prototype.resize = function () {
             var ty = this._top;

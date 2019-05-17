@@ -9,7 +9,7 @@
     export class BaseReflComponent {
 
         public propPanle: UiMeshSprite
-
+        public Category: string;
 
         protected _width: number=1;
         protected _height: number=1;

@@ -37,6 +37,7 @@ var prop;
         };
         Category2DUI.prototype.clikMouseUp = function (evt) {
             this.changFun(this.label);
+            this.data = !this.data;
         };
         Category2DUI.prototype.resize = function () {
             this.categoryBgUi.ui.width = this.width;

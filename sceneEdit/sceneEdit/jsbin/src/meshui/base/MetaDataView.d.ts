@@ -21,7 +21,7 @@ declare module prop {
         private hideCategoryKey;
         categoryFun: Function;
         categoryClikUp(value: string): void;
-        private addComponentView;
+        private getUiIndxByCategory;
         resize(): void;
         eventKey(value: string): void;
         creatComponent(obj: any): BaseReflComponent;

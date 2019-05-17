@@ -16,7 +16,7 @@
                 [
                     { Type: ReflectionData.TEXT, Label: "场景名字:", FunKey: "mapname", target: this, Category: "属性" },
                     { Type: ReflectionData.Vec3Color, Label: "背景颜色:", FunKey: "bgcolor", target: this, Step: 0.1, Category: "属性" },
-                    { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
+                    { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Category: "属性", Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
 
                     { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                     { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },

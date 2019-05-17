@@ -38,17 +38,18 @@
 
             this.drawOutColor(this.categoryBgUi.ui, new Vector3D(60, 60, 60))
  
-
-  
-
+ 
             this.drawUrlImgToUi(this.categoryIcon.ui, "icon/profeb_16.png")
           
 
             this.categoryBgUi.ui.addEventListener(InteractiveEvent.Up, this.clikMouseUp, this)
         }
         private clikMouseUp(evt: InteractiveEvent): void {
- 
+
+
             this.changFun(this.label)
+
+            this.data = !this.data;
         }
 
       
