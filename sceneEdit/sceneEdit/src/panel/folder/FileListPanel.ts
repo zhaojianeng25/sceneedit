@@ -607,6 +607,12 @@
                                 prop.PropModel.getInstance().showPefabMesh(tempSkilView);
                             })
                             break;
+                        case FileVo.LYF:
+ 
+                            var tempFileMView: FileMeshView = new FileMeshView(prop.PropModel.getInstance().propPanle)
+                            tempFileMView.data = fileUrl;
+                       
+                            break;
 
 
                         default:

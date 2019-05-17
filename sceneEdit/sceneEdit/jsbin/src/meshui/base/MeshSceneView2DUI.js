@@ -164,6 +164,11 @@ var prop;
                     skillsprite.addSkillByUrl(value);
                     this.sceneManager.addDisplay(skillsprite);
                 }
+                if (value.indexOf(".lyf") != -1) {
+                    var lyfSprite = new maineditor.LyfSpriteDisplay();
+                    lyfSprite.addLyfByUrl(value);
+                    this.sceneManager.addDisplay(lyfSprite);
+                }
                 this.modelKey[value] = true;
             }
         };

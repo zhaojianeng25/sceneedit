@@ -477,6 +477,15 @@ var maineditor;
                     else {
                         console.log("还没准备虚");
                     }
+                case maineditor.HierarchyNodeType.Particle:
+                    if ($vo.dis) {
+                        var E = new filelist.FileMeshView(propanle);
+                        E.data = $vo.ossListFile.url;
+                        _combineReflectionView.addView(E);
+                    }
+                    else {
+                        console.log("还没准备虚");
+                    }
                     break;
                 default:
                     break;
