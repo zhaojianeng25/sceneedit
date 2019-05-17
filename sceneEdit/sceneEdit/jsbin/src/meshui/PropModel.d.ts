@@ -9,7 +9,8 @@ declare module prop {
         private lastNodel;
         hidePanel(): void;
         showPanel($ui: materialui.BaseMaterialNodeUI): void;
-        showPefabMesh(value: MetaDataView): void;
+        private clearOladMeshView;
+        showOtherMeshView(value: MetaDataView): void;
         private showSciencePropPanel;
         private _top;
         moveTop($ty: number): void;

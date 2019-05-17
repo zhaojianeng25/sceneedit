@@ -479,27 +479,27 @@ var filelist;
                             pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempview = new filelist.PrefabMeshView(prop.PropModel.getInstance().propPanle);
                                 tempview.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempview);
+                                prop.PropModel.getInstance().showOtherMeshView(tempview);
                             });
                             break;
                         case FileVo.ZZW:
                             pack.PackRoleManager.getInstance().getRoleZzwByUrl(fileUrl, function (value) {
                                 var tempRoleView = new filelist.RoleMeshView(prop.PropModel.getInstance().propPanle);
                                 tempRoleView.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempRoleView);
+                                prop.PropModel.getInstance().showOtherMeshView(tempRoleView);
                             });
                             break;
                         case FileVo.SKILL:
                             pack.PackSkillManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempSkilView = new filelist.SkillMeshView(prop.PropModel.getInstance().propPanle);
                                 tempSkilView.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempSkilView);
+                                prop.PropModel.getInstance().showOtherMeshView(tempSkilView);
                             });
                             break;
                         case FileVo.LYF:
                             var tempFileMView = new filelist.FileMeshView(prop.PropModel.getInstance().propPanle);
                             tempFileMView.data = fileUrl;
-                            prop.PropModel.getInstance().showPefabMesh(tempFileMView);
+                            prop.PropModel.getInstance().showOtherMeshView(tempFileMView);
                             break;
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);

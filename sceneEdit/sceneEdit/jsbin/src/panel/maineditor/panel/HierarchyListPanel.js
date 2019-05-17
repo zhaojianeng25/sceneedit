@@ -490,7 +490,7 @@ var maineditor;
                 default:
                     break;
             }
-            prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
+            prop.PropModel.getInstance().showOtherMeshView(_combineReflectionView);
         };
         HierarchyListPanel.prototype.showXyzMove = function () {
             var disItem = [];

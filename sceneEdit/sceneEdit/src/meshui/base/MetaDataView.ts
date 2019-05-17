@@ -97,11 +97,12 @@
         public categoryClikUp(value: string): void {
 
             this.destory()
+
             this.hideCategoryKey[value] = !this.hideCategoryKey[value];
+
+
             this.creat(this.getView());
             this.refreshViewValue();
-
-
             this.categoryFun && this.categoryFun();
        
  

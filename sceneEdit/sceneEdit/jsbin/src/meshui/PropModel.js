@@ -28,10 +28,7 @@ var prop;
         };
         PropModel.prototype.showPanel = function ($ui) {
             if (this.lastNodel != $ui) {
-                if (this.metaDataView) {
-                    this.metaDataView.destory();
-                    this.metaDataView = null;
-                }
+                this.clearOladMeshView();
                 var propPanle = prop.PropModel.getInstance().propPanle;
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
                     this.metaDataView = new prop.Vec3PropMeshPanel(propPanle);
@@ -72,12 +69,15 @@ var prop;
                 this.resize();
             }
         };
-        PropModel.prototype.showPefabMesh = function (value) {
+        PropModel.prototype.clearOladMeshView = function () {
             if (this.metaDataView) {
                 this.metaDataView.destory();
                 this.metaDataView = null;
                 this.lastNodel = null;
             }
+        };
+        PropModel.prototype.showOtherMeshView = function (value) {
+            this.clearOladMeshView();
             this.metaDataView = value;
             this.metaDataView.refreshViewValue();
             this.resize();

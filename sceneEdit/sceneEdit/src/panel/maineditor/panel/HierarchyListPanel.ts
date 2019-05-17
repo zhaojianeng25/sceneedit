@@ -587,7 +587,7 @@
                     break
 
             }
-            prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
+            prop.PropModel.getInstance().showOtherMeshView(_combineReflectionView);
 
         }
         private showXyzMove(): void {

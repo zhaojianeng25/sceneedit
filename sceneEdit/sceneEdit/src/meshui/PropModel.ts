@@ -36,10 +36,7 @@
         }
         public showPanel($ui: materialui.BaseMaterialNodeUI): void {
             if (this.lastNodel != $ui) {
-                if (this.metaDataView) {
-                    this.metaDataView.destory()
-                    this.metaDataView = null;
-                }
+                this.clearOladMeshView()
                 var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
                     this.metaDataView = new Vec3PropMeshPanel(propPanle);
@@ -63,9 +60,7 @@
                     this.metaDataView = new MathFunMeshPanel(propPanle);
                 } else {
                     this.showSciencePropPanel();
-
                 }
-
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
                 this.metaDataView.top = this._top
@@ -74,12 +69,15 @@
 
             }
         }
-        public showPefabMesh(value: MetaDataView): void {
+        private clearOladMeshView(): void {
             if (this.metaDataView) {
-                this.metaDataView.destory()
+                this.metaDataView.destory();
                 this.metaDataView = null;
                 this.lastNodel = null;
             }
+        }
+        public showOtherMeshView(value: MetaDataView): void {
+            this.clearOladMeshView()
             this.metaDataView = value;
             this.metaDataView.refreshViewValue()
             this.resize();

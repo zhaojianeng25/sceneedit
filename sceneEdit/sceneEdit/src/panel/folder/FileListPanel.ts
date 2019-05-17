@@ -587,7 +587,7 @@
                             pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.PrefabStaticMesh) => {
                                 var tempview: PrefabMeshView = new PrefabMeshView(prop.PropModel.getInstance().propPanle)
                                 tempview.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempview);
+                                prop.PropModel.getInstance().showOtherMeshView(tempview);
                             })
                             break;
 
@@ -596,7 +596,7 @@
                             pack.PackRoleManager.getInstance().getRoleZzwByUrl(fileUrl, (value: pack.RoleStaticMesh) => {
                                 var tempRoleView: RoleMeshView = new RoleMeshView(prop.PropModel.getInstance().propPanle)
                                 tempRoleView.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempRoleView);
+                                prop.PropModel.getInstance().showOtherMeshView(tempRoleView);
                             })
                             break;
                         case FileVo.SKILL:
@@ -604,14 +604,14 @@
                             pack.PackSkillManager.getInstance().getPrefabByUrl(fileUrl, (value: pack.SkillStatcMesh) => {
                                 var tempSkilView: SkillMeshView = new SkillMeshView(prop.PropModel.getInstance().propPanle)
                                 tempSkilView.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempSkilView);
+                                prop.PropModel.getInstance().showOtherMeshView(tempSkilView);
                             })
                             break;
                         case FileVo.LYF:
  
                             var tempFileMView: FileMeshView = new FileMeshView(prop.PropModel.getInstance().propPanle)
                             tempFileMView.data = fileUrl;
-                            prop.PropModel.getInstance().showPefabMesh(tempFileMView);
+                            prop.PropModel.getInstance().showOtherMeshView(tempFileMView);
                        
                             break;
 

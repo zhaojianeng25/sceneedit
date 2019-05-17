@@ -178,7 +178,7 @@
         
             var _cenePojectMeshView: ScenePojectMeshView = new ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
             _cenePojectMeshView.data = this.sceneProjectVo;
-            prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
+            prop.PropModel.getInstance().showOtherMeshView(_cenePojectMeshView);
 
         }
    
