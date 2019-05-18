@@ -612,7 +612,18 @@
                             tempFileMView.data = fileUrl;
                             prop.PropModel.getInstance().showOtherMeshView(tempFileMView);
                             break;
+
+                        case FileVo.LYF:
+                        case FileVo.OBJS:
+                            var tempFileMView: FileMeshView = new FileMeshView(prop.PropModel.getInstance().propPanle)
+                            tempFileMView.data = fileUrl;
+                            prop.PropModel.getInstance().showOtherMeshView(tempFileMView);
+           
+ 
+                            break;
+
                         default:
+
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path)
                             break;
                     }

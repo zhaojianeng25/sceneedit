@@ -169,6 +169,9 @@ var prop;
                     lyfSprite.addLyfByUrl(value);
                     this.sceneManager.addDisplay(lyfSprite);
                 }
+                if (value.indexOf(".objs") != -1) {
+                    console.log("objs", value);
+                }
                 this.modelKey[value] = true;
             }
         };
