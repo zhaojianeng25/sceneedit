@@ -36,6 +36,9 @@ declare module ossfolder {
         getCharNameMeshVo(value: FileVo): FolderMeshVo;
         private folderCellHeight;
         private refrishFolder;
+        private readonly isCanToDo;
+        onMouseWheel($evt: MouseWheelEvent): void;
+        protected changeScrollBar(): void;
         private moveAllTy;
         private static listTy;
         private disChiendren;

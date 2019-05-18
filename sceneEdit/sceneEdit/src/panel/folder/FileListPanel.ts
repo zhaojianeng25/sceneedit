@@ -405,12 +405,11 @@
         public resize(): void {
             this.resetSampleFilePos();
             if (this.uiLoadComplete) {
-                this.contentHeight = this.getcontentHeight()
+                this.contentHeight = this.getcontentHeight();
 
                 if (this.pathlistBg) {
-                    this.pathlistBg.width = this.pageRect.width
+                    this.pathlistBg.width = this.pageRect.width 
                 }
-
                 if (this.pathurlLabel) {
                     this.pathurlLabel.textureContext.resize()
                     this.pathurlLabel.textureContext.left = this.left+20

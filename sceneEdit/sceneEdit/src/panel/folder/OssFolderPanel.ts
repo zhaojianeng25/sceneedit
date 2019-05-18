@@ -120,12 +120,17 @@
 
             this._baseRender.mask = this._uiMask
 
-          //  this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
+          
 
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
             })
+
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = ($evt: MouseWheelEvent) => { this.onMouseWheel($evt) };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
         }
 
         private loadAssetImg(bfun: Function): void {
@@ -152,11 +157,14 @@
         }
 
         public resize(): void {
-            if (this.uiLoadComplete) {
-            }
-
             super.resize();
+            if (this.uiLoadComplete) {
+                this.setUiListVisibleByItem([this.c_scroll_bar_bg], this.contentHeight > this._uiMask.height)
+            }
+ 
+          
         }
+     
 
         private loadTempOne(name: string, bfun: Function): void {
 
@@ -177,6 +185,13 @@
         }
          
         protected itemMouseUp(evt: InteractiveEvent): void {
+
+
+
+            if (this.c_scroll_bar_bg.parent && evt.x > this.c_scroll_bar_bg.x) {
+                console.log("在外面---")
+                return;
+            }
   
                 for (var i: number = 0; i < this._uiItem.length; i++) {
                     var $vo: FolderName = <FolderName>this._uiItem[i]
@@ -290,11 +305,40 @@
         }
         private folderCellHeight: number = 20
         private refrishFolder(): void {
-            OssFolderPanel.listTy = 0;
+         
+            OssFolderPanel.listTy = this.moveListTy;
+            var frist: number = OssFolderPanel.listTy 
             this.disChiendren(this.fileItem,10);
-            var moveTy: number = 0
+            var moveTy: number = 0;
             this.moveAllTy(this.fileItem, moveTy)
- 
+
+            this.contentHeight = OssFolderPanel.listTy - frist;
+            this.resize();
+        }
+        private get isCanToDo(): boolean { //false为可以操作
+
+            if (this && this.hasStage) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+        public onMouseWheel($evt: MouseWheelEvent): void {
+            if (!this.isCanToDo) {
+                return
+            }
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                if (this.contentHeight > this._uiMask.height) {
+                    this.c_scroll_bar.y += $evt.deltaY / 30;
+                    this.changeScrollBar();
+                    this.resize();
+                }
+            }
+        }
+        protected changeScrollBar(): void {
+            super.changeScrollBar()
+            this.refrishFolder();
         }
         private moveAllTy(arr: Array<FolderMeshVo>, ty: number = 0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
@@ -305,7 +349,7 @@
             }
 
         }
-        private static listTy: number
+        private static listTy: number=0
         private disChiendren(arr: Array<FolderMeshVo>, tx: number=0): void {
             for (var i: number = 0; arr && i < arr.length; i++) {
                 arr[i].pos.x = tx;
