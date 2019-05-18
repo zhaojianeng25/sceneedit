@@ -195,11 +195,14 @@
                     this.sceneManager.addDisplay(lyfSprite);
                 }
                 if (value.indexOf(".objs") != -1) {
-
-                    console.log("objs", value)
-                
+                    let objsSprite: maineditor.ModelSprite = new maineditor.ModelSprite();
+                    this.sceneManager.addDisplay(objsSprite);
+                    var tempPrefab: pack.PrefabStaticMesh = new pack.PrefabStaticMesh()
+                    tempPrefab.url = value
+                    tempPrefab.objsurl = value
+                    tempPrefab.textureurl = "assets/base/base.material"
+                    objsSprite.prefab = tempPrefab
                 }
- 
                 this.modelKey[value] = true
             }
 

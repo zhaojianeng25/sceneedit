@@ -170,7 +170,13 @@ var prop;
                     this.sceneManager.addDisplay(lyfSprite);
                 }
                 if (value.indexOf(".objs") != -1) {
-                    console.log("objs", value);
+                    var objsSprite = new maineditor.ModelSprite();
+                    this.sceneManager.addDisplay(objsSprite);
+                    var tempPrefab = new pack.PrefabStaticMesh();
+                    tempPrefab.url = value;
+                    tempPrefab.objsurl = value;
+                    tempPrefab.textureurl = "assets/base/base.material";
+                    objsSprite.prefab = tempPrefab;
                 }
                 this.modelKey[value] = true;
             }
