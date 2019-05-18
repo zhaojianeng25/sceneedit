@@ -89,18 +89,23 @@
             }
         }
         private resetFolderWinSize(): void {
-            var A: Rectangle = this._baseFolderWindow.getPageRect().clone();
-            var num40=20 //位移40.比底小
-            A.y += num40;
-            A.height -= num40;
+            var $perentWinRect: Rectangle = this._baseFolderWindow.getPageRect().clone();
 
+       
+            var A: Rectangle = $perentWinRect.clone();
+            A.x = 0;
+            A.y += 13;
+            A.width = $perentWinRect.width * this._baseFolderWindow.percentNum +5
+            A.height -= 18;
+            this._folderPanel.setRect(A);
 
-            this._folderPanel.setRect(new Rectangle(A.x, A.y, A.width * this._baseFolderWindow.percentNum, A.height - 20));
-
-            var B: Rectangle = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y+20 , A.width * (1 - this._baseFolderWindow.percentNum), A.height);
-            B.x += 10;
-            B.height -= 5-20;
-            B.width -= 8;
+ 
+            var B: Rectangle = $perentWinRect.clone() 
+            B.x = $perentWinRect.width * this._baseFolderWindow.percentNum
+            B.y = $perentWinRect.y + 40;
+            B.width = $perentWinRect.width * (1 - this._baseFolderWindow.percentNum)
+            B.height -= 43;
+ 
             this._fileListPanel.setRect(B);
         }
         private fristRect: Rectangle

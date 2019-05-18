@@ -970,7 +970,7 @@
             for (var i: number = 0; this.fileItem&& i < this.fileItem.length; i++) {
                 var vo: FileListMeshVo = this.fileItem[i];
                 vo.uiScale = 0.7
-                vo.pos.x = i % w * 100;
+                vo.pos.x = i % w * 100+10;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy
             }
 

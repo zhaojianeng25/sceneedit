@@ -24,6 +24,7 @@ declare module ossfolder {
         constructor();
         protected loadConfigCom(): void;
         private loadAssetImg;
+        resize(): void;
         private loadTempOne;
         update(t: number): void;
         protected itemMouseUp(evt: InteractiveEvent): void;

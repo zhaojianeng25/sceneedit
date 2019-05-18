@@ -106,6 +106,7 @@ var ossfolder;
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
             this._baseRender.mask = this._uiMask;
+            //  this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
             this.loadAssetImg(function () {
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
@@ -127,6 +128,11 @@ var ossfolder;
                     }
                 });
             }
+        };
+        OssFolderPanel.prototype.resize = function () {
+            if (this.uiLoadComplete) {
+            }
+            _super.prototype.resize.call(this);
         };
         OssFolderPanel.prototype.loadTempOne = function (name, bfun) {
             var tempImg = makeImage();

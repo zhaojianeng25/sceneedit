@@ -119,7 +119,9 @@
             super.loadConfigCom();
 
             this._baseRender.mask = this._uiMask
-  
+
+          //  this.setUiListVisibleByItem([this.c_scroll_bar_bg], true)
+
             this.loadAssetImg(() => {
                 this.makeItemUiList()
                 Pan3d.TimeUtil.addFrameTick((t: number) => { this.update(t) });
@@ -145,6 +147,15 @@
 
                 });
             }
+
+ 
+        }
+
+        public resize(): void {
+            if (this.uiLoadComplete) {
+            }
+
+            super.resize();
         }
 
         private loadTempOne(name: string, bfun: Function): void {
