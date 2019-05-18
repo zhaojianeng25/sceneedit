@@ -541,7 +541,7 @@
                         B.data = (<ModelSprite>$vo.dis).prefab;
                         _combineReflectionView.addView(B)
                     } else {
-                        console.log("还没准备虚")
+                        console.log("还没准备好")
                     }
                     break
                 case HierarchyNodeType.Role:
@@ -549,14 +549,11 @@
                     if ((<left.MaterialRoleSprite>$vo.dis).roleStaticMesh) {
                         var C: filelist.RoleMeshView = new filelist.RoleMeshView(propanle);
                         C.data = (<left.MaterialRoleSprite>$vo.dis).roleStaticMesh;
-
                         _combineReflectionView.addView(C);
                     } else {
-                        console.log("还没准备虚")
+                        console.log("还没准备好")
            
                     }
-
-
                     break
                 case HierarchyNodeType.SKILL:
                     if ((<maineditor.SkillSpriteDisplay>$vo.dis).skillStaticMesh) {
@@ -564,20 +561,18 @@
                         D.data = (<maineditor.SkillSpriteDisplay>$vo.dis).skillStaticMesh;
                         _combineReflectionView.addView(D);
                     } else {
-                        console.log("还没准备虚")
+                        console.log("还没准备好")
 
                     }
-
+                    break
 
                 case HierarchyNodeType.Particle:
                     if ($vo.dis) {
- 
                         var E: filelist.FileMeshView = new filelist.FileMeshView(propanle);
                         E.data = $vo.ossListFile.url
-                        
                         _combineReflectionView.addView(E);
                     } else {
-                        console.log("还没准备虚")
+                        console.log("还没准备好")
 
                     }
 

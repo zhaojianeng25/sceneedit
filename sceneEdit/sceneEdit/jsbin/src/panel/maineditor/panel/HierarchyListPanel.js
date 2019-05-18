@@ -454,7 +454,7 @@ var maineditor;
                         _combineReflectionView.addView(B);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
                     }
                     break;
                 case maineditor.HierarchyNodeType.Role:
@@ -465,7 +465,7 @@ var maineditor;
                         _combineReflectionView.addView(C);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
                     }
                     break;
                 case maineditor.HierarchyNodeType.SKILL:
@@ -475,8 +475,9 @@ var maineditor;
                         _combineReflectionView.addView(D);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
                     }
+                    break;
                 case maineditor.HierarchyNodeType.Particle:
                     if ($vo.dis) {
                         var E = new filelist.FileMeshView(propanle);
@@ -484,7 +485,7 @@ var maineditor;
                         _combineReflectionView.addView(E);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
                     }
                     break;
                 default:
