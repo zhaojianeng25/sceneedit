@@ -1,4 +1,5 @@
 declare module ossfolder {
+    import UIRenderComponent = Pan3d.UIRenderComponent;
     import InteractiveEvent = Pan3d.InteractiveEvent;
     import Disp2DBaseText = Pan3d.Disp2DBaseText;
     import FileVo = pack.FileVo;
@@ -27,6 +28,8 @@ declare module ossfolder {
         resize(): void;
         private loadTempOne;
         update(t: number): void;
+        fileOssFolderDic(value: string): void;
+        private fileAndOpenDicByUrl;
         protected itemMouseUp(evt: InteractiveEvent): void;
         private resetHideDic;
         private pushChidrenDic;
@@ -34,6 +37,7 @@ declare module ossfolder {
         private makeItemUiList;
         private fileItem;
         getCharNameMeshVo(value: FileVo): FolderMeshVo;
+        protected makeOtherRender(): UIRenderComponent;
         private folderCellHeight;
         private refrishFolder;
         private readonly isCanToDo;

@@ -111,7 +111,7 @@
 
         public static imgBaseDic: any
         public constructor() {
-            super(FolderName, new Rectangle(0, 0, 256, 22), 48);
+            super(FolderName, new Rectangle(0, 0, 256, 22), 5);
             this.left = 0;
             this.pageRect = new Rectangle(0, 0, 200, 200)
         }
@@ -159,7 +159,14 @@
         public resize(): void {
             super.resize();
             if (this.uiLoadComplete) {
-                this.setUiListVisibleByItem([this.c_scroll_bar_bg], this.contentHeight > this._uiMask.height)
+
+                var needScroll: boolean = this.contentHeight > this._uiMask.height;
+   
+                this.setUiListVisibleByItem([this.c_scroll_bar_bg], needScroll);
+
+                if (needScroll) {
+                    this._uiMask.width -= this.c_scroll_bar_bg.width;
+                }
             }
  
           
@@ -183,11 +190,48 @@
             super.update(t);
 
         }
+
+        public fileOssFolderDic(value: string): void {
+ 
+            this.fileAndOpenDicByUrl(value, this.fileItem)
+
+        }
+        private fileAndOpenDicByUrl(value: string, arr: Array<FolderMeshVo>): void {
+
+            for (var i: number = 0; arr&& i < arr.length; i++) {
+                var vo: FolderMeshVo = arr[i]
+                if (value.indexOf(vo.ossListFile.baseFile.path) != -1) {
+                    console.log("找到文件目录", vo.ossListFile.baseFile.path)
+          
+
+                    if (!vo.ossListFile.isOpen) {
+                        vo.ossListFile.isOpen = true;
+                        if (vo.childItem) {
+                            this.resetHideDic(vo.childItem)
+                            this.refrishFolder();
+                            this.fileAndOpenDicByUrl(value, vo.childItem)
+                        } else {
+                            this.pushChidrenDic(vo, () => {
+                                this.refrishFolder();
+                                this.fileAndOpenDicByUrl(value, vo.childItem)
+                            }) //显示mu
+                        }
+
+                    } else {
+                        this.fileAndOpenDicByUrl(value, vo.childItem)
+                    } 
+               
+              
+
+
+ 
+                }
+            }
+        }
+
          
         protected itemMouseUp(evt: InteractiveEvent): void {
-
-
-
+  
             if (this.c_scroll_bar_bg.parent && evt.x > this.c_scroll_bar_bg.x) {
                 console.log("在外面---")
                 return;
@@ -199,14 +243,14 @@
                         if ((evt.x - this.left) - $vo.ui.x < 20) {
                             $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
                             if ($vo.folderMeshVo.ossListFile.isOpen) {
-                                this.pushChidrenDic($vo)
+                                this.pushChidrenDic($vo.folderMeshVo)
                             } else {
                                 this.clearChildern($vo.folderMeshVo)   //将要关闭
                             }
                           
                         } else {
                             if (!$vo.folderMeshVo.ossListFile.isOpen) {
-                                this.pushChidrenDic($vo)
+                                this.pushChidrenDic($vo.folderMeshVo)
                             } 
                             $vo.folderMeshVo.ossListFile.isOpen = true
 
@@ -233,26 +277,29 @@
             }
 
         }
-        private pushChidrenDic($folderName: FolderName): void {
-            if ($folderName.folderMeshVo.childItem) {
+        private pushChidrenDic(folderMeshVo: FolderMeshVo, bfun?: Function): void {
+            if (folderMeshVo.childItem) {
 
                 console.log("已经有了，直接显示就行")
-                this.resetHideDic($folderName.folderMeshVo.childItem)
+                this.resetHideDic(folderMeshVo.childItem)
             
 
             } else {
-                var pathurl: string = $folderName.folderMeshVo.ossListFile.baseFile.path
+                var pathurl: string = folderMeshVo.ossListFile.baseFile.path
                 pack.FileOssModel.getFolderArr(pathurl, (value: Array<FileVo>) => {
-                    if (!$folderName.folderMeshVo.childItem) {
-                        $folderName.folderMeshVo.childItem = []
+                    if (!folderMeshVo.childItem) {
+                        folderMeshVo.childItem = []
                         for (var i: number = 0; value && i < value.length; i++) {
                             if (value[i].isFolder) {
                                 var $vo: FolderMeshVo = this.getCharNameMeshVo(value[i])
                                 $vo.pos = new Vector3D(0, i * 15, 0)
-                                $folderName.folderMeshVo.childItem.push($vo)
+                                folderMeshVo.childItem.push($vo)
+ 
                             }
                         }
                         this.refrishFolder();
+
+                        bfun && bfun()
                     } else {
                         console.log("已获取过，注意可能是网络问题")
                     }
@@ -275,7 +322,7 @@
         private makeItemUiList(): void {
             this.fileItem = [];
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+              //  this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
   
             //"upfile/shadertree/"
@@ -300,9 +347,19 @@
             var $vo: FolderMeshVo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.ossListFile.baseFile = value
-            this.showTemp($vo);
+            var tmep: Disp2DBaseText = this.showTemp($vo);
+
+            tmep.ui.removeEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+            tmep.ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             return $vo;
         }
+        protected makeOtherRender(): UIRenderComponent {
+            var tempRender: UIRenderComponent = new UIRenderComponent;
+            console.log("添加新对象")
+            tempRender.mask = this._uiMask;
+            return tempRender;
+        }
+    
         private folderCellHeight: number = 20
         private refrishFolder(): void {
          

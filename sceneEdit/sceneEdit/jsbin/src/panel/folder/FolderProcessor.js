@@ -29,6 +29,7 @@ var folder;
         FolderEvent.EDITSCENE_RESET_SIZE = "EDITSCENE_RESET_SIZE";
         FolderEvent.RESET_FOLDE_WIN_SIZE = "RESET_FOLDE_WIND_SIZE";
         FolderEvent.LIST_DIS_ALL_FILE = "LIST_DIS_ALL_FILE";
+        FolderEvent.LIST_OSS_FOLDER_FILE = "LIST_OSS_FOLDER_FILE";
         return FolderEvent;
     }(BaseEvent));
     folder.FolderEvent = FolderEvent;
@@ -85,6 +86,9 @@ var folder;
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {
                     this._fileListPanel.refrishPath(String(_folderEvent.data));
                 }
+                if (_folderEvent.type == FolderEvent.LIST_OSS_FOLDER_FILE) {
+                    this._folderPanel.fileOssFolderDic(String(_folderEvent.data));
+                }
                 if (_folderEvent.type == FolderEvent.RESET_FOLDE_WIN_SIZE) {
                     this.resetFolderWinSize();
                 }
@@ -128,6 +132,7 @@ var folder;
                 new FolderEvent(FolderEvent.RESET_FOLDE_WIN_SIZE),
                 new FolderEvent(FolderEvent.EDITSCENE_RESET_SIZE),
                 new FolderEvent(FolderEvent.LIST_DIS_ALL_FILE),
+                new FolderEvent(FolderEvent.LIST_OSS_FOLDER_FILE),
             ];
         };
         return FolderProcessor;

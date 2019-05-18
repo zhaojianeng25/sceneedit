@@ -9,7 +9,7 @@ declare module folder {
         static EDITSCENE_RESET_SIZE: string;
         static RESET_FOLDE_WIN_SIZE: string;
         static LIST_DIS_ALL_FILE: string;
-        data: any;
+        static LIST_OSS_FOLDER_FILE: string;
         posv2d: Vector2D;
         comboxData: Array<any>;
         comboxFun: Function;

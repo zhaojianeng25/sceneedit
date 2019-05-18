@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var ossfolder;
 (function (ossfolder) {
+    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
@@ -97,7 +98,7 @@ var ossfolder;
     var OssFolderPanel = /** @class */ (function (_super) {
         __extends(OssFolderPanel, _super);
         function OssFolderPanel() {
-            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 22), 48) || this;
+            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 22), 5) || this;
             _this.folderCellHeight = 20;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
@@ -136,7 +137,11 @@ var ossfolder;
         OssFolderPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);
             if (this.uiLoadComplete) {
-                this.setUiListVisibleByItem([this.c_scroll_bar_bg], this.contentHeight > this._uiMask.height);
+                var needScroll = this.contentHeight > this._uiMask.height;
+                this.setUiListVisibleByItem([this.c_scroll_bar_bg], needScroll);
+                if (needScroll) {
+                    this._uiMask.width -= this.c_scroll_bar_bg.width;
+                }
             }
         };
         OssFolderPanel.prototype.loadTempOne = function (name, bfun) {
@@ -151,6 +156,35 @@ var ossfolder;
         OssFolderPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
+        OssFolderPanel.prototype.fileOssFolderDic = function (value) {
+            this.fileAndOpenDicByUrl(value, this.fileItem);
+        };
+        OssFolderPanel.prototype.fileAndOpenDicByUrl = function (value, arr) {
+            var _this = this;
+            for (var i = 0; arr && i < arr.length; i++) {
+                var vo = arr[i];
+                if (value.indexOf(vo.ossListFile.baseFile.path) != -1) {
+                    console.log("找到文件目录", vo.ossListFile.baseFile.path);
+                    if (!vo.ossListFile.isOpen) {
+                        vo.ossListFile.isOpen = true;
+                        if (vo.childItem) {
+                            this.resetHideDic(vo.childItem);
+                            this.refrishFolder();
+                            this.fileAndOpenDicByUrl(value, vo.childItem);
+                        }
+                        else {
+                            this.pushChidrenDic(vo, function () {
+                                _this.refrishFolder();
+                                _this.fileAndOpenDicByUrl(value, vo.childItem);
+                            }); //显示mu
+                        }
+                    }
+                    else {
+                        this.fileAndOpenDicByUrl(value, vo.childItem);
+                    }
+                }
+            }
+        };
         OssFolderPanel.prototype.itemMouseUp = function (evt) {
             if (this.c_scroll_bar_bg.parent && evt.x > this.c_scroll_bar_bg.x) {
                 console.log("在外面---");
@@ -162,7 +196,7 @@ var ossfolder;
                     if ((evt.x - this.left) - $vo.ui.x < 20) {
                         $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
                         if ($vo.folderMeshVo.ossListFile.isOpen) {
-                            this.pushChidrenDic($vo);
+                            this.pushChidrenDic($vo.folderMeshVo);
                         }
                         else {
                             this.clearChildern($vo.folderMeshVo); //将要关闭
@@ -170,7 +204,7 @@ var ossfolder;
                     }
                     else {
                         if (!$vo.folderMeshVo.ossListFile.isOpen) {
-                            this.pushChidrenDic($vo);
+                            this.pushChidrenDic($vo.folderMeshVo);
                         }
                         $vo.folderMeshVo.ossListFile.isOpen = true;
                         Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), $vo.folderMeshVo.ossListFile.baseFile.path);
@@ -188,25 +222,26 @@ var ossfolder;
                 this.resetHideDic(arr[i].childItem);
             }
         };
-        OssFolderPanel.prototype.pushChidrenDic = function ($folderName) {
+        OssFolderPanel.prototype.pushChidrenDic = function (folderMeshVo, bfun) {
             var _this = this;
-            if ($folderName.folderMeshVo.childItem) {
+            if (folderMeshVo.childItem) {
                 console.log("已经有了，直接显示就行");
-                this.resetHideDic($folderName.folderMeshVo.childItem);
+                this.resetHideDic(folderMeshVo.childItem);
             }
             else {
-                var pathurl = $folderName.folderMeshVo.ossListFile.baseFile.path;
+                var pathurl = folderMeshVo.ossListFile.baseFile.path;
                 pack.FileOssModel.getFolderArr(pathurl, function (value) {
-                    if (!$folderName.folderMeshVo.childItem) {
-                        $folderName.folderMeshVo.childItem = [];
+                    if (!folderMeshVo.childItem) {
+                        folderMeshVo.childItem = [];
                         for (var i = 0; value && i < value.length; i++) {
                             if (value[i].isFolder) {
                                 var $vo = _this.getCharNameMeshVo(value[i]);
                                 $vo.pos = new Vector3D(0, i * 15, 0);
-                                $folderName.folderMeshVo.childItem.push($vo);
+                                folderMeshVo.childItem.push($vo);
                             }
                         }
                         _this.refrishFolder();
+                        bfun && bfun();
                     }
                     else {
                         console.log("已获取过，注意可能是网络问题");
@@ -227,7 +262,7 @@ var ossfolder;
             var _this = this;
             this.fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+                //  this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
             //"upfile/shadertree/"
             //
@@ -248,8 +283,16 @@ var ossfolder;
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.ossListFile.baseFile = value;
-            this.showTemp($vo);
+            var tmep = this.showTemp($vo);
+            tmep.ui.removeEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+            tmep.ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             return $vo;
+        };
+        OssFolderPanel.prototype.makeOtherRender = function () {
+            var tempRender = new UIRenderComponent;
+            console.log("添加新对象");
+            tempRender.mask = this._uiMask;
+            return tempRender;
         };
         OssFolderPanel.prototype.refrishFolder = function () {
             OssFolderPanel.listTy = this.moveListTy;

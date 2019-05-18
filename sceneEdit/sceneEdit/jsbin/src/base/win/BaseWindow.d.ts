@@ -78,7 +78,7 @@ declare module win {
         protected _lostItem: Array<Pan3d.baseMeshVo>;
         private makeBaseUi;
         showTemp($data: any): Disp2DBaseText;
-        private makeOtherRender;
+        protected makeOtherRender(): UIRenderComponent;
         private clearLostItem;
         playLost(): void;
         clearOneTemp(): void;

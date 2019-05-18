@@ -275,7 +275,11 @@
             for (var i: number = 0; i < this.areaRectItem.length; i++) {
                 var tempRect: PathurlRect = this.areaRectItem[i]
                 if (tempRect.isHitByPoint(tempMouse.x, tempMouse.y)) {
-                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), tempRect.pathurl.replace(Pan3d.Scene_data.ossRoot, ""))
+                    var pathUrl: string = tempRect.pathurl.replace(Pan3d.Scene_data.ossRoot, "")
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathUrl)
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_OSS_FOLDER_FILE), pathUrl)
+
+                    
                 }
             }
         }

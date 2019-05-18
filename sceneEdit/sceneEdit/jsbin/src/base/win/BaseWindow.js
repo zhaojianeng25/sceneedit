@@ -72,6 +72,7 @@ var win;
             this._baseMidRender.uiAtlas = this._bRender.uiAtlas;
             this._baseTopRender.uiAtlas = this._bRender.uiAtlas;
             this._uiMask = new UIMask();
+            BaseWindow.maskLevel++;
             this._uiMask.level = BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
             this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
@@ -402,17 +403,16 @@ var win;
                 this.addChild(empty.ui);
             }
             else {
-                // this._lostItem.push($data)  //原来存放到等待列表
-                this.makeOtherRender($data);
+                var tempRender = this.makeOtherRender();
+                this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
+                this.addRender(tempRender);
+                empty = this.showTemp($data);
             }
             return empty;
         };
-        //重新创建出显示列表
-        Dis2dBaseWindow.prototype.makeOtherRender = function ($data) {
+        Dis2dBaseWindow.prototype.makeOtherRender = function () {
             var tempRender = new UIRenderComponent;
-            this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
-            this.addRender(tempRender);
-            return this.showTemp($data);
+            return tempRender;
         };
         Dis2dBaseWindow.prototype.clearLostItem = function () {
             for (var i = (this._lostItem.length - 1); i > 0; i--) {

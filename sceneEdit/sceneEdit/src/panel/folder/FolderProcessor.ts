@@ -23,8 +23,9 @@
         public static EDITSCENE_RESET_SIZE: string = "EDITSCENE_RESET_SIZE";
         public static RESET_FOLDE_WIN_SIZE: string = "RESET_FOLDE_WIND_SIZE";
         public static LIST_DIS_ALL_FILE: string = "LIST_DIS_ALL_FILE";
+        public static LIST_OSS_FOLDER_FILE: string = "LIST_OSS_FOLDER_FILE";
 
-        public data: any
+       // public data: any
 
         public posv2d: Vector2D;
         public comboxData: Array<any>;
@@ -82,6 +83,9 @@
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {
                     this._fileListPanel.refrishPath(String(_folderEvent.data));
                 }
+                if (_folderEvent.type == FolderEvent.LIST_OSS_FOLDER_FILE) {
+                    this._folderPanel.fileOssFolderDic(String(_folderEvent.data));
+                }
                 if (_folderEvent.type == FolderEvent.RESET_FOLDE_WIN_SIZE) {
                     this.resetFolderWinSize();
                 }
@@ -138,6 +142,7 @@
                 new FolderEvent(FolderEvent.RESET_FOLDE_WIN_SIZE),
                 new FolderEvent(FolderEvent.EDITSCENE_RESET_SIZE),
                 new FolderEvent(FolderEvent.LIST_DIS_ALL_FILE),
+                new FolderEvent(FolderEvent.LIST_OSS_FOLDER_FILE),
 
             ];
         }
