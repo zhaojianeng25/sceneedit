@@ -1,16 +1,16 @@
 declare module editscene {
+    import Rectangle = Pan3d.Rectangle;
     import UICompenent = Pan3d.UICompenent;
     import UIRenderComponent = Pan3d.UIRenderComponent;
     import Disp2DBaseText = Pan3d.Disp2DBaseText;
     import Panel = win.Panel;
     class RightTabInfoVo {
-        type: number;
         label: string;
-        class: any;
+        view: prop.MetaDataView;
     }
     class RightTabText extends Disp2DBaseText {
         bgUi: UICompenent;
-        textMetrics: TextMetrics;
+        textMetrics: Rectangle;
         rightTabInfoVo: RightTabInfoVo;
         select: boolean;
         private _select;
@@ -26,15 +26,14 @@ declare module editscene {
         changeVoBg(vo: RightTabText, value: boolean): void;
         private refrishTabUiSelect;
         pushPathUrl(value: RightTabInfoVo): void;
-        private selectTabStr;
+        private selectRightTabInfoVo;
     }
     class MainRightBaseWin extends win.Dis2dBaseWindow {
         constructor();
         private e_file_list_path_bg;
         protected loadConfigCom(): void;
         private skilNum;
-        showNextView(value: any): void;
-        private getTempTabInfo;
+        pushViewToTab(value: prop.MetaDataView): void;
         private rightOpenList;
         resize(): void;
     }

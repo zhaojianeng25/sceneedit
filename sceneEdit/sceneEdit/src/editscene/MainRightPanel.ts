@@ -1,5 +1,5 @@
 ﻿module editscene {
- 
+
     import Rectangle = Pan3d.Rectangle
     import Vector2D = Pan3d.Vector2D
     import Scene_data = Pan3d.Scene_data
@@ -21,34 +21,26 @@
     import UIConatiner = Pan3d.UIConatiner;
     import Disp2DBaseText = Pan3d.Disp2DBaseText
     import UIRectangle = Pan3d.UIRectangle
-    import UIRenderOnlyPicComponent = Pan3d.UIRenderOnlyPicComponent
-    import baseMeshVo = Pan3d.baseMeshVo
-    import ProgrmaManager = Pan3d.ProgrmaManager
-    import UIMask = Pan3d.UIMask
-    import UiDraw = Pan3d.UiDraw
+
     import UIData = Pan3d.UIData
-    import UIAtlas = Pan3d.UIAtlas
-    import Shader3D = Pan3d.Shader3D
-    import TextureRes = Pan3d.TextureRes
-    import MouseType = Pan3d.MouseType
-    import MathUtil = Pan3d.MathUtil
+
     import TextRegExp = Pan3d.TextRegExp
 
 
     import Panel = win.Panel;
-    import LayoutbaseBg = win.LayoutbaseBg
 
 
-    export class RightTabInfoVo  {
-        public type: number;
+
+    export class RightTabInfoVo {
+
         public label: string;
-        public class: any
+        public view: prop.MetaDataView;
     }
- 
+
     export class RightTabText extends Disp2DBaseText {
 
         public bgUi: UICompenent;
-        public textMetrics: TextMetrics;
+        public textMetrics: Rectangle;
         public rightTabInfoVo: RightTabInfoVo;
 
 
@@ -77,14 +69,12 @@
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, nameStr, 24, 1, 1, TextAlign.LEFT);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
 
-
-
             }
         }
 
 
     }
- 
+
     export class RightOpenList {
         private perent: MainRightBaseWin
         private topRender: UIRenderComponent
@@ -94,31 +84,26 @@
 
             this.tabItemArr = [];
 
-
             //this.pushPathUrl("角色/新场景.scene")
             //this.pushPathUrl("完美的开始.map")
 
         }
-
 
         private tabItemArr: Array<RightTabText>;
         private tabBgClik(evt: InteractiveEvent): void {
             var tabVo: RightTabText = evt.target.data
             var ui: Grid9Compenent = evt.target;
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
-                this.selectTabStr = tabVo.rightTabInfoVo
-
-
-                var tempMeshView: prop. MetaDataView = tabVo.rightTabInfoVo.class
-                console.log(tabVo.rightTabInfoVo.class)
-
-
+                this.selectRightTabInfoVo = tabVo.rightTabInfoVo
+                var tempMeshView: prop.MetaDataView = tabVo.rightTabInfoVo.view
                 tempMeshView.replayUiList();
-                prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.class);
+                prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.view);
+
+
 
             } else {
                 this.removePathUrl(tabVo.rightTabInfoVo)
- 
+
             }
 
             this.refrishTabUiSelect()
@@ -162,7 +147,7 @@
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
 
                 var tabVo = this.tabItemArr[i];
-                if (this.tabItemArr[i].rightTabInfoVo == this.selectTabStr) {
+                if (this.tabItemArr[i].rightTabInfoVo == this.selectRightTabInfoVo) {
                     this.tabItemArr[i].select = true
                     this.changeVoBg(this.tabItemArr[i], true)
                 } else {
@@ -184,49 +169,38 @@
             this.topRender.applyObjData();
         }
         public pushPathUrl(value: RightTabInfoVo): void {
-            if (this.tabItemArr.length>=3) {
-                console.log("不添加了")
-                return;
-            }
-            this.selectTabStr = value
+
             var needAdd: boolean = true;
-            var tx: number = 1;
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].rightTabInfoVo == value) {
-                    needAdd = false
+                if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
+                    needAdd = false;
+                    this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
                 }
-                tx = this.tabItemArr[i].bgUi.x + this.tabItemArr[i].bgUi.width - 1;
             }
             if (needAdd) {
- 
                 var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
                 $ctx.font = "13px " + UIData.font;
                 var tabVo: RightTabText = <RightTabText>this.perent.showTemp(value.label);
-                tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, value.label);
                 tabVo.rightTabInfoVo = value;
-
-                tabVo.select = true
-
-
+                this.selectRightTabInfoVo = tabVo.rightTabInfoVo
+                tabVo.textMetrics = new Rectangle(0, 0, 40, 20)
                 this.changeVoBg(tabVo, false);
-     
-
-               // this.tabItemArr.unshift(tabVo);
-              this.tabItemArr.push(tabVo);
+                this.tabItemArr.unshift(tabVo);
+                // this.tabItemArr.push(tabVo);
 
             }
             this.refrishTabUiSelect()
         }
-        private selectTabStr: RightTabInfoVo;
+        private selectRightTabInfoVo: RightTabInfoVo;
 
 
     }
- 
+
     export class MainRightBaseWin extends win.Dis2dBaseWindow {
 
         public constructor() {
             super(RightTabText, new Rectangle(0, 0, 512, 40), 10);
-        
+
 
         }
         private e_file_list_path_bg: Pan3d.UICompenent
@@ -238,28 +212,39 @@
 
             this.rightOpenList = new RightOpenList(this, this._baseTopRender)
 
-        
-           //  this.rightOpenList.pushPathUrl(this.getTempTabInfo("场景"));
- 
-        }
-        private skilNum: number=0
-        public showNextView(value: any): void {
 
+            //  this.rightOpenList.pushPathUrl(this.getTempTabInfo("场景"));
+
+        }
+        private skilNum: number = 0
+        public pushViewToTab(value: prop.MetaDataView): void {
             var vo: RightTabInfoVo = new RightTabInfoVo()
             vo.label = "属性" + this.skilNum++;
-            vo.type = 1;
-            vo.class = value.class;
+
+            if (value instanceof filelist.FileMeshView) {
+                vo.label = "文件"
+            }
+            if (value instanceof filelist.PrefabMeshView) {
+                vo.label = "模型"
+            }
+            if (value instanceof filelist.RoleMeshView) {
+                vo.label = "角色"
+            }
+            if (value instanceof filelist.SkillMeshView) {
+                vo.label = "技能"
+            }
+            if (value instanceof maineditor.ScenePojectMeshView) {
+                vo.label = "场景"
+            }
+            
+            
+             
+            vo.view = value;
             this.rightOpenList.pushPathUrl(vo);
-
+ 
         }
-        private getTempTabInfo(value: string): RightTabInfoVo {
-            var vo: RightTabInfoVo = new RightTabInfoVo()
-            vo.label = value;
-            vo.type = 1;
-            return vo
 
-        }
-        
+
         private rightOpenList: RightOpenList
 
         public resize(): void {

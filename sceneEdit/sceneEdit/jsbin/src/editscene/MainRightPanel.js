@@ -21,7 +21,6 @@ var editscene;
     var LabelTextFont = Pan3d.LabelTextFont;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
     var UIData = Pan3d.UIData;
-    var TextRegExp = Pan3d.TextRegExp;
     var Panel = win.Panel;
     var RightTabInfoVo = /** @class */ (function () {
         function RightTabInfoVo() {
@@ -76,11 +75,10 @@ var editscene;
             var tabVo = evt.target.data;
             var ui = evt.target;
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
-                this.selectTabStr = tabVo.rightTabInfoVo;
-                var tempMeshView = tabVo.rightTabInfoVo.class;
-                console.log(tabVo.rightTabInfoVo.class);
+                this.selectRightTabInfoVo = tabVo.rightTabInfoVo;
+                var tempMeshView = tabVo.rightTabInfoVo.view;
                 tempMeshView.replayUiList();
-                prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.class);
+                prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.view);
             }
             else {
                 this.removePathUrl(tabVo.rightTabInfoVo);
@@ -124,7 +122,7 @@ var editscene;
             var tx = 2;
             for (var i = 0; i < this.tabItemArr.length; i++) {
                 var tabVo = this.tabItemArr[i];
-                if (this.tabItemArr[i].rightTabInfoVo == this.selectTabStr) {
+                if (this.tabItemArr[i].rightTabInfoVo == this.selectRightTabInfoVo) {
                     this.tabItemArr[i].select = true;
                     this.changeVoBg(this.tabItemArr[i], true);
                 }
@@ -146,29 +144,23 @@ var editscene;
             this.topRender.applyObjData();
         };
         RightOpenList.prototype.pushPathUrl = function (value) {
-            if (this.tabItemArr.length >= 3) {
-                console.log("不添加了");
-                return;
-            }
-            this.selectTabStr = value;
             var needAdd = true;
-            var tx = 1;
             for (var i = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].rightTabInfoVo == value) {
+                if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
                     needAdd = false;
+                    this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
                 }
-                tx = this.tabItemArr[i].bgUi.x + this.tabItemArr[i].bgUi.width - 1;
             }
             if (needAdd) {
                 var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
                 $ctx.font = "13px " + UIData.font;
                 var tabVo = this.perent.showTemp(value.label);
-                tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, value.label);
                 tabVo.rightTabInfoVo = value;
-                tabVo.select = true;
+                this.selectRightTabInfoVo = tabVo.rightTabInfoVo;
+                tabVo.textMetrics = new Rectangle(0, 0, 40, 20);
                 this.changeVoBg(tabVo, false);
-                // this.tabItemArr.unshift(tabVo);
-                this.tabItemArr.push(tabVo);
+                this.tabItemArr.unshift(tabVo);
+                // this.tabItemArr.push(tabVo);
             }
             this.refrishTabUiSelect();
         };
@@ -189,18 +181,26 @@ var editscene;
             this.rightOpenList = new RightOpenList(this, this._baseTopRender);
             //  this.rightOpenList.pushPathUrl(this.getTempTabInfo("场景"));
         };
-        MainRightBaseWin.prototype.showNextView = function (value) {
+        MainRightBaseWin.prototype.pushViewToTab = function (value) {
             var vo = new RightTabInfoVo();
             vo.label = "属性" + this.skilNum++;
-            vo.type = 1;
-            vo.class = value.class;
+            if (value instanceof filelist.FileMeshView) {
+                vo.label = "文件";
+            }
+            if (value instanceof filelist.PrefabMeshView) {
+                vo.label = "模型";
+            }
+            if (value instanceof filelist.RoleMeshView) {
+                vo.label = "角色";
+            }
+            if (value instanceof filelist.SkillMeshView) {
+                vo.label = "技能";
+            }
+            if (value instanceof maineditor.ScenePojectMeshView) {
+                vo.label = "场景";
+            }
+            vo.view = value;
             this.rightOpenList.pushPathUrl(vo);
-        };
-        MainRightBaseWin.prototype.getTempTabInfo = function (value) {
-            var vo = new RightTabInfoVo();
-            vo.label = value;
-            vo.type = 1;
-            return vo;
         };
         MainRightBaseWin.prototype.resize = function () {
             _super.prototype.resize.call(this);

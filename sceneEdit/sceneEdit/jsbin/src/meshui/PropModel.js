@@ -84,16 +84,19 @@ var prop;
             this.metaDataView.refreshViewValue();
             this.resize();
             var rightPanel = AppData.rightPanel;
-            rightPanel.mainRightBaseWin.showNextView(value.getMeshInfo());
+            rightPanel.mainRightBaseWin.pushViewToTab(value);
         };
         PropModel.prototype.showSciencePropPanel = function () {
+            /*
             if (this.metaDataView) {
-                this.metaDataView.destory();
+                this.metaDataView.destory()
                 this.metaDataView = null;
                 this.lastNodel = null;
             }
-            var propPanle = prop.PropModel.getInstance().propPanle;
-            this.metaDataView = new prop.SciencePropMeshPanel(propPanle);
+            var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
+            this.metaDataView = new SciencePropMeshPanel(propPanle);
+            */
+            this.showOtherMeshView(new prop.SciencePropMeshPanel(prop.PropModel.getInstance().propPanle));
         };
         return PropModel;
     }());

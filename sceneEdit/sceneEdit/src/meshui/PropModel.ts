@@ -61,6 +61,7 @@
                     this.metaDataView = new MathFunMeshPanel(propPanle);
                 } else {
                     this.showSciencePropPanel();
+
                 }
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
@@ -88,11 +89,12 @@
 
             var rightPanel: editscene.MainRightPanel = <editscene.MainRightPanel>AppData.rightPanel;
 
-            rightPanel.mainRightBaseWin.showNextView(value.getMeshInfo());
+            rightPanel.mainRightBaseWin.pushViewToTab(value );
      
 
         }
         private showSciencePropPanel(): void {
+            /*
             if (this.metaDataView) {
                 this.metaDataView.destory()
                 this.metaDataView = null;
@@ -100,7 +102,9 @@
             }
             var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
             this.metaDataView = new SciencePropMeshPanel(propPanle);
- 
+            */
+
+            this.showOtherMeshView(new SciencePropMeshPanel(prop.PropModel.getInstance().propPanle))
         }
         
     }
