@@ -11,7 +11,7 @@ declare module Pan3d {
         protected oldPos: Vector2D;
         constructor();
         protected needUpData($pos: Vector3D): boolean;
-        data: any;
+        rightTabInfoVo: any;
         makeData(): void;
         update(): void;
         Vector3DToVector2D($pos: any): Vector2D;

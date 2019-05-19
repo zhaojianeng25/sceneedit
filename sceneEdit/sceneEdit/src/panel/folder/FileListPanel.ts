@@ -82,7 +82,7 @@
         private lastSelect: boolean = true
         private lastName: string
         public makeData(): void {
-            this.fileListMeshVo = this.data;
+            this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
 
                 if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select && this.lastName == this.fileListMeshVo.fileXmlVo.data.name) {
@@ -230,7 +230,7 @@
 
       
         public update(): void {
-            this.fileListMeshVo = this.data;
+            this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
                 if (this.fileListMeshVo.needDraw) {
                     this.makeData();

@@ -101,7 +101,7 @@
             var tabVo: SelectFileListText = evt.target.data
             var ui: Grid9Compenent = evt.target;
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
-                this.selectTabStr = tabVo.data
+                this.selectTabStr = tabVo.rightTabInfoVo
 
                 if (this.selectTabStr.indexOf(".map") != -1) {
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
@@ -116,7 +116,7 @@
 
             } else {
                 console.log("关", tabVo)
-                this.removePathUrl(tabVo.data)
+                this.removePathUrl(tabVo.rightTabInfoVo)
 
 
             }
@@ -126,11 +126,11 @@
         }
         public removePathUrl(value: string): void {
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].data == value) {
+                if (this.tabItemArr[i].rightTabInfoVo == value) {
                     var tabVo: SelectFileListText = this.tabItemArr[i]
                     this.perent.removeChild(tabVo.bgUi);
                     tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-                    this.perent.clearTemp(tabVo.data);
+                    this.perent.clearTemp(tabVo.rightTabInfoVo);
                     this.tabItemArr.splice(i, 1)
                 }
             }
@@ -162,7 +162,7 @@
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
 
                 var tabVo = this.tabItemArr[i];
-                if (this.tabItemArr[i].data == this.selectTabStr) {
+                if (this.tabItemArr[i].rightTabInfoVo == this.selectTabStr) {
                     this.tabItemArr[i].select = true
                     this.changeVoBg(this.tabItemArr[i], true)
                 } else {
@@ -188,7 +188,7 @@
             var needAdd: boolean = true;
             var tx: number = 1;
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].data == value) {
+                if (this.tabItemArr[i].rightTabInfoVo == value) {
                     needAdd = false
                 }
                 tx = this.tabItemArr[i].bgUi.x+ this.tabItemArr[i].bgUi.width-1;
@@ -204,20 +204,9 @@
                 tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 tabVo.tittlestr = $tittlestr;
                 this.changeVoBg(tabVo, false);
-                /*
-                tabVo.bgUi.x = tx  ;
-                tabVo.bgUi.y = 1;
-                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
-                tabVo.bgUi.height = 22;
-                tabVo.bgUi.data = tabVo;
-                tx += tabVo.bgUi.width  ;
-                tabVo.ui.x = tabVo.bgUi.x + 10;
-                tabVo.ui.y = tabVo.bgUi.y + 5;
-                tabVo.ui.width = 256;
-                tabVo.ui.height = 20;
-                */
- 
-                tabVo.select = value[i] == this.selectTabStr;
+     
+
+                tabVo.select = true
                 this.tabItemArr.push(tabVo);
 
             }

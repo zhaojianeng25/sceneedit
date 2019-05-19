@@ -45,10 +45,10 @@ var editscene;
             return _this;
         }
         LabelTxtVo.prototype.makeData = function () {
-            if (this.data) {
+            if (this.rightTabInfoVo) {
                 this.ui.width = this.ui.baseRec.width * this.uiScale;
                 this.ui.height = this.ui.baseRec.height * this.uiScale;
-                var $menuListData = this.data;
+                var $menuListData = this.rightTabInfoVo;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -303,7 +303,7 @@ var editscene;
         };
         EditTopMenuPanel.prototype.setColorByLevel = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                var menuListData = this._uiItem[i].data;
+                var menuListData = this._uiItem[i].rightTabInfoVo;
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false;
                     this._uiItem[i].makeData();
@@ -312,7 +312,7 @@ var editscene;
         };
         EditTopMenuPanel.prototype.removeOtherSonMenu = function (level) {
             for (var i = this._uiItem.length - 1; i >= 0; i--) {
-                var $menuListData = this._uiItem[i].data;
+                var $menuListData = this._uiItem[i].rightTabInfoVo;
                 if ($menuListData && $menuListData.level > level) {
                     this.clearTemp($menuListData);
                 }
@@ -320,8 +320,8 @@ var editscene;
         };
         EditTopMenuPanel.prototype.butMove = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                var menuListData = temp.data;
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
                 this.removeOtherSonMenu(menuListData.level);
                 menuListData.select = true;
@@ -331,8 +331,8 @@ var editscene;
         };
         EditTopMenuPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                this.bfun(temp.data, evt);
+            if (temp && temp.rightTabInfoVo) {
+                this.bfun(temp.rightTabInfoVo, evt);
                 this.removeOtherSonMenu(0);
             }
         };

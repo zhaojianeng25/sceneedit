@@ -56,7 +56,7 @@ var ossfolder;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         FolderName.prototype.makeData = function () {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
@@ -74,7 +74,7 @@ var ossfolder;
             }
         };
         FolderName.prototype.update = function () {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 if (this.folderMeshVo.needDraw) {
                     this.makeData();

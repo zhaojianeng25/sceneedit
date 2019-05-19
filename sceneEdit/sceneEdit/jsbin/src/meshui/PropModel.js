@@ -2,7 +2,6 @@ var prop;
 (function (prop) {
     var PropModel = /** @class */ (function () {
         function PropModel() {
-            this._top = 0;
             this.propPanle = new prop.UiMeshSprite();
             this.propPanle.x = 500;
             this.propPanle.y = 100;
@@ -65,7 +64,7 @@ var prop;
                 }
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
-                this.metaDataView.top = this._top;
+                this.metaDataView.top = 25;
                 this.resize();
             }
         };
@@ -77,10 +76,15 @@ var prop;
             }
         };
         PropModel.prototype.showOtherMeshView = function (value) {
-            this.clearOladMeshView();
+            if (this.metaDataView != value) {
+                this.clearOladMeshView();
+            }
             this.metaDataView = value;
+            this.metaDataView.top = 25;
             this.metaDataView.refreshViewValue();
             this.resize();
+            var rightPanel = AppData.rightPanel;
+            rightPanel.mainRightBaseWin.showNextView(value.getMeshInfo());
         };
         PropModel.prototype.showSciencePropPanel = function () {
             if (this.metaDataView) {
@@ -90,12 +94,6 @@ var prop;
             }
             var propPanle = prop.PropModel.getInstance().propPanle;
             this.metaDataView = new prop.SciencePropMeshPanel(propPanle);
-        };
-        PropModel.prototype.moveTop = function ($ty) {
-            this._top = $ty;
-            if (this.metaDataView) {
-                this.metaDataView.top = this._top;
-            }
         };
         return PropModel;
     }());

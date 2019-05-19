@@ -30,38 +30,6 @@ var editscene;
         return CentenPanel;
     }(Panel));
     editscene.CentenPanel = CentenPanel;
-    var MainRightBaseWin = /** @class */ (function (_super) {
-        __extends(MainRightBaseWin, _super);
-        function MainRightBaseWin() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        MainRightBaseWin.prototype.loadConfigCom = function () {
-            _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.e_panel_1], true);
-        };
-        return MainRightBaseWin;
-    }(win.BaseWindow));
-    editscene.MainRightBaseWin = MainRightBaseWin;
-    var MainRightPanel = /** @class */ (function (_super) {
-        __extends(MainRightPanel, _super);
-        function MainRightPanel(has) {
-            if (has === void 0) { has = true; }
-            var _this = _super.call(this) || this;
-            if (has) {
-                _this.winBg = new MainRightBaseWin();
-                _this.addUIContainer(_this.winBg);
-                _this.changeSize();
-            }
-            return _this;
-        }
-        MainRightPanel.prototype.changeSize = function () {
-            if (this.winBg) {
-                this.winBg.setRect(this.rect);
-            }
-        };
-        return MainRightPanel;
-    }(Panel));
-    editscene.MainRightPanel = MainRightPanel;
     var EditScenePanel = /** @class */ (function (_super) {
         __extends(EditScenePanel, _super);
         function EditScenePanel() {
@@ -90,7 +58,7 @@ var editscene;
             AppData.centenPanel = temp;
         };
         EditScenePanel.prototype.addRight = function () {
-            var temp = new MainRightPanel(true);
+            var temp = new editscene.MainRightPanel(true);
             temp.x = 1000;
             temp.y = 0;
             temp.width = 450;

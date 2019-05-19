@@ -4,14 +4,6 @@ declare module editscene {
     class CentenPanel extends Panel {
         addUIContainer($container: UIConatiner): void;
     }
-    class MainRightBaseWin extends win.BaseWindow {
-        protected loadConfigCom(): void;
-    }
-    class MainRightPanel extends Panel {
-        protected winBg: MainRightBaseWin;
-        constructor(has?: boolean);
-        changeSize(): void;
-    }
     class EditScenePanel extends Panel {
         constructor();
         private _sceneLaoutLinePane;

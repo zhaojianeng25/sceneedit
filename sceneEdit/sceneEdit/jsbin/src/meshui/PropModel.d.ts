@@ -12,7 +12,5 @@ declare module prop {
         private clearOladMeshView;
         showOtherMeshView(value: MetaDataView): void;
         private showSciencePropPanel;
-        private _top;
-        moveTop($ty: number): void;
     }
 }

@@ -14,30 +14,7 @@
             }
         }
     }
-    export class MainRightBaseWin extends win.BaseWindow {
-        protected loadConfigCom(): void {
-            super.loadConfigCom();
-            this.setUiListVisibleByItem([this.e_panel_1], true)
-        }
- 
-    }
-    export class MainRightPanel extends Panel {
-        protected winBg: MainRightBaseWin;
-        public constructor(has: boolean = true) {
-            super();
-            if (has) {
-                this.winBg = new MainRightBaseWin();
-                this.addUIContainer(this.winBg)
-                this.changeSize()
-            }
-        }
-        public changeSize(): void {
-            if (this.winBg) {
-                this.winBg.setRect(this.rect)
-            }
-        }
-
-    }
+    
     export class EditScenePanel extends Panel {
         public constructor() {
             super();

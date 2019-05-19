@@ -34,8 +34,8 @@
     export class LabelTxtVo extends Disp2DBaseText {
   
         public makeData(): void {
-            if (this.data) {
-                var $menuListData: MenuListData = this.data
+            if (this.rightTabInfoVo) {
+                var $menuListData: MenuListData = this.rightTabInfoVo
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -110,7 +110,7 @@
         }
         private setColorByLevel(value: number): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                var menuListData: MenuListData = this._uiItem[i].data as MenuListData
+                var menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false
                     this._uiItem[i].makeData()
@@ -120,7 +120,7 @@
         private removeOtherSonMenu(level: number): void {
 
             for (var i: number = this._uiItem.length-1; i>=0; i--) {
-                var $menuListData: MenuListData = this._uiItem[i].data as MenuListData
+                var $menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
                 if ($menuListData && $menuListData.level > level) {
                     this.clearTemp($menuListData)
                 }
@@ -128,8 +128,8 @@
         }
         protected butMove(evt: InteractiveEvent): void {
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
-            if (temp && temp.data) {
-                var menuListData: MenuListData = temp.data
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData: MenuListData = temp.rightTabInfoVo
                 this.setColorByLevel(menuListData.level);
                 this.removeOtherSonMenu(menuListData.level);
 
@@ -144,8 +144,8 @@
         private bfun: Function
         protected onMouseUp(evt: InteractiveEvent): void {
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
-            if (temp && temp.data) {
-                this.bfun(temp.data, evt)
+            if (temp && temp.rightTabInfoVo) {
+                this.bfun(temp.rightTabInfoVo, evt)
                 this.clearAll();
             }
         }

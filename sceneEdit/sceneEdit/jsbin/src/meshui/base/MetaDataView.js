@@ -10,9 +10,14 @@ var prop;
             this.categoryKey = {};
             this.hideCategoryKey = {};
             this.propPanle = value;
-            //  this.propPanle = prop.PropModel.getInstance().propPanle;
             this.creat(this.getView());
         }
+        MetaDataView.prototype.getMeshInfo = function () {
+            var obj = {};
+            obj.class = this;
+            obj.data = this.data;
+            return obj;
+        };
         MetaDataView.prototype.onAdd = function () {
             console.log("onRemove");
             for (var i = 0; this.ui && i < this.ui.length; i++) {
@@ -58,6 +63,10 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        MetaDataView.prototype.replayUiList = function () {
+            this.destory(); //复活UI
+            this.creat(this.getView());
+        };
         MetaDataView.prototype.getView = function () {
             var ary = [];
             return ary;
@@ -78,10 +87,15 @@ var prop;
             this.categoryKey = {};
             for (var i = 0; i < data.length; i++) {
                 if (data[i].Category && !this.categoryKey[data[i].Category]) {
-                    this.categoryKey[data[i].Category] = true;
-                    var tempCategory2DUI = this.getCategoryUI(data[i].Category);
-                    tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
-                    this.ui.push(tempCategory2DUI);
+                    if (!this.hideCategory) {
+                        this.hideCategory = data[i].Category;
+                    }
+                    if (this.hideCategory != data[i].Category) {
+                        this.categoryKey[data[i].Category] = true;
+                        var tempCategory2DUI = this.getCategoryUI(data[i].Category);
+                        tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                        this.ui.push(tempCategory2DUI);
+                    }
                 }
                 if (!Boolean(this.hideCategoryKey[data[i].Category])) {
                     var tempUi = this.creatComponent(data[i]);

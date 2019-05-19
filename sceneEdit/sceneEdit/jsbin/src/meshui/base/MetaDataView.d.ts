@@ -4,6 +4,7 @@ declare module prop {
         y: number;
         protected _data: any;
         protected _top: number;
+        getMeshInfo(): any;
         onAdd(): void;
         onRemove(): void;
         top: number;
@@ -13,10 +14,12 @@ declare module prop {
         protected _height: number;
         private propPanle;
         constructor(value: UiMeshSprite);
+        replayUiList(): void;
         getView(): Array<any>;
         data: any;
         ui: Array<BaseReflComponent>;
         private categoryKey;
+        private hideCategory;
         creat(data: Array<any>): void;
         private hideCategoryKey;
         categoryFun: Function;

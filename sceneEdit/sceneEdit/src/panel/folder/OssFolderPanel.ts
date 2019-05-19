@@ -55,7 +55,7 @@
     export class FolderName extends Disp2DBaseText {
         public folderMeshVo: FolderMeshVo
         public makeData(): void {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
 
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
@@ -85,7 +85,7 @@
 
 
         public update(): void {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 if (this.folderMeshVo.needDraw) {
                     this.makeData();

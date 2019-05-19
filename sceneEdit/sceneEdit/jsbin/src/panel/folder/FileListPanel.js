@@ -73,7 +73,7 @@ var filelist;
         }
         FileListName.prototype.makeData = function () {
             var _this = this;
-            this.fileListMeshVo = this.data;
+            this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
                 if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select && this.lastName == this.fileListMeshVo.fileXmlVo.data.name) {
                     return;
@@ -186,7 +186,7 @@ var filelist;
             TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
         };
         FileListName.prototype.update = function () {
-            this.fileListMeshVo = this.data;
+            this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
                 if (this.fileListMeshVo.needDraw) {
                     this.makeData();

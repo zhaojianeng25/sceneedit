@@ -37,8 +37,8 @@ var menutwo;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         LabelTxtVo.prototype.makeData = function () {
-            if (this.data) {
-                var $menuListData = this.data;
+            if (this.rightTabInfoVo) {
+                var $menuListData = this.rightTabInfoVo;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -98,7 +98,7 @@ var menutwo;
         };
         MenuTwoPanel.prototype.setColorByLevel = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                var menuListData = this._uiItem[i].data;
+                var menuListData = this._uiItem[i].rightTabInfoVo;
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false;
                     this._uiItem[i].makeData();
@@ -107,7 +107,7 @@ var menutwo;
         };
         MenuTwoPanel.prototype.removeOtherSonMenu = function (level) {
             for (var i = this._uiItem.length - 1; i >= 0; i--) {
-                var $menuListData = this._uiItem[i].data;
+                var $menuListData = this._uiItem[i].rightTabInfoVo;
                 if ($menuListData && $menuListData.level > level) {
                     this.clearTemp($menuListData);
                 }
@@ -115,8 +115,8 @@ var menutwo;
         };
         MenuTwoPanel.prototype.butMove = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                var menuListData = temp.data;
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
                 this.removeOtherSonMenu(menuListData.level);
                 menuListData.select = true;
@@ -126,8 +126,8 @@ var menutwo;
         };
         MenuTwoPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                this.bfun(temp.data, evt);
+            if (temp && temp.rightTabInfoVo) {
+                this.bfun(temp.rightTabInfoVo, evt);
                 this.clearAll();
             }
         };

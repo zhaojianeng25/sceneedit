@@ -41,8 +41,8 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.butMove = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                var menuListData = temp.data;
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
                 menuListData.select = true;
                 temp.makeData();
@@ -50,7 +50,7 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.setColorByLevel = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                var menuListData = this._uiItem[i].data;
+                var menuListData = this._uiItem[i].rightTabInfoVo;
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false;
                     this._uiItem[i].makeData();
@@ -59,8 +59,8 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.clearAll = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data);
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo);
                 }
             }
         };
@@ -73,9 +73,9 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
+            if (temp && temp.rightTabInfoVo) {
                 // console.log(temp.data, evt)
-                this._comBoxFun(Number(temp.data.key));
+                this._comBoxFun(Number(temp.rightTabInfoVo.key));
                 this.clearAll();
             }
         };

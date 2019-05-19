@@ -7,7 +7,12 @@
         protected _data: any;
         protected _top: number = 0
 
-
+        public getMeshInfo(): any {
+            var obj: any = {};
+            obj.class = this;
+            obj.data = this.data;
+            return obj
+        }
         public onAdd(): void {
             console.log("onRemove")
             for (var i: number = 0; this.ui && i < this.ui.length; i++) {
@@ -53,7 +58,12 @@
         private propPanle: UiMeshSprite
         public constructor(value: UiMeshSprite) {
             this.propPanle = value
-          //  this.propPanle = prop.PropModel.getInstance().propPanle;
+ 
+            this.creat(this.getView());
+        }
+
+        public replayUiList(): void {
+            this.destory()//复活UI
             this.creat(this.getView());
         }
         public getView(): Array<any> {
@@ -74,16 +84,25 @@
 
         public ui: Array<BaseReflComponent>;
         private categoryKey: any = {}
+        private hideCategory: string
         public creat(data: Array<any>): void {
             this.ui = new Array;
             this.categoryKey = {};
             for (var i: number = 0; i < data.length; i++) {
-                if (data[i].Category&&!this.categoryKey[data[i].Category]) {
-                    this.categoryKey[data[i].Category] = true
-                    var tempCategory2DUI: Category2DUI = this.getCategoryUI(data[i].Category)
-                    tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                if (data[i].Category && !this.categoryKey[data[i].Category]) {
+
+                    if (!this.hideCategory) {
+                        this.hideCategory = data[i].Category;
+                    }
+                    if (this.hideCategory != data[i].Category) {
+                        this.categoryKey[data[i].Category] = true
+                        var tempCategory2DUI: Category2DUI = this.getCategoryUI(data[i].Category)
+                        tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                        this.ui.push(tempCategory2DUI);
+                    }
+              
                   
-                    this.ui.push(tempCategory2DUI);
+            
                 }
                 if (!Boolean(this.hideCategoryKey[data[i].Category])) {
                     var tempUi: BaseReflComponent = this.creatComponent(data[i])

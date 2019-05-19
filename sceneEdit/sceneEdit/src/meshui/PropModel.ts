@@ -13,6 +13,7 @@
         }
         public resize(): void {
             if (this.metaDataView) {
+ 
                 this.metaDataView.width = Pan3d.Scene_data.stageWidth - this.propPanle.x;
             }
 
@@ -63,7 +64,7 @@
                 }
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
-                this.metaDataView.top = this._top
+                this.metaDataView.top = 25
 
                 this.resize();
 
@@ -77,10 +78,18 @@
             }
         }
         public showOtherMeshView(value: MetaDataView): void {
-            this.clearOladMeshView()
+            if (this.metaDataView != value) {
+                this.clearOladMeshView()
+            }
             this.metaDataView = value;
+            this.metaDataView.top=25
             this.metaDataView.refreshViewValue()
             this.resize();
+
+            var rightPanel: editscene.MainRightPanel = <editscene.MainRightPanel> AppData.rightPanel
+            rightPanel.mainRightBaseWin.showNextView(value.getMeshInfo())
+     
+
         }
         private showSciencePropPanel(): void {
             if (this.metaDataView) {
@@ -92,12 +101,6 @@
             this.metaDataView = new SciencePropMeshPanel(propPanle);
  
         }
-        private _top: number = 0
-        public moveTop($ty: number): void {
-            this._top = $ty
-            if (this.metaDataView) {
-                this.metaDataView.top = this._top
-            }
-        }
+        
     }
 }

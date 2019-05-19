@@ -558,7 +558,7 @@ var Pan3d;
         }
         CharNameUiVo.prototype.makeData = function () {
             if (this._data) {
-                this.charNameMeshVo = this.data;
+                this.charNameMeshVo = this.rightTabInfoVo;
                 if (this.lastKey != this.charNameMeshVo.name) {
                     this.ui.width = 256 * 0.7;
                     this.ui.height = 22 * 0.7;
@@ -609,7 +609,7 @@ var Pan3d;
         CharTitleUiVo.prototype.makeData = function () {
             var _this = this;
             if (this._data) {
-                this._charTitleMeshVo = this.data;
+                this._charTitleMeshVo = this.rightTabInfoVo;
                 //LabelTextFont.writeSingleLabel(this.parent.uiAtlas, this.textureStr, "ccav", 22, TextAlign.CENTER, "#ffffff");
                 // this.parent.uiAtlas.upDataPicToTexture(getUItittleUrl(String(this._charTitleMeshVo.num)), this.textureStr)
                 Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileRoot + getUItittleUrl(String(this._charTitleMeshVo.num)), Pan3d.LoadManager.IMG_TYPE, function ($img) {
@@ -755,7 +755,7 @@ var Pan3d;
         }
         BloodDisp2DBaseText.prototype.makeData = function () {
             if (this._data) {
-                this.bloodLineMeshVo = this.data;
+                this.bloodLineMeshVo = this.rightTabInfoVo;
             }
         };
         BloodDisp2DBaseText.prototype.update = function () {
@@ -892,7 +892,7 @@ var Pan3d;
         BloodLineUIConatiner.prototype.update = function (t) {
             if (this._baseRender.uiAtlas.textureRes) {
                 for (var i = 0; i < this._uiItem.length; i++) {
-                    if (this._uiItem[i].data) {
+                    if (this._uiItem[i].rightTabInfoVo) {
                         this._uiItem[i].update();
                     }
                 }
@@ -920,7 +920,7 @@ var Pan3d;
             var $BloodDisp2DBaseText = new BloodDisp2DBaseText;
             $BloodDisp2DBaseText.parent = this._baseRender;
             $BloodDisp2DBaseText.ui = this._baseRender.creatBaseComponent("test");
-            $BloodDisp2DBaseText.data = $data;
+            $BloodDisp2DBaseText.rightTabInfoVo = $data;
             this.addChild($BloodDisp2DBaseText.ui);
             this._uiItem.push($BloodDisp2DBaseText);
         };

@@ -48,8 +48,8 @@
         }
         protected butMove(evt: InteractiveEvent): void {
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
-            if (temp && temp.data) {
-                var menuListData: MenuListData = temp.data
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData: MenuListData = temp.rightTabInfoVo
                 this.setColorByLevel(menuListData.level);
      
                 menuListData.select = true;
@@ -61,7 +61,7 @@
         }
         private setColorByLevel(value: number): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                var menuListData: MenuListData = this._uiItem[i].data as MenuListData
+                var menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false
                     this._uiItem[i].makeData()
@@ -70,8 +70,8 @@
         }
         public clearAll(): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data)
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo)
                 }
             }
         }
@@ -84,9 +84,9 @@
         }
         protected onMouseUp(evt: InteractiveEvent): void {
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
-            if (temp && temp.data) {
+            if (temp && temp.rightTabInfoVo) {
                 // console.log(temp.data, evt)
-                this._comBoxFun(Number(temp.data.key))
+                this._comBoxFun(Number(temp.rightTabInfoVo.key))
                 this.clearAll();
             }
         }

@@ -424,21 +424,21 @@
             var empty: Disp2DBaseText;
             //找到上一个数据和现在是一样的对象.避免重复更新纹理
             for (var j: number = 0; j < this._uiItem.length; j++) {
-                if (this._uiItem[j].data == null && this._uiItem[j].isEqualLastKey($data)) {
+                if (this._uiItem[j].rightTabInfoVo == null && this._uiItem[j].isEqualLastKey($data)) {
                     empty = this._uiItem[j];
                     break
                 }
             }
             if (!empty) {
                 for (var i: number = 0; i < this._uiItem.length; i++) {
-                    if (this._uiItem[i].data == null) {
+                    if (this._uiItem[i].rightTabInfoVo == null) {
                         empty = this._uiItem[i];
                         break
                     }
                 }
             }
             if (empty) {
-                empty.data = $data;
+                empty.rightTabInfoVo = $data;
                 this.addChild(empty.ui);
             } else {
                 this._lostItem.push($data)
@@ -460,20 +460,20 @@
         }
         public clearOneTemp(): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (!this._uiItem[i].data) {
+                if (!this._uiItem[i].rightTabInfoVo) {
                     return;
                 }
             }
             this._lostItem.length = 0;
-            this.clearTemp(this._uiItem[0].data);
+            this.clearTemp(this._uiItem[0].rightTabInfoVo);
 
 
         }
         //清理单元内的内容并需要将对象移出显示队例
         public clearTemp($data: any): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == $data) {
-                    this._uiItem[i].data = null
+                if (this._uiItem[i].rightTabInfoVo == $data) {
+                    this._uiItem[i].rightTabInfoVo = null
                     this.removeChild(this._uiItem[i].ui);
                     break
                 }
@@ -482,14 +482,14 @@
         }
         public getVoByData(value: any): Disp2DBaseText {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == value) {
+                if (this._uiItem[i].rightTabInfoVo == value) {
                     return this._uiItem[i]
                 }
             }
         }
         public getVoByUi($ui: UICompenent): Disp2DBaseText {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     if (this._uiItem[i].ui == $ui) {
                         return this._uiItem[i]
                     }
@@ -498,15 +498,15 @@
         }
         public clearAll(): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data)
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo)
                 }
             }
         }
         private updateFun: Function;
         public update(t: number): void {
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     this._uiItem[i].update();
                 }
             }
@@ -520,7 +520,7 @@
         public getUiItemLen(): number {
             var $num: number = 0;
             for (var i: number = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     $num++;
                 }
             }

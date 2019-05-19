@@ -20,6 +20,21 @@ var prop;
             _this.list = [];
             return _this;
         }
+        CombineReflectionView.prototype.getMeshInfo = function () {
+            var obj = {};
+            obj.class = this;
+            obj.data = [];
+            for (var i = 0; i < this.list.length; i++) {
+                obj.data.push(this.list[i].getMeshInfo());
+            }
+            return obj;
+        };
+        CombineReflectionView.prototype.replayUiList = function () {
+            this.destory(); //复活UI
+            for (var i = 0; this.list && i < this.list.length; i++) {
+                this.list[i].replayUiList();
+            }
+        };
         CombineReflectionView.prototype.addView = function ($view) {
             var _this = this;
             this.list.push($view);
@@ -37,11 +52,9 @@ var prop;
             _super.prototype.refreshViewValue.call(this);
         };
         CombineReflectionView.prototype.destory = function () {
-            while (this.list.length) {
-                var temp = this.list.pop();
-                temp.destory();
+            for (var i = 0; i < this.list.length; i++) {
+                this.list[i].destory();
             }
-            _super.prototype.destory.call(this);
         };
         CombineReflectionView.prototype.resize = function () {
             _super.prototype.resize.call(this);

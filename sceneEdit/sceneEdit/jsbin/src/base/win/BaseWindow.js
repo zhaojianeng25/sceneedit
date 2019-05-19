@@ -385,21 +385,21 @@ var win;
             var empty;
             //找到上一个数据和现在是一样的对象.避免重复更新纹理
             for (var j = 0; j < this._uiItem.length; j++) {
-                if (this._uiItem[j].data == null && this._uiItem[j].isEqualLastKey($data)) {
+                if (this._uiItem[j].rightTabInfoVo == null && this._uiItem[j].isEqualLastKey($data)) {
                     empty = this._uiItem[j];
                     break;
                 }
             }
             if (!empty) {
                 for (var i = 0; i < this._uiItem.length; i++) {
-                    if (this._uiItem[i].data == null) {
+                    if (this._uiItem[i].rightTabInfoVo == null) {
                         empty = this._uiItem[i];
                         break;
                     }
                 }
             }
             if (empty) {
-                empty.data = $data;
+                empty.rightTabInfoVo = $data;
                 this.addChild(empty.ui);
             }
             else {
@@ -428,18 +428,18 @@ var win;
         };
         Dis2dBaseWindow.prototype.clearOneTemp = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (!this._uiItem[i].data) {
+                if (!this._uiItem[i].rightTabInfoVo) {
                     return;
                 }
             }
             this._lostItem.length = 0;
-            this.clearTemp(this._uiItem[0].data);
+            this.clearTemp(this._uiItem[0].rightTabInfoVo);
         };
         //清理单元内的内容并需要将对象移出显示队例
         Dis2dBaseWindow.prototype.clearTemp = function ($data) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == $data) {
-                    this._uiItem[i].data = null;
+                if (this._uiItem[i].rightTabInfoVo == $data) {
+                    this._uiItem[i].rightTabInfoVo = null;
                     this.removeChild(this._uiItem[i].ui);
                     break;
                 }
@@ -448,14 +448,14 @@ var win;
         };
         Dis2dBaseWindow.prototype.getVoByData = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == value) {
+                if (this._uiItem[i].rightTabInfoVo == value) {
                     return this._uiItem[i];
                 }
             }
         };
         Dis2dBaseWindow.prototype.getVoByUi = function ($ui) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     if (this._uiItem[i].ui == $ui) {
                         return this._uiItem[i];
                     }
@@ -464,14 +464,14 @@ var win;
         };
         Dis2dBaseWindow.prototype.clearAll = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data);
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo);
                 }
             }
         };
         Dis2dBaseWindow.prototype.update = function (t) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     this._uiItem[i].update();
                 }
             }
@@ -479,7 +479,7 @@ var win;
         Dis2dBaseWindow.prototype.getUiItemLen = function () {
             var $num = 0;
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     $num++;
                 }
             }
