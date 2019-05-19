@@ -86,8 +86,9 @@
             this.metaDataView.refreshViewValue()
             this.resize();
 
-            var rightPanel: editscene.MainRightPanel = <editscene.MainRightPanel> AppData.rightPanel
-            rightPanel.mainRightBaseWin.showNextView(value.getMeshInfo())
+            var rightPanel: editscene.MainRightPanel = <editscene.MainRightPanel>AppData.rightPanel;
+
+            rightPanel.mainRightBaseWin.showNextView(value.getMeshInfo());
      
 
         }

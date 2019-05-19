@@ -81,7 +81,6 @@ var editscene;
                 console.log(tabVo.rightTabInfoVo.class);
                 tempMeshView.replayUiList();
                 prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.class);
-                // vo.class
             }
             else {
                 this.removePathUrl(tabVo.rightTabInfoVo);

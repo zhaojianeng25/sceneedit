@@ -65,17 +65,18 @@
             if (this.rightTabInfoVo) {
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
-
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
-                var nameStr: string = this.rightTabInfoVo.label
+                var nameStr: string = this.rightTabInfoVo.label;
                 if (this._select) {
                     nameStr = "[ffffff]" + nameStr;
                 } else {
                     nameStr = "[9c9c9c]" + nameStr;
                 }
+
                 LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, nameStr, 24, 1, 1, TextAlign.LEFT);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+
 
 
             }
@@ -114,10 +115,8 @@
 
                 tempMeshView.replayUiList();
                 prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.class);
-               // vo.class
- 
+
             } else {
- 
                 this.removePathUrl(tabVo.rightTabInfoVo)
  
             }
@@ -187,7 +186,7 @@
         public pushPathUrl(value: RightTabInfoVo): void {
             if (this.tabItemArr.length>=3) {
                 console.log("不添加了")
-                return
+                return;
             }
             this.selectTabStr = value
             var needAdd: boolean = true;
