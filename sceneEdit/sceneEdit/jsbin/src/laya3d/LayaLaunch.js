@@ -85,6 +85,7 @@ var LayaLaunch = /** @class */ (function () {
         var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
         midBox.addChild(picB);
         picB.pos(0, 220);
+        console.log(layapan_me.LayaSceneChar);
         this.lastTm = Pan3d.TimeUtil.getTimer();
         Laya.stage.frameLoop(1, this, function () {
             var t = Pan3d.TimeUtil.getTimer() - _this.lastTm;

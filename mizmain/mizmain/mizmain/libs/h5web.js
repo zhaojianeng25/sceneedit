@@ -572,6 +572,13 @@ var Pan3d;
             this.bindPosMatrixAry = ary;
             this.bindPosInvertMatrixAry = invertAry;
         };
+        MeshData.prototype.clone = function () {
+            var temp = new MeshData();
+            for (var key in this) {
+                temp[key] = this[key];
+            }
+            return temp;
+        };
         MeshData.prototype.destory = function () {
             _super.prototype.destory.call(this);
             if (this.materialParam) {
@@ -603,7 +610,7 @@ var Pan3d;
         };
         return MeshData;
     }(Pan3d.ObjData));
-    Pan3dshData = MeshData;
+    Pan3d.MeshData = MeshData;
     var BindParticle = /** @class */ (function () {
         //public particle: CombineParticle;
         function BindParticle($url, $socketName) {
@@ -2049,7 +2056,7 @@ var Pan3d;
         Display3dMovie.prototype.setRoleUrl = function (value) {
             var _this = this;
             this.clearMesh();
-            Pan3dshDataManager.getInstance().getMeshData(value, function ($skinMesh) {
+            Pan3d.MeshDataManager.getInstance().getMeshData(value, function ($skinMesh) {
                 if (_this._hasDestory) {
                     $skinMesh.useNum--;
                     return;
@@ -2137,7 +2144,7 @@ var Pan3d;
             var _this = this;
             if ($batchNum === void 0) { $batchNum = 1; }
             this._meshUrl = Pan3d.Scene_data.fileRoot + value;
-            Pan3dshDataManager.getInstance().getMeshData(this._meshUrl, function ($skinMesh) {
+            Pan3d.MeshDataManager.getInstance().getMeshData(this._meshUrl, function ($skinMesh) {
                 _this._skinMesh = $skinMesh;
                 if ($batchNum != 1) {
                     _this._skinMesh.type = 1;
@@ -11984,7 +11991,7 @@ var Pan3d;
             this.animData = null;
         };
         ParticleBoneData.prototype.setAllByteInfo = function ($byte) {
-            this.meshData = new Pan3dshData();
+            this.meshData = new Pan3d.MeshData();
             this.animData = new Pan3d.AnimData();
             this.objScale = $byte.readFloat();
             var dataWidth = 13;
@@ -17596,7 +17603,7 @@ var Pan3d;
             }
             return false;
         };
-        Object.defineProperty(Disp2DBaseText.prototype, "data", {
+        Object.defineProperty(Disp2DBaseText.prototype, "rightTabInfoVo", {
             get: function () {
                 return this._data;
             },
@@ -17696,21 +17703,21 @@ var Pan3d;
             var empty;
             //找到上一个数据和现在是一样的对象.避免重复更新纹理
             for (var j = 0; j < this._uiItem.length; j++) {
-                if (this._uiItem[j].data == null && this._uiItem[j].isEqualLastKey($data)) {
+                if (this._uiItem[j].rightTabInfoVo == null && this._uiItem[j].isEqualLastKey($data)) {
                     empty = this._uiItem[j];
                     break;
                 }
             }
             if (!empty) {
                 for (var i = 0; i < this._uiItem.length; i++) {
-                    if (this._uiItem[i].data == null) {
+                    if (this._uiItem[i].rightTabInfoVo == null) {
                         empty = this._uiItem[i];
                         break;
                     }
                 }
             }
             if (empty) {
-                empty.data = $data;
+                empty.rightTabInfoVo = $data;
                 this.addChild(empty.ui);
             }
             else {
@@ -17732,18 +17739,18 @@ var Pan3d;
         };
         Dis2DUIContianerPanel.prototype.clearOneTemp = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (!this._uiItem[i].data) {
+                if (!this._uiItem[i].rightTabInfoVo) {
                     return;
                 }
             }
             this._lostItem.length = 0;
-            this.clearTemp(this._uiItem[0].data);
+            this.clearTemp(this._uiItem[0].rightTabInfoVo);
         };
         //清理单元内的内容并需要将对象移出显示队例
         Dis2DUIContianerPanel.prototype.clearTemp = function ($data) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == $data) {
-                    this._uiItem[i].data = null;
+                if (this._uiItem[i].rightTabInfoVo == $data) {
+                    this._uiItem[i].rightTabInfoVo = null;
                     this.removeChild(this._uiItem[i].ui);
                     break;
                 }
@@ -17752,14 +17759,14 @@ var Pan3d;
         };
         Dis2DUIContianerPanel.prototype.getVoByData = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == value) {
+                if (this._uiItem[i].rightTabInfoVo == value) {
                     return this._uiItem[i];
                 }
             }
         };
         Dis2DUIContianerPanel.prototype.getVoByUi = function ($ui) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     if (this._uiItem[i].ui == $ui) {
                         return this._uiItem[i];
                     }
@@ -17768,14 +17775,14 @@ var Pan3d;
         };
         Dis2DUIContianerPanel.prototype.clearAll = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data);
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo);
                 }
             }
         };
         Dis2DUIContianerPanel.prototype.update = function (t) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     this._uiItem[i].update();
                 }
             }
@@ -17788,7 +17795,7 @@ var Pan3d;
         Dis2DUIContianerPanel.prototype.getUiItemLen = function () {
             var $num = 0;
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     $num++;
                 }
             }
@@ -23341,7 +23348,7 @@ var Pan3d;
             var meshNum = byte.readInt();
             var allParticleDic = new Object;
             for (var i = 0; i < meshNum; i++) {
-                var meshData = new Pan3dshData;
+                var meshData = new Pan3d.MeshData;
                 if ($version >= 35) {
                     meshData.bindPosAry = this.readBindPosByte(byte);
                     meshData.getBindPosMatrix();
@@ -23498,7 +23505,7 @@ var Pan3d;
         };
         return MeshDataManager;
     }(Pan3d.ResGC));
-    Pan3dshDataManager = MeshDataManager;
+    Pan3d.MeshDataManager = MeshDataManager;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=MeshDataManager.js.map
 var __extends = (this && this.__extends) || (function () {
@@ -26867,7 +26874,7 @@ var Pan3d;
         }
         CharNameUiVo.prototype.makeData = function () {
             if (this._data) {
-                this.charNameMeshVo = this.data;
+                this.charNameMeshVo = this.rightTabInfoVo;
                 if (this.lastKey != this.charNameMeshVo.name) {
                     this.ui.width = 256 * 0.7;
                     this.ui.height = 22 * 0.7;
@@ -26918,7 +26925,7 @@ var Pan3d;
         CharTitleUiVo.prototype.makeData = function () {
             var _this = this;
             if (this._data) {
-                this._charTitleMeshVo = this.data;
+                this._charTitleMeshVo = this.rightTabInfoVo;
                 //LabelTextFont.writeSingleLabel(this.parent.uiAtlas, this.textureStr, "ccav", 22, TextAlign.CENTER, "#ffffff");
                 // this.parent.uiAtlas.upDataPicToTexture(getUItittleUrl(String(this._charTitleMeshVo.num)), this.textureStr)
                 Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileRoot + getUItittleUrl(String(this._charTitleMeshVo.num)), Pan3d.LoadManager.IMG_TYPE, function ($img) {
@@ -27064,7 +27071,7 @@ var Pan3d;
         }
         BloodDisp2DBaseText.prototype.makeData = function () {
             if (this._data) {
-                this.bloodLineMeshVo = this.data;
+                this.bloodLineMeshVo = this.rightTabInfoVo;
             }
         };
         BloodDisp2DBaseText.prototype.update = function () {
@@ -27201,7 +27208,7 @@ var Pan3d;
         BloodLineUIConatiner.prototype.update = function (t) {
             if (this._baseRender.uiAtlas.textureRes) {
                 for (var i = 0; i < this._uiItem.length; i++) {
-                    if (this._uiItem[i].data) {
+                    if (this._uiItem[i].rightTabInfoVo) {
                         this._uiItem[i].update();
                     }
                 }
@@ -27229,7 +27236,7 @@ var Pan3d;
             var $BloodDisp2DBaseText = new BloodDisp2DBaseText;
             $BloodDisp2DBaseText.parent = this._baseRender;
             $BloodDisp2DBaseText.ui = this._baseRender.creatBaseComponent("test");
-            $BloodDisp2DBaseText.data = $data;
+            $BloodDisp2DBaseText.rightTabInfoVo = $data;
             this.addChild($BloodDisp2DBaseText.ui);
             this._uiItem.push($BloodDisp2DBaseText);
         };
@@ -28120,7 +28127,7 @@ var Pan3d;
                 this.nrmDircet.y = this._byte.readFloat();
                 this.nrmDircet.z = this._byte.readFloat();
             }
-            Pan3dshDataManager.getInstance().readData(this._byte, this.meshBatchNum, this.roleUrl, this.version);
+            Pan3d.MeshDataManager.getInstance().readData(this._byte, this.meshBatchNum, this.roleUrl, this.version);
             this.readAction();
         };
         RoleRes.prototype.readAction = function () {
@@ -32227,10 +32234,10 @@ var Pan3d;
             Pan3d.MaterialManager.getInstance().getMaterialByte(url, function ($material) {
                 $meshData.material = $material;
                 if ($material.usePbr) {
-                    Pan3dshDataManager.getInstance().uploadPbrMesh($meshData, $material.useNormal);
+                    Pan3d.MeshDataManager.getInstance().uploadPbrMesh($meshData, $material.useNormal);
                 }
                 else if ($material.lightProbe || $material.directLight) {
-                    Pan3dshDataManager.getInstance().uploadPbrMesh($meshData, false);
+                    Pan3d.MeshDataManager.getInstance().uploadPbrMesh($meshData, false);
                 }
                 if ($meshData.materialParamData) {
                     $meshData.materialParam = new Pan3d.MaterialBaseParam();
@@ -32273,6 +32280,17 @@ var Pan3d;
             }
             this.animDic = null;
             this.hasDestory = true;
+        };
+        SkinMesh.prototype.clone = function () {
+            var temp = new SkinMesh();
+            for (var key in this) {
+                temp[key] = this[key];
+            }
+            temp.meshAry = [];
+            for (var i = 0; i < this.meshAry.length; i++) {
+                temp.meshAry.push(this.meshAry[i].clone());
+            }
+            return temp;
         };
         return SkinMesh;
     }(Pan3d.ResCount));
@@ -35221,81 +35239,78 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var OverrideSkillTrajectory = /** @class */ (function (_super) {
-            __extends(OverrideSkillTrajectory, _super);
-            function OverrideSkillTrajectory() {
-                return _super !== null && _super.apply(this, arguments) || this;
+var layapan_me;
+(function (layapan_me) {
+    var OverrideSkillTrajectory = /** @class */ (function (_super) {
+        __extends(OverrideSkillTrajectory, _super);
+        function OverrideSkillTrajectory() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        OverrideSkillTrajectory.prototype.reset = function () {
+            this.particle.reset();
+            this.skill.skillManager.sceneManager.particleManager.removeParticle(this.particle);
+            if (this.endParticle) {
+                this.endParticle.reset();
+                this.skill.skillManager.sceneManager.particleManager.addParticle(this.endParticle);
+                this.endParticle.setPos(this._currentTargetPos.x, this._currentTargetPos.y, this._currentTargetPos.z);
             }
-            OverrideSkillTrajectory.prototype.reset = function () {
-                this.particle.reset();
-                this.skill.skillManager.sceneManager.particleManager.removeParticle(this.particle);
-                if (this.endParticle) {
-                    this.endParticle.reset();
-                    this.skill.skillManager.sceneManager.particleManager.addParticle(this.endParticle);
-                    this.endParticle.setPos(this._currentTargetPos.x, this._currentTargetPos.y, this._currentTargetPos.z);
-                }
-                if (this.removeCallFun) {
-                    this.removeCallFun(this);
-                }
-            };
-            OverrideSkillTrajectory.prototype.addToRender = function () {
-                if (!this.particle) {
-                    return;
-                }
-                this.particle.reset();
-                this.particle.sceneVisible = true;
-                this.skill.skillManager.sceneManager.particleManager.addParticle(this.particle);
-                var beginPos;
-                if (this.data.beginType == 0) {
-                    var ma = new Pan3d.Matrix3D;
-                    ma.appendRotation(this.active.rotationY, Pan3d.Vector3D.Y_AXIS);
-                    beginPos = ma.transformVector(this.data.beginPos);
-                    this._currentPos.setTo(this.active.x + beginPos.x, this.active.y + beginPos.y, this.active.z + beginPos.z);
-                }
-                else if (this.data.beginType == 1) {
-                    var tempMa = new Pan3d.Matrix3D;
-                    var bindActive = (this.active);
-                    bindActive.getSocket(this.data.beginSocket, tempMa);
-                    beginPos = tempMa.position;
-                    this._currentPos.setTo(beginPos.x, beginPos.y, beginPos.z);
-                }
-                this.particle.setPos(this._currentPos.x, this._currentPos.y, this._currentPos.z);
-                this.path.add();
-            };
-            OverrideSkillTrajectory.prototype.endPlayFun = function (e) {
-                if (e === void 0) { e = null; }
-                this.skill.skillManager.sceneManager.particleManager.removeParticle(this.endParticle);
-                this.endParticle.removeEventListener(Pan3d.BaseEvent.COMPLETE, this.endPlayFun, this);
-            };
-            OverrideSkillTrajectory.prototype.setInfo = function (obj) {
-                this.time = obj.frame * Pan3d.Scene_data.frameTime;
-                this.particle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + obj.url);
-                this.particle.bindTarget = this;
-                this.data = obj;
-                //this.path.speed = this.data.speed;
-                if (this.data.endParticleUrl) {
-                    this.endParticle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + this.data.endParticleUrl);
-                    this.endParticle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.endPlayFun, this);
-                }
-                //this.time = obj.frame * Pan3d.Scene_data.frameTime;
-                //this.particle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + obj.url);
-                //this.particle.bindTarget = this;
-                //this.data = <Pan3d.SkillTrajectoryTargetKeyVo>obj;
-                ////this.path.speed = this.data.speed;
-                //if (this.data.endParticleUrl) {
-                //    this.endParticle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + this.data.endParticleUrl);
-                //    this.endParticle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.endPlayFun, this);
-                //}
-            };
-            return OverrideSkillTrajectory;
-        }(Pan3d.SkillTrajectory));
-        me.OverrideSkillTrajectory = OverrideSkillTrajectory;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            if (this.removeCallFun) {
+                this.removeCallFun(this);
+            }
+        };
+        OverrideSkillTrajectory.prototype.addToRender = function () {
+            if (!this.particle) {
+                return;
+            }
+            this.particle.reset();
+            this.particle.sceneVisible = true;
+            this.skill.skillManager.sceneManager.particleManager.addParticle(this.particle);
+            var beginPos;
+            if (this.data.beginType == 0) {
+                var ma = new Pan3d.Matrix3D;
+                ma.appendRotation(this.active.rotationY, Pan3d.Vector3D.Y_AXIS);
+                beginPos = ma.transformVector(this.data.beginPos);
+                this._currentPos.setTo(this.active.x + beginPos.x, this.active.y + beginPos.y, this.active.z + beginPos.z);
+            }
+            else if (this.data.beginType == 1) {
+                var tempMa = new Pan3d.Matrix3D;
+                var bindActive = (this.active);
+                bindActive.getSocket(this.data.beginSocket, tempMa);
+                beginPos = tempMa.position;
+                this._currentPos.setTo(beginPos.x, beginPos.y, beginPos.z);
+            }
+            this.particle.setPos(this._currentPos.x, this._currentPos.y, this._currentPos.z);
+            this.path.add();
+        };
+        OverrideSkillTrajectory.prototype.endPlayFun = function (e) {
+            if (e === void 0) { e = null; }
+            this.skill.skillManager.sceneManager.particleManager.removeParticle(this.endParticle);
+            this.endParticle.removeEventListener(Pan3d.BaseEvent.COMPLETE, this.endPlayFun, this);
+        };
+        OverrideSkillTrajectory.prototype.setInfo = function (obj) {
+            this.time = obj.frame * Pan3d.Scene_data.frameTime;
+            this.particle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + obj.url);
+            this.particle.bindTarget = this;
+            this.data = obj;
+            //this.path.speed = this.data.speed;
+            if (this.data.endParticleUrl) {
+                this.endParticle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + this.data.endParticleUrl);
+                this.endParticle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.endPlayFun, this);
+            }
+            //this.time = obj.frame * Pan3d.Scene_data.frameTime;
+            //this.particle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + obj.url);
+            //this.particle.bindTarget = this;
+            //this.data = <Pan3d.SkillTrajectoryTargetKeyVo>obj;
+            ////this.path.speed = this.data.speed;
+            //if (this.data.endParticleUrl) {
+            //    this.endParticle = this.skill.skillManager.sceneManager.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + this.data.endParticleUrl);
+            //    this.endParticle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.endPlayFun, this);
+            //}
+        };
+        return OverrideSkillTrajectory;
+    }(Pan3d.SkillTrajectory));
+    layapan_me.OverrideSkillTrajectory = OverrideSkillTrajectory;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=OverrideSkillTrajectory.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35310,22 +35325,19 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var OverrideSkillFixEffectKeyVo = /** @class */ (function (_super) {
-            __extends(OverrideSkillFixEffectKeyVo, _super);
-            function OverrideSkillFixEffectKeyVo() {
-                var _this = _super.call(this) || this;
-                console.log("OverrideSkillFixEffectKeyVo");
-                return _this;
-            }
-            return OverrideSkillFixEffectKeyVo;
-        }(Pan3d.SkillFixEffectKeyVo));
-        me.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+var layapan_me;
+(function (layapan_me) {
+    var OverrideSkillFixEffectKeyVo = /** @class */ (function (_super) {
+        __extends(OverrideSkillFixEffectKeyVo, _super);
+        function OverrideSkillFixEffectKeyVo() {
+            var _this = _super.call(this) || this;
+            console.log("OverrideSkillFixEffectKeyVo");
+            return _this;
+        }
+        return OverrideSkillFixEffectKeyVo;
+    }(Pan3d.SkillFixEffectKeyVo));
+    layapan_me.OverrideSkillFixEffectKeyVo = OverrideSkillFixEffectKeyVo;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=OverrideSkillKeyVo.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35340,72 +35352,69 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var SkillType = Pan3d.SkillType;
-        var SkillVo = Pan3d.SkillVo;
-        var OverrideSkill = /** @class */ (function (_super) {
-            __extends(OverrideSkill, _super);
-            function OverrideSkill($skillManager) {
-                if ($skillManager === void 0) { $skillManager = null; }
-                var _this = _super.call(this) || this;
-                _this.baseName = "OverrideSkill";
-                _this.skillManager = $skillManager;
-                return _this;
+var layapan_me;
+(function (layapan_me) {
+    var SkillType = Pan3d.SkillType;
+    var SkillVo = Pan3d.SkillVo;
+    var OverrideSkill = /** @class */ (function (_super) {
+        __extends(OverrideSkill, _super);
+        function OverrideSkill($skillManager) {
+            if ($skillManager === void 0) { $skillManager = null; }
+            var _this = _super.call(this) || this;
+            _this.baseName = "OverrideSkill";
+            _this.skillManager = $skillManager;
+            return _this;
+        }
+        OverrideSkill.prototype.skillComplete = function () {
+            this.skillManager.removeSkill(this);
+            this.isDeath = true;
+            if (this.completeFun) {
+                this.completeFun();
             }
-            OverrideSkill.prototype.skillComplete = function () {
-                this.skillManager.removeSkill(this);
-                this.isDeath = true;
-                if (this.completeFun) {
-                    this.completeFun();
+            this.idleTime = 0;
+        };
+        OverrideSkill.prototype.setData = function ($data, $skillData) {
+            if (this.hasDestory) {
+                return;
+            }
+            this.skillVo = new SkillVo();
+            this.skillVo.setData($data);
+            this.setKeyAry();
+            this.trajectoryAry = new Array;
+            this._skillData = $skillData;
+        };
+        OverrideSkill.prototype.setKeyAry = function () {
+            var _this = this;
+            this.keyAry = new Array;
+            if (this.skillVo.types == SkillType.FixEffect) {
+                for (var i = 0; i < this.skillVo.keyAry.length; i++) {
+                    var keySkill = new layapan_me.OverrideSkillFixEffect(this);
+                    keySkill.setInfo(this.skillVo.keyAry[i]);
+                    keySkill.removeCallFun = function ($key) { _this.removeKey($key); };
+                    keySkill.active = this.active;
+                    this.keyAry.push(keySkill);
                 }
-                this.idleTime = 0;
-            };
-            OverrideSkill.prototype.setData = function ($data, $skillData) {
-                if (this.hasDestory) {
-                    return;
-                }
-                this.skillVo = new SkillVo();
-                this.skillVo.setData($data);
-                this.setKeyAry();
-                this.trajectoryAry = new Array;
-                this._skillData = $skillData;
-            };
-            OverrideSkill.prototype.setKeyAry = function () {
-                var _this = this;
-                this.keyAry = new Array;
-                if (this.skillVo.types == SkillType.FixEffect) {
-                    for (var i = 0; i < this.skillVo.keyAry.length; i++) {
-                        var keySkill = new me.OverrideSkillFixEffect(this);
-                        keySkill.setInfo(this.skillVo.keyAry[i]);
-                        keySkill.removeCallFun = function ($key) { _this.removeKey($key); };
-                        keySkill.active = this.active;
-                        this.keyAry.push(keySkill);
+            }
+            else if (this.skillVo.types == SkillType.TrajectoryDynamicTarget || this.skillVo.types == SkillType.TrajectoryDynamicPoint) {
+                for (var i = 0; i < this.skillVo.keyAry.length; i++) {
+                    var trajectory;
+                    var tkv = (this.skillVo.keyAry[i]);
+                    if (tkv.multype == 1) {
+                        //trajectory = new SkillMulTrajectory();
                     }
-                }
-                else if (this.skillVo.types == SkillType.TrajectoryDynamicTarget || this.skillVo.types == SkillType.TrajectoryDynamicPoint) {
-                    for (var i = 0; i < this.skillVo.keyAry.length; i++) {
-                        var trajectory;
-                        var tkv = (this.skillVo.keyAry[i]);
-                        if (tkv.multype == 1) {
-                            //trajectory = new SkillMulTrajectory();
-                        }
-                        else {
-                            trajectory = new me.OverrideSkillTrajectory();
-                            trajectory.skill = this;
-                        }
-                        trajectory.setInfo(this.skillVo.keyAry[i]);
-                        this.keyAry.push(trajectory);
+                    else {
+                        trajectory = new layapan_me.OverrideSkillTrajectory();
+                        trajectory.skill = this;
                     }
+                    trajectory.setInfo(this.skillVo.keyAry[i]);
+                    this.keyAry.push(trajectory);
                 }
-            };
-            return OverrideSkill;
-        }(Pan3d.Skill));
-        me.OverrideSkill = OverrideSkill;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            }
+        };
+        return OverrideSkill;
+    }(Pan3d.Skill));
+    layapan_me.OverrideSkill = OverrideSkill;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=OverrideSkill.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35420,70 +35429,67 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var BaseEvent = Pan3d.BaseEvent;
-        var Vector3D = Pan3d.Vector3D;
-        var Matrix3D = Pan3d.Matrix3D;
-        var OverrideSkillFixEffect = /** @class */ (function (_super) {
-            __extends(OverrideSkillFixEffect, _super);
-            function OverrideSkillFixEffect($skillvo) {
-                var _this = _super.call(this) || this;
-                _this.skill = $skillvo;
-                return _this;
+var layapan_me;
+(function (layapan_me) {
+    var BaseEvent = Pan3d.BaseEvent;
+    var Vector3D = Pan3d.Vector3D;
+    var Matrix3D = Pan3d.Matrix3D;
+    var OverrideSkillFixEffect = /** @class */ (function (_super) {
+        __extends(OverrideSkillFixEffect, _super);
+        function OverrideSkillFixEffect($skillvo) {
+            var _this = _super.call(this) || this;
+            _this.skill = $skillvo;
+            return _this;
+        }
+        OverrideSkillFixEffect.prototype.onPlayCom = function (event) {
+            if (event === void 0) { event = null; }
+            this.particle.removeEventListener(BaseEvent.COMPLETE, this.onPlayCom, this);
+            this.skill.skillManager.sceneManager.particleManager.removeParticle(this.particle);
+            this.removeCallFun(this);
+        };
+        OverrideSkillFixEffect.prototype.addToRender = function () {
+            if (!this.particle) {
+                return;
             }
-            OverrideSkillFixEffect.prototype.onPlayCom = function (event) {
-                if (event === void 0) { event = null; }
-                this.particle.removeEventListener(BaseEvent.COMPLETE, this.onPlayCom, this);
-                this.skill.skillManager.sceneManager.particleManager.removeParticle(this.particle);
-                this.removeCallFun(this);
-            };
-            OverrideSkillFixEffect.prototype.addToRender = function () {
-                if (!this.particle) {
-                    return;
-                }
-                this.particle.reset();
-                this.particle.sceneVisible = true;
-                this.skill.skillManager.sceneManager.particleManager.addParticle(this.particle);
-                this.particle.addEventListener(BaseEvent.COMPLETE, this.onPlayCom, this);
-                if (this.outPos) {
-                    this.particle.x = this.outPos.x;
-                    this.particle.y = this.outPos.y;
-                    this.particle.z = this.outPos.z;
-                    this.particle.rotationX = this.rotation.x;
-                    this.particle.rotationY = this.rotation.y + this.active.rotationY;
-                    this.particle.rotationZ = this.rotation.z;
-                    this.particle.bindTarget = null;
-                }
-                else if (this.hasSocket) {
-                    var targetActive = this.active;
-                    this.particle.bindTarget = (targetActive);
-                    this.particle.bindSocket = this.socket;
-                }
-                else {
-                    var ma = new Matrix3D;
-                    ma.appendRotation(this.active.rotationY, Vector3D.Y_AXIS);
-                    var v3d = ma.transformVector(this.pos);
-                    v3d.x += this.active.x;
-                    v3d.y += this.active.y;
-                    v3d.z += this.active.z;
-                    var $SkillBugBind = new Pan3d.SkillBugBind();
-                    $SkillBugBind.bindMatrix = new Matrix3D;
-                    $SkillBugBind.bindMatrix.appendRotation(this.rotation.x, Vector3D.X_AXIS);
-                    $SkillBugBind.bindMatrix.appendRotation(this.rotation.y, Vector3D.Y_AXIS);
-                    $SkillBugBind.bindMatrix.appendRotation(this.rotation.z, Vector3D.Z_AXIS);
-                    $SkillBugBind.bindMatrix.appendRotation(this.active.rotationY, Vector3D.Y_AXIS);
-                    $SkillBugBind.bindMatrix.appendTranslation(v3d.x, v3d.y, v3d.z);
-                    this.particle.bindTarget = $SkillBugBind;
-                }
-            };
-            return OverrideSkillFixEffect;
-        }(Pan3d.SkillFixEffect));
-        me.OverrideSkillFixEffect = OverrideSkillFixEffect;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            this.particle.reset();
+            this.particle.sceneVisible = true;
+            this.skill.skillManager.sceneManager.particleManager.addParticle(this.particle);
+            this.particle.addEventListener(BaseEvent.COMPLETE, this.onPlayCom, this);
+            if (this.outPos) {
+                this.particle.x = this.outPos.x;
+                this.particle.y = this.outPos.y;
+                this.particle.z = this.outPos.z;
+                this.particle.rotationX = this.rotation.x;
+                this.particle.rotationY = this.rotation.y + this.active.rotationY;
+                this.particle.rotationZ = this.rotation.z;
+                this.particle.bindTarget = null;
+            }
+            else if (this.hasSocket) {
+                var targetActive = this.active;
+                this.particle.bindTarget = (targetActive);
+                this.particle.bindSocket = this.socket;
+            }
+            else {
+                var ma = new Matrix3D;
+                ma.appendRotation(this.active.rotationY, Vector3D.Y_AXIS);
+                var v3d = ma.transformVector(this.pos);
+                v3d.x += this.active.x;
+                v3d.y += this.active.y;
+                v3d.z += this.active.z;
+                var $SkillBugBind = new Pan3d.SkillBugBind();
+                $SkillBugBind.bindMatrix = new Matrix3D;
+                $SkillBugBind.bindMatrix.appendRotation(this.rotation.x, Vector3D.X_AXIS);
+                $SkillBugBind.bindMatrix.appendRotation(this.rotation.y, Vector3D.Y_AXIS);
+                $SkillBugBind.bindMatrix.appendRotation(this.rotation.z, Vector3D.Z_AXIS);
+                $SkillBugBind.bindMatrix.appendRotation(this.active.rotationY, Vector3D.Y_AXIS);
+                $SkillBugBind.bindMatrix.appendTranslation(v3d.x, v3d.y, v3d.z);
+                this.particle.bindTarget = $SkillBugBind;
+            }
+        };
+        return OverrideSkillFixEffect;
+    }(Pan3d.SkillFixEffect));
+    layapan_me.OverrideSkillFixEffect = OverrideSkillFixEffect;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=OverrideSkillFixEffect.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35498,21 +35504,18 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var ShadowManager = Pan3d.ShadowManager;
-        var LayaOverrideShadowManager = /** @class */ (function (_super) {
-            __extends(LayaOverrideShadowManager, _super);
-            function LayaOverrideShadowManager() {
-                return _super.call(this) || this;
-            }
-            return LayaOverrideShadowManager;
-        }(ShadowManager));
-        me.LayaOverrideShadowManager = LayaOverrideShadowManager;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+var layapan_me;
+(function (layapan_me) {
+    var ShadowManager = Pan3d.ShadowManager;
+    var LayaOverrideShadowManager = /** @class */ (function (_super) {
+        __extends(LayaOverrideShadowManager, _super);
+        function LayaOverrideShadowManager() {
+            return _super.call(this) || this;
+        }
+        return LayaOverrideShadowManager;
+    }(ShadowManager));
+    layapan_me.LayaOverrideShadowManager = LayaOverrideShadowManager;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverrideShadowManager.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35527,405 +35530,402 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var Shader3D = Pan3d.Shader3D;
-        var Display3DParticle = Pan3d.Display3DParticle;
-        var CombineParticle = Pan3d.CombineParticle;
-        var CombineParticleData = Pan3d.CombineParticleData;
-        var ParticleManager = Pan3d.ParticleManager;
-        var LoadManager = Pan3d.LoadManager;
-        var TextureManager = Pan3d.TextureManager;
-        var Scene_data = Pan3d.Scene_data;
-        var Frame3DParticleShader = /** @class */ (function (_super) {
-            __extends(Frame3DParticleShader, _super);
-            function Frame3DParticleShader() {
-                return _super.call(this) || this;
-            }
-            Frame3DParticleShader.prototype.binLocation = function ($context) {
-                $context.bindAttribLocation(this.program, 0, "v3Position");
-                $context.bindAttribLocation(this.program, 1, "u2Texture");
-            };
-            Frame3DParticleShader.prototype.getVertexShaderString = function () {
-                var $str = "attribute vec3 v3Position;" +
-                    "attribute vec2 u2Texture;" +
-                    "uniform mat4 viewMatrix3D;" +
-                    "uniform mat4 camMatrix3D;" +
-                    "uniform mat4 posMatrix3D;" +
-                    "varying vec2 v_texCoord;" +
-                    "void main(void)" +
-                    "{" +
-                    "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
-                    "   vec4 vt0= vec4(v3Position, 1.0);" +
-                    "   vt0 = posMatrix3D * vt0;" +
-                    "   vt0 = camMatrix3D * vt0;" +
-                    "   vt0 = viewMatrix3D * vt0;" +
-                    "   gl_Position = vt0;" +
-                    "}";
-                return $str;
-            };
-            Frame3DParticleShader.prototype.getFragmentShaderString = function () {
-                var $str = "precision mediump float;\n" +
-                    "uniform sampler2D s_texture;\n" +
-                    "varying vec2 v_texCoord;\n" +
-                    "void main(void)\n" +
-                    "{\n" +
-                    "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                    "infoUv.xyz =infoUv.xyz*infoUv.w;\n" +
-                    "gl_FragColor =infoUv;\n" +
-                    "}";
-                return $str;
-            };
-            Frame3DParticleShader.Frame3DParticleShader = "Frame3DParticleShader";
-            return Frame3DParticleShader;
-        }(Shader3D));
-        me.Frame3DParticleShader = Frame3DParticleShader;
-        var Frame3DParticle = /** @class */ (function (_super) {
-            __extends(Frame3DParticle, _super);
-            function Frame3DParticle() {
-                var _this = _super.call(this) || this;
-                _this.beginTime = 0;
-                Pan3d.ProgrmaManager.getInstance().registe(Frame3DParticleShader.Frame3DParticleShader, new Frame3DParticleShader);
-                _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DParticleShader.Frame3DParticleShader);
-                _this.initData();
-                return _this;
-            }
-            Frame3DParticle.prototype.updateTime = function (t) {
-                this._time = t - this.beginTime;
-                if (this.frameTextureItem) {
-                    if (!this.loop) {
-                        if (this._time > (this.speedTm * this.frameTextureItem.length)) {
-                            this.visible = false;
-                        }
+var layapan_me;
+(function (layapan_me) {
+    var Shader3D = Pan3d.Shader3D;
+    var Display3DParticle = Pan3d.Display3DParticle;
+    var CombineParticle = Pan3d.CombineParticle;
+    var CombineParticleData = Pan3d.CombineParticleData;
+    var ParticleManager = Pan3d.ParticleManager;
+    var LoadManager = Pan3d.LoadManager;
+    var TextureManager = Pan3d.TextureManager;
+    var Scene_data = Pan3d.Scene_data;
+    var Frame3DParticleShader = /** @class */ (function (_super) {
+        __extends(Frame3DParticleShader, _super);
+        function Frame3DParticleShader() {
+            return _super.call(this) || this;
+        }
+        Frame3DParticleShader.prototype.binLocation = function ($context) {
+            $context.bindAttribLocation(this.program, 0, "v3Position");
+            $context.bindAttribLocation(this.program, 1, "u2Texture");
+        };
+        Frame3DParticleShader.prototype.getVertexShaderString = function () {
+            var $str = "attribute vec3 v3Position;" +
+                "attribute vec2 u2Texture;" +
+                "uniform mat4 viewMatrix3D;" +
+                "uniform mat4 camMatrix3D;" +
+                "uniform mat4 posMatrix3D;" +
+                "varying vec2 v_texCoord;" +
+                "void main(void)" +
+                "{" +
+                "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                "   vec4 vt0= vec4(v3Position, 1.0);" +
+                "   vt0 = posMatrix3D * vt0;" +
+                "   vt0 = camMatrix3D * vt0;" +
+                "   vt0 = viewMatrix3D * vt0;" +
+                "   gl_Position = vt0;" +
+                "}";
+            return $str;
+        };
+        Frame3DParticleShader.prototype.getFragmentShaderString = function () {
+            var $str = "precision mediump float;\n" +
+                "uniform sampler2D s_texture;\n" +
+                "varying vec2 v_texCoord;\n" +
+                "void main(void)\n" +
+                "{\n" +
+                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
+                "infoUv.xyz =infoUv.xyz*infoUv.w;\n" +
+                "gl_FragColor =infoUv;\n" +
+                "}";
+            return $str;
+        };
+        Frame3DParticleShader.Frame3DParticleShader = "Frame3DParticleShader";
+        return Frame3DParticleShader;
+    }(Shader3D));
+    layapan_me.Frame3DParticleShader = Frame3DParticleShader;
+    var Frame3DParticle = /** @class */ (function (_super) {
+        __extends(Frame3DParticle, _super);
+        function Frame3DParticle() {
+            var _this = _super.call(this) || this;
+            _this.beginTime = 0;
+            Pan3d.ProgrmaManager.getInstance().registe(Frame3DParticleShader.Frame3DParticleShader, new Frame3DParticleShader);
+            _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DParticleShader.Frame3DParticleShader);
+            _this.initData();
+            return _this;
+        }
+        Frame3DParticle.prototype.updateTime = function (t) {
+            this._time = t - this.beginTime;
+            if (this.frameTextureItem) {
+                if (!this.loop) {
+                    if (this._time > (this.speedTm * this.frameTextureItem.length)) {
+                        this.visible = false;
                     }
-                    var skipId = Math.floor(this._time / this.speedTm);
-                    this._uvTextureRes = this.frameTextureItem[skipId % this.frameTextureItem.length];
                 }
-            };
-            Frame3DParticle.prototype.initData = function () {
-                if (Frame3DParticle.baseFrameObjData) {
-                    this.objData = Frame3DParticle.baseFrameObjData;
-                    return;
-                }
-                this.objData = new ObjData;
-                this.objData.vertices = new Array();
-                var tw = 100;
-                var th = 100;
-                this.objData.vertices.push(-tw, -th, 0);
-                this.objData.vertices.push(tw, -th, 0);
-                this.objData.vertices.push(tw, th, 0);
-                this.objData.vertices.push(-tw, th, 0);
-                this.objData.uvs = new Array();
-                this.objData.uvs.push(0, 1);
-                this.objData.uvs.push(1, 1);
-                this.objData.uvs.push(1, 0);
-                this.objData.uvs.push(0, 0);
-                this.objData.indexs = new Array();
-                this.objData.indexs.push(0, 1, 2);
-                this.objData.indexs.push(0, 2, 3);
-                this.upToGpu();
-                Frame3DParticle.baseFrameObjData = this.objData;
-            };
-            Frame3DParticle.prototype.makeFrameParticle = function (pathurl, fileBaseName, info) {
-                this.speedTm = 100; //默认为100毫秒一帧
-                this.picNum = 5; //默认只有一张图从0开始
-                this.loop = true;
-                for (var key in info) {
-                    this[key] = info[key];
-                }
-                this.loadTexture(pathurl, fileBaseName);
-            };
-            Frame3DParticle.getFrameParticle = function (pathurl, fileBaseName, info) {
-                var combineParticle = new CombineParticle();
-                combineParticle.url = pathurl + fileBaseName;
-                combineParticle.displayAry = new Array();
-                var tempDic = new Frame3DParticle();
-                combineParticle.displayAry.push(tempDic);
-                tempDic.bindVecter3d = combineParticle.bindVecter3d;
-                tempDic.makeFrameParticle(pathurl, fileBaseName, info);
-                return combineParticle;
-            };
-            Frame3DParticle.prototype.loadTexture = function (pathurl, fileBaseName) {
-                var _this = this;
-                this.frameTextureItem = new Array;
-                for (var i = 0; i < this.picNum; i++) {
-                    this.frameTextureItem.push(null);
-                    var url = pathurl + fileBaseName + i + ".png";
-                    //   url = "res/skill/10104_shifa/xulimengji_qishou_00001.png";
-                    TextureManager.getInstance().getTexture(url, function ($texture, $info) {
-                        _this.frameTextureItem[$info.id] = $texture;
-                    }, null, { id: i });
-                }
-            };
-            Frame3DParticle.prototype.upToGpu = function () {
-                if (this.objData.indexs.length) {
-                    this.objData.treNum = this.objData.indexs.length;
-                    this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
-                    this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
-                    this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
-                }
-            };
-            Frame3DParticle.prototype.update = function () {
-                if (!this.visible) {
-                    return;
-                }
-                if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
-                    Scene_data.context3D.setProgram(this.shader.program);
-                    this.posMatrix = new Pan3d.Matrix3D;
-                    if (this.bindVecter3d) {
-                        this.posMatrix.appendScale(2, 2, 1);
-                        this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z);
-                    }
-                    Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                    Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-                    Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-                    Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-                    Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-                    Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-                    Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-                }
-            };
-            return Frame3DParticle;
-        }(Display3DParticle));
-        me.Frame3DParticle = Frame3DParticle;
-        var AtlasFrameVo = /** @class */ (function () {
-            function AtlasFrameVo() {
+                var skipId = Math.floor(this._time / this.speedTm);
+                this._uvTextureRes = this.frameTextureItem[skipId % this.frameTextureItem.length];
             }
-            AtlasFrameVo.prototype.meshData = function (value) {
-                this.frame = value.frame;
-                this.sourceSize = value.sourceSize;
-                this.spriteSourceSize = value.spriteSourceSize;
-            };
-            return AtlasFrameVo;
-        }());
-        me.AtlasFrameVo = AtlasFrameVo;
-        var Frame3DAtlasShader = /** @class */ (function (_super) {
-            __extends(Frame3DAtlasShader, _super);
-            function Frame3DAtlasShader() {
-                return _super.call(this) || this;
+        };
+        Frame3DParticle.prototype.initData = function () {
+            if (Frame3DParticle.baseFrameObjData) {
+                this.objData = Frame3DParticle.baseFrameObjData;
+                return;
             }
-            Frame3DAtlasShader.prototype.binLocation = function ($context) {
-                $context.bindAttribLocation(this.program, 0, "v3Position");
-                $context.bindAttribLocation(this.program, 1, "u2Texture");
-            };
-            Frame3DAtlasShader.prototype.getVertexShaderString = function () {
-                var $str = "attribute vec3 v3Position;" +
-                    "attribute vec2 u2Texture;" +
-                    "uniform vec4 uvchange;" +
-                    "uniform mat4 viewMatrix3D;" +
-                    "uniform mat4 camMatrix3D;" +
-                    "uniform mat4 posMatrix3D;" +
-                    "varying vec2 v_texCoord;" +
-                    "void main(void)" +
-                    "{" +
-                    "   v_texCoord = vec2(u2Texture.x*uvchange.z+uvchange.x, u2Texture.y*uvchange.w+uvchange.y);" +
-                    "   vec4 vt0= vec4(v3Position, 1.0);" +
-                    "   vt0 = posMatrix3D * vt0;" +
-                    "   vt0 = camMatrix3D * vt0;" +
-                    "   vt0 = viewMatrix3D * vt0;" +
-                    "   vt0.z =v3Position.z;" +
-                    "   gl_Position = vt0;" +
-                    "}";
-                return $str;
-            };
-            Frame3DAtlasShader.prototype.getFragmentShaderString = function () {
-                var $str = "precision mediump float;\n" +
-                    "uniform sampler2D s_texture;\n" +
-                    "varying vec2 v_texCoord;\n" +
-                    "void main(void)\n" +
-                    "{\n" +
-                    "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                    "infoUv.xyz =infoUv.xyz*infoUv.w;\n" +
-                    "gl_FragColor =infoUv;\n" +
-                    "}";
-                return $str;
-            };
-            Frame3DAtlasShader.Frame3DAtlasShader = "Frame3DAtlasShader";
-            return Frame3DAtlasShader;
-        }(Shader3D));
-        me.Frame3DAtlasShader = Frame3DAtlasShader;
-        var Frame3DAtlasParticle = /** @class */ (function (_super) {
-            __extends(Frame3DAtlasParticle, _super);
-            function Frame3DAtlasParticle() {
-                var _this = _super.call(this) || this;
-                _this.uvchangeData = [0, 0, 1, 1];
-                _this.beginTime = 0;
-                Pan3d.ProgrmaManager.getInstance().registe(Frame3DAtlasShader.Frame3DAtlasShader, new Frame3DAtlasShader);
-                _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DAtlasShader.Frame3DAtlasShader);
-                _this.initData();
-                return _this;
+            this.objData = new ObjData;
+            this.objData.vertices = new Array();
+            var tw = 100;
+            var th = 100;
+            this.objData.vertices.push(-tw, -th, 0);
+            this.objData.vertices.push(tw, -th, 0);
+            this.objData.vertices.push(tw, th, 0);
+            this.objData.vertices.push(-tw, th, 0);
+            this.objData.uvs = new Array();
+            this.objData.uvs.push(0, 1);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(0, 0);
+            this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 1, 2);
+            this.objData.indexs.push(0, 2, 3);
+            this.upToGpu();
+            Frame3DParticle.baseFrameObjData = this.objData;
+        };
+        Frame3DParticle.prototype.makeFrameParticle = function (pathurl, fileBaseName, info) {
+            this.speedTm = 100; //默认为100毫秒一帧
+            this.picNum = 5; //默认只有一张图从0开始
+            this.loop = true;
+            for (var key in info) {
+                this[key] = info[key];
             }
-            Frame3DAtlasParticle.prototype.updateTime = function (t) {
-                this._time = t - this.beginTime;
-                if (this.frameInfoItem && this._uvTextureRes) {
-                    if (!this.loop) {
-                        if (this._time > this.timeLen) {
-                            this.visible = false;
-                        }
-                    }
-                    var skipId = Math.floor(this._time / (this.timeLen / this.frameInfoItem.length));
-                    var vo = this.frameInfoItem[skipId % this.frameInfoItem.length];
-                    this.uvchangeData[0] = vo.frame.x / this._uvTextureRes.width;
-                    this.uvchangeData[1] = vo.frame.y / this._uvTextureRes.height;
-                    this.uvchangeData[2] = vo.frame.w / this._uvTextureRes.width;
-                    this.uvchangeData[3] = vo.frame.h / this._uvTextureRes.height;
-                    this.scaleX = vo.sourceSize.w / 100 * this.frameScale;
-                    this.scaleY = vo.sourceSize.h / 100 * this.frameScale;
+            this.loadTexture(pathurl, fileBaseName);
+        };
+        Frame3DParticle.getFrameParticle = function (pathurl, fileBaseName, info) {
+            var combineParticle = new CombineParticle();
+            combineParticle.url = pathurl + fileBaseName;
+            combineParticle.displayAry = new Array();
+            var tempDic = new Frame3DParticle();
+            combineParticle.displayAry.push(tempDic);
+            tempDic.bindVecter3d = combineParticle.bindVecter3d;
+            tempDic.makeFrameParticle(pathurl, fileBaseName, info);
+            return combineParticle;
+        };
+        Frame3DParticle.prototype.loadTexture = function (pathurl, fileBaseName) {
+            var _this = this;
+            this.frameTextureItem = new Array;
+            for (var i = 0; i < this.picNum; i++) {
+                this.frameTextureItem.push(null);
+                var url = pathurl + fileBaseName + i + ".png";
+                //   url = "res/skill/10104_shifa/xulimengji_qishou_00001.png";
+                TextureManager.getInstance().getTexture(url, function ($texture, $info) {
+                    _this.frameTextureItem[$info.id] = $texture;
+                }, null, { id: i });
+            }
+        };
+        Frame3DParticle.prototype.upToGpu = function () {
+            if (this.objData.indexs.length) {
+                this.objData.treNum = this.objData.indexs.length;
+                this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
+                this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
+                this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
+            }
+        };
+        Frame3DParticle.prototype.update = function () {
+            if (!this.visible) {
+                return;
+            }
+            if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
+                Scene_data.context3D.setProgram(this.shader.program);
+                this.posMatrix = new Pan3d.Matrix3D;
+                if (this.bindVecter3d) {
+                    this.posMatrix.appendScale(2, 2, 1);
+                    this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z);
                 }
-            };
-            Frame3DAtlasParticle.prototype.initData = function () {
-                if (Frame3DAtlasParticle.baseFrameObjData) {
-                    this.objData = Frame3DAtlasParticle.baseFrameObjData;
-                    return;
-                }
-                this.objData = new ObjData;
-                this.objData.vertices = new Array();
-                var tw = 50;
-                var th = 50;
-                this.objData.vertices.push(-tw, -th, 0.9);
-                this.objData.vertices.push(tw, -th, 0.9);
-                this.objData.vertices.push(tw, th, 0.9);
-                this.objData.vertices.push(-tw, th, 0.9);
-                this.objData.uvs = new Array();
-                this.objData.uvs.push(0, 1);
-                this.objData.uvs.push(1, 1);
-                this.objData.uvs.push(1, 0);
-                this.objData.uvs.push(0, 0);
-                this.objData.indexs = new Array();
-                this.objData.indexs.push(0, 1, 2);
-                this.objData.indexs.push(0, 2, 3);
-                this.upToGpu();
-                Frame3DAtlasParticle.baseFrameObjData = this.objData;
-            };
-            Frame3DAtlasParticle.prototype.makeFrameParticle = function (pathurl, fileBaseName, info) {
-                this.frameScale = 1;
-                this.isShow = true;
-                for (var key in info) {
-                    this[key] = info[key];
-                }
-                this.LoadAtlas(pathurl, fileBaseName);
-            };
-            Frame3DAtlasParticle.prototype.LoadAtlas = function (pathurl, fileBaseName) {
-                var _this = this;
-                LoadManager.getInstance().load(pathurl + fileBaseName + ".atlas", LoadManager.XML_TYPE, function ($data) {
-                    var $obj = Array(JSON.parse($data))[0];
-                    _this.frameInfoItem = [];
-                    for (var key in $obj.frames) {
-                        var $atlasFrameVo = new AtlasFrameVo();
-                        $atlasFrameVo.meshData($obj.frames[key]);
-                        $atlasFrameVo.key = key;
-                        _this.frameInfoItem.push($atlasFrameVo);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+                Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
+                Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
+                Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+                Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
+            }
+        };
+        return Frame3DParticle;
+    }(Display3DParticle));
+    layapan_me.Frame3DParticle = Frame3DParticle;
+    var AtlasFrameVo = /** @class */ (function () {
+        function AtlasFrameVo() {
+        }
+        AtlasFrameVo.prototype.meshData = function (value) {
+            this.frame = value.frame;
+            this.sourceSize = value.sourceSize;
+            this.spriteSourceSize = value.spriteSourceSize;
+        };
+        return AtlasFrameVo;
+    }());
+    layapan_me.AtlasFrameVo = AtlasFrameVo;
+    var Frame3DAtlasShader = /** @class */ (function (_super) {
+        __extends(Frame3DAtlasShader, _super);
+        function Frame3DAtlasShader() {
+            return _super.call(this) || this;
+        }
+        Frame3DAtlasShader.prototype.binLocation = function ($context) {
+            $context.bindAttribLocation(this.program, 0, "v3Position");
+            $context.bindAttribLocation(this.program, 1, "u2Texture");
+        };
+        Frame3DAtlasShader.prototype.getVertexShaderString = function () {
+            var $str = "attribute vec3 v3Position;" +
+                "attribute vec2 u2Texture;" +
+                "uniform vec4 uvchange;" +
+                "uniform mat4 viewMatrix3D;" +
+                "uniform mat4 camMatrix3D;" +
+                "uniform mat4 posMatrix3D;" +
+                "varying vec2 v_texCoord;" +
+                "void main(void)" +
+                "{" +
+                "   v_texCoord = vec2(u2Texture.x*uvchange.z+uvchange.x, u2Texture.y*uvchange.w+uvchange.y);" +
+                "   vec4 vt0= vec4(v3Position, 1.0);" +
+                "   vt0 = posMatrix3D * vt0;" +
+                "   vt0 = camMatrix3D * vt0;" +
+                "   vt0 = viewMatrix3D * vt0;" +
+                "   vt0.z =v3Position.z;" +
+                "   gl_Position = vt0;" +
+                "}";
+            return $str;
+        };
+        Frame3DAtlasShader.prototype.getFragmentShaderString = function () {
+            var $str = "precision mediump float;\n" +
+                "uniform sampler2D s_texture;\n" +
+                "varying vec2 v_texCoord;\n" +
+                "void main(void)\n" +
+                "{\n" +
+                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
+                "infoUv.xyz =infoUv.xyz*infoUv.w;\n" +
+                "gl_FragColor =infoUv;\n" +
+                "}";
+            return $str;
+        };
+        Frame3DAtlasShader.Frame3DAtlasShader = "Frame3DAtlasShader";
+        return Frame3DAtlasShader;
+    }(Shader3D));
+    layapan_me.Frame3DAtlasShader = Frame3DAtlasShader;
+    var Frame3DAtlasParticle = /** @class */ (function (_super) {
+        __extends(Frame3DAtlasParticle, _super);
+        function Frame3DAtlasParticle() {
+            var _this = _super.call(this) || this;
+            _this.uvchangeData = [0, 0, 1, 1];
+            _this.beginTime = 0;
+            Pan3d.ProgrmaManager.getInstance().registe(Frame3DAtlasShader.Frame3DAtlasShader, new Frame3DAtlasShader);
+            _this.shader = Pan3d.ProgrmaManager.getInstance().getProgram(Frame3DAtlasShader.Frame3DAtlasShader);
+            _this.initData();
+            return _this;
+        }
+        Frame3DAtlasParticle.prototype.updateTime = function (t) {
+            this._time = t - this.beginTime;
+            if (this.frameInfoItem && this._uvTextureRes) {
+                if (!this.loop) {
+                    if (this._time > this.timeLen) {
+                        this.visible = false;
                     }
-                    if (isNaN(_this.timeLen)) {
-                        _this.timeLen = _this.frameInfoItem.length * 100; //默认
-                    }
-                    TextureManager.getInstance().getTexture(pathurl + $obj.meta.image, function ($texture, $info) {
-                        _this._uvTextureRes = $texture;
-                    });
+                }
+                var skipId = Math.floor(this._time / (this.timeLen / this.frameInfoItem.length));
+                var vo = this.frameInfoItem[skipId % this.frameInfoItem.length];
+                this.uvchangeData[0] = vo.frame.x / this._uvTextureRes.width;
+                this.uvchangeData[1] = vo.frame.y / this._uvTextureRes.height;
+                this.uvchangeData[2] = vo.frame.w / this._uvTextureRes.width;
+                this.uvchangeData[3] = vo.frame.h / this._uvTextureRes.height;
+                this.scaleX = vo.sourceSize.w / 100 * this.frameScale;
+                this.scaleY = vo.sourceSize.h / 100 * this.frameScale;
+            }
+        };
+        Frame3DAtlasParticle.prototype.initData = function () {
+            if (Frame3DAtlasParticle.baseFrameObjData) {
+                this.objData = Frame3DAtlasParticle.baseFrameObjData;
+                return;
+            }
+            this.objData = new ObjData;
+            this.objData.vertices = new Array();
+            var tw = 50;
+            var th = 50;
+            this.objData.vertices.push(-tw, -th, 0.9);
+            this.objData.vertices.push(tw, -th, 0.9);
+            this.objData.vertices.push(tw, th, 0.9);
+            this.objData.vertices.push(-tw, th, 0.9);
+            this.objData.uvs = new Array();
+            this.objData.uvs.push(0, 1);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(0, 0);
+            this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 1, 2);
+            this.objData.indexs.push(0, 2, 3);
+            this.upToGpu();
+            Frame3DAtlasParticle.baseFrameObjData = this.objData;
+        };
+        Frame3DAtlasParticle.prototype.makeFrameParticle = function (pathurl, fileBaseName, info) {
+            this.frameScale = 1;
+            this.isShow = true;
+            for (var key in info) {
+                this[key] = info[key];
+            }
+            this.LoadAtlas(pathurl, fileBaseName);
+        };
+        Frame3DAtlasParticle.prototype.LoadAtlas = function (pathurl, fileBaseName) {
+            var _this = this;
+            LoadManager.getInstance().load(pathurl + fileBaseName + ".atlas", LoadManager.XML_TYPE, function ($data) {
+                var $obj = Array(JSON.parse($data))[0];
+                _this.frameInfoItem = [];
+                for (var key in $obj.frames) {
+                    var $atlasFrameVo = new AtlasFrameVo();
+                    $atlasFrameVo.meshData($obj.frames[key]);
+                    $atlasFrameVo.key = key;
+                    _this.frameInfoItem.push($atlasFrameVo);
+                }
+                if (isNaN(_this.timeLen)) {
+                    _this.timeLen = _this.frameInfoItem.length * 100; //默认
+                }
+                TextureManager.getInstance().getTexture(pathurl + $obj.meta.image, function ($texture, $info) {
+                    _this._uvTextureRes = $texture;
                 });
-            };
-            Frame3DAtlasParticle.getFrameParticle = function (pathurl, fileBaseName, info) {
-                var combineParticle = new CombineParticle();
-                combineParticle.url = pathurl + fileBaseName;
-                combineParticle.displayAry = new Array();
-                var tempDic = new Frame3DAtlasParticle();
-                combineParticle.displayAry.push(tempDic);
-                tempDic.bindVecter3d = combineParticle.bindVecter3d;
-                tempDic.makeFrameParticle(pathurl, fileBaseName, info);
-                return combineParticle;
-            };
-            Frame3DAtlasParticle.prototype.upToGpu = function () {
-                if (this.objData.indexs.length) {
-                    this.objData.treNum = this.objData.indexs.length;
-                    this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
-                    this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
-                    this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
-                }
-            };
-            Frame3DAtlasParticle.prototype.update = function () {
-                if (!this.visible) {
-                    return;
-                }
-                if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
-                    if (this.isShow) {
-                        Scene_data.context3D.setWriteDepth(false);
-                        Scene_data.context3D.setDepthTest(false);
-                    }
-                    else {
-                        Scene_data.context3D.setWriteDepth(false);
-                        Scene_data.context3D.setDepthTest(true);
-                    }
-                    Scene_data.context3D.setProgram(this.shader.program);
-                    this.posMatrix = new Pan3d.Matrix3D;
-                    this.posMatrix.appendScale(this.scaleX, this.scaleY, 1);
-                    if (this.bindVecter3d) {
-                        this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z);
-                    }
-                    Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                    Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-                    Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-                    Scene_data.context3D.setVc4fv(this.shader, "uvchange", this.uvchangeData);
-                    Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-                    Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-                    Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-                    Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-                    if (this.isShow) {
-                        Scene_data.context3D.setWriteDepth(true);
-                        Scene_data.context3D.setDepthTest(true);
-                    }
-                }
-            };
-            return Frame3DAtlasParticle;
-        }(Display3DParticle));
-        me.Frame3DAtlasParticle = Frame3DAtlasParticle;
-        var LayaOverride2dParticleManager = /** @class */ (function (_super) {
-            __extends(LayaOverride2dParticleManager, _super);
-            function LayaOverride2dParticleManager() {
-                return _super.call(this) || this;
+            });
+        };
+        Frame3DAtlasParticle.getFrameParticle = function (pathurl, fileBaseName, info) {
+            var combineParticle = new CombineParticle();
+            combineParticle.url = pathurl + fileBaseName;
+            combineParticle.displayAry = new Array();
+            var tempDic = new Frame3DAtlasParticle();
+            combineParticle.displayAry.push(tempDic);
+            tempDic.bindVecter3d = combineParticle.bindVecter3d;
+            tempDic.makeFrameParticle(pathurl, fileBaseName, info);
+            return combineParticle;
+        };
+        Frame3DAtlasParticle.prototype.upToGpu = function () {
+            if (this.objData.indexs.length) {
+                this.objData.treNum = this.objData.indexs.length;
+                this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
+                this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
+                this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
             }
-            LayaOverride2dParticleManager.prototype.getParticleByte = function ($url) {
-                $url = $url.replace("_byte.txt", ".txt");
-                $url = $url.replace(".txt", "_byte.txt");
-                var combineParticle = new CombineParticle();
-                var url = $url;
-                if (ParticleManager.getInstance()._dic[url]) {
-                    var baseData = ParticleManager.getInstance()._dic[url];
-                    combineParticle = baseData.getCombineParticle();
+        };
+        Frame3DAtlasParticle.prototype.update = function () {
+            if (!this.visible) {
+                return;
+            }
+            if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
+                if (this.isShow) {
+                    Scene_data.context3D.setWriteDepth(false);
+                    Scene_data.context3D.setDepthTest(false);
                 }
-                combineParticle.url = url;
-                return combineParticle;
-            };
-            LayaOverride2dParticleManager.prototype.registerUrl = function ($url) {
-                $url = $url.replace("_byte.txt", ".txt");
-                $url = $url.replace(".txt", "_byte.txt");
-                if (ParticleManager.getInstance()._dic[$url]) {
-                    var baseData = ParticleManager.getInstance()._dic[$url];
-                    baseData.useNum++;
+                else {
+                    Scene_data.context3D.setWriteDepth(false);
+                    Scene_data.context3D.setDepthTest(true);
                 }
-            };
-            LayaOverride2dParticleManager.prototype.releaseUrl = function ($url) {
-                $url = $url.replace("_byte.txt", ".txt");
-                $url = $url.replace(".txt", "_byte.txt");
-                if (ParticleManager.getInstance()._dic[$url]) {
-                    var baseData = ParticleManager.getInstance()._dic[$url];
-                    baseData.clearUseNum();
+                Scene_data.context3D.setProgram(this.shader.program);
+                this.posMatrix = new Pan3d.Matrix3D;
+                this.posMatrix.appendScale(this.scaleX, this.scaleY, 1);
+                if (this.bindVecter3d) {
+                    this.posMatrix.appendTranslation(this.bindVecter3d.x, this.bindVecter3d.y, this.bindVecter3d.z);
                 }
-            };
-            LayaOverride2dParticleManager.prototype.addResByte = function ($url, $data) {
-                if (!ParticleManager.getInstance()._dic[$url]) {
-                    var baseData = new CombineParticleData();
-                    ////console.log("load particle",$url);
-                    baseData.setDataByte($data);
-                    ParticleManager.getInstance()._dic[$url] = baseData;
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+                Scene_data.context3D.setVc4fv(this.shader, "uvchange", this.uvchangeData);
+                Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
+                Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
+                Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+                Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
+                if (this.isShow) {
+                    Scene_data.context3D.setWriteDepth(true);
+                    Scene_data.context3D.setDepthTest(true);
                 }
-            };
-            return LayaOverride2dParticleManager;
-        }(ParticleManager));
-        me.LayaOverride2dParticleManager = LayaOverride2dParticleManager;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            }
+        };
+        return Frame3DAtlasParticle;
+    }(Display3DParticle));
+    layapan_me.Frame3DAtlasParticle = Frame3DAtlasParticle;
+    var LayaOverride2dParticleManager = /** @class */ (function (_super) {
+        __extends(LayaOverride2dParticleManager, _super);
+        function LayaOverride2dParticleManager() {
+            return _super.call(this) || this;
+        }
+        LayaOverride2dParticleManager.prototype.getParticleByte = function ($url) {
+            $url = $url.replace("_byte.txt", ".txt");
+            $url = $url.replace(".txt", "_byte.txt");
+            var combineParticle = new CombineParticle();
+            var url = $url;
+            if (ParticleManager.getInstance()._dic[url]) {
+                var baseData = ParticleManager.getInstance()._dic[url];
+                combineParticle = baseData.getCombineParticle();
+            }
+            combineParticle.url = url;
+            return combineParticle;
+        };
+        LayaOverride2dParticleManager.prototype.registerUrl = function ($url) {
+            $url = $url.replace("_byte.txt", ".txt");
+            $url = $url.replace(".txt", "_byte.txt");
+            if (ParticleManager.getInstance()._dic[$url]) {
+                var baseData = ParticleManager.getInstance()._dic[$url];
+                baseData.useNum++;
+            }
+        };
+        LayaOverride2dParticleManager.prototype.releaseUrl = function ($url) {
+            $url = $url.replace("_byte.txt", ".txt");
+            $url = $url.replace(".txt", "_byte.txt");
+            if (ParticleManager.getInstance()._dic[$url]) {
+                var baseData = ParticleManager.getInstance()._dic[$url];
+                baseData.clearUseNum();
+            }
+        };
+        LayaOverride2dParticleManager.prototype.addResByte = function ($url, $data) {
+            if (!ParticleManager.getInstance()._dic[$url]) {
+                var baseData = new CombineParticleData();
+                ////console.log("load particle",$url);
+                baseData.setDataByte($data);
+                ParticleManager.getInstance()._dic[$url] = baseData;
+            }
+        };
+        return LayaOverride2dParticleManager;
+    }(ParticleManager));
+    layapan_me.LayaOverride2dParticleManager = LayaOverride2dParticleManager;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverride2dParticleManager.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35940,32 +35940,29 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var LayaOverride2dEngine = /** @class */ (function (_super) {
-            __extends(LayaOverride2dEngine, _super);
-            function LayaOverride2dEngine() {
-                return _super.call(this) || this;
-            }
-            LayaOverride2dEngine.initConfig = function () {
-                var _this = this;
-                Pan3d.UIData.resize = function () { _this.uiScaleresize(); }; //更换update
-                Pan3d.Engine.update = function () { _this.update(); }; //更换update
-                Pan3d.Engine.init = function ($caves) { scene2d_me.Override2dEngine.init($caves); }; //更换引擎初始化
-                Pan3d.Engine.resetSize = function (width, height) { scene2d_me.Override2dEngine.resetSize(width, height); }; //更尺寸变化
-                Pan3d.Engine.resetViewMatrx3D = function () { scene2d_me.Override2dEngine.resetViewMatrx3D(); };
-            };
-            LayaOverride2dEngine.uiScaleresize = function () {
-                console.log("重置什么也不做");
-                Pan3d.UIData.Scale = 1;
-            };
-            return LayaOverride2dEngine;
-        }(scene3d_me.OverrideEngine));
-        me.LayaOverride2dEngine = LayaOverride2dEngine;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+var layapan_me;
+(function (layapan_me) {
+    var LayaOverride2dEngine = /** @class */ (function (_super) {
+        __extends(LayaOverride2dEngine, _super);
+        function LayaOverride2dEngine() {
+            return _super.call(this) || this;
+        }
+        LayaOverride2dEngine.initConfig = function () {
+            var _this = this;
+            Pan3d.UIData.resize = function () { _this.uiScaleresize(); }; //更换update
+            Pan3d.Engine.update = function () { _this.update(); }; //更换update
+            Pan3d.Engine.init = function ($caves) { scene2d_me.Override2dEngine.init($caves); }; //更换引擎初始化
+            Pan3d.Engine.resetSize = function (width, height) { scene2d_me.Override2dEngine.resetSize(width, height); }; //更尺寸变化
+            Pan3d.Engine.resetViewMatrx3D = function () { scene2d_me.Override2dEngine.resetViewMatrx3D(); };
+        };
+        LayaOverride2dEngine.uiScaleresize = function () {
+            console.log("重置什么也不做");
+            Pan3d.UIData.Scale = 1;
+        };
+        return LayaOverride2dEngine;
+    }(scene3d_me.OverrideEngine));
+    layapan_me.LayaOverride2dEngine = LayaOverride2dEngine;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverride2dEngine.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -35980,121 +35977,118 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var ResManager = Pan3d.ResManager;
-        var Scene_data = Pan3d.Scene_data;
-        var SkillData = Pan3d.SkillData;
-        var SkillManager = Pan3d.SkillManager;
-        var LayaOverride2dSkillManager = /** @class */ (function (_super) {
-            __extends(LayaOverride2dSkillManager, _super);
-            function LayaOverride2dSkillManager($sceneManager) {
-                var _this = _super.call(this) || this;
-                _this.sceneManager = $sceneManager;
-                return _this;
+var layapan_me;
+(function (layapan_me) {
+    var ResManager = Pan3d.ResManager;
+    var Scene_data = Pan3d.Scene_data;
+    var SkillData = Pan3d.SkillData;
+    var SkillManager = Pan3d.SkillManager;
+    var LayaOverride2dSkillManager = /** @class */ (function (_super) {
+        __extends(LayaOverride2dSkillManager, _super);
+        function LayaOverride2dSkillManager($sceneManager) {
+            var _this = _super.call(this) || this;
+            _this.sceneManager = $sceneManager;
+            return _this;
+        }
+        LayaOverride2dSkillManager.prototype.addSrc = function ($url, skillData) {
+            for (var key in skillData.data) {
+                var skill = new layapan_me.OverrideSkill(this);
+                skill.name = key;
+                skill.isDeath = true;
+                skill.src = true;
+                skill.setData(skillData.data[key], skillData);
+                skillData.addSrcSkill(skill);
+                //skillData.useNum++;
+                SkillManager.getInstance();
+                var dkey = $url + key;
+                if (!SkillManager.getInstance()._skillDic[dkey]) {
+                    SkillManager.getInstance()._skillDic[dkey] = new Array;
+                }
+                SkillManager.getInstance()._skillDic[dkey].push(skill);
             }
-            LayaOverride2dSkillManager.prototype.addSrc = function ($url, skillData) {
-                for (var key in skillData.data) {
-                    var skill = new me.OverrideSkill(this);
-                    skill.name = key;
-                    skill.isDeath = true;
-                    skill.src = true;
-                    skill.setData(skillData.data[key], skillData);
-                    skillData.addSrcSkill(skill);
-                    //skillData.useNum++;
-                    SkillManager.getInstance();
-                    var dkey = $url + key;
-                    if (!SkillManager.getInstance()._skillDic[dkey]) {
-                        SkillManager.getInstance()._skillDic[dkey] = new Array;
-                    }
-                    SkillManager.getInstance()._skillDic[dkey].push(skill);
-                }
-            };
-            LayaOverride2dSkillManager.prototype.playSkill = function ($skill) {
-                $skill.skillManager = this;
-                _super.prototype.playSkill.call(this, $skill);
-            };
-            LayaOverride2dSkillManager.prototype.getSkill = function ($url, $name, $callback) {
-                var _this = this;
-                if ($callback === void 0) { $callback = null; }
-                var skill;
-                var key = $url + $name;
-                // if(key == "skill/jichu_1_byte.txtm_skill_04"){
-                //     console.log("添加技能风暴");
-                //     this.fengbaonum++;
-                // }
-                var ary = SkillManager.getInstance()._skillDic[key];
-                if (ary) {
-                    for (var i = 0; i < ary.length; i++) {
-                        skill = ary[i];
-                        if (skill.isDeath && skill.useNum == 0) {
-                            skill.reset();
-                            skill.isDeath = false;
-                            return skill;
-                        }
+        };
+        LayaOverride2dSkillManager.prototype.playSkill = function ($skill) {
+            $skill.skillManager = this;
+            _super.prototype.playSkill.call(this, $skill);
+        };
+        LayaOverride2dSkillManager.prototype.getSkill = function ($url, $name, $callback) {
+            var _this = this;
+            if ($callback === void 0) { $callback = null; }
+            var skill;
+            var key = $url + $name;
+            // if(key == "skill/jichu_1_byte.txtm_skill_04"){
+            //     console.log("添加技能风暴");
+            //     this.fengbaonum++;
+            // }
+            var ary = SkillManager.getInstance()._skillDic[key];
+            if (ary) {
+                for (var i = 0; i < ary.length; i++) {
+                    skill = ary[i];
+                    if (skill.isDeath && skill.useNum == 0) {
+                        skill.reset();
+                        skill.isDeath = false;
+                        return skill;
                     }
                 }
-                skill = new me.OverrideSkill(this);
-                skill.name = $name;
-                skill.isDeath = false;
-                if (!SkillManager.getInstance()._skillDic[key]) {
-                    SkillManager.getInstance()._skillDic[key] = new Array;
-                }
-                SkillManager.getInstance()._skillDic[key].push(skill);
-                if (this._dic[$url]) {
-                    skill.setData(this._dic[$url].data[skill.name], this._dic[$url]);
-                    skill.key = key;
-                    this._dic[$url].useNum++;
-                    return skill;
-                }
-                if (SkillManager.getInstance()._loadDic[$url]) {
-                    var obj = new Object;
-                    obj.name = $name;
-                    obj.skill = skill;
-                    obj.callback = $callback;
-                    SkillManager.getInstance()._loadDic[$url].push(obj);
-                    return skill;
-                }
-                SkillManager.getInstance()._loadDic[$url] = new Array;
+            }
+            skill = new layapan_me.OverrideSkill(this);
+            skill.name = $name;
+            skill.isDeath = false;
+            if (!SkillManager.getInstance()._skillDic[key]) {
+                SkillManager.getInstance()._skillDic[key] = new Array;
+            }
+            SkillManager.getInstance()._skillDic[key].push(skill);
+            if (this._dic[$url]) {
+                skill.setData(this._dic[$url].data[skill.name], this._dic[$url]);
+                skill.key = key;
+                this._dic[$url].useNum++;
+                return skill;
+            }
+            if (SkillManager.getInstance()._loadDic[$url]) {
                 var obj = new Object;
                 obj.name = $name;
                 obj.skill = skill;
                 obj.callback = $callback;
                 SkillManager.getInstance()._loadDic[$url].push(obj);
-                ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + $url, function ($skillRes) {
-                    _this.loadSkillCom($url, $skillRes);
-                });
                 return skill;
-            };
-            LayaOverride2dSkillManager.prototype.loadSkillCom = function ($url, $skillRes) {
-                var skillData = new SkillData();
-                skillData.data = $skillRes.data;
-                for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
-                    var obj = SkillManager.getInstance()._loadDic[$url][i];
-                    if (!obj.skill.hasDestory) {
-                        obj.skill.setData(skillData.data[obj.name], skillData);
-                        obj.skill.key = $url + obj.name;
-                        skillData.useNum++;
-                    }
+            }
+            SkillManager.getInstance()._loadDic[$url] = new Array;
+            var obj = new Object;
+            obj.name = $name;
+            obj.skill = skill;
+            obj.callback = $callback;
+            SkillManager.getInstance()._loadDic[$url].push(obj);
+            ResManager.getInstance().loadSkillRes(Scene_data.fileRoot + $url, function ($skillRes) {
+                _this.loadSkillCom($url, $skillRes);
+            });
+            return skill;
+        };
+        LayaOverride2dSkillManager.prototype.loadSkillCom = function ($url, $skillRes) {
+            var skillData = new SkillData();
+            skillData.data = $skillRes.data;
+            for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
+                var obj = SkillManager.getInstance()._loadDic[$url][i];
+                if (!obj.skill.hasDestory) {
+                    obj.skill.setData(skillData.data[obj.name], skillData);
+                    obj.skill.key = $url + obj.name;
+                    skillData.useNum++;
                 }
-                this._dic[$url] = skillData;
-                this.addSrc($url, skillData);
-                for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
-                    var obj = SkillManager.getInstance()._loadDic[$url][i];
-                    if (obj.callback) {
-                        obj.callback();
-                    }
+            }
+            this._dic[$url] = skillData;
+            this.addSrc($url, skillData);
+            for (var i = 0; i < SkillManager.getInstance()._loadDic[$url].length; i++) {
+                var obj = SkillManager.getInstance()._loadDic[$url][i];
+                if (obj.callback) {
+                    obj.callback();
                 }
-                SkillManager.getInstance()._loadDic[$url].length = 0;
-                SkillManager.getInstance()._loadDic[$url] = null;
-            };
-            return LayaOverride2dSkillManager;
-        }(SkillManager));
-        me.LayaOverride2dSkillManager = LayaOverride2dSkillManager;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            }
+            SkillManager.getInstance()._loadDic[$url].length = 0;
+            SkillManager.getInstance()._loadDic[$url] = null;
+        };
+        return LayaOverride2dSkillManager;
+    }(SkillManager));
+    layapan_me.LayaOverride2dSkillManager = LayaOverride2dSkillManager;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverride2dSkillManager.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36109,68 +36103,65 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var LayaGroupRes = /** @class */ (function (_super) {
-            __extends(LayaGroupRes, _super);
-            function LayaGroupRes() {
-                return _super.call(this) || this;
+var layapan_me;
+(function (layapan_me) {
+    var LayaGroupRes = /** @class */ (function (_super) {
+        __extends(LayaGroupRes, _super);
+        function LayaGroupRes() {
+            return _super.call(this) || this;
+        }
+        LayaGroupRes.prototype.readParticle = function () {
+            var objNum = this._byte.readInt();
+            //this.particleAry = new Array;
+            var time = Pan3d.TimeUtil.getTimer();
+            for (var i = 0; i < objNum; i++) {
+                var url = Pan3d.Scene_data.fileRoot + this._byte.readUTF();
+                var size = this._byte.readInt();
+                var dataByte = new Pan3d.Pan3dByteArray;
+                dataByte.length = size;
+                this._byte.readBytes(dataByte, 0, size);
+                this.scene.particleManager.addResByte(url, dataByte);
             }
-            LayaGroupRes.prototype.readParticle = function () {
-                var objNum = this._byte.readInt();
-                //this.particleAry = new Array;
-                var time = Pan3d.TimeUtil.getTimer();
-                for (var i = 0; i < objNum; i++) {
-                    var url = Pan3d.Scene_data.fileRoot + this._byte.readUTF();
-                    var size = this._byte.readInt();
-                    var dataByte = new Pan3d.Pan3dByteArray;
-                    dataByte.length = size;
-                    this._byte.readBytes(dataByte, 0, size);
-                    this.scene.particleManager.addResByte(url, dataByte);
-                }
-            };
-            return LayaGroupRes;
-        }(Pan3d.GroupRes));
-        me.LayaGroupRes = LayaGroupRes;
-        var LayaOverrideGroupDataManager = /** @class */ (function (_super) {
-            __extends(LayaOverrideGroupDataManager, _super);
-            function LayaOverrideGroupDataManager() {
-                return _super !== null && _super.apply(this, arguments) || this;
+        };
+        return LayaGroupRes;
+    }(Pan3d.GroupRes));
+    layapan_me.LayaGroupRes = LayaGroupRes;
+    var LayaOverrideGroupDataManager = /** @class */ (function (_super) {
+        __extends(LayaOverrideGroupDataManager, _super);
+        function LayaOverrideGroupDataManager() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        LayaOverrideGroupDataManager.prototype.getGroupData = function ($url, $fun) {
+            var _this = this;
+            if (this._dic[$url]) {
+                var gr = this._dic[$url];
+                gr.useNum++;
+                $fun(gr);
+                return;
             }
-            LayaOverrideGroupDataManager.prototype.getGroupData = function ($url, $fun) {
-                var _this = this;
-                if (this._dic[$url]) {
-                    var gr = this._dic[$url];
-                    gr.useNum++;
-                    $fun(gr);
-                    return;
-                }
-                if (this._loadDic[$url]) {
-                    this._loadDic[$url].push($fun);
-                    return;
-                }
-                this._loadDic[$url] = new Array;
+            if (this._loadDic[$url]) {
                 this._loadDic[$url].push($fun);
-                var group = new LayaGroupRes();
-                group.scene = this.scene;
-                group.load($url, function () {
-                    var ary = _this._loadDic[$url];
-                    for (var i = 0; i < ary.length; i++) {
-                        var fun = ary[i];
-                        fun(group);
-                    }
-                    _this._dic[$url] = group;
-                    delete _this._loadDic[$url];
-                    group.initReg();
-                });
-            };
-            return LayaOverrideGroupDataManager;
-        }(Pan3d.GroupDataManager));
-        me.LayaOverrideGroupDataManager = LayaOverrideGroupDataManager;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+                return;
+            }
+            this._loadDic[$url] = new Array;
+            this._loadDic[$url].push($fun);
+            var group = new LayaGroupRes();
+            group.scene = this.scene;
+            group.load($url, function () {
+                var ary = _this._loadDic[$url];
+                for (var i = 0; i < ary.length; i++) {
+                    var fun = ary[i];
+                    fun(group);
+                }
+                _this._dic[$url] = group;
+                delete _this._loadDic[$url];
+                group.initReg();
+            });
+        };
+        return LayaOverrideGroupDataManager;
+    }(Pan3d.GroupDataManager));
+    layapan_me.LayaOverrideGroupDataManager = LayaOverrideGroupDataManager;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverrideGroupDataManager.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36185,116 +36176,113 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var LayaOverride2dSceneManager = /** @class */ (function (_super) {
-            __extends(LayaOverride2dSceneManager, _super);
-            function LayaOverride2dSceneManager() {
-                var _this = _super.call(this) || this;
-                _this.particleManager = new me.LayaOverride2dParticleManager();
-                _this.shadowManager = new me.LayaOverrideShadowManager();
-                _this.skillManager = new me.LayaOverride2dSkillManager(_this);
-                _this.groupDataManager = new me.LayaOverrideGroupDataManager();
-                console.log("创建场景=>", LayaOverride2dSceneManager.sceneNum++);
-                return _this;
+var layapan_me;
+(function (layapan_me) {
+    var LayaOverride2dSceneManager = /** @class */ (function (_super) {
+        __extends(LayaOverride2dSceneManager, _super);
+        function LayaOverride2dSceneManager() {
+            var _this = _super.call(this) || this;
+            _this.particleManager = new layapan_me.LayaOverride2dParticleManager();
+            _this.shadowManager = new layapan_me.LayaOverrideShadowManager();
+            _this.skillManager = new layapan_me.LayaOverride2dSkillManager(_this);
+            _this.groupDataManager = new layapan_me.LayaOverrideGroupDataManager();
+            console.log("创建场景=>", LayaOverride2dSceneManager.sceneNum++);
+            return _this;
+        }
+        LayaOverride2dSceneManager.initConfig = function () {
+            Pan3d.SceneManager._instance = new LayaOverride2dSceneManager;
+        };
+        LayaOverride2dSceneManager.prototype.update = function () {
+            Pan3d.MathClass.getCamView(Pan3d.Scene_data.cam3D, Pan3d.Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+            scene2d_me.GroundModel.getInstance().update();
+            this.upFrame();
+        };
+        LayaOverride2dSceneManager.prototype.changeBloodManager = function ($bloodManager) {
+        };
+        LayaOverride2dSceneManager.prototype.addMovieDisplay = function ($display) {
+            $display._scene = this;
+            this._displayRoleList.push($display);
+            $display.addStage();
+        };
+        LayaOverride2dSceneManager.prototype.loadSceneConfigCom = function (obj) {
+            //保持原来的角度
+            var $rotationY = Pan3d.Scene_data.focus3D.rotationY;
+            _super.prototype.loadSceneConfigCom.call(this, obj);
+            Pan3d.Scene_data.focus3D.rotationY = $rotationY;
+        };
+        LayaOverride2dSceneManager.prototype.playLyf = function ($url, $pos, $r) {
+            var _this = this;
+            if ($r === void 0) { $r = 0; }
+            this.groupDataManager.scene = this;
+            this.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + $url, function (groupRes) {
+                for (var i = 0; i < groupRes.dataAry.length; i++) {
+                    var item = groupRes.dataAry[i];
+                    if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
+                        var $particle = _this.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
+                        $particle.x = $pos.x;
+                        $particle.y = $pos.y;
+                        $particle.z = $pos.z;
+                        $particle.rotationY = $r;
+                        _this.particleManager.addParticle($particle);
+                        $particle.addEventListener(Pan3d.BaseEvent.COMPLETE, _this.onPlayCom, _this);
+                    }
+                    else {
+                        console.log("播放的不是单纯特效");
+                    }
+                }
+            });
+        };
+        LayaOverride2dSceneManager.prototype.charPlaySkill = function ($char, $skillfile) {
+            if (!$char._scene.ready) {
+                return;
             }
-            LayaOverride2dSceneManager.initConfig = function () {
-                Pan3d.SceneManager._instance = new LayaOverride2dSceneManager;
-            };
-            LayaOverride2dSceneManager.prototype.update = function () {
-                Pan3d.MathClass.getCamView(Pan3d.Scene_data.cam3D, Pan3d.Scene_data.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-                scene2d_me.GroundModel.getInstance().update();
-                this.upFrame();
-            };
-            LayaOverride2dSceneManager.prototype.changeBloodManager = function ($bloodManager) {
-            };
-            LayaOverride2dSceneManager.prototype.addMovieDisplay = function ($display) {
-                $display._scene = this;
-                this._displayRoleList.push($display);
-                $display.addStage();
-            };
-            LayaOverride2dSceneManager.prototype.loadSceneConfigCom = function (obj) {
-                //保持原来的角度
-                var $rotationY = Pan3d.Scene_data.focus3D.rotationY;
-                _super.prototype.loadSceneConfigCom.call(this, obj);
-                Pan3d.Scene_data.focus3D.rotationY = $rotationY;
-            };
-            LayaOverride2dSceneManager.prototype.playLyf = function ($url, $pos, $r) {
-                var _this = this;
-                if ($r === void 0) { $r = 0; }
-                this.groupDataManager.scene = this;
-                this.groupDataManager.getGroupData(Pan3d.Scene_data.fileRoot + $url, function (groupRes) {
-                    for (var i = 0; i < groupRes.dataAry.length; i++) {
-                        var item = groupRes.dataAry[i];
-                        if (item.types == Pan3d.BaseRes.SCENE_PARTICLE_TYPE) {
-                            var $particle = _this.particleManager.getParticleByte(Pan3d.Scene_data.fileRoot + item.particleUrl);
-                            $particle.x = $pos.x;
-                            $particle.y = $pos.y;
-                            $particle.z = $pos.z;
-                            $particle.rotationY = $r;
-                            _this.particleManager.addParticle($particle);
-                            $particle.addEventListener(Pan3d.BaseEvent.COMPLETE, _this.onPlayCom, _this);
-                        }
-                        else {
-                            console.log("播放的不是单纯特效");
-                        }
-                    }
-                });
-            };
-            LayaOverride2dSceneManager.prototype.charPlaySkill = function ($char, $skillfile) {
-                if (!$char._scene.ready) {
-                    return;
+            var $skill = this.skillManager.getSkill(getSkillUrl($skillfile), "skill_01");
+            if (!$skill.keyAry) {
+                return;
+            }
+            if ($skill) {
+                $skill.reset();
+                $skill.isDeath = false;
+            }
+            $skill.configFixEffect($char);
+            this.skillManager.playSkill($skill);
+        };
+        LayaOverride2dSceneManager.prototype.onPlayCom = function (value) {
+            this.particleManager.removeParticle((value.target));
+        };
+        LayaOverride2dSceneManager.prototype.upFrame = function () {
+            Pan3d.Scene_data.context3D._contextSetTest.clear();
+            if (isNaN(this._time)) {
+                this._time = Pan3d.TimeUtil.getTimer();
+            }
+            this.updateMovieFrame();
+            if (this._ready) {
+                this.particleManager.updateTime();
+                this.skillManager.update();
+                if (this.render) {
+                    Pan3d.Scene_data.context3D.setWriteDepth(true);
+                    Pan3d.Scene_data.context3D.setDepthTest(true);
+                    this.updateStaticDiplay();
+                    this.updateSpriteDisplay();
+                    this.updateMovieDisplay();
+                    this.shadowManager.update();
+                    Pan3d.Scene_data.context3D.setWriteDepth(false);
+                    this.particleManager.update();
+                    Pan3d.Scene_data.context3D.setBlendParticleFactors(0);
+                    Pan3d.Scene_data.context3D.setWriteDepth(true);
+                    Pan3d.Scene_data.context3D.setWriteDepth(false);
                 }
-                var $skill = this.skillManager.getSkill(getSkillUrl($skillfile), "skill_01");
-                if (!$skill.keyAry) {
-                    return;
-                }
-                if ($skill) {
-                    $skill.reset();
-                    $skill.isDeath = false;
-                }
-                $skill.configFixEffect($char);
-                this.skillManager.playSkill($skill);
-            };
-            LayaOverride2dSceneManager.prototype.onPlayCom = function (value) {
-                this.particleManager.removeParticle((value.target));
-            };
-            LayaOverride2dSceneManager.prototype.upFrame = function () {
-                Pan3d.Scene_data.context3D._contextSetTest.clear();
-                if (isNaN(this._time)) {
-                    this._time = Pan3d.TimeUtil.getTimer();
-                }
-                this.updateMovieFrame();
-                if (this._ready) {
-                    this.particleManager.updateTime();
-                    this.skillManager.update();
-                    if (this.render) {
-                        Pan3d.Scene_data.context3D.setWriteDepth(true);
-                        Pan3d.Scene_data.context3D.setDepthTest(true);
-                        this.updateStaticDiplay();
-                        this.updateSpriteDisplay();
-                        this.updateMovieDisplay();
-                        this.shadowManager.update();
-                        Pan3d.Scene_data.context3D.setWriteDepth(false);
-                        this.particleManager.update();
-                        Pan3d.Scene_data.context3D.setBlendParticleFactors(0);
-                        Pan3d.Scene_data.context3D.setWriteDepth(true);
-                        Pan3d.Scene_data.context3D.setWriteDepth(false);
-                    }
-                    Pan3d.Scene_data.context3D.setDepthTest(false);
-                    Pan3d.UIManager.getInstance().update();
-                    this.cameraMatrix = Pan3d.Scene_data.cam3D.cameraMatrix.clone();
-                    this.viewMatrx3D = Pan3d.Scene_data.viewMatrx3D.clone();
-                }
-            };
-            LayaOverride2dSceneManager.sceneNum = 0;
-            return LayaOverride2dSceneManager;
-        }(scene3d_me.OverrideSceneManager));
-        me.LayaOverride2dSceneManager = LayaOverride2dSceneManager;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+                Pan3d.Scene_data.context3D.setDepthTest(false);
+                Pan3d.UIManager.getInstance().update();
+                this.cameraMatrix = Pan3d.Scene_data.cam3D.cameraMatrix.clone();
+                this.viewMatrx3D = Pan3d.Scene_data.viewMatrx3D.clone();
+            }
+        };
+        LayaOverride2dSceneManager.sceneNum = 0;
+        return LayaOverride2dSceneManager;
+    }(scene3d_me.OverrideSceneManager));
+    layapan_me.LayaOverride2dSceneManager = LayaOverride2dSceneManager;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaOverride2dSceneManager.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36312,283 +36300,280 @@ var __extends = (this && this.__extends) || (function () {
 /**
 * name
 */
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var CombineParticle = Pan3d.CombineParticle;
-        var Scene_data = Pan3d.Scene_data;
-        var ParticleManager = Pan3d.ParticleManager;
-        var Vector3D = Pan3d.Vector3D;
-        var BaseRes = Pan3d.BaseRes;
-        var MaterialAnimShader = Pan3d.MaterialAnimShader;
-        var Display3DSprite = Pan3d.Display3DSprite;
-        var ShadowManager = Pan3d.ShadowManager;
-        var LayaSceneBaseChar = /** @class */ (function (_super) {
-            __extends(LayaSceneBaseChar, _super);
-            function LayaSceneBaseChar() {
-                var _this = _super.call(this) || this;
-                _this._avatar = -1;
-                _this._visible = true;
-                _this.changeColor = [1, 1, 1, 1];
-                _this._alpha = 1;
-                _this.x;
-                return _this;
+var layapan_me;
+(function (layapan_me) {
+    var CombineParticle = Pan3d.CombineParticle;
+    var Scene_data = Pan3d.Scene_data;
+    var ParticleManager = Pan3d.ParticleManager;
+    var Vector3D = Pan3d.Vector3D;
+    var BaseRes = Pan3d.BaseRes;
+    var MaterialAnimShader = Pan3d.MaterialAnimShader;
+    var Display3DSprite = Pan3d.Display3DSprite;
+    var ShadowManager = Pan3d.ShadowManager;
+    var LayaSceneBaseChar = /** @class */ (function (_super) {
+        __extends(LayaSceneBaseChar, _super);
+        function LayaSceneBaseChar() {
+            var _this = _super.call(this) || this;
+            _this._avatar = -1;
+            _this._visible = true;
+            _this.changeColor = [1, 1, 1, 1];
+            _this._alpha = 1;
+            _this.x;
+            return _this;
+        }
+        Object.defineProperty(LayaSceneBaseChar.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                this._alpha = value;
+                this.changeColor[0] = 1;
+                this.changeColor[1] = 1;
+                this.changeColor[2] = 1;
+                this.changeColor[3] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneBaseChar.prototype.updateMaterialMesh = function ($mesh) {
+            if (this.changeColor[0] != 1 || this.changeColor[1] != 1 || this.changeColor[2] != 1 || this.changeColor[3] != 1) {
+                if (!LayaSceneBaseChar.alphaShader) {
+                    LayaSceneBaseChar.alphaShader = this.makeAlphaShader();
+                }
+                var $selfShader = $mesh.material.shader;
+                $mesh.material.shader = LayaSceneBaseChar.alphaShader;
+                Scene_data.context3D.setProgram(LayaSceneBaseChar.alphaShader.program);
+                Scene_data.context3D.cullFaceBack(false);
+                Scene_data.context3D.setBlendParticleFactors(-1);
+                this.setVcMatrix($mesh);
+                this.setMaterialTextureAlpha($mesh.material, $mesh.materialParam);
+                this.setVa($mesh);
+                Scene_data.context3D.setVc4fv($mesh.material.shader, "alphadata", this.changeColor);
+                this.setMeshVc($mesh);
+                Scene_data.context3D.drawCall($mesh.indexBuffer, $mesh.treNum);
+                $mesh.material.shader = $selfShader;
             }
-            Object.defineProperty(LayaSceneBaseChar.prototype, "alpha", {
-                get: function () {
-                    return this._alpha;
-                },
-                set: function (value) {
-                    this._alpha = value;
-                    this.changeColor[0] = 1;
-                    this.changeColor[1] = 1;
-                    this.changeColor[2] = 1;
-                    this.changeColor[3] = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneBaseChar.prototype.updateMaterialMesh = function ($mesh) {
-                if (this.changeColor[0] != 1 || this.changeColor[1] != 1 || this.changeColor[2] != 1 || this.changeColor[3] != 1) {
-                    if (!LayaSceneBaseChar.alphaShader) {
-                        LayaSceneBaseChar.alphaShader = this.makeAlphaShader();
-                    }
-                    var $selfShader = $mesh.material.shader;
-                    $mesh.material.shader = LayaSceneBaseChar.alphaShader;
-                    Scene_data.context3D.setProgram(LayaSceneBaseChar.alphaShader.program);
-                    Scene_data.context3D.cullFaceBack(false);
-                    Scene_data.context3D.setBlendParticleFactors(-1);
-                    this.setVcMatrix($mesh);
-                    this.setMaterialTextureAlpha($mesh.material, $mesh.materialParam);
-                    this.setVa($mesh);
-                    Scene_data.context3D.setVc4fv($mesh.material.shader, "alphadata", this.changeColor);
-                    this.setMeshVc($mesh);
-                    Scene_data.context3D.drawCall($mesh.indexBuffer, $mesh.treNum);
-                    $mesh.material.shader = $selfShader;
-                }
-                else {
-                    _super.prototype.updateMaterialMesh.call(this, $mesh);
-                }
-            };
-            LayaSceneBaseChar.prototype.playSkill = function ($skill) {
-                var $scene = this._scene;
-                this._walkPath = null;
-                $scene.skillManager.playSkill($skill);
-                this.skillVo = $skill;
-            };
-            LayaSceneBaseChar.prototype.setMaterialTextureAlpha = function ($material, $mp) {
-                if ($mp === void 0) { $mp = null; }
-                //透明的时候只显示一个主材质贴图
-                var texVec = $material.texList;
-                for (var i = 0; i < texVec.length; i++) {
-                    if (texVec[i].isMain) {
-                        var txte = texVec[i].texture;
-                        var $has = false;
-                        if ($mp) {
-                            for (var j = 0; j < $mp.dynamicTexList.length; j++) {
-                                if ($mp.dynamicTexList[j].target) {
-                                    if ($mp.dynamicTexList[j].target.name == texVec[i].name) {
-                                        txte = $mp.dynamicTexList[j].texture;
-                                    }
+            else {
+                _super.prototype.updateMaterialMesh.call(this, $mesh);
+            }
+        };
+        LayaSceneBaseChar.prototype.playSkill = function ($skill) {
+            var $scene = this._scene;
+            this._walkPath = null;
+            $scene.skillManager.playSkill($skill);
+            this.skillVo = $skill;
+        };
+        LayaSceneBaseChar.prototype.setMaterialTextureAlpha = function ($material, $mp) {
+            if ($mp === void 0) { $mp = null; }
+            //透明的时候只显示一个主材质贴图
+            var texVec = $material.texList;
+            for (var i = 0; i < texVec.length; i++) {
+                if (texVec[i].isMain) {
+                    var txte = texVec[i].texture;
+                    var $has = false;
+                    if ($mp) {
+                        for (var j = 0; j < $mp.dynamicTexList.length; j++) {
+                            if ($mp.dynamicTexList[j].target) {
+                                if ($mp.dynamicTexList[j].target.name == texVec[i].name) {
+                                    txte = $mp.dynamicTexList[j].texture;
                                 }
                             }
                         }
-                        Scene_data.context3D.setRenderTexture($material.shader, "alphatexture", txte, 0);
+                    }
+                    Scene_data.context3D.setRenderTexture($material.shader, "alphatexture", txte, 0);
+                }
+            }
+        };
+        LayaSceneBaseChar.prototype.makeAlphaShader = function () {
+            var shader = new MaterialAnimShader();
+            shader.paramAry = [false, false, false, false, false, false, false, 0];
+            shader.fragment =
+                "precision mediump float;\n" +
+                    "uniform sampler2D alphatexture;\n" +
+                    "uniform vec4 alphadata;\n" +
+                    "varying vec2 v0;\n" +
+                    "void main(void){\n" +
+                    "vec4 ft0 = texture2D(alphatexture,v0);\n" +
+                    "gl_FragColor =ft0*alphadata;\n" +
+                    "}";
+            var encodetf = shader.encode();
+            return shader;
+        };
+        Object.defineProperty(LayaSceneBaseChar.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneBaseChar.prototype.setAvatar = function (num) {
+            if (this._avatar == num) {
+                return;
+            }
+            this._avatar = num;
+            this.setRoleUrl(this.getSceneCharAvatarUrl(num));
+        };
+        Object.defineProperty(LayaSceneBaseChar.prototype, "shadow", {
+            set: function (value) {
+                var $scene = this._scene;
+                if (value) {
+                    if (!this._shadow) {
+                        this._shadow = $scene.shadowManager.addShadow();
                     }
                 }
-            };
-            LayaSceneBaseChar.prototype.makeAlphaShader = function () {
-                var shader = new MaterialAnimShader();
-                shader.paramAry = [false, false, false, false, false, false, false, 0];
-                shader.fragment =
-                    "precision mediump float;\n" +
-                        "uniform sampler2D alphatexture;\n" +
-                        "uniform vec4 alphadata;\n" +
-                        "varying vec2 v0;\n" +
-                        "void main(void){\n" +
-                        "vec4 ft0 = texture2D(alphatexture,v0);\n" +
-                        "gl_FragColor =ft0*alphadata;\n" +
-                        "}";
-                var encodetf = shader.encode();
-                return shader;
-            };
-            Object.defineProperty(LayaSceneBaseChar.prototype, "visible", {
-                get: function () {
-                    return this._visible;
-                },
-                set: function (value) {
-                    this._visible = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneBaseChar.prototype.setAvatar = function (num) {
-                if (this._avatar == num) {
-                    return;
-                }
-                this._avatar = num;
-                this.setRoleUrl(this.getSceneCharAvatarUrl(num));
-            };
-            Object.defineProperty(LayaSceneBaseChar.prototype, "shadow", {
-                set: function (value) {
-                    var $scene = this._scene;
-                    if (value) {
-                        if (!this._shadow) {
-                            this._shadow = $scene.shadowManager.addShadow();
-                        }
+                else {
+                    if (this._shadow) {
+                        $scene.shadowManager.removeShadow(this._shadow);
                     }
-                    else {
-                        if (this._shadow) {
-                            $scene.shadowManager.removeShadow(this._shadow);
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneBaseChar.prototype.update = function () {
-                if (this.visible) {
-                    _super.prototype.update.call(this);
                 }
-                if (this._shadow) {
-                    this._shadow._visible = this.visible;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneBaseChar.prototype.update = function () {
+            if (this.visible) {
+                _super.prototype.update.call(this);
+            }
+            if (this._shadow) {
+                this._shadow._visible = this.visible;
+            }
+        };
+        LayaSceneBaseChar.prototype.getSceneCharAvatarUrl = function (num) {
+            var $url = getRoleUrl(String(num));
+            return getRoleUrl(String(num));
+        };
+        LayaSceneBaseChar.prototype.getSceneCharWeaponUrl = function (num, $suffix) {
+            if ($suffix === void 0) { $suffix = ""; }
+            return getModelUrl(String(num + $suffix));
+        };
+        // 是否播放中
+        LayaSceneBaseChar.prototype.isPlaying = function () {
+            // if(this._completeState != 1){
+            // 	return true;
+            // }
+            return this._completeState != 1 || !this._curentFrame || (this._curentFrame < (this._animDic[this.curentAction].matrixAry.length - 1));
+        };
+        LayaSceneBaseChar.prototype.loadPartRes = function ($bindSocket, groupRes, ary) {
+            if (this._hasDestory) {
+                return;
+            }
+            for (var i = 0; i < groupRes.dataAry.length; i++) {
+                var item = groupRes.dataAry[i];
+                var posV3d;
+                var rotationV3d;
+                var scaleV3d;
+                if (item.isGroup) {
+                    posV3d = new Vector3D(item.x, item.y, item.z);
+                    rotationV3d = new Vector3D(item.rotationX, item.rotationY, item.rotationZ);
+                    scaleV3d = new Vector3D(item.scaleX, item.scaleY, item.scaleZ);
                 }
-            };
-            LayaSceneBaseChar.prototype.getSceneCharAvatarUrl = function (num) {
-                var $url = getRoleUrl(String(num));
-                return getRoleUrl(String(num));
-            };
-            LayaSceneBaseChar.prototype.getSceneCharWeaponUrl = function (num, $suffix) {
-                if ($suffix === void 0) { $suffix = ""; }
-                return getModelUrl(String(num + $suffix));
-            };
-            // 是否播放中
-            LayaSceneBaseChar.prototype.isPlaying = function () {
-                // if(this._completeState != 1){
-                // 	return true;
-                // }
-                return this._completeState != 1 || !this._curentFrame || (this._curentFrame < (this._animDic[this.curentAction].matrixAry.length - 1));
-            };
-            LayaSceneBaseChar.prototype.loadPartRes = function ($bindSocket, groupRes, ary) {
-                if (this._hasDestory) {
-                    return;
-                }
-                for (var i = 0; i < groupRes.dataAry.length; i++) {
-                    var item = groupRes.dataAry[i];
-                    var posV3d;
-                    var rotationV3d;
-                    var scaleV3d;
+                if (item.types == BaseRes.SCENE_PARTICLE_TYPE) {
+                    var particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + item.particleUrl);
+                    ary.push(particle);
+                    particle.bindTarget = this;
+                    particle.bindSocket = $bindSocket;
+                    particle.dynamic = true;
+                    this._scene.particleManager.addParticle(particle);
                     if (item.isGroup) {
-                        posV3d = new Vector3D(item.x, item.y, item.z);
-                        rotationV3d = new Vector3D(item.rotationX, item.rotationY, item.rotationZ);
-                        scaleV3d = new Vector3D(item.scaleX, item.scaleY, item.scaleZ);
-                    }
-                    if (item.types == BaseRes.SCENE_PARTICLE_TYPE) {
-                        var particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + item.particleUrl);
-                        ary.push(particle);
-                        particle.bindTarget = this;
-                        particle.bindSocket = $bindSocket;
-                        particle.dynamic = true;
-                        this._scene.particleManager.addParticle(particle);
-                        if (item.isGroup) {
-                            particle.setGroup(posV3d, rotationV3d, scaleV3d);
-                        }
-                    }
-                    else if (item.types == BaseRes.PREFAB_TYPE) {
-                        var display = new Display3DSprite();
-                        display.setObjUrl(item.objUrl);
-                        display.setMaterialUrl(item.materialUrl, item.materialInfoArr);
-                        display.dynamic = true;
-                        ary.push(display);
-                        display.setBind(this, $bindSocket);
-                        this._scene.addSpriteDisplay(display);
-                        if (item.isGroup) {
-                            display.setGroup(posV3d, rotationV3d, scaleV3d);
-                        }
+                        particle.setGroup(posV3d, rotationV3d, scaleV3d);
                     }
                 }
-                this.applyVisible();
-            };
-            LayaSceneBaseChar.prototype.removeStage = function () {
-                this._onStage = false;
-                if (this._shadow) {
-                    ShadowManager.getInstance().removeShadow(this._shadow);
-                }
-                for (var key in this._partDic) {
-                    var ary = this._partDic[key];
-                    for (var i = 0; i < ary.length; i++) {
-                        if (ary[i] instanceof CombineParticle) {
-                            this._scene.particleManager.removeParticle(ary[i]);
-                        }
-                        else if (ary[i] instanceof Display3DSprite) {
-                            this._scene.removeSpriteDisplay(ary[i]);
-                        }
+                else if (item.types == BaseRes.PREFAB_TYPE) {
+                    var display = new Display3DSprite();
+                    display.setObjUrl(item.objUrl);
+                    display.setMaterialUrl(item.materialUrl, item.materialInfoArr);
+                    display.dynamic = true;
+                    ary.push(display);
+                    display.setBind(this, $bindSocket);
+                    this._scene.addSpriteDisplay(display);
+                    if (item.isGroup) {
+                        display.setGroup(posV3d, rotationV3d, scaleV3d);
                     }
                 }
-            };
-            Object.defineProperty(LayaSceneBaseChar.prototype, "px", {
-                get: function () {
-                    return this.x;
-                },
-                set: function (value) {
-                    this.x = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneBaseChar.prototype, "py", {
-                get: function () {
-                    return this.y;
-                },
-                set: function (value) {
-                    this.y = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneBaseChar.prototype, "pz", {
-                get: function () {
-                    return this.z;
-                },
-                set: function (value) {
-                    this.z = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneBaseChar.prototype.addSkinMeshParticle = function () {
-                if (!this._skinMesh) {
-                    return;
-                }
-                var dicAry = new Array;
-                this._partDic["mesh"] = dicAry;
-                var meshAry = this._skinMesh.meshAry;
-                if (!meshAry) {
-                    return;
-                }
-                for (var i = 0; i < meshAry.length; i++) {
-                    var particleAry = meshAry[i].particleAry;
-                    for (var j = 0; j < particleAry.length; j++) {
-                        var bindPartcle = particleAry[j];
-                        var particle;
-                        particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + bindPartcle.url);
-                        if (!particle.sourceData) {
-                            console.log("particle.sourceData error");
-                        }
-                        particle.dynamic = true;
-                        particle.bindSocket = bindPartcle.socketName;
-                        dicAry.push(particle);
-                        particle.bindTarget = this;
-                        this._scene.particleManager.addParticle(particle);
+            }
+            this.applyVisible();
+        };
+        LayaSceneBaseChar.prototype.removeStage = function () {
+            this._onStage = false;
+            if (this._shadow) {
+                ShadowManager.getInstance().removeShadow(this._shadow);
+            }
+            for (var key in this._partDic) {
+                var ary = this._partDic[key];
+                for (var i = 0; i < ary.length; i++) {
+                    if (ary[i] instanceof CombineParticle) {
+                        this._scene.particleManager.removeParticle(ary[i]);
+                    }
+                    else if (ary[i] instanceof Display3DSprite) {
+                        this._scene.removeSpriteDisplay(ary[i]);
                     }
                 }
-            };
-            return LayaSceneBaseChar;
-        }(Pan3d.Display3dMovie));
-        me.LayaSceneBaseChar = LayaSceneBaseChar;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            }
+        };
+        Object.defineProperty(LayaSceneBaseChar.prototype, "px", {
+            get: function () {
+                return this.x;
+            },
+            set: function (value) {
+                this.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneBaseChar.prototype, "py", {
+            get: function () {
+                return this.y;
+            },
+            set: function (value) {
+                this.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneBaseChar.prototype, "pz", {
+            get: function () {
+                return this.z;
+            },
+            set: function (value) {
+                this.z = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneBaseChar.prototype.addSkinMeshParticle = function () {
+            if (!this._skinMesh) {
+                return;
+            }
+            var dicAry = new Array;
+            this._partDic["mesh"] = dicAry;
+            var meshAry = this._skinMesh.meshAry;
+            if (!meshAry) {
+                return;
+            }
+            for (var i = 0; i < meshAry.length; i++) {
+                var particleAry = meshAry[i].particleAry;
+                for (var j = 0; j < particleAry.length; j++) {
+                    var bindPartcle = particleAry[j];
+                    var particle;
+                    particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + bindPartcle.url);
+                    if (!particle.sourceData) {
+                        console.log("particle.sourceData error");
+                    }
+                    particle.dynamic = true;
+                    particle.bindSocket = bindPartcle.socketName;
+                    dicAry.push(particle);
+                    particle.bindTarget = this;
+                    this._scene.particleManager.addParticle(particle);
+                }
+            }
+        };
+        return LayaSceneBaseChar;
+    }(Pan3d.Display3dMovie));
+    layapan_me.LayaSceneBaseChar = LayaSceneBaseChar;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaSceneBaseChar.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36606,812 +36591,809 @@ var __extends = (this && this.__extends) || (function () {
 /**
 * name
 */
-var layapan;
-(function (layapan) {
-    var me;
-    (function (me) {
-        var Display3DSprite = Pan3d.Display3DSprite;
-        var ProgrmaManager = Pan3d.ProgrmaManager;
-        var Vector3D = Pan3d.Vector3D;
-        var Vector2D = Pan3d.Vector2D;
-        var Scene_data = Pan3d.Scene_data;
-        var MathClass = Pan3d.MathClass;
-        var TestTriangle = Pan3d.TestTriangle;
-        var LineDisplayShader = Pan3d.LineDisplayShader;
-        var LineDisplaySprite = Pan3d.LineDisplaySprite;
-        var CombineParticle = Pan3d.CombineParticle;
-        var CharAction = Pan3d.CharAction;
-        var BaseRes = Pan3d.BaseRes;
-        var ParticleManager = Pan3d.ParticleManager;
-        var LayaSceneChar = /** @class */ (function (_super) {
-            __extends(LayaSceneChar, _super);
-            function LayaSceneChar() {
-                var _this = _super.call(this) || this;
-                _this.isMount = false;
-                _this._px = 0;
-                _this._py = 0;
-                _this._pz = 0;
-                _this._pRotationY = 0;
-                _this.toRotationY = 0;
-                _this._pScale = 1;
-                _this.tittleHeight = 50;
-                _this._optimization = false; //当优化为true的时候 不显示
-                _this._weaponNum = -1;
-                _this._resultVisible = true;
-                _this._hpRatio = 0;
-                // 是否显示血条
-                _this._bloodEnable = false;
-                _this._angerRatio = 0;
-                // 是否显示怒气
-                _this._angerEnable = false;
-                // 是否显示名字
-                _this._nameEnable = false;
-                _this._showHitBox = false;
-                // private triIndex: Array<number> = [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7]
-                // private triIndex: Array<number> = [0, 4, 5, 0, 5, 1, 1, 5, 6, 1, 6, 2, 2, 6, 7, 2, 7, 3, 3, 7, 4, 3, 4, 0]
-                _this._triIndex = [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 0, 4, 5, 0, 5, 1, 1, 5, 6, 1, 6, 2, 2, 6, 7, 2, 7, 3, 3, 7, 4, 3, 4, 0];
-                // this.shadow = true;
-                _this.skillitem = new Array();
-                _this._bloodColor = LayaSceneChar.BLOOD_COLOR_HP;
-                _this._angerColor = LayaSceneChar.BLOOD_COLOR_ANGER;
-                return _this;
-            }
-            Object.defineProperty(LayaSceneChar.prototype, "forceRotationY", {
-                /**强制角度 */
-                set: function (val) {
-                    this.pRotationY = val;
+var layapan_me;
+(function (layapan_me) {
+    var Display3DSprite = Pan3d.Display3DSprite;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Vector3D = Pan3d.Vector3D;
+    var Vector2D = Pan3d.Vector2D;
+    var Scene_data = Pan3d.Scene_data;
+    var MathClass = Pan3d.MathClass;
+    var TestTriangle = Pan3d.TestTriangle;
+    var LineDisplayShader = Pan3d.LineDisplayShader;
+    var LineDisplaySprite = Pan3d.LineDisplaySprite;
+    var CombineParticle = Pan3d.CombineParticle;
+    var CharAction = Pan3d.CharAction;
+    var BaseRes = Pan3d.BaseRes;
+    var ParticleManager = Pan3d.ParticleManager;
+    var LayaSceneChar = /** @class */ (function (_super) {
+        __extends(LayaSceneChar, _super);
+        function LayaSceneChar() {
+            var _this = _super.call(this) || this;
+            _this.isMount = false;
+            _this._px = 0;
+            _this._py = 0;
+            _this._pz = 0;
+            _this._pRotationY = 0;
+            _this.toRotationY = 0;
+            _this._pScale = 1;
+            _this.tittleHeight = 50;
+            _this._optimization = false; //当优化为true的时候 不显示
+            _this._weaponNum = -1;
+            _this._resultVisible = true;
+            _this._hpRatio = 0;
+            // 是否显示血条
+            _this._bloodEnable = false;
+            _this._angerRatio = 0;
+            // 是否显示怒气
+            _this._angerEnable = false;
+            // 是否显示名字
+            _this._nameEnable = false;
+            _this._showHitBox = false;
+            // private triIndex: Array<number> = [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7]
+            // private triIndex: Array<number> = [0, 4, 5, 0, 5, 1, 1, 5, 6, 1, 6, 2, 2, 6, 7, 2, 7, 3, 3, 7, 4, 3, 4, 0]
+            _this._triIndex = [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 0, 4, 5, 0, 5, 1, 1, 5, 6, 1, 6, 2, 2, 6, 7, 2, 7, 3, 3, 7, 4, 3, 4, 0];
+            // this.shadow = true;
+            _this.skillitem = new Array();
+            _this._bloodColor = LayaSceneChar.BLOOD_COLOR_HP;
+            _this._angerColor = LayaSceneChar.BLOOD_COLOR_ANGER;
+            return _this;
+        }
+        Object.defineProperty(LayaSceneChar.prototype, "forceRotationY", {
+            /**强制角度 */
+            set: function (val) {
+                this.pRotationY = val;
+                this.rotationY = val;
+                this.toRotationY = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "pRotationY", {
+            get: function () {
+                return this._pRotationY;
+            },
+            set: function (val) {
+                this._pRotationY = val;
+                if (this.isMount) {
+                    this._mountChar.rotationY = val;
+                }
+                else {
                     this.rotationY = val;
-                    this.toRotationY = val;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "pRotationY", {
-                get: function () {
-                    return this._pRotationY;
-                },
-                set: function (val) {
-                    this._pRotationY = val;
-                    if (this.isMount) {
-                        this._mountChar.rotationY = val;
-                    }
-                    else {
-                        this.rotationY = val;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "pScale", {
-                get: function () {
-                    return this._pScale;
-                },
-                set: function (v) {
-                    this._pScale = v;
-                    this._mountChar && (this._mountChar.scale = v);
-                    this._wingDisplay && (this._wingDisplay.scale = v);
-                    this.scale = v;
-                    if (this._skinMesh) {
-                        this.tittleHeight = this._skinMesh.tittleHeight * v;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneChar.prototype.setMount = function (v) {
-                this.isMount = (v && v.length != 0);
-                if (this.isMount) {
-                    if (!this._mountChar) {
-                        this._mountChar = new me.LayaSceneBaseChar();
-                        this._mountChar.scale = this._pScale;
-                    }
-                    this._mountChar.setRoleUrl(getRoleUrl(v));
-                    this.setBind(this._mountChar, LayaSceneChar.MOUNT_SLOT);
-                    this._mountChar._scene = this._scene;
-                    this._scene && this._scene.addMovieDisplay(this._mountChar);
                 }
-                else {
-                    this.setBind(null, null);
-                    if (this._mountChar) {
-                        this._mountChar = null;
-                    }
-                }
-                return this.isMount;
-            };
-            LayaSceneChar.prototype.setWing = function (v) {
-                if (v && v.length) {
-                    if (!this._wingDisplay) {
-                        this._wingDisplay = new me.LayaSceneBaseChar();
-                        this._wingDisplay.scale = this._pScale;
-                    }
-                    this._wingDisplay.setRoleUrl(getRoleUrl(v));
-                    this._wingDisplay.setBind(this, LayaSceneChar.WING_SLOT);
-                    this._wingDisplay._scene = this._scene;
-                    this._scene && this._scene.addMovieDisplay(this._wingDisplay);
-                }
-                else {
-                    if (this._wingDisplay) {
-                        this._wingDisplay.setBind(null, null);
-                        //this._wingDisplay.removeSelf();
-                        this._wingDisplay = null;
-                    }
-                }
-            };
-            LayaSceneChar.prototype.setWeapon = function (num) {
-                if (this._weaponNum == num) {
-                    return;
-                }
-                this._weaponNum = num;
-                if (num <= 0) { //移除武器
-                    this.removePart(LayaSceneChar.WEAPON_PART);
-                }
-                else {
-                    this.setWeaponByAvatar(this._weaponNum);
-                }
-            };
-            LayaSceneChar.prototype.setWeaponByAvatar = function (avatar, $suffix) {
-                if ($suffix === void 0) { $suffix = ""; }
-                this.addPart(LayaSceneChar.WEAPON_PART, LayaSceneChar.WEAPON_DEFAULT_SLOT, this.getSceneCharWeaponUrl(avatar, $suffix));
-            };
-            LayaSceneChar.prototype.addPart = function ($key, $bindSocket, $url) {
-                var _this = this;
-                if (this._partUrl[$key] == $url) { //如果相同则返回
-                    return;
-                }
-                else if (this._partUrl[$key]) { //如果不同则先移除
-                    this.removePart($key);
-                }
-                if (!this._partDic[$key]) {
-                    this._partDic[$key] = new Array;
-                }
-                this._partUrl[$key] = $url;
-                var ary = this._partDic[$key];
-                this._scene.groupDataManager.scene = this._scene;
-                this._scene.groupDataManager.getGroupData(Scene_data.fileRoot + $url, function (groupRes) {
-                    console.log($bindSocket, groupRes, ary);
-                    _this.loadPartRes($bindSocket, groupRes, ary);
-                });
-            };
-            LayaSceneChar.prototype.addPartToPos = function ($key, $url, $pos) {
-                var _this = this;
-                if ($pos === void 0) { $pos = null; }
-                if (this._partUrl[$key] == $url) { //如果相同则返回
-                    return;
-                }
-                else if (this._partUrl[$key]) { //如果不同则先移除
-                    this.removePart($key);
-                }
-                if (!this._partDic[$key]) {
-                    this._partDic[$key] = new Array;
-                }
-                this._partUrl[$key] = $url;
-                var ary = this._partDic[$key];
-                this._scene.groupDataManager.scene = this._scene;
-                this._scene.groupDataManager.getGroupData(Scene_data.fileRoot + $url, function (groupRes) {
-                    _this.loadPartToPos(groupRes, ary, $pos);
-                });
-            };
-            LayaSceneChar.prototype.loadPartToPos = function (groupRes, ary, $pos) {
-                if (this._hasDestory) {
-                    return;
-                }
-                for (var i = 0; i < groupRes.dataAry.length; i++) {
-                    var item = groupRes.dataAry[i];
-                    var posV3d = new Vector3D($pos.x, $pos.y, $pos.z);
-                    var rotationV3d = new Vector3D(0, 0, 0);
-                    var scaleV3d = new Vector3D(1, 1, 1);
-                    if (item.isGroup) {
-                        posV3d = new Vector3D(item.x + $pos.x, item.y + $pos.y, item.z + $pos.z);
-                        rotationV3d = new Vector3D(item.rotationX, item.rotationY, item.rotationZ);
-                        scaleV3d = new Vector3D(item.scaleX, item.scaleY, item.scaleZ);
-                    }
-                    if (item.types == BaseRes.SCENE_PARTICLE_TYPE) {
-                        var particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + item.particleUrl);
-                        ary.push(particle);
-                        particle.bindTarget = this;
-                        particle.bindSocket = Pan3d.SceneChar.NONE_SLOT;
-                        particle.dynamic = true;
-                        this._scene.particleManager.addParticle(particle);
-                        particle.setGroup(posV3d, rotationV3d, scaleV3d);
-                    }
-                    else if (item.types == BaseRes.PREFAB_TYPE) {
-                        var display = new Display3DSprite();
-                        display.setObjUrl(item.objUrl);
-                        display.setMaterialUrl(item.materialUrl, item.materialInfoArr);
-                        display.dynamic = true;
-                        ary.push(display);
-                        display.setBind(this, Pan3d.SceneChar.NONE_SLOT);
-                        this._scene.addSpriteDisplay(display);
-                        display.setGroup(posV3d, rotationV3d, scaleV3d);
-                    }
-                }
-                this.applyVisible();
-            };
-            LayaSceneChar.prototype.removePart = function ($key) {
-                var ary = this._partDic[$key];
-                if (!ary) {
-                    return;
-                }
-                for (var i = 0; i < ary.length; i++) {
-                    if (ary[i] instanceof CombineParticle) {
-                        this._scene.particleManager.removeParticle(ary[i]);
-                        ary[i].destory();
-                    }
-                    else if (ary[i] instanceof Display3DSprite) {
-                        this._scene.removeSpriteDisplay(ary[i]);
-                        ary[i].destory();
-                    }
-                }
-                this._partDic[$key] = null;
-                this._partUrl[$key] = null;
-                delete this._partDic[$key];
-                delete this._partUrl[$key];
-            };
-            LayaSceneChar.prototype.getSceneCharAvatarUrl = function (num) {
-                var $tempNum = String(num);
-                if (num == 0) {
-                    //console.log("衣服为0")
-                    throw new Error("衣服为getSceneCharAvatarUrl");
-                }
-                var $url = getRoleUrl($tempNum);
-                return $url;
-            };
-            LayaSceneChar.prototype.onMeshLoaded = function () {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "pScale", {
+            get: function () {
+                return this._pScale;
+            },
+            set: function (v) {
+                this._pScale = v;
+                this._mountChar && (this._mountChar.scale = v);
+                this._wingDisplay && (this._wingDisplay.scale = v);
+                this.scale = v;
                 if (this._skinMesh) {
-                    this.tittleHeight = this._skinMesh.tittleHeight * this._pScale;
+                    this.tittleHeight = this._skinMesh.tittleHeight * v;
                 }
-            };
-            LayaSceneChar.prototype.play = function ($action, $completeState, needFollow) {
-                if ($completeState === void 0) { $completeState = 0; }
-                if (needFollow === void 0) { needFollow = true; }
-                if (this.isMount) {
-                    this._mountChar.visible = Boolean($action != CharAction.JUMP);
-                    if ($action == CharAction.STANAD) {
-                        _super.prototype.play.call(this, CharAction.STAND_MOUNT);
-                    }
-                    else if ($action == CharAction.WALK) {
-                        _super.prototype.play.call(this, CharAction.WALK_MOUNT);
-                    }
-                    else {
-                        if (this._mountChar.visible) {
-                            _super.prototype.play.call(this, CharAction.STAND_MOUNT);
-                        }
-                        else {
-                            _super.prototype.play.call(this, CharAction.JUMP);
-                        }
-                    }
-                    return this._mountChar.play($action, $completeState, needFollow);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneChar.prototype.setMount = function (v) {
+            this.isMount = (v && v.length != 0);
+            if (this.isMount) {
+                if (!this._mountChar) {
+                    this._mountChar = new layapan_me.LayaSceneBaseChar();
+                    this._mountChar.scale = this._pScale;
                 }
-                else {
-                    return _super.prototype.play.call(this, $action, $completeState, needFollow);
-                }
-            };
-            LayaSceneChar.prototype.getCurrentAction = function () {
-                if (this.isMount) {
-                    return this._mountChar.curentAction;
-                }
-                else {
-                    return this.curentAction;
-                }
-            };
-            //平滑num=1为直接
-            LayaSceneChar.prototype.rotationToNew = function (value, num) {
-                if (num === void 0) { num = 1; }
-                var anum = value - this.pRotationY;
-                if (anum == 0) {
-                    return;
-                }
-                if (anum < 1) {
-                    this.pRotationY = value;
-                    return;
-                }
-                var a = ((value - this.pRotationY) % 360 + 360) % 360;
-                if (a > 180) {
-                    this.pRotationY -= (360 - a) / num;
-                }
-                else {
-                    this.pRotationY += a / num;
-                }
-            };
-            LayaSceneChar.prototype.stopMove = function () {
-                this.play(CharAction.STANAD);
-            };
-            LayaSceneChar.prototype.watch = function ($obj, $syn) {
-                if ($syn === void 0) { $syn = false; }
-                if (!$obj) {
-                    //console.log("面向对象无")
-                    return;
-                }
-                var xx = $obj.x - this.px;
-                var yy = $obj.z - this.pz;
-                var distance = Math.sqrt(xx * xx + yy * yy);
-                xx /= distance;
-                yy /= distance;
-                var angle = Math.asin(xx) / Math.PI * 180;
-                if (yy <= 0) {
-                    angle = 180 - angle;
-                }
-                if (!isNaN(angle)) {
-                    this.forceRotationY = angle;
-                }
-            };
-            LayaSceneChar.prototype.getCurrentPos = function () {
-                return new Vector3D(this.px, this.py, this.pz);
-            };
-            /*
-            playSkill($skill: Skill): void {
-                if (!this._scene) {
-                    return;
-                }
-                this._scene.skillManager.playSkill($skill);
-                this.skillVo = $skill;
+                this._mountChar.setRoleUrl(getRoleUrl(v));
+                this.setBind(this._mountChar, LayaSceneChar.MOUNT_SLOT);
+                this._mountChar._scene = this._scene;
+                this._scene && this._scene.addMovieDisplay(this._mountChar);
             }
-            */
-            LayaSceneChar.prototype.msgSpellStop = function () {
-                if (this.skillVo) {
-                    ////console.log("停止技能播放");
-                    this.skillVo.removeSkillForce();
-                    this.changeAction(this._defaultAction);
-                    this.skillVo = null;
-                }
-                this.isSinging = false;
-            };
-            /*
-            setScene(scene: Pan3d.SceneManager): void {
-                super.setScene(scene);
-                if (this._scene) {
-                    this._mountChar && this._scene.addMovieDisplay(this._mountChar);
-                    this._wingDisplay && this._scene.addMovieDisplay(this._wingDisplay);
-                }
-                this._bloodManager = this._scene instanceof PanScene ? this._scene.bloodManager : null;
-                this.nameEnable = this._nameEnable;
-                this.bloodEnable = this._bloodEnable;
-                this.angerEnable = this._angerEnable;
-            }
-    
-            removeSelf(): void {
+            else {
+                this.setBind(null, null);
                 if (this._mountChar) {
-                    this._mountChar.removeSelf();
-                }
-                if (this._wingDisplay) {
-                    this._wingDisplay.removeSelf();
-                }
-                if (this._charNameVo) {
-                    this._charNameVo.visible = false;
-                }
-                if (this._charBloodVo) {
-                    this._charBloodVo.visible = false;
-                }
-                if (this._charAngerVo) {
-                    this._charAngerVo.visible = false;
-                }
-                super.removeSelf();
-            }
-            */
-            LayaSceneChar.prototype.destory = function () {
-                if (this._hasDestory) {
-                    return;
-                }
-                if (this.skillVo) {
-                    this.skillVo.removeSkillForce();
-                    this.skillVo = null;
-                }
-                if (this._mountChar) {
-                    this._mountChar.destory();
                     this._mountChar = null;
                 }
+            }
+            return this.isMount;
+        };
+        LayaSceneChar.prototype.setWing = function (v) {
+            if (v && v.length) {
+                if (!this._wingDisplay) {
+                    this._wingDisplay = new layapan_me.LayaSceneBaseChar();
+                    this._wingDisplay.scale = this._pScale;
+                }
+                this._wingDisplay.setRoleUrl(getRoleUrl(v));
+                this._wingDisplay.setBind(this, LayaSceneChar.WING_SLOT);
+                this._wingDisplay._scene = this._scene;
+                this._scene && this._scene.addMovieDisplay(this._wingDisplay);
+            }
+            else {
                 if (this._wingDisplay) {
-                    this._wingDisplay.destory();
+                    this._wingDisplay.setBind(null, null);
+                    //this._wingDisplay.removeSelf();
                     this._wingDisplay = null;
                 }
-                if (this._charNameVo) {
-                    this._charNameVo.destory();
-                    this._charNameVo = null;
-                }
-                if (this._charBloodVo) {
-                    this._charBloodVo.destory();
-                    this._charBloodVo = null;
-                }
-                if (this._charAngerVo) {
-                    this._charAngerVo.destory();
-                    this._charAngerVo = null;
-                }
-                this._hasDestory = true;
-                _super.prototype.destory.call(this);
-            };
-            Object.defineProperty(LayaSceneChar.prototype, "visible", {
-                get: function () {
-                    return this._visible;
-                },
-                set: function (value) {
-                    this._visible = value;
-                    this.applyVisible();
-                },
-                enumerable: true,
-                configurable: true
+            }
+        };
+        LayaSceneChar.prototype.setWeapon = function (num) {
+            if (this._weaponNum == num) {
+                return;
+            }
+            this._weaponNum = num;
+            if (num <= 0) { //移除武器
+                this.removePart(LayaSceneChar.WEAPON_PART);
+            }
+            else {
+                this.setWeaponByAvatar(this._weaponNum);
+            }
+        };
+        LayaSceneChar.prototype.setWeaponByAvatar = function (avatar, $suffix) {
+            if ($suffix === void 0) { $suffix = ""; }
+            this.addPart(LayaSceneChar.WEAPON_PART, LayaSceneChar.WEAPON_DEFAULT_SLOT, this.getSceneCharWeaponUrl(avatar, $suffix));
+        };
+        LayaSceneChar.prototype.addPart = function ($key, $bindSocket, $url) {
+            var _this = this;
+            if (this._partUrl[$key] == $url) { //如果相同则返回
+                return;
+            }
+            else if (this._partUrl[$key]) { //如果不同则先移除
+                this.removePart($key);
+            }
+            if (!this._partDic[$key]) {
+                this._partDic[$key] = new Array;
+            }
+            this._partUrl[$key] = $url;
+            var ary = this._partDic[$key];
+            this._scene.groupDataManager.scene = this._scene;
+            this._scene.groupDataManager.getGroupData(Scene_data.fileRoot + $url, function (groupRes) {
+                console.log($bindSocket, groupRes, ary);
+                _this.loadPartRes($bindSocket, groupRes, ary);
             });
-            Object.defineProperty(LayaSceneChar.prototype, "optimization", {
-                get: function () {
-                    return this._optimization;
-                },
-                set: function (value) {
-                    this._optimization = value;
-                    this.applyVisible();
-                },
-                enumerable: true,
-                configurable: true
+        };
+        LayaSceneChar.prototype.addPartToPos = function ($key, $url, $pos) {
+            var _this = this;
+            if ($pos === void 0) { $pos = null; }
+            if (this._partUrl[$key] == $url) { //如果相同则返回
+                return;
+            }
+            else if (this._partUrl[$key]) { //如果不同则先移除
+                this.removePart($key);
+            }
+            if (!this._partDic[$key]) {
+                this._partDic[$key] = new Array;
+            }
+            this._partUrl[$key] = $url;
+            var ary = this._partDic[$key];
+            this._scene.groupDataManager.scene = this._scene;
+            this._scene.groupDataManager.getGroupData(Scene_data.fileRoot + $url, function (groupRes) {
+                _this.loadPartToPos(groupRes, ary, $pos);
             });
-            Object.defineProperty(LayaSceneChar.prototype, "resultVisible", {
-                get: function () {
-                    return this._resultVisible;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneChar.prototype.applyVisible = function () {
-                var value = this._visible;
-                if (this._visible) {
-                    if (this._optimization) {
-                        value = false;
-                    }
-                    else {
-                        value = true;
-                    }
+        };
+        LayaSceneChar.prototype.loadPartToPos = function (groupRes, ary, $pos) {
+            if (this._hasDestory) {
+                return;
+            }
+            for (var i = 0; i < groupRes.dataAry.length; i++) {
+                var item = groupRes.dataAry[i];
+                var posV3d = new Vector3D($pos.x, $pos.y, $pos.z);
+                var rotationV3d = new Vector3D(0, 0, 0);
+                var scaleV3d = new Vector3D(1, 1, 1);
+                if (item.isGroup) {
+                    posV3d = new Vector3D(item.x + $pos.x, item.y + $pos.y, item.z + $pos.z);
+                    rotationV3d = new Vector3D(item.rotationX, item.rotationY, item.rotationZ);
+                    scaleV3d = new Vector3D(item.scaleX, item.scaleY, item.scaleZ);
+                }
+                if (item.types == BaseRes.SCENE_PARTICLE_TYPE) {
+                    var particle = ParticleManager.getInstance().getParticleByte(Scene_data.fileRoot + item.particleUrl);
+                    ary.push(particle);
+                    particle.bindTarget = this;
+                    particle.bindSocket = Pan3d.SceneChar.NONE_SLOT;
+                    particle.dynamic = true;
+                    this._scene.particleManager.addParticle(particle);
+                    particle.setGroup(posV3d, rotationV3d, scaleV3d);
+                }
+                else if (item.types == BaseRes.PREFAB_TYPE) {
+                    var display = new Display3DSprite();
+                    display.setObjUrl(item.objUrl);
+                    display.setMaterialUrl(item.materialUrl, item.materialInfoArr);
+                    display.dynamic = true;
+                    ary.push(display);
+                    display.setBind(this, Pan3d.SceneChar.NONE_SLOT);
+                    this._scene.addSpriteDisplay(display);
+                    display.setGroup(posV3d, rotationV3d, scaleV3d);
+                }
+            }
+            this.applyVisible();
+        };
+        LayaSceneChar.prototype.removePart = function ($key) {
+            var ary = this._partDic[$key];
+            if (!ary) {
+                return;
+            }
+            for (var i = 0; i < ary.length; i++) {
+                if (ary[i] instanceof CombineParticle) {
+                    this._scene.particleManager.removeParticle(ary[i]);
+                    ary[i].destory();
+                }
+                else if (ary[i] instanceof Display3DSprite) {
+                    this._scene.removeSpriteDisplay(ary[i]);
+                    ary[i].destory();
+                }
+            }
+            this._partDic[$key] = null;
+            this._partUrl[$key] = null;
+            delete this._partDic[$key];
+            delete this._partUrl[$key];
+        };
+        LayaSceneChar.prototype.getSceneCharAvatarUrl = function (num) {
+            var $tempNum = String(num);
+            if (num == 0) {
+                //console.log("衣服为0")
+                throw new Error("衣服为getSceneCharAvatarUrl");
+            }
+            var $url = getRoleUrl($tempNum);
+            return $url;
+        };
+        LayaSceneChar.prototype.onMeshLoaded = function () {
+            if (this._skinMesh) {
+                this.tittleHeight = this._skinMesh.tittleHeight * this._pScale;
+            }
+        };
+        LayaSceneChar.prototype.play = function ($action, $completeState, needFollow) {
+            if ($completeState === void 0) { $completeState = 0; }
+            if (needFollow === void 0) { needFollow = true; }
+            if (this.isMount) {
+                this._mountChar.visible = Boolean($action != CharAction.JUMP);
+                if ($action == CharAction.STANAD) {
+                    _super.prototype.play.call(this, CharAction.STAND_MOUNT);
+                }
+                else if ($action == CharAction.WALK) {
+                    _super.prototype.play.call(this, CharAction.WALK_MOUNT);
                 }
                 else {
+                    if (this._mountChar.visible) {
+                        _super.prototype.play.call(this, CharAction.STAND_MOUNT);
+                    }
+                    else {
+                        _super.prototype.play.call(this, CharAction.JUMP);
+                    }
+                }
+                return this._mountChar.play($action, $completeState, needFollow);
+            }
+            else {
+                return _super.prototype.play.call(this, $action, $completeState, needFollow);
+            }
+        };
+        LayaSceneChar.prototype.getCurrentAction = function () {
+            if (this.isMount) {
+                return this._mountChar.curentAction;
+            }
+            else {
+                return this.curentAction;
+            }
+        };
+        //平滑num=1为直接
+        LayaSceneChar.prototype.rotationToNew = function (value, num) {
+            if (num === void 0) { num = 1; }
+            var anum = value - this.pRotationY;
+            if (anum == 0) {
+                return;
+            }
+            if (anum < 1) {
+                this.pRotationY = value;
+                return;
+            }
+            var a = ((value - this.pRotationY) % 360 + 360) % 360;
+            if (a > 180) {
+                this.pRotationY -= (360 - a) / num;
+            }
+            else {
+                this.pRotationY += a / num;
+            }
+        };
+        LayaSceneChar.prototype.stopMove = function () {
+            this.play(CharAction.STANAD);
+        };
+        LayaSceneChar.prototype.watch = function ($obj, $syn) {
+            if ($syn === void 0) { $syn = false; }
+            if (!$obj) {
+                //console.log("面向对象无")
+                return;
+            }
+            var xx = $obj.x - this.px;
+            var yy = $obj.z - this.pz;
+            var distance = Math.sqrt(xx * xx + yy * yy);
+            xx /= distance;
+            yy /= distance;
+            var angle = Math.asin(xx) / Math.PI * 180;
+            if (yy <= 0) {
+                angle = 180 - angle;
+            }
+            if (!isNaN(angle)) {
+                this.forceRotationY = angle;
+            }
+        };
+        LayaSceneChar.prototype.getCurrentPos = function () {
+            return new Vector3D(this.px, this.py, this.pz);
+        };
+        /*
+        playSkill($skill: Skill): void {
+            if (!this._scene) {
+                return;
+            }
+            this._scene.skillManager.playSkill($skill);
+            this.skillVo = $skill;
+        }
+        */
+        LayaSceneChar.prototype.msgSpellStop = function () {
+            if (this.skillVo) {
+                ////console.log("停止技能播放");
+                this.skillVo.removeSkillForce();
+                this.changeAction(this._defaultAction);
+                this.skillVo = null;
+            }
+            this.isSinging = false;
+        };
+        /*
+        setScene(scene: Pan3d.SceneManager): void {
+            super.setScene(scene);
+            if (this._scene) {
+                this._mountChar && this._scene.addMovieDisplay(this._mountChar);
+                this._wingDisplay && this._scene.addMovieDisplay(this._wingDisplay);
+            }
+            this._bloodManager = this._scene instanceof PanScene ? this._scene.bloodManager : null;
+            this.nameEnable = this._nameEnable;
+            this.bloodEnable = this._bloodEnable;
+            this.angerEnable = this._angerEnable;
+        }
+
+        removeSelf(): void {
+            if (this._mountChar) {
+                this._mountChar.removeSelf();
+            }
+            if (this._wingDisplay) {
+                this._wingDisplay.removeSelf();
+            }
+            if (this._charNameVo) {
+                this._charNameVo.visible = false;
+            }
+            if (this._charBloodVo) {
+                this._charBloodVo.visible = false;
+            }
+            if (this._charAngerVo) {
+                this._charAngerVo.visible = false;
+            }
+            super.removeSelf();
+        }
+        */
+        LayaSceneChar.prototype.destory = function () {
+            if (this._hasDestory) {
+                return;
+            }
+            if (this.skillVo) {
+                this.skillVo.removeSkillForce();
+                this.skillVo = null;
+            }
+            if (this._mountChar) {
+                this._mountChar.destory();
+                this._mountChar = null;
+            }
+            if (this._wingDisplay) {
+                this._wingDisplay.destory();
+                this._wingDisplay = null;
+            }
+            if (this._charNameVo) {
+                this._charNameVo.destory();
+                this._charNameVo = null;
+            }
+            if (this._charBloodVo) {
+                this._charBloodVo.destory();
+                this._charBloodVo = null;
+            }
+            if (this._charAngerVo) {
+                this._charAngerVo.destory();
+                this._charAngerVo = null;
+            }
+            this._hasDestory = true;
+            _super.prototype.destory.call(this);
+        };
+        Object.defineProperty(LayaSceneChar.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+                this.applyVisible();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "optimization", {
+            get: function () {
+                return this._optimization;
+            },
+            set: function (value) {
+                this._optimization = value;
+                this.applyVisible();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "resultVisible", {
+            get: function () {
+                return this._resultVisible;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneChar.prototype.applyVisible = function () {
+            var value = this._visible;
+            if (this._visible) {
+                if (this._optimization) {
                     value = false;
                 }
-                if (this._partDic) {
-                    if (this._partDic[LayaSceneChar.WEAPON_PART]) {
-                        for (var _i = 0, _a = this._partDic[LayaSceneChar.WEAPON_PART]; _i < _a.length; _i++) {
-                            var obj = _a[_i];
-                            obj.sceneVisible = value;
-                        }
+                else {
+                    value = true;
+                }
+            }
+            else {
+                value = false;
+            }
+            if (this._partDic) {
+                if (this._partDic[LayaSceneChar.WEAPON_PART]) {
+                    for (var _i = 0, _a = this._partDic[LayaSceneChar.WEAPON_PART]; _i < _a.length; _i++) {
+                        var obj = _a[_i];
+                        obj.sceneVisible = value;
                     }
                 }
-                // this._mountChar && (this._mountChar.sceneVisible = value);
-                // this._wingDisplay && (this._wingDisplay.sceneVisible = value);
-                this._resultVisible = value;
-            };
-            Object.defineProperty(LayaSceneChar.prototype, "isCamera2D", {
-                set: function (v) {
-                    this._isCamera2D = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "bloodColor", {
-                set: function (v) {
-                    this._bloodColor = v;
-                    this._charBloodVo && (this._charBloodVo.colortype = this._bloodColor);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "hpRatio", {
-                get: function () {
-                    return this._hpRatio;
-                },
-                set: function (v) {
-                    this._hpRatio = v;
-                    this._charBloodVo && (this._charBloodVo.num = this._hpRatio);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "bloodEnable", {
-                set: function (v) {
-                    this._bloodEnable = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "angerColor", {
-                set: function (v) {
-                    this._angerColor = v;
-                    this._charAngerVo && (this._charAngerVo.colortype = this._angerColor);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "angerRatio", {
-                get: function () {
-                    return this._angerRatio;
-                },
-                set: function (v) {
-                    this._angerRatio = v;
-                    this._charAngerVo && (this._charAngerVo.num = this._angerRatio);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "angerEnable", {
-                set: function (v) {
-                    this._angerEnable = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "charName", {
-                get: function () {
-                    return this._charName || "";
-                },
-                set: function (v) {
-                    if (this._charName == v)
-                        return;
-                    this._charName = v;
-                    this._charNameVo && (this._charNameVo.name = this._charName);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "nameEnable", {
-                set: function (v) {
-                    this._nameEnable = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneChar.prototype.updateBind = function () {
-                _super.prototype.updateBind.call(this);
-                this.updateWeaponScale();
-                this.refreshPos();
-            };
-            LayaSceneChar.prototype.updateWeaponScale = function () {
-                if (this._partDic.hasOwnProperty(LayaSceneChar.WEAPON_PART)) {
-                    var ary = this._partDic[LayaSceneChar.WEAPON_PART];
-                    if (ary instanceof Array) {
-                        for (var i = 0; i < ary.length; i++) {
-                            var item = ary[i];
-                            if (item instanceof Display3DSprite) {
-                                item.scale = this._pScale;
-                            }
-                        }
-                    }
-                }
-            };
-            LayaSceneChar.prototype.refreshPos = function () {
-                var posY = this.py + this.tittleHeight;
-                if (this.isMount) {
-                    posY += 20;
-                }
-                //处理怒气条位置
-                if (this._charAngerVo) {
-                    this._charAngerVo.pos.x = this.px;
-                    this._charAngerVo.pos.y = posY;
-                    this._charAngerVo.pos.z = this.pz;
-                    this._charAngerVo.visible = this._resultVisible;
-                    posY += (this._isCamera2D ? 5 : 5);
-                }
-                //处理血条和名字位置 -FIXME--0
-                if (this._charBloodVo) {
-                    this._charBloodVo.pos.x = this.px;
-                    this._charBloodVo.pos.y = posY;
-                    this._charBloodVo.pos.z = this.pz;
-                    this._charBloodVo.visible = this._resultVisible;
-                    posY += (this._isCamera2D ? 10 : 10);
-                }
-                if (this._charNameVo) {
-                    this._charNameVo.pos.x = this.px;
-                    this._charNameVo.pos.y = posY;
-                    this._charNameVo.pos.z = this.pz;
-                    this._charNameVo.visible = this._resultVisible;
-                    // posY += 6;
-                }
-            };
-            Object.defineProperty(LayaSceneChar.prototype, "px", {
-                get: function () {
-                    return this._px;
-                },
-                set: function (value) {
-                    this._px = value;
-                    if (this._mountChar) {
-                        this._mountChar.x = this._px;
-                    }
-                    else {
-                        this.x = this.px;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(LayaSceneChar.prototype, "pz", {
-                get: function () {
-                    return this._pz;
-                },
-                set: function (value) {
-                    this._pz = value;
-                    if (this._mountChar) {
-                        this._mountChar.z = this._pz;
-                    }
-                    else {
-                        this.z = this.pz;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-            LayaSceneChar.prototype.update = function () {
-                if (!this._skinMesh) {
+            }
+            // this._mountChar && (this._mountChar.sceneVisible = value);
+            // this._wingDisplay && (this._wingDisplay.sceneVisible = value);
+            this._resultVisible = value;
+        };
+        Object.defineProperty(LayaSceneChar.prototype, "isCamera2D", {
+            set: function (v) {
+                this._isCamera2D = v;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "bloodColor", {
+            set: function (v) {
+                this._bloodColor = v;
+                this._charBloodVo && (this._charBloodVo.colortype = this._bloodColor);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "hpRatio", {
+            get: function () {
+                return this._hpRatio;
+            },
+            set: function (v) {
+                this._hpRatio = v;
+                this._charBloodVo && (this._charBloodVo.num = this._hpRatio);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "bloodEnable", {
+            set: function (v) {
+                this._bloodEnable = v;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "angerColor", {
+            set: function (v) {
+                this._angerColor = v;
+                this._charAngerVo && (this._charAngerVo.colortype = this._angerColor);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "angerRatio", {
+            get: function () {
+                return this._angerRatio;
+            },
+            set: function (v) {
+                this._angerRatio = v;
+                this._charAngerVo && (this._charAngerVo.num = this._angerRatio);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "angerEnable", {
+            set: function (v) {
+                this._angerEnable = v;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "charName", {
+            get: function () {
+                return this._charName || "";
+            },
+            set: function (v) {
+                if (this._charName == v)
                     return;
-                }
-                if (this._optimization) {
-                    return;
-                }
-                _super.prototype.update.call(this);
-                if (this._showHitBox) {
-                    if (!this.lineSprite) {
-                        ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
-                        this.lineSprite = new LineDisplaySprite();
-                        this.lineSprite.clear();
-                        for (var i = 0; i < this._triIndex.length / 3; i++) {
-                            var a = this._skinMesh.hitPosItem[this._triIndex[i * 3 + 0]];
-                            var b = this._skinMesh.hitPosItem[this._triIndex[i * 3 + 1]];
-                            var c = this._skinMesh.hitPosItem[this._triIndex[i * 3 + 2]];
-                            this.lineSprite.makeLineMode(a, b);
-                            this.lineSprite.makeLineMode(b, c);
-                            this.lineSprite.makeLineMode(c, a);
+                this._charName = v;
+                this._charNameVo && (this._charNameVo.name = this._charName);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "nameEnable", {
+            set: function (v) {
+                this._nameEnable = v;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneChar.prototype.updateBind = function () {
+            _super.prototype.updateBind.call(this);
+            this.updateWeaponScale();
+            this.refreshPos();
+        };
+        LayaSceneChar.prototype.updateWeaponScale = function () {
+            if (this._partDic.hasOwnProperty(LayaSceneChar.WEAPON_PART)) {
+                var ary = this._partDic[LayaSceneChar.WEAPON_PART];
+                if (ary instanceof Array) {
+                    for (var i = 0; i < ary.length; i++) {
+                        var item = ary[i];
+                        if (item instanceof Display3DSprite) {
+                            item.scale = this._pScale;
                         }
-                        this.lineSprite.upToGpu();
                     }
-                    this.lineSprite.posMatrix = this.posMatrix.clone();
-                    this.lineSprite.update();
                 }
-            };
-            LayaSceneChar.prototype.math_distance = function ($other) {
-                return MathClass.math_distance(this.px, this.pz, $other.x, $other.z);
-            };
-            LayaSceneChar.prototype.get2dPos = function () {
-                var $v2d = new Vector2D;
-                var $nScale = 0.25 / scene2d_me.Override2dEngine.htmlScale;
+            }
+        };
+        LayaSceneChar.prototype.refreshPos = function () {
+            var posY = this.py + this.tittleHeight;
+            if (this.isMount) {
+                posY += 20;
+            }
+            //处理怒气条位置
+            if (this._charAngerVo) {
+                this._charAngerVo.pos.x = this.px;
+                this._charAngerVo.pos.y = posY;
+                this._charAngerVo.pos.z = this.pz;
+                this._charAngerVo.visible = this._resultVisible;
+                posY += (this._isCamera2D ? 5 : 5);
+            }
+            //处理血条和名字位置 -FIXME--0
+            if (this._charBloodVo) {
+                this._charBloodVo.pos.x = this.px;
+                this._charBloodVo.pos.y = posY;
+                this._charBloodVo.pos.z = this.pz;
+                this._charBloodVo.visible = this._resultVisible;
+                posY += (this._isCamera2D ? 10 : 10);
+            }
+            if (this._charNameVo) {
+                this._charNameVo.pos.x = this.px;
+                this._charNameVo.pos.y = posY;
+                this._charNameVo.pos.z = this.pz;
+                this._charNameVo.visible = this._resultVisible;
+                // posY += 6;
+            }
+        };
+        Object.defineProperty(LayaSceneChar.prototype, "px", {
+            get: function () {
+                return this._px;
+            },
+            set: function (value) {
+                this._px = value;
                 if (this._mountChar) {
-                    $v2d.x = this._mountChar.px;
-                    $v2d.y = this._mountChar.pz;
+                    this._mountChar.x = this._px;
                 }
                 else {
-                    $v2d.x = this.px;
-                    $v2d.y = this.pz;
+                    this.x = this.px;
                 }
-                $v2d.x = $v2d.x / $nScale;
-                $v2d.y = $v2d.y / -1 * (Math.sin(45 * Math.PI / 180)) / $nScale;
-                return $v2d;
-            };
-            LayaSceneChar.prototype.set2dPos = function ($x, $y) {
-                var $nScale = 0.25 / scene2d_me.Override2dEngine.htmlScale;
-                var $tx = $x * $nScale;
-                var $tz = $y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
-                this._px = $tx;
-                this._pz = $tz;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LayaSceneChar.prototype, "pz", {
+            get: function () {
+                return this._pz;
+            },
+            set: function (value) {
+                this._pz = value;
                 if (this._mountChar) {
-                    this._mountChar.x = $tx;
-                    this._mountChar.z = $tz;
+                    this._mountChar.z = this._pz;
                 }
                 else {
-                    this.x = $tx;
-                    this.z = $tz;
+                    this.z = this.pz;
                 }
-            };
-            LayaSceneChar.prototype.math3DWorldtoDisplay2DPos = function ($pos) {
-                var $scene = this._scene;
-                var m = $scene.cameraMatrix.clone();
-                m.append($scene.viewMatrx3D.clone());
-                var fovw = Scene_data.stageWidth;
-                var fovh = Scene_data.stageHeight;
-                var p = m.transformVector($pos);
-                var b = new Vector2D;
-                b.x = ((p.x / p.w) + 1) * (fovw / 2);
-                b.y = ((-p.y / p.w) + 1) * (fovh / 2);
-                return b;
-            };
-            LayaSceneChar.prototype.mouseClik = function (lineA, $lineB) {
-                var $scene = this._scene;
-                var $pos = $scene.cameraMatrix.transformVector(this.getCurrentPos());
-                if ($pos.z < 10) { //在Z后面
-                    return false;
-                }
-                var hitVec2 = this.math3DWorldtoDisplay2DPos($lineB);
-                if (this._skinMesh) {
-                    if (!this._hitBox2DItem) {
-                        this._hitBox2DItem = new Array;
-                    }
-                    this._hitBox2DItem.length = 0;
-                    for (var j = 0; j < this._skinMesh.hitPosItem.length; j++) {
-                        var temppp = this.posMatrix.transformVector(this._skinMesh.hitPosItem[j]);
-                        this._hitBox2DItem.push(this.math3DWorldtoDisplay2DPos(temppp));
-                    }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        LayaSceneChar.prototype.update = function () {
+            if (!this._skinMesh) {
+                return;
+            }
+            if (this._optimization) {
+                return;
+            }
+            _super.prototype.update.call(this);
+            if (this._showHitBox) {
+                if (!this.lineSprite) {
+                    ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
+                    this.lineSprite = new LineDisplaySprite();
+                    this.lineSprite.clear();
                     for (var i = 0; i < this._triIndex.length / 3; i++) {
-                        TestTriangle.baseTri.p1 = this._hitBox2DItem[this._triIndex[i * 3 + 0]];
-                        TestTriangle.baseTri.p2 = this._hitBox2DItem[this._triIndex[i * 3 + 1]];
-                        TestTriangle.baseTri.p3 = this._hitBox2DItem[this._triIndex[i * 3 + 2]];
-                        if (TestTriangle.baseTri.checkPointIn(hitVec2)) {
-                            console.log(this._hitBox2DItem);
-                            return true;
-                        }
+                        var a = this._skinMesh.hitPosItem[this._triIndex[i * 3 + 0]];
+                        var b = this._skinMesh.hitPosItem[this._triIndex[i * 3 + 1]];
+                        var c = this._skinMesh.hitPosItem[this._triIndex[i * 3 + 2]];
+                        this.lineSprite.makeLineMode(a, b);
+                        this.lineSprite.makeLineMode(b, c);
+                        this.lineSprite.makeLineMode(c, a);
                     }
+                    this.lineSprite.upToGpu();
                 }
-                else {
-                    if (Vector2D.distance(hitVec2, this.math3DWorldtoDisplay2DPos(this.posMatrix.position)) < 20) {
+                this.lineSprite.posMatrix = this.posMatrix.clone();
+                this.lineSprite.update();
+            }
+        };
+        LayaSceneChar.prototype.math_distance = function ($other) {
+            return MathClass.math_distance(this.px, this.pz, $other.x, $other.z);
+        };
+        LayaSceneChar.prototype.get2dPos = function () {
+            var $v2d = new Vector2D;
+            var $nScale = 0.25 / scene2d_me.Override2dEngine.htmlScale;
+            if (this._mountChar) {
+                $v2d.x = this._mountChar.px;
+                $v2d.y = this._mountChar.pz;
+            }
+            else {
+                $v2d.x = this.px;
+                $v2d.y = this.pz;
+            }
+            $v2d.x = $v2d.x / $nScale;
+            $v2d.y = $v2d.y / -1 * (Math.sin(45 * Math.PI / 180)) / $nScale;
+            return $v2d;
+        };
+        LayaSceneChar.prototype.set2dPos = function ($x, $y) {
+            var $nScale = 0.25 / scene2d_me.Override2dEngine.htmlScale;
+            var $tx = $x * $nScale;
+            var $tz = $y * $nScale / (Math.sin(45 * Math.PI / 180)) * -1;
+            this._px = $tx;
+            this._pz = $tz;
+            if (this._mountChar) {
+                this._mountChar.x = $tx;
+                this._mountChar.z = $tz;
+            }
+            else {
+                this.x = $tx;
+                this.z = $tz;
+            }
+        };
+        LayaSceneChar.prototype.math3DWorldtoDisplay2DPos = function ($pos) {
+            var $scene = this._scene;
+            var m = $scene.cameraMatrix.clone();
+            m.append($scene.viewMatrx3D.clone());
+            var fovw = Scene_data.stageWidth;
+            var fovh = Scene_data.stageHeight;
+            var p = m.transformVector($pos);
+            var b = new Vector2D;
+            b.x = ((p.x / p.w) + 1) * (fovw / 2);
+            b.y = ((-p.y / p.w) + 1) * (fovh / 2);
+            return b;
+        };
+        LayaSceneChar.prototype.mouseClik = function (lineA, $lineB) {
+            var $scene = this._scene;
+            var $pos = $scene.cameraMatrix.transformVector(this.getCurrentPos());
+            if ($pos.z < 10) { //在Z后面
+                return false;
+            }
+            var hitVec2 = this.math3DWorldtoDisplay2DPos($lineB);
+            if (this._skinMesh) {
+                if (!this._hitBox2DItem) {
+                    this._hitBox2DItem = new Array;
+                }
+                this._hitBox2DItem.length = 0;
+                for (var j = 0; j < this._skinMesh.hitPosItem.length; j++) {
+                    var temppp = this.posMatrix.transformVector(this._skinMesh.hitPosItem[j]);
+                    this._hitBox2DItem.push(this.math3DWorldtoDisplay2DPos(temppp));
+                }
+                for (var i = 0; i < this._triIndex.length / 3; i++) {
+                    TestTriangle.baseTri.p1 = this._hitBox2DItem[this._triIndex[i * 3 + 0]];
+                    TestTriangle.baseTri.p2 = this._hitBox2DItem[this._triIndex[i * 3 + 1]];
+                    TestTriangle.baseTri.p3 = this._hitBox2DItem[this._triIndex[i * 3 + 2]];
+                    if (TestTriangle.baseTri.checkPointIn(hitVec2)) {
+                        console.log(this._hitBox2DItem);
                         return true;
                     }
                 }
-                return false;
-                //var $pos: Vector3D = Scene_data.cam3D.cameraMatrix.transformVector(this.getCurrentPos())
-                //          if ($pos.z < Scene_data.cam3D.distance / 3) { //在Z后面
-                //              return false
-                //          }
-                //          var hitVec2: Vector2D = MathUtil.math3DWorldtoDisplay2DPos($lineB)
-                //          if (this._skinMesh) {
-                //              if (!this._hitBox2DItem) {
-                //                  this._hitBox2DItem = new Array;
-                //              }
-                //              this._hitBox2DItem.length = 0
-                //              for (var j: number = 0; j < this._skinMesh.hitPosItem.length; j++) {
-                //                  var temppp: Vector3D = this.posMatrix.transformVector(this._skinMesh.hitPosItem[j])
-                //                  this._hitBox2DItem.push(MathUtil.math3DWorldtoDisplay2DPos(temppp))
-                //              }
-                //              for (var i: number = 0; i < this._triIndex.length / 3; i++) {
-                //                  TestTriangle.baseTri.p1 = this._hitBox2DItem[this._triIndex[i * 3 + 0]];
-                //                  TestTriangle.baseTri.p2 = this._hitBox2DItem[this._triIndex[i * 3 + 1]];
-                //                  TestTriangle.baseTri.p3 = this._hitBox2DItem[this._triIndex[i * 3 + 2]];
-                //                  if (TestTriangle.baseTri.checkPointIn(hitVec2)) {
-                //                      console.log(this._hitBox2DItem)
-                //                      return true
-                //                  }
-                //              }
-                //          } else {
-                //              if (Vector2D.distance(hitVec2, MathUtil.math3DWorldtoDisplay2DPos(this.posMatrix.position)) < 20) {
-                //                  return true
-                //              }
-                //          }
-                //          return false
-            };
-            LayaSceneChar.prototype.removeStage = function () {
-                _super.prototype.removeStage.call(this);
-                if (this._charNameVo) {
-                    this._charNameVo.visible = false;
+            }
+            else {
+                if (Vector2D.distance(hitVec2, this.math3DWorldtoDisplay2DPos(this.posMatrix.position)) < 20) {
+                    return true;
                 }
-                if (this._charBloodVo) {
-                    this._charBloodVo.visible = false;
-                }
-                if (this._mountChar) {
-                    this._scene.removeMovieDisplay(this._mountChar);
-                }
-                if (this._wingDisplay) {
-                    this._scene.removeMovieDisplay(this._wingDisplay);
-                }
-            };
-            LayaSceneChar.prototype.addStage = function () {
-                _super.prototype.addStage.call(this);
-                if (this._charNameVo) {
-                    this._charNameVo.visible = true;
-                }
-                if (this._charBloodVo) {
-                    this._charBloodVo.visible = true;
-                }
-                if (this._mountChar) {
-                    this._scene.addMovieDisplay(this._mountChar);
-                }
-                if (this._wingDisplay) {
-                    this._scene.addMovieDisplay(this._wingDisplay);
-                }
-            };
-            // 血条颜色 对应素材 res_3d\ui\load\blood.png
-            LayaSceneChar.BLOOD_COLOR_HP = 0;
-            LayaSceneChar.BLOOD_COLOR_ANGER = 1;
-            LayaSceneChar.Defaul_Man_Avatar = 2002; //男
-            LayaSceneChar.Defaul_WoMan_Avater = 2012; //女
-            LayaSceneChar.WEAPON_PART = "weapon";
-            LayaSceneChar.WEAPON_DEFAULT_SLOT = "w_01";
-            LayaSceneChar.MOUNT_SLOT = "mount_01";
-            LayaSceneChar.WING_SLOT = "wing_01";
-            LayaSceneChar.SEL_PART = "select";
-            LayaSceneChar.QUEST_ICON = "questicon";
-            LayaSceneChar.NONE_SLOT = "none";
-            return LayaSceneChar;
-        }(me.LayaSceneBaseChar));
-        me.LayaSceneChar = LayaSceneChar;
-    })(me = layapan.me || (layapan.me = {}));
-})(layapan || (layapan = {}));
+            }
+            return false;
+            //var $pos: Vector3D = Scene_data.cam3D.cameraMatrix.transformVector(this.getCurrentPos())
+            //          if ($pos.z < Scene_data.cam3D.distance / 3) { //在Z后面
+            //              return false
+            //          }
+            //          var hitVec2: Vector2D = MathUtil.math3DWorldtoDisplay2DPos($lineB)
+            //          if (this._skinMesh) {
+            //              if (!this._hitBox2DItem) {
+            //                  this._hitBox2DItem = new Array;
+            //              }
+            //              this._hitBox2DItem.length = 0
+            //              for (var j: number = 0; j < this._skinMesh.hitPosItem.length; j++) {
+            //                  var temppp: Vector3D = this.posMatrix.transformVector(this._skinMesh.hitPosItem[j])
+            //                  this._hitBox2DItem.push(MathUtil.math3DWorldtoDisplay2DPos(temppp))
+            //              }
+            //              for (var i: number = 0; i < this._triIndex.length / 3; i++) {
+            //                  TestTriangle.baseTri.p1 = this._hitBox2DItem[this._triIndex[i * 3 + 0]];
+            //                  TestTriangle.baseTri.p2 = this._hitBox2DItem[this._triIndex[i * 3 + 1]];
+            //                  TestTriangle.baseTri.p3 = this._hitBox2DItem[this._triIndex[i * 3 + 2]];
+            //                  if (TestTriangle.baseTri.checkPointIn(hitVec2)) {
+            //                      console.log(this._hitBox2DItem)
+            //                      return true
+            //                  }
+            //              }
+            //          } else {
+            //              if (Vector2D.distance(hitVec2, MathUtil.math3DWorldtoDisplay2DPos(this.posMatrix.position)) < 20) {
+            //                  return true
+            //              }
+            //          }
+            //          return false
+        };
+        LayaSceneChar.prototype.removeStage = function () {
+            _super.prototype.removeStage.call(this);
+            if (this._charNameVo) {
+                this._charNameVo.visible = false;
+            }
+            if (this._charBloodVo) {
+                this._charBloodVo.visible = false;
+            }
+            if (this._mountChar) {
+                this._scene.removeMovieDisplay(this._mountChar);
+            }
+            if (this._wingDisplay) {
+                this._scene.removeMovieDisplay(this._wingDisplay);
+            }
+        };
+        LayaSceneChar.prototype.addStage = function () {
+            _super.prototype.addStage.call(this);
+            if (this._charNameVo) {
+                this._charNameVo.visible = true;
+            }
+            if (this._charBloodVo) {
+                this._charBloodVo.visible = true;
+            }
+            if (this._mountChar) {
+                this._scene.addMovieDisplay(this._mountChar);
+            }
+            if (this._wingDisplay) {
+                this._scene.addMovieDisplay(this._wingDisplay);
+            }
+        };
+        // 血条颜色 对应素材 res_3d\ui\load\blood.png
+        LayaSceneChar.BLOOD_COLOR_HP = 0;
+        LayaSceneChar.BLOOD_COLOR_ANGER = 1;
+        LayaSceneChar.Defaul_Man_Avatar = 2002; //男
+        LayaSceneChar.Defaul_WoMan_Avater = 2012; //女
+        LayaSceneChar.WEAPON_PART = "weapon";
+        LayaSceneChar.WEAPON_DEFAULT_SLOT = "w_01";
+        LayaSceneChar.MOUNT_SLOT = "mount_01";
+        LayaSceneChar.WING_SLOT = "wing_01";
+        LayaSceneChar.SEL_PART = "select";
+        LayaSceneChar.QUEST_ICON = "questicon";
+        LayaSceneChar.NONE_SLOT = "none";
+        return LayaSceneChar;
+    }(layapan_me.LayaSceneBaseChar));
+    layapan_me.LayaSceneChar = LayaSceneChar;
+})(layapan_me || (layapan_me = {}));
 //# sourceMappingURL=LayaSceneChar.js.map
 //# sourceMappingURL=ITile.js.map
 var __extends = (this && this.__extends) || (function () {
@@ -37653,6 +37635,7 @@ var pack;
             if ($materialTree.hasTime) {
                 $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y);
             }
+            $materialTree.showurl = $temp.info.showurl;
             $materialTree.blendMode = $temp.info.blendMode;
             $materialTree.writeZbuffer = $temp.info.writeZbuffer;
             $materialTree.zbuff = $temp.info.zbuff;
@@ -37952,7 +37935,7 @@ var pack;
     var LoadManager = Pan3d.LoadManager;
     var Scene_data = Pan3d.Scene_data;
     var RoleStaticMesh = pack.RoleStaticMesh;
-    var MeshData = Pan3dshData;
+    var MeshData = Pan3d.MeshData;
     var AnimData = Pan3d.AnimData;
     var SkinMesh = Pan3d.SkinMesh;
     var DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
@@ -38176,7 +38159,7 @@ var pack;
 //# sourceMappingURL=PackSkillManager.js.map
 var md5list;
 (function (md5list) {
-    var MeshData = Pan3dshData;
+    var MeshData = Pan3d.MeshData;
     var Quaternion = Pan3d.Quaternion;
     var Vector3D = Pan3d.Vector3D;
     var Scene_data = Pan3d.Scene_data;
@@ -39157,7 +39140,7 @@ var __extends = (this && this.__extends) || (function () {
 var md5list;
 (function (md5list) {
     var Vector3D = Pan3d.Vector3D;
-    var MeshData = Pan3dshData;
+    var MeshData = Pan3d.MeshData;
     var Scene_data = Pan3d.Scene_data;
     var ObjectTri = /** @class */ (function () {
         function ObjectTri() {
@@ -39485,6 +39468,7 @@ var win;
             this._baseMidRender.uiAtlas = this._bRender.uiAtlas;
             this._baseTopRender.uiAtlas = this._bRender.uiAtlas;
             this._uiMask = new UIMask();
+            BaseWindow.maskLevel++;
             this._uiMask.level = BaseWindow.maskLevel++;
             this.addMask(this._uiMask);
             this.a_bg = this.addEvntBut("b_win_bg", this._bRender);
@@ -39797,35 +39781,34 @@ var win;
             var empty;
             //找到上一个数据和现在是一样的对象.避免重复更新纹理
             for (var j = 0; j < this._uiItem.length; j++) {
-                if (this._uiItem[j].data == null && this._uiItem[j].isEqualLastKey($data)) {
+                if (this._uiItem[j].rightTabInfoVo == null && this._uiItem[j].isEqualLastKey($data)) {
                     empty = this._uiItem[j];
                     break;
                 }
             }
             if (!empty) {
                 for (var i = 0; i < this._uiItem.length; i++) {
-                    if (this._uiItem[i].data == null) {
+                    if (this._uiItem[i].rightTabInfoVo == null) {
                         empty = this._uiItem[i];
                         break;
                     }
                 }
             }
             if (empty) {
-                empty.data = $data;
+                empty.rightTabInfoVo = $data;
                 this.addChild(empty.ui);
             }
             else {
-                // this._lostItem.push($data)  //原来存放到等待列表
-                this.makeOtherRender($data);
+                var tempRender = this.makeOtherRender();
+                this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
+                this.addRender(tempRender);
+                empty = this.showTemp($data);
             }
             return empty;
         };
-        //重新创建出显示列表
-        Dis2dBaseWindow.prototype.makeOtherRender = function ($data) {
+        Dis2dBaseWindow.prototype.makeOtherRender = function () {
             var tempRender = new UIRenderComponent;
-            this.initData(this.panelInfo.classVo, this.panelInfo.rect, this.panelInfo.num, tempRender);
-            this.addRender(tempRender);
-            return this.showTemp($data);
+            return tempRender;
         };
         Dis2dBaseWindow.prototype.clearLostItem = function () {
             for (var i = (this._lostItem.length - 1); i > 0; i--) {
@@ -39841,18 +39824,18 @@ var win;
         };
         Dis2dBaseWindow.prototype.clearOneTemp = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (!this._uiItem[i].data) {
+                if (!this._uiItem[i].rightTabInfoVo) {
                     return;
                 }
             }
             this._lostItem.length = 0;
-            this.clearTemp(this._uiItem[0].data);
+            this.clearTemp(this._uiItem[0].rightTabInfoVo);
         };
         //清理单元内的内容并需要将对象移出显示队例
         Dis2dBaseWindow.prototype.clearTemp = function ($data) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == $data) {
-                    this._uiItem[i].data = null;
+                if (this._uiItem[i].rightTabInfoVo == $data) {
+                    this._uiItem[i].rightTabInfoVo = null;
                     this.removeChild(this._uiItem[i].ui);
                     break;
                 }
@@ -39861,14 +39844,14 @@ var win;
         };
         Dis2dBaseWindow.prototype.getVoByData = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data == value) {
+                if (this._uiItem[i].rightTabInfoVo == value) {
                     return this._uiItem[i];
                 }
             }
         };
         Dis2dBaseWindow.prototype.getVoByUi = function ($ui) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     if (this._uiItem[i].ui == $ui) {
                         return this._uiItem[i];
                     }
@@ -39877,14 +39860,14 @@ var win;
         };
         Dis2dBaseWindow.prototype.clearAll = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data);
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo);
                 }
             }
         };
         Dis2dBaseWindow.prototype.update = function (t) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     this._uiItem[i].update();
                 }
             }
@@ -39892,7 +39875,7 @@ var win;
         Dis2dBaseWindow.prototype.getUiItemLen = function () {
             var $num = 0;
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
+                if (this._uiItem[i].rightTabInfoVo) {
                     $num++;
                 }
             }
@@ -40281,7 +40264,7 @@ var pack;
         };
         FileOssModel.indexFileName = "index.hidegroup"; //配置文件名读取这个文件标记为文件夹下的所以
         FileOssModel.isMustUseOssGetDic = false; //是否必须使用OSS方案 //当文件内有添加删除文件，需要更新配置文件目录
-        FileOssModel.webseverurl = "https://api.h5key.com/api/";
+        FileOssModel.webseverurl = "http://api.h5key.com/api/";
         FileOssModel.waitItemUpFile = [];
         FileOssModel.version = 1;
         return FileOssModel;
@@ -43395,7 +43378,7 @@ var left;
             configurable: true
         });
         MaterialModelSprite.prototype.update = function () {
-            if (this.isTextureLoadFinish) {
+            if (this.isTextureLoadFinish && this.sceneVisible) {
                 if (this.material) {
                     var $materialTree = this.material;
                     $materialTree.shader = $materialTree.modelShader;
@@ -43775,7 +43758,7 @@ var __extends = (this && this.__extends) || (function () {
 var left;
 (function (left) {
     var Display3dMovie = Pan3d.Display3dMovie;
-    var MeshData = Pan3dshData;
+    var MeshData = Pan3d.MeshData;
     var TexItem = Pan3d.TexItem;
     var AnimData = Pan3d.AnimData;
     var SkinMesh = Pan3d.SkinMesh;
@@ -43788,7 +43771,9 @@ var left;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         MaterialRoleSprite.prototype.update = function () {
-            _super.prototype.update.call(this);
+            if (this.sceneVisible) {
+                _super.prototype.update.call(this);
+            }
         };
         Object.defineProperty(MaterialRoleSprite.prototype, "skinMesh", {
             get: function () {
@@ -44195,11 +44180,11 @@ var pack;
     var RoleRes = Pan3d.RoleRes;
     var SkinMesh = Pan3d.SkinMesh;
     var BaseRes = Pan3d.BaseRes;
-    var MeshData = Pan3dshData;
+    var MeshData = Pan3d.MeshData;
     var AnimData = Pan3d.AnimData;
     var Dictionary = Pan3d.Dictionary;
     var DualQuatFloat32Array = Pan3d.DualQuatFloat32Array;
-    var MeshDataManager = Pan3dshDataManager;
+    var MeshDataManager = Pan3d.MeshDataManager;
     var Scene_data = Pan3d.Scene_data;
     var LoadManager = Pan3d.LoadManager;
     var MeshDataChangeManager = /** @class */ (function (_super) {
@@ -44693,10 +44678,10 @@ var editscene;
             return _this;
         }
         LabelTxtVo.prototype.makeData = function () {
-            if (this.data) {
+            if (this.rightTabInfoVo) {
                 this.ui.width = this.ui.baseRec.width * this.uiScale;
                 this.ui.height = this.ui.baseRec.height * this.uiScale;
-                var $menuListData = this.data;
+                var $menuListData = this.rightTabInfoVo;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -44951,7 +44936,7 @@ var editscene;
         };
         EditTopMenuPanel.prototype.setColorByLevel = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                var menuListData = this._uiItem[i].data;
+                var menuListData = this._uiItem[i].rightTabInfoVo;
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false;
                     this._uiItem[i].makeData();
@@ -44960,7 +44945,7 @@ var editscene;
         };
         EditTopMenuPanel.prototype.removeOtherSonMenu = function (level) {
             for (var i = this._uiItem.length - 1; i >= 0; i--) {
-                var $menuListData = this._uiItem[i].data;
+                var $menuListData = this._uiItem[i].rightTabInfoVo;
                 if ($menuListData && $menuListData.level > level) {
                     this.clearTemp($menuListData);
                 }
@@ -44968,8 +44953,8 @@ var editscene;
         };
         EditTopMenuPanel.prototype.butMove = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                var menuListData = temp.data;
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
                 this.removeOtherSonMenu(menuListData.level);
                 menuListData.select = true;
@@ -44979,8 +44964,8 @@ var editscene;
         };
         EditTopMenuPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                this.bfun(temp.data, evt);
+            if (temp && temp.rightTabInfoVo) {
+                this.bfun(temp.rightTabInfoVo, evt);
                 this.removeOtherSonMenu(0);
             }
         };
@@ -45339,38 +45324,6 @@ var editscene;
         return CentenPanel;
     }(Panel));
     editscene.CentenPanel = CentenPanel;
-    var MainRightBaseWin = /** @class */ (function (_super) {
-        __extends(MainRightBaseWin, _super);
-        function MainRightBaseWin() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        MainRightBaseWin.prototype.loadConfigCom = function () {
-            _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.e_panel_1], true);
-        };
-        return MainRightBaseWin;
-    }(win.BaseWindow));
-    editscene.MainRightBaseWin = MainRightBaseWin;
-    var MainRightPanel = /** @class */ (function (_super) {
-        __extends(MainRightPanel, _super);
-        function MainRightPanel(has) {
-            if (has === void 0) { has = true; }
-            var _this = _super.call(this) || this;
-            if (has) {
-                _this.winBg = new MainRightBaseWin();
-                _this.addUIContainer(_this.winBg);
-                _this.changeSize();
-            }
-            return _this;
-        }
-        MainRightPanel.prototype.changeSize = function () {
-            if (this.winBg) {
-                this.winBg.setRect(this.rect);
-            }
-        };
-        return MainRightPanel;
-    }(Panel));
-    editscene.MainRightPanel = MainRightPanel;
     var EditScenePanel = /** @class */ (function (_super) {
         __extends(EditScenePanel, _super);
         function EditScenePanel() {
@@ -45399,7 +45352,7 @@ var editscene;
             AppData.centenPanel = temp;
         };
         EditScenePanel.prototype.addRight = function () {
-            var temp = new MainRightPanel(true);
+            var temp = new editscene.MainRightPanel(true);
             temp.x = 1000;
             temp.y = 0;
             temp.width = 450;
@@ -45774,8 +45727,8 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.butMove = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                var menuListData = temp.data;
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
                 menuListData.select = true;
                 temp.makeData();
@@ -45783,7 +45736,7 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.setColorByLevel = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                var menuListData = this._uiItem[i].data;
+                var menuListData = this._uiItem[i].rightTabInfoVo;
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false;
                     this._uiItem[i].makeData();
@@ -45792,8 +45745,8 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.clearAll = function () {
             for (var i = 0; i < this._uiItem.length; i++) {
-                if (this._uiItem[i].data) {
-                    this.clearTemp(this._uiItem[i].data);
+                if (this._uiItem[i].rightTabInfoVo) {
+                    this.clearTemp(this._uiItem[i].rightTabInfoVo);
                 }
             }
         };
@@ -45806,9 +45759,9 @@ var menutwo;
         };
         ComboTwoBoxMenu.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
+            if (temp && temp.rightTabInfoVo) {
                 // console.log(temp.data, evt)
-                this._comBoxFun(Number(temp.data.key));
+                this._comBoxFun(Number(temp.rightTabInfoVo.key));
                 this.clearAll();
             }
         };
@@ -45856,8 +45809,8 @@ var menutwo;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         LabelTxtVo.prototype.makeData = function () {
-            if (this.data) {
-                var $menuListData = this.data;
+            if (this.rightTabInfoVo) {
+                var $menuListData = this.rightTabInfoVo;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -45917,7 +45870,7 @@ var menutwo;
         };
         MenuTwoPanel.prototype.setColorByLevel = function (value) {
             for (var i = 0; i < this._uiItem.length; i++) {
-                var menuListData = this._uiItem[i].data;
+                var menuListData = this._uiItem[i].rightTabInfoVo;
                 if (menuListData && menuListData.level == value) {
                     menuListData.select = false;
                     this._uiItem[i].makeData();
@@ -45926,7 +45879,7 @@ var menutwo;
         };
         MenuTwoPanel.prototype.removeOtherSonMenu = function (level) {
             for (var i = this._uiItem.length - 1; i >= 0; i--) {
-                var $menuListData = this._uiItem[i].data;
+                var $menuListData = this._uiItem[i].rightTabInfoVo;
                 if ($menuListData && $menuListData.level > level) {
                     this.clearTemp($menuListData);
                 }
@@ -45934,8 +45887,8 @@ var menutwo;
         };
         MenuTwoPanel.prototype.butMove = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                var menuListData = temp.data;
+            if (temp && temp.rightTabInfoVo) {
+                var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
                 this.removeOtherSonMenu(menuListData.level);
                 menuListData.select = true;
@@ -45945,8 +45898,8 @@ var menutwo;
         };
         MenuTwoPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
-            if (temp && temp.data) {
-                this.bfun(temp.data, evt);
+            if (temp && temp.rightTabInfoVo) {
+                this.bfun(temp.rightTabInfoVo, evt);
                 this.clearAll();
             }
         };
@@ -46646,9 +46599,14 @@ var prop;
             this.categoryKey = {};
             this.hideCategoryKey = {};
             this.propPanle = value;
-            //  this.propPanle = prop.PropModel.getInstance().propPanle;
             this.creat(this.getView());
         }
+        MetaDataView.prototype.getMeshInfo = function () {
+            var obj = {};
+            obj.class = this;
+            obj.data = this.data;
+            return obj;
+        };
         MetaDataView.prototype.onAdd = function () {
             console.log("onRemove");
             for (var i = 0; this.ui && i < this.ui.length; i++) {
@@ -46694,6 +46652,10 @@ var prop;
             enumerable: true,
             configurable: true
         });
+        MetaDataView.prototype.replayUiList = function () {
+            this.destory(); //复活UI
+            this.creat(this.getView());
+        };
         MetaDataView.prototype.getView = function () {
             var ary = [];
             return ary;
@@ -46714,35 +46676,71 @@ var prop;
             this.categoryKey = {};
             for (var i = 0; i < data.length; i++) {
                 if (data[i].Category && !this.categoryKey[data[i].Category]) {
-                    this.categoryKey[data[i].Category] = true;
-                    var tempCategory2DUI = this.getCategoryUI(data[i].Category);
-                    tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
-                    this.ui.push(tempCategory2DUI);
+                    if (!this.hideCategory) {
+                        this.hideCategory = data[i].Category;
+                    }
+                    if (this.hideCategory != data[i].Category) {
+                        this.categoryKey[data[i].Category] = true;
+                        var tempCategory2DUI = this.getCategoryUI(data[i].Category);
+                        tempCategory2DUI.data = this.hideCategoryKey[data[i].Category];
+                        this.ui.push(tempCategory2DUI);
+                    }
                 }
                 if (!Boolean(this.hideCategoryKey[data[i].Category])) {
-                    this.ui.push(this.creatComponent(data[i]));
+                    var tempUi = this.creatComponent(data[i]);
+                    tempUi.Category = data[i].Category;
+                    this.ui.push(tempUi);
                 }
             }
-            this.addComponentView();
+            this.resize();
         };
         MetaDataView.prototype.categoryClikUp = function (value) {
-            this.destory();
             this.hideCategoryKey[value] = !this.hideCategoryKey[value];
-            this.creat(this.getView());
-            this.refreshViewValue();
+            if (this.hideCategoryKey[value]) {
+                for (var i = this.ui.length - 1; i >= 0; i--) {
+                    var $ui = this.ui[i];
+                    if ($ui.Category == value) {
+                        $ui.destory();
+                        this.ui.splice(i, 1);
+                    }
+                }
+            }
+            else {
+                var data = this.getView();
+                var indx = this.getUiIndxByCategory(value);
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Category == value) {
+                        if (!Boolean(this.hideCategoryKey[data[i].Category])) {
+                            var tempUi = this.creatComponent(data[i]);
+                            tempUi.Category = data[i].Category;
+                            this.ui.splice(indx++, 0, tempUi);
+                            tempUi.refreshViewValue();
+                        }
+                    }
+                }
+            }
+            this.resize();
             this.categoryFun && this.categoryFun();
         };
-        MetaDataView.prototype.addComponentView = function () {
-            this.resize();
+        MetaDataView.prototype.getUiIndxByCategory = function (value) {
+            for (var i = 0; i < this.ui.length; i++) {
+                var $ui = this.ui[i];
+                if ($ui instanceof prop.Category2DUI) {
+                    if ($ui.label == value) {
+                        return i + 1;
+                    }
+                }
+            }
+            console.log("必须找到标签，显示这行说明就错。不应该到这里");
         };
         MetaDataView.prototype.resize = function () {
             var ty = this._top;
             for (var i = 0; this.ui && i < this.ui.length; i++) {
                 this.ui[i].y = ty;
                 this.ui[i].x = 20;
-                ty += this.ui[i].height;
                 this.ui[i].width = this.width;
                 this.ui[i].resize();
+                ty += this.ui[i].height;
             }
             this._height = ty - this._top;
         };
@@ -46798,6 +46796,7 @@ var prop;
             var temp = new prop.MeshMaterialLfetView2DUI(this.propPanle);
             temp.label = $obj[prop.ReflectionData.Key_Label];
             temp.FunKey = $obj[prop.ReflectionData.FunKey];
+            temp.suffix = $obj[prop.ReflectionData.Key_Suffix];
             temp.target = this;
             return temp;
         };
@@ -47073,6 +47072,21 @@ var prop;
             _this.list = [];
             return _this;
         }
+        CombineReflectionView.prototype.getMeshInfo = function () {
+            var obj = {};
+            obj.class = this;
+            obj.data = [];
+            for (var i = 0; i < this.list.length; i++) {
+                obj.data.push(this.list[i].getMeshInfo());
+            }
+            return obj;
+        };
+        CombineReflectionView.prototype.replayUiList = function () {
+            this.destory(); //复活UI
+            for (var i = 0; this.list && i < this.list.length; i++) {
+                this.list[i].replayUiList();
+            }
+        };
         CombineReflectionView.prototype.addView = function ($view) {
             var _this = this;
             this.list.push($view);
@@ -47090,11 +47104,9 @@ var prop;
             _super.prototype.refreshViewValue.call(this);
         };
         CombineReflectionView.prototype.destory = function () {
-            while (this.list.length) {
-                var temp = this.list.pop();
-                temp.destory();
+            for (var i = 0; i < this.list.length; i++) {
+                this.list[i].destory();
             }
-            _super.prototype.destory.call(this);
         };
         CombineReflectionView.prototype.resize = function () {
             _super.prototype.resize.call(this);
@@ -47607,6 +47619,8 @@ var prop;
             _super.prototype.resize.call(this);
             if (this._materialTreeMc) {
                 this._materialTreeMc.resize();
+                this._materialTreeMc.y = this._y + 100;
+                this.height = 100 + this._materialTreeMc.height;
             }
         };
         Material2DUI.prototype.searchClik = function (evt) {
@@ -48267,6 +48281,7 @@ var prop;
         };
         Category2DUI.prototype.clikMouseUp = function (evt) {
             this.changFun(this.label);
+            this.data = !this.data;
         };
         Category2DUI.prototype.resize = function () {
             this.categoryBgUi.ui.width = this.width;
@@ -50628,7 +50643,6 @@ var prop;
 (function (prop) {
     var PropModel = /** @class */ (function () {
         function PropModel() {
-            this._top = 0;
             this.propPanle = new prop.UiMeshSprite();
             this.propPanle.x = 500;
             this.propPanle.y = 100;
@@ -50654,10 +50668,7 @@ var prop;
         };
         PropModel.prototype.showPanel = function ($ui) {
             if (this.lastNodel != $ui) {
-                if (this.metaDataView) {
-                    this.metaDataView.destory();
-                    this.metaDataView = null;
-                }
+                this.clearOladMeshView();
                 var propPanle = prop.PropModel.getInstance().propPanle;
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
                     this.metaDataView = new prop.Vec3PropMeshPanel(propPanle);
@@ -50694,34 +50705,39 @@ var prop;
                 }
                 this.lastNodel = $ui;
                 this.metaDataView.data = $ui;
-                this.metaDataView.top = this._top;
+                this.metaDataView.top = 25;
                 this.resize();
             }
         };
-        PropModel.prototype.showPefabMesh = function (value) {
+        PropModel.prototype.clearOladMeshView = function () {
             if (this.metaDataView) {
                 this.metaDataView.destory();
                 this.metaDataView = null;
                 this.lastNodel = null;
+            }
+        };
+        PropModel.prototype.showOtherMeshView = function (value) {
+            if (this.metaDataView != value) {
+                this.clearOladMeshView();
             }
             this.metaDataView = value;
+            this.metaDataView.top = 25;
             this.metaDataView.refreshViewValue();
             this.resize();
+            var rightPanel = AppData.rightPanel;
+            rightPanel.mainRightBaseWin.pushViewToTab(value);
         };
         PropModel.prototype.showSciencePropPanel = function () {
+            /*
             if (this.metaDataView) {
-                this.metaDataView.destory();
+                this.metaDataView.destory()
                 this.metaDataView = null;
                 this.lastNodel = null;
             }
-            var propPanle = prop.PropModel.getInstance().propPanle;
-            this.metaDataView = new prop.SciencePropMeshPanel(propPanle);
-        };
-        PropModel.prototype.moveTop = function ($ty) {
-            this._top = $ty;
-            if (this.metaDataView) {
-                this.metaDataView.top = this._top;
-            }
+            var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
+            this.metaDataView = new SciencePropMeshPanel(propPanle);
+            */
+            this.showOtherMeshView(new prop.SciencePropMeshPanel(prop.PropModel.getInstance().propPanle));
         };
         return PropModel;
     }());
@@ -50897,6 +50913,7 @@ var filelist;
             var _this = this;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "roleurl", target: this, Category: "角色", ClikEventKey: "clikFileRole" },
+                { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "roleurl", target: this, Category: "角色" },
                 { Type: ReflectionData.RoleAnim2DUI, Label: "动作:", FunKey: "animDic", changFun: function () { _this.animChange(); }, target: this, Suffix: "md5mesh", Category: "action" },
                 { Type: ReflectionData.RoleMesh2DUI, Label: "mesh:", FunKey: "skinMesh", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "md5mesh", Category: "mesh" },
             ];
@@ -51053,13 +51070,34 @@ var filelist;
         }
         SkillMeshView.prototype.getView = function () {
             var ary = [
-                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "filename", target: this, Category: "属性" },
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "filename", target: this, Category: "角色", ClikEventKey: "clikFileSkill" },
+                { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "skillmeshUrl", target: this, Category: "角色" },
                 { Type: ReflectionData.Texturue2DUI, Label: "角色:", FunKey: "roleurl", Suffix: "zzw", target: this, Category: "属性" },
                 { Type: ReflectionData.Texturue2DUI, Label: "技能:", FunKey: "skillurl", Suffix: "txt", target: this, Category: "属性" },
                 { Type: ReflectionData.ComboBox, Label: "播放名字:", FunKey: "actionname", target: this, Data: [], Category: "属性" },
                 { Type: ReflectionData.NumberInput, Label: "播放间隔:", FunKey: "intervalTm", target: this, Category: "属性" },
             ];
             return ary;
+        };
+        Object.defineProperty(SkillMeshView.prototype, "skillmeshUrl", {
+            get: function () {
+                return this._skillStaticMesh.url;
+            },
+            set: function (value) {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        SkillMeshView.prototype.eventKey = function (value) {
+            switch (value) {
+                case "clikFileSkill":
+                    var pathurl = Pan3d.Scene_data.fileRoot + this.skillmeshUrl;
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""));
+                    break;
+                default:
+                    console.log("没有对象", value);
+                    break;
+            }
         };
         Object.defineProperty(SkillMeshView.prototype, "intervalTm", {
             get: function () {
@@ -51303,12 +51341,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var ossfolder;
 (function (ossfolder) {
+    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
     var UIManager = Pan3d.UIManager;
     var LabelTextFont = Pan3d.LabelTextFont;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
+    var MouseType = Pan3d.MouseType;
     var Vector3D = Pan3d.Vector3D;
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
@@ -51344,7 +51384,7 @@ var ossfolder;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         FolderName.prototype.makeData = function () {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
@@ -51362,7 +51402,7 @@ var ossfolder;
             }
         };
         FolderName.prototype.update = function () {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 if (this.folderMeshVo.needDraw) {
                     this.makeData();
@@ -51386,7 +51426,7 @@ var ossfolder;
     var OssFolderPanel = /** @class */ (function (_super) {
         __extends(OssFolderPanel, _super);
         function OssFolderPanel() {
-            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 22), 48) || this;
+            var _this = _super.call(this, FolderName, new Rectangle(0, 0, 256, 22), 5) || this;
             _this.folderCellHeight = 20;
             _this.left = 0;
             _this.pageRect = new Rectangle(0, 0, 200, 200);
@@ -51400,6 +51440,10 @@ var ossfolder;
                 _this.makeItemUiList();
                 Pan3d.TimeUtil.addFrameTick(function (t) { _this.update(t); });
             });
+            if (!this.onMouseWheelFun) {
+                this.onMouseWheelFun = function ($evt) { _this.onMouseWheel($evt); };
+            }
+            document.addEventListener(MouseType.MouseWheel, this.onMouseWheelFun);
         };
         OssFolderPanel.prototype.loadAssetImg = function (bfun) {
             OssFolderPanel.imgBaseDic = {};
@@ -51418,6 +51462,16 @@ var ossfolder;
                 });
             }
         };
+        OssFolderPanel.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete) {
+                var needScroll = this.contentHeight > this._uiMask.height;
+                this.setUiListVisibleByItem([this.c_scroll_bar_bg], needScroll);
+                if (needScroll) {
+                    this._uiMask.width -= this.c_scroll_bar_bg.width;
+                }
+            }
+        };
         OssFolderPanel.prototype.loadTempOne = function (name, bfun) {
             var tempImg = makeImage();
             OssFolderPanel.imgBaseDic[name] = tempImg;
@@ -51430,14 +51484,47 @@ var ossfolder;
         OssFolderPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
+        OssFolderPanel.prototype.fileOssFolderDic = function (value) {
+            this.fileAndOpenDicByUrl(value, this.fileItem);
+        };
+        OssFolderPanel.prototype.fileAndOpenDicByUrl = function (value, arr) {
+            var _this = this;
+            for (var i = 0; arr && i < arr.length; i++) {
+                var vo = arr[i];
+                if (value.indexOf(vo.ossListFile.baseFile.path) != -1) {
+                    console.log("找到文件目录", vo.ossListFile.baseFile.path);
+                    if (!vo.ossListFile.isOpen) {
+                        vo.ossListFile.isOpen = true;
+                        if (vo.childItem) {
+                            this.resetHideDic(vo.childItem);
+                            this.refrishFolder();
+                            this.fileAndOpenDicByUrl(value, vo.childItem);
+                        }
+                        else {
+                            this.pushChidrenDic(vo, function () {
+                                _this.refrishFolder();
+                                _this.fileAndOpenDicByUrl(value, vo.childItem);
+                            }); //显示mu
+                        }
+                    }
+                    else {
+                        this.fileAndOpenDicByUrl(value, vo.childItem);
+                    }
+                }
+            }
+        };
         OssFolderPanel.prototype.itemMouseUp = function (evt) {
+            if (this.c_scroll_bar_bg.parent && evt.x > this.c_scroll_bar_bg.x) {
+                console.log("在外面---");
+                return;
+            }
             for (var i = 0; i < this._uiItem.length; i++) {
                 var $vo = this._uiItem[i];
                 if ($vo.ui == evt.target) {
                     if ((evt.x - this.left) - $vo.ui.x < 20) {
                         $vo.folderMeshVo.ossListFile.isOpen = !$vo.folderMeshVo.ossListFile.isOpen;
                         if ($vo.folderMeshVo.ossListFile.isOpen) {
-                            this.pushChidrenDic($vo);
+                            this.pushChidrenDic($vo.folderMeshVo);
                         }
                         else {
                             this.clearChildern($vo.folderMeshVo); //将要关闭
@@ -51445,7 +51532,7 @@ var ossfolder;
                     }
                     else {
                         if (!$vo.folderMeshVo.ossListFile.isOpen) {
-                            this.pushChidrenDic($vo);
+                            this.pushChidrenDic($vo.folderMeshVo);
                         }
                         $vo.folderMeshVo.ossListFile.isOpen = true;
                         Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), $vo.folderMeshVo.ossListFile.baseFile.path);
@@ -51463,25 +51550,26 @@ var ossfolder;
                 this.resetHideDic(arr[i].childItem);
             }
         };
-        OssFolderPanel.prototype.pushChidrenDic = function ($folderName) {
+        OssFolderPanel.prototype.pushChidrenDic = function (folderMeshVo, bfun) {
             var _this = this;
-            if ($folderName.folderMeshVo.childItem) {
+            if (folderMeshVo.childItem) {
                 console.log("已经有了，直接显示就行");
-                this.resetHideDic($folderName.folderMeshVo.childItem);
+                this.resetHideDic(folderMeshVo.childItem);
             }
             else {
-                var pathurl = $folderName.folderMeshVo.ossListFile.baseFile.path;
+                var pathurl = folderMeshVo.ossListFile.baseFile.path;
                 pack.FileOssModel.getFolderArr(pathurl, function (value) {
-                    if (!$folderName.folderMeshVo.childItem) {
-                        $folderName.folderMeshVo.childItem = [];
+                    if (!folderMeshVo.childItem) {
+                        folderMeshVo.childItem = [];
                         for (var i = 0; value && i < value.length; i++) {
                             if (value[i].isFolder) {
                                 var $vo = _this.getCharNameMeshVo(value[i]);
                                 $vo.pos = new Vector3D(0, i * 15, 0);
-                                $folderName.folderMeshVo.childItem.push($vo);
+                                folderMeshVo.childItem.push($vo);
                             }
                         }
                         _this.refrishFolder();
+                        bfun && bfun();
                     }
                     else {
                         console.log("已获取过，注意可能是网络问题");
@@ -51502,7 +51590,7 @@ var ossfolder;
             var _this = this;
             this.fileItem = [];
             for (var i = 0; i < this._uiItem.length; i++) {
-                this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+                //  this._uiItem[i].ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             }
             //"upfile/shadertree/"
             //
@@ -51523,14 +51611,53 @@ var ossfolder;
             var $vo = new FolderMeshVo;
             $vo.ossListFile = new OssListFile;
             $vo.ossListFile.baseFile = value;
-            this.showTemp($vo);
+            var tmep = this.showTemp($vo);
+            tmep.ui.removeEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
+            tmep.ui.addEventListener(InteractiveEvent.Up, this.itemMouseUp, this);
             return $vo;
         };
+        OssFolderPanel.prototype.makeOtherRender = function () {
+            var tempRender = new UIRenderComponent;
+            console.log("添加新对象");
+            tempRender.mask = this._uiMask;
+            return tempRender;
+        };
         OssFolderPanel.prototype.refrishFolder = function () {
-            OssFolderPanel.listTy = 0;
+            OssFolderPanel.listTy = this.moveListTy;
+            var frist = OssFolderPanel.listTy;
             this.disChiendren(this.fileItem, 10);
             var moveTy = 0;
             this.moveAllTy(this.fileItem, moveTy);
+            this.contentHeight = OssFolderPanel.listTy - frist;
+            this.resize();
+        };
+        Object.defineProperty(OssFolderPanel.prototype, "isCanToDo", {
+            get: function () {
+                if (this && this.hasStage) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        OssFolderPanel.prototype.onMouseWheel = function ($evt) {
+            if (!this.isCanToDo) {
+                return;
+            }
+            if (this.pageRect.isHitByPoint($evt.x, $evt.y)) {
+                if (this.contentHeight > this._uiMask.height) {
+                    this.c_scroll_bar.y += $evt.deltaY / 30;
+                    this.changeScrollBar();
+                    this.resize();
+                }
+            }
+        };
+        OssFolderPanel.prototype.changeScrollBar = function () {
+            _super.prototype.changeScrollBar.call(this);
+            this.refrishFolder();
         };
         OssFolderPanel.prototype.moveAllTy = function (arr, ty) {
             if (ty === void 0) { ty = 0; }
@@ -51553,6 +51680,7 @@ var ossfolder;
                 }
             }
         };
+        OssFolderPanel.listTy = 0;
         return OssFolderPanel;
     }(win.Dis2dBaseWindow));
     ossfolder.OssFolderPanel = OssFolderPanel;
@@ -51633,7 +51761,7 @@ var filelist;
         }
         FileListName.prototype.makeData = function () {
             var _this = this;
-            this.fileListMeshVo = this.data;
+            this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
                 if (this.lastSelect == this.fileListMeshVo.fileXmlVo.data.select && this.lastName == this.fileListMeshVo.fileXmlVo.data.name) {
                     return;
@@ -51746,7 +51874,7 @@ var filelist;
             TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
         };
         FileListName.prototype.update = function () {
-            this.fileListMeshVo = this.data;
+            this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
                 if (this.fileListMeshVo.needDraw) {
                     this.makeData();
@@ -51795,7 +51923,9 @@ var filelist;
             for (var i = 0; i < this.areaRectItem.length; i++) {
                 var tempRect = this.areaRectItem[i];
                 if (tempRect.isHitByPoint(tempMouse.x, tempMouse.y)) {
-                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), tempRect.pathurl.replace(Pan3d.Scene_data.ossRoot, ""));
+                    var pathUrl = tempRect.pathurl.replace(Pan3d.Scene_data.ossRoot, "");
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathUrl);
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_OSS_FOLDER_FILE), pathUrl);
                 }
             }
         };
@@ -52039,22 +52169,33 @@ var filelist;
                             pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempview = new filelist.PrefabMeshView(prop.PropModel.getInstance().propPanle);
                                 tempview.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempview);
+                                prop.PropModel.getInstance().showOtherMeshView(tempview);
                             });
                             break;
                         case FileVo.ZZW:
                             pack.PackRoleManager.getInstance().getRoleZzwByUrl(fileUrl, function (value) {
                                 var tempRoleView = new filelist.RoleMeshView(prop.PropModel.getInstance().propPanle);
                                 tempRoleView.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempRoleView);
+                                prop.PropModel.getInstance().showOtherMeshView(tempRoleView);
                             });
                             break;
                         case FileVo.SKILL:
                             pack.PackSkillManager.getInstance().getPrefabByUrl(fileUrl, function (value) {
                                 var tempSkilView = new filelist.SkillMeshView(prop.PropModel.getInstance().propPanle);
                                 tempSkilView.data = value;
-                                prop.PropModel.getInstance().showPefabMesh(tempSkilView);
+                                prop.PropModel.getInstance().showOtherMeshView(tempSkilView);
                             });
+                            break;
+                        case FileVo.LYF:
+                            var tempFileMView = new filelist.FileMeshView(prop.PropModel.getInstance().propPanle);
+                            tempFileMView.data = fileUrl;
+                            prop.PropModel.getInstance().showOtherMeshView(tempFileMView);
+                            break;
+                        case FileVo.LYF:
+                        case FileVo.OBJS:
+                            var tempFileMView = new filelist.FileMeshView(prop.PropModel.getInstance().propPanle);
+                            tempFileMView.data = fileUrl;
+                            prop.PropModel.getInstance().showOtherMeshView(tempFileMView);
                             break;
                         default:
                             console.log("还没有的类型", vo.fileListMeshVo.fileXmlVo.data.path);
@@ -52340,7 +52481,7 @@ var filelist;
             for (var i = 0; this.fileItem && i < this.fileItem.length; i++) {
                 var vo = this.fileItem[i];
                 vo.uiScale = 0.7;
-                vo.pos.x = i % w * 100;
+                vo.pos.x = i % w * 100 + 10;
                 vo.pos.y = Math.floor(i / w) * 70 + moveTy;
             }
         };
@@ -52382,7 +52523,6 @@ var folder;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var Rectangle = Pan3d.Rectangle;
     var Panel = win.Panel;
     var FileListPanel = filelist.FileListPanel;
     var BaseFolderWindow = basefolderwin.BaseFolderWindow;
@@ -52396,6 +52536,7 @@ var folder;
         FolderEvent.EDITSCENE_RESET_SIZE = "EDITSCENE_RESET_SIZE";
         FolderEvent.RESET_FOLDE_WIN_SIZE = "RESET_FOLDE_WIND_SIZE";
         FolderEvent.LIST_DIS_ALL_FILE = "LIST_DIS_ALL_FILE";
+        FolderEvent.LIST_OSS_FOLDER_FILE = "LIST_OSS_FOLDER_FILE";
         return FolderEvent;
     }(BaseEvent));
     folder.FolderEvent = FolderEvent;
@@ -52452,21 +52593,27 @@ var folder;
                 if (_folderEvent.type == FolderEvent.LIST_DIS_ALL_FILE) {
                     this._fileListPanel.refrishPath(String(_folderEvent.data));
                 }
+                if (_folderEvent.type == FolderEvent.LIST_OSS_FOLDER_FILE) {
+                    this._folderPanel.fileOssFolderDic(String(_folderEvent.data));
+                }
                 if (_folderEvent.type == FolderEvent.RESET_FOLDE_WIN_SIZE) {
                     this.resetFolderWinSize();
                 }
             }
         };
         FolderProcessor.prototype.resetFolderWinSize = function () {
-            var A = this._baseFolderWindow.getPageRect().clone();
-            var num40 = 20; //位移40.比底小
-            A.y += num40;
-            A.height -= num40;
-            this._folderPanel.setRect(new Rectangle(A.x, A.y, A.width * this._baseFolderWindow.percentNum, A.height - 20));
-            var B = new Rectangle(A.width * this._baseFolderWindow.percentNum, A.y + 20, A.width * (1 - this._baseFolderWindow.percentNum), A.height);
-            B.x += 10;
-            B.height -= 5 - 20;
-            B.width -= 8;
+            var $perentWinRect = this._baseFolderWindow.getPageRect().clone();
+            var A = $perentWinRect.clone();
+            A.x = 0;
+            A.y += 13;
+            A.width = $perentWinRect.width * this._baseFolderWindow.percentNum + 5;
+            A.height -= 18;
+            this._folderPanel.setRect(A);
+            var B = $perentWinRect.clone();
+            B.x = $perentWinRect.width * this._baseFolderWindow.percentNum;
+            B.y = $perentWinRect.y + 40;
+            B.width = $perentWinRect.width * (1 - this._baseFolderWindow.percentNum);
+            B.height -= 43;
             this._fileListPanel.setRect(B);
         };
         FolderProcessor.prototype.addOtherPanel = function () {
@@ -52492,6 +52639,7 @@ var folder;
                 new FolderEvent(FolderEvent.RESET_FOLDE_WIN_SIZE),
                 new FolderEvent(FolderEvent.EDITSCENE_RESET_SIZE),
                 new FolderEvent(FolderEvent.LIST_DIS_ALL_FILE),
+                new FolderEvent(FolderEvent.LIST_OSS_FOLDER_FILE),
             ];
         };
         return FolderProcessor;
@@ -58283,6 +58431,7 @@ var materialui;
             obj.writeZbuffer = this.baseMaterialTree.writeZbuffer;
             obj.zbuff = this.baseMaterialTree.zbuff;
             obj.blendMode = this.baseMaterialTree.blendMode;
+            obj.showurl = this.baseMaterialTree.showurl;
             obj.backCull = this.baseMaterialTree.backCull;
             obj.texList = this.baseMaterialTree.texList;
             obj.constList = this.baseMaterialTree.constList;
@@ -58514,18 +58663,13 @@ var materialleft;
         function MateriaMeshView(value) {
             return _super.call(this, value) || this;
         }
-        Object.defineProperty(MateriaMeshView.prototype, "top", {
-            set: function (value) {
-                this._top = value;
-                this.resize();
-                console.log("MateriaMeshView", this._top);
-            },
-            enumerable: true,
-            configurable: true
-        });
+        MateriaMeshView.prototype.resize = function () {
+            this._top = 0;
+            _super.prototype.resize.call(this);
+        };
         MateriaMeshView.prototype.getView = function () {
             var ary = [
-                { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", target: this, Category: "模型" },
+                { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", Suffix: "prefab|zzw|objs", target: this, Category: "模型" },
                 {
                     Type: ReflectionData.ComboBox, Label: "渲染模式:", FunKey: "blendMode", target: this, Data: [
                         { name: "普通模式", type: 0 },
@@ -58640,9 +58784,6 @@ var materialleft;
             enumerable: true,
             configurable: true
         });
-        MateriaMeshView.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-        };
         return MateriaMeshView;
     }(MetaDataView));
     materialleft.MateriaMeshView = MateriaMeshView;
@@ -59248,7 +59389,7 @@ var maineditor;
             var tabVo = evt.target.data;
             var ui = evt.target;
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
-                this.selectTabStr = tabVo.data;
+                this.selectTabStr = tabVo.rightTabInfoVo;
                 if (this.selectTabStr.indexOf(".map") != -1) {
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
                     ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
@@ -59259,17 +59400,17 @@ var maineditor;
             }
             else {
                 console.log("关", tabVo);
-                this.removePathUrl(tabVo.data);
+                this.removePathUrl(tabVo.rightTabInfoVo);
             }
             this.refrishTabUiSelect();
         };
         EditorOpenList.prototype.removePathUrl = function (value) {
             for (var i = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].data == value) {
+                if (this.tabItemArr[i].rightTabInfoVo == value) {
                     var tabVo = this.tabItemArr[i];
                     this.perent.removeChild(tabVo.bgUi);
                     tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
-                    this.perent.clearTemp(tabVo.data);
+                    this.perent.clearTemp(tabVo.rightTabInfoVo);
                     this.tabItemArr.splice(i, 1);
                 }
             }
@@ -59300,7 +59441,7 @@ var maineditor;
             var tx = 2;
             for (var i = 0; i < this.tabItemArr.length; i++) {
                 var tabVo = this.tabItemArr[i];
-                if (this.tabItemArr[i].data == this.selectTabStr) {
+                if (this.tabItemArr[i].rightTabInfoVo == this.selectTabStr) {
                     this.tabItemArr[i].select = true;
                     this.changeVoBg(this.tabItemArr[i], true);
                 }
@@ -59326,7 +59467,7 @@ var maineditor;
             var needAdd = true;
             var tx = 1;
             for (var i = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].data == value) {
+                if (this.tabItemArr[i].rightTabInfoVo == value) {
                     needAdd = false;
                 }
                 tx = this.tabItemArr[i].bgUi.x + this.tabItemArr[i].bgUi.width - 1;
@@ -59340,19 +59481,7 @@ var maineditor;
                 tabVo.textMetrics = TextRegExp.getTextMetrics($ctx, $tittlestr);
                 tabVo.tittlestr = $tittlestr;
                 this.changeVoBg(tabVo, false);
-                /*
-                tabVo.bgUi.x = tx  ;
-                tabVo.bgUi.y = 1;
-                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 20 + 25;
-                tabVo.bgUi.height = 22;
-                tabVo.bgUi.data = tabVo;
-                tx += tabVo.bgUi.width  ;
-                tabVo.ui.x = tabVo.bgUi.x + 10;
-                tabVo.ui.y = tabVo.bgUi.y + 5;
-                tabVo.ui.width = 256;
-                tabVo.ui.height = 20;
-                */
-                tabVo.select = value[i] == this.selectTabStr;
+                tabVo.select = true;
                 this.tabItemArr.push(tabVo);
             }
             this.refrishTabUiSelect();
@@ -59669,7 +59798,7 @@ var maineditor;
             var ary = [
                 { Type: ReflectionData.TEXT, Label: "场景名字:", FunKey: "mapname", target: this, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "背景颜色:", FunKey: "bgcolor", target: this, Step: 0.1, Category: "属性" },
-                { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
+                { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Category: "属性", Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
                 { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
@@ -60140,7 +60269,7 @@ var maineditor;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         FolderName.prototype.makeData = function () {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
@@ -60191,7 +60320,7 @@ var maineditor;
             }
         };
         FolderName.prototype.update = function () {
-            this.folderMeshVo = this.data;
+            this.folderMeshVo = this.rightTabInfoVo;
             if (this.folderMeshVo) {
                 if (this.folderMeshVo.needDraw) {
                     this.makeData();
@@ -60413,7 +60542,7 @@ var maineditor;
                         _combineReflectionView.addView(B);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
                     }
                     break;
                 case maineditor.HierarchyNodeType.Role:
@@ -60424,7 +60553,7 @@ var maineditor;
                         _combineReflectionView.addView(C);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
                     }
                     break;
                 case maineditor.HierarchyNodeType.SKILL:
@@ -60434,13 +60563,23 @@ var maineditor;
                         _combineReflectionView.addView(D);
                     }
                     else {
-                        console.log("还没准备虚");
+                        console.log("还没准备好");
+                    }
+                    break;
+                case maineditor.HierarchyNodeType.Particle:
+                    if ($vo.dis) {
+                        var E = new filelist.FileMeshView(propanle);
+                        E.data = $vo.ossListFile.url;
+                        _combineReflectionView.addView(E);
+                    }
+                    else {
+                        console.log("还没准备好");
                     }
                     break;
                 default:
                     break;
             }
-            prop.PropModel.getInstance().showPefabMesh(_combineReflectionView);
+            prop.PropModel.getInstance().showOtherMeshView(_combineReflectionView);
         };
         HierarchyListPanel.prototype.showXyzMove = function () {
             var disItem = [];
@@ -60952,7 +61091,7 @@ var maineditor;
     var MathClass = Pan3d.MathClass;
     var FBO = Pan3d.FBO;
     var GlReset = Pan3d.GlReset;
-    var SceneManager = layapan.me.LayaOverride2dSceneManager;
+    var SceneManager = layapan_me.LayaOverride2dSceneManager;
     var EdItorSceneManager = /** @class */ (function (_super) {
         __extends(EdItorSceneManager, _super);
         function EdItorSceneManager() {
@@ -61507,7 +61646,7 @@ var maineditor;
             }
             var _cenePojectMeshView = new maineditor.ScenePojectMeshView(prop.PropModel.getInstance().propPanle);
             _cenePojectMeshView.data = this.sceneProjectVo;
-            prop.PropModel.getInstance().showPefabMesh(_cenePojectMeshView);
+            prop.PropModel.getInstance().showOtherMeshView(_cenePojectMeshView);
         };
         MainEditorProcessor.prototype.addEvents = function () {
             var _this = this;
@@ -61939,7 +62078,7 @@ var LayaPan3D;
             }
         };
         return LayaScene2dSceneChar;
-    }(layapan.me.LayaSceneChar));
+    }(layapan_me.LayaSceneChar));
     LayaPan3D.LayaScene2dSceneChar = LayaScene2dSceneChar;
     var LayaScene2D = /** @class */ (function (_super) {
         __extends(LayaScene2D, _super);
@@ -62139,7 +62278,7 @@ var LayaPan3D;
             info.frameScale = 0.1;
             info.loop = false;
             info.isShow = true; //是否在最上层
-            var combineParticle = layapan.me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
+            var combineParticle = layapan_me.Frame3DAtlasParticle.getFrameParticle(Scene_data.fileRoot + pathname + "/", effictname, info);
             this.sceneManager.particleManager.addParticle(combineParticle);
             var v3d = this.getPos3dBy2D(v2d.x, v2d.y);
             combineParticle.x = v3d.x;

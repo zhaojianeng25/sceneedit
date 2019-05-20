@@ -59,12 +59,13 @@ var baselaunch;
             Laya.stage.addChild(picA);
             picA.scale(0.5, 0.5);
             picA.pos(600, 170);
+            console.log(layapan_me.LayaSceneChar);
             var spriteC = new LayaGame2dDemo("res/ui/icon/512a.jpg", function () {
                 spriteC.scale(1, 1);
             });
             Laya.stage.addChild(spriteC);
             spriteC.pos(350, 0);
-            var spriteD = new LayaGame2dDemo("res/ui/icon/512b.jpg", function () {
+            var spriteD = new base.Game3dDemo("res/ui/icon/512b.jpg", function () {
                 spriteD.scale(2, 1);
             });
             Laya.stage.addChild(spriteD);
