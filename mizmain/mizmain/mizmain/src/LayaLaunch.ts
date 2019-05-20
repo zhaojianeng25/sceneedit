@@ -81,6 +81,7 @@
             picA.scale(0.5, 0.5)
             picA.pos(600, 170)
 
+            console.log(layapan_me.LayaSceneChar)
 
             var spriteC: LayaGame2dDemo = new LayaGame2dDemo("res/ui/icon/512a.jpg", () => {
                 spriteC.scale(1, 1)
@@ -89,7 +90,7 @@
             spriteC.pos(350, 0);
 
 
-            var spriteD: LayaScene2D = new LayaGame2dDemo("res/ui/icon/512b.jpg", () => {
+            var spriteD: base.Game3dDemo = new base.Game3dDemo("res/ui/icon/512b.jpg", () => {
                 spriteD.scale(2, 1)
             })
             Laya.stage.addChild(spriteD);
