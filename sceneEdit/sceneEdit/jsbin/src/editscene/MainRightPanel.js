@@ -143,14 +143,24 @@ var editscene;
             }
             this.topRender.applyObjData();
         };
-        RightOpenList.prototype.pushPathUrl = function (value) {
-            var needAdd = true;
+        RightOpenList.prototype.testIsNeedAdd = function (value) {
             for (var i = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
-                    needAdd = false;
-                    this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
+                var tempMeshView = this.tabItemArr[i].rightTabInfoVo.view;
+                console.log("--");
+                if (tempMeshView.data == value.view.data || ((tempMeshView.type == value.view.type) && value.view.type)) {
+                    return false;
                 }
             }
+            return true;
+        };
+        RightOpenList.prototype.pushPathUrl = function (value) {
+            var needAdd = this.testIsNeedAdd(value);
+            //for (var i: number = 0; i < this.tabItemArr.length; i++) {
+            //    if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
+            //        needAdd = false;
+            //        this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
+            //    }
+            //}
             if (needAdd) {
                 var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
                 $ctx.font = "13px " + UIData.font;
@@ -183,21 +193,30 @@ var editscene;
         };
         MainRightBaseWin.prototype.pushViewToTab = function (value) {
             var vo = new RightTabInfoVo();
-            vo.label = "属性" + this.skilNum++;
+            //  vo.label = "属性" + this.skilNum++;
             if (value instanceof filelist.FileMeshView) {
                 vo.label = "文件";
+                value.type = "文件";
             }
-            if (value instanceof filelist.PrefabMeshView) {
+            else if (value instanceof filelist.PrefabMeshView) {
                 vo.label = "模型";
+                value.type = "模型";
             }
-            if (value instanceof filelist.RoleMeshView) {
+            else if (value instanceof filelist.RoleMeshView) {
                 vo.label = "角色";
+                value.type = "角色";
             }
-            if (value instanceof filelist.SkillMeshView) {
+            else if (value instanceof filelist.SkillMeshView) {
                 vo.label = "技能";
+                value.type = "技能";
             }
-            if (value instanceof maineditor.ScenePojectMeshView) {
+            else if (value instanceof maineditor.ScenePojectMeshView) {
                 vo.label = "场景";
+                value.type = "场景";
+            }
+            else {
+                console.log("没有设置胡对象", value);
+                vo.label = value.type;
             }
             vo.view = value;
             this.rightOpenList.pushPathUrl(vo);

@@ -8,9 +8,8 @@ declare module prop {
         private metaDataView;
         private lastNodel;
         hidePanel(): void;
-        showPanel($ui: materialui.BaseMaterialNodeUI): void;
+        showTextureUiPanel($ui: materialui.BaseMaterialNodeUI): void;
         private clearOladMeshView;
         showOtherMeshView(value: MetaDataView): void;
-        private showSciencePropPanel;
     }
 }

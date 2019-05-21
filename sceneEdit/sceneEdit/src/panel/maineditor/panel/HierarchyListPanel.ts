@@ -576,12 +576,12 @@
 
                     }
 
- 
                     break
                 default:
                     break
 
             }
+            _combineReflectionView.type = "物件"
             prop.PropModel.getInstance().showOtherMeshView(_combineReflectionView);
 
         }

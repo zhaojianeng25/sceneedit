@@ -25,47 +25,47 @@ var prop;
             }
             this.lastNodel = null;
         };
-        PropModel.prototype.showPanel = function ($ui) {
+        PropModel.prototype.showTextureUiPanel = function ($ui) {
             if (this.lastNodel != $ui) {
-                this.clearOladMeshView();
                 var propPanle = prop.PropModel.getInstance().propPanle;
+                var tempView;
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
-                    this.metaDataView = new prop.Vec3PropMeshPanel(propPanle);
+                    tempView = new prop.Vec3PropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ConstVec2NodeUI) {
-                    this.metaDataView = new prop.Vec2PropMeshPanel(propPanle);
+                    tempView = new prop.Vec2PropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ConstFloatNodeUI) {
-                    this.metaDataView = new prop.FloatPropMeshPanel(propPanle);
+                    tempView = new prop.FloatPropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TimeNodeUI) {
-                    this.metaDataView = new prop.NodeTimePropPanel(propPanle);
+                    tempView = new prop.NodeTimePropPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.PannerNodeUI) {
-                    this.metaDataView = new prop.PannerPropPanel(propPanle);
+                    tempView = new prop.PannerPropPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TextureSampleNodeUI) {
-                    this.metaDataView = new prop.TexturePropMeshPanel(propPanle);
+                    tempView = new prop.TexturePropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.Texture3DNodeUI) {
-                    this.metaDataView = new prop.Texture3DMeshPanel(propPanle);
+                    tempView = new prop.Texture3DMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TextureCubeNodeUI) {
-                    this.metaDataView = new prop.TextureCubeMeshPanel(propPanle);
+                    tempView = new prop.TextureCubeMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ResultNodeUI) {
-                    this.metaDataView = new prop.OpPropMeshPanel(propPanle);
+                    tempView = new prop.OpPropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.MathFunNodeUI) {
-                    this.metaDataView = new prop.MathFunMeshPanel(propPanle);
+                    tempView = new prop.MathFunMeshPanel(propPanle);
                 }
                 else {
-                    this.showSciencePropPanel();
+                    tempView = new prop.SciencePropMeshPanel(propPanle);
                 }
                 this.lastNodel = $ui;
-                this.metaDataView.data = $ui;
-                this.metaDataView.top = 25;
-                this.resize();
+                tempView.data = $ui;
+                tempView.type = "材质";
+                this.showOtherMeshView(tempView);
             }
         };
         PropModel.prototype.clearOladMeshView = function () {
@@ -84,19 +84,7 @@ var prop;
             this.metaDataView.refreshViewValue();
             this.resize();
             var rightPanel = AppData.rightPanel;
-            rightPanel.mainRightBaseWin.pushViewToTab(value);
-        };
-        PropModel.prototype.showSciencePropPanel = function () {
-            /*
-            if (this.metaDataView) {
-                this.metaDataView.destory()
-                this.metaDataView = null;
-                this.lastNodel = null;
-            }
-            var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
-            this.metaDataView = new SciencePropMeshPanel(propPanle);
-            */
-            this.showOtherMeshView(new prop.SciencePropMeshPanel(prop.PropModel.getInstance().propPanle));
+            rightPanel.mainRightBaseWin.pushViewToTab(this.metaDataView);
         };
         return PropModel;
     }());

@@ -1,8 +1,7 @@
 ﻿module editscene {
 
     import Rectangle = Pan3d.Rectangle
-    import Vector2D = Pan3d.Vector2D
-    import Scene_data = Pan3d.Scene_data
+ 
 
     import UICompenent = Pan3d.UICompenent
 
@@ -168,15 +167,29 @@
             }
             this.topRender.applyObjData();
         }
-        public pushPathUrl(value: RightTabInfoVo): void {
-
-            var needAdd: boolean = true;
+        private testIsNeedAdd(value: RightTabInfoVo): boolean {
             for (var i: number = 0; i < this.tabItemArr.length; i++) {
-                if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
-                    needAdd = false;
-                    this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
+                let tempMeshView: prop.MetaDataView = this.tabItemArr[i].rightTabInfoVo.view
+                console.log("--")
+                if (tempMeshView.data == value.view.data || ((tempMeshView.type == value.view.type) && value.view.type)) {
+                    return false
                 }
             }
+            return true
+        }
+        public pushPathUrl(value: RightTabInfoVo): void {
+
+            
+
+            var needAdd: boolean = this.testIsNeedAdd(value)
+            //for (var i: number = 0; i < this.tabItemArr.length; i++) {
+            //    if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
+            //        needAdd = false;
+            //        this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
+            //    }
+            //}
+
+
             if (needAdd) {
                 var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
                 $ctx.font = "13px " + UIData.font;
@@ -219,26 +232,27 @@
         private skilNum: number = 0
         public pushViewToTab(value: prop.MetaDataView): void {
             var vo: RightTabInfoVo = new RightTabInfoVo()
-            vo.label = "属性" + this.skilNum++;
-
+          //  vo.label = "属性" + this.skilNum++;
             if (value instanceof filelist.FileMeshView) {
                 vo.label = "文件"
-            }
-            if (value instanceof filelist.PrefabMeshView) {
+                value.type = "文件"
+            } else if (value instanceof filelist.PrefabMeshView) {
                 vo.label = "模型"
-            }
-            if (value instanceof filelist.RoleMeshView) {
+                value.type = "模型"
+            } else if (value instanceof filelist.RoleMeshView) {
                 vo.label = "角色"
-            }
-            if (value instanceof filelist.SkillMeshView) {
+                value.type = "角色"
+            } else if (value instanceof filelist.SkillMeshView) {
                 vo.label = "技能"
-            }
-            if (value instanceof maineditor.ScenePojectMeshView) {
+                value.type = "技能"
+            } else if (value instanceof maineditor.ScenePojectMeshView) {
                 vo.label = "场景"
+                value.type = "场景"
+            } else {
+                console.log("没有设置胡对象", value)
+                vo.label = value.type;
+           
             }
-            
-            
-             
             vo.view = value;
             this.rightOpenList.pushPathUrl(vo);
  

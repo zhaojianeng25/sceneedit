@@ -6,6 +6,7 @@
         public y: number = 0;
         protected _data: any;
         protected _top: number = 0
+        public type: string;
 
         public getMeshInfo(): any {
             var obj: any = {};

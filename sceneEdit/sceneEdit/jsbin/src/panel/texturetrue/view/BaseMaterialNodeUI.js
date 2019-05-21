@@ -240,7 +240,7 @@ var materialui;
                         prop.TextureFunPanel.getInstance().showPanel(this);
                     }
                     else {
-                        prop.PropModel.getInstance().showPanel(this);
+                        prop.PropModel.getInstance().showTextureUiPanel(this);
                         prop.TextureFunPanel.getInstance().hidePanel();
                     }
                 }

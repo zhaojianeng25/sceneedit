@@ -4,6 +4,7 @@ declare module prop {
         y: number;
         protected _data: any;
         protected _top: number;
+        type: string;
         getMeshInfo(): any;
         onAdd(): void;
         onRemove(): void;

@@ -25,6 +25,7 @@ declare module editscene {
         removePathUrl(value: RightTabInfoVo): void;
         changeVoBg(vo: RightTabText, value: boolean): void;
         private refrishTabUiSelect;
+        private testIsNeedAdd;
         pushPathUrl(value: RightTabInfoVo): void;
         private selectRightTabInfoVo;
     }
