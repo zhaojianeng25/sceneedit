@@ -34,7 +34,7 @@
                             this.setObjUrlToSprite("assets/objs/box.objs")
                             break
                         case 1:
-                            this.setObjUrlToSprite("assets/objs/ball.objs")
+                            this.setObjUrlToSprite("assets/objs/cylinder.objs")
                             break
                         case 2:
                             this.setObjUrlToSprite("assets/objs/plant.objs")
@@ -174,16 +174,18 @@
             super(value);
       
         }
+        private lastObjUrl: string
         private setObjUrlToSprite(objurl: string): void {
 
             if (!this.modelSprite) {
                 this.modelSprite = new left.MaterialModelSprite();
                 this.sceneManager.addDisplay(this.modelSprite);
             }
+
+            this.lastObjUrl = objurl
             pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, (value: ObjData) => {
                 console.log("更新模型", objurl)
-
-                if (!this.modelSprite.objData||this.defFileUrl != objurl) {
+                if (!this.modelSprite.objData || this.lastObjUrl== objurl) {
                     this.modelSprite.objData = value;
                 }
                 this.modelSprite.sceneVisible = true

@@ -41,7 +41,7 @@ var prop;
                             this.setObjUrlToSprite("assets/objs/box.objs");
                             break;
                         case 1:
-                            this.setObjUrlToSprite("assets/objs/ball.objs");
+                            this.setObjUrlToSprite("assets/objs/cylinder.objs");
                             break;
                         case 2:
                             this.setObjUrlToSprite("assets/objs/plant.objs");
@@ -158,9 +158,10 @@ var prop;
                 this.modelSprite = new left.MaterialModelSprite();
                 this.sceneManager.addDisplay(this.modelSprite);
             }
+            this.lastObjUrl = objurl;
             pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, function (value) {
                 console.log("更新模型", objurl);
-                if (!_this.modelSprite.objData || _this.defFileUrl != objurl) {
+                if (!_this.modelSprite.objData || _this.lastObjUrl == objurl) {
                     _this.modelSprite.objData = value;
                 }
                 _this.modelSprite.sceneVisible = true;

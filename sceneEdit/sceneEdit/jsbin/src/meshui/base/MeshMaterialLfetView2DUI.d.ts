@@ -13,6 +13,7 @@ declare module prop {
         private setZzwUrlToRole;
         width: number;
         constructor(value: UiMeshSprite);
+        private lastObjUrl;
         private setObjUrlToSprite;
         private modelSprite;
         private roleSprite;
