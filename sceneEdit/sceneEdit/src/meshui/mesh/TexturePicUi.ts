@@ -58,7 +58,7 @@
         
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
 
-                if (this._url.indexOf(".material") != -1) {
+                if (this._url&&this._url.indexOf(".material") != -1) {
                     var fileUrl: string = this._url
                     Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 } else {

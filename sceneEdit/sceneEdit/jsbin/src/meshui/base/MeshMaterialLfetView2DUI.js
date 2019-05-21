@@ -13,13 +13,51 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var InteractiveEvent = Pan3d.InteractiveEvent;
     var MeshMaterialLfetView2DUI = /** @class */ (function (_super) {
         __extends(MeshMaterialLfetView2DUI, _super);
         function MeshMaterialLfetView2DUI(value) {
             var _this = _super.call(this, value) || this;
-            _this.defFileUrl = "pefab/模型/球/球.objs";
+            _this.defFileUrl = "assets/objs/ball.objs";
             return _this;
         }
+        MeshMaterialLfetView2DUI.prototype.initView = function () {
+            _super.prototype.initView.call(this);
+            this.iconItem = [];
+            for (var i = 0; i < 5; i++) {
+                var tempUi = new prop.TexturePicUi(24, 24);
+                this.propPanle.addBaseMeshUi(tempUi);
+                this.drawUrlImgToUi(tempUi.ui, "icon/modelicon/" + (i + 1) + ".png");
+                tempUi.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
+                this.iconItem.push(tempUi);
+            }
+        };
+        MeshMaterialLfetView2DUI.prototype.butClik = function (evt) {
+            _super.prototype.butClik.call(this, evt);
+            for (var i = 0; i < this.iconItem.length; i++) {
+                if (this.iconItem[i].ui == evt.target) {
+                    switch (i) {
+                        case 0:
+                            this.setObjUrlToSprite("assets/objs/box.objs");
+                            break;
+                        case 1:
+                            this.setObjUrlToSprite("assets/objs/ball.objs");
+                            break;
+                        case 2:
+                            this.setObjUrlToSprite("assets/objs/plant.objs");
+                            break;
+                        case 3:
+                            this.setObjUrlToSprite("assets/objs/ball.objs");
+                            break;
+                        case 4:
+                            this.setObjUrlToSprite("assets/objs/tuzhi.objs");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        };
         Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "x", {
             set: function (value) {
                 this._x = value;
@@ -41,9 +79,21 @@ var prop;
                 this.texturePicUi.ui.width = showSize;
                 this.texturePicUi.ui.height = showSize;
                 this._x = (this._width - showSize) / 2;
-                this.texturePicUi.x = this._x;
+                this.texturePicUi.x = this._x + 0;
                 this.texturePicUi.y = this._y + 0;
+                for (var i = 0; i < this.iconItem.length; i++) {
+                    this.iconItem[i].x = this._x + 3 + 30 * i;
+                    this.iconItem[i].y = this._y + 2;
+                }
             }
+            this.destory;
+        };
+        MeshMaterialLfetView2DUI.prototype.destory = function () {
+            while (this.iconItem.length) {
+                var tempUi = this.iconItem.pop();
+                tempUi.destory();
+            }
+            _super.prototype.destory.call(this);
         };
         MeshMaterialLfetView2DUI.prototype.texturePicUiChange = function ($evt) {
             var temp = this.target[this.FunKey];

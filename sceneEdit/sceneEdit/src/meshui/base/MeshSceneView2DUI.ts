@@ -80,7 +80,7 @@
 
     
         }
-        private butClik(evt: InteractiveEvent): void {
+        protected butClik(evt: InteractiveEvent): void {
             switch (evt.target) {
                 case this.texturePicUi.ui:
  

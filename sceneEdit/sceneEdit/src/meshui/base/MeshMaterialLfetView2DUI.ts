@@ -1,17 +1,68 @@
 ﻿module prop {
      
- 
- 
+
+    import InteractiveEvent = Pan3d.InteractiveEvent
 
     export class MeshMaterialLfetView2DUI extends MeshSceneView2DUI {
 
+
+        private iconItem: Array<TexturePicUi>
+        protected initView(): void {
+
+            super.initView()
+
+            this.iconItem=[]
+            for (var i: number = 0; i < 5; i++) {
+                var tempUi: TexturePicUi = new TexturePicUi(24, 24);
+                this.propPanle.addBaseMeshUi(tempUi)
+                this.drawUrlImgToUi(tempUi.ui, "icon/modelicon/" + (i + 1) + ".png");
+                tempUi.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
+                this.iconItem.push(tempUi)
+            }
+     
+       
+        }
+        protected butClik(evt: InteractiveEvent): void {
+  
+            super.butClik(evt);
+
+            for (var i: number = 0; i < this.iconItem.length; i++) {
+                if (this.iconItem[i].ui == evt.target) {
+
+                    switch (i) {
+                        case 0:
+                            this.setObjUrlToSprite("assets/objs/box.objs")
+                            break
+                        case 1:
+                            this.setObjUrlToSprite("assets/objs/ball.objs")
+                            break
+                        case 2:
+                            this.setObjUrlToSprite("assets/objs/plant.objs")
+                            break
+                        case 3:
+                            this.setObjUrlToSprite("assets/objs/ball.objs")
+                            break
+                        case 4:
+                            this.setObjUrlToSprite("assets/objs/tuzhi.objs")
+                            break
+                        default:
+                            break
+                    }
+
+                }
+       
+            }
+
+        }
+  
  
         public set x(value: number) {
             this._x = value;
             this.textLabelUI.x = this._x + 100000;
             this.texturePicUi.x = this._x + 10;
-            this.textureUrlText.x = this._x + 10000
+            this.textureUrlText.x = this._x + 10000;
 
+    
             this.resize()
         }
         public resize(): void {
@@ -28,12 +79,25 @@
                 this.texturePicUi.ui.height = showSize
 
                 this._x = (this._width - showSize) / 2;
-                this.texturePicUi.x = this._x;
+                this.texturePicUi.x = this._x+0;
                 this.texturePicUi.y = this._y + 0
- 
+
+
+                for (var i: number = 0; i < this.iconItem.length; i++) {
+                    this.iconItem[i].x = this._x+3 + 30 * i;
+                    this.iconItem[i].y = this._y+2;
+                }
             }
-        
-  
+            this.destory
+   
+        }
+        public destory(): void {
+            while (this.iconItem.length) {
+                var tempUi: TexturePicUi = this.iconItem.pop()
+                tempUi.destory();
+            }
+            super.destory()
+       
         }
         protected texturePicUiChange($evt: ReflectionEvet): void {
 
@@ -52,7 +116,7 @@
 
 
         }
-        private defFileUrl: string = "pefab/模型/球/球.objs"
+        private defFileUrl: string = "assets/objs/ball.objs"
         private refrishShowMaterialModel(material: materialui.MaterialTree): void {
             var fileUrl: string = material.showurl;
             if (!fileUrl) {

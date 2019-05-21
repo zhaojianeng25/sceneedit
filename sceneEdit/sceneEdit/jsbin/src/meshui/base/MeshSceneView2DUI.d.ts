@@ -1,4 +1,5 @@
 declare module prop {
+    import InteractiveEvent = Pan3d.InteractiveEvent;
     class MeshSceneView2DUI extends BaseReflComponent {
         protected textLabelUI: TextLabelUI;
         protected textureUrlText: TextLabelUI;
@@ -9,7 +10,7 @@ declare module prop {
         suffix: string;
         private wheelEventFun;
         onMouseWheel($evt: MouseWheelEvent): void;
-        private butClik;
+        protected butClik(evt: InteractiveEvent): void;
         private lastRotationY;
         private mouseDonwPos;
         private addStagetMouseMove;
