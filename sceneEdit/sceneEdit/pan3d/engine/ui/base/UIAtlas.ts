@@ -34,7 +34,12 @@ module Pan3d {
 
 
         public setInfo(configUrl: string, imgUrl: string, $fun: Function, useImgUrl: string = null): void {
-            this._useImgUrl = useImgUrl;
+       
+            if (useImgUrl) {
+                this._useImgUrl = useImgUrl;
+            } else {
+                this._useImgUrl = imgUrl;
+            }
             LoadManager.getInstance().load(Scene_data.fileuiRoot + configUrl, LoadManager.XML_TYPE, ($str: any) => {
                 var obj: any = JSON.parse($str);
                 this.configData = obj.uiArr;
@@ -71,7 +76,7 @@ module Pan3d {
             this.useImg.onload = () => {
                 $fun();
             }
-            this.useImg.src = Scene_data.fileRoot + this._useImgUrl;
+            this.useImg.src = Scene_data.fileuiRoot + this._useImgUrl;
 
         }
 

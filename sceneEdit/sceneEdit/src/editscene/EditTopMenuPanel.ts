@@ -14,6 +14,7 @@
     import ByteArray = Pan3d.Pan3dByteArray
     import LoadManager = Pan3d.LoadManager
     import Scene_data = Pan3d.Scene_data
+    import UiDraw = Pan3d.UiDraw
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel
 
     export class MenuListData {
@@ -22,6 +23,7 @@
         public subMenu: Array<MenuListData>;
         public select: boolean;
         public key: string
+        public static showSon: boolean
 
         constructor($label: string, $key: string = null) {
             this.select = false
@@ -33,7 +35,9 @@
 
     }
     export class LabelTxtVo extends Disp2DBaseText {
-        public uiScale: number=0.5
+        public uiScale: number = 0.5
+        public static shareUiAtlas: UIAtlas
+ 
         public makeData(): void {
             if (this.rightTabInfoVo) {
       
@@ -43,42 +47,57 @@
                 var $menuListData: MenuListData = this.rightTabInfoVo
                 var $uiRec: UIRectangle = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
-                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                this.parent.uiAtlas.ctx.clearRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
-               
-                var colorBg: string = $menuListData.select ? "#6c6c6c" : "#535353";
+              
                 var colorFont: string = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
 
+ 
                 switch ($menuListData.level) {
                     case 0:
+                        if ($menuListData.select) {
+                            this.drawToUiAtlasToCtx(this.parent.uiAtlas.ctx, LabelTxtVo.shareUiAtlas, MenuListData.showSon ? "S_menu_down_bg" : "S_menu_bg", new Rectangle(0, 0, $uiRec.pixelWitdh+1, $uiRec.pixelHeight+1))
 
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
-                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
-
+                        }
+                        colorFont = $menuListData.select ? "[ffffff]" : "[ffffff]";
                         break
                     case 1:
 
-                        colorBg = $menuListData.select ? "#353535" : "#535353";
-                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[000000]";
+                        var colorBg: string = $menuListData.select ? "#000000" : "#ffffff";
+                        this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
+                        this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
 
                         break
                     default:
 
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
+       
                          colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break
 
                 }
+               
+                
+ 
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 13, TextAlign.CENTER)
 
-                this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
-                this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 10, TextAlign.CENTER)
-
+              
+           
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+ 
+          
             }
+                  
 
 
 
+        }
+        public   drawToUiAtlasToCtx($ctx: CanvasRenderingContext2D, $fromuiAtlas: UIAtlas, $shareName: string, $posRect: Rectangle): void {
+            var imgUseRect: UIRectangle = $fromuiAtlas.getRec($shareName)
+          
+    
+            $ctx.drawImage($fromuiAtlas.useImg, imgUseRect.pixelX, imgUseRect.pixelY, imgUseRect.pixelWitdh, imgUseRect.pixelHeight, $posRect.x, $posRect.y, $posRect.width, $posRect.height);
+             
 
         }
     }
@@ -99,7 +118,7 @@
 
             this._bottomRender = new UIRenderComponent();
             this._bottomRender.uiAtlas = new UIAtlas();
-            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() });
+            this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", () => { this.loadConfigCom() } );
             this.addRenderAt(this._bottomRender, 0);
  
             AppData.topPanel.addUIContainer(this)
@@ -107,11 +126,20 @@
         }
         private winBg: UICompenent
         private loadConfigCom(): void {
-        
+            LabelTxtVo.shareUiAtlas = this._bottomRender.uiAtlas 
             this.winBg = this.addChild(<UICompenent>this._bottomRender.getComponent("e_topmenu_bg"));
-
-    
+ 
             this.uiLoadComplete = true
+
+   
+            if (this.uiLoadComplete) {
+                if (this.meneType == 0) {
+                    this.makeSceneTopMenu()
+                }
+                if (this.meneType == 1) {
+                    this.makeTextureTopMenu()
+                }
+            }
 
             this.resize()
 
@@ -165,34 +193,42 @@
             $vo.subMenu.push(new MenuListData("临时修改", "34"));
             return $vo
         }
+        private meneType: number=0
         public makeSceneTopMenu(): void {
+            this.meneType = 0
+            if (this.uiLoadComplete) {
 
-            var temp: any = {};
-            var menuA: Array<MenuListData> = new Array();
-            menuA.push(this.getMenu0());
-            menuA.push(this.getMenu1());
-            menuA.push(this.getMenu2());
- 
- 
-            menuA.push(new MenuListData("系统", "3"));
-            temp.menuXmlItem = menuA;
-            this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
-            this.initMenuData(temp)
-            this.showMainUi()
+                var temp: any = {};
+                var menuA: Array<MenuListData> = new Array();
+                menuA.push(this.getMenu0());
+                menuA.push(this.getMenu1());
+                menuA.push(this.getMenu2());
+
+
+                menuA.push(new MenuListData("系统", "3"));
+                temp.menuXmlItem = menuA;
+                this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
+                this.initMenuData(temp)
+                this.showMainUi()
+            }
         }
         public makeTextureTopMenu(): void {
+            this.meneType = 1
+            if (this.uiLoadComplete) {
+                var temp: any = {};
+                var menuB: Array<MenuListData> = new Array();
+                menuB.push(new MenuListData("保存材质", "1001"));
+                menuB.push(new MenuListData("编译材质", "1002"));
+                menuB.push(new MenuListData("关闭材质窗口", "1003"));
+                menuB.push(new MenuListData("返回场景", "1004"));
 
-            var temp: any = {};
-            var menuB: Array<MenuListData> = new Array();
-            menuB.push(new MenuListData("保存材质", "1001"));
-            menuB.push(new MenuListData("编译材质", "1002"));
-            menuB.push(new MenuListData("关闭材质窗口", "1003"));
-            menuB.push(new MenuListData("返回场景", "1004"));
+                temp.menuXmlItem = menuB;
+                this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
+                this.initMenuData(temp)
+                this.showMainUi()
+            }
 
-            temp.menuXmlItem = menuB;
-            this.bfun = (value: any, evt: InteractiveEvent) => { this.menuBfun(value, evt) }
-            this.initMenuData(temp)
-            this.showMainUi()
+  
         }
         private menuBfun(value: any, evt: InteractiveEvent): void {
             console.log(value.key)
@@ -316,23 +352,24 @@
             this.showSon(this.menuXmlItem,20,0);
         }
         private onStageMouseUp($evt: InteractiveEvent): void {
-        
-            this.removeOtherSonMenu(0);
+
+            
+           // this.removeOtherSonMenu(0);
         }
         public showTempMenu($data: MenuListData, i: number, tx: number, ty: number): LabelTxtVo {
 
             let temp: LabelTxtVo = super.showTemp($data) as LabelTxtVo;
            
             if ($data.level == 0) {
-                temp.ui.x =   i * 80;
-                temp.ui.y = 3;
+                temp.ui.x =   i * 70+5;
+                temp.ui.y = 1;
             } else {
                 temp.ui.x = tx;
                 temp.ui.y = i * 20 + ty+0;
             }
       
             
-
+ 
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
             temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
             return temp
@@ -354,7 +391,7 @@
             }
         }
         private removeOtherSonMenu(level: number): void {
-
+            console.log("removeOtherSonMenu")
             for (var i: number = this._uiItem.length - 1; i >= 0; i--) {
                 var $menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
                 if ($menuListData && $menuListData.level > level) {
@@ -367,22 +404,36 @@
             if (temp && temp.rightTabInfoVo) {
                 var menuListData: MenuListData = temp.rightTabInfoVo
                 this.setColorByLevel(menuListData.level);
-                this.removeOtherSonMenu(menuListData.level);
-
                 menuListData.select = true;
                 temp.makeData();
 
-                this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height)
+              
+                if (MenuListData.showSon) {
+                    this.removeOtherSonMenu(menuListData.level);
+                    this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height)
+                }
+      
 
 
             }
         }
         private bfun: Function
         protected onMouseUp(evt: InteractiveEvent): void {
+            
             var temp: LabelTxtVo = this.getVoByUi(evt.target) as LabelTxtVo;
             if (temp && temp.rightTabInfoVo) {
+           
                 this.bfun(temp.rightTabInfoVo, evt)
-                this.removeOtherSonMenu(0);
+                if (MenuListData.showSon) {
+                    this.removeOtherSonMenu(0);
+                    MenuListData.showSon = false
+                } else {
+                    MenuListData.showSon = true
+                    this.butMove(evt);
+                }
+          
+             
+  
             }
         }
         private showSon(subMenu: Array<MenuListData>, tx: number, ty: number): void {

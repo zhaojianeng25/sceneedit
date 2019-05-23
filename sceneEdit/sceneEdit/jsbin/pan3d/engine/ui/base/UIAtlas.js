@@ -20,7 +20,12 @@ var Pan3d;
         UIAtlas.prototype.setInfo = function (configUrl, imgUrl, $fun, useImgUrl) {
             var _this = this;
             if (useImgUrl === void 0) { useImgUrl = null; }
-            this._useImgUrl = useImgUrl;
+            if (useImgUrl) {
+                this._useImgUrl = useImgUrl;
+            }
+            else {
+                this._useImgUrl = imgUrl;
+            }
             Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileuiRoot + configUrl, Pan3d.LoadManager.XML_TYPE, function ($str) {
                 var obj = JSON.parse($str);
                 _this.configData = obj.uiArr;
@@ -55,7 +60,7 @@ var Pan3d;
             this.useImg.onload = function () {
                 $fun();
             };
-            this.useImg.src = Pan3d.Scene_data.fileRoot + this._useImgUrl;
+            this.useImg.src = Pan3d.Scene_data.fileuiRoot + this._useImgUrl;
         };
         UIAtlas.prototype.getRec = function ($name) {
             var rec = new Pan3d.UIRectangle;

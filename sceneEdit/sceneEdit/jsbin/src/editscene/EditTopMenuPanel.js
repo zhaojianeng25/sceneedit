@@ -51,28 +51,32 @@ var editscene;
                 var $menuListData = this.rightTabInfoVo;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
-                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                var colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
+                this.parent.uiAtlas.ctx.clearRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
                 var colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                 switch ($menuListData.level) {
                     case 0:
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
-                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        if ($menuListData.select) {
+                            this.drawToUiAtlasToCtx(this.parent.uiAtlas.ctx, LabelTxtVo.shareUiAtlas, MenuListData.showSon ? "S_menu_down_bg" : "S_menu_bg", new Rectangle(0, 0, $uiRec.pixelWitdh + 1, $uiRec.pixelHeight + 1));
+                        }
+                        colorFont = $menuListData.select ? "[ffffff]" : "[ffffff]";
                         break;
                     case 1:
-                        colorBg = $menuListData.select ? "#353535" : "#535353";
-                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        colorFont = $menuListData.select ? "[ffffff]" : "[000000]";
+                        var colorBg = $menuListData.select ? "#000000" : "#ffffff";
+                        this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
+                        this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
                         break;
                     default:
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break;
                 }
-                this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
-                this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 10, TextAlign.CENTER);
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 13, TextAlign.CENTER);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
+        };
+        LabelTxtVo.prototype.drawToUiAtlasToCtx = function ($ctx, $fromuiAtlas, $shareName, $posRect) {
+            var imgUseRect = $fromuiAtlas.getRec($shareName);
+            $ctx.drawImage($fromuiAtlas.useImg, imgUseRect.pixelX, imgUseRect.pixelY, imgUseRect.pixelWitdh, imgUseRect.pixelHeight, $posRect.x, $posRect.y, $posRect.width, $posRect.height);
         };
         return LabelTxtVo;
     }(Disp2DBaseText));
@@ -81,6 +85,7 @@ var editscene;
         __extends(EditTopMenuPanel, _super);
         function EditTopMenuPanel() {
             var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 140, 48), 50) || this;
+            _this.meneType = 0;
             _this._bottomRender = new UIRenderComponent();
             _this._bottomRender.uiAtlas = new UIAtlas();
             _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
@@ -95,8 +100,17 @@ var editscene;
             return this._instance;
         };
         EditTopMenuPanel.prototype.loadConfigCom = function () {
+            LabelTxtVo.shareUiAtlas = this._bottomRender.uiAtlas;
             this.winBg = this.addChild(this._bottomRender.getComponent("e_topmenu_bg"));
             this.uiLoadComplete = true;
+            if (this.uiLoadComplete) {
+                if (this.meneType == 0) {
+                    this.makeSceneTopMenu();
+                }
+                if (this.meneType == 1) {
+                    this.makeTextureTopMenu();
+                }
+            }
             this.resize();
         };
         EditTopMenuPanel.prototype.resize = function () {
@@ -145,29 +159,35 @@ var editscene;
         };
         EditTopMenuPanel.prototype.makeSceneTopMenu = function () {
             var _this = this;
-            var temp = {};
-            var menuA = new Array();
-            menuA.push(this.getMenu0());
-            menuA.push(this.getMenu1());
-            menuA.push(this.getMenu2());
-            menuA.push(new MenuListData("系统", "3"));
-            temp.menuXmlItem = menuA;
-            this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
-            this.initMenuData(temp);
-            this.showMainUi();
+            this.meneType = 0;
+            if (this.uiLoadComplete) {
+                var temp = {};
+                var menuA = new Array();
+                menuA.push(this.getMenu0());
+                menuA.push(this.getMenu1());
+                menuA.push(this.getMenu2());
+                menuA.push(new MenuListData("系统", "3"));
+                temp.menuXmlItem = menuA;
+                this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
+                this.initMenuData(temp);
+                this.showMainUi();
+            }
         };
         EditTopMenuPanel.prototype.makeTextureTopMenu = function () {
             var _this = this;
-            var temp = {};
-            var menuB = new Array();
-            menuB.push(new MenuListData("保存材质", "1001"));
-            menuB.push(new MenuListData("编译材质", "1002"));
-            menuB.push(new MenuListData("关闭材质窗口", "1003"));
-            menuB.push(new MenuListData("返回场景", "1004"));
-            temp.menuXmlItem = menuB;
-            this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
-            this.initMenuData(temp);
-            this.showMainUi();
+            this.meneType = 1;
+            if (this.uiLoadComplete) {
+                var temp = {};
+                var menuB = new Array();
+                menuB.push(new MenuListData("保存材质", "1001"));
+                menuB.push(new MenuListData("编译材质", "1002"));
+                menuB.push(new MenuListData("关闭材质窗口", "1003"));
+                menuB.push(new MenuListData("返回场景", "1004"));
+                temp.menuXmlItem = menuB;
+                this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
+                this.initMenuData(temp);
+                this.showMainUi();
+            }
         };
         EditTopMenuPanel.prototype.menuBfun = function (value, evt) {
             var _this = this;
@@ -278,13 +298,13 @@ var editscene;
             this.showSon(this.menuXmlItem, 20, 0);
         };
         EditTopMenuPanel.prototype.onStageMouseUp = function ($evt) {
-            this.removeOtherSonMenu(0);
+            // this.removeOtherSonMenu(0);
         };
         EditTopMenuPanel.prototype.showTempMenu = function ($data, i, tx, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);
             if ($data.level == 0) {
-                temp.ui.x = i * 80;
-                temp.ui.y = 3;
+                temp.ui.x = i * 70 + 5;
+                temp.ui.y = 1;
             }
             else {
                 temp.ui.x = tx;
@@ -311,6 +331,7 @@ var editscene;
             }
         };
         EditTopMenuPanel.prototype.removeOtherSonMenu = function (level) {
+            console.log("removeOtherSonMenu");
             for (var i = this._uiItem.length - 1; i >= 0; i--) {
                 var $menuListData = this._uiItem[i].rightTabInfoVo;
                 if ($menuListData && $menuListData.level > level) {
@@ -323,17 +344,26 @@ var editscene;
             if (temp && temp.rightTabInfoVo) {
                 var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
-                this.removeOtherSonMenu(menuListData.level);
                 menuListData.select = true;
                 temp.makeData();
-                this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height);
+                if (MenuListData.showSon) {
+                    this.removeOtherSonMenu(menuListData.level);
+                    this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height);
+                }
             }
         };
         EditTopMenuPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
             if (temp && temp.rightTabInfoVo) {
                 this.bfun(temp.rightTabInfoVo, evt);
-                this.removeOtherSonMenu(0);
+                if (MenuListData.showSon) {
+                    this.removeOtherSonMenu(0);
+                    MenuListData.showSon = false;
+                }
+                else {
+                    MenuListData.showSon = true;
+                    this.butMove(evt);
+                }
             }
         };
         EditTopMenuPanel.prototype.showSon = function (subMenu, tx, ty) {

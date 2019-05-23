@@ -1,6 +1,8 @@
 declare module editscene {
     import InteractiveEvent = Pan3d.InteractiveEvent;
     import Disp2DBaseText = Pan3d.Disp2DBaseText;
+    import Rectangle = Pan3d.Rectangle;
+    import UIAtlas = Pan3d.UIAtlas;
     import Dis2DUIContianerPanel = Pan3d.Dis2DUIContianerPanel;
     class MenuListData {
         label: string;
@@ -8,11 +10,14 @@ declare module editscene {
         subMenu: Array<MenuListData>;
         select: boolean;
         key: string;
+        static showSon: boolean;
         constructor($label: string, $key?: string);
     }
     class LabelTxtVo extends Disp2DBaseText {
         uiScale: number;
+        static shareUiAtlas: UIAtlas;
         makeData(): void;
+        drawToUiAtlasToCtx($ctx: CanvasRenderingContext2D, $fromuiAtlas: UIAtlas, $shareName: string, $posRect: Rectangle): void;
     }
     class EditTopMenuPanel extends Dis2DUIContianerPanel {
         static _instance: any;
@@ -27,6 +32,7 @@ declare module editscene {
         private getMenu0;
         private getMenu1;
         private getMenu2;
+        private meneType;
         makeSceneTopMenu(): void;
         makeTextureTopMenu(): void;
         private menuBfun;
