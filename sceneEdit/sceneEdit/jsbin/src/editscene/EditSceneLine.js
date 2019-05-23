@@ -43,15 +43,15 @@ var editscene;
             this.leftLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
             this.rightLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
             this.bottomLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
-            this.closeLeftBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
-            this.closeRightBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
-            this.closeBottomBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
-            this.closeLeftBut.width = 10;
-            this.closeLeftBut.height = 60;
-            this.closeRightBut.width = 10;
-            this.closeRightBut.height = 60;
-            this.closeBottomBut.width = 60;
-            this.closeBottomBut.height = 10;
+            this.closeLeftBut = this.addEvntButUp("e_left_close_but", this._baseTopRender);
+            this.closeRightBut = this.addEvntButUp("e_right_close_but", this._baseTopRender);
+            this.closeBottomBut = this.addEvntButUp("e_bottom_close_but", this._baseTopRender);
+            //this.closeLeftBut.width = 10
+            //this.closeLeftBut.height = 60
+            //this.closeRightBut.width = 10
+            //this.closeRightBut.height = 60
+            //this.closeBottomBut.width = 60
+            //this.closeBottomBut.height = 10
             this.setUiListVisibleByItem([this.leftLineMin], true);
             this.setUiListVisibleByItem([this.rightLineMin], true);
             this.setUiListVisibleByItem([this.bottomLineMin], true);
@@ -144,19 +144,19 @@ var editscene;
                 this.leftLine.y = 0;
                 this.leftLine.width = 10;
                 this.leftLine.height = Scene_data.stageHeight - bottomNum;
-                this.closeLeftBut.x = this.leftLine.x + 5;
-                this.closeLeftBut.y = this.leftLine.height / 2 - this.closeLeftBut.height;
-                this.rightLine.x = Scene_data.stageWidth - rightNum - 5;
+                this.closeLeftBut.x = this.leftLine.x + 4;
+                this.closeLeftBut.y = this.leftLine.height / 2 - this.closeLeftBut.height / 2;
+                this.rightLine.x = Scene_data.stageWidth - rightNum - 6;
                 this.rightLine.y = 0;
                 this.rightLine.width = 10;
                 this.rightLine.height = Scene_data.stageHeight;
-                this.closeRightBut.x = this.rightLine.x - 5;
+                this.closeRightBut.x = this.rightLine.x - 6;
                 this.closeRightBut.y = this.closeLeftBut.y;
                 this.bottomLine.x = 0;
                 this.bottomLine.y = Scene_data.stageHeight - bottomNum - 5;
                 this.bottomLine.width = Scene_data.stageWidth - rightNum;
                 this.bottomLine.height = 10;
-                this.closeBottomBut.x = leftNum + (this.bottomLine.width - leftNum) / 2 - this.closeBottomBut.width;
+                this.closeBottomBut.x = leftNum + (this.bottomLine.width - leftNum) / 2 - this.closeBottomBut.width / 2;
                 this.closeBottomBut.y = this.bottomLine.y - 5;
                 this.leftLineMin.x = this.leftLine.x + 5;
                 this.leftLineMin.y = this.leftLine.y;
