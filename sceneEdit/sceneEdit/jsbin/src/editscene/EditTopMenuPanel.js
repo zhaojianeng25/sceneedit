@@ -308,7 +308,6 @@ var editscene;
             if (needOut) {
                 this.removeOtherSonMenu(0);
             }
-            // 
         };
         EditTopMenuPanel.prototype.showTempMenu = function ($data, i, tx, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);
