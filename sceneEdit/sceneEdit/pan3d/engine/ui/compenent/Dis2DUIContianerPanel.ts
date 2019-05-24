@@ -126,7 +126,12 @@ module Pan3d {
                     $uiAtlas.configData.push($uiAtlas.getObject($disp2DBaseText.textureStr, i * this._voRect.width, j * this._voRect.height, this._voRect.width, this._voRect.height, this._textureRect.width, this._textureRect.height));
                     $disp2DBaseText.ui = <UICompenent>this._baseRender.creatBaseComponent($disp2DBaseText.textureStr);
 
-                    $disp2DBaseText.ui.baseRec = this._voRect.clone()
+                    $disp2DBaseText.ui.baseRec = this._voRect.clone();
+
+
+
+
+
                 }
 
 

@@ -424,6 +424,14 @@
                 }
             }
 
+
+
+            //filterNum = this.renderContext.NEAREST;
+            //mipNum = this.renderContext.NEAREST;
+
+
+
+ 
             this.renderContext.texParameteri(this.renderContext.TEXTURE_2D, this.renderContext.TEXTURE_MAG_FILTER, filterNum);
             this.renderContext.texParameteri(this.renderContext.TEXTURE_2D, this.renderContext.TEXTURE_MIN_FILTER, mipNum);
 

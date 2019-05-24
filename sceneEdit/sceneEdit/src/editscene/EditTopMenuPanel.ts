@@ -59,11 +59,11 @@
                             this.drawToUiAtlasToCtx(this.parent.uiAtlas.ctx, LabelTxtVo.shareUiAtlas, MenuListData.showSon ? "S_menu_down_bg" : "S_menu_bg", new Rectangle(0, 0, $uiRec.pixelWitdh+1, $uiRec.pixelHeight+1))
 
                         }
-                        colorFont = $menuListData.select ? "[ffffff]" : "[ffffff]";
+                        colorFont = $menuListData.select ? "#ffffff" : "#ffffff";
                         break
                     case 1:
 
-                        colorFont = $menuListData.select ? "[ffffff]" : "[000000]";
+                        colorFont = $menuListData.select ? "#ffffff" : "#000000";
                         var colorBg: string = $menuListData.select ? "#000000" : "#ffffff";
                         this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                         this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
@@ -79,9 +79,13 @@
                
                 
  
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 13, TextAlign.CENTER)
+                // LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 13, TextAlign.CENTER)
 
-              
+                let ctx: CanvasRenderingContext2D = this.parent.uiAtlas.ctx;
+                ctx.font = "24px Georgia";
+                ctx.fillStyle = colorFont
+                ctx.lineWidth = 0;
+                ctx.fillText($menuListData.label,30, 15);
            
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
  
@@ -361,6 +365,14 @@
                 }
             }
             if (needOut) {
+                for (var i: number = 0; i < this._uiItem.length; i++) {
+                    var menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
+                    if (menuListData.select) {
+                        menuListData.select = false
+                        this._uiItem[i].makeData()
+
+                    }
+                }
                 this.removeOtherSonMenu(0);
             }
   
@@ -404,6 +416,7 @@
             for (var i: number = this._uiItem.length - 1; i >= 0; i--) {
                 var $menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
                 if ($menuListData && $menuListData.level > level) {
+                    $menuListData.select = false
                     this.clearTemp($menuListData)
                 }
             }
