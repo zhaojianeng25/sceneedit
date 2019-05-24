@@ -60,7 +60,7 @@
         //设计宽高
         public static designWidth: number = 960;
         public static designHeight: number = 540;
-        public static font: string = "Helvetica";//Georgia
+        public static font: string = "Helvetica";//Georgia//Helvetica
 
         public static Scale: number;
 

@@ -83,7 +83,7 @@ module Pan3d {
             var $uiAtlas: UIAtlas = this._baseRender.uiAtlas;
             $uiAtlas.configData = new Array();
             $uiAtlas.ctx = UIManager.getInstance().getContext2D(this._textureRect.width, this._textureRect.height, false);
-            $uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
+            $uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx,0,1,0);
             this.makeBaseUi($classVo);
             ;
         }

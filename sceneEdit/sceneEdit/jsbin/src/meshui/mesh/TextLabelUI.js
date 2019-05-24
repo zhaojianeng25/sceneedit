@@ -37,7 +37,7 @@ var prop;
             var kkwA = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
             var kkhB = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)));
             _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(kkwA, kkhB, false);
-            _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx);
+            _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx, 0, 1, 0);
             $uiAtlas.configData.push($uiAtlas.getObject(_this.tempUiName, 0, 0, w, h, kkwA, kkhB));
             _this.ui = _this._bRender.creatBaseComponent(_this.tempUiName);
             _this.ui.width = w * _this.uiViewScale;
@@ -130,7 +130,7 @@ var prop;
                 return "";
             },
             set: function (value) {
-                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+                LabelTextFont.writeSingleLabelCopy(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 24, TextAlign.LEFT, "#eeeeee", "#eeeeee", 5);
             },
             enumerable: true,
             configurable: true

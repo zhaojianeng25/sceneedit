@@ -51,29 +51,31 @@ var editscene;
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
                 this.parent.uiAtlas.ctx.clearRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
                 var colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                var tx;
                 switch ($menuListData.level) {
                     case 0:
                         if ($menuListData.select) {
                             this.drawToUiAtlasToCtx(this.parent.uiAtlas.ctx, LabelTxtVo.shareUiAtlas, MenuListData.showSon ? "S_menu_down_bg" : "S_menu_bg", new Rectangle(0, 0, $uiRec.pixelWitdh + 1, $uiRec.pixelHeight + 1));
                         }
                         colorFont = $menuListData.select ? "#ffffff" : "#ffffff";
+                        tx = 40;
                         break;
                     case 1:
                         colorFont = $menuListData.select ? "#ffffff" : "#000000";
                         var colorBg = $menuListData.select ? "#000000" : "#ffffff";
                         this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
                         this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                        tx = 10;
                         break;
                     default:
                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break;
                 }
-                // LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 13, TextAlign.CENTER)
                 var ctx = this.parent.uiAtlas.ctx;
                 ctx.font = "24px Georgia";
                 ctx.fillStyle = colorFont;
                 ctx.lineWidth = 0;
-                ctx.fillText($menuListData.label, 30, 15);
+                ctx.fillText($menuListData.label, tx, 15);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
         };
@@ -311,7 +313,7 @@ var editscene;
             if (needOut) {
                 for (var i = 0; i < this._uiItem.length; i++) {
                     var menuListData = this._uiItem[i].rightTabInfoVo;
-                    if (menuListData.select) {
+                    if (menuListData && menuListData.select) {
                         menuListData.select = false;
                         this._uiItem[i].makeData();
                     }
@@ -326,8 +328,8 @@ var editscene;
                 temp.ui.y = 1;
             }
             else {
-                temp.ui.x = tx;
-                temp.ui.y = i * 20 + ty + 0;
+                temp.ui.x = tx + 4;
+                temp.ui.y = i * 20 + ty - 4;
             }
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
             temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);

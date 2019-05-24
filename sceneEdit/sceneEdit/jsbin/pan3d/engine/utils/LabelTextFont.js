@@ -405,6 +405,26 @@ var Pan3d;
         /*
         *写入单行颜色字体，字号,对齐，基础颜色 并上传显卡
         */
+        LabelTextFont.writeSingleLabelCopy = function ($uiAtlas, $key, $str, fontsize, $align, $baseColor, $filterColor, $ty, $filterWidth, $bolder) {
+            if (fontsize === void 0) { fontsize = 12; }
+            if ($align === void 0) { $align = Pan3d.TextAlign.CENTER; }
+            if ($baseColor === void 0) { $baseColor = "#ffffff"; }
+            if ($filterColor === void 0) { $filterColor = ""; }
+            if ($ty === void 0) { $ty = 0; }
+            if ($filterWidth === void 0) { $filterWidth = 4; }
+            if ($bolder === void 0) { $bolder = true; }
+            if ($baseColor.indexOf("[") != -1) { //[00ff00]
+                $baseColor = "#" + $baseColor.substr(1, 6);
+            }
+            var $uiRect = $uiAtlas.getRec($key);
+            var ctx = Pan3d.UIManager.getInstance().getContext2D($uiRect.pixelWitdh, $uiRect.pixelHeight, false);
+            ctx.font = fontsize + "px Georgia";
+            ctx.fillStyle = $baseColor;
+            ctx.lineWidth = 0;
+            ctx.fillText($str, 0, 2);
+            $uiAtlas.updateCtx(ctx, $uiRect.pixelX, $uiRect.pixelY);
+            return 0;
+        };
         LabelTextFont.writeSingleLabel = function ($uiAtlas, $key, $str, fontsize, $align, $baseColor, $filterColor, $ty, $filterWidth, $bolder) {
             if (fontsize === void 0) { fontsize = 12; }
             if ($align === void 0) { $align = Pan3d.TextAlign.CENTER; }

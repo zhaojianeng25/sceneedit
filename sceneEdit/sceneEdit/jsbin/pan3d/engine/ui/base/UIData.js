@@ -157,7 +157,7 @@ var Pan3d;
         //设计宽高
         UIData.designWidth = 960;
         UIData.designHeight = 540;
-        UIData.font = "Helvetica"; //Georgia
+        UIData.font = "Helvetica"; //Georgia//Helvetica
         UIData._skipnum = 0;
         UIData.textlist = "textlist";
         UIData.publicUi = "publicUi";

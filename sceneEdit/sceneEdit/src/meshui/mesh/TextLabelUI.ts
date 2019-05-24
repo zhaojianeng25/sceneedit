@@ -44,7 +44,7 @@
       
 
             this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(kkwA, kkhB, false);
-            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx);
+            this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(this._bRender.uiAtlas.ctx,0,1,0);
  
             $uiAtlas.configData.push($uiAtlas.getObject(this.tempUiName, 0, 0, w, h, kkwA, kkhB));
 
@@ -133,7 +133,7 @@
             return "";
         }
         public set label(value: string) {
-            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+            LabelTextFont.writeSingleLabelCopy(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 24, TextAlign.LEFT, "#eeeeee", "#eeeeee", 5);
 
 
         }

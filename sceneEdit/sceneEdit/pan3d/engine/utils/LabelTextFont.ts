@@ -413,6 +413,26 @@
         /*
         *写入单行颜色字体，字号,对齐，基础颜色 并上传显卡
         */
+
+        public static writeSingleLabelCopy($uiAtlas: UIAtlas, $key: string, $str: string, fontsize: number = 12, $align: string = TextAlign.CENTER,
+            $baseColor: string = "#ffffff", $filterColor: string = "", $ty: number = 0, $filterWidth: number = 4, $bolder: boolean = true): number {
+
+            if ($baseColor.indexOf("[") != -1) {  //[00ff00]
+                $baseColor = "#" + $baseColor.substr(1, 6);
+            }
+
+            var $uiRect: UIRectangle = $uiAtlas.getRec($key);
+
+            var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D($uiRect.pixelWitdh, $uiRect.pixelHeight, false);
+     
+            ctx.font = fontsize+"px Georgia";
+            ctx.fillStyle = $baseColor
+            ctx.lineWidth = 0;
+            ctx.fillText($str, 0, 2);
+
+            $uiAtlas.updateCtx(ctx, $uiRect.pixelX, $uiRect.pixelY);
+            return 0
+        }
         public static writeSingleLabel($uiAtlas: UIAtlas, $key: string, $str: string, fontsize: number = 12, $align: string = TextAlign.CENTER,
             $baseColor: string = "#ffffff", $filterColor: string = "", $ty: number = 0, $filterWidth: number = 4, $bolder: boolean = true): number {
 

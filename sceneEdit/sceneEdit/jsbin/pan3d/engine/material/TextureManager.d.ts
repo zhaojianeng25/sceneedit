@@ -12,7 +12,7 @@ declare module Pan3d {
         getImgResByurl($url: string): any;
         addRes($url: string, $img: any): void;
         addImgRes($url: string, $img: any): void;
-        getCanvasTexture(ctx: CanvasRenderingContext2D): TextureRes;
+        getCanvasTexture(ctx: CanvasRenderingContext2D, $wrap?: number, $filter?: number, $mipmap?: number): TextureRes;
         getImageDataTexture(imgdata: any): WebGLTexture;
         getTextureRes($img: any): TextureRes;
         updateTexture($texture: WebGLTexture, $offsetx: number, $offsety: number, ctx: CanvasRenderingContext2D): void;

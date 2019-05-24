@@ -75,6 +75,7 @@ declare module Pan3d {
         constructor($str: string, $posy: number, $width: number, $color: string, $maxWidth: number);
     }
     class LabelTextFont {
+        static writeSingleLabelCopy($uiAtlas: UIAtlas, $key: string, $str: string, fontsize?: number, $align?: string, $baseColor?: string, $filterColor?: string, $ty?: number, $filterWidth?: number, $bolder?: boolean): number;
         static writeSingleLabel($uiAtlas: UIAtlas, $key: string, $str: string, fontsize?: number, $align?: string, $baseColor?: string, $filterColor?: string, $ty?: number, $filterWidth?: number, $bolder?: boolean): number;
         static writeTextLabel($uiAtlas: UIAtlas, $key: string, $str: string, fontsize?: number, $align?: CanvasTextAlign, $maxWidth?: number, $baseColor?: string, $filterColor?: string, $ty?: number, $filterWidth?: number, $bolder?: boolean): Array<number>;
         static writeSingleLabelToCtx($ctx: CanvasRenderingContext2D, $str: string, fontsize?: number, $tx?: number, $ty?: number, $align?: string, $baseColor?: string, $filterColor?: string, $bolder?: boolean): number;

@@ -426,8 +426,7 @@
 
 
 
-            //filterNum = this.renderContext.NEAREST;
-            //mipNum = this.renderContext.NEAREST;
+   
 
 
 

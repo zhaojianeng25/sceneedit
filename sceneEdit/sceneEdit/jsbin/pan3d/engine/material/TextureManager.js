@@ -97,9 +97,12 @@ var Pan3d;
             textres.useNum++;
             this._dic[$url] = textres;
         };
-        TextureManager.prototype.getCanvasTexture = function (ctx) {
+        TextureManager.prototype.getCanvasTexture = function (ctx, $wrap, $filter, $mipmap) {
+            if ($wrap === void 0) { $wrap = 0; }
+            if ($filter === void 0) { $filter = 0; }
+            if ($mipmap === void 0) { $mipmap = 0; }
             var tres = new Pan3d.TextureRes;
-            var texture = Pan3d.Scene_data.context3D.getTexture(ctx.canvas, 0, 0);
+            var texture = Pan3d.Scene_data.context3D.getTexture(ctx.canvas, $wrap, $filter, $mipmap);
             tres.texture = texture;
             return tres;
         };

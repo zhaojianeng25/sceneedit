@@ -94,9 +94,9 @@
 
         }
 
-        public getCanvasTexture(ctx: CanvasRenderingContext2D): TextureRes {
+        public getCanvasTexture(ctx: CanvasRenderingContext2D, $wrap: number = 0, $filter: number = 0, $mipmap: number = 0): TextureRes {
             var tres: TextureRes = new TextureRes;
-            var texture: WebGLTexture = Scene_data.context3D.getTexture(ctx.canvas, 0, 0);
+            var texture: WebGLTexture = Scene_data.context3D.getTexture(ctx.canvas, $wrap, $filter, $mipmap);
             tres.texture = texture;
             return tres;
         }
