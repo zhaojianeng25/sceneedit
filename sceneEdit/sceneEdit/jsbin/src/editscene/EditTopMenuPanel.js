@@ -298,7 +298,17 @@ var editscene;
             this.showSon(this.menuXmlItem, 20, 0);
         };
         EditTopMenuPanel.prototype.onStageMouseUp = function ($evt) {
-            // this.removeOtherSonMenu(0);
+            var needOut = true;
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var menuListData = this._uiItem[i].rightTabInfoVo;
+                if (menuListData && this._uiItem[i].ui.testPoint($evt.x, $evt.y)) {
+                    needOut = false;
+                }
+            }
+            if (needOut) {
+                this.removeOtherSonMenu(0);
+            }
+            // 
         };
         EditTopMenuPanel.prototype.showTempMenu = function ($data, i, tx, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);

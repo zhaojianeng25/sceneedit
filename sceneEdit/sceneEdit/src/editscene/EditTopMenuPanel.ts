@@ -352,9 +352,19 @@
             this.showSon(this.menuXmlItem,20,0);
         }
         private onStageMouseUp($evt: InteractiveEvent): void {
+            var needOut: boolean = true
 
+            for (var i: number = 0; i < this._uiItem.length; i++) {
+                var menuListData: MenuListData = this._uiItem[i].rightTabInfoVo as MenuListData
+                if (menuListData && this._uiItem[i].ui.testPoint($evt.x, $evt.y)) {
+                    needOut = false   
+                }
+            }
+            if (needOut) {
+                this.removeOtherSonMenu(0);
+            }
             
-           // this.removeOtherSonMenu(0);
+           // 
         }
         public showTempMenu($data: MenuListData, i: number, tx: number, ty: number): LabelTxtVo {
 
