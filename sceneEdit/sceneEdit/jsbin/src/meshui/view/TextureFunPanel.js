@@ -26,13 +26,9 @@ var prop;
         }
         TextureFunPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.c_tittle_bg], true);
-            this.setUiListVisibleByItem([this.c_left_line], true);
-            this.setUiListVisibleByItem([this.c_right_line], true);
-            this.setUiListVisibleByItem([this.c_bottom_line], true);
-            this.setUiListVisibleByItem([this.c_win_bg], false);
-            this.setUiListVisibleByItem([this.b_win_close], true);
+            this.e_pop_panel = this.addChild(this._closeRender.getComponent("e_pop_panel"));
             this.c_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.resize();
         };
         TextureFunPanel.prototype.tittleMouseDown = function (evt) {
             this.mouseMoveTaget = evt.target;
@@ -91,11 +87,16 @@ var prop;
         };
         TextureFunPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);
-            if (this.chatHtmlInput) {
+            if (this.e_pop_panel && this.chatHtmlInput) {
                 this.chatHtmlInput.style.left = this.left + 5 + "px";
                 this.chatHtmlInput.style.top = this.top + 25 + "px";
                 this.chatHtmlInput.style.width = this.pageRect.width - 8 + "px";
                 this.chatHtmlInput.style.height = this.pageRect.height - 30 + "px";
+                this.e_pop_panel.x = 0;
+                this.e_pop_panel.y = 0;
+                this.e_pop_panel.width = this.pageRect.width;
+                this.e_pop_panel.height = this.pageRect.height;
+                this._closeRender.applyObjData();
             }
         };
         TextureFunPanel.prototype.changeInputResize = function (evt) {

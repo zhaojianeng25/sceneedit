@@ -1,22 +1,21 @@
 ﻿module prop {
     import InteractiveEvent = Pan3d.InteractiveEvent
     import Scene_data = Pan3d.Scene_data
+    import Grid9Compenent = Pan3d.Grid9Compenent
     export class TextureFunPanel extends win.BaseWindow {
  
         protected loadConfigCom(): void {
+
             super.loadConfigCom();
 
-            this.setUiListVisibleByItem([this.c_tittle_bg], true)
-            this.setUiListVisibleByItem([this.c_left_line], true)
-            this.setUiListVisibleByItem([this.c_right_line], true)
-            this.setUiListVisibleByItem([this.c_bottom_line], true)
-            this.setUiListVisibleByItem([this.c_win_bg], false)
-
-            this.setUiListVisibleByItem([this.b_win_close], true)
+            this.e_pop_panel = <Grid9Compenent>this.addChild(this._closeRender.getComponent("e_pop_panel"));
  
             this.c_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+
+            this.resize();
  
         }
+        private e_pop_panel: Grid9Compenent
         protected tittleMouseDown(evt: InteractiveEvent): void {
 
             this.mouseMoveTaget = evt.target
@@ -97,12 +96,20 @@
         }
         public resize(): void {
             super.resize()
-            if (this.chatHtmlInput) {
+      
+            if (this.e_pop_panel&&this.chatHtmlInput ) {
                 this.chatHtmlInput.style.left = this.left+5 + "px";
                 this.chatHtmlInput.style.top = this.top + 25 + "px";
 
                 this.chatHtmlInput.style.width = this.pageRect.width-8 + "px";
-                this.chatHtmlInput.style.height = this.pageRect.height-30 + "px";
+                this.chatHtmlInput.style.height = this.pageRect.height - 30 + "px";
+
+                this.e_pop_panel.x = 0
+                this.e_pop_panel.y = 0
+                this.e_pop_panel.width = this.pageRect.width
+                this.e_pop_panel.height = this.pageRect.height
+
+                this._closeRender.applyObjData()
             }
         }
         private changeInputResize(evt: any): void {
