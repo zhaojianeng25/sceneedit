@@ -21,10 +21,17 @@ var prop;
         }
         MathFunMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.AgalFunUI, Label: "函数名:", FunKey: "constValue", target: this, Step: 0.01 },
+                { Type: prop.ReflectionData.TEXT, Label: "名字:", FunKey: "tittleStr", target: this, Category: "函数" },
             ];
             return ary;
         };
+        Object.defineProperty(MathFunMeshPanel.prototype, "tittleStr", {
+            get: function () {
+                return this.mathFunNodeUI.tittleStr;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(MathFunMeshPanel.prototype, "data", {
             get: function () {
                 return this._data;
@@ -33,59 +40,24 @@ var prop;
                 this._data = value;
                 this.mathFunNodeUI = this._data;
                 this.refreshViewValue();
-                this.setInputTxtPos();
             },
             enumerable: true,
             configurable: true
         });
-        MathFunMeshPanel.prototype.setInputTxtPos = function () {
-            var _this = this;
-            if (!this.chatHtmlInput) {
-                this.chatHtmlInput = document.createElement("textarea");
-                this.chatHtmlInput.style.position = "absolute";
-                this.chatHtmlInput.style["z-index"] = 100;
-                this.chatHtmlInput.style.background = "transparent";
-                this.chatHtmlInput.style.color = "#ffffff";
-                document.body.appendChild(this.chatHtmlInput);
-                this.chatHtmlInput.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
-            }
-            this.chatHtmlInput.style.left = 0 + "px";
-            this.chatHtmlInput.style.top = 0 + "px";
-            var tw = 350;
-            var th = 40;
-            var textSize = 100;
-            this.chatHtmlInput.style.fontSize = String(12) + "px";
-            this.chatHtmlInput.style.width = String(tw) + "px";
-            this.chatHtmlInput.style.height = String(th) + "px";
-            this.chatHtmlInput.value = this.mathFunNodeUI.nodeTree.funStr;
-            this.resize();
-        };
         MathFunMeshPanel.prototype.changeFile = function (evt) {
-            var $agalStr = this.chatHtmlInput.value;
-            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, this.mathFunNodeUI.nodeTree.funStr)) {
-                this.mathFunNodeUI.inPutFunStr($agalStr);
-            }
-            else {
-                this.mathFunNodeUI.nodeTree.funStr = $agalStr;
+            /*
+            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, (<materialui.NodeTreeFun>this.mathFunNodeUI.nodeTree).funStr)) {
+                this.mathFunNodeUI.inPutFunStr($agalStr)
+            } else {
+                (<materialui.NodeTreeFun>this.mathFunNodeUI.nodeTree).funStr = $agalStr
                 this.changeData();
             }
-        };
-        MathFunMeshPanel.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-            if (this.chatHtmlInput) {
-                this.chatHtmlInput.style.top = 0 + "px";
-            }
+            */
         };
         MathFunMeshPanel.prototype.destory = function () {
-            var _this = this;
             _super.prototype.destory.call(this);
-            if (this.chatHtmlInput) {
-                this.chatHtmlInput.removeEventListener("change", function (cevt) { _this.changeFile(cevt); });
-                document.body.removeChild(this.chatHtmlInput);
-                this.chatHtmlInput = null;
-            }
         };
-        Object.defineProperty(MathFunMeshPanel.prototype, "constValue", {
+        Object.defineProperty(MathFunMeshPanel.prototype, "nodeUI", {
             get: function () {
                 return this.mathFunNodeUI;
             },

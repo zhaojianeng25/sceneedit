@@ -28,7 +28,7 @@ declare module materialui {
         private a_panel_title_frame;
         static titleFrameId: number;
         protected loadConfigCom(): void;
-        private tittleStr;
+        tittleStr: string;
         protected drawTitleToFrame($str: string): void;
         private drawTextToName;
         addItems($nodeUI: ItemMaterialUI): void;

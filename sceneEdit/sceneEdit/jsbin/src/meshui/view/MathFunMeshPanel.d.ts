@@ -2,13 +2,11 @@ declare module prop {
     class MathFunMeshPanel extends MetaDataView {
         private mathFunNodeUI;
         getView(): Array<any>;
+        readonly tittleStr: string;
         data: any;
-        private chatHtmlInput;
-        private setInputTxtPos;
         private changeFile;
-        resize(): void;
         destory(): void;
-        constValue: materialui.MathFunNodeUI;
+        nodeUI: materialui.MathFunNodeUI;
         private changeData;
     }
 }

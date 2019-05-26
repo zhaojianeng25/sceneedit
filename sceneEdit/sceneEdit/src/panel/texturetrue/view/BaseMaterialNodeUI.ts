@@ -140,8 +140,8 @@
             this.drawTitleToFrame("材质")
     
         }
-  
-        private tittleStr: string;
+
+        public tittleStr: string;
         protected drawTitleToFrame($str:string): void
         {
             this.tittleStr = $str
@@ -319,7 +319,8 @@
 
                 if (this instanceof materialui.MathFunNodeUI) {
  
-                    prop.TextureFunPanel.getInstance().showPanel(this)
+                  //  prop.TextureFunPanel.getInstance().showPanel(this)
+                    prop.PropModel.getInstance().showTextureUiPanel(this)
                 } else {
                     prop.PropModel.getInstance().showTextureUiPanel(this)
 
