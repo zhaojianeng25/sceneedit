@@ -14,11 +14,13 @@
         public get tittleStr(): string {
             return this.mathFunNodeUI.tittleStr
         }
-        public get funContent(): string {
-            return ""
+        public get funContent(): materialui.NodeTreeFun {
+
+        
+            return (<materialui.NodeTreeFun>this.mathFunNodeUI.nodeTree)
         }
-        public set funContent(value: string) {
-            console.log(value)
+        public set funContent(value: materialui.NodeTreeFun) {
+           
 
         }
  
@@ -46,6 +48,8 @@
         
         }
         public get data(): any {
+
+            console.log(this.mathFunNodeUI)
             return this._data
         }
         public get nodeUI(): materialui.MathFunNodeUI {

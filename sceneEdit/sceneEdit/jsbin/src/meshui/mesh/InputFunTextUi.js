@@ -26,7 +26,7 @@ var prop;
             return _this;
         }
         InputFunTextUi.prototype.initView = function () {
-            this.setInputTxtPos();
+            this.makeHtmlArear();
             this.addEvets();
         };
         InputFunTextUi.prototype.destory = function () {
@@ -34,7 +34,7 @@ var prop;
             this.chatHtmlIArea = null;
             _super.prototype.destory.call(this);
         };
-        InputFunTextUi.prototype.setInputTxtPos = function () {
+        InputFunTextUi.prototype.makeHtmlArear = function () {
             var _this = this;
             if (!this.chatHtmlIArea) {
                 this.chatHtmlIArea = document.createElement("textarea");
@@ -45,35 +45,36 @@ var prop;
                 this.chatHtmlIArea.style.color = "#000000";
                 document.body.appendChild(this.chatHtmlIArea);
                 this.chatHtmlIArea.addEventListener("change", function (cevt) { _this.changeInputTxt(cevt); });
+                this.chatHtmlIArea.style.left = 0 + "px";
+                this.chatHtmlIArea.style.top = 0 + "px";
+                var tw = 40;
+                var th = 20;
+                this.chatHtmlIArea.style.fontSize = String(12) + "px";
+                this.chatHtmlIArea.style.width = String(tw) + "px";
+                this.chatHtmlIArea.style.height = 'auto';
+                this.chatHtmlIArea.style.height = 300 + "px";
+                this.resize();
             }
-            this.chatHtmlIArea.style.left = 0 + "px";
-            this.chatHtmlIArea.style.top = 0 + "px";
-            var tw = 40;
-            var th = 20;
-            this.chatHtmlIArea.style.fontSize = String(12) + "px";
-            this.chatHtmlIArea.style.width = String(tw) + "px";
-            this.chatHtmlIArea.style.height = String(th) + "px";
-            this.chatHtmlIArea.value = "99.99";
         };
         InputFunTextUi.prototype.changeInputTxt = function (evt) {
             var $agalStr = this.chatHtmlIArea.value;
+            console.log(this.chatHtmlIArea.scrollHeight);
             var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
             $reflectionEvet.data = $agalStr;
             //  this.dispatchEvent($reflectionEvet);
         };
         InputFunTextUi.prototype.resize = function () {
             _super.prototype.resize.call(this);
-            this.setInputTxtPos();
-            this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
-            this.chatHtmlIArea.style.top = (this.textureContext.top + this.y - 5) + "px";
-            this.chatHtmlIArea.style.width = this.width + "px";
-            this.chatHtmlIArea.style.overflow = 'hidden';
-            this.chatHtmlIArea.style.height = 'auto';
-            this.chatHtmlIArea.style.height = this.chatHtmlIArea.scrollHeight + 'px';
+            if (this.chatHtmlIArea) {
+                this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y - 5) + "px";
+                this.chatHtmlIArea.style.width = this.width + "px";
+            }
         };
         Object.defineProperty(InputFunTextUi.prototype, "text", {
             set: function (value) {
                 LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
+                this.makeHtmlArear();
                 this.chatHtmlIArea.value = value;
             },
             enumerable: true,

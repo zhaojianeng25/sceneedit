@@ -4,7 +4,7 @@ declare module prop {
         protected initView(): void;
         destory(): void;
         private chatHtmlIArea;
-        private setInputTxtPos;
+        private makeHtmlArear;
         private changeInputTxt;
         resize(): void;
         width: number;

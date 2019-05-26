@@ -47,7 +47,8 @@ var prop;
             configurable: true
         });
         MaterialFunContentUI.prototype.refreshViewValue = function () {
-            this.inputFunTextUi.text = "ccavetee";
+            var temp = this.target[this.FunKey];
+            this.inputFunTextUi.text = temp.funStr;
         };
         Object.defineProperty(MaterialFunContentUI.prototype, "x", {
             get: function () {

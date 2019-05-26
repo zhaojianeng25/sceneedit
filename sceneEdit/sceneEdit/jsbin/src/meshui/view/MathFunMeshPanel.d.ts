@@ -3,7 +3,7 @@ declare module prop {
         private mathFunNodeUI;
         getView(): Array<any>;
         readonly tittleStr: string;
-        funContent: string;
+        funContent: materialui.NodeTreeFun;
         data: any;
         private changeFile;
         destory(): void;

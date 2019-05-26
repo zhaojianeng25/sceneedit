@@ -44,7 +44,13 @@
             return this._data
         }
         public refreshViewValue(): void {
-            this.inputFunTextUi.text="ccavetee"
+       
+
+            var temp: materialui.NodeTreeFun = this.target[this.FunKey];
+  
+            this.inputFunTextUi.text = temp.funStr;
+
+
         }
         public set x(value: number) {
             this._x = value;

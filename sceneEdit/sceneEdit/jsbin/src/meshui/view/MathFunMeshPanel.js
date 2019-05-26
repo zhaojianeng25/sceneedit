@@ -35,16 +35,16 @@ var prop;
         });
         Object.defineProperty(MathFunMeshPanel.prototype, "funContent", {
             get: function () {
-                return "";
+                return this.mathFunNodeUI.nodeTree;
             },
             set: function (value) {
-                console.log(value);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(MathFunMeshPanel.prototype, "data", {
             get: function () {
+                console.log(this.mathFunNodeUI);
                 return this._data;
             },
             set: function (value) {

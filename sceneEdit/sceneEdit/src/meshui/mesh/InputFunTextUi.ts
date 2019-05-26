@@ -15,7 +15,7 @@
  
         }
         protected initView(): void {
-            this.setInputTxtPos()
+            this.makeHtmlArear()
             this.addEvets()
         }
         public destory(): void {
@@ -25,7 +25,7 @@
 
         }
         private chatHtmlIArea: HTMLTextAreaElement;
-        private setInputTxtPos(): void {
+        private makeHtmlArear(): void {
             if (!this.chatHtmlIArea) {
                 this.chatHtmlIArea = <HTMLTextAreaElement>document.createElement("textarea");
                 this.chatHtmlIArea.style.position = "absolute";
@@ -35,24 +35,30 @@
                 this.chatHtmlIArea.style.color = "#000000";
                 document.body.appendChild(this.chatHtmlIArea);
                 this.chatHtmlIArea.addEventListener("change", (cevt: any) => { this.changeInputTxt(cevt) });
+                this.chatHtmlIArea.style.left = 0 + "px";
+                this.chatHtmlIArea.style.top = 0 + "px";
+                var tw: number = 40
+                var th: number = 20;
+                this.chatHtmlIArea.style.fontSize = String(12) + "px";
+                this.chatHtmlIArea.style.width = String(tw) + "px";
+                this.chatHtmlIArea.style.height = 'auto';
+                this.chatHtmlIArea.style.height = 300 + "px";
 
+                this.resize()
             }
     
 
-            this.chatHtmlIArea.style.left = 0 + "px";
-            this.chatHtmlIArea.style.top = 0 + "px";
-            var tw: number = 40
-            var th: number = 20;
-            this.chatHtmlIArea.style.fontSize = String(12) + "px";
-            this.chatHtmlIArea.style.width = String(tw) + "px";
-            this.chatHtmlIArea.style.height = String(th) + "px";
-            this.chatHtmlIArea.value = "99.99"
+ 
  
 
         }
 
         private changeInputTxt(evt: any): void {
             var $agalStr: string = this.chatHtmlIArea.value
+
+            console.log(this.chatHtmlIArea.scrollHeight)
+
+
             var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
             $reflectionEvet.data = $agalStr;
             //  this.dispatchEvent($reflectionEvet);
@@ -60,23 +66,27 @@
         }
         public resize(): void {
             super.resize()
-            this.setInputTxtPos()
-            this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
-            this.chatHtmlIArea.style.top = (this.textureContext.top + this.y - 5) + "px";
 
-            this.chatHtmlIArea.style.width = this.width + "px";
 
-            this.chatHtmlIArea.style.overflow = 'hidden';
-            this.chatHtmlIArea.style.height = 'auto';
-            this.chatHtmlIArea.style.height = this.chatHtmlIArea.scrollHeight + 'px';
-            
-         
+            if (this.chatHtmlIArea) {
+                this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y - 5) + "px";
+                this.chatHtmlIArea.style.width = this.width + "px";
+            }
+   
+ 
+ 
         }
+       
         public width: number;
         public height: number;
         public set text(value: string) {
             LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
+
+            this.makeHtmlArear()
             this.chatHtmlIArea.value = value
+            
+        
         }
 
 

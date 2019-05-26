@@ -7,6 +7,7 @@ E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.pdb
 D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll.config
 D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll
 D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.pdb
+D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csprojAssemblyReference.cache
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csproj.CoreCompileInputs.cache
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.dll
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.pdb
