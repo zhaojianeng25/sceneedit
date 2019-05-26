@@ -29,6 +29,7 @@ declare module prop {
         resize(): void;
         eventKey(value: string): void;
         creatComponent(obj: any): BaseReflComponent;
+        getMaterialFunContentUI($obj: Object): MaterialFunContentUI;
         getMeshMaterialLeft2DUI($obj: Object): MeshMaterialLfetView2DUI;
         getMeshScene2DUI($obj: Object): MeshSceneView2DUI;
         getCategoryUI(value: string): Category2DUI;

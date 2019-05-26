@@ -221,9 +221,19 @@
             if (type == ReflectionData.MeshMaterialLeft2DUI) {
                 return this.getMeshMaterialLeft2DUI(obj);
             }
+            if (type == ReflectionData.MaterialFunContentUI) {
+                return this.getMaterialFunContentUI(obj);
+            }
             
  
             return null;
+        }
+        public getMaterialFunContentUI($obj: Object): MaterialFunContentUI {
+            var temp: MaterialFunContentUI = new MaterialFunContentUI(this.propPanle)
+            temp.label = $obj[ReflectionData.Key_Label];
+            temp.FunKey = $obj[ReflectionData.FunKey];
+            temp.target = this
+            return temp;
         }
         public getMeshMaterialLeft2DUI($obj: Object): MeshMaterialLfetView2DUI {
             var temp: MeshMaterialLfetView2DUI = new MeshMaterialLfetView2DUI(this.propPanle)

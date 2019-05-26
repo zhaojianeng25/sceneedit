@@ -6,12 +6,20 @@
         public getView(): Array<any> {
             var ary: Array<any> =
                 [
-                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "tittleStr", target: this, Category: "函数"},
+                    { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "tittleStr", target: this, Category: "函数" },
+                    { Type: ReflectionData.MaterialFunContentUI, Label: "窗口:", FunKey: "funContent",    target: this, Category: "程序" },
                 ];
             return ary;
         }
         public get tittleStr(): string {
             return this.mathFunNodeUI.tittleStr
+        }
+        public get funContent(): string {
+            return ""
+        }
+        public set funContent(value: string) {
+            console.log(value)
+
         }
  
         public set data(value: any) {

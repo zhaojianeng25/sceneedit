@@ -201,7 +201,17 @@ var prop;
             if (type == prop.ReflectionData.MeshMaterialLeft2DUI) {
                 return this.getMeshMaterialLeft2DUI(obj);
             }
+            if (type == prop.ReflectionData.MaterialFunContentUI) {
+                return this.getMaterialFunContentUI(obj);
+            }
             return null;
+        };
+        MetaDataView.prototype.getMaterialFunContentUI = function ($obj) {
+            var temp = new prop.MaterialFunContentUI(this.propPanle);
+            temp.label = $obj[prop.ReflectionData.Key_Label];
+            temp.FunKey = $obj[prop.ReflectionData.FunKey];
+            temp.target = this;
+            return temp;
         };
         MetaDataView.prototype.getMeshMaterialLeft2DUI = function ($obj) {
             var temp = new prop.MeshMaterialLfetView2DUI(this.propPanle);

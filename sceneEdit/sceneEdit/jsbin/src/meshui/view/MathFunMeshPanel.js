@@ -22,12 +22,23 @@ var prop;
         MathFunMeshPanel.prototype.getView = function () {
             var ary = [
                 { Type: prop.ReflectionData.TEXT, Label: "名字:", FunKey: "tittleStr", target: this, Category: "函数" },
+                { Type: prop.ReflectionData.MaterialFunContentUI, Label: "窗口:", FunKey: "funContent", target: this, Category: "程序" },
             ];
             return ary;
         };
         Object.defineProperty(MathFunMeshPanel.prototype, "tittleStr", {
             get: function () {
                 return this.mathFunNodeUI.tittleStr;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MathFunMeshPanel.prototype, "funContent", {
+            get: function () {
+                return "";
+            },
+            set: function (value) {
+                console.log(value);
             },
             enumerable: true,
             configurable: true
