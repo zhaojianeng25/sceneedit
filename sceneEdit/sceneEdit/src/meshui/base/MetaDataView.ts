@@ -114,7 +114,7 @@
             }
             this.resize();
         }
-        private hideCategoryKey: any = {};
+        protected hideCategoryKey: any = {};
         public categoryFun: Function
         public categoryClikUp(value: string): void {
             this.hideCategoryKey[value] = !this.hideCategoryKey[value];

@@ -27,6 +27,11 @@ var materialleft;
             _super.prototype.resize.call(this);
         };
         MateriaMeshView.prototype.getView = function () {
+            var _this = this;
+            if (isNaN(this.hideCategoryKey["后期"])) {
+                this.hideCategoryKey["后期"] = true;
+                this.hideCategoryKey["属性"] = true;
+            }
             var ary = [
                 { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", Suffix: "prefab|zzw|objs", target: this, Category: "模型" },
                 {
@@ -40,11 +45,24 @@ var materialleft;
                 { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "testzbuff", target: this, Category: "设置" },
                 { Type: ReflectionData.CheckBox, Label: "写入深度:", FunKey: "writeZbuffer", target: this, Category: "设置" },
                 { Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this, Category: "设置" },
+                { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "laterTexture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
                 { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
+        };
+        Object.defineProperty(MateriaMeshView.prototype, "laterTexture", {
+            get: function () {
+                return null;
+            },
+            set: function (value) {
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MateriaMeshView.prototype.textureChangeInfo = function (value) {
         };
         Object.defineProperty(MateriaMeshView.prototype, "materialTree", {
             get: function () {

@@ -6,6 +6,8 @@ declare module materialleft {
         constructor(value: UiMeshSprite);
         resize(): void;
         getView(): Array<any>;
+        laterTexture: materialui.MaterialTree;
+        private textureChangeInfo;
         materialTree: materialui.MaterialTree;
         private _materialTree;
         blendMode: number;

@@ -22,7 +22,7 @@ declare module prop {
         private categoryKey;
         private hideCategory;
         creat(data: Array<any>): void;
-        private hideCategoryKey;
+        protected hideCategoryKey: any;
         categoryFun: Function;
         categoryClikUp(value: string): void;
         private getUiIndxByCategory;
