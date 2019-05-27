@@ -15,8 +15,21 @@
             this.inputFunTextUi = new InputFunTextUi(512, 512);
             this.propPanle.addBaseMeshUi(this.inputFunTextUi)
 
+            this.inputFunTextUi.addEventListener(ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this)
 
             this.height = 100;
+        }
+        public texturePicUiChange(evt: ReflectionEvet): void {
+            console.log("更新变化了", evt.data)
+            var $agalStr: string = evt.data
+            var temp: materialui.NodeTreeFun = (<materialui.NodeTreeFun>this.nodeUi.nodeTree)
+            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, temp.funStr)) {
+                this.nodeUi.inPutFunStr($agalStr);
+            } else {
+                temp.funStr = $agalStr
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            }
+
         }
         public destory(): void {
             this.textLabelUI.destory()
@@ -43,11 +56,18 @@
         public get data(): any {
             return this._data
         }
+        private nodeUi: materialui.MathFunNodeUI
+
         public refreshViewValue(): void {
-            var temp: materialui.NodeTreeFun = this.target[this.FunKey];
-            this.inputFunTextUi.text = temp.funStr;
 
+            this.nodeUi = this.target[this.FunKey];
 
+       
+
+ 
+            this.inputFunTextUi.text = (<materialui.NodeTreeFun>this.nodeUi.nodeTree).funStr;
+
+      
         }
         public set x(value: number) {
             this._x = value;

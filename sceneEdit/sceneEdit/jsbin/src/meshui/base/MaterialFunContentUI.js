@@ -23,7 +23,20 @@ var prop;
             this.propPanle.addBaseMeshUi(this.textLabelUI);
             this.inputFunTextUi = new prop.InputFunTextUi(512, 512);
             this.propPanle.addBaseMeshUi(this.inputFunTextUi);
+            this.inputFunTextUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this);
             this.height = 100;
+        };
+        MaterialFunContentUI.prototype.texturePicUiChange = function (evt) {
+            console.log("更新变化了", evt.data);
+            var $agalStr = evt.data;
+            var temp = this.nodeUi.nodeTree;
+            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, temp.funStr)) {
+                this.nodeUi.inPutFunStr($agalStr);
+            }
+            else {
+                temp.funStr = $agalStr;
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            }
         };
         MaterialFunContentUI.prototype.destory = function () {
             this.textLabelUI.destory();
@@ -47,8 +60,8 @@ var prop;
             configurable: true
         });
         MaterialFunContentUI.prototype.refreshViewValue = function () {
-            var temp = this.target[this.FunKey];
-            this.inputFunTextUi.text = temp.funStr;
+            this.nodeUi = this.target[this.FunKey];
+            this.inputFunTextUi.text = this.nodeUi.nodeTree.funStr;
         };
         Object.defineProperty(MaterialFunContentUI.prototype, "x", {
             get: function () {

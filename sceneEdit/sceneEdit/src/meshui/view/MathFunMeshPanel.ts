@@ -7,22 +7,14 @@
             var ary: Array<any> =
                 [
                     { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "tittleStr", target: this, Category: "函数" },
-                    { Type: ReflectionData.MaterialFunContentUI, Label: "窗口:", FunKey: "funContent",    target: this, Category: "程序" },
+                    { Type: ReflectionData.MaterialFunContentUI, Label: "窗口:", FunKey: "nodeUI",    target: this, Category: "程序" },
                 ];
             return ary;
         }
         public get tittleStr(): string {
             return this.mathFunNodeUI.tittleStr
         }
-        public get funContent(): materialui.NodeTreeFun {
-
-        
-            return (<materialui.NodeTreeFun>this.mathFunNodeUI.nodeTree)
-        }
-        public set funContent(value: materialui.NodeTreeFun) {
-           
-
-        }
+      
  
         public set data(value: any) {
             this._data = value;
