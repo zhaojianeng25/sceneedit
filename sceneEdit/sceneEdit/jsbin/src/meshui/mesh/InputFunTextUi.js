@@ -62,10 +62,34 @@ var prop;
         };
         InputFunTextUi.prototype.changeInputTxt = function (evt) {
             var $agalStr = this.chatHtmlIArea.value;
-            var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
-            $reflectionEvet.data = $agalStr;
-            this.dispatchEvent($reflectionEvet);
-            this.text = $agalStr;
+            var id = $agalStr.lastIndexOf("}");
+            $agalStr = $agalStr.substr(0, id + 1);
+            var frameStr = " precision mediump float;\n" +
+                "\n" + $agalStr +
+                "\n" +
+                "void main(void)\n" +
+                "{\n" +
+                "gl_FragColor = vec4(1.0,1.0,1.0,1.0);\n" +
+                "}";
+            var $context = Scene_data.context3D.renderContext;
+            var fShader = $context.createShader($context.FRAGMENT_SHADER);
+            $context.shaderSource(fShader, frameStr);
+            $context.compileShader(fShader);
+            var info = $context.getShaderInfoLog(fShader);
+            if (!info || info == "") {
+                var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
+                $reflectionEvet.data = $agalStr;
+                this.dispatchEvent($reflectionEvet);
+                this.text = $agalStr;
+            }
+            else {
+                this.text = $agalStr + "\n------------有错";
+                console.log("--------------");
+                console.log(frameStr);
+                console.log(info);
+                console.log("--------------");
+                throw "脚本有错。不做保存.";
+            }
         };
         InputFunTextUi.prototype.resize = function () {
             _super.prototype.resize.call(this);

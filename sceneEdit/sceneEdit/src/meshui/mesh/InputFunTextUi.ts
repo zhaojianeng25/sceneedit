@@ -61,11 +61,46 @@
 
         private changeInputTxt(evt: any): void {
             var $agalStr: string = this.chatHtmlIArea.value
-            var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
-            $reflectionEvet.data = $agalStr;
-            this.dispatchEvent($reflectionEvet);
+            var id: number = $agalStr.lastIndexOf("}")
+            $agalStr = $agalStr.substr(0, id+1);
+        
 
-            this.text = $agalStr;
+            var frameStr: string =   //模拟判断是否能通过编译
+                " precision mediump float;\n" +
+
+                "\n" + $agalStr +
+                "\n" +
+ 
+                "void main(void)\n" +
+                "{\n" +
+                    "gl_FragColor = vec4(1.0,1.0,1.0,1.0);\n" +
+                "}"
+ 
+            var $context: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            var fShader: WebGLShader = $context.createShader($context.FRAGMENT_SHADER);
+            $context.shaderSource(fShader, frameStr);
+            $context.compileShader(fShader);
+
+            var info: string = $context.getShaderInfoLog(fShader)
+            if (!info||info== "") {
+                var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
+                $reflectionEvet.data = $agalStr;
+                this.dispatchEvent($reflectionEvet);
+                this.text = $agalStr;
+
+            } else {
+                this.text = $agalStr+"\n------------有错"
+                console.log("--------------")
+                console.log(frameStr);
+                console.log(info);
+                console.log("--------------");
+                throw "脚本有错。不做保存.";
+
+
+            
+            }
+ 
+ 
 
         }
         public resize(): void {
