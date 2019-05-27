@@ -6,6 +6,12 @@
     import LabelTextFont = Pan3d.LabelTextFont
     import TextAlign = Pan3d.TextAlign
     import MouseType = Pan3d.MouseType
+    import LoadManager = Pan3d.LoadManager
+    import UIAtlas = Pan3d.UIAtlas
+    import TextureManager = Pan3d.TextureManager
+    import UIRectangle = Pan3d.UIRectangle
+    import UIManager = Pan3d.UIManager
+    import Rectangle = Pan3d.Rectangle
     export class InputFunTextUi extends BaseMeshUi {
         public constructor(w: number = 64, h: number = 64) {
             super(w, h);
@@ -70,7 +76,7 @@
 
             if (this.chatHtmlIArea) {
                 this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
-                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y - 5) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y+100) + "px";
                 this.chatHtmlIArea.style.width = this.width + "px";
             }
    
@@ -85,8 +91,52 @@
 
             this.makeHtmlArear()
             this.chatHtmlIArea.value = value
-            
+
+            this.drawUrlImgToUi(this.ui, "ui/materialmenu/meshfunui.png");
+
+
         
+        }
+
+        //public static getMathFunName($agalStr: string): string {
+        //public static getMathFunReturnType($agalStr: string): string {
+        //public static getDataMathFunArr($agalStr: string): Array<DataMathFunNode> {
+
+        protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void {
+
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + url, LoadManager.IMG_TYPE,
+                ($img: any) => {
+                    this.drawImgToUi(ui, $img)
+                });
+        }
+        protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void {
+
+            var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
+            var $textureStr: string = ui.skinName
+            var rec: UIRectangle = $UIAtlas.getRec($textureStr);
+            var $cxt: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+
+            var s15: number = 1.5;
+            var B: Rectangle = new Rectangle(8, 30, 50, 50);
+            $cxt.drawImage($img, B.x, B.y, B.width, B.height, 4, 35, 160 * s15, 150);
+
+            var A: Rectangle = new Rectangle(2, 2, 164, 24);
+            $cxt.drawImage($img, A.x, A.y, A.width, A.height, A.x * s15, A.y * s15, A.width * s15, A.height * s15);
+
+ 
+
+
+            $cxt.font = "24px Georgia";
+            $cxt.fillStyle = "#ffffff";
+            $cxt.lineWidth = 0;
+            $cxt.fillText("函数(DIE)", 20, 8);
+
+
+         //   $cxt.drawImage($img, obj.ox, obj.oy, obj.uow, obj.uoh, $rect.x, $rect.y, obj.uow, obj.uoh);
+ 
+
+
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $cxt);
         }
 
 

@@ -12,7 +12,7 @@
             this.textLabelUI = new TextLabelUI(64, 16)
             this.propPanle.addBaseMeshUi(this.textLabelUI)
 
-            this.inputFunTextUi = new InputFunTextUi(100, 30);
+            this.inputFunTextUi = new InputFunTextUi(512, 512);
             this.propPanle.addBaseMeshUi(this.inputFunTextUi)
 
 

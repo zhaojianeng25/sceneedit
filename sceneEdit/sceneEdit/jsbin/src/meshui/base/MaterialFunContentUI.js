@@ -21,7 +21,7 @@ var prop;
         MaterialFunContentUI.prototype.initView = function () {
             this.textLabelUI = new prop.TextLabelUI(64, 16);
             this.propPanle.addBaseMeshUi(this.textLabelUI);
-            this.inputFunTextUi = new prop.InputFunTextUi(100, 30);
+            this.inputFunTextUi = new prop.InputFunTextUi(512, 512);
             this.propPanle.addBaseMeshUi(this.inputFunTextUi);
             this.height = 100;
         };

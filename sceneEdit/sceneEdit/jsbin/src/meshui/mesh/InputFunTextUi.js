@@ -13,8 +13,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Scene_data = Pan3d.Scene_data;
     var LabelTextFont = Pan3d.LabelTextFont;
     var TextAlign = Pan3d.TextAlign;
+    var LoadManager = Pan3d.LoadManager;
+    var TextureManager = Pan3d.TextureManager;
+    var UIManager = Pan3d.UIManager;
+    var Rectangle = Pan3d.Rectangle;
     var InputFunTextUi = /** @class */ (function (_super) {
         __extends(InputFunTextUi, _super);
         function InputFunTextUi(w, h) {
@@ -67,7 +72,7 @@ var prop;
             _super.prototype.resize.call(this);
             if (this.chatHtmlIArea) {
                 this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
-                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y - 5) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y + 100) + "px";
                 this.chatHtmlIArea.style.width = this.width + "px";
             }
         };
@@ -76,10 +81,37 @@ var prop;
                 LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
                 this.makeHtmlArear();
                 this.chatHtmlIArea.value = value;
+                this.drawUrlImgToUi(this.ui, "ui/materialmenu/meshfunui.png");
             },
             enumerable: true,
             configurable: true
         });
+        //public static getMathFunName($agalStr: string): string {
+        //public static getMathFunReturnType($agalStr: string): string {
+        //public static getDataMathFunArr($agalStr: string): Array<DataMathFunNode> {
+        InputFunTextUi.prototype.drawUrlImgToUi = function (ui, url) {
+            var _this = this;
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + url, LoadManager.IMG_TYPE, function ($img) {
+                _this.drawImgToUi(ui, $img);
+            });
+        };
+        InputFunTextUi.prototype.drawImgToUi = function (ui, $img) {
+            var $UIAtlas = ui.uiRender.uiAtlas;
+            var $textureStr = ui.skinName;
+            var rec = $UIAtlas.getRec($textureStr);
+            var $cxt = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var s15 = 1.5;
+            var B = new Rectangle(8, 30, 50, 50);
+            $cxt.drawImage($img, B.x, B.y, B.width, B.height, 4, 35, 160 * s15, 150);
+            var A = new Rectangle(2, 2, 164, 24);
+            $cxt.drawImage($img, A.x, A.y, A.width, A.height, A.x * s15, A.y * s15, A.width * s15, A.height * s15);
+            $cxt.font = "24px Georgia";
+            $cxt.fillStyle = "#ffffff";
+            $cxt.lineWidth = 0;
+            $cxt.fillText("函数(DIE)", 20, 8);
+            //   $cxt.drawImage($img, obj.ox, obj.oy, obj.uow, obj.uoh, $rect.x, $rect.y, obj.uow, obj.uoh);
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $cxt);
+        };
         return InputFunTextUi;
     }(prop.BaseMeshUi));
     prop.InputFunTextUi = InputFunTextUi;

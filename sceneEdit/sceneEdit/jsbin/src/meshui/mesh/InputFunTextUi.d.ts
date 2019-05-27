@@ -10,5 +10,7 @@ declare module prop {
         width: number;
         height: number;
         text: string;
+        protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void;
+        protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void;
     }
 }
