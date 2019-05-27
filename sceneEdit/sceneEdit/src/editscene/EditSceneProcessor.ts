@@ -57,8 +57,17 @@
                 console.log($nameKey)
             }
 
-            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
+            if ($nameKey.indexOf(".material") != -1) {
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), $nameKey);//加载材质
+            }
 
+            if ($nameKey.indexOf(".map") != -1) {
+                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
+  
+  
+            }
+
+    
            
         }
      

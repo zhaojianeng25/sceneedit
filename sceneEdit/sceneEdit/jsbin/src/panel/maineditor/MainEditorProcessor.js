@@ -80,6 +80,9 @@ var maineditor;
                 if ($materialEvent.type == materialui.MaterialEvent.SHOW_MATERIA_PANEL) {
                     this._mainEditorPanel.showType = 2;
                     this._mainEditorPanel.editorOpenList.pushPathUrl($materialEvent.data);
+                    var pathname = window.location.pathname.split("/");
+                    var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $materialEvent.data;
+                    history.pushState(null, "", newUrl);
                 }
             }
             if ($event instanceof MainEditorEvent) {
@@ -113,13 +116,10 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
-                    var stateObject = { id: 1 };
-                    var title = "";
                     var pathname = window.location.pathname.split("/");
                     var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $mainEditorEvent.data;
-                    console.log(newUrl);
+                    history.pushState(null, "", newUrl);
                     this._mainEditorPanel.editorOpenList.pushPathUrl($mainEditorEvent.data);
-                    history.pushState(null, title, newUrl);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
                     if (this._hierarchyListPanel) {
