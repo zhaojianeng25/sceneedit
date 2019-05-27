@@ -24,6 +24,7 @@ var prop;
             if (w === void 0) { w = 64; }
             if (h === void 0) { h = 64; }
             var _this = _super.call(this, w, h) || this;
+            _this.nodeLenHeight = 0;
             _this.width = 100;
             _this.height = 100;
             return _this;
@@ -61,17 +62,18 @@ var prop;
         };
         InputFunTextUi.prototype.changeInputTxt = function (evt) {
             var $agalStr = this.chatHtmlIArea.value;
-            console.log(this.chatHtmlIArea.scrollHeight);
             var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
             $reflectionEvet.data = $agalStr;
-            //  this.dispatchEvent($reflectionEvet);
+            this.dispatchEvent($reflectionEvet);
+            this.text = $agalStr;
         };
         InputFunTextUi.prototype.resize = function () {
             _super.prototype.resize.call(this);
             if (this.chatHtmlIArea) {
                 this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
-                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y + 100) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y + this.nodeLenHeight) + "px";
                 this.chatHtmlIArea.style.width = this.width + "px";
+                console.log(this.nodeLenHeight);
             }
         };
         Object.defineProperty(InputFunTextUi.prototype, "text", {
@@ -102,12 +104,32 @@ var prop;
             $ctx.lineWidth = 0;
             $ctx.fillText("函数(" + materialui.NodeTreeFun.getMathFunName(this.agalStr) + ")", 20, 8);
         };
+        InputFunTextUi.prototype.PointRectByTypeStr = function (value) {
+            var C = new Rectangle(177, 10, 16, 16);
+            switch (value) {
+                case materialui.MaterialItemType.FLOAT: //float
+                    C = new Rectangle(218, 10, 16, 16);
+                    break;
+                case materialui.MaterialItemType.VEC2: //vec2
+                    C = new Rectangle(238, 10, 16, 16);
+                    break;
+                case materialui.MaterialItemType.VEC3: //vec3
+                    C = new Rectangle(177, 10, 16, 16);
+                    break;
+                case materialui.MaterialItemType.VEC4: //vec4
+                    C = new Rectangle(196, 10, 16, 16);
+                    break;
+                default:
+                    break;
+            }
+            return C;
+        };
         InputFunTextUi.prototype.drawImgToUi = function (ui, $img) {
             var $UIAtlas = ui.uiRender.uiAtlas;
             var $textureStr = ui.skinName;
             var rec = $UIAtlas.getRec($textureStr);
             var $ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
-            this.drawTittleBg($ctx, $img);
+            //  this.drawTittleBg($ctx, $img);
             var s15 = 1.5;
             var arr = materialui.NodeTreeFun.getDataMathFunArr(this.agalStr);
             var outType = materialui.NodeTreeFun.getMathFunReturnType(this.agalStr);
@@ -117,14 +139,17 @@ var prop;
             $ctx.fillStyle = "#ffffff";
             $ctx.lineWidth = 0;
             $ctx.font = "22px Georgia";
-            var C = new Rectangle(177, 10, 16, 16);
-            $ctx.drawImage($img, C.x, C.y, C.width, C.height, (200) * s15, 50, 16 * s15, 16 * s15);
+            var outRect = this.PointRectByTypeStr(outType);
+            $ctx.drawImage($img, outRect.x, outRect.y, outRect.width, outRect.height, (200) * s15, 50, 16 * s15, 16 * s15);
             $ctx.fillText("out", (170) * s15, 50);
             for (var i = 0; i < arr.length; i++) {
-                $ctx.drawImage($img, C.x, C.y, C.width, C.height, 15, i * 30 + 50, 16 * s15, 16 * s15);
+                var inputRect = this.PointRectByTypeStr(arr[i].type);
+                $ctx.drawImage($img, inputRect.x, inputRect.y, inputRect.width, inputRect.height, 15, i * 30 + 50, 16 * s15, 16 * s15);
                 $ctx.fillText(arr[i].name, 50, i * 30 + 50);
             }
             TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
+            this.nodeLenHeight = arr.length * 30 + 20;
+            this.resize();
         };
         return InputFunTextUi;
     }(prop.BaseMeshUi));

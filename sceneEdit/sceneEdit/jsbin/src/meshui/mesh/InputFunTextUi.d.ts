@@ -13,6 +13,8 @@ declare module prop {
         text: string;
         protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void;
         private drawTittleBg;
+        private PointRectByTypeStr;
         protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void;
+        private nodeLenHeight;
     }
 }

@@ -61,26 +61,21 @@
 
         private changeInputTxt(evt: any): void {
             var $agalStr: string = this.chatHtmlIArea.value
-
-            console.log(this.chatHtmlIArea.scrollHeight)
-
-
             var $reflectionEvet: ReflectionEvet = new ReflectionEvet(ReflectionEvet.CHANGE_DATA)
             $reflectionEvet.data = $agalStr;
-            //  this.dispatchEvent($reflectionEvet);
+            this.dispatchEvent($reflectionEvet);
+
+            this.text = $agalStr;
 
         }
         public resize(): void {
             super.resize()
-
-
             if (this.chatHtmlIArea) {
                 this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
-                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y+100) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y + this.nodeLenHeight) + "px";
                 this.chatHtmlIArea.style.width = this.width + "px";
+                console.log(this.nodeLenHeight)
             }
-   
- 
  
         }
        
@@ -92,6 +87,8 @@
             this.makeHtmlArear()
             this.chatHtmlIArea.value = this.agalStr 
             this.drawUrlImgToUi(this.ui, "ui/materialmenu/meshfunui.png");
+
+         
         }
         protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void {
 
@@ -115,6 +112,27 @@
             $ctx.lineWidth = 0;
             $ctx.fillText("函数(" + materialui.NodeTreeFun.getMathFunName(this.agalStr) + ")", 20, 8);
         }
+        private PointRectByTypeStr(value: string): Rectangle {
+            var C: Rectangle = new Rectangle(177, 10, 16, 16);
+            switch (value) {
+                case materialui.MaterialItemType.FLOAT:  //float
+                    C = new Rectangle(218, 10, 16, 16);
+                    break
+                case materialui.MaterialItemType.VEC2:  //vec2
+                    C = new Rectangle(238, 10, 16, 16);
+                    break
+                case materialui.MaterialItemType.VEC3: //vec3
+                    C = new Rectangle(177, 10, 16, 16);
+                    break
+                case materialui.MaterialItemType.VEC4: //vec4
+                    C = new Rectangle(196, 10, 16, 16);
+                    break
+                default:
+                    break
+            }
+            return C
+
+        }
         protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void {
 
             var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
@@ -122,12 +140,8 @@
             var rec: UIRectangle = $UIAtlas.getRec($textureStr);
             var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
 
-
-
-            this.drawTittleBg($ctx, $img);
-
+          //  this.drawTittleBg($ctx, $img);
             var s15: number = 1.5;
-
 
             var arr: Array<materialui.DataMathFunNode> = materialui.NodeTreeFun.getDataMathFunArr(this.agalStr);
             var outType: string = materialui.NodeTreeFun.getMathFunReturnType(this.agalStr);
@@ -140,21 +154,25 @@
             $ctx.lineWidth = 0;
             $ctx.font = "22px Georgia";
 
-            var C: Rectangle = new Rectangle(177, 10, 16, 16);
+            var outRect: Rectangle = this.PointRectByTypeStr(outType)
  
-            $ctx.drawImage($img, C.x, C.y, C.width, C.height, (200 ) * s15, 50, 16 * s15, 16 * s15);
+            $ctx.drawImage($img, outRect.x, outRect.y, outRect.width, outRect.height, (200 ) * s15, 50, 16 * s15, 16 * s15);
             $ctx.fillText("out", (170) * s15,  50);
    
             for (var i: number = 0; i < arr.length; i++) {
-         
-                $ctx.drawImage($img, C.x, C.y, C.width, C.height, 15, i * 30 + 50, 16 * s15, 16 * s15);
+
+                var inputRect: Rectangle = this.PointRectByTypeStr(arr[i].type)
+                $ctx.drawImage($img, inputRect.x, inputRect.y, inputRect.width, inputRect.height, 15, i * 30 + 50, 16 * s15, 16 * s15);
          
                 $ctx.fillText(arr[i].name, 50, i * 30 + 50);
             }
  
- 
             TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
+
+            this.nodeLenHeight = arr.length * 30 +20
+            this.resize();
         }
+        private nodeLenHeight: number=0
 
 
 

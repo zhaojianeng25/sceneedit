@@ -44,10 +44,7 @@
             return this._data
         }
         public refreshViewValue(): void {
-       
-
             var temp: materialui.NodeTreeFun = this.target[this.FunKey];
-  
             this.inputFunTextUi.text = temp.funStr;
 
 
