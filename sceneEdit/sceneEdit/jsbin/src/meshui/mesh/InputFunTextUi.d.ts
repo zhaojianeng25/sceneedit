@@ -9,8 +9,10 @@ declare module prop {
         resize(): void;
         width: number;
         height: number;
+        private agalStr;
         text: string;
         protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void;
+        private drawTittleBg;
         protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void;
     }
 }

@@ -86,22 +86,13 @@
        
         public width: number;
         public height: number;
+        private agalStr: string
         public set text(value: string) {
-            LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e");
-
+            this.agalStr = value
             this.makeHtmlArear()
-            this.chatHtmlIArea.value = value
-
+            this.chatHtmlIArea.value = this.agalStr 
             this.drawUrlImgToUi(this.ui, "ui/materialmenu/meshfunui.png");
-
-
-        
         }
-
-        //public static getMathFunName($agalStr: string): string {
-        //public static getMathFunReturnType($agalStr: string): string {
-        //public static getDataMathFunArr($agalStr: string): Array<DataMathFunNode> {
-
         protected drawUrlImgToUi(ui: Pan3d.UICompenent, url: string): void {
 
             LoadManager.getInstance().load(Scene_data.fileuiRoot + url, LoadManager.IMG_TYPE,
@@ -109,34 +100,60 @@
                     this.drawImgToUi(ui, $img)
                 });
         }
+        private drawTittleBg($ctx: CanvasRenderingContext2D, $img: any): void {
+            var s15: number = 1.5;
+            var A: Rectangle = new Rectangle(2, 2, 164, 24);
+       
+           // $ctx.drawImage($img, A.x, A.y, A.width, A.height, A.x * s15, A.y * s15, A.width * s15, A.height * s15);
+
+            $ctx.drawImage($img, 2, 2, 24, 24, A.x * s15, A.y * s15, 24 * s15, A.height * s15);
+            $ctx.drawImage($img, 2 + 24, 2, 164-(2*24), 24, 24, A.y * s15, 200 * s15, A.height * s15);
+            $ctx.drawImage($img, 164 - 24, 2, 24, 24, 200 * s15, A.y * s15, 24 * s15, A.height * s15);
+ 
+            $ctx.font = "24px Georgia";
+            $ctx.fillStyle = "#ffffff";
+            $ctx.lineWidth = 0;
+            $ctx.fillText("函数(" + materialui.NodeTreeFun.getMathFunName(this.agalStr) + ")", 20, 8);
+        }
         protected drawImgToUi(ui: Pan3d.UICompenent, $img: any): void {
 
             var $UIAtlas: UIAtlas = ui.uiRender.uiAtlas
             var $textureStr: string = ui.skinName
             var rec: UIRectangle = $UIAtlas.getRec($textureStr);
-            var $cxt: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+
+
+
+            this.drawTittleBg($ctx, $img);
 
             var s15: number = 1.5;
+
+
+            var arr: Array<materialui.DataMathFunNode> = materialui.NodeTreeFun.getDataMathFunArr(this.agalStr);
+            var outType: string = materialui.NodeTreeFun.getMathFunReturnType(this.agalStr);
+
             var B: Rectangle = new Rectangle(8, 30, 50, 50);
-            $cxt.drawImage($img, B.x, B.y, B.width, B.height, 4, 35, 160 * s15, 150);
+         
+            $ctx.drawImage($img, B.x, B.y, B.width, B.height, 4, 35, (200 + (20)) * s15, arr.length * 30 + 30);
+            $ctx.font = "24px Georgia";
+            $ctx.fillStyle = "#ffffff";
+            $ctx.lineWidth = 0;
+            $ctx.font = "22px Georgia";
 
-            var A: Rectangle = new Rectangle(2, 2, 164, 24);
-            $cxt.drawImage($img, A.x, A.y, A.width, A.height, A.x * s15, A.y * s15, A.width * s15, A.height * s15);
-
+            var C: Rectangle = new Rectangle(177, 10, 16, 16);
  
-
-
-            $cxt.font = "24px Georgia";
-            $cxt.fillStyle = "#ffffff";
-            $cxt.lineWidth = 0;
-            $cxt.fillText("函数(DIE)", 20, 8);
-
-
-         //   $cxt.drawImage($img, obj.ox, obj.oy, obj.uow, obj.uoh, $rect.x, $rect.y, obj.uow, obj.uoh);
+            $ctx.drawImage($img, C.x, C.y, C.width, C.height, (200 ) * s15, 50, 16 * s15, 16 * s15);
+            $ctx.fillText("out", (170) * s15,  50);
+   
+            for (var i: number = 0; i < arr.length; i++) {
+         
+                $ctx.drawImage($img, C.x, C.y, C.width, C.height, 15, i * 30 + 50, 16 * s15, 16 * s15);
+         
+                $ctx.fillText(arr[i].name, 50, i * 30 + 50);
+            }
  
-
-
-            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $cxt);
+ 
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
         }
 
 

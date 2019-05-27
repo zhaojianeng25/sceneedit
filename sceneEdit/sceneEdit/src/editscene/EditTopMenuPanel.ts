@@ -81,7 +81,7 @@
 
 
                 let ctx: CanvasRenderingContext2D = this.parent.uiAtlas.ctx;
-                ctx.font = "24px Georgia";
+                ctx.font = "24px Helvetica";
                 ctx.fillStyle = colorFont;
                 ctx.lineWidth = 0;
                 ctx.fillText($menuListData.label, tx, 15);
