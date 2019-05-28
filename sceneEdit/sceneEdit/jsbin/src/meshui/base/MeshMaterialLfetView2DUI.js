@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Rectangle = Pan3d.Rectangle;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var MeshMaterialLfetView2DUI = /** @class */ (function (_super) {
         __extends(MeshMaterialLfetView2DUI, _super);
@@ -143,6 +144,16 @@ var prop;
                     _this.modelSprite.sceneVisible = false;
                 }
             });
+        };
+        MeshMaterialLfetView2DUI.prototype.oneByFrame = function () {
+            if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                this.sceneManager.renderToTexture();
+                var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
+                $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;
+                var maxNum = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height);
+                this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum);
+            }
         };
         Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "width", {
             set: function (value) {

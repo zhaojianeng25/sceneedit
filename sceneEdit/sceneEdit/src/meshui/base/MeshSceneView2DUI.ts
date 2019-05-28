@@ -134,12 +134,13 @@
         }
  
         private upDataFun: any
-        private oneByFrame(): void {
+        protected oneByFrame(): void {
  
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture()
                 var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
+
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture
 
                 var maxNum: number = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height)

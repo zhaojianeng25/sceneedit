@@ -11,6 +11,7 @@ declare module prop {
         private defFileUrl;
         private refrishShowMaterialModel;
         private setZzwUrlToRole;
+        protected oneByFrame(): void;
         width: number;
         constructor(value: UiMeshSprite);
         private lastObjUrl;

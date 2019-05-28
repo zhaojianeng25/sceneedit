@@ -12,12 +12,14 @@
             this.GlcullFaceModel = gl.getParameter(gl.CULL_FACE_MODE);
             this.Glglviewport = gl.getParameter(gl.VIEWPORT);
             this.GlfrontFace = gl.getParameter(gl.FRONT_FACE);
-            this.GlDepthTest = gl.getParameter(gl.DEPTH_TEST)
-            this.GlCullFace = gl.getParameter(gl.CULL_FACE)
+            this.GlDepthTest = gl.getParameter(gl.DEPTH_TEST);
+            this.GlCullFace = gl.getParameter(gl.CULL_FACE);
+            this.GlStencilTest = gl.getParameter(gl.STENCIL_TEST);
  
 
 
         }
+        private static GlStencilTest: boolean
         private static GlarrayBuffer: WebGLBuffer
         private static GlelementArrayBuffer: WebGLBuffer
         private static GlCullFace: any
@@ -41,6 +43,8 @@
             gl.frontFace(this.GlfrontFace);  //正反面
             this.GlCullFace ? gl.enable(gl.CULL_FACE) : gl.disable(gl.CULL_FACE); 
             this.GlDepthTest ? gl.enable(gl.DEPTH_TEST) : gl.disable(gl.DEPTH_TEST);
+            this.GlStencilTest ? gl.enable(gl.STENCIL_TEST) : gl.disable(gl.STENCIL_TEST);
+         
  
         }
     }

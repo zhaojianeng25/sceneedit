@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
+    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
@@ -265,6 +266,12 @@ var maineditor;
             _this.maskRoundRect = new Rectangle(0, 13, 0, 14);
             return _this;
         }
+        HierarchyListPanel.prototype.makeOtherRender = function () {
+            var tempRender = new UIRenderComponent;
+            console.log("添加新对象");
+            tempRender.mask = this._uiMask;
+            return tempRender;
+        };
         HierarchyListPanel.prototype.loadConfigCom = function () {
             var _this = this;
             _super.prototype.loadConfigCom.call(this);

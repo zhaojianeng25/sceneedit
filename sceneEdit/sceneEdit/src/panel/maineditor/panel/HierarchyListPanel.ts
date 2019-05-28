@@ -319,6 +319,12 @@
  
         }
 
+        protected makeOtherRender(): UIRenderComponent {
+            var tempRender: UIRenderComponent = new UIRenderComponent;
+            console.log("添加新对象")
+            tempRender.mask = this._uiMask;
+            return tempRender;
+        }
 
 
         protected loadConfigCom(): void {

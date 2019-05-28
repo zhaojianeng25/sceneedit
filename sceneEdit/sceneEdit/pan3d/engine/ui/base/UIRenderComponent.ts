@@ -373,6 +373,13 @@
             }
 
             if (this.mask) {
+                var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+                gl.enable(gl.STENCIL_TEST);
+                gl.stencilFunc(gl.NEVER, this.mask.level, 0xFF);
+                gl.stencilOp(gl.REPLACE, gl.REPLACE, gl.REPLACE);
+                this.mask.update();
+                gl.stencilFunc(gl.LESS, this.mask.level - 1, 0xFF);
+                /*
                 var renderContext: WebGLRenderingContext = Scene_data.context3D.renderContext;
                 renderContext.enable(renderContext.STENCIL_TEST);
                 renderContext.stencilMask(0xFF);
@@ -381,6 +388,7 @@
                 this.mask.update();
                 renderContext.stencilFunc(renderContext.LESS, this.mask.level - 1, 0xFF);
                 renderContext.stencilOp(renderContext.KEEP, renderContext.KEEP, renderContext.KEEP);
+                */
             }
 
             Scene_data.context3D.setBlendParticleFactors(this.blenderMode);

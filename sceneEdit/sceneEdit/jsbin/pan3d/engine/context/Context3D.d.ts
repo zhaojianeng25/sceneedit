@@ -1,6 +1,7 @@
 declare module Pan3d {
     class GlReset {
         static saveBasePrarame(gl: WebGLRenderingContext): void;
+        private static GlStencilTest;
         private static GlarrayBuffer;
         private static GlelementArrayBuffer;
         private static GlCullFace;

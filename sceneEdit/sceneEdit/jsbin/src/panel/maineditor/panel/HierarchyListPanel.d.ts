@@ -45,6 +45,7 @@ declare module maineditor {
         only: boolean;
         static imgBaseDic: any;
         constructor();
+        protected makeOtherRender(): UIRenderComponent;
         protected loadConfigCom(): void;
         private readonly isCanToDo;
         onMouseWheel($evt: MouseWheelEvent): void;

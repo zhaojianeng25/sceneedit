@@ -15,6 +15,7 @@ var Pan3d;
             this.GlfrontFace = gl.getParameter(gl.FRONT_FACE);
             this.GlDepthTest = gl.getParameter(gl.DEPTH_TEST);
             this.GlCullFace = gl.getParameter(gl.CULL_FACE);
+            this.GlStencilTest = gl.getParameter(gl.STENCIL_TEST);
         };
         GlReset.resetBasePrarame = function (gl) {
             gl.useProgram(this.Glprogram); //着色器
@@ -27,6 +28,7 @@ var Pan3d;
             gl.frontFace(this.GlfrontFace); //正反面
             this.GlCullFace ? gl.enable(gl.CULL_FACE) : gl.disable(gl.CULL_FACE);
             this.GlDepthTest ? gl.enable(gl.DEPTH_TEST) : gl.disable(gl.DEPTH_TEST);
+            this.GlStencilTest ? gl.enable(gl.STENCIL_TEST) : gl.disable(gl.STENCIL_TEST);
         };
         return GlReset;
     }());

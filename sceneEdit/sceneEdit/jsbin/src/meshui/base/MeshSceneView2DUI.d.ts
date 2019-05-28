@@ -20,7 +20,7 @@ declare module prop {
         protected sceneManager: maineditor.EdItorSceneManager;
         protected initScene(): void;
         private upDataFun;
-        private oneByFrame;
+        protected oneByFrame(): void;
         destory(): void;
         data: any;
         private modelKey;

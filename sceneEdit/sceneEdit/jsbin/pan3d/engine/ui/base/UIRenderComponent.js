@@ -297,7 +297,14 @@ var Pan3d;
                 }
             }
             if (this.mask) {
-                var renderContext = Pan3d.Scene_data.context3D.renderContext;
+                var gl = Pan3d.Scene_data.context3D.renderContext;
+                gl.enable(gl.STENCIL_TEST);
+                gl.stencilFunc(gl.NEVER, this.mask.level, 0xFF);
+                gl.stencilOp(gl.REPLACE, gl.REPLACE, gl.REPLACE);
+                this.mask.update();
+                gl.stencilFunc(gl.LESS, this.mask.level - 1, 0xFF);
+                /*
+                var renderContext: WebGLRenderingContext = Scene_data.context3D.renderContext;
                 renderContext.enable(renderContext.STENCIL_TEST);
                 renderContext.stencilMask(0xFF);
                 renderContext.stencilFunc(renderContext.NEVER, this.mask.level, 0xFF);
@@ -305,6 +312,7 @@ var Pan3d;
                 this.mask.update();
                 renderContext.stencilFunc(renderContext.LESS, this.mask.level - 1, 0xFF);
                 renderContext.stencilOp(renderContext.KEEP, renderContext.KEEP, renderContext.KEEP);
+                */
             }
             Pan3d.Scene_data.context3D.setBlendParticleFactors(this.blenderMode);
             ////console.log(this.shader.name);
