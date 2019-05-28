@@ -146,11 +146,10 @@ var maineditor;
             _this.ready = true;
             _this.cam3D = new Camera3D();
             _this.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 256, 256);
-            _this.addBasetLaterModel();
             return _this;
+            // this.addBasetLaterModel()
         }
         LaterSceneManager.prototype.addBasetLaterModel = function () {
-            this.addDisplay(new Pan3d.GridLineSprite());
             this.addDisplay(new Pan3d.BaseDiplay3dSprite());
         };
         return LaterSceneManager;

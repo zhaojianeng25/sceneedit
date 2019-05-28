@@ -16,41 +16,76 @@ var prop;
     var Rectangle = Pan3d.Rectangle;
     var Shader3D = Pan3d.Shader3D;
     var InteractiveEvent = Pan3d.InteractiveEvent;
-    var Later2DShader = /** @class */ (function (_super) {
-        __extends(Later2DShader, _super);
-        function Later2DShader() {
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    var LaterDiplay3dShader = /** @class */ (function (_super) {
+        __extends(LaterDiplay3dShader, _super);
+        function LaterDiplay3dShader() {
             return _super.call(this) || this;
         }
-        Later2DShader.prototype.binLocation = function ($context) {
-            $context.bindAttribLocation(this.program, 0, "v3Pos");
-            $context.bindAttribLocation(this.program, 1, "v2uv");
+        LaterDiplay3dShader.prototype.binLocation = function ($context) {
+            $context.bindAttribLocation(this.program, 0, "v3Position");
+            $context.bindAttribLocation(this.program, 1, "u2Texture");
         };
-        Later2DShader.prototype.getVertexShaderString = function () {
-            var $str = "attribute vec3 v3Pos;" +
-                "attribute vec2 v2uv;" +
+        LaterDiplay3dShader.prototype.getVertexShaderString = function () {
+            var $str = "attribute vec3 v3Position;" +
+                "attribute vec2 u2Texture;" +
+                "uniform mat4 viewMatrix3D;" +
+                "uniform mat4 camMatrix3D;" +
+                "uniform mat4 posMatrix3D;" +
                 "varying vec2 v_texCoord;" +
                 "void main(void)" +
                 "{" +
-                "v_texCoord = vec2(v2uv.x,v2uv.y);" +
-                "gl_Position =vec4(v3Pos.x,v3Pos.y,v3Pos.z,1.0);" +
+                "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                "   vec4 vt0= vec4(v3Position, 1.0);" +
+                "   gl_Position = vt0;" +
                 "}";
             return $str;
         };
-        Later2DShader.prototype.getFragmentShaderString = function () {
-            var $str = " precision mediump float;\n" +
+        LaterDiplay3dShader.prototype.getFragmentShaderString = function () {
+            var $str = "precision mediump float;\n" +
                 "uniform sampler2D s_texture;\n" +
                 "varying vec2 v_texCoord;\n" +
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor = infoUv;\n" +
+                "gl_FragColor =vec4(1,0,1,1);\n" +
                 "}";
             return $str;
         };
-        Later2DShader.Later2DShader = "Later2DShader";
-        return Later2DShader;
+        LaterDiplay3dShader.LaterDiplay3dShader = "LaterDiplay3dShader";
+        return LaterDiplay3dShader;
     }(Shader3D));
-    prop.Later2DShader = Later2DShader;
+    prop.LaterDiplay3dShader = LaterDiplay3dShader;
+    var LaterDiplay3dSprite = /** @class */ (function (_super) {
+        __extends(LaterDiplay3dSprite, _super);
+        function LaterDiplay3dSprite() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        LaterDiplay3dSprite.prototype.initData = function () {
+            _super.prototype.initData.call(this);
+            ProgrmaManager.getInstance().registe(LaterDiplay3dShader.LaterDiplay3dShader, new LaterDiplay3dShader);
+            this.shader = ProgrmaManager.getInstance().getProgram(LaterDiplay3dShader.LaterDiplay3dShader);
+            this.program = this.shader.program;
+            this.objData.vertices = new Array();
+            var scale = 0.5;
+            this.objData.vertices.push(-1 * scale, -1 * scale, 0);
+            this.objData.vertices.push(1 * scale, -1 * scale, 0);
+            this.objData.vertices.push(1 * scale, 1 * scale, 0);
+            this.objData.vertices.push(-1 * scale, 1 * scale, 0);
+            this.objData.uvs = new Array();
+            this.objData.uvs.push(0, 1);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(0, 0);
+            this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 1, 2);
+            this.objData.indexs.push(0, 2, 3);
+            this.upToGpu();
+        };
+        return LaterDiplay3dSprite;
+    }(BaseDiplay3dSprite));
+    prop.LaterDiplay3dSprite = LaterDiplay3dSprite;
     var MeshMaterialLfetView2DUI = /** @class */ (function (_super) {
         __extends(MeshMaterialLfetView2DUI, _super);
         function MeshMaterialLfetView2DUI(value) {
@@ -163,6 +198,10 @@ var prop;
         MeshMaterialLfetView2DUI.prototype.initScene = function () {
             _super.prototype.initScene.call(this);
             this.latersceneManager = new maineditor.LaterSceneManager();
+            this.latersceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256);
+            this.latersceneManager.cam3D.distance = 200;
+            this.latersceneManager.focus3D.rotationX = -45;
+            this.latersceneManager.addDisplay(new LaterDiplay3dSprite());
         };
         MeshMaterialLfetView2DUI.prototype.setZzwUrlToRole = function (zzwUrl) {
             var _this = this;
@@ -189,6 +228,7 @@ var prop;
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture();
+                Pan3d.MathClass.getCamView(this.latersceneManager.cam3D, this.latersceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.latersceneManager.renderToTexture();
                 var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;

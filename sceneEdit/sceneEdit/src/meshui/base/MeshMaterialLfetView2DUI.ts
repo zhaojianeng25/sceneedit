@@ -2,54 +2,92 @@
 
     import Rectangle = Pan3d.Rectangle
     import Shader3D = Pan3d.Shader3D
-    import Camera3D = Pan3d.Camera3D
+    import Display3D = Pan3d.Display3D
     import InteractiveEvent = Pan3d.InteractiveEvent
     import UIRenderComponent = Pan3d.UIRenderComponent
-    import GridLineSprite = Pan3d.GridLineSprite;
-    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    import ProgrmaManager = Pan3d.ProgrmaManager;
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
+ 
 
-    export class Later2DShader extends Shader3D {
-        static Later2DShader: string = "Later2DShader";
+    export class LaterDiplay3dShader extends Shader3D {
+        static LaterDiplay3dShader: string = "LaterDiplay3dShader";
         constructor() {
             super();
         }
         binLocation($context: WebGLRenderingContext): void {
-            $context.bindAttribLocation(this.program, 0, "v3Pos");
-            $context.bindAttribLocation(this.program, 1, "v2uv");
+            $context.bindAttribLocation(this.program, 0, "v3Position");
+            $context.bindAttribLocation(this.program, 1, "u2Texture");
         }
         getVertexShaderString(): string {
             var $str: string =
-                "attribute vec3 v3Pos;" +
-                "attribute vec2 v2uv;" +
+                "attribute vec3 v3Position;" +
+                "attribute vec2 u2Texture;" +
+
+                "uniform mat4 viewMatrix3D;" +
+                "uniform mat4 camMatrix3D;" +
+                "uniform mat4 posMatrix3D;" +
+
                 "varying vec2 v_texCoord;" +
 
                 "void main(void)" +
                 "{" +
-                "v_texCoord = vec2(v2uv.x,v2uv.y);" +
-                "gl_Position =vec4(v3Pos.x,v3Pos.y,v3Pos.z,1.0);" +
+
+                "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                "   vec4 vt0= vec4(v3Position, 1.0);" +
+ 
+                "   gl_Position = vt0;" +
                 "}"
             return $str
-
-
+ 
         }
         getFragmentShaderString(): string {
             var $str: string =
-                " precision mediump float;\n" +
+                "precision mediump float;\n" +
                 "uniform sampler2D s_texture;\n" +
                 "varying vec2 v_texCoord;\n" +
 
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor = infoUv;\n" +
-
+                "gl_FragColor =vec4(1,0,1,1);\n" +
                 "}"
             return $str
 
         }
+
     }
+
+    export class LaterDiplay3dSprite extends BaseDiplay3dSprite {
+
+        protected initData(): void {
+            super.initData()
+            ProgrmaManager.getInstance().registe(LaterDiplay3dShader.LaterDiplay3dShader, new LaterDiplay3dShader);
+            this.shader = ProgrmaManager.getInstance().getProgram(LaterDiplay3dShader.LaterDiplay3dShader);
+            this.program = this.shader.program;
+
+            this.objData.vertices = new Array();
+            var scale: number=0.5
+            this.objData.vertices.push(-1 * scale, -1 * scale, 0);
+            this.objData.vertices.push(1 * scale, -1 * scale, 0);
+            this.objData.vertices.push(1 * scale, 1 * scale, 0);
+            this.objData.vertices.push(-1 * scale, 1 * scale, 0);
+
+            this.objData.uvs = new Array()
+            this.objData.uvs.push(0, 1);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(0, 0);
+
+            this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 1, 2);
+            this.objData.indexs.push(0, 2, 3);
+ 
+            this.upToGpu();
+        }
  
 
+    }
+     
     export class MeshMaterialLfetView2DUI extends MeshSceneView2DUI {
 
 
@@ -193,7 +231,12 @@
         protected initScene(): void {
             super.initScene()
             this.latersceneManager = new maineditor.LaterSceneManager();
+ 
+            this.latersceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256)
+            this.latersceneManager.cam3D.distance = 200;
+            this.latersceneManager.focus3D.rotationX = -45;
 
+            this.latersceneManager.addDisplay(new LaterDiplay3dSprite())
 
         }
         private setZzwUrlToRole(zzwUrl: string): void {
@@ -223,7 +266,9 @@
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture();
 
+                Pan3d.MathClass.getCamView(this.latersceneManager.cam3D, this.latersceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.latersceneManager.renderToTexture();
+
 
 
 

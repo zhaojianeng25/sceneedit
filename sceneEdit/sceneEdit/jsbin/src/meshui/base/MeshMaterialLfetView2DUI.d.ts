@@ -1,12 +1,16 @@
 declare module prop {
     import Shader3D = Pan3d.Shader3D;
     import InteractiveEvent = Pan3d.InteractiveEvent;
-    class Later2DShader extends Shader3D {
-        static Later2DShader: string;
+    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    class LaterDiplay3dShader extends Shader3D {
+        static LaterDiplay3dShader: string;
         constructor();
         binLocation($context: WebGLRenderingContext): void;
         getVertexShaderString(): string;
         getFragmentShaderString(): string;
+    }
+    class LaterDiplay3dSprite extends BaseDiplay3dSprite {
+        protected initData(): void;
     }
     class MeshMaterialLfetView2DUI extends MeshSceneView2DUI {
         private iconItem;
