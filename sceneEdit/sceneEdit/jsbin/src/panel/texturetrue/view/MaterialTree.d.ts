@@ -12,6 +12,8 @@ declare module materialui {
         private _compileData;
         private _url;
         shaderStr: string;
+        laterTextureurl: string;
+        laterTexture: MaterialTree;
         texList: Array<TexItem>;
         cubeTextItem: TextureCube;
         constList: Array<ConstItem>;

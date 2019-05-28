@@ -53,10 +53,10 @@ declare module filelist {
         private loadTempOne;
         update(t: number): void;
         private _lastfileDonwInfo;
-        private lastfileDonwInfo;
         protected fileMouseDown(evt: InteractiveEvent): void;
+        private timeOutMakeDragFun;
+        private lastDragEvent;
         private makeDragData;
-        protected stageMouseMove(evt: InteractiveEvent): void;
         private fileDuboclik;
         private selectFileClik;
         protected fileMouseUp(evt: InteractiveEvent): void;

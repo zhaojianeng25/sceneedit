@@ -11,6 +11,18 @@
             this.selectItem=[]
             this.fileItem=[]
         }
+        public openFileByUrl(fileUrl: string): void {
+      
+            if (fileUrl.indexOf(".map") != -1) {
+                Pan3d.  ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                Pan3d. ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+            }
+            if (fileUrl.indexOf(".material") != -1) {
+
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+            }
+
+        }
         public hierarchyListPanel: HierarchyListPanel
         public selectItem: Array<FolderMeshVo>
 
@@ -26,6 +38,7 @@
             }
   
         }
+
         public keyDeleSelectItem(): void {
             if (this.selectItem.length) {
                 var truthBeTold = window.confirm("是否确定要删除选取的对象。" );

@@ -473,38 +473,26 @@
 
         }
         private _lastfileDonwInfo: any;
-        private set lastfileDonwInfo(value) {
-     
-            this._lastfileDonwInfo = value
-        }
-        private get lastfileDonwInfo(): any {
-            return this._lastfileDonwInfo
-        }
+  
  
         protected fileMouseDown(evt: InteractiveEvent): void {
-
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            console.log(this.lastfileDonwInfo)
-                if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
-                    console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer())
-                    if (this.lastfileDonwInfo.tm >( Pan3d.TimeUtil.getTimer()-1000)) {
-                        this.fileDuboclik(evt)
-                        return
-                    } else {
-                        this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer() 
-                    }
-                } else {
-                    this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+            if (this._lastfileDonwInfo && this._lastfileDonwInfo.target == evt.target) {
+                if (this._lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000) && this._lastfileDonwInfo.x == evt.x && this._lastfileDonwInfo.y == evt.y) {
+                    this.fileDuboclik(evt)
+                    return
                 }
-         
-            console.log(this.lastfileDonwInfo)
+            }
+            this._lastfileDonwInfo = { x: evt.x, y: evt.y, target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
 
-            this.makeDragData(evt);
+            this.lastDragEvent = evt;
+            Pan3d.TimeUtil.addTimeOut(100, this.timeOutMakeDragFun)
         }
-
-        private makeDragData(evt: InteractiveEvent): void {
-            var event: MouseEvent = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y })
-            var vo: FileListName = this.getItemVoByUi(evt.target)
+        private timeOutMakeDragFun: any = ( ) => { this.makeDragData() }
+        private lastDragEvent: InteractiveEvent;
+        private makeDragData(): void {
+  
+          
+            var vo: FileListName = this.getItemVoByUi(this.lastDragEvent.target)
             if (vo) {
                 var fileUrl: string = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                 fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
@@ -540,13 +528,7 @@
 
         }
   
-        protected stageMouseMove(evt: InteractiveEvent): void {
-       
-            this.lastfileDonwInfo = null
-            //console.log("移动了")
-
-
-        }
+    
         private fileDuboclik(evt: InteractiveEvent): void {
   
             var vo: FileListName = this.getItemVoByUi(evt.target)
@@ -556,21 +538,24 @@
                 } else {
                     var fileUrl: string = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
-                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
-                        case FileVo.MATERIAL:
+
+                    maineditor.EditorModel.getInstance().openFileByUrl(fileUrl)
+
+                    //switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
+                    //    case FileVo.MATERIAL:
                   
-                            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
-                            break
+                    //        Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                    //        break
                    
 
-                        case FileVo.MAP:
-                            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                    //    case FileVo.MAP:
+                    //        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
 
-                            break;
-                        default:
+                    //        break;
+                    //    default:
                  
-                            break;
-                    }
+                    //        break;
+                    //}
 
                 }
             }
@@ -639,9 +624,9 @@
 
  
         protected fileMouseUp(evt: InteractiveEvent): void {
+            Pan3d.TimeUtil.removeTimeOut(this.timeOutMakeDragFun);
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-      
-        
+  
             this.selectFileIcon(evt)
 
         }

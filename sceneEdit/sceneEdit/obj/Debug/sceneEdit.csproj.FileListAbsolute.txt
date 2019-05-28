@@ -1,9 +1,3 @@
-E:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll.config
-E:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll
-E:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.pdb
-E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csproj.CoreCompileInputs.cache
-E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.dll
-E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.pdb
 D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll.config
 D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll
 D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.pdb
@@ -11,3 +5,10 @@ D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csproj.CoreCompileIn
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.dll
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.pdb
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csprojAssemblyReference.cache
+E:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll.config
+E:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.dll
+E:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.pdb
+E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csprojAssemblyReference.cache
+E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csproj.CoreCompileInputs.cache
+E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.dll
+E:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.pdb

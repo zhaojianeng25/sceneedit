@@ -3,6 +3,7 @@ declare module maineditor {
         static _instance: EditorModel;
         static getInstance(): EditorModel;
         constructor();
+        openFileByUrl(fileUrl: string): void;
         hierarchyListPanel: HierarchyListPanel;
         selectItem: Array<FolderMeshVo>;
         addSelctItem(value: Array<FolderMeshVo>, isShift: boolean): void;

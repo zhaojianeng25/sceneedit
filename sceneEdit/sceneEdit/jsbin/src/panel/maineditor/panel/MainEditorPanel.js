@@ -75,13 +75,14 @@ var maineditor;
             var ui = evt.target;
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
                 this.selectTabStr = tabVo.rightTabInfoVo;
-                if (this.selectTabStr.indexOf(".map") != -1) {
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
-                }
-                if (this.selectTabStr.indexOf(".material") != -1) {
-                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
-                }
+                //if (this.selectTabStr.indexOf(".map") != -1) {
+                //    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
+                //    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                //}
+                //if (this.selectTabStr.indexOf(".material") != -1) {
+                //    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
+                //}
+                maineditor.EditorModel.getInstance().openFileByUrl(this.selectTabStr);
             }
             else {
                 console.log("关", tabVo);

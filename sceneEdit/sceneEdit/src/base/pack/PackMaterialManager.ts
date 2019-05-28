@@ -107,6 +107,10 @@
 
             $materialTree.setData({ data: $temp.data });
             $materialTree.useNormal = $temp.info.useNormal;
+   
+         
+      
+
             $materialTree.hasTime = $temp.info.hasTime;
             if ($materialTree.hasTime) {
                 $materialTree.timeValue = new Vector2D($temp.info.timeValue.x, $temp.info.timeValue.y)
@@ -115,33 +119,18 @@
             $materialTree.blendMode = $temp.info.blendMode;
             $materialTree.writeZbuffer = $temp.info.writeZbuffer;
             $materialTree.zbuff = $temp.info.zbuff;
-
-            
-
             $materialTree.useLightUv = $buildShader.paramAry[2]
             $materialTree.texList = this.makeTextList($temp.info.texList);
             $materialTree.constList = this.makeConstList($temp.info.constList);
 
             $materialTree.fcData = this.makeFc($materialTree.constList, (<string>($temp.info.fcData)).split(","));
             $materialTree.fcNum = Math.round($materialTree.fcData.length / 4)
-
-
-
             $materialTree.modelShader = $buildShader;
-
-
-            /*
-            console.log("----------vertex------------");
-            console.log($buildShader.vertex);
-            console.log("----------fragment------------");
-            console.log($buildShader.fragment);
-            console.log("----------buildShader------------");
-            */
-            //    console.log("材质加载完成", $url)
-
             $materialTree.url = $url
 
             this.makeRoleShader($materialTree, $temp)
+
+            $materialTree.laterTextureurl = $temp.info.laterTextureurl;
 
             return $materialTree
         }

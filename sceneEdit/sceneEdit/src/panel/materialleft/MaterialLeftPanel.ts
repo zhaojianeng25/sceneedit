@@ -53,6 +53,14 @@
         public set materialTree(value: materialui.MaterialTree) {
             this._materialTree = value;
             this.materiaMeshView.data = this._materialTree;
+
+            if (this._materialTree.laterTextureurl && !this._materialTree.laterTexture) {
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(this._materialTree.laterTextureurl, ($laterTexture: any) => {
+                    this._materialTree.laterTexture = $laterTexture
+                    this.materiaMeshView.data = this._materialTree;
+                })
+            } 
+      
         }
         protected loadConfigCom(): void {
             super.loadConfigCom();

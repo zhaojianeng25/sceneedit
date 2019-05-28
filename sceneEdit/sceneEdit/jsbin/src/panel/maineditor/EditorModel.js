@@ -11,6 +11,15 @@ var maineditor;
             }
             return this._instance;
         };
+        EditorModel.prototype.openFileByUrl = function (fileUrl) {
+            if (fileUrl.indexOf(".map") != -1) {
+                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+            }
+            if (fileUrl.indexOf(".material") != -1) {
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+            }
+        };
         EditorModel.prototype.addSelctItem = function (value, isShift) {
             if (isShift) {
                 for (var i = 0; i < value.length; i++) {

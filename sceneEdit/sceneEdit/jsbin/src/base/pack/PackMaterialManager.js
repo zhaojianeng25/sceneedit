@@ -104,16 +104,9 @@ var pack;
             $materialTree.fcData = this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
             $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
             $materialTree.modelShader = $buildShader;
-            /*
-            console.log("----------vertex------------");
-            console.log($buildShader.vertex);
-            console.log("----------fragment------------");
-            console.log($buildShader.fragment);
-            console.log("----------buildShader------------");
-            */
-            //    console.log("材质加载完成", $url)
             $materialTree.url = $url;
             this.makeRoleShader($materialTree, $temp);
+            $materialTree.laterTextureurl = $temp.info.laterTextureurl;
             return $materialTree;
         };
         PackMaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {

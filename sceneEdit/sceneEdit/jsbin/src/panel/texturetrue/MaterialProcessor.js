@@ -251,6 +251,7 @@ var materialui;
             obj.texList = this.baseMaterialTree.texList;
             obj.constList = this.baseMaterialTree.constList;
             obj.shaderStr = this.baseMaterialTree.shaderStr;
+            obj.laterTextureurl = this.baseMaterialTree.laterTextureurl;
             obj.fcData = this.baseMaterialTree.fcData.toString();
             obj.paramAry = this.baseMaterialTree.shader.paramAry;
             return obj;

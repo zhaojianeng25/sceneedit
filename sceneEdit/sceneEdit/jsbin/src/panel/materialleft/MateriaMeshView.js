@@ -52,11 +52,16 @@ var materialleft;
             ];
             return ary;
         };
+        MateriaMeshView.prototype.getParamItem = function (value) {
+            return null;
+        };
         Object.defineProperty(MateriaMeshView.prototype, "laterTexture", {
             get: function () {
-                return null;
+                return this._materialTree.laterTexture;
             },
             set: function (value) {
+                this._materialTree.laterTextureurl = value.url;
+                this._materialTree.laterTexture = value;
                 this.refreshViewValue();
             },
             enumerable: true,

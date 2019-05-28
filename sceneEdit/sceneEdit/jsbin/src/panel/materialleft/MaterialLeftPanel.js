@@ -31,8 +31,15 @@ var materialleft;
         };
         Object.defineProperty(MaterialLeftPanel.prototype, "materialTree", {
             set: function (value) {
+                var _this = this;
                 this._materialTree = value;
                 this.materiaMeshView.data = this._materialTree;
+                if (this._materialTree.laterTextureurl && !this._materialTree.laterTexture) {
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this._materialTree.laterTextureurl, function ($laterTexture) {
+                        _this._materialTree.laterTexture = $laterTexture;
+                        _this.materiaMeshView.data = _this._materialTree;
+                    });
+                }
             },
             enumerable: true,
             configurable: true

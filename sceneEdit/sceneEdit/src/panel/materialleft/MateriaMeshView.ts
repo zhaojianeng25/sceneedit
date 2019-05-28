@@ -53,13 +53,19 @@
                 ];
             return ary;
         }
+        public getParamItem(value: string): any {
+            return null
+        }
         public set laterTexture(value: materialui.MaterialTree) {
- 
+
+            this._materialTree.laterTextureurl = value.url;
+            this._materialTree.laterTexture = value
+
             this.refreshViewValue()
         }
         public get laterTexture(): materialui.MaterialTree {
 
-            return null
+            return this._materialTree.laterTexture
         }
         private textureChangeInfo(value: Array<any>): void {
  

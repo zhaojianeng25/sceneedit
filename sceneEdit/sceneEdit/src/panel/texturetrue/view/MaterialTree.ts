@@ -15,6 +15,8 @@
         private _url: string;
 
         public shaderStr: string;
+        public laterTextureurl: string
+        public laterTexture: MaterialTree
         public texList: Array<TexItem> = new Array
         public cubeTextItem: TextureCube
         public constList: Array<ConstItem> = new Array

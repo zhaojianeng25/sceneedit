@@ -281,7 +281,9 @@ var filelist;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
-            return _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 48) || this;
+            var _this = _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 48) || this;
+            _this.timeOutMakeDragFun = function () { _this.makeDragData(); };
+            return _this;
         }
         FileListPanel.prototype.loadConfigCom = function () {
             var _this = this;
@@ -381,38 +383,19 @@ var filelist;
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
-        Object.defineProperty(FileListPanel.prototype, "lastfileDonwInfo", {
-            get: function () {
-                return this._lastfileDonwInfo;
-            },
-            set: function (value) {
-                this._lastfileDonwInfo = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         FileListPanel.prototype.fileMouseDown = function (evt) {
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            console.log(this.lastfileDonwInfo);
-            if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
-                console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer());
-                if (this.lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000)) {
+            if (this._lastfileDonwInfo && this._lastfileDonwInfo.target == evt.target) {
+                if (this._lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000) && this._lastfileDonwInfo.x == evt.x && this._lastfileDonwInfo.y == evt.y) {
                     this.fileDuboclik(evt);
                     return;
                 }
-                else {
-                    this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer();
-                }
             }
-            else {
-                this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
-            }
-            console.log(this.lastfileDonwInfo);
-            this.makeDragData(evt);
+            this._lastfileDonwInfo = { x: evt.x, y: evt.y, target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+            this.lastDragEvent = evt;
+            Pan3d.TimeUtil.addTimeOut(100, this.timeOutMakeDragFun);
         };
-        FileListPanel.prototype.makeDragData = function (evt) {
-            var event = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y });
-            var vo = this.getItemVoByUi(evt.target);
+        FileListPanel.prototype.makeDragData = function () {
+            var vo = this.getItemVoByUi(this.lastDragEvent.target);
             if (vo) {
                 var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                 fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
@@ -442,10 +425,6 @@ var filelist;
                 DragManager.doDragdoDrag(this, dsragSource);
             }
         };
-        FileListPanel.prototype.stageMouseMove = function (evt) {
-            this.lastfileDonwInfo = null;
-            //console.log("移动了")
-        };
         FileListPanel.prototype.fileDuboclik = function (evt) {
             var vo = this.getItemVoByUi(evt.target);
             if (vo) {
@@ -455,16 +434,17 @@ var filelist;
                 else {
                     var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
-                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
-                        case FileVo.MATERIAL:
-                            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
-                            break;
-                        case FileVo.MAP:
-                            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
-                            break;
-                        default:
-                            break;
-                    }
+                    maineditor.EditorModel.getInstance().openFileByUrl(fileUrl);
+                    //switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
+                    //    case FileVo.MATERIAL:
+                    //        Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                    //        break
+                    //    case FileVo.MAP:
+                    //        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                    //        break;
+                    //    default:
+                    //        break;
+                    //}
                 }
             }
         };
@@ -517,6 +497,7 @@ var filelist;
             }
         };
         FileListPanel.prototype.fileMouseUp = function (evt) {
+            Pan3d.TimeUtil.removeTimeOut(this.timeOutMakeDragFun);
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             this.selectFileIcon(evt);
         };

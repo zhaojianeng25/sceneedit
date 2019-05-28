@@ -16,7 +16,6 @@ var editscene;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
     var EditSceneEvent = /** @class */ (function (_super) {
         __extends(EditSceneEvent, _super);
         function EditSceneEvent() {
@@ -76,12 +75,13 @@ var editscene;
                 $nameKey = getUrlParam("mapurl");
                 console.log($nameKey);
             }
-            if ($nameKey.indexOf(".material") != -1) {
-                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), $nameKey); //加载材质
-            }
-            if ($nameKey.indexOf(".map") != -1) {
-                ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
-            }
+            maineditor.EditorModel.getInstance().openFileByUrl($nameKey);
+            //if ($nameKey.indexOf(".material") != -1) {
+            //    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), $nameKey);//加载材质
+            //}
+            //if ($nameKey.indexOf(".map") != -1) {
+            //    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
+            //}
         };
         EditSceneProcessor.prototype.listenModuleEvents = function () {
             return [
