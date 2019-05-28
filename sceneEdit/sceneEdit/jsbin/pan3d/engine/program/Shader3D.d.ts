@@ -1,7 +1,7 @@
 interface IShader {
     getVertexShaderString(): string;
     getFragmentShaderString(): string;
-    encode($context: WebGLRenderingContext): void;
+    encode(v?: string, f?: string): void;
     binLocation($context: WebGLRenderingContext): void;
 }
 declare module Pan3d {
@@ -16,7 +16,7 @@ declare module Pan3d {
         private _paramAry;
         localDic: Object;
         constructor();
-        encode(): boolean;
+        encode(v?: string, f?: string): boolean;
         getWebGLUniformLocation($name: string): WebGLUniformLocation;
         binLocation($context: WebGLRenderingContext): void;
         getVertexShaderString(): string;

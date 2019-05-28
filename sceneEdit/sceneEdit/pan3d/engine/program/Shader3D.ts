@@ -2,7 +2,7 @@
 
     getVertexShaderString(): string
     getFragmentShaderString(): string
-    encode($context: WebGLRenderingContext): void
+    encode(v?:string,f?:string): void
     binLocation($context: WebGLRenderingContext): void
 }
 
@@ -28,8 +28,13 @@ module Pan3d {
             super();
             this.fragment = this.getFragmentShaderString()
         }
-        public encode(): boolean {
-            this.vertex = this.getVertexShaderString();
+        public encode(v?: string, f?: string): boolean {
+            if (v) {
+                this.vertex = v
+            } else {
+                this.vertex = this.getVertexShaderString();
+            }
+
             ////console.log(this.vertex);
 
             var $context: WebGLRenderingContext = Scene_data.context3D.renderContext;

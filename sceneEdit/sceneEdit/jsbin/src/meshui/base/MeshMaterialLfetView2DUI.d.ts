@@ -1,21 +1,12 @@
 declare module prop {
-    import Shader3D = Pan3d.Shader3D;
     import InteractiveEvent = Pan3d.InteractiveEvent;
-    class LaterDiplay3dShader extends Shader3D {
-        static LaterDiplay3dShader: string;
-        constructor();
-        binLocation($context: WebGLRenderingContext): void;
-        getVertexShaderString(): string;
-        getFragmentShaderString(): string;
-    }
-    class LaterDiplay3dSprite extends left.MaterialModelSprite {
-        constructor();
-        protected initData(): void;
-        outTexture: WebGLTexture;
-        update(): void;
-    }
+    import MaterialBaseParam = Pan3d.MaterialBaseParam;
+    import Material = Pan3d.Material;
     class LaterOtherDiplay3dSprite extends left.MaterialModelSprite {
-        update(): void;
+        outTexture: WebGLTexture;
+        setMaterialTexture($material: Material, $mp?: MaterialBaseParam): void;
+        maketRectMaterial(temp: materialui.MaterialTree): void;
+        makeRectObjData(): void;
     }
     class MeshMaterialLfetView2DUI extends MeshSceneView2DUI {
         private iconItem;
@@ -29,7 +20,6 @@ declare module prop {
         private refrishShowMaterialModel;
         private latersceneManager;
         protected initScene(): void;
-        private otherSprite;
         private ktvSprite;
         private setZzwUrlToRole;
         protected oneByFrame(): void;

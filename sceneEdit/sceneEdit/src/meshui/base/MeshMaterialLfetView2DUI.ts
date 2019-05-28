@@ -7,127 +7,84 @@
     import UIRenderComponent = Pan3d.UIRenderComponent
     import ProgrmaManager = Pan3d.ProgrmaManager;
     import Scene_data = Pan3d.Scene_data
-    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
+    import MaterialBaseParam = Pan3d.MaterialBaseParam
  
+    import Material = Pan3d.Material
+    import TexItem = Pan3d.TexItem
+  
 
-    export class LaterDiplay3dShader extends Shader3D {
-        static LaterDiplay3dShader: string = "LaterDiplay3dShader";
-        constructor() {
-            super();
+    export class LaterOtherDiplay3dSprite extends left.MaterialModelSprite {
+
+
+        public outTexture: WebGLTexture
+        public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
+
+            super.setMaterialTexture($material, $mp);
+            var texVec: Array<TexItem> = $material.texList;
+            for (var i: number = 0; this.outTexture&& i < texVec.length; i++) {
+                if (texVec[i].texture && texVec[i].isDynamic) {
+                    if (texVec[i].type != TexItem.CUBEMAP) {
+
+                        console.log("换上图")
+                        Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, this.outTexture, texVec[i].id);
+
+                        
+                    }
+                }  
+            }
+
+        
         }
-        binLocation($context: WebGLRenderingContext): void {
-            $context.bindAttribLocation(this.program, 0, "v3Position");
-            $context.bindAttribLocation(this.program, 1, "u2Texture");
-        }
-        getVertexShaderString(): string {
-            var $str: string =
-                "attribute vec3 v3Position;" +
-                "attribute vec2 u2Texture;" +
+      
+        public maketRectMaterial(temp: materialui.MaterialTree): void {
+            var cloneMaterialTree: materialui.MaterialTree = temp.clone();
+            var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
+            $buildShader.fragment = temp.modelShader.fragment
+            $buildShader.paramAry = temp.modelShader.paramAry;
+            //需要换定点着色器
+            var agalStr: string = "attribute vec3 v3Position;\n" +
+                "attribute vec2 v2CubeTexST;\n" +
+                "varying vec2 v0;\n" +
+                "uniform mat4 vpMatrix3D;\n" +
+                "uniform mat4 posMatrix3D;\n" +
+                "uniform mat3 rotationMatrix3D;\n" +
+                "varying highp vec3 vPos;\n" +
+                "void main(void){\n" +
+                "v0 = vec2(v2CubeTexST.x, v2CubeTexST.y);\n" +
 
-                "uniform mat4 viewMatrix3D;" +
-                "uniform mat4 camMatrix3D;" +
-                "uniform mat4 posMatrix3D;" +
-
-                "varying vec2 v_texCoord;" +
-
-                "void main(void)" +
-                "{" +
-
-                "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
-                "   vec4 vt0= vec4(v3Position, 1.0);" +
+                "gl_Position = vec4(v3Position, 1.0);\n" +
+                "vPos = v3Position;\n" +
+                "} "
  
-                "   gl_Position = vt0;" +
-                "}"
-            return $str
- 
+            $buildShader.encode(agalStr);
+            cloneMaterialTree.modelShader = $buildShader
+            this.material = cloneMaterialTree
         }
-        getFragmentShaderString(): string {
-            var $str: string =
-                "precision mediump float;\n" +
-                "uniform sampler2D s_texture;\n" +
-                "varying vec2 v_texCoord;\n" +
-
-                "void main(void)\n" +
-                "{\n" +
-                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(1,0,0,1);\n" +
-
-                "gl_FragColor =infoUv*vec4(1,0,0,1);\n" +
-                "}"
-            return $str
-
-        }
-
-    }
-
-    
-   // export class LaterDiplay3dSprite extends BaseDiplay3dSprite {
-    export class LaterDiplay3dSprite extends left.MaterialModelSprite {
-        public constructor() {
-            super()
-            this.initData()
-        }
-
-        protected initData(): void {
-     
-            ProgrmaManager.getInstance().registe(LaterDiplay3dShader.LaterDiplay3dShader, new LaterDiplay3dShader);
-            this.shader = ProgrmaManager.getInstance().getProgram(LaterDiplay3dShader.LaterDiplay3dShader);
-            this.program = this.shader.program;
-
+        public makeRectObjData(): void {
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var scale: number=0.5
-            this.objData.vertices.push(-1 * scale, -1 * scale, 0);
-            this.objData.vertices.push(1 * scale, -1 * scale, 0);
-            this.objData.vertices.push(1 * scale, 0 * scale, 0);
-            this.objData.vertices.push(-1 * scale, 0 * scale, 0);
+            var scale: number = 1;
+            this.objData.vertices.push(-1 * scale, -1 * scale, 0.0);
+            this.objData.vertices.push(1 * scale, -1 * scale, 0.0);
+            this.objData.vertices.push(1 * scale, 1 * scale, 0.0);
+            this.objData.vertices.push(-1 * scale, 1 * scale, 0.0);
 
             this.objData.uvs = new Array()
-            this.objData.uvs.push(0, 1);
-            this.objData.uvs.push(1, 1);
-            this.objData.uvs.push(1, 0);
             this.objData.uvs.push(0, 0);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(0, 1);
 
             this.objData.indexs = new Array();
-            this.objData.indexs.push(0, 1, 2);
-            this.objData.indexs.push(0, 2, 3);
+     
+            this.objData.indexs.push(0, 2, 1);
+            this.objData.indexs.push(0, 3, 2);
 
 
             this.objData.treNum = this.objData.indexs.length
             this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
             this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
             this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
-        }
-        public outTexture: WebGLTexture;
-        public update(): void {
-    
-            if (this.objData && this.objData.indexBuffer && this.outTexture) {
-                Scene_data.context3D.setProgram(this.program);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-
-                Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-                Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-
-                Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this.outTexture, 0);
-
-                Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
-
-            }
-
-       
-        }
- 
-
-    }
-
-    export class LaterOtherDiplay3dSprite extends left.MaterialModelSprite {
-
-
-        public update(): void {
-            console.log("her------------e");
-            super.update();
         }
 
     }
@@ -277,20 +234,12 @@
             this.latersceneManager = new maineditor.EdItorSceneManager();
             this.latersceneManager.ready = true;
             this.latersceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256)
-            this.latersceneManager.cam3D.distance = 200;
-            this.latersceneManager.focus3D.rotationX = -45;
-
-            this.otherSprite = new LaterDiplay3dSprite()
-            this.latersceneManager.addDisplay(this.otherSprite)
-   
+  
             this.ktvSprite = new LaterOtherDiplay3dSprite();
             this.latersceneManager.addDisplay(this.ktvSprite);
-
-    
-       
-
+ 
         }
-        private otherSprite: LaterDiplay3dSprite
+      
         private ktvSprite: LaterOtherDiplay3dSprite
         private setZzwUrlToRole(zzwUrl: string): void {
             if (!this.roleSprite) {
@@ -316,21 +265,23 @@
         }
         protected oneByFrame(): void {
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
+                var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
+
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture();
+                $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture
+
+                if (this.ktvSprite.material) { //如果有后期材质，
+                    this.ktvSprite.outTexture = this.sceneManager.fbo.texture
+                    this.latersceneManager.renderToTexture();
+                    $uiRender.uiAtlas.textureRes.texture = this.latersceneManager.fbo.texture
+                }  
+         
 
 
-                this.otherSprite.outTexture = this.sceneManager.fbo.texture;
-
-
-                Pan3d.MathClass.getCamView(this.latersceneManager.cam3D, this.latersceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-                this.latersceneManager.renderToTexture();
-
-
-
-
-                var $uiRender: UIRenderComponent = this.texturePicUi.textureContext.ui.uiRender;
-                $uiRender.uiAtlas.textureRes.texture = this.latersceneManager.fbo.texture
+ 
+               
+            
 
                 var maxNum: number = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height)
                 this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum)
@@ -381,42 +332,24 @@
             this.modelSprite.material = temp;
             this.refrishShowMaterialModel(temp)
  
-
-            pack.PackObjDataManager.getInstance().getObjDataByUrl("assets/objs/ball.objs", (value: ObjData) => {
-                this.ktvSprite.objData = value;
-            })
-
-         // var cloneMaterialTree: materialui.MaterialTree = new materialui.MaterialTree()
-            var cloneMaterialTree: materialui.MaterialTree = temp.clone()
-  
-            var $buildShader: left.BuildMaterialShader = new left.BuildMaterialShader();
-            $buildShader.paramAry = temp.modelShader.paramAry
-           // $buildShader.vertex = temp.modelShader.getVertexShaderString();
-
-            var agalStr: string = "attribute vec3 v3Position;\n" +
-                "attribute vec2 v2CubeTexST;\n" +
-                "varying vec2 v0;\n" +
-                "uniform mat4 vpMatrix3D;\n" +
-                "uniform mat4 posMatrix3D;\n" +
-                "uniform mat3 rotationMatrix3D;\n" +
-                "varying highp vec3 vPos;\n" +
-                "void main(void){\n" +
-                "v0 = vec2(v2CubeTexST.x, v2CubeTexST.y);\n" +
-                "vec4 vt0 = vec4(v3Position, 1.0);\n" +
-                "vt0 = posMatrix3D * vt0;\n" +
-                "vt0 = vpMatrix3D * vt0;\n" +
-                "gl_Position = vt0;\n" +
-                "vPos = v3Position;\n" +
-                "} "
-
-            $buildShader.vertex = agalStr
-
-            $buildShader.fragment = temp.modelShader.fragment
-            $buildShader.encode();
-            cloneMaterialTree.modelShader = $buildShader
-
  
-            this.ktvSprite.material = cloneMaterialTree
+            if (temp.laterTextureurl) {
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(temp.laterTextureurl, ($laterTexture: materialui.MaterialTree) => {
+                    this.ktvSprite.makeRectObjData()
+                    this.ktvSprite.maketRectMaterial($laterTexture)
+                })
+            } else {
+                this.ktvSprite.material = null;
+            }
+           
+       
+           
+  
+  
+          
+    
+ 
+       
       
         }
 

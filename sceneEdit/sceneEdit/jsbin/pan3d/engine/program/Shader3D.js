@@ -30,8 +30,13 @@ var Pan3d;
             enumerable: true,
             configurable: true
         });
-        Shader3D.prototype.encode = function () {
-            this.vertex = this.getVertexShaderString();
+        Shader3D.prototype.encode = function (v, f) {
+            if (v) {
+                this.vertex = v;
+            }
+            else {
+                this.vertex = this.getVertexShaderString();
+            }
             ////console.log(this.vertex);
             var $context = Pan3d.Scene_data.context3D.renderContext;
             this.program = $context.createProgram();
