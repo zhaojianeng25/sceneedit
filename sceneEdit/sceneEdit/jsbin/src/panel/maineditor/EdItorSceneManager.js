@@ -17,7 +17,6 @@ var maineditor;
     var TimeUtil = Pan3d.TimeUtil;
     var MathClass = Pan3d.MathClass;
     var FBO = Pan3d.FBO;
-    var Camera3D = Pan3d.Camera3D;
     var GlReset = Pan3d.GlReset;
     var SceneManager = layapan_me.LayaOverride2dSceneManager;
     var EdItorSceneManager = /** @class */ (function (_super) {
@@ -139,21 +138,5 @@ var maineditor;
         return EdItorSceneManager;
     }(SceneManager));
     maineditor.EdItorSceneManager = EdItorSceneManager;
-    var LaterSceneManager = /** @class */ (function (_super) {
-        __extends(LaterSceneManager, _super);
-        function LaterSceneManager() {
-            var _this = _super.call(this) || this;
-            _this.ready = true;
-            _this.cam3D = new Camera3D();
-            _this.cam3D.cavanRect = new Pan3d.Rectangle(0, 0, 256, 256);
-            return _this;
-            // this.addBasetLaterModel()
-        }
-        LaterSceneManager.prototype.addBasetLaterModel = function () {
-            this.addDisplay(new Pan3d.BaseDiplay3dSprite());
-        };
-        return LaterSceneManager;
-    }(EdItorSceneManager));
-    maineditor.LaterSceneManager = LaterSceneManager;
 })(maineditor || (maineditor = {}));
 //# sourceMappingURL=EdItorSceneManager.js.map

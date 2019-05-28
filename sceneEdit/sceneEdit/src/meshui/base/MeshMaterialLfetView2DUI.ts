@@ -49,7 +49,7 @@
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(1,0,1,1);\n" +
+                "gl_FragColor =vec4(1,0,0,1);\n" +
                 "}"
             return $str
 
@@ -227,16 +227,17 @@
                     break
             }
         }
-        private latersceneManager: maineditor. LaterSceneManager;//后期对象
+        private latersceneManager: maineditor.EdItorSceneManager;//后期对象
         protected initScene(): void {
             super.initScene()
-            this.latersceneManager = new maineditor.LaterSceneManager();
- 
+            this.latersceneManager = new maineditor.EdItorSceneManager();
+            this.latersceneManager.ready = true;
             this.latersceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256)
             this.latersceneManager.cam3D.distance = 200;
             this.latersceneManager.focus3D.rotationX = -45;
 
-            this.latersceneManager.addDisplay(new LaterDiplay3dSprite())
+            //this.latersceneManager.addDisplay(new LaterDiplay3dSprite())
+            this.latersceneManager.addDisplay(new Pan3d.BaseDiplay3dSprite())
 
         }
         private setZzwUrlToRole(zzwUrl: string): void {
@@ -320,6 +321,7 @@
             var temp: materialui.MaterialTree = this.target[this.FunKey];
             this.texturePicUi.url = "icon/base.jpg";
             this.setObjUrlToSprite(this.defFileUrl) //选给默认对象
+ 
             this.modelSprite.material = temp;
             this.refrishShowMaterialModel(temp)
 

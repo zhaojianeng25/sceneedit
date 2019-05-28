@@ -49,7 +49,7 @@ var prop;
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(1,0,1,1);\n" +
+                "gl_FragColor =vec4(1,0,0,1);\n" +
                 "}";
             return $str;
         };
@@ -197,11 +197,13 @@ var prop;
         };
         MeshMaterialLfetView2DUI.prototype.initScene = function () {
             _super.prototype.initScene.call(this);
-            this.latersceneManager = new maineditor.LaterSceneManager();
+            this.latersceneManager = new maineditor.EdItorSceneManager();
+            this.latersceneManager.ready = true;
             this.latersceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256);
             this.latersceneManager.cam3D.distance = 200;
             this.latersceneManager.focus3D.rotationX = -45;
-            this.latersceneManager.addDisplay(new LaterDiplay3dSprite());
+            //this.latersceneManager.addDisplay(new LaterDiplay3dSprite())
+            this.latersceneManager.addDisplay(new Pan3d.BaseDiplay3dSprite());
         };
         MeshMaterialLfetView2DUI.prototype.setZzwUrlToRole = function (zzwUrl) {
             var _this = this;

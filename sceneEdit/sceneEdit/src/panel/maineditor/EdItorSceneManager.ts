@@ -156,19 +156,7 @@
 
     }
 
-    export class LaterSceneManager extends EdItorSceneManager {
-        constructor() {
-            super();
-            this.ready = true;
-            this.cam3D = new Camera3D();
-            this.cam3D.cavanRect = new Pan3d. Rectangle(0, 0, 256, 256);
-           // this.addBasetLaterModel()
-        }
-        private addBasetLaterModel(): void {
-          
-            this.addDisplay(new Pan3d.BaseDiplay3dSprite())
-        }
-    }
+   
 
 
 }
