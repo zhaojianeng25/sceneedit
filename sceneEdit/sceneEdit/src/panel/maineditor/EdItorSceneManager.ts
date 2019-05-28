@@ -43,7 +43,8 @@
  
  
         }
-    
+
+        
 
         public renderToTexture($m: Matrix3D = null): void { //透视矩阵
             GlReset.saveBasePrarame(Scene_data.context3D.renderContext);
@@ -154,5 +155,20 @@
         }
 
     }
+
+    export class LaterSceneManager extends EdItorSceneManager {
+        constructor() {
+            super();
+            this.ready = true;
+            this.cam3D = new Camera3D();
+            this.cam3D.cavanRect = new Pan3d. Rectangle(0, 0, 256, 256);
+            this.addBasetLaterModel()
+        }
+        private addBasetLaterModel(): void {
+            this.addDisplay(new Pan3d.GridLineSprite())
+            this.addDisplay(new Pan3d.BaseDiplay3dSprite())
+        }
+    }
+
 
 }

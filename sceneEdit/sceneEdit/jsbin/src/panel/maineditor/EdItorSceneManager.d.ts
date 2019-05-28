@@ -12,4 +12,8 @@ declare module maineditor {
         getGroundPos($mouse: Vector2D): Vector3D;
         playLyf($url: string, $pos: Pan3d.Vector3D, $r?: number): void;
     }
+    class LaterSceneManager extends EdItorSceneManager {
+        constructor();
+        private addBasetLaterModel;
+    }
 }

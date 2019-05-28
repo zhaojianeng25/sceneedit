@@ -47,23 +47,6 @@ var maineditor;
                 "}";
             return $str;
         };
-        /*
-         
-precision mediump float;
-uniform sampler2D fs0;
-varying vec2 v0;
-varying highp vec3 vPos;
-uniform vec3 cam3DPos;
-void main(void){
-vec4 ft0 = texture2D(fs0,v0);
-vec4 ft1 = vec4(ft0.xyz,1.0);
-vec4 ft2 = vec4(0,0,0,1);
-ft2.xyz = ft1.xyz;
-ft2.w = 1.0;
-gl_FragColor = ft2;
-
-}
-         */
         UiModelViewShder.prototype.getFragmentShaderString = function () {
             var $str = "precision mediump float;\n" +
                 "uniform sampler2D fs0;\n" +

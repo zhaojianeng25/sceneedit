@@ -14,7 +14,43 @@ var __extends = (this && this.__extends) || (function () {
 var prop;
 (function (prop) {
     var Rectangle = Pan3d.Rectangle;
+    var Shader3D = Pan3d.Shader3D;
     var InteractiveEvent = Pan3d.InteractiveEvent;
+    var Later2DShader = /** @class */ (function (_super) {
+        __extends(Later2DShader, _super);
+        function Later2DShader() {
+            return _super.call(this) || this;
+        }
+        Later2DShader.prototype.binLocation = function ($context) {
+            $context.bindAttribLocation(this.program, 0, "v3Pos");
+            $context.bindAttribLocation(this.program, 1, "v2uv");
+        };
+        Later2DShader.prototype.getVertexShaderString = function () {
+            var $str = "attribute vec3 v3Pos;" +
+                "attribute vec2 v2uv;" +
+                "varying vec2 v_texCoord;" +
+                "void main(void)" +
+                "{" +
+                "v_texCoord = vec2(v2uv.x,v2uv.y);" +
+                "gl_Position =vec4(v3Pos.x,v3Pos.y,v3Pos.z,1.0);" +
+                "}";
+            return $str;
+        };
+        Later2DShader.prototype.getFragmentShaderString = function () {
+            var $str = " precision mediump float;\n" +
+                "uniform sampler2D s_texture;\n" +
+                "varying vec2 v_texCoord;\n" +
+                "void main(void)\n" +
+                "{\n" +
+                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
+                "gl_FragColor = infoUv;\n" +
+                "}";
+            return $str;
+        };
+        Later2DShader.Later2DShader = "Later2DShader";
+        return Later2DShader;
+    }(Shader3D));
+    prop.Later2DShader = Later2DShader;
     var MeshMaterialLfetView2DUI = /** @class */ (function (_super) {
         __extends(MeshMaterialLfetView2DUI, _super);
         function MeshMaterialLfetView2DUI(value) {
@@ -124,6 +160,10 @@ var prop;
                     break;
             }
         };
+        MeshMaterialLfetView2DUI.prototype.initScene = function () {
+            _super.prototype.initScene.call(this);
+            this.latersceneManager = new maineditor.LaterSceneManager();
+        };
         MeshMaterialLfetView2DUI.prototype.setZzwUrlToRole = function (zzwUrl) {
             var _this = this;
             if (!this.roleSprite) {
@@ -149,6 +189,7 @@ var prop;
             if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 this.sceneManager.renderToTexture();
+                this.latersceneManager.renderToTexture();
                 var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
                 $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;
                 var maxNum = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height);

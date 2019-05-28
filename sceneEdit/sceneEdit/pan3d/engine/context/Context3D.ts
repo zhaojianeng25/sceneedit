@@ -547,8 +547,8 @@
     export class FBO {
     
 
-        public width: number
-        public height: number
+        public width: number;
+        public height: number;
         public frameBuffer: WebGLFramebuffer;
         public depthBuffer: WebGLRenderbuffer;
         public texture: WebGLRenderbuffer;
@@ -566,6 +566,8 @@
                 this.makeSize(a, b)
             } 
         }
+
+    
         private makeSize(w: number, h: number): void {
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
             this.texture = gl.createTexture();
