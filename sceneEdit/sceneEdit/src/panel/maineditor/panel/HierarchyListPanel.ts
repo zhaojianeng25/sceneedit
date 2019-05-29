@@ -183,9 +183,10 @@
 
         }
 
-        public setPreFabUrl(url: string): void {
+        public setPreFabUrl(url: string, bfun?: Function): void {
             pack.PackPrefabManager.getInstance().getPrefabByUrl(url, (value: pack.PrefabStaticMesh) => {
                 this.prefab = value
+                bfun && bfun()
             })
         }
 

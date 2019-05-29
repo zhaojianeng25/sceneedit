@@ -175,7 +175,10 @@
             if (!this.modelKey[value]) {
                 if (value.indexOf(".prefab")!=-1) {
                     let prefabSprite: maineditor.ModelSprite = new maineditor.ModelSprite();
-                    prefabSprite.setPreFabUrl(value);
+                    prefabSprite.setPreFabUrl(value, () => {
+                        prefabSprite.scale = 10 / prefabSprite.prefab.objData.getMaxSize();
+
+                    });
                     this.sceneManager.addDisplay(prefabSprite);
                 }
                 if (value.indexOf(".zzw") != -1) {
@@ -203,6 +206,10 @@
                     tempPrefab.objsurl = value
                     tempPrefab.textureurl = "assets/base/base.material"
                     objsSprite.prefab = tempPrefab
+
+                    pack.PackObjDataManager.getInstance().getObjDataByUrl(tempPrefab.objsurl, (value: ObjData) => {
+                        objsSprite.scale = 10 / value.getMaxSize();
+                    })
                 }
                 this.modelKey[value] = true
             }

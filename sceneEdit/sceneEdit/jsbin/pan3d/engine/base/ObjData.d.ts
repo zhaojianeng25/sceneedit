@@ -12,6 +12,7 @@ declare module Pan3d {
         invertAry: Array<Matrix3D>;
         private _treNum;
         treNum: number;
+        getMaxSize(): number;
         vertexBuffer: WebGLBuffer;
         uvBuffer: WebGLBuffer;
         indexBuffer: WebGLBuffer;

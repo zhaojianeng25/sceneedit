@@ -40,6 +40,33 @@ var Pan3d;
             enumerable: true,
             configurable: true
         });
+        ObjData.prototype.getMaxSize = function () {
+            /*
+            var minV3d: Vector3D = new Vector3D;
+            var maxV3d: Vector3D = new Vector3D;
+            for (var i: number = 0; i < this.vertices.length/3; i++) {
+                var P: Vector3D = new Vector3D(this.vertices[i * 3 + 0], this.vertices[i * 3 + 1], this.vertices[i * 3 + 2])
+                if (!minV3d) {  maxV3d = P.clone()  }
+                if (!maxV3d) {   maxV3d = P.clone()  }
+          
+                minV3d.x = Math.min(minV3d.x, P.x)
+                minV3d.y = Math.min(minV3d.y, P.y)
+                minV3d.z = Math.min(minV3d.z, P.z)
+
+                maxV3d.x = Math.max(maxV3d.x, P.x)
+                maxV3d.y = Math.max(maxV3d.y, P.y)
+                maxV3d.z = Math.max(maxV3d.z, P.z)
+ 
+            }
+            var size: number = Math.max(Math.abs(minV3d.x), Math.abs(minV3d.y), Math.abs(minV3d.z), Math.abs(maxV3d.x), Math.abs(maxV3d.y), Math.abs(maxV3d.z));
+            */
+            var pv = 0;
+            for (var i = 0; i < this.vertices.length; i++) {
+                pv = (pv + Math.abs(this.vertices[i])) / 2;
+            }
+            console.log("模型size", pv);
+            return pv;
+        };
         ObjData.prototype.destory = function () {
             this.vertices.length = 0;
             this.vertices = null;

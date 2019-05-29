@@ -18,22 +18,16 @@
 
         public outTexture: WebGLTexture
         public setMaterialTexture($material: Material, $mp: MaterialBaseParam = null): void {
-
             super.setMaterialTexture($material, $mp);
             var texVec: Array<TexItem> = $material.texList;
             for (var i: number = 0; this.outTexture&& i < texVec.length; i++) {
                 if (texVec[i].texture && texVec[i].isDynamic) {
                     if (texVec[i].type != TexItem.CUBEMAP) {
-
-                        console.log("换上图")
                         Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, this.outTexture, texVec[i].id);
-
-                        
                     }
                 }  
             }
-
-        
+ 
         }
       
         public maketRectMaterial(temp: materialui.MaterialTree): void {
@@ -306,13 +300,13 @@
                 console.log("更新模型", objurl)
                 if (!this.modelSprite.objData || this.lastObjUrl == objurl) {
                     this.modelSprite.objData = value;
+                    this.modelSprite.scale =10/ this.modelSprite.objData.getMaxSize();
+ 
                 }
                 this.modelSprite.sceneVisible = true
                 if (this.roleSprite) {
                     this.roleSprite.sceneVisible = false
                 }
-
-
             })
         }
         private modelSprite: left.MaterialModelSprite;

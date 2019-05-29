@@ -150,9 +150,11 @@ var prop;
         MeshSceneView2DUI.prototype.addUrlToView = function (value) {
             if (!this.modelKey[value]) {
                 if (value.indexOf(".prefab") != -1) {
-                    var prefabSprite = new maineditor.ModelSprite();
-                    prefabSprite.setPreFabUrl(value);
-                    this.sceneManager.addDisplay(prefabSprite);
+                    var prefabSprite_1 = new maineditor.ModelSprite();
+                    prefabSprite_1.setPreFabUrl(value, function () {
+                        prefabSprite_1.scale = 10 / prefabSprite_1.prefab.objData.getMaxSize();
+                    });
+                    this.sceneManager.addDisplay(prefabSprite_1);
                 }
                 if (value.indexOf(".zzw") != -1) {
                     var roleSprite = new left.MaterialRoleSprite();
@@ -170,13 +172,16 @@ var prop;
                     this.sceneManager.addDisplay(lyfSprite);
                 }
                 if (value.indexOf(".objs") != -1) {
-                    var objsSprite = new maineditor.ModelSprite();
-                    this.sceneManager.addDisplay(objsSprite);
+                    var objsSprite_1 = new maineditor.ModelSprite();
+                    this.sceneManager.addDisplay(objsSprite_1);
                     var tempPrefab = new pack.PrefabStaticMesh();
                     tempPrefab.url = value;
                     tempPrefab.objsurl = value;
                     tempPrefab.textureurl = "assets/base/base.material";
-                    objsSprite.prefab = tempPrefab;
+                    objsSprite_1.prefab = tempPrefab;
+                    pack.PackObjDataManager.getInstance().getObjDataByUrl(tempPrefab.objsurl, function (value) {
+                        objsSprite_1.scale = 10 / value.getMaxSize();
+                    });
                 }
                 this.modelKey[value] = true;
             }

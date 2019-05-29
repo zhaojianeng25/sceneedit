@@ -140,10 +140,11 @@ var maineditor;
                 }
             }
         };
-        ModelSprite.prototype.setPreFabUrl = function (url) {
+        ModelSprite.prototype.setPreFabUrl = function (url, bfun) {
             var _this = this;
             pack.PackPrefabManager.getInstance().getPrefabByUrl(url, function (value) {
                 _this.prefab = value;
+                bfun && bfun();
             });
         };
         return ModelSprite;

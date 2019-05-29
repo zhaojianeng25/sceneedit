@@ -29,7 +29,6 @@ var prop;
             for (var i = 0; this.outTexture && i < texVec.length; i++) {
                 if (texVec[i].texture && texVec[i].isDynamic) {
                     if (texVec[i].type != TexItem.CUBEMAP) {
-                        console.log("换上图");
                         Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, this.outTexture, texVec[i].id);
                     }
                 }
@@ -254,6 +253,7 @@ var prop;
                 console.log("更新模型", objurl);
                 if (!_this.modelSprite.objData || _this.lastObjUrl == objurl) {
                     _this.modelSprite.objData = value;
+                    _this.modelSprite.scale = 10 / _this.modelSprite.objData.getMaxSize();
                 }
                 _this.modelSprite.sceneVisible = true;
                 if (_this.roleSprite) {

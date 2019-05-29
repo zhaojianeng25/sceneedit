@@ -22,7 +22,7 @@ declare module maineditor {
         private _prefab;
         prefab: PrefabStaticMesh;
         private meshParamInfo;
-        setPreFabUrl(url: string): void;
+        setPreFabUrl(url: string, bfun?: Function): void;
     }
     class OssListFile extends HierarchyFileNode {
     }
