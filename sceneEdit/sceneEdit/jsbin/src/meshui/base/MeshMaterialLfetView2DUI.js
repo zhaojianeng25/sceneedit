@@ -229,6 +229,7 @@ var prop;
                     this.ktvSprite.outTexture = this.sceneManager.fbo.texture;
                     this.latersceneManager.renderToTexture();
                     $uiRender.uiAtlas.textureRes.texture = this.latersceneManager.fbo.texture;
+                    this.latersceneManager.cam3D.cavanRect = this.sceneManager.cam3D.cavanRect.clone();
                 }
                 var maxNum = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height);
                 this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum);
