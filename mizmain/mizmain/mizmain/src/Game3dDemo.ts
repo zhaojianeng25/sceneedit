@@ -27,7 +27,7 @@ module base {
  
             this.addLyfSprite();
         }
-        private addLyfSprite(): void {
+        protected addLyfSprite(): void {
             let lyfSprite = new LyfSpriteDisplay();
            lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
            lyfSprite.y = 25;

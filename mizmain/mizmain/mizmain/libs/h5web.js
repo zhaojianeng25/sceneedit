@@ -481,6 +481,33 @@ var Pan3d;
             enumerable: true,
             configurable: true
         });
+        ObjData.prototype.getMaxSize = function () {
+            /*
+            var minV3d: Vector3D = new Vector3D;
+            var maxV3d: Vector3D = new Vector3D;
+            for (var i: number = 0; i < this.vertices.length/3; i++) {
+                var P: Vector3D = new Vector3D(this.vertices[i * 3 + 0], this.vertices[i * 3 + 1], this.vertices[i * 3 + 2])
+                if (!minV3d) {  maxV3d = P.clone()  }
+                if (!maxV3d) {   maxV3d = P.clone()  }
+          
+                minV3d.x = Math.min(minV3d.x, P.x)
+                minV3d.y = Math.min(minV3d.y, P.y)
+                minV3d.z = Math.min(minV3d.z, P.z)
+
+                maxV3d.x = Math.max(maxV3d.x, P.x)
+                maxV3d.y = Math.max(maxV3d.y, P.y)
+                maxV3d.z = Math.max(maxV3d.z, P.z)
+ 
+            }
+            var size: number = Math.max(Math.abs(minV3d.x), Math.abs(minV3d.y), Math.abs(minV3d.z), Math.abs(maxV3d.x), Math.abs(maxV3d.y), Math.abs(maxV3d.z));
+            */
+            var pv = 0;
+            for (var i = 0; i < this.vertices.length; i++) {
+                pv = (pv + Math.abs(this.vertices[i])) / 2;
+            }
+            console.log("模型size", pv);
+            return pv;
+        };
         ObjData.prototype.destory = function () {
             this.vertices.length = 0;
             this.vertices = null;
@@ -832,6 +859,7 @@ var Pan3d;
             this.GlfrontFace = gl.getParameter(gl.FRONT_FACE);
             this.GlDepthTest = gl.getParameter(gl.DEPTH_TEST);
             this.GlCullFace = gl.getParameter(gl.CULL_FACE);
+            this.GlStencilTest = gl.getParameter(gl.STENCIL_TEST);
         };
         GlReset.resetBasePrarame = function (gl) {
             gl.useProgram(this.Glprogram); //着色器
@@ -844,6 +872,7 @@ var Pan3d;
             gl.frontFace(this.GlfrontFace); //正反面
             this.GlCullFace ? gl.enable(gl.CULL_FACE) : gl.disable(gl.CULL_FACE);
             this.GlDepthTest ? gl.enable(gl.DEPTH_TEST) : gl.disable(gl.DEPTH_TEST);
+            this.GlStencilTest ? gl.enable(gl.STENCIL_TEST) : gl.disable(gl.STENCIL_TEST);
         };
         return GlReset;
     }());
@@ -1422,6 +1451,7 @@ var Pan3d;
     Pan3d.Scene_data = Scene_data;
 })(Pan3d || (Pan3d = {}));
 //# sourceMappingURL=Scene_data.js.map
+//# sourceMappingURL=IBind.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6377,8 +6407,13 @@ var Pan3d;
             enumerable: true,
             configurable: true
         });
-        Shader3D.prototype.encode = function () {
-            this.vertex = this.getVertexShaderString();
+        Shader3D.prototype.encode = function (v, f) {
+            if (v) {
+                this.vertex = v;
+            }
+            else {
+                this.vertex = this.getVertexShaderString();
+            }
             ////console.log(this.vertex);
             var $context = Pan3d.Scene_data.context3D.renderContext;
             this.program = $context.createProgram();
@@ -13157,7 +13192,12 @@ var Pan3d;
         UIAtlas.prototype.setInfo = function (configUrl, imgUrl, $fun, useImgUrl) {
             var _this = this;
             if (useImgUrl === void 0) { useImgUrl = null; }
-            this._useImgUrl = useImgUrl;
+            if (useImgUrl) {
+                this._useImgUrl = useImgUrl;
+            }
+            else {
+                this._useImgUrl = imgUrl;
+            }
             Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileuiRoot + configUrl, Pan3d.LoadManager.XML_TYPE, function ($str) {
                 var obj = JSON.parse($str);
                 _this.configData = obj.uiArr;
@@ -13192,7 +13232,7 @@ var Pan3d;
             this.useImg.onload = function () {
                 $fun();
             };
-            this.useImg.src = Pan3d.Scene_data.fileRoot + this._useImgUrl;
+            this.useImg.src = Pan3d.Scene_data.fileuiRoot + this._useImgUrl;
         };
         UIAtlas.prototype.getRec = function ($name) {
             var rec = new Pan3d.UIRectangle;
@@ -14554,7 +14594,7 @@ var Pan3d;
         //设计宽高
         UIData.designWidth = 960;
         UIData.designHeight = 540;
-        UIData.font = "Helvetica"; //Georgia
+        UIData.font = "Helvetica"; //Georgia//Helvetica
         UIData._skipnum = 0;
         UIData.textlist = "textlist";
         UIData.publicUi = "publicUi";
@@ -15188,7 +15228,14 @@ var Pan3d;
                 }
             }
             if (this.mask) {
-                var renderContext = Pan3d.Scene_data.context3D.renderContext;
+                var gl = Pan3d.Scene_data.context3D.renderContext;
+                gl.enable(gl.STENCIL_TEST);
+                gl.stencilFunc(gl.NEVER, this.mask.level, 0xFF);
+                gl.stencilOp(gl.REPLACE, gl.REPLACE, gl.REPLACE);
+                this.mask.update();
+                gl.stencilFunc(gl.LESS, this.mask.level - 1, 0xFF);
+                /*
+                var renderContext: WebGLRenderingContext = Scene_data.context3D.renderContext;
                 renderContext.enable(renderContext.STENCIL_TEST);
                 renderContext.stencilMask(0xFF);
                 renderContext.stencilFunc(renderContext.NEVER, this.mask.level, 0xFF);
@@ -15196,6 +15243,7 @@ var Pan3d;
                 this.mask.update();
                 renderContext.stencilFunc(renderContext.LESS, this.mask.level - 1, 0xFF);
                 renderContext.stencilOp(renderContext.KEEP, renderContext.KEEP, renderContext.KEEP);
+                */
             }
             Pan3d.Scene_data.context3D.setBlendParticleFactors(this.blenderMode);
             ////console.log(this.shader.name);
@@ -17663,7 +17711,7 @@ var Pan3d;
             var $uiAtlas = this._baseRender.uiAtlas;
             $uiAtlas.configData = new Array();
             $uiAtlas.ctx = Pan3d.UIManager.getInstance().getContext2D(this._textureRect.width, this._textureRect.height, false);
-            $uiAtlas.textureRes = Pan3d.TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx);
+            $uiAtlas.textureRes = Pan3d.TextureManager.getInstance().getCanvasTexture($uiAtlas.ctx, 0, 1, 0);
             this.makeBaseUi($classVo);
             ;
         };
@@ -19171,9 +19219,12 @@ var Pan3d;
             textres.useNum++;
             this._dic[$url] = textres;
         };
-        TextureManager.prototype.getCanvasTexture = function (ctx) {
+        TextureManager.prototype.getCanvasTexture = function (ctx, $wrap, $filter, $mipmap) {
+            if ($wrap === void 0) { $wrap = 0; }
+            if ($filter === void 0) { $filter = 0; }
+            if ($mipmap === void 0) { $mipmap = 0; }
             var tres = new Pan3d.TextureRes;
-            var texture = Pan3d.Scene_data.context3D.getTexture(ctx.canvas, 0, 0);
+            var texture = Pan3d.Scene_data.context3D.getTexture(ctx.canvas, $wrap, $filter, $mipmap);
             tres.texture = texture;
             return tres;
         };
@@ -25933,6 +25984,26 @@ var Pan3d;
         /*
         *写入单行颜色字体，字号,对齐，基础颜色 并上传显卡
         */
+        LabelTextFont.writeSingleLabelCopy = function ($uiAtlas, $key, $str, fontsize, $align, $baseColor, $filterColor, $ty, $filterWidth, $bolder) {
+            if (fontsize === void 0) { fontsize = 12; }
+            if ($align === void 0) { $align = Pan3d.TextAlign.CENTER; }
+            if ($baseColor === void 0) { $baseColor = "#ffffff"; }
+            if ($filterColor === void 0) { $filterColor = ""; }
+            if ($ty === void 0) { $ty = 0; }
+            if ($filterWidth === void 0) { $filterWidth = 4; }
+            if ($bolder === void 0) { $bolder = true; }
+            if ($baseColor.indexOf("[") != -1) { //[00ff00]
+                $baseColor = "#" + $baseColor.substr(1, 6);
+            }
+            var $uiRect = $uiAtlas.getRec($key);
+            var ctx = Pan3d.UIManager.getInstance().getContext2D($uiRect.pixelWitdh, $uiRect.pixelHeight, false);
+            ctx.font = fontsize + "px Georgia";
+            ctx.fillStyle = $baseColor;
+            ctx.lineWidth = 0;
+            ctx.fillText($str, 0, 2);
+            $uiAtlas.updateCtx(ctx, $uiRect.pixelX, $uiRect.pixelY);
+            return 0;
+        };
         LabelTextFont.writeSingleLabel = function ($uiAtlas, $key, $str, fontsize, $align, $baseColor, $filterColor, $ty, $filterWidth, $bolder) {
             if (fontsize === void 0) { fontsize = 12; }
             if ($align === void 0) { $align = Pan3d.TextAlign.CENTER; }
@@ -37645,16 +37716,9 @@ var pack;
             $materialTree.fcData = this.makeFc($materialTree.constList, ($temp.info.fcData).split(","));
             $materialTree.fcNum = Math.round($materialTree.fcData.length / 4);
             $materialTree.modelShader = $buildShader;
-            /*
-            console.log("----------vertex------------");
-            console.log($buildShader.vertex);
-            console.log("----------fragment------------");
-            console.log($buildShader.fragment);
-            console.log("----------buildShader------------");
-            */
-            //    console.log("材质加载完成", $url)
             $materialTree.url = $url;
             this.makeRoleShader($materialTree, $temp);
+            $materialTree.laterTextureurl = $temp.info.laterTextureurl;
             return $materialTree;
         };
         PackMaterialManager.prototype.getMaterialByUrl = function ($url, bfun) {
@@ -44648,10 +44712,8 @@ var editscene;
 (function (editscene) {
     var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
-    var TextAlign = Pan3d.TextAlign;
     var ModuleEventManager = Pan3d.ModuleEventManager;
     var UIManager = Pan3d.UIManager;
-    var LabelTextFont = Pan3d.LabelTextFont;
     var Disp2DBaseText = Pan3d.Disp2DBaseText;
     var TextureManager = Pan3d.TextureManager;
     var Rectangle = Pan3d.Rectangle;
@@ -44684,28 +44746,39 @@ var editscene;
                 var $menuListData = this.rightTabInfoVo;
                 var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
                 this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
-                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                var colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
+                this.parent.uiAtlas.ctx.clearRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
                 var colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                var tx;
                 switch ($menuListData.level) {
                     case 0:
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
-                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        if ($menuListData.select) {
+                            this.drawToUiAtlasToCtx(this.parent.uiAtlas.ctx, LabelTxtVo.shareUiAtlas, MenuListData.showSon ? "S_menu_down_bg" : "S_menu_bg", new Rectangle(0, 0, $uiRec.pixelWitdh + 1, $uiRec.pixelHeight + 1));
+                        }
+                        colorFont = $menuListData.select ? "#ffffff" : "#ffffff";
+                        tx = 40;
                         break;
                     case 1:
-                        colorBg = $menuListData.select ? "#353535" : "#535353";
-                        colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
+                        colorFont = $menuListData.select ? "#ffffff" : "#000000";
+                        var colorBg = $menuListData.select ? "#000000" : "#ffffff";
+                        this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
+                        this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                        tx = 10;
                         break;
                     default:
-                        colorBg = $menuListData.select ? "#6c6c6c" : "#535353";
                         colorFont = $menuListData.select ? "[ffffff]" : "[9c9c9c]";
                         break;
                 }
-                this.parent.uiAtlas.ctx.fillStyle = colorBg; // text color
-                this.parent.uiAtlas.ctx.fillRect(0, 0, $uiRec.pixelWitdh, $uiRec.pixelHeight);
-                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, colorFont + $menuListData.label, 24, 0, 10, TextAlign.CENTER);
+                var ctx = this.parent.uiAtlas.ctx;
+                ctx.font = "24px Helvetica";
+                ctx.fillStyle = colorFont;
+                ctx.lineWidth = 0;
+                ctx.fillText($menuListData.label, tx, 15);
                 TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
             }
+        };
+        LabelTxtVo.prototype.drawToUiAtlasToCtx = function ($ctx, $fromuiAtlas, $shareName, $posRect) {
+            var imgUseRect = $fromuiAtlas.getRec($shareName);
+            $ctx.drawImage($fromuiAtlas.useImg, imgUseRect.pixelX, imgUseRect.pixelY, imgUseRect.pixelWitdh, imgUseRect.pixelHeight, $posRect.x, $posRect.y, $posRect.width, $posRect.height);
         };
         return LabelTxtVo;
     }(Disp2DBaseText));
@@ -44714,6 +44787,7 @@ var editscene;
         __extends(EditTopMenuPanel, _super);
         function EditTopMenuPanel() {
             var _this = _super.call(this, LabelTxtVo, new Rectangle(0, 0, 140, 48), 50) || this;
+            _this.meneType = 0;
             _this._bottomRender = new UIRenderComponent();
             _this._bottomRender.uiAtlas = new UIAtlas();
             _this._bottomRender.uiAtlas.setInfo("ui/window/window.txt", "ui/window/window.png", function () { _this.loadConfigCom(); });
@@ -44728,8 +44802,17 @@ var editscene;
             return this._instance;
         };
         EditTopMenuPanel.prototype.loadConfigCom = function () {
+            LabelTxtVo.shareUiAtlas = this._bottomRender.uiAtlas;
             this.winBg = this.addChild(this._bottomRender.getComponent("e_topmenu_bg"));
             this.uiLoadComplete = true;
+            if (this.uiLoadComplete) {
+                if (this.meneType == 0) {
+                    this.makeSceneTopMenu();
+                }
+                if (this.meneType == 1) {
+                    this.makeTextureTopMenu();
+                }
+            }
             this.resize();
         };
         EditTopMenuPanel.prototype.resize = function () {
@@ -44778,29 +44861,35 @@ var editscene;
         };
         EditTopMenuPanel.prototype.makeSceneTopMenu = function () {
             var _this = this;
-            var temp = {};
-            var menuA = new Array();
-            menuA.push(this.getMenu0());
-            menuA.push(this.getMenu1());
-            menuA.push(this.getMenu2());
-            menuA.push(new MenuListData("系统", "3"));
-            temp.menuXmlItem = menuA;
-            this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
-            this.initMenuData(temp);
-            this.showMainUi();
+            this.meneType = 0;
+            if (this.uiLoadComplete) {
+                var temp = {};
+                var menuA = new Array();
+                menuA.push(this.getMenu0());
+                menuA.push(this.getMenu1());
+                menuA.push(this.getMenu2());
+                menuA.push(new MenuListData("系统", "3"));
+                temp.menuXmlItem = menuA;
+                this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
+                this.initMenuData(temp);
+                this.showMainUi();
+            }
         };
         EditTopMenuPanel.prototype.makeTextureTopMenu = function () {
             var _this = this;
-            var temp = {};
-            var menuB = new Array();
-            menuB.push(new MenuListData("保存材质", "1001"));
-            menuB.push(new MenuListData("编译材质", "1002"));
-            menuB.push(new MenuListData("关闭材质窗口", "1003"));
-            menuB.push(new MenuListData("返回场景", "1004"));
-            temp.menuXmlItem = menuB;
-            this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
-            this.initMenuData(temp);
-            this.showMainUi();
+            this.meneType = 1;
+            if (this.uiLoadComplete) {
+                var temp = {};
+                var menuB = new Array();
+                menuB.push(new MenuListData("保存材质", "1001"));
+                menuB.push(new MenuListData("编译材质", "1002"));
+                menuB.push(new MenuListData("关闭材质窗口", "1003"));
+                menuB.push(new MenuListData("返回场景", "1004"));
+                temp.menuXmlItem = menuB;
+                this.bfun = function (value, evt) { _this.menuBfun(value, evt); };
+                this.initMenuData(temp);
+                this.showMainUi();
+            }
         };
         EditTopMenuPanel.prototype.menuBfun = function (value, evt) {
             var _this = this;
@@ -44911,17 +45000,33 @@ var editscene;
             this.showSon(this.menuXmlItem, 20, 0);
         };
         EditTopMenuPanel.prototype.onStageMouseUp = function ($evt) {
-            this.removeOtherSonMenu(0);
+            var needOut = true;
+            for (var i = 0; i < this._uiItem.length; i++) {
+                var menuListData = this._uiItem[i].rightTabInfoVo;
+                if (menuListData && this._uiItem[i].ui.testPoint($evt.x, $evt.y)) {
+                    needOut = false;
+                }
+            }
+            if (needOut) {
+                for (var i = 0; i < this._uiItem.length; i++) {
+                    var menuListData = this._uiItem[i].rightTabInfoVo;
+                    if (menuListData && menuListData.select) {
+                        menuListData.select = false;
+                        this._uiItem[i].makeData();
+                    }
+                }
+                this.removeOtherSonMenu(0);
+            }
         };
         EditTopMenuPanel.prototype.showTempMenu = function ($data, i, tx, ty) {
             var temp = _super.prototype.showTemp.call(this, $data);
             if ($data.level == 0) {
-                temp.ui.x = i * 80;
-                temp.ui.y = 3;
+                temp.ui.x = i * 70 + 5;
+                temp.ui.y = 1;
             }
             else {
-                temp.ui.x = tx;
-                temp.ui.y = i * 20 + ty + 0;
+                temp.ui.x = tx + 4;
+                temp.ui.y = i * 20 + ty - 4;
             }
             temp.ui.addEventListener(InteractiveEvent.Move, this.butMove, this);
             temp.ui.addEventListener(InteractiveEvent.Down, this.onMouseUp, this);
@@ -44944,9 +45049,11 @@ var editscene;
             }
         };
         EditTopMenuPanel.prototype.removeOtherSonMenu = function (level) {
+            console.log("removeOtherSonMenu");
             for (var i = this._uiItem.length - 1; i >= 0; i--) {
                 var $menuListData = this._uiItem[i].rightTabInfoVo;
                 if ($menuListData && $menuListData.level > level) {
+                    $menuListData.select = false;
                     this.clearTemp($menuListData);
                 }
             }
@@ -44956,17 +45063,26 @@ var editscene;
             if (temp && temp.rightTabInfoVo) {
                 var menuListData = temp.rightTabInfoVo;
                 this.setColorByLevel(menuListData.level);
-                this.removeOtherSonMenu(menuListData.level);
                 menuListData.select = true;
                 temp.makeData();
-                this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height);
+                if (MenuListData.showSon) {
+                    this.removeOtherSonMenu(menuListData.level);
+                    this.showSon(menuListData.subMenu, temp.ui.x, temp.ui.y + temp.ui.height);
+                }
             }
         };
         EditTopMenuPanel.prototype.onMouseUp = function (evt) {
             var temp = this.getVoByUi(evt.target);
             if (temp && temp.rightTabInfoVo) {
                 this.bfun(temp.rightTabInfoVo, evt);
-                this.removeOtherSonMenu(0);
+                if (MenuListData.showSon) {
+                    this.removeOtherSonMenu(0);
+                    MenuListData.showSon = false;
+                }
+                else {
+                    MenuListData.showSon = true;
+                    this.butMove(evt);
+                }
             }
         };
         EditTopMenuPanel.prototype.showSon = function (subMenu, tx, ty) {
@@ -45027,15 +45143,15 @@ var editscene;
             this.leftLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
             this.rightLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
             this.bottomLineMin = this._baseTopRender.getComponent("b_line_pixe_point");
-            this.closeLeftBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
-            this.closeRightBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
-            this.closeBottomBut = this.addEvntButUp("a_scroll_bar", this._baseTopRender);
-            this.closeLeftBut.width = 10;
-            this.closeLeftBut.height = 60;
-            this.closeRightBut.width = 10;
-            this.closeRightBut.height = 60;
-            this.closeBottomBut.width = 60;
-            this.closeBottomBut.height = 10;
+            this.closeLeftBut = this.addEvntButUp("e_left_close_but", this._baseTopRender);
+            this.closeRightBut = this.addEvntButUp("e_right_close_but", this._baseTopRender);
+            this.closeBottomBut = this.addEvntButUp("e_bottom_close_but", this._baseTopRender);
+            //this.closeLeftBut.width = 10
+            //this.closeLeftBut.height = 60
+            //this.closeRightBut.width = 10
+            //this.closeRightBut.height = 60
+            //this.closeBottomBut.width = 60
+            //this.closeBottomBut.height = 10
             this.setUiListVisibleByItem([this.leftLineMin], true);
             this.setUiListVisibleByItem([this.rightLineMin], true);
             this.setUiListVisibleByItem([this.bottomLineMin], true);
@@ -45128,19 +45244,19 @@ var editscene;
                 this.leftLine.y = 0;
                 this.leftLine.width = 10;
                 this.leftLine.height = Scene_data.stageHeight - bottomNum;
-                this.closeLeftBut.x = this.leftLine.x + 5;
-                this.closeLeftBut.y = this.leftLine.height / 2 - this.closeLeftBut.height;
-                this.rightLine.x = Scene_data.stageWidth - rightNum - 5;
+                this.closeLeftBut.x = this.leftLine.x + 4;
+                this.closeLeftBut.y = this.leftLine.height / 2 - this.closeLeftBut.height / 2;
+                this.rightLine.x = Scene_data.stageWidth - rightNum - 6;
                 this.rightLine.y = 0;
                 this.rightLine.width = 10;
                 this.rightLine.height = Scene_data.stageHeight;
-                this.closeRightBut.x = this.rightLine.x - 5;
+                this.closeRightBut.x = this.rightLine.x - 6;
                 this.closeRightBut.y = this.closeLeftBut.y;
                 this.bottomLine.x = 0;
                 this.bottomLine.y = Scene_data.stageHeight - bottomNum - 5;
                 this.bottomLine.width = Scene_data.stageWidth - rightNum;
                 this.bottomLine.height = 10;
-                this.closeBottomBut.x = leftNum + (this.bottomLine.width - leftNum) / 2 - this.closeBottomBut.width;
+                this.closeBottomBut.x = leftNum + (this.bottomLine.width - leftNum) / 2 - this.closeBottomBut.width / 2;
                 this.closeBottomBut.y = this.bottomLine.y - 5;
                 this.leftLineMin.x = this.leftLine.x + 5;
                 this.leftLineMin.y = this.leftLine.y;
@@ -45307,6 +45423,271 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var editscene;
 (function (editscene) {
+    var Rectangle = Pan3d.Rectangle;
+    var TextureManager = Pan3d.TextureManager;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TextAlign = Pan3d.TextAlign;
+    var UIManager = Pan3d.UIManager;
+    var LabelTextFont = Pan3d.LabelTextFont;
+    var Disp2DBaseText = Pan3d.Disp2DBaseText;
+    var UIData = Pan3d.UIData;
+    var Panel = win.Panel;
+    var RightTabInfoVo = /** @class */ (function () {
+        function RightTabInfoVo() {
+        }
+        return RightTabInfoVo;
+    }());
+    editscene.RightTabInfoVo = RightTabInfoVo;
+    var RightTabText = /** @class */ (function (_super) {
+        __extends(RightTabText, _super);
+        function RightTabText() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(RightTabText.prototype, "select", {
+            get: function () {
+                return this._select;
+            },
+            set: function (value) {
+                this._select = value;
+                this.makeData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        RightTabText.prototype.makeData = function () {
+            if (this.rightTabInfoVo) {
+                var $uiRec = this.parent.uiAtlas.getRec(this.textureStr);
+                this.parent.uiAtlas.ctx = UIManager.getInstance().getContext2D($uiRec.pixelWitdh, $uiRec.pixelHeight, false);
+                this.parent.uiAtlas.ctx.clearRect(0, 1, $uiRec.pixelWitdh, $uiRec.pixelHeight);
+                var nameStr = this.rightTabInfoVo.label;
+                if (this._select) {
+                    nameStr = "[ffffff]" + nameStr;
+                }
+                else {
+                    nameStr = "[9c9c9c]" + nameStr;
+                }
+                LabelTextFont.writeSingleLabelToCtx(this.parent.uiAtlas.ctx, nameStr, 24, 1, 1, TextAlign.LEFT);
+                TextureManager.getInstance().updateTexture(this.parent.uiAtlas.texture, $uiRec.pixelX, $uiRec.pixelY, this.parent.uiAtlas.ctx);
+            }
+        };
+        return RightTabText;
+    }(Disp2DBaseText));
+    editscene.RightTabText = RightTabText;
+    var RightOpenList = /** @class */ (function () {
+        function RightOpenList(value, render) {
+            this.perent = value;
+            this.topRender = render;
+            this.tabItemArr = [];
+            //this.pushPathUrl("角色/新场景.scene")
+            //this.pushPathUrl("完美的开始.map")
+        }
+        RightOpenList.prototype.tabBgClik = function (evt) {
+            var tabVo = evt.target.data;
+            var ui = evt.target;
+            if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
+                this.selectRightTabInfoVo = tabVo.rightTabInfoVo;
+                var tempMeshView = tabVo.rightTabInfoVo.view;
+                tempMeshView.replayUiList();
+                prop.PropModel.getInstance().showOtherMeshView(tabVo.rightTabInfoVo.view);
+            }
+            else {
+                this.removePathUrl(tabVo.rightTabInfoVo);
+            }
+            this.refrishTabUiSelect();
+        };
+        RightOpenList.prototype.removePathUrl = function (value) {
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                if (this.tabItemArr[i].rightTabInfoVo == value) {
+                    var tabVo = this.tabItemArr[i];
+                    this.perent.removeChild(tabVo.bgUi);
+                    tabVo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                    this.perent.clearTemp(tabVo.rightTabInfoVo);
+                    this.tabItemArr.splice(i, 1);
+                }
+            }
+        };
+        RightOpenList.prototype.changeVoBg = function (vo, value) {
+            var skinName = "e_edit_select_bg_1";
+            if (value) {
+                skinName = "e_edit_select_bg_2";
+            }
+            else {
+                skinName = "e_edit_select_bg_1";
+            }
+            var tempui = this.perent.addChild(this.topRender.getComponent(skinName));
+            if (vo.bgUi) {
+                tempui.x = vo.bgUi.x;
+                tempui.y = vo.bgUi.y;
+                tempui.width = vo.bgUi.width;
+                tempui.height = vo.bgUi.height;
+                vo.bgUi.removeEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+                this.perent.removeChild(vo.bgUi);
+            }
+            vo.bgUi = tempui; //换上最新的
+            vo.bgUi.addEventListener(InteractiveEvent.Down, this.tabBgClik, this);
+            vo.bgUi.data = vo;
+            vo.select = value;
+        };
+        RightOpenList.prototype.refrishTabUiSelect = function () {
+            var tx = 2;
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                var tabVo = this.tabItemArr[i];
+                if (this.tabItemArr[i].rightTabInfoVo == this.selectRightTabInfoVo) {
+                    this.tabItemArr[i].select = true;
+                    this.changeVoBg(this.tabItemArr[i], true);
+                }
+                else {
+                    this.tabItemArr[i].select = false;
+                    this.changeVoBg(this.tabItemArr[i], false);
+                }
+                tabVo.bgUi.x = tx - 1;
+                tabVo.bgUi.y = 13;
+                tabVo.bgUi.width = Math.floor(tabVo.textMetrics.width) + 0 + 25;
+                tabVo.bgUi.height = 22;
+                tabVo.bgUi.data = tabVo;
+                tx += tabVo.bgUi.width;
+                tabVo.ui.x = tabVo.bgUi.x + 10;
+                tabVo.ui.y = tabVo.bgUi.y + 5;
+                tabVo.ui.width = 256;
+                tabVo.ui.height = 20;
+            }
+            this.topRender.applyObjData();
+        };
+        RightOpenList.prototype.testIsNeedAdd = function (value) {
+            for (var i = 0; i < this.tabItemArr.length; i++) {
+                var tempMeshView = this.tabItemArr[i].rightTabInfoVo.view;
+                console.log("--");
+                if (tempMeshView.data == value.view.data || ((tempMeshView.type == value.view.type) && value.view.type)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        RightOpenList.prototype.pushPathUrl = function (value) {
+            var needAdd = this.testIsNeedAdd(value);
+            //for (var i: number = 0; i < this.tabItemArr.length; i++) {
+            //    if (this.tabItemArr[i].rightTabInfoVo.view.data == value.view.data) {
+            //        needAdd = false;
+            //        this.selectRightTabInfoVo = this.tabItemArr[i].rightTabInfoVo;
+            //    }
+            //}
+            if (needAdd) {
+                var $ctx = UIManager.getInstance().getContext2D(100, 100, false);
+                $ctx.font = "13px " + UIData.font;
+                var tabVo = this.perent.showTemp(value.label);
+                tabVo.rightTabInfoVo = value;
+                this.selectRightTabInfoVo = tabVo.rightTabInfoVo;
+                tabVo.textMetrics = new Rectangle(0, 0, 40, 20);
+                this.changeVoBg(tabVo, false);
+                this.tabItemArr.unshift(tabVo);
+                // this.tabItemArr.push(tabVo);
+            }
+            this.refrishTabUiSelect();
+        };
+        return RightOpenList;
+    }());
+    editscene.RightOpenList = RightOpenList;
+    var MainRightBaseWin = /** @class */ (function (_super) {
+        __extends(MainRightBaseWin, _super);
+        function MainRightBaseWin() {
+            var _this = _super.call(this, RightTabText, new Rectangle(0, 0, 512, 40), 10) || this;
+            _this.skilNum = 0;
+            return _this;
+        }
+        MainRightBaseWin.prototype.loadConfigCom = function () {
+            _super.prototype.loadConfigCom.call(this);
+            this.setUiListVisibleByItem([this.e_panel_1], true);
+            this.e_file_list_path_bg = this.addChild(this._baseMidRender.getComponent("e_file_list_path_bg"));
+            this.rightOpenList = new RightOpenList(this, this._baseTopRender);
+            //  this.rightOpenList.pushPathUrl(this.getTempTabInfo("场景"));
+        };
+        MainRightBaseWin.prototype.pushViewToTab = function (value) {
+            var vo = new RightTabInfoVo();
+            //  vo.label = "属性" + this.skilNum++;
+            if (value instanceof filelist.FileMeshView) {
+                vo.label = "文件";
+                value.type = "文件";
+            }
+            else if (value instanceof filelist.PrefabMeshView) {
+                vo.label = "模型";
+                value.type = "模型";
+            }
+            else if (value instanceof filelist.RoleMeshView) {
+                vo.label = "角色";
+                value.type = "角色";
+            }
+            else if (value instanceof filelist.SkillMeshView) {
+                vo.label = "技能";
+                value.type = "技能";
+            }
+            else if (value instanceof maineditor.ScenePojectMeshView) {
+                vo.label = "场景";
+                value.type = "场景";
+            }
+            else {
+                console.log("没有设置胡对象", value);
+                vo.label = value.type;
+            }
+            vo.view = value;
+            this.rightOpenList.pushPathUrl(vo);
+        };
+        MainRightBaseWin.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.uiLoadComplete && this.e_file_list_path_bg) {
+                this.e_file_list_path_bg.x = 0;
+                this.e_file_list_path_bg.y = 12;
+                this.e_file_list_path_bg.height = 22;
+                this.e_file_list_path_bg.width = this.pageRect.width - this.e_file_list_path_bg.x;
+                this._baseMidRender.applyObjData();
+            }
+        };
+        return MainRightBaseWin;
+    }(win.Dis2dBaseWindow));
+    editscene.MainRightBaseWin = MainRightBaseWin;
+    var MainRightPanel = /** @class */ (function (_super) {
+        __extends(MainRightPanel, _super);
+        function MainRightPanel(has) {
+            if (has === void 0) { has = true; }
+            var _this = _super.call(this) || this;
+            if (has) {
+                _this.winBg = new MainRightBaseWin();
+                _this.addUIContainer(_this.winBg);
+                _this.changeSize();
+            }
+            return _this;
+        }
+        Object.defineProperty(MainRightPanel.prototype, "mainRightBaseWin", {
+            get: function () {
+                return this.winBg;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MainRightPanel.prototype.changeSize = function () {
+            if (this.winBg) {
+                this.winBg.setRect(this.rect);
+            }
+        };
+        return MainRightPanel;
+    }(Panel));
+    editscene.MainRightPanel = MainRightPanel;
+})(editscene || (editscene = {}));
+//# sourceMappingURL=MainRightPanel.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var editscene;
+(function (editscene) {
     var Panel = win.Panel;
     var CentenPanel = /** @class */ (function (_super) {
         __extends(CentenPanel, _super);
@@ -45401,7 +45782,6 @@ var editscene;
     var BaseEvent = Pan3d.BaseEvent;
     var Module = Pan3d.Module;
     var BaseProcessor = Pan3d.BaseProcessor;
-    var ModuleEventManager = Pan3d.ModuleEventManager;
     var EditSceneEvent = /** @class */ (function (_super) {
         __extends(EditSceneEvent, _super);
         function EditSceneEvent() {
@@ -45461,7 +45841,13 @@ var editscene;
                 $nameKey = getUrlParam("mapurl");
                 console.log($nameKey);
             }
-            ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
+            maineditor.EditorModel.getInstance().openFileByUrl($nameKey);
+            //if ($nameKey.indexOf(".material") != -1) {
+            //    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), $nameKey);//加载材质
+            //}
+            //if ($nameKey.indexOf(".map") != -1) {
+            //    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), $nameKey); //加载场景
+            //}
         };
         EditSceneProcessor.prototype.listenModuleEvents = function () {
             return [
@@ -46574,6 +46960,7 @@ var prop;
         ReflectionData.RoleMesh2DUI = "RoleMesh2DUI";
         ReflectionData.RoleAnim2DUI = "RoleAnim2DUI";
         ReflectionData.MeshScene2DUI = "MeshScene2DUI";
+        ReflectionData.MaterialFunContentUI = "MaterialFunContentUI";
         ReflectionData.MeshMaterialLeft2DUI = "MeshMaterialLeft2DUI";
         ReflectionData.AgalFunUI = "AgalFunUI";
         ReflectionData.Vec3Color = "Vec3Color";
@@ -46790,7 +47177,17 @@ var prop;
             if (type == prop.ReflectionData.MeshMaterialLeft2DUI) {
                 return this.getMeshMaterialLeft2DUI(obj);
             }
+            if (type == prop.ReflectionData.MaterialFunContentUI) {
+                return this.getMaterialFunContentUI(obj);
+            }
             return null;
+        };
+        MetaDataView.prototype.getMaterialFunContentUI = function ($obj) {
+            var temp = new prop.MaterialFunContentUI(this.propPanle);
+            temp.label = $obj[prop.ReflectionData.Key_Label];
+            temp.FunKey = $obj[prop.ReflectionData.FunKey];
+            temp.target = this;
+            return temp;
         };
         MetaDataView.prototype.getMeshMaterialLeft2DUI = function ($obj) {
             var temp = new prop.MeshMaterialLfetView2DUI(this.propPanle);
@@ -47564,6 +47961,633 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Scene_data = Pan3d.Scene_data;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var TimeUtil = Pan3d.TimeUtil;
+    var MouseType = Pan3d.MouseType;
+    var LineDisplayShader = Pan3d.LineDisplayShader;
+    var GridLineSprite = Pan3d.GridLineSprite;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Camera3D = Pan3d.Camera3D;
+    var Rectangle = Pan3d.Rectangle;
+    //import MaterialRoleSprite = left.MaterialRoleSprite;
+    //import ModelSprite = maineditor.ModelSprite;
+    //import SkillSpriteDisplay = maineditor.SkillSpriteDisplay;
+    //import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
+    //import EdItorSceneManager = maineditor.EdItorSceneManager;
+    var MeshSceneView2DUI = /** @class */ (function (_super) {
+        __extends(MeshSceneView2DUI, _super);
+        function MeshSceneView2DUI() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.modelKey = {};
+            return _this;
+        }
+        MeshSceneView2DUI.prototype.initView = function () {
+            var _this = this;
+            this.textLabelUI = new prop.TextLabelUI(64, 16);
+            this.textureUrlText = new prop.TextLabelUI(200, 16);
+            this.texturePicUi = new prop.TexturePicUi(128, 128);
+            this.texturePicUi.haveDoubleCilk = false;
+            this.propPanle.addBaseMeshUi(this.textLabelUI);
+            this.propPanle.addBaseMeshUi(this.textureUrlText);
+            this.propPanle.addBaseMeshUi(this.texturePicUi);
+            //  this.texturePicUi.textureContext.ui.isU = true
+            this.texturePicUi.textureContext.ui.isV = true;
+            this.texturePicUi.textureContext.ui.uiRender.applyObjData();
+            // this.texturePicUi.url = "icon/base.jpg"
+            this.texturePicUi.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
+            this.wheelEventFun = function ($evt) { _this.onMouseWheel($evt); };
+            document.addEventListener(MouseType.MouseWheel, this.wheelEventFun);
+            this.height = 220;
+            this.texturePicUi.ui.width = 200;
+            this.texturePicUi.ui.height = 200;
+            this.texturePicUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this);
+            this.initScene();
+        };
+        MeshSceneView2DUI.prototype.texturePicUiChange = function ($evt) {
+        };
+        Object.defineProperty(MeshSceneView2DUI.prototype, "suffix", {
+            get: function () {
+                return this._suffix;
+            },
+            set: function (value) {
+                this._suffix = value;
+                this.texturePicUi.suffix = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MeshSceneView2DUI.prototype.onMouseWheel = function ($evt) {
+            if (this.texturePicUi.ui.testPoint($evt.x, $evt.y)) {
+                this.sceneManager.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
+            }
+        };
+        MeshSceneView2DUI.prototype.butClik = function (evt) {
+            switch (evt.target) {
+                case this.texturePicUi.ui:
+                    this.lastRotationY = this.sceneManager.focus3D.rotationY;
+                    this.mouseDonwPos = new Vector2D(evt.x, evt.y);
+                    this.addStagetMouseMove();
+                    break;
+                default:
+                    break;
+            }
+        };
+        MeshSceneView2DUI.prototype.addStagetMouseMove = function () {
+            Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
+            Scene_data.uiBlankStage.addEventListener(InteractiveEvent.Move, this.onStageMouseMove, this);
+        };
+        MeshSceneView2DUI.prototype.removeStagetMouseMove = function () {
+            Scene_data.uiBlankStage.removeEventListener(InteractiveEvent.Up, this.onStageMouseUp, this);
+            Scene_data.uiBlankStage.removeEventListener(InteractiveEvent.Move, this.onStageMouseMove, this);
+        };
+        MeshSceneView2DUI.prototype.onStageMouseMove = function ($evt) {
+            console.log("move");
+            if (this.mouseDonwPos) {
+                this.sceneManager.focus3D.rotationY = this.lastRotationY - ($evt.x - this.mouseDonwPos.x);
+            }
+        };
+        MeshSceneView2DUI.prototype.onStageMouseUp = function ($evt) {
+            console.log("up");
+            this.removeStagetMouseMove();
+        };
+        MeshSceneView2DUI.prototype.initScene = function () {
+            var _this = this;
+            ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
+            this.sceneManager = new maineditor.EdItorSceneManager();
+            this.sceneManager.addDisplay(new GridLineSprite());
+            //  this.sceneManager.addDisplay(new BaseDiplay3dSprite())
+            this.sceneManager.ready = true;
+            this.sceneManager.cam3D = new Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256);
+            this.sceneManager.cam3D.distance = 200;
+            this.sceneManager.focus3D.rotationX = -45;
+            this.upDataFun = function () { _this.oneByFrame(); };
+            TimeUtil.addFrameTick(this.upDataFun);
+        };
+        MeshSceneView2DUI.prototype.oneByFrame = function () {
+            if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                this.sceneManager.renderToTexture();
+                var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
+                $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;
+                var maxNum = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height);
+                this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum);
+            }
+        };
+        MeshSceneView2DUI.prototype.destory = function () {
+            this.texturePicUi.ui.removeEventListener(InteractiveEvent.Down, this.butClik, this);
+            document.removeEventListener(MouseType.MouseWheel, this.wheelEventFun);
+            this.textLabelUI.destory();
+            this.textureUrlText.destory();
+            this.texturePicUi.destory();
+            this.texturePicUi = null;
+            this.sceneManager.clearScene();
+            TimeUtil.removeTimeTick(this.upDataFun);
+        };
+        Object.defineProperty(MeshSceneView2DUI.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            set: function (value) {
+                this._data = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MeshSceneView2DUI.prototype.addUrlToView = function (value) {
+            if (!this.modelKey[value]) {
+                if (value.indexOf(".prefab") != -1) {
+                    var prefabSprite_1 = new maineditor.ModelSprite();
+                    prefabSprite_1.setPreFabUrl(value, function () {
+                        prefabSprite_1.scale = 10 / prefabSprite_1.prefab.objData.getMaxSize();
+                    });
+                    this.sceneManager.addDisplay(prefabSprite_1);
+                }
+                if (value.indexOf(".zzw") != -1) {
+                    var roleSprite = new left.MaterialRoleSprite();
+                    roleSprite.setRoleZwwUrl(value);
+                    this.sceneManager.addMovieDisplay(roleSprite);
+                }
+                if (value.indexOf(".skill") != -1) {
+                    var skillsprite = new maineditor.SkillSpriteDisplay();
+                    skillsprite.addSkillByUrl(value);
+                    this.sceneManager.addDisplay(skillsprite);
+                }
+                if (value.indexOf(".lyf") != -1) {
+                    var lyfSprite = new maineditor.LyfSpriteDisplay();
+                    lyfSprite.addLyfByUrl(value);
+                    this.sceneManager.addDisplay(lyfSprite);
+                }
+                if (value.indexOf(".objs") != -1) {
+                    var objsSprite_1 = new maineditor.ModelSprite();
+                    this.sceneManager.addDisplay(objsSprite_1);
+                    var tempPrefab = new pack.PrefabStaticMesh();
+                    tempPrefab.url = value;
+                    tempPrefab.objsurl = value;
+                    tempPrefab.textureurl = "assets/base/base.material";
+                    objsSprite_1.prefab = tempPrefab;
+                    pack.PackObjDataManager.getInstance().getObjDataByUrl(tempPrefab.objsurl, function (value) {
+                        objsSprite_1.scale = 10 / value.getMaxSize();
+                    });
+                }
+                this.modelKey[value] = true;
+            }
+        };
+        MeshSceneView2DUI.prototype.refreshViewValue = function () {
+            var $url = String(this.target[this.FunKey]);
+            this.texturePicUi.url = "icon/base.jpg";
+            this.addUrlToView($url);
+            var $arr = $url.split("/");
+            this.textureUrlText.label = $arr[$arr.length - 1];
+        };
+        Object.defineProperty(MeshSceneView2DUI.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this._x = value;
+                this.textLabelUI.x = this._x + 0;
+                this.texturePicUi.x = this._x + 50;
+                this.textureUrlText.x = this._x + 60;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MeshSceneView2DUI.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this._y = value;
+                this.textLabelUI.y = this._y;
+                this.texturePicUi.y = this._y + 0;
+                this.textureUrlText.y = this._y + 200;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MeshSceneView2DUI.prototype, "label", {
+            get: function () {
+                return this._label;
+            },
+            set: function (value) {
+                this._label = value;
+                this.textLabelUI.label = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return MeshSceneView2DUI;
+    }(prop.BaseReflComponent));
+    prop.MeshSceneView2DUI = MeshSceneView2DUI;
+})(prop || (prop = {}));
+//# sourceMappingURL=MeshSceneView2DUI.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var prop;
+(function (prop) {
+    var MaterialFunContentUI = /** @class */ (function (_super) {
+        __extends(MaterialFunContentUI, _super);
+        function MaterialFunContentUI() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MaterialFunContentUI.prototype.initView = function () {
+            this.textLabelUI = new prop.TextLabelUI(64, 16);
+            this.propPanle.addBaseMeshUi(this.textLabelUI);
+            this.inputFunTextUi = new prop.InputFunTextUi(512, 512);
+            this.propPanle.addBaseMeshUi(this.inputFunTextUi);
+            this.inputFunTextUi.addEventListener(prop.ReflectionEvet.CHANGE_DATA, this.texturePicUiChange, this);
+            this.height = 100;
+        };
+        MaterialFunContentUI.prototype.texturePicUiChange = function (evt) {
+            console.log("更新变化了", evt.data);
+            var $agalStr = evt.data;
+            var temp = this.nodeUi.nodeTree;
+            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, temp.funStr)) {
+                this.nodeUi.inPutFunStr($agalStr);
+            }
+            else {
+                temp.funStr = $agalStr;
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.COMPILE_MATERIAL));
+            }
+        };
+        MaterialFunContentUI.prototype.destory = function () {
+            this.textLabelUI.destory();
+            this.inputFunTextUi.destory();
+            _super.prototype.destory.call(this);
+        };
+        MaterialFunContentUI.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            this.inputFunTextUi.width = this.width - 20;
+            this.inputFunTextUi.height = this.height - 20;
+            this.inputFunTextUi.resize();
+        };
+        Object.defineProperty(MaterialFunContentUI.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            set: function (value) {
+                this._data = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MaterialFunContentUI.prototype.refreshViewValue = function () {
+            this.nodeUi = this.target[this.FunKey];
+            this.inputFunTextUi.text = this.nodeUi.nodeTree.funStr;
+        };
+        Object.defineProperty(MaterialFunContentUI.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this._x = value;
+                this.textLabelUI.x = this._x + 0;
+                this.inputFunTextUi.x = this._x + 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MaterialFunContentUI.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this._y = value;
+                this.textLabelUI.y = this._y;
+                this.inputFunTextUi.y = this._y + 20;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MaterialFunContentUI.prototype, "label", {
+            get: function () {
+                return this._label;
+            },
+            set: function (value) {
+                this._label = value;
+                this.textLabelUI.label = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return MaterialFunContentUI;
+    }(prop.BaseReflComponent));
+    prop.MaterialFunContentUI = MaterialFunContentUI;
+})(prop || (prop = {}));
+//# sourceMappingURL=MaterialFunContentUI.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var prop;
+(function (prop) {
+    var Rectangle = Pan3d.Rectangle;
+    var InteractiveEvent = Pan3d.InteractiveEvent;
+    var Scene_data = Pan3d.Scene_data;
+    var TexItem = Pan3d.TexItem;
+    var LaterOtherDiplay3dSprite = /** @class */ (function (_super) {
+        __extends(LaterOtherDiplay3dSprite, _super);
+        function LaterOtherDiplay3dSprite() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        LaterOtherDiplay3dSprite.prototype.setMaterialTexture = function ($material, $mp) {
+            if ($mp === void 0) { $mp = null; }
+            _super.prototype.setMaterialTexture.call(this, $material, $mp);
+            var texVec = $material.texList;
+            for (var i = 0; this.outTexture && i < texVec.length; i++) {
+                if (texVec[i].texture && texVec[i].isDynamic) {
+                    if (texVec[i].type != TexItem.CUBEMAP) {
+                        Scene_data.context3D.setRenderTexture($material.shader, texVec[i].name, this.outTexture, texVec[i].id);
+                    }
+                }
+            }
+        };
+        LaterOtherDiplay3dSprite.prototype.maketRectMaterial = function (temp) {
+            var cloneMaterialTree = temp.clone();
+            var $buildShader = new left.BuildMaterialShader();
+            $buildShader.fragment = temp.modelShader.fragment;
+            $buildShader.paramAry = temp.modelShader.paramAry;
+            //需要换定点着色器
+            var agalStr = "attribute vec3 v3Position;\n" +
+                "attribute vec2 v2CubeTexST;\n" +
+                "varying vec2 v0;\n" +
+                "uniform mat4 vpMatrix3D;\n" +
+                "uniform mat4 posMatrix3D;\n" +
+                "uniform mat3 rotationMatrix3D;\n" +
+                "varying highp vec3 vPos;\n" +
+                "void main(void){\n" +
+                "v0 = vec2(v2CubeTexST.x, v2CubeTexST.y);\n" +
+                "gl_Position = vec4(v3Position, 1.0);\n" +
+                "vPos = v3Position;\n" +
+                "} ";
+            $buildShader.encode(agalStr);
+            cloneMaterialTree.modelShader = $buildShader;
+            this.material = cloneMaterialTree;
+        };
+        LaterOtherDiplay3dSprite.prototype.makeRectObjData = function () {
+            this.objData = new ObjData;
+            this.objData.vertices = new Array();
+            var scale = 1;
+            this.objData.vertices.push(-1 * scale, -1 * scale, 0.0);
+            this.objData.vertices.push(1 * scale, -1 * scale, 0.0);
+            this.objData.vertices.push(1 * scale, 1 * scale, 0.0);
+            this.objData.vertices.push(-1 * scale, 1 * scale, 0.0);
+            this.objData.uvs = new Array();
+            this.objData.uvs.push(0, 0);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(0, 1);
+            this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 2, 1);
+            this.objData.indexs.push(0, 3, 2);
+            this.objData.treNum = this.objData.indexs.length;
+            this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
+            this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
+            this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
+        };
+        return LaterOtherDiplay3dSprite;
+    }(left.MaterialModelSprite));
+    prop.LaterOtherDiplay3dSprite = LaterOtherDiplay3dSprite;
+    var MeshMaterialLfetView2DUI = /** @class */ (function (_super) {
+        __extends(MeshMaterialLfetView2DUI, _super);
+        function MeshMaterialLfetView2DUI(value) {
+            var _this = _super.call(this, value) || this;
+            _this.defFileUrl = "assets/objs/ball.objs";
+            return _this;
+        }
+        MeshMaterialLfetView2DUI.prototype.initView = function () {
+            _super.prototype.initView.call(this);
+            this.iconItem = [];
+            for (var i = 0; i < 5; i++) {
+                var tempUi = new prop.TexturePicUi(24, 24);
+                this.propPanle.addBaseMeshUi(tempUi);
+                this.drawUrlImgToUi(tempUi.ui, "icon/modelicon/" + (i + 1) + ".png");
+                tempUi.ui.addEventListener(InteractiveEvent.Down, this.butClik, this);
+                this.iconItem.push(tempUi);
+            }
+        };
+        MeshMaterialLfetView2DUI.prototype.butClik = function (evt) {
+            _super.prototype.butClik.call(this, evt);
+            for (var i = 0; i < this.iconItem.length; i++) {
+                if (this.iconItem[i].ui == evt.target) {
+                    switch (i) {
+                        case 0:
+                            this.setObjUrlToSprite("assets/objs/box.objs");
+                            break;
+                        case 1:
+                            this.setObjUrlToSprite("assets/objs/cylinder.objs");
+                            break;
+                        case 2:
+                            this.setObjUrlToSprite("assets/objs/plant.objs");
+                            break;
+                        case 3:
+                            this.setObjUrlToSprite("assets/objs/ball.objs");
+                            break;
+                        case 4:
+                            this.setObjUrlToSprite("assets/objs/tuzhi.objs");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        };
+        Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "x", {
+            set: function (value) {
+                this._x = value;
+                this.textLabelUI.x = this._x + 100000;
+                this.texturePicUi.x = this._x + 10;
+                this.textureUrlText.x = this._x + 10000;
+                this.resize();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MeshMaterialLfetView2DUI.prototype.resize = function () {
+            if (this._width && this.texturePicUi) {
+                //this._x = (this._width - 200) / 2;
+                //this.texturePicUi.x = this._x;
+                //this.texturePicUi.y = this._y + 5
+                this._height = this._width;
+                var showSize = this._width - 2;
+                this.texturePicUi.ui.width = showSize;
+                this.texturePicUi.ui.height = showSize;
+                this._x = (this._width - showSize) / 2;
+                this.texturePicUi.x = this._x + 0;
+                this.texturePicUi.y = this._y + 0;
+                for (var i = 0; i < this.iconItem.length; i++) {
+                    this.iconItem[i].x = this._x + 3 + 30 * i;
+                    this.iconItem[i].y = this._y + 2;
+                }
+            }
+            this.destory;
+        };
+        MeshMaterialLfetView2DUI.prototype.destory = function () {
+            while (this.iconItem.length) {
+                var tempUi = this.iconItem.pop();
+                tempUi.destory();
+            }
+            _super.prototype.destory.call(this);
+        };
+        MeshMaterialLfetView2DUI.prototype.texturePicUiChange = function ($evt) {
+            var temp = this.target[this.FunKey];
+            temp.showurl = this.texturePicUi.url;
+            this.refrishShowMaterialModel(temp);
+        };
+        MeshMaterialLfetView2DUI.prototype.refrishShowMaterialModel = function (material) {
+            var _this = this;
+            var fileUrl = material.showurl;
+            if (!fileUrl) {
+                fileUrl = this.defFileUrl;
+            }
+            var tempArr = fileUrl.split(".");
+            var stuffstr = tempArr[tempArr.length - 1];
+            switch (stuffstr) {
+                case "prefab":
+                    pack.PackPrefabManager.getInstance().getPrefabByUrl(fileUrl, function (prefabStaticMesh) {
+                        _this.setObjUrlToSprite(prefabStaticMesh.objsurl);
+                    });
+                    break;
+                case "objs":
+                    this.setObjUrlToSprite(fileUrl);
+                    break;
+                default:
+                    console.log("没有处理的类型", stuffstr);
+                    this.setZzwUrlToRole(fileUrl);
+                    break;
+            }
+        };
+        MeshMaterialLfetView2DUI.prototype.initScene = function () {
+            _super.prototype.initScene.call(this);
+            this.latersceneManager = new maineditor.EdItorSceneManager();
+            this.latersceneManager.ready = true;
+            this.latersceneManager.cam3D.cavanRect = new Rectangle(0, 0, 256, 256);
+            this.ktvSprite = new LaterOtherDiplay3dSprite();
+            this.latersceneManager.addDisplay(this.ktvSprite);
+        };
+        MeshMaterialLfetView2DUI.prototype.setZzwUrlToRole = function (zzwUrl) {
+            var _this = this;
+            if (!this.roleSprite) {
+                this.roleSprite = new left.MaterialRoleSprite();
+                this.sceneManager.addMovieDisplay(this.roleSprite);
+            }
+            pack.PackRoleManager.getInstance().getRoleZzwByUrl(zzwUrl, function (value) {
+                _this.roleSprite.animDic = value.animDic;
+                _this.roleSprite.skinMesh = value.skinMesh.clone();
+                var temp = _this.target[_this.FunKey];
+                for (var i = 0; i < _this.roleSprite.skinMesh.meshAry.length; i++) {
+                    _this.roleSprite.skinMesh.meshAry[i].material = temp;
+                    _this.roleSprite.skinMesh.meshAry[i].materialParam = null;
+                }
+                _this.roleSprite.curentAction = "walk";
+                _this.roleSprite.sceneVisible = true;
+                if (_this.modelSprite) {
+                    _this.modelSprite.sceneVisible = false;
+                }
+            });
+        };
+        MeshMaterialLfetView2DUI.prototype.oneByFrame = function () {
+            if (this.texturePicUi && this.texturePicUi.textureContext && this.texturePicUi.textureContext.hasStage) {
+                var $uiRender = this.texturePicUi.textureContext.ui.uiRender;
+                Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
+                this.sceneManager.renderToTexture();
+                $uiRender.uiAtlas.textureRes.texture = this.sceneManager.fbo.texture;
+                if (this.ktvSprite.material) { //如果有后期材质，
+                    this.ktvSprite.outTexture = this.sceneManager.fbo.texture;
+                    this.latersceneManager.renderToTexture();
+                    $uiRender.uiAtlas.textureRes.texture = this.latersceneManager.fbo.texture;
+                    this.latersceneManager.cam3D.cavanRect = this.sceneManager.cam3D.cavanRect.clone();
+                }
+                var maxNum = Math.min(this.texturePicUi.textureContext.ui.width, this.texturePicUi.textureContext.ui.height);
+                this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, maxNum, maxNum);
+            }
+        };
+        Object.defineProperty(MeshMaterialLfetView2DUI.prototype, "width", {
+            set: function (value) {
+                this._width = value;
+                this.resize();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MeshMaterialLfetView2DUI.prototype.setObjUrlToSprite = function (objurl) {
+            var _this = this;
+            if (!this.modelSprite) {
+                this.modelSprite = new left.MaterialModelSprite();
+                this.sceneManager.addDisplay(this.modelSprite);
+            }
+            this.lastObjUrl = objurl;
+            pack.PackObjDataManager.getInstance().getObjDataByUrl(objurl, function (value) {
+                console.log("更新模型", objurl);
+                if (!_this.modelSprite.objData || _this.lastObjUrl == objurl) {
+                    _this.modelSprite.objData = value;
+                    _this.modelSprite.scale = 10 / _this.modelSprite.objData.getMaxSize();
+                }
+                _this.modelSprite.sceneVisible = true;
+                if (_this.roleSprite) {
+                    _this.roleSprite.sceneVisible = false;
+                }
+            });
+        };
+        MeshMaterialLfetView2DUI.prototype.refreshViewValue = function () {
+            var _this = this;
+            var temp = this.target[this.FunKey];
+            this.texturePicUi.url = "icon/base.jpg";
+            this.setObjUrlToSprite(this.defFileUrl); //选给默认对象
+            this.modelSprite.material = temp;
+            this.refrishShowMaterialModel(temp);
+            if (temp.laterTextureurl) {
+                pack.PackMaterialManager.getInstance().getMaterialByUrl(temp.laterTextureurl, function ($laterTexture) {
+                    _this.ktvSprite.makeRectObjData();
+                    _this.ktvSprite.maketRectMaterial($laterTexture);
+                });
+            }
+            else {
+                this.ktvSprite.material = null;
+            }
+        };
+        return MeshMaterialLfetView2DUI;
+    }(prop.MeshSceneView2DUI));
+    prop.MeshMaterialLfetView2DUI = MeshMaterialLfetView2DUI;
+})(prop || (prop = {}));
+//# sourceMappingURL=MeshMaterialLfetView2DUI.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var prop;
+(function (prop) {
     var Material2DUI = /** @class */ (function (_super) {
         __extends(Material2DUI, _super);
         function Material2DUI() {
@@ -47607,7 +48631,8 @@ var prop;
         Material2DUI.prototype.showMaterialParamUi = function () {
             var _this = this;
             if (!this._materialTreeMc) {
-                this._materialTreeMc = new prop.MaterialParamUi(prop.PropModel.getInstance().propPanle);
+                console.log(this.propPanle == prop.PropModel.getInstance().propPanle);
+                this._materialTreeMc = new prop.MaterialParamUi(this.propPanle);
                 this._materialTreeMc.changFun = function (value) { _this.paramChange(value); };
             }
             this.textureTree = this.target[this.FunKey];
@@ -48861,7 +49886,7 @@ var prop;
             var kkwA = Math.pow(2, Math.ceil(Math.log(w) / Math.log(2)));
             var kkhB = Math.pow(2, Math.ceil(Math.log(h) / Math.log(2)));
             _this._bRender.uiAtlas.ctx = UIManager.getInstance().getContext2D(kkwA, kkhB, false);
-            _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx);
+            _this._bRender.uiAtlas.textureRes = TextureManager.getInstance().getCanvasTexture(_this._bRender.uiAtlas.ctx, 0, 1, 0);
             $uiAtlas.configData.push($uiAtlas.getObject(_this.tempUiName, 0, 0, w, h, kkwA, kkhB));
             _this.ui = _this._bRender.creatBaseComponent(_this.tempUiName);
             _this.ui.width = w * _this.uiViewScale;
@@ -48954,7 +49979,7 @@ var prop;
                 return "";
             },
             set: function (value) {
-                LabelTextFont.writeSingleLabel(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 26, TextAlign.LEFT, "#ffffff", "#27262e", 5);
+                LabelTextFont.writeSingleLabelCopy(this.ui.uiRender.uiAtlas, this.ui.skinName, value, 24, TextAlign.LEFT, "#eeeeee", "#eeeeee", 5);
             },
             enumerable: true,
             configurable: true
@@ -49087,6 +50112,188 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var prop;
 (function (prop) {
+    var Scene_data = Pan3d.Scene_data;
+    var LoadManager = Pan3d.LoadManager;
+    var TextureManager = Pan3d.TextureManager;
+    var UIManager = Pan3d.UIManager;
+    var Rectangle = Pan3d.Rectangle;
+    var InputFunTextUi = /** @class */ (function (_super) {
+        __extends(InputFunTextUi, _super);
+        function InputFunTextUi(w, h) {
+            if (w === void 0) { w = 64; }
+            if (h === void 0) { h = 64; }
+            var _this = _super.call(this, w, h) || this;
+            _this.nodeLenHeight = 0;
+            _this.width = 100;
+            _this.height = 100;
+            return _this;
+        }
+        InputFunTextUi.prototype.initView = function () {
+            this.makeHtmlArear();
+            this.addEvets();
+        };
+        InputFunTextUi.prototype.destory = function () {
+            document.body.removeChild(this.chatHtmlIArea);
+            this.chatHtmlIArea = null;
+            _super.prototype.destory.call(this);
+        };
+        InputFunTextUi.prototype.makeHtmlArear = function () {
+            var _this = this;
+            if (!this.chatHtmlIArea) {
+                this.chatHtmlIArea = document.createElement("textarea");
+                this.chatHtmlIArea.style.position = "absolute";
+                this.chatHtmlIArea.style["z-index"] = 100;
+                // this.chatHtmlIArea.style.background = "transparent"
+                this.chatHtmlIArea.style.backgroundColor = "#bbbbbb";
+                this.chatHtmlIArea.style.color = "#000000";
+                document.body.appendChild(this.chatHtmlIArea);
+                this.chatHtmlIArea.addEventListener("change", function (cevt) { _this.changeInputTxt(cevt); });
+                this.chatHtmlIArea.style.left = 0 + "px";
+                this.chatHtmlIArea.style.top = 0 + "px";
+                var tw = 40;
+                var th = 20;
+                this.chatHtmlIArea.style.fontSize = String(12) + "px";
+                this.chatHtmlIArea.style.width = String(tw) + "px";
+                this.chatHtmlIArea.style.height = 'auto';
+                this.chatHtmlIArea.style.height = 300 + "px";
+                this.resize();
+            }
+        };
+        InputFunTextUi.prototype.changeInputTxt = function (evt) {
+            var $agalStr = this.chatHtmlIArea.value;
+            var id = $agalStr.lastIndexOf("}");
+            $agalStr = $agalStr.substr(0, id + 1);
+            var frameStr = " precision mediump float;\n" +
+                "\n" + $agalStr +
+                "\n" +
+                "void main(void)\n" +
+                "{\n" +
+                "gl_FragColor = vec4(1.0,1.0,1.0,1.0);\n" +
+                "}";
+            var $context = Scene_data.context3D.renderContext;
+            var fShader = $context.createShader($context.FRAGMENT_SHADER);
+            $context.shaderSource(fShader, frameStr);
+            $context.compileShader(fShader);
+            var info = $context.getShaderInfoLog(fShader);
+            if (!info || info == "") {
+                var $reflectionEvet = new prop.ReflectionEvet(prop.ReflectionEvet.CHANGE_DATA);
+                $reflectionEvet.data = $agalStr;
+                this.dispatchEvent($reflectionEvet);
+                this.text = $agalStr;
+            }
+            else {
+                this.text = $agalStr + "\n------------有错";
+                console.log("--------------");
+                console.log(frameStr);
+                console.log(info);
+                console.log("--------------");
+                throw "脚本有错。不做保存.";
+            }
+        };
+        InputFunTextUi.prototype.resize = function () {
+            _super.prototype.resize.call(this);
+            if (this.chatHtmlIArea) {
+                this.chatHtmlIArea.style.left = (this.textureContext.left + this.x - 10) + "px";
+                this.chatHtmlIArea.style.top = (this.textureContext.top + this.y + this.nodeLenHeight) + "px";
+                this.chatHtmlIArea.style.width = this.width + "px";
+                console.log(this.nodeLenHeight);
+            }
+        };
+        Object.defineProperty(InputFunTextUi.prototype, "text", {
+            set: function (value) {
+                this.agalStr = value;
+                this.makeHtmlArear();
+                this.chatHtmlIArea.value = this.agalStr;
+                this.drawUrlImgToUi(this.ui, "ui/materialmenu/meshfunui.png");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        InputFunTextUi.prototype.drawUrlImgToUi = function (ui, url) {
+            var _this = this;
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + url, LoadManager.IMG_TYPE, function ($img) {
+                _this.drawImgToUi(ui, $img);
+            });
+        };
+        InputFunTextUi.prototype.drawTittleBg = function ($ctx, $img) {
+            var s15 = 1.5;
+            var A = new Rectangle(2, 2, 164, 24);
+            // $ctx.drawImage($img, A.x, A.y, A.width, A.height, A.x * s15, A.y * s15, A.width * s15, A.height * s15);
+            $ctx.drawImage($img, 2, 2, 24, 24, A.x * s15, A.y * s15, 24 * s15, A.height * s15);
+            $ctx.drawImage($img, 2 + 24, 2, 164 - (2 * 24), 24, 24, A.y * s15, 200 * s15, A.height * s15);
+            $ctx.drawImage($img, 164 - 24, 2, 24, 24, 200 * s15, A.y * s15, 24 * s15, A.height * s15);
+            $ctx.font = "24px Georgia";
+            $ctx.fillStyle = "#ffffff";
+            $ctx.lineWidth = 0;
+            $ctx.fillText("函数(" + materialui.NodeTreeFun.getMathFunName(this.agalStr) + ")", 20, 8);
+        };
+        InputFunTextUi.prototype.PointRectByTypeStr = function (value) {
+            var C = new Rectangle(177, 10, 16, 16);
+            switch (value) {
+                case materialui.MaterialItemType.FLOAT: //float
+                    C = new Rectangle(218, 10, 16, 16);
+                    break;
+                case materialui.MaterialItemType.VEC2: //vec2
+                    C = new Rectangle(238, 10, 16, 16);
+                    break;
+                case materialui.MaterialItemType.VEC3: //vec3
+                    C = new Rectangle(177, 10, 16, 16);
+                    break;
+                case materialui.MaterialItemType.VEC4: //vec4
+                    C = new Rectangle(196, 10, 16, 16);
+                    break;
+                default:
+                    break;
+            }
+            return C;
+        };
+        InputFunTextUi.prototype.drawImgToUi = function (ui, $img) {
+            var $UIAtlas = ui.uiRender.uiAtlas;
+            var $textureStr = ui.skinName;
+            var rec = $UIAtlas.getRec($textureStr);
+            var $ctx = UIManager.getInstance().getContext2D(rec.pixelWitdh, rec.pixelHeight, false);
+            //  this.drawTittleBg($ctx, $img);
+            var s15 = 1.5;
+            var arr = materialui.NodeTreeFun.getDataMathFunArr(this.agalStr);
+            var outType = materialui.NodeTreeFun.getMathFunReturnType(this.agalStr);
+            var B = new Rectangle(8, 30, 50, 50);
+            $ctx.drawImage($img, B.x, B.y, B.width, B.height, 4, 35, (200 + (20)) * s15, arr.length * 30 + 30);
+            $ctx.font = "24px Georgia";
+            $ctx.fillStyle = "#ffffff";
+            $ctx.lineWidth = 0;
+            $ctx.font = "22px Georgia";
+            var outRect = this.PointRectByTypeStr(outType);
+            $ctx.drawImage($img, outRect.x, outRect.y, outRect.width, outRect.height, (200) * s15, 50, 16 * s15, 16 * s15);
+            $ctx.fillText("out", (170) * s15, 50);
+            for (var i = 0; i < arr.length; i++) {
+                var inputRect = this.PointRectByTypeStr(arr[i].type);
+                $ctx.drawImage($img, inputRect.x, inputRect.y, inputRect.width, inputRect.height, 15, i * 30 + 50, 16 * s15, 16 * s15);
+                $ctx.fillText(arr[i].name, 50, i * 30 + 50);
+            }
+            TextureManager.getInstance().updateTexture($UIAtlas.texture, rec.pixelX, rec.pixelY, $ctx);
+            this.nodeLenHeight = arr.length * 30 + 20;
+            this.resize();
+        };
+        return InputFunTextUi;
+    }(prop.BaseMeshUi));
+    prop.InputFunTextUi = InputFunTextUi;
+})(prop || (prop = {}));
+//# sourceMappingURL=InputFunTextUi.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var prop;
+(function (prop) {
     var TextureManager = Pan3d.TextureManager;
     var TimeUtil = Pan3d.TimeUtil;
     var UIManager = Pan3d.UIManager;
@@ -49128,7 +50335,7 @@ var prop;
         };
         TexturePicUi.prototype.butClik = function (evt) {
             if (TimeUtil.getTimer() < this.$dulbelClikTm) {
-                if (this._url.indexOf(".material") != -1) {
+                if (this._url && this._url.indexOf(".material") != -1) {
                     var fileUrl = this._url;
                     Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
                 }
@@ -49485,71 +50692,45 @@ var prop;
         }
         MathFunMeshPanel.prototype.getView = function () {
             var ary = [
-                { Type: prop.ReflectionData.AgalFunUI, Label: "函数名:", FunKey: "constValue", target: this, Step: 0.01 },
+                { Type: prop.ReflectionData.TEXT, Label: "名字:", FunKey: "tittleStr", target: this, Category: "函数" },
+                { Type: prop.ReflectionData.MaterialFunContentUI, Label: "窗口:", FunKey: "nodeUI", target: this, Category: "程序" },
             ];
             return ary;
         };
+        Object.defineProperty(MathFunMeshPanel.prototype, "tittleStr", {
+            get: function () {
+                return this.mathFunNodeUI.tittleStr;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(MathFunMeshPanel.prototype, "data", {
             get: function () {
+                console.log(this.mathFunNodeUI);
                 return this._data;
             },
             set: function (value) {
                 this._data = value;
                 this.mathFunNodeUI = this._data;
                 this.refreshViewValue();
-                this.setInputTxtPos();
             },
             enumerable: true,
             configurable: true
         });
-        MathFunMeshPanel.prototype.setInputTxtPos = function () {
-            var _this = this;
-            if (!this.chatHtmlInput) {
-                this.chatHtmlInput = document.createElement("textarea");
-                this.chatHtmlInput.style.position = "absolute";
-                this.chatHtmlInput.style["z-index"] = 100;
-                this.chatHtmlInput.style.background = "transparent";
-                this.chatHtmlInput.style.color = "#ffffff";
-                document.body.appendChild(this.chatHtmlInput);
-                this.chatHtmlInput.addEventListener("change", function (cevt) { _this.changeFile(cevt); });
-            }
-            this.chatHtmlInput.style.left = 0 + "px";
-            this.chatHtmlInput.style.top = 0 + "px";
-            var tw = 350;
-            var th = 40;
-            var textSize = 100;
-            this.chatHtmlInput.style.fontSize = String(12) + "px";
-            this.chatHtmlInput.style.width = String(tw) + "px";
-            this.chatHtmlInput.style.height = String(th) + "px";
-            this.chatHtmlInput.value = this.mathFunNodeUI.nodeTree.funStr;
-            this.resize();
-        };
         MathFunMeshPanel.prototype.changeFile = function (evt) {
-            var $agalStr = this.chatHtmlInput.value;
-            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, this.mathFunNodeUI.nodeTree.funStr)) {
-                this.mathFunNodeUI.inPutFunStr($agalStr);
-            }
-            else {
-                this.mathFunNodeUI.nodeTree.funStr = $agalStr;
+            /*
+            if (materialui.NodeTreeFun.isNeedChangePanel($agalStr, (<materialui.NodeTreeFun>this.mathFunNodeUI.nodeTree).funStr)) {
+                this.mathFunNodeUI.inPutFunStr($agalStr)
+            } else {
+                (<materialui.NodeTreeFun>this.mathFunNodeUI.nodeTree).funStr = $agalStr
                 this.changeData();
             }
-        };
-        MathFunMeshPanel.prototype.resize = function () {
-            _super.prototype.resize.call(this);
-            if (this.chatHtmlInput) {
-                this.chatHtmlInput.style.top = 0 + "px";
-            }
+            */
         };
         MathFunMeshPanel.prototype.destory = function () {
-            var _this = this;
             _super.prototype.destory.call(this);
-            if (this.chatHtmlInput) {
-                this.chatHtmlInput.removeEventListener("change", function (cevt) { _this.changeFile(cevt); });
-                document.body.removeChild(this.chatHtmlInput);
-                this.chatHtmlInput = null;
-            }
         };
-        Object.defineProperty(MathFunMeshPanel.prototype, "constValue", {
+        Object.defineProperty(MathFunMeshPanel.prototype, "nodeUI", {
             get: function () {
                 return this.mathFunNodeUI;
             },
@@ -50285,13 +51466,9 @@ var prop;
         }
         TextureFunPanel.prototype.loadConfigCom = function () {
             _super.prototype.loadConfigCom.call(this);
-            this.setUiListVisibleByItem([this.c_tittle_bg], true);
-            this.setUiListVisibleByItem([this.c_left_line], true);
-            this.setUiListVisibleByItem([this.c_right_line], true);
-            this.setUiListVisibleByItem([this.c_bottom_line], true);
-            this.setUiListVisibleByItem([this.c_win_bg], false);
-            this.setUiListVisibleByItem([this.b_win_close], true);
+            this.e_pop_panel = this.addChild(this._closeRender.getComponent("e_pop_panel"));
             this.c_tittle_bg.addEventListener(InteractiveEvent.Down, this.tittleMouseDown, this);
+            this.resize();
         };
         TextureFunPanel.prototype.tittleMouseDown = function (evt) {
             this.mouseMoveTaget = evt.target;
@@ -50350,11 +51527,16 @@ var prop;
         };
         TextureFunPanel.prototype.resize = function () {
             _super.prototype.resize.call(this);
-            if (this.chatHtmlInput) {
+            if (this.e_pop_panel && this.chatHtmlInput) {
                 this.chatHtmlInput.style.left = this.left + 5 + "px";
                 this.chatHtmlInput.style.top = this.top + 25 + "px";
                 this.chatHtmlInput.style.width = this.pageRect.width - 8 + "px";
                 this.chatHtmlInput.style.height = this.pageRect.height - 30 + "px";
+                this.e_pop_panel.x = 0;
+                this.e_pop_panel.y = 0;
+                this.e_pop_panel.width = this.pageRect.width;
+                this.e_pop_panel.height = this.pageRect.height;
+                this._closeRender.applyObjData();
             }
         };
         TextureFunPanel.prototype.changeInputResize = function (evt) {
@@ -50666,47 +51848,47 @@ var prop;
             }
             this.lastNodel = null;
         };
-        PropModel.prototype.showPanel = function ($ui) {
+        PropModel.prototype.showTextureUiPanel = function ($ui) {
             if (this.lastNodel != $ui) {
-                this.clearOladMeshView();
                 var propPanle = prop.PropModel.getInstance().propPanle;
+                var tempView;
                 if ($ui instanceof materialui.ConstVec3NodeUI) {
-                    this.metaDataView = new prop.Vec3PropMeshPanel(propPanle);
+                    tempView = new prop.Vec3PropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ConstVec2NodeUI) {
-                    this.metaDataView = new prop.Vec2PropMeshPanel(propPanle);
+                    tempView = new prop.Vec2PropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ConstFloatNodeUI) {
-                    this.metaDataView = new prop.FloatPropMeshPanel(propPanle);
+                    tempView = new prop.FloatPropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TimeNodeUI) {
-                    this.metaDataView = new prop.NodeTimePropPanel(propPanle);
+                    tempView = new prop.NodeTimePropPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.PannerNodeUI) {
-                    this.metaDataView = new prop.PannerPropPanel(propPanle);
+                    tempView = new prop.PannerPropPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TextureSampleNodeUI) {
-                    this.metaDataView = new prop.TexturePropMeshPanel(propPanle);
+                    tempView = new prop.TexturePropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.Texture3DNodeUI) {
-                    this.metaDataView = new prop.Texture3DMeshPanel(propPanle);
+                    tempView = new prop.Texture3DMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.TextureCubeNodeUI) {
-                    this.metaDataView = new prop.TextureCubeMeshPanel(propPanle);
+                    tempView = new prop.TextureCubeMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.ResultNodeUI) {
-                    this.metaDataView = new prop.OpPropMeshPanel(propPanle);
+                    tempView = new prop.OpPropMeshPanel(propPanle);
                 }
                 else if ($ui instanceof materialui.MathFunNodeUI) {
-                    this.metaDataView = new prop.MathFunMeshPanel(propPanle);
+                    tempView = new prop.MathFunMeshPanel(propPanle);
                 }
                 else {
-                    this.showSciencePropPanel();
+                    tempView = new prop.SciencePropMeshPanel(propPanle);
                 }
                 this.lastNodel = $ui;
-                this.metaDataView.data = $ui;
-                this.metaDataView.top = 25;
-                this.resize();
+                tempView.data = $ui;
+                tempView.type = "材质";
+                this.showOtherMeshView(tempView);
             }
         };
         PropModel.prototype.clearOladMeshView = function () {
@@ -50725,25 +51907,78 @@ var prop;
             this.metaDataView.refreshViewValue();
             this.resize();
             var rightPanel = AppData.rightPanel;
-            rightPanel.mainRightBaseWin.pushViewToTab(value);
-        };
-        PropModel.prototype.showSciencePropPanel = function () {
-            /*
-            if (this.metaDataView) {
-                this.metaDataView.destory()
-                this.metaDataView = null;
-                this.lastNodel = null;
-            }
-            var propPanle: prop.UiMeshSprite = prop.PropModel.getInstance().propPanle
-            this.metaDataView = new SciencePropMeshPanel(propPanle);
-            */
-            this.showOtherMeshView(new prop.SciencePropMeshPanel(prop.PropModel.getInstance().propPanle));
+            rightPanel.mainRightBaseWin.pushViewToTab(this.metaDataView);
         };
         return PropModel;
     }());
     prop.PropModel = PropModel;
 })(prop || (prop = {}));
 //# sourceMappingURL=PropModel.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var filelist;
+(function (filelist) {
+    var MetaDataView = prop.MetaDataView;
+    var ReflectionData = prop.ReflectionData;
+    var FileMeshView = /** @class */ (function (_super) {
+        __extends(FileMeshView, _super);
+        function FileMeshView() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        FileMeshView.prototype.getView = function () {
+            var ary = [
+                { Type: ReflectionData.TEXT, Label: "名字:", FunKey: "fileUrl", target: this, Category: "模型", ClikEventKey: "clikFilePrefab" },
+                { Type: ReflectionData.MeshScene2DUI, Label: "窗口:", FunKey: "fileUrl", target: this, Category: "模型" },
+            ];
+            return ary;
+        };
+        FileMeshView.prototype.eventKey = function (value) {
+            switch (value) {
+                case "clikFilePrefab":
+                    var pathurl = Pan3d.Scene_data.fileRoot + this.fileUrl;
+                    Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.LIST_DIS_ALL_FILE), pathurl.replace(Pan3d.Scene_data.ossRoot, ""));
+                    break;
+                default:
+                    console.log("没有对象", value);
+                    break;
+            }
+        };
+        Object.defineProperty(FileMeshView.prototype, "fileUrl", {
+            get: function () {
+                return this.data;
+            },
+            set: function (value) {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileMeshView.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            set: function (value) {
+                this._data = value;
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return FileMeshView;
+    }(MetaDataView));
+    filelist.FileMeshView = FileMeshView;
+})(filelist || (filelist = {}));
+//# sourceMappingURL=FileMeshView.js.map
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -51969,7 +53204,9 @@ var filelist;
     var FileListPanel = /** @class */ (function (_super) {
         __extends(FileListPanel, _super);
         function FileListPanel() {
-            return _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 48) || this;
+            var _this = _super.call(this, FileListName, new Rectangle(0, 0, 100, 100), 48) || this;
+            _this.timeOutMakeDragFun = function () { _this.makeDragData(); };
+            return _this;
         }
         FileListPanel.prototype.loadConfigCom = function () {
             var _this = this;
@@ -52069,38 +53306,19 @@ var filelist;
         FileListPanel.prototype.update = function (t) {
             _super.prototype.update.call(this, t);
         };
-        Object.defineProperty(FileListPanel.prototype, "lastfileDonwInfo", {
-            get: function () {
-                return this._lastfileDonwInfo;
-            },
-            set: function (value) {
-                this._lastfileDonwInfo = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         FileListPanel.prototype.fileMouseDown = function (evt) {
-            Scene_data.uiStage.addEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
-            console.log(this.lastfileDonwInfo);
-            if (this.lastfileDonwInfo && this.lastfileDonwInfo.target == evt.target) {
-                console.log("是同一个对象", this.lastfileDonwInfo.tm > Pan3d.TimeUtil.getTimer());
-                if (this.lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000)) {
+            if (this._lastfileDonwInfo && this._lastfileDonwInfo.target == evt.target) {
+                if (this._lastfileDonwInfo.tm > (Pan3d.TimeUtil.getTimer() - 1000) && this._lastfileDonwInfo.x == evt.x && this._lastfileDonwInfo.y == evt.y) {
                     this.fileDuboclik(evt);
                     return;
                 }
-                else {
-                    this.lastfileDonwInfo.tm = Pan3d.TimeUtil.getTimer();
-                }
             }
-            else {
-                this.lastfileDonwInfo = { target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
-            }
-            console.log(this.lastfileDonwInfo);
-            this.makeDragData(evt);
+            this._lastfileDonwInfo = { x: evt.x, y: evt.y, target: evt.target, tm: Pan3d.TimeUtil.getTimer() };
+            this.lastDragEvent = evt;
+            Pan3d.TimeUtil.addTimeOut(100, this.timeOutMakeDragFun);
         };
-        FileListPanel.prototype.makeDragData = function (evt) {
-            var event = new MouseEvent(InteractiveEvent.Down, { clientX: evt.x, clientY: evt.y });
-            var vo = this.getItemVoByUi(evt.target);
+        FileListPanel.prototype.makeDragData = function () {
+            var vo = this.getItemVoByUi(this.lastDragEvent.target);
             if (vo) {
                 var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                 fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
@@ -52130,10 +53348,6 @@ var filelist;
                 DragManager.doDragdoDrag(this, dsragSource);
             }
         };
-        FileListPanel.prototype.stageMouseMove = function (evt) {
-            this.lastfileDonwInfo = null;
-            //console.log("移动了")
-        };
         FileListPanel.prototype.fileDuboclik = function (evt) {
             var vo = this.getItemVoByUi(evt.target);
             if (vo) {
@@ -52143,16 +53357,17 @@ var filelist;
                 else {
                     var fileUrl = Pan3d.Scene_data.ossRoot + vo.fileListMeshVo.fileXmlVo.data.path;
                     fileUrl = fileUrl.replace(Pan3d.Scene_data.fileRoot, "");
-                    switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
-                        case FileVo.MATERIAL:
-                            Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
-                            break;
-                        case FileVo.MAP:
-                            Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
-                            break;
-                        default:
-                            break;
-                    }
+                    maineditor.EditorModel.getInstance().openFileByUrl(fileUrl);
+                    //switch (vo.fileListMeshVo.fileXmlVo.data.suffix) {
+                    //    case FileVo.MATERIAL:
+                    //        Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+                    //        break
+                    //    case FileVo.MAP:
+                    //        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                    //        break;
+                    //    default:
+                    //        break;
+                    //}
                 }
             }
         };
@@ -52205,6 +53420,7 @@ var filelist;
             }
         };
         FileListPanel.prototype.fileMouseUp = function (evt) {
+            Pan3d.TimeUtil.removeTimeOut(this.timeOutMakeDragFun);
             Scene_data.uiStage.removeEventListener(InteractiveEvent.Move, this.stageMouseMove, this);
             this.selectFileIcon(evt);
         };
@@ -54186,10 +55402,11 @@ var materialui;
                 this.setUiListVisibleByItem([this.a_select_line], this._select);
                 if (this._select) {
                     if (this instanceof materialui.MathFunNodeUI) {
-                        prop.TextureFunPanel.getInstance().showPanel(this);
+                        //  prop.TextureFunPanel.getInstance().showPanel(this)
+                        prop.PropModel.getInstance().showTextureUiPanel(this);
                     }
                     else {
-                        prop.PropModel.getInstance().showPanel(this);
+                        prop.PropModel.getInstance().showTextureUiPanel(this);
                         prop.TextureFunPanel.getInstance().hidePanel();
                     }
                 }
@@ -58436,6 +59653,7 @@ var materialui;
             obj.texList = this.baseMaterialTree.texList;
             obj.constList = this.baseMaterialTree.constList;
             obj.shaderStr = this.baseMaterialTree.shaderStr;
+            obj.laterTextureurl = this.baseMaterialTree.laterTextureurl;
             obj.fcData = this.baseMaterialTree.fcData.toString();
             obj.paramAry = this.baseMaterialTree.shader.paramAry;
             return obj;
@@ -58668,6 +59886,11 @@ var materialleft;
             _super.prototype.resize.call(this);
         };
         MateriaMeshView.prototype.getView = function () {
+            var _this = this;
+            if (isNaN(this.hideCategoryKey["后期"])) {
+                this.hideCategoryKey["后期"] = true;
+                this.hideCategoryKey["属性"] = true;
+            }
             var ary = [
                 { Type: ReflectionData.MeshMaterialLeft2DUI, Label: "窗口:", FunKey: "materialTree", Suffix: "prefab|zzw|objs", target: this, Category: "模型" },
                 {
@@ -58681,11 +59904,29 @@ var materialleft;
                 { Type: ReflectionData.CheckBox, Label: "深度测试:", FunKey: "testzbuff", target: this, Category: "设置" },
                 { Type: ReflectionData.CheckBox, Label: "写入深度:", FunKey: "writeZbuffer", target: this, Category: "设置" },
                 { Type: ReflectionData.CheckBox, Label: "点灯光:", FunKey: "pointlight", target: this, Category: "设置" },
+                { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "laterTexture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
                 { Type: ReflectionData.Vec3Color, Label: "模型列表:", FunKey: "sunDirect", target: this, Step: 0.1, Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "sun颜色:", FunKey: "sunColor", target: this, Step: 0., Category: "属性" },
                 { Type: ReflectionData.Vec3Color, Label: "基本颜色:", FunKey: "ambientColor", target: this, Step: 0.1, Category: "属性" },
             ];
             return ary;
+        };
+        MateriaMeshView.prototype.getParamItem = function (value) {
+            return null;
+        };
+        Object.defineProperty(MateriaMeshView.prototype, "laterTexture", {
+            get: function () {
+                return this._materialTree.laterTexture;
+            },
+            set: function (value) {
+                this._materialTree.laterTextureurl = value.url;
+                this._materialTree.laterTexture = value;
+                this.refreshViewValue();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MateriaMeshView.prototype.textureChangeInfo = function (value) {
         };
         Object.defineProperty(MateriaMeshView.prototype, "materialTree", {
             get: function () {
@@ -58822,8 +60063,15 @@ var materialleft;
         };
         Object.defineProperty(MaterialLeftPanel.prototype, "materialTree", {
             set: function (value) {
+                var _this = this;
                 this._materialTree = value;
                 this.materiaMeshView.data = this._materialTree;
+                if (this._materialTree.laterTextureurl && !this._materialTree.laterTexture) {
+                    pack.PackMaterialManager.getInstance().getMaterialByUrl(this._materialTree.laterTextureurl, function ($laterTexture) {
+                        _this._materialTree.laterTexture = $laterTexture;
+                        _this.materiaMeshView.data = _this._materialTree;
+                    });
+                }
             },
             enumerable: true,
             configurable: true
@@ -59390,13 +60638,14 @@ var maineditor;
             var ui = evt.target;
             if ((evt.x - ui.absoluteX) < (ui.absoluteWidth - 20)) {
                 this.selectTabStr = tabVo.rightTabInfoVo;
-                if (this.selectTabStr.indexOf(".map") != -1) {
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
-                    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
-                }
-                if (this.selectTabStr.indexOf(".material") != -1) {
-                    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
-                }
+                //if (this.selectTabStr.indexOf(".map") != -1) {
+                //    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), this.selectTabStr); //加载场景
+                //    ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+                //}
+                //if (this.selectTabStr.indexOf(".material") != -1) {
+                //    Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), this.selectTabStr);
+                //}
+                maineditor.EditorModel.getInstance().openFileByUrl(this.selectTabStr);
             }
             else {
                 console.log("关", tabVo);
@@ -59967,23 +61216,6 @@ var maineditor;
                 "}";
             return $str;
         };
-        /*
-         
-precision mediump float;
-uniform sampler2D fs0;
-varying vec2 v0;
-varying highp vec3 vPos;
-uniform vec3 cam3DPos;
-void main(void){
-vec4 ft0 = texture2D(fs0,v0);
-vec4 ft1 = vec4(ft0.xyz,1.0);
-vec4 ft2 = vec4(0,0,0,1);
-ft2.xyz = ft1.xyz;
-ft2.w = 1.0;
-gl_FragColor = ft2;
-
-}
-         */
         UiModelViewShder.prototype.getFragmentShaderString = function () {
             var $str = "precision mediump float;\n" +
                 "uniform sampler2D fs0;\n" +
@@ -60101,6 +61333,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var maineditor;
 (function (maineditor) {
+    var UIRenderComponent = Pan3d.UIRenderComponent;
     var InteractiveEvent = Pan3d.InteractiveEvent;
     var TextAlign = Pan3d.TextAlign;
     var Rectangle = Pan3d.Rectangle;
@@ -60227,10 +61460,11 @@ var maineditor;
                 }
             }
         };
-        ModelSprite.prototype.setPreFabUrl = function (url) {
+        ModelSprite.prototype.setPreFabUrl = function (url, bfun) {
             var _this = this;
             pack.PackPrefabManager.getInstance().getPrefabByUrl(url, function (value) {
                 _this.prefab = value;
+                bfun && bfun();
             });
         };
         return ModelSprite;
@@ -60353,6 +61587,12 @@ var maineditor;
             _this.maskRoundRect = new Rectangle(0, 13, 0, 14);
             return _this;
         }
+        HierarchyListPanel.prototype.makeOtherRender = function () {
+            var tempRender = new UIRenderComponent;
+            console.log("添加新对象");
+            tempRender.mask = this._uiMask;
+            return tempRender;
+        };
         HierarchyListPanel.prototype.loadConfigCom = function () {
             var _this = this;
             _super.prototype.loadConfigCom.call(this);
@@ -60579,6 +61819,7 @@ var maineditor;
                 default:
                     break;
             }
+            _combineReflectionView.type = "物件";
             prop.PropModel.getInstance().showOtherMeshView(_combineReflectionView);
         };
         HierarchyListPanel.prototype.showXyzMove = function () {
@@ -61013,6 +62254,15 @@ var maineditor;
                 this._instance = new EditorModel();
             }
             return this._instance;
+        };
+        EditorModel.prototype.openFileByUrl = function (fileUrl) {
+            if (fileUrl.indexOf(".map") != -1) {
+                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景
+                Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL));
+            }
+            if (fileUrl.indexOf(".material") != -1) {
+                Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.SHOW_MATERIA_PANEL), fileUrl);
+            }
         };
         EditorModel.prototype.addSelctItem = function (value, isShift) {
             if (isShift) {
@@ -61568,6 +62818,9 @@ var maineditor;
                 if ($materialEvent.type == materialui.MaterialEvent.SHOW_MATERIA_PANEL) {
                     this._mainEditorPanel.showType = 2;
                     this._mainEditorPanel.editorOpenList.pushPathUrl($materialEvent.data);
+                    var pathname = window.location.pathname.split("/");
+                    var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $materialEvent.data;
+                    history.pushState(null, "", newUrl);
                 }
             }
             if ($event instanceof MainEditorEvent) {
@@ -61601,13 +62854,10 @@ var maineditor;
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.LOAD_SCENE_MAP) {
                     this._hierarchyListPanel.readMapFile($mainEditorEvent.data);
-                    var stateObject = { id: 1 };
-                    var title = "";
                     var pathname = window.location.pathname.split("/");
                     var newUrl = pathname[pathname.length - 1] + "?mapurl=" + $mainEditorEvent.data;
-                    console.log(newUrl);
+                    history.pushState(null, "", newUrl);
                     this._mainEditorPanel.editorOpenList.pushPathUrl($mainEditorEvent.data);
-                    history.pushState(null, title, newUrl);
                 }
                 if ($mainEditorEvent.type == MainEditorEvent.CHANGE_LEFT_PANEL_SHOW) {
                     if (this._hierarchyListPanel) {
