@@ -18,13 +18,17 @@ var base;
     var MouseType = Pan3d.MouseType;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
     var LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
+    var LayaSceneChar = layapan_me.LayaSceneChar;
     var Game3dDemo = /** @class */ (function (_super) {
         __extends(Game3dDemo, _super);
         function Game3dDemo(value, bfun) {
             if (bfun === void 0) { bfun = null; }
             var _this = _super.call(this, value, bfun) || this;
             _this.addEvents();
-            _this.addSceneModel();
+            _this.addLyfSprite();
+            var $baseChar = new LayaSceneChar();
+            $baseChar.setRoleUrl(getRoleUrl("5103"));
+            _this.sceneManager.addMovieDisplay($baseChar);
             return _this;
         }
         Game3dDemo.prototype.addEvents = function () {
@@ -32,9 +36,6 @@ var base;
             this.on(MouseType.MouseWheel, this, this.onMouseWheel);
             Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
-        };
-        Game3dDemo.prototype.addSceneModel = function () {
-            this.addLyfSprite();
         };
         Game3dDemo.prototype.addLyfSprite = function () {
             var lyfSprite = new LyfSpriteDisplay();

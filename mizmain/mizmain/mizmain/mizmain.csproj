@@ -20,8 +20,10 @@
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="libs\marmoset.js" />
     <Content Include="main.html" />
     <Content Include="index.html" />
+    <Content Include="marmoset.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +45,9 @@
     <TypeScriptCompile Include="src\Game3dDemo.ts" />
     <TypeScriptCompile Include="src\Game2dDemo.ts" />
     <TypeScriptCompile Include="src\LayaLaunch.ts" />
+    <TypeScriptCompile Include="src\marmoset\marmoset.d.ts" />
+    <TypeScriptCompile Include="src\marmoset\Marmoset3dScene.ts" />
+    <TypeScriptCompile Include="src\marmoset\MarmosetLaunch.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

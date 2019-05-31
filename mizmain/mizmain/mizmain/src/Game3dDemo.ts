@@ -5,17 +5,20 @@ module base {
     import MouseType = Pan3d.MouseType
     import Laya3dSprite = LayaPan3D.Laya3dSprite;
     import LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
-
-    import Scene_data = Pan3d.Scene_data;
-
-    import CombineParticle = Pan3d.CombineParticle
+ 
+    import LayaSceneChar = layapan_me.LayaSceneChar;
 
     export class Game3dDemo extends Laya3dSprite {
         public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
             super(value, bfun)
 
             this.addEvents()
-            this.addSceneModel()
+
+            this.addLyfSprite();
+ 
+            var $baseChar: LayaSceneChar = new LayaSceneChar();
+            $baseChar.setRoleUrl(getRoleUrl("5103"));
+            this.sceneManager.addMovieDisplay($baseChar);
         }
         protected addEvents(): void {
             this.on(MouseType.MouseDown, this, this.onStartDrag);
@@ -23,10 +26,7 @@ module base {
             Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
         }
-        protected addSceneModel(): void {
- 
-            this.addLyfSprite();
-        }
+    
         protected addLyfSprite(): void {
             let lyfSprite = new LyfSpriteDisplay();
            lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
