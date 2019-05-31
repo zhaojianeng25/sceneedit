@@ -2937,6 +2937,10 @@ marmoset = {};
         }
     };
     function Mesh(a, b, c) {
+		 this.initdata(a,b,c);
+       
+    }
+	 Mesh.prototype.initdata = function (a,b,c) {
         this.gl = a;
         this.desc = b;
         var d = b.isDynamicMesh;
@@ -2980,7 +2984,7 @@ marmoset = {};
         };
         this.bounds.maxExtent = Math.max(Math.max(b.maxBound[0] - b.minBound[0], b.maxBound[1] - b.minBound[1]), b.maxBound[2] - b.minBound[2]);
         this.bounds.averageExtent = (b.maxBound[0] - b.minBound[0] + (b.maxBound[1] - b.minBound[1]) + (b.maxBound[2] - b.minBound[2])) / 3
-    }
+      };
     ;function MeshRenderable(a, b, c) {
         this.mesh = a;
         this.gl = this.mesh.gl;
@@ -6807,6 +6811,10 @@ marmoset = {};
 	marmoset.TextureCache = TextureCache;
 	marmoset.Mesh = Mesh;
 	marmoset.Archive = Archive;
+	marmoset.ByteStream = ByteStream;
+	marmoset.Matrix = Matrix;
+	marmoset.Vect = Vect;
+	
 	
 	
     marmoset.dataLocale = (0 == window.location.protocol.indexOf("https") ? "https:" : "http:") + "//viewer.marmoset.co/main/data/";
