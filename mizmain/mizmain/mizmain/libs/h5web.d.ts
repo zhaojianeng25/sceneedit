@@ -1897,7 +1897,7 @@ declare module Pan3d {
     class BaseDiplay3dSprite extends Display3D {
         constructor();
         protected initData(): void;
-        private loadTexture;
+        protected loadTexture;
         _uvTextureRes: TextureRes;
         upToGpu(): void;
         update(): void;

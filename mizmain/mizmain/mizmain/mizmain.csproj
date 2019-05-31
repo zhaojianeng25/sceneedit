@@ -20,7 +20,6 @@
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="libs\marmoset.js" />
     <Content Include="main.html" />
     <Content Include="index.html" />
     <Content Include="marmoset.html" />
@@ -48,6 +47,7 @@
     <TypeScriptCompile Include="src\marmoset\marmoset.d.ts" />
     <TypeScriptCompile Include="src\marmoset\Marmoset3dScene.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetLaunch.ts" />
+    <TypeScriptCompile Include="src\marmoset\MarmosetModel.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

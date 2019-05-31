@@ -1,5 +1,5 @@
-var marmoset;
-(function (marmoset) {
+var mars3D;
+(function (mars3D) {
     var Browser = Laya.Browser;
     var Stage = Laya.Stage;
     var MarmosetLaunch = /** @class */ (function () {
@@ -13,33 +13,7 @@ var marmoset;
             enumerable: true,
             configurable: true
         });
-        MarmosetLaunch.overrideMethods = function () {
-            if (this.inited) {
-                return;
-            }
-            this.inited = true;
-            var compatibleLayaRender = function (pan3dFunc) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                var v = pan3dFunc.apply(this, args);
-                //   console.log("here")
-                return v;
-            };
-            var funA = WebGLRenderingContext.prototype.blendFunc;
-            WebGLRenderingContext.prototype.blendFunc = function (sfactor, dfactor) {
-                return compatibleLayaRender.call(this, funA, sfactor, dfactor);
-            };
-            /*
-            let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
-            Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
-                return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
-            }
-            */
-        };
         MarmosetLaunch.prototype.init = function () {
-            // LayaLaunch.overrideMethods()
             this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
             Laya.stage.alignV = Stage.ALIGN_LEFT;
             Laya.stage.alignH = Stage.ALIGN_TOP;
@@ -58,7 +32,7 @@ var marmoset;
             picA.scale(0.5, 0.5);
             picA.pos(0, 0);
             console.log(layapan_me.LayaSceneChar);
-            var spriteD = new marmoset.Marmoset3dScene("res/ui/icon/512b.jpg", function () {
+            var spriteD = new mars3D.Marmoset3dScene("res/ui/icon/512b.jpg", function () {
                 spriteD.scale(1, 0.75);
             });
             Laya.stage.addChild(spriteD);
@@ -72,6 +46,6 @@ var marmoset;
         };
         return MarmosetLaunch;
     }());
-    marmoset.MarmosetLaunch = MarmosetLaunch;
-})(marmoset || (marmoset = {}));
+    mars3D.MarmosetLaunch = MarmosetLaunch;
+})(mars3D || (mars3D = {}));
 //# sourceMappingURL=MarmosetLaunch.js.map

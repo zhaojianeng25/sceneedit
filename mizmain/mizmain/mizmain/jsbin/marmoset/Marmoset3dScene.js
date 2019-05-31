@@ -11,23 +11,79 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var marmoset;
-(function (marmoset) {
+var mars3D;
+(function (mars3D) {
     var Vector2D = Pan3d.Vector2D;
     var Object3D = Pan3d.Object3D;
     var MouseType = Pan3d.MouseType;
+    var LineDisplayShader = Pan3d.LineDisplayShader;
+    var GridLineSprite = Pan3d.GridLineSprite;
+    var Camera3D = Pan3d.Camera3D;
+    var Rectangle = Pan3d.Rectangle;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
+    var BaseDiplay3dShader = Pan3d.BaseDiplay3dShader;
+    var EdItorSceneManager = maineditor.EdItorSceneManager;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
     var LayaSceneChar = layapan_me.LayaSceneChar;
+    var PicShowDiplay3dSprite = /** @class */ (function (_super) {
+        __extends(PicShowDiplay3dSprite, _super);
+        function PicShowDiplay3dSprite() {
+            var _this = _super.call(this) || this;
+            _this.initData();
+            _this.updateMatrix;
+            return _this;
+        }
+        PicShowDiplay3dSprite.prototype.initData = function () {
+            ProgrmaManager.getInstance().registe(BaseDiplay3dShader.BaseDiplay3dShader, new BaseDiplay3dShader);
+            this.shader = ProgrmaManager.getInstance().getProgram(BaseDiplay3dShader.BaseDiplay3dShader);
+            this.program = this.shader.program;
+            this.objData = new ObjData;
+            this.objData.vertices = new Array();
+            this.objData.vertices.push(-100, 0, -100);
+            this.objData.vertices.push(100, 0, -100);
+            this.objData.vertices.push(100, 0, 100);
+            this.objData.vertices.push(-100, 0, 100);
+            this.objData.uvs = new Array();
+            this.objData.uvs.push(0, 0);
+            this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(1, 1);
+            this.objData.uvs.push(0, 1);
+            this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 1, 2);
+            this.objData.indexs.push(0, 2, 3);
+            this.loadTexture();
+            this.upToGpu();
+        };
+        return PicShowDiplay3dSprite;
+    }(BaseDiplay3dSprite));
+    mars3D.PicShowDiplay3dSprite = PicShowDiplay3dSprite;
     var Marmoset3dScene = /** @class */ (function (_super) {
         __extends(Marmoset3dScene, _super);
         function Marmoset3dScene(value, bfun) {
             if (bfun === void 0) { bfun = null; }
             var _this = _super.call(this, value, bfun) || this;
+            _this.selectId = 0;
+            mars3D.MarmosetModel.getInstance().initData();
             _this.addEvents();
             _this.addBaseChar();
             marmoset.embed('res/karen1.mview', { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
             return _this;
         }
+        Marmoset3dScene.prototype.initScene = function () {
+            ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
+            this.sceneManager = new EdItorSceneManager();
+            var temp = new GridLineSprite();
+            this.sceneManager.addDisplay(temp);
+            this.mianpian = new PicShowDiplay3dSprite();
+            this.sceneManager.addDisplay(this.mianpian);
+            this.sceneManager.ready = true;
+            this.sceneManager.cam3D = new Camera3D();
+            this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 512, 512);
+            this.sceneManager.cam3D.distance = 200;
+            this.sceneManager.focus3D.rotationY = random(360);
+            this.sceneManager.focus3D.rotationX = -45;
+        };
         Marmoset3dScene.prototype.addBaseChar = function () {
             var $baseChar = new LayaSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
@@ -55,6 +111,11 @@ var marmoset;
         };
         Marmoset3dScene.prototype.onMouseUp = function (e) {
             this.lastMouseVec2d = null;
+            var len = mars3D.MarmosetModel.getInstance().textureItem.length;
+            if (this.mianpian._uvTextureRes && len) {
+                this.mianpian._uvTextureRes.texture = mars3D.MarmosetModel.getInstance().textureItem[this.selectId % len];
+                this.selectId++;
+            }
         };
         Marmoset3dScene.prototype.onMouseMove = function (e) {
             if (this.lastMouseVec2d) {
@@ -70,6 +131,6 @@ var marmoset;
         };
         return Marmoset3dScene;
     }(Laya3dSprite));
-    marmoset.Marmoset3dScene = Marmoset3dScene;
-})(marmoset || (marmoset = {}));
+    mars3D.Marmoset3dScene = Marmoset3dScene;
+})(mars3D || (mars3D = {}));
 //# sourceMappingURL=Marmoset3dScene.js.map

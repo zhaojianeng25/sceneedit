@@ -1,4 +1,4 @@
-﻿module marmoset {
+﻿module mars3D {
     import Browser = Laya.Browser;
     import Stage = Laya.Stage;
     import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
@@ -10,33 +10,11 @@
         constructor() {
             this.init()
         }
-        static inited: boolean
-        static overrideMethods(): void {
-            if (this.inited) {
-                return;
-            }
-            this.inited = true;
-            let compatibleLayaRender = function (pan3dFunc: Function, ...args): any {
-                let v = pan3dFunc.apply(this, args);
-
-                //   console.log("here")
-                return v;
-            }
-            let funA = WebGLRenderingContext.prototype.blendFunc;
-            WebGLRenderingContext.prototype.blendFunc = function (sfactor: GLenum, dfactor: GLenum): void {
-                return compatibleLayaRender.call(this, funA, sfactor, dfactor);
-            }
-            /*
-            let ParticleBoneData_setAllByteInfo = Pan3d.ParticleBoneData.prototype.setAllByteInfo;
-            Pan3d.ParticleBoneData.prototype.setAllByteInfo = function (byte: Pan3dByteArray): void {
-                return compatibleLayaRender.call(this, ParticleBoneData_setAllByteInfo, byte);
-            }
-            */
-        }
-
+ 
+     
 
         private init(): void {
-            // LayaLaunch.overrideMethods()
+          
 
             this._canvas = Laya.init(Browser.clientWidth * Browser.pixelRatio, Browser.clientHeight * Browser.pixelRatio, Laya.WebGL);
             Laya.stage.alignV = Stage.ALIGN_LEFT;
@@ -83,6 +61,8 @@
             Laya.stage.frameLoop(1, this, () => {
                 Pan3d.TimeUtil.update()
             })
+
+       
         }
 
 
