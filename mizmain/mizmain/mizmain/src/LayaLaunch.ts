@@ -1,18 +1,7 @@
 ﻿module baselaunch {
-
     import Browser = Laya.Browser;
-    import Loader = Laya.Loader;
-    import LEvent = Laya.Event;
     import Stage = Laya.Stage;
-    import Sprite = Laya.Sprite
-
-
-    import Pan3dByteArray = Pan3d.Pan3dByteArray;
-
-    import LayaScene2D = LayaPan3D.LayaScene2D;
-
     import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
-
     export  class LayaLaunch {
         private _canvas: HTMLCanvasElement;
         get canvas(): HTMLCanvasElement {
