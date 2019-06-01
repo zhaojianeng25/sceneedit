@@ -57,10 +57,12 @@ var mars3D;
             this.upToGpu();
         };
         PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
+            var gl = Scene_data.context3D.renderContext;
             Scene_data.context3D.setProgram(this.program);
             Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
             Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
             Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+            Scene_data.context3D.cullFaceBack(false);
             Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
             Scene_data.context3D.pushVa(mesh.vertexBuffer);
             Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
@@ -120,7 +122,7 @@ var mars3D;
             strItem.push("WildWestNative.mview"); //23
             strItem.push("sceneDaria.mview"); //24
             strItem.push("wwsurvivors.mview"); //25
-            marmoset.embed("res/" + strItem[24], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
+            marmoset.embed("res/" + strItem[3], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
             return _this;
         }
         Marmoset3dScene.prototype.initScene = function () {
@@ -129,6 +131,7 @@ var mars3D;
             var temp = new GridLineSprite();
             this.sceneManager.addDisplay(temp);
             this.mianpian = new PicShowDiplay3dSprite();
+            this.mianpian.scale = 10;
             this.sceneManager.addDisplay(this.mianpian);
             this.sceneManager.ready = true;
             this.sceneManager.cam3D = new Camera3D();

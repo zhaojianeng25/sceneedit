@@ -17,11 +17,7 @@
             this.gl = a;
             var elementArrayBuffer = this.gl.getParameter(this.gl.ELEMENT_ARRAY_BUFFER_BINDING);
             var arrayBuffer = this.gl.getParameter(this.gl.ARRAY_BUFFER_BINDING);
-
-         
-              
-       
-
+ 
             this.gl = a;
             this.desc = b;
             var d = b.isDynamicMesh;
