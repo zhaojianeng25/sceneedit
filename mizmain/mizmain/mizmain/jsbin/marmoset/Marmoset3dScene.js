@@ -111,7 +111,16 @@ var mars3D;
             strItem.push("vespa.mview"); //14
             strItem.push("camera.mview"); //15
             strItem.push("masks3.mview"); //16
-            marmoset.embed("res/" + strItem[16], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
+            strItem.push("17.mview"); //17
+            strItem.push("LightingScenario2.mview"); //18
+            strItem.push("Shinobi.mview"); //19
+            strItem.push("sceneguillau.mview"); //20
+            strItem.push("phillstead_ww_MV_25.mview"); //21
+            strItem.push("scene_glad.mview"); //22
+            strItem.push("WildWestNative.mview"); //23
+            strItem.push("sceneDaria.mview"); //24
+            strItem.push("wwsurvivors.mview"); //25
+            marmoset.embed("res/" + strItem[24], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
             return _this;
         }
         Marmoset3dScene.prototype.initScene = function () {
