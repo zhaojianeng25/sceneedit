@@ -85,10 +85,15 @@
             }
             return this._instance;
         }
+        public static meshItem: Array<Mars3Dmesh>
         private static preaMeshFile(modeInfo: any, fileDic: any): void {
+            if (!this.meshItem) {
+                this.meshItem=[]
+            }
             Pan3d.TimeUtil.addTimeOut(10, () => {
                 var mesh = new Mars3Dmesh(Scene_data.context3D.renderContext, modeInfo, fileDic[modeInfo.file]);
-               // console.log(mesh)
+                // console.log(mesh)
+                this.meshItem.push(mesh)
             })
         }
 

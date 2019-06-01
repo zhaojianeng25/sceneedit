@@ -17,17 +17,17 @@
         public name: any;
         public modelMatrix: any;
         public origin: any;
-        public stride: any;
+        public stride: number;
         public vertexColor: any;
         public secondaryTexCoord: any;
         public indexCount: any;
         public indexTypeSize: any;
         public indexType: any;
-        public indexBuffer: any;
+        public indexBuffer: WebGLBuffer;
         public wireCount: any;
         public wireBuffer: any;
         public vertexCount: any;
-        public vertexBuffer: any;
+        public vertexBuffer: WebGLBuffer;
         public bounds: any;
     }
 

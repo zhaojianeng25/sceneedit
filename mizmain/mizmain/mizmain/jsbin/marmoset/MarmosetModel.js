@@ -97,9 +97,14 @@ var mars3D;
             return this._instance;
         };
         MarmosetModel.preaMeshFile = function (modeInfo, fileDic) {
+            var _this = this;
+            if (!this.meshItem) {
+                this.meshItem = [];
+            }
             Pan3d.TimeUtil.addTimeOut(10, function () {
                 var mesh = new Mars3Dmesh(Scene_data.context3D.renderContext, modeInfo, fileDic[modeInfo.file]);
                 // console.log(mesh)
+                _this.meshItem.push(mesh);
             });
         };
         MarmosetModel.prototype.overrideFun = function () {

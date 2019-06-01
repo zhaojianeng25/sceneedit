@@ -10,6 +10,7 @@ module mars3D {
     import ProgrmaManager = Pan3d.ProgrmaManager
     import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
     import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
+    import Scene_data = Pan3d.Scene_data
 
     import EdItorSceneManager = maineditor.EdItorSceneManager;
 
@@ -53,6 +54,31 @@ module mars3D {
             this.upToGpu()
 
 
+         
+        }
+        private drawTempMesh(mesh: Mars3Dmesh): void {
+            Scene_data.context3D.setProgram(this.program);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+
+
+            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+
+            Scene_data.context3D.pushVa(mesh.vertexBuffer);
+            Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
+            Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
+            Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
+        }
+        public update(): void {
+            if (MarmosetModel.meshItem && MarmosetModel.meshItem.length) {
+                for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
+                    this.drawTempMesh(MarmosetModel.meshItem[i])
+                }
+            } else {
+                super.update()
+            }
+
         }
       
     
@@ -68,10 +94,33 @@ module mars3D {
             MarmosetModel.getInstance().initData();
  
             this.addEvents();
-            this.addBaseChar();
+            //this.addBaseChar();
+
+            //joelamp
+            //benjamin
+            //karen1
+            //karen2
+            var strItem: Array<string> = [];
+            strItem.push("benjamin.mview")//0
+            strItem.push("henrique.mview")//1
+            strItem.push("joelamp.mview")//2
+            strItem.push("karen1.mview")//3
+            strItem.push("karen2.mview")//4
+            strItem.push("natmother.mview")//5
+            strItem.push("tom.mview")//6
+            strItem.push("ViewerNormalesLow-Unreas.mview")//7
+            strItem.push("ViewerArachne2.mview")//8
+            strItem.push("meet_mat.mview")//9
+            strItem.push("vivfox.mview")//10
+            strItem.push("peter.mview")//11
+            strItem.push("test2.mview")//12
+            strItem.push("lens.mview")//13
+            strItem.push("vespa.mview")//14
+            strItem.push("camera.mview")//15
+            strItem.push("masks3.mview")//16
             
- 
-            marmoset.embed('res/karen1.mview', { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
+            
+            marmoset.embed("res/"+strItem[16], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
           
         }
 

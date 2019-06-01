@@ -23,6 +23,7 @@ var mars3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
     var BaseDiplay3dShader = Pan3d.BaseDiplay3dShader;
+    var Scene_data = Pan3d.Scene_data;
     var EdItorSceneManager = maineditor.EdItorSceneManager;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
     var LayaSceneChar = layapan_me.LayaSceneChar;
@@ -55,6 +56,27 @@ var mars3D;
             this.loadTexture();
             this.upToGpu();
         };
+        PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
+            Scene_data.context3D.setProgram(this.program);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+            Scene_data.context3D.pushVa(mesh.vertexBuffer);
+            Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
+            Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
+            Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
+        };
+        PicShowDiplay3dSprite.prototype.update = function () {
+            if (mars3D.MarmosetModel.meshItem && mars3D.MarmosetModel.meshItem.length) {
+                for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
+                    this.drawTempMesh(mars3D.MarmosetModel.meshItem[i]);
+                }
+            }
+            else {
+                _super.prototype.update.call(this);
+            }
+        };
         return PicShowDiplay3dSprite;
     }(BaseDiplay3dSprite));
     mars3D.PicShowDiplay3dSprite = PicShowDiplay3dSprite;
@@ -66,8 +88,30 @@ var mars3D;
             _this.selectId = 0;
             mars3D.MarmosetModel.getInstance().initData();
             _this.addEvents();
-            _this.addBaseChar();
-            marmoset.embed('res/karen1.mview', { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
+            //this.addBaseChar();
+            //joelamp
+            //benjamin
+            //karen1
+            //karen2
+            var strItem = [];
+            strItem.push("benjamin.mview"); //0
+            strItem.push("henrique.mview"); //1
+            strItem.push("joelamp.mview"); //2
+            strItem.push("karen1.mview"); //3
+            strItem.push("karen2.mview"); //4
+            strItem.push("natmother.mview"); //5
+            strItem.push("tom.mview"); //6
+            strItem.push("ViewerNormalesLow-Unreas.mview"); //7
+            strItem.push("ViewerArachne2.mview"); //8
+            strItem.push("meet_mat.mview"); //9
+            strItem.push("vivfox.mview"); //10
+            strItem.push("peter.mview"); //11
+            strItem.push("test2.mview"); //12
+            strItem.push("lens.mview"); //13
+            strItem.push("vespa.mview"); //14
+            strItem.push("camera.mview"); //15
+            strItem.push("masks3.mview"); //16
+            marmoset.embed("res/" + strItem[16], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
             return _this;
         }
         Marmoset3dScene.prototype.initScene = function () {
