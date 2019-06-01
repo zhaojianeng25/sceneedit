@@ -158,8 +158,7 @@
         }
         public initData(): void {
             this.overrideFun()
-
-            console.log(marmoset)
+ 
         }
        
     }

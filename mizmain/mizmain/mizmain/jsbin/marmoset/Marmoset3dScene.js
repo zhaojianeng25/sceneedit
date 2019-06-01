@@ -21,67 +21,9 @@ var mars3D;
     var Camera3D = Pan3d.Camera3D;
     var Rectangle = Pan3d.Rectangle;
     var ProgrmaManager = Pan3d.ProgrmaManager;
-    var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
-    var BaseDiplay3dShader = Pan3d.BaseDiplay3dShader;
-    var Scene_data = Pan3d.Scene_data;
     var EdItorSceneManager = maineditor.EdItorSceneManager;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
     var LayaSceneChar = layapan_me.LayaSceneChar;
-    var PicShowDiplay3dSprite = /** @class */ (function (_super) {
-        __extends(PicShowDiplay3dSprite, _super);
-        function PicShowDiplay3dSprite() {
-            var _this = _super.call(this) || this;
-            _this.initData();
-            _this.updateMatrix;
-            return _this;
-        }
-        PicShowDiplay3dSprite.prototype.initData = function () {
-            ProgrmaManager.getInstance().registe(BaseDiplay3dShader.BaseDiplay3dShader, new BaseDiplay3dShader);
-            this.shader = ProgrmaManager.getInstance().getProgram(BaseDiplay3dShader.BaseDiplay3dShader);
-            this.program = this.shader.program;
-            this.objData = new ObjData;
-            this.objData.vertices = new Array();
-            this.objData.vertices.push(-100, 0, -100);
-            this.objData.vertices.push(100, 0, -100);
-            this.objData.vertices.push(100, 0, 100);
-            this.objData.vertices.push(-100, 0, 100);
-            this.objData.uvs = new Array();
-            this.objData.uvs.push(0, 0);
-            this.objData.uvs.push(1, 0);
-            this.objData.uvs.push(1, 1);
-            this.objData.uvs.push(0, 1);
-            this.objData.indexs = new Array();
-            this.objData.indexs.push(0, 1, 2);
-            this.objData.indexs.push(0, 2, 3);
-            this.loadTexture();
-            this.upToGpu();
-        };
-        PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
-            var gl = Scene_data.context3D.renderContext;
-            Scene_data.context3D.setProgram(this.program);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-            Scene_data.context3D.cullFaceBack(false);
-            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-            Scene_data.context3D.pushVa(mesh.vertexBuffer);
-            Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
-            Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
-            Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
-        };
-        PicShowDiplay3dSprite.prototype.update = function () {
-            if (mars3D.MarmosetModel.meshItem && mars3D.MarmosetModel.meshItem.length) {
-                for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
-                    this.drawTempMesh(mars3D.MarmosetModel.meshItem[i]);
-                }
-            }
-            else {
-                _super.prototype.update.call(this);
-            }
-        };
-        return PicShowDiplay3dSprite;
-    }(BaseDiplay3dSprite));
-    mars3D.PicShowDiplay3dSprite = PicShowDiplay3dSprite;
     var Marmoset3dScene = /** @class */ (function (_super) {
         __extends(Marmoset3dScene, _super);
         function Marmoset3dScene(value, bfun) {
@@ -122,7 +64,7 @@ var mars3D;
             strItem.push("WildWestNative.mview"); //23
             strItem.push("sceneDaria.mview"); //24
             strItem.push("wwsurvivors.mview"); //25
-            marmoset.embed("res/" + strItem[3], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
+            marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
             return _this;
         }
         Marmoset3dScene.prototype.initScene = function () {
@@ -130,7 +72,7 @@ var mars3D;
             this.sceneManager = new EdItorSceneManager();
             var temp = new GridLineSprite();
             this.sceneManager.addDisplay(temp);
-            this.mianpian = new PicShowDiplay3dSprite();
+            this.mianpian = new mars3D.PicShowDiplay3dSprite();
             this.mianpian.scale = 10;
             this.sceneManager.addDisplay(this.mianpian);
             this.sceneManager.ready = true;

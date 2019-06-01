@@ -8,86 +8,15 @@ module mars3D {
     import Camera3D = Pan3d.Camera3D
     import Rectangle = Pan3d.Rectangle
     import ProgrmaManager = Pan3d.ProgrmaManager
-    import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
-    import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
-    import Scene_data = Pan3d.Scene_data
+ 
 
     import EdItorSceneManager = maineditor.EdItorSceneManager;
 
     import Laya3dSprite = LayaPan3D.Laya3dSprite;
      
     import LayaSceneChar = layapan_me.LayaSceneChar;
-
-
-    export class PicShowDiplay3dSprite extends BaseDiplay3dSprite {
-
-        constructor() {
-            super();
-            this.initData()
-            this.updateMatrix
-        }
-        protected initData(): void {
-            ProgrmaManager.getInstance().registe(BaseDiplay3dShader.BaseDiplay3dShader, new BaseDiplay3dShader);
-            this.shader = ProgrmaManager.getInstance().getProgram(BaseDiplay3dShader.BaseDiplay3dShader);
-            this.program = this.shader.program;
-
-            this.objData = new ObjData;
-            this.objData.vertices = new Array();
-            this.objData.vertices.push(-100, 0, -100);
-            this.objData.vertices.push(100, 0, -100);
-            this.objData.vertices.push(100, 0, 100);
-            this.objData.vertices.push(-100, 0, 100);
-
-            this.objData.uvs = new Array()
-            this.objData.uvs.push(0, 0);
-            this.objData.uvs.push(1, 0);
-            this.objData.uvs.push(1, 1);
-            this.objData.uvs.push(0, 1);
-
-            this.objData.indexs = new Array();
-            this.objData.indexs.push(0, 1, 2);
-            this.objData.indexs.push(0, 2, 3);
-
-            this.loadTexture();
-
-
-            this.upToGpu()
-
-
-         
-        }
-        private drawTempMesh(mesh: Mars3Dmesh): void {
-            var gl = Scene_data.context3D.renderContext;
-            Scene_data.context3D.setProgram(this.program);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-
  
-            Scene_data.context3D.cullFaceBack(false);
- 
-            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-
-            Scene_data.context3D.pushVa(mesh.vertexBuffer);
-            Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
-            Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
-            Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
-        }
-        public update(): void {
-            if (MarmosetModel.meshItem && MarmosetModel.meshItem.length) {
-                for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
-                    this.drawTempMesh(MarmosetModel.meshItem[i])
-                }
-            } else {
-                super.update()
-            }
-
-        }
-      
-    
- 
-    }
-
+  
     export class Marmoset3dScene extends Laya3dSprite {
 
        
@@ -132,7 +61,7 @@ module mars3D {
             strItem.push("wwsurvivors.mview")//25
             
             
-            marmoset.embed("res/"+strItem[3], { width: 200, height: 200, autoStart: true, fullFrame: false, pagePreset: false });
+            marmoset.embed("res/"+strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
           
         }
 

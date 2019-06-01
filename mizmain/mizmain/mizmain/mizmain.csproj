@@ -48,6 +48,7 @@
     <TypeScriptCompile Include="src\marmoset\Marmoset3dScene.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetLaunch.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetModel.ts" />
+    <TypeScriptCompile Include="src\marmoset\PicShowDiplay3dSprite.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

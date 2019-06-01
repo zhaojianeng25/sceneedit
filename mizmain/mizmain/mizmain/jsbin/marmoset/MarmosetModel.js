@@ -155,7 +155,6 @@ var mars3D;
         };
         MarmosetModel.prototype.initData = function () {
             this.overrideFun();
-            console.log(marmoset);
         };
         return MarmosetModel;
     }());
