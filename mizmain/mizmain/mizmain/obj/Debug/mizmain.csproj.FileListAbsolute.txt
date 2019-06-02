@@ -11,4 +11,3 @@ E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.csprojAssemblyRefe
 E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.csproj.CoreCompileInputs.cache
 E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.dll
 E:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.pdb
-D:\github\sceneEdit\mizmain\mizmain\mizmain\obj\Debug\mizmain.csprojAssemblyReference.cache

@@ -48,9 +48,9 @@ void main(void){
 	dC=u(uSkyMatrix,iW(vNormal));
 	dv=h(uSkyMatrix,vPosition.xyz).xyz;
 	#ifdef VERTEX_COLOR
-	dD=vColor;
+		dD=vColor;
 	#endif
 	#ifdef TEXCOORD_SECONDARY
-	dE=vTexCoord2;
+		dE=vTexCoord2;
 	#endif
 }

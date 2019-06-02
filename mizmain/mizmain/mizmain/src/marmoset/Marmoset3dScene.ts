@@ -64,17 +64,21 @@ module mars3D {
             
             
 
-            var txtshaderName: string ="shader1087_1"
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/v" + txtshaderName+".txt", LoadManager.XML_TYPE, (vstr: any) => {
-                MarmosetModel.changerVshader = vstr
-                LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/f" + txtshaderName+".txt", LoadManager.XML_TYPE, (fstr: any) => {
-                    MarmosetModel.changerFshader = fstr
-                    marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+
+            var rootpath: string = "pan/marmoset/feiji/2/";
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath+"outshder.txt", LoadManager.XML_TYPE, (outstr: any) => {
+                MarmosetModel.changerOutshader = outstr
+                LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath +"vshader.txt", LoadManager.XML_TYPE, (vstr: any) => {
+                    MarmosetModel.changerVshader = vstr
+                    LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath +"fshader.txt", LoadManager.XML_TYPE, (fstr: any) => {
+                        MarmosetModel.changerFshader = fstr
+                        marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+                    });
+
                 });
- 
             });
 
-        
+            
 
         }
 

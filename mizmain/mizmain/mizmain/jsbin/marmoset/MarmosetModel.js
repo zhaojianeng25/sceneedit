@@ -153,9 +153,28 @@ var mars3D;
                 console.log("---------------------------------");
                 console.log(a.length, b.length);
                 if (b.length == 18238) {
-                    a = MarmosetModel.changerVshader;
-                    b = MarmosetModel.changerFshader;
-                    //console.log(a)
+                    //a = MarmosetModel.changerVshader;
+                    //b = MarmosetModel.changerFshader;
+                }
+                else {
+                    //553 202
+                    //132 150
+                    //148 114  //
+                    //1318 18238
+                    //1336 18256
+                    //260 227
+                    //154 114
+                    //212 2049
+                    //154 1991
+                    //179 339
+                    //154 248
+                    //468 490 
+                    if (a.length == 212) { //114
+                        console.log("--------", a.length);
+                        b = MarmosetModel.changerOutshader;
+                        //  b = tempstr.substr(0, tempstr.lastIndexOf("}")) + "\ngl_FragColor.x=1.0;\n}"
+                        console.log(b);
+                    }
                 }
                 Shader_build.call(this, a, b);
             };
