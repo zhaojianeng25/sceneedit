@@ -7,6 +7,9 @@
     class TextureCache {
         public static parseFile(a?: any, b?: any, c?: any): void
     }
+    class Shader {
+        public build(a: any, b: any): void
+    }
     class Mesh {
         constructor(a?: any, b?: any, c?: any);
         public gl: any;

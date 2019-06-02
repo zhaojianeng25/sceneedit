@@ -4429,6 +4429,7 @@ marmoset = {};
         this.attribs = {}
     }
     Shader.prototype.build = function(a, b) {
+	 
         var c = this.gl;
         this.program = c.createProgram();
         this.params = {};
@@ -6814,6 +6815,7 @@ marmoset = {};
 	marmoset.ByteStream = ByteStream;
 	marmoset.Matrix = Matrix;
 	marmoset.Vect = Vect;
+	marmoset.Shader = Shader;
 	
 	
 	

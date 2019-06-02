@@ -7,7 +7,9 @@ module mars3D {
     import GridLineSprite = Pan3d.GridLineSprite
     import Camera3D = Pan3d.Camera3D
     import Rectangle = Pan3d.Rectangle
+    import LoadManager = Pan3d.LoadManager
     import ProgrmaManager = Pan3d.ProgrmaManager
+    import Scene_data = Pan3d.Scene_data
  
 
     import EdItorSceneManager = maineditor.EdItorSceneManager;
@@ -61,9 +63,19 @@ module mars3D {
             strItem.push("wwsurvivors.mview")//25
             
             
-            marmoset.embed("res/"+strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
           
+
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/shader1087.txt", LoadManager.XML_TYPE, ($str: any) => {
+
+                MarmosetModel.changeShaderStr = $str
+       
+
+                marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+
+            });
+
         }
+
 
         private mianpian: PicShowDiplay3dSprite
         protected initScene(): void {
@@ -97,6 +109,16 @@ module mars3D {
             this.on(MouseType.MouseWheel, this, this.onMouseWheel);
             Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
+            Laya.stage.on(Laya.Event.KEY_DOWN, this, this.onStageKeyDonw);
+        }
+        private onStageKeyDonw(evt: Laya.Event): void {
+
+ 
+            if (evt.keyCode == Pan3d.KeyboardType.F) {
+
+                MarmosetModel.getInstance().upFileToSvever()
+            }
+
         }
     
       

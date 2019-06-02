@@ -89,6 +89,7 @@ var mars3D;
     var MarmosetModel = /** @class */ (function () {
         function MarmosetModel() {
             this.textureItem = [];
+            MarmosetModel.imgBolb = {};
         }
         MarmosetModel.getInstance = function () {
             if (!this._instance) {
@@ -97,15 +98,10 @@ var mars3D;
             return this._instance;
         };
         MarmosetModel.preaMeshFile = function (modeInfo, fileDic) {
-            var _this = this;
             if (!this.meshItem) {
                 this.meshItem = [];
             }
-            Pan3d.TimeUtil.addTimeOut(10, function () {
-                var mesh = new Mars3Dmesh(Scene_data.context3D.renderContext, modeInfo, fileDic[modeInfo.file]);
-                // console.log(mesh)
-                _this.meshItem.push(mesh);
-            });
+            this.meshItem.push(new Mars3Dmesh(Scene_data.context3D.renderContext, modeInfo, fileDic[modeInfo.file]));
         };
         MarmosetModel.prototype.overrideFun = function () {
             var marmosetFun = function (fun) {
@@ -130,12 +126,11 @@ var mars3D;
                         sceneInfo = JSON.parse((new ByteStream(fileVo.data)).asString());
                     }
                 }
-                var tempBg = marmosetFun.call(this, Scene_load, a);
+                var tempBack = marmosetFun.call(this, Scene_load, a);
                 for (var g = 0; g < sceneInfo.meshes.length; ++g) {
                     MarmosetModel.preaMeshFile(sceneInfo.meshes[g], fileDic);
                 }
-                console.log(sceneInfo);
-                return tempBg;
+                return tempBack;
             };
             var TextureCache_parseFile = marmoset.TextureCache.parseFile;
             marmoset.TextureCache.parseFile = function (a, b, c) {
@@ -150,8 +145,53 @@ var mars3D;
                     MarmosetModel.getInstance().textureItem.push(webGLTexture);
                 };
                 tempImg.src = tempURL;
-                TextureCache_parseFile(a, b, c);
+                TextureCache_parseFile.call(this, a, b, c);
+                MarmosetModel.imgBolb[a.name] = new Blob([a.data], { type: "application/octet-binary" });
             };
+            var Shader_build = marmoset.Shader.prototype.build;
+            marmoset.Shader.prototype.build = function (a, b) {
+                console.log("---------------------------------");
+                console.log(a.length, b.length);
+                if (b.length == 18238) {
+                    // b= b.substr(0, (b.lastIndexOf("}"))) + "\ngl_FragColor =vec4(1.0,1.0,1.0,1.0);  \n}";
+                    b = MarmosetModel.changeShaderStr;
+                    console.log(b);
+                }
+                Shader_build.call(this, a, b);
+            };
+        };
+        MarmosetModel.prototype.getTextShaderStr = function () {
+            var str;
+            str = "";
+            return str;
+        };
+        MarmosetModel.prototype.upFileToSvever = function () {
+            for (var key in MarmosetModel.imgBolb) {
+                this.dataURLtoBlob(MarmosetModel.imgBolb[key], key);
+            }
+        };
+        MarmosetModel.prototype.dataURLtoBlob = function (value, name) {
+            //"image/jpeg"
+            var img = new Image();
+            img.url = name;
+            img.onload = function (evt) {
+                var etimg = evt.target;
+                URL.revokeObjectURL(etimg.src);
+                var files = new File([value], name, { type: "image/jpeg" });
+                var pathUrl = Pan3d.Scene_data.fileRoot + "pan/marmoset/" + name;
+                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile(files, pathurl, function (value) {
+                    console.log(value);
+                });
+            };
+            img.src = URL.createObjectURL(value);
+        };
+        MarmosetModel.prototype.dataURLtoFile = function (dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
         };
         MarmosetModel.prototype.initData = function () {
             this.overrideFun();

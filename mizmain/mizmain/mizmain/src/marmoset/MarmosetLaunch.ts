@@ -1,6 +1,8 @@
 ﻿module mars3D {
+    import LoadManager = Pan3d.LoadManager
     import Browser = Laya.Browser;
     import Stage = Laya.Stage;
+
     import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
     export class MarmosetLaunch {
         private _canvas: HTMLCanvasElement;
@@ -22,6 +24,8 @@
 
             Laya.stage.scaleMode = "full"
             Laya.stage.bgColor = "#232628";
+
+  
 
 
 
@@ -61,8 +65,7 @@
             Laya.stage.frameLoop(1, this, () => {
                 Pan3d.TimeUtil.update()
             })
-
-       
+     
         }
 
 

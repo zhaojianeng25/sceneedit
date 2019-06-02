@@ -20,7 +20,9 @@ var mars3D;
     var GridLineSprite = Pan3d.GridLineSprite;
     var Camera3D = Pan3d.Camera3D;
     var Rectangle = Pan3d.Rectangle;
+    var LoadManager = Pan3d.LoadManager;
     var ProgrmaManager = Pan3d.ProgrmaManager;
+    var Scene_data = Pan3d.Scene_data;
     var EdItorSceneManager = maineditor.EdItorSceneManager;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
     var LayaSceneChar = layapan_me.LayaSceneChar;
@@ -64,7 +66,10 @@ var mars3D;
             strItem.push("WildWestNative.mview"); //23
             strItem.push("sceneDaria.mview"); //24
             strItem.push("wwsurvivors.mview"); //25
-            marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/shader1087.txt", LoadManager.XML_TYPE, function ($str) {
+                mars3D.MarmosetModel.changeShaderStr = $str;
+                marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+            });
             return _this;
         }
         Marmoset3dScene.prototype.initScene = function () {
@@ -92,6 +97,12 @@ var mars3D;
             this.on(MouseType.MouseWheel, this, this.onMouseWheel);
             Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
+            Laya.stage.on(Laya.Event.KEY_DOWN, this, this.onStageKeyDonw);
+        };
+        Marmoset3dScene.prototype.onStageKeyDonw = function (evt) {
+            if (evt.keyCode == Pan3d.KeyboardType.F) {
+                mars3D.MarmosetModel.getInstance().upFileToSvever();
+            }
         };
         Marmoset3dScene.prototype.onMouseWheel = function (e) {
             this.sceneManager.cam3D.distance += e.delta;
