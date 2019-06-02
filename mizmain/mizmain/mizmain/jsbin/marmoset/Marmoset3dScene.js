@@ -66,9 +66,13 @@ var mars3D;
             strItem.push("WildWestNative.mview"); //23
             strItem.push("sceneDaria.mview"); //24
             strItem.push("wwsurvivors.mview"); //25
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/shader1087.txt", LoadManager.XML_TYPE, function ($str) {
-                mars3D.MarmosetModel.changeShaderStr = $str;
-                marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+            var txtshaderName = "shader1087_1";
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/v" + txtshaderName + ".txt", LoadManager.XML_TYPE, function (vstr) {
+                mars3D.MarmosetModel.changerVshader = vstr;
+                LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/f" + txtshaderName + ".txt", LoadManager.XML_TYPE, function (fstr) {
+                    mars3D.MarmosetModel.changerFshader = fstr;
+                    marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+                });
             });
             return _this;
         }

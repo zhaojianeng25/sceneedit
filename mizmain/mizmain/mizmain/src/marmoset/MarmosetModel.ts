@@ -140,21 +140,20 @@
 
             let Shader_build = marmoset.Shader.prototype.build;
             marmoset.Shader.prototype.build = function (a: string, b: string): void {
-
                 console.log("---------------------------------")
                 console.log(a.length, b.length)
                 if (b.length == 18238) {
-                   // b= b.substr(0, (b.lastIndexOf("}"))) + "\ngl_FragColor =vec4(1.0,1.0,1.0,1.0);  \n}";
-                    b = MarmosetModel.changeShaderStr;
-                    console.log(b);
+                    a = MarmosetModel.changerVshader;
+                    b = MarmosetModel.changerFshader;
+                    //console.log(a)
                 }
-
                 Shader_build.call(this, a, b);
             }
  
 
         }
-        public static changeShaderStr: string
+        public static changerVshader: string
+        public static changerFshader: string
         private getTextShaderStr(): string {
             var str: string;
             str=""
