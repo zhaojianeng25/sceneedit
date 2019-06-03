@@ -29,6 +29,13 @@ var mars3D;
         function Mars3Dmesh() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        Mars3Dmesh.prototype.meshVect = function (value, stride) {
+            //  var uint8Array: Uint8Array = new Uint8Array(value.length);
+            //var float32Array: Float32Array = new Float32Array(value.length/4);
+            var uint8Array = new Uint8Array([201, 84, 15, 11]);
+            var float32Array = new Float32Array(1);
+            return value;
+        };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
             this.gl = a;
             var elementArrayBuffer = this.gl.getParameter(this.gl.ELEMENT_ARRAY_BUFFER_BINDING);
@@ -42,11 +49,14 @@ var mars3D;
             this.modelMatrix = Matrix.identity();
             this.origin = b.transform ? Vect.create(b.transform[12], b.transform[13], b.transform[14], 1) : Vect.create(0, 5, 0, 1);
             this.stride = 32;
-            if (this.vertexColor = b.vertexColor)
+            if (this.vertexColor = b.vertexColor) {
                 this.stride += 4;
-            if (this.secondaryTexCoord = b.secondaryTexCoord)
+            }
+            if (this.secondaryTexCoord = b.secondaryTexCoord) {
                 this.stride += 8;
-            c = new ByteStream(c.data);
+            }
+            //  c = new ByteStream(c.data);
+            c = new ByteStream(this.meshVect(c.data, this.stride));
             this.indexCount = b.indexCount;
             this.indexTypeSize = b.indexTypeSize;
             this.indexType = 4 == this.indexTypeSize ? a.UNSIGNED_INT : a.UNSIGNED_SHORT;
