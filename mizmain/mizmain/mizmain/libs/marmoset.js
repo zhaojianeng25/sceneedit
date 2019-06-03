@@ -4429,7 +4429,6 @@ marmoset = {};
         this.attribs = {}
     }
     Shader.prototype.build = function(a, b) {
-	 
         var c = this.gl;
         this.program = c.createProgram();
         this.params = {};
@@ -6816,9 +6815,6 @@ marmoset = {};
 	marmoset.Matrix = Matrix;
 	marmoset.Vect = Vect;
 	marmoset.Shader = Shader;
-	
-	
-	
     marmoset.dataLocale = (0 == window.location.protocol.indexOf("https") ? "https:" : "http:") + "//viewer.marmoset.co/main/data/";
     var ShaderTable = {
         "alphaprepassfrag.glsl": "precision mediump float;\n#include <matdither.glsl>\nuniform sampler2D tAlbedo;varying mediump vec2 d;void main(){float e=texture2D(tAlbedo,d).a;if(e<=f(d.x)){discard;}gl_FragColor=vec4(0.0);}",
