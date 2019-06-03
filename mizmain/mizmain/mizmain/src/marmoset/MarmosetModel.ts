@@ -116,15 +116,12 @@
                 }
                 return tempBack;
             }
-
- 
             let TextureCache_parseFile = marmoset.TextureCache.parseFile;
             marmoset.TextureCache.parseFile = function (a: any, b: any, c: any): void {
                 var tempImg: any = new Image();
                 var tempBlob = new Blob([a.data], {
                     type: a.type
                 });
-         
                 var tempURL = URL.createObjectURL(tempBlob);
                 tempImg.onload = function () {
                     URL.revokeObjectURL(tempURL);
@@ -132,46 +129,23 @@
                     MarmosetModel.getInstance().textureItem.push(webGLTexture);
                 }
                 tempImg.src = tempURL;
- 
                 TextureCache_parseFile.call(this, a, b,c);
-
                 MarmosetModel.imgBolb[a.name] = new Blob([a.data], { type: "application/octet-binary" });
             }
 
             let Shader_build = marmoset.Shader.prototype.build;
             marmoset.Shader.prototype.build = function (a: string, b: string): void {
-                console.log("---------------------------------")
-                console.log(a.length, b.length)
-                if (b.length == 18238) {
+                //console.log("---------------------------------")
+                //console.log(a.length, b.length)
+                if (b.length == 18238) { //读取顶点和纹理着色器
                     a = MarmosetModel.changerVshader;
                     b = MarmosetModel.changerFshader;
                 } else {
-
-//553 202
-//132 150
-//148 114  //
-//1318 18238
-//1336 18256
-//260 227
-//154 114
-//212 2049
-//154 1991
-//179 339
-//154 248
-//468 490 
-
-                    if (a.length == 212) {//114
-                        console.log("--------", a.length)
+                    if (a.length == 212) {//更新输出着色器
                         b = MarmosetModel.changerOutshader;
-                 
-                      //  b = tempstr.substr(0, tempstr.lastIndexOf("}")) + "\ngl_FragColor.x=1.0;\n}"
-
-                        console.log(b)
-                    
-
                     }
-                 
                 }
+
                 Shader_build.call(this, a, b);
             }
  
