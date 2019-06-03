@@ -32,9 +32,27 @@ var mars3D;
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
             //  var uint8Array: Uint8Array = new Uint8Array(value.length);
             //var float32Array: Float32Array = new Float32Array(value.length/4);
-            var uint8Array = new Uint8Array([201, 84, 15, 11]);
-            var float32Array = new Float32Array(1);
-            return value;
+            var arrayBuffer = new ArrayBuffer(4);
+            arrayBuffer[0] = 52;
+            arrayBuffer[1] = 84;
+            arrayBuffer[2] = 15;
+            arrayBuffer[3] = 11;
+            var dataView = new DataView(new ArrayBuffer(value.length));
+            for (var i = 0; i < value.length; i++) {
+                dataView.setUint8(i, value[i]);
+            }
+            //var float32Array: Float32Array = new Float32Array(dataView.getFloat32(0));
+            var lenNum = value.length / stride; //行数
+            for (var i = 0; i < lenNum - 1; i++) {
+                var startId = (i * stride / 4);
+                var tempNum = dataView.getFloat32(startId);
+                //  dataView.setFloat32(startId + 0, 0);
+            }
+            var outUint8Array = new Uint8Array(value.length);
+            for (var i = 0; i < dataView.byteLength; i++) {
+                outUint8Array[i] = dataView.getUint8(i);
+            }
+            return outUint8Array;
         };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
             this.gl = a;
