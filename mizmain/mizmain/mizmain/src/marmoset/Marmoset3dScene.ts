@@ -65,7 +65,7 @@ module mars3D {
             
 
 
-            var rootpath: string = "pan/marmoset/feiji/2/";
+            var rootpath: string = "pan/marmoset/feiji/3/";
             LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath+"outshder.txt", LoadManager.XML_TYPE, (outstr: any) => {
                 MarmosetModel.changerOutshader = outstr
                 LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath +"vshader.txt", LoadManager.XML_TYPE, (vstr: any) => {

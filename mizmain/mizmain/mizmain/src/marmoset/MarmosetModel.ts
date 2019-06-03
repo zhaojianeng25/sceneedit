@@ -143,8 +143,8 @@
                 console.log("---------------------------------")
                 console.log(a.length, b.length)
                 if (b.length == 18238) {
-                    //a = MarmosetModel.changerVshader;
-                    //b = MarmosetModel.changerFshader;
+                    a = MarmosetModel.changerVshader;
+                    b = MarmosetModel.changerFshader;
                 } else {
 
 //553 202

@@ -66,7 +66,7 @@ var mars3D;
             strItem.push("WildWestNative.mview"); //23
             strItem.push("sceneDaria.mview"); //24
             strItem.push("wwsurvivors.mview"); //25
-            var rootpath = "pan/marmoset/feiji/2/";
+            var rootpath = "pan/marmoset/feiji/3/";
             LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath + "outshder.txt", LoadManager.XML_TYPE, function (outstr) {
                 mars3D.MarmosetModel.changerOutshader = outstr;
                 LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath + "vshader.txt", LoadManager.XML_TYPE, function (vstr) {
