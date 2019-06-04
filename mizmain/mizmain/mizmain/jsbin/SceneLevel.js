@@ -13,8 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var base;
 (function (base) {
-    var LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
+    var MouseType = Pan3d.MouseType;
     var LayaScene2D = LayaPan3D.LayaScene2D;
+    var AtlasFrameVo = layapan_me.AtlasFrameVo;
     var CanvasScene = /** @class */ (function (_super) {
         __extends(CanvasScene, _super);
         function CanvasScene(value, bfun) {
@@ -23,19 +24,79 @@ var base;
         }
         CanvasScene.prototype.initScene = function () {
             _super.prototype.initScene.call(this);
-            // this.addSceneModel();
-        };
-        CanvasScene.prototype.addSceneModel = function () {
-            this.sceneManager.cam3D.scene2dScale = 2;
-            var $baseChar = new LayaScene2dSceneChar();
-            $baseChar.setRoleUrl(getRoleUrl("5103"));
-            this.sceneManager.addMovieDisplay($baseChar);
-            $baseChar.set2dPos(100, 100);
-            $baseChar.rotationY = 180;
         };
         return CanvasScene;
     }(LayaScene2D));
     base.CanvasScene = CanvasScene;
+    var BooldUserSprite = /** @class */ (function (_super) {
+        __extends(BooldUserSprite, _super);
+        function BooldUserSprite() {
+            var _this = _super.call(this) || this;
+            _this._bg = new Laya.Image("res/ui/bloodbg.png");
+            _this.addChild(_this._bg);
+            _this._line = new Laya.Image("res/ui/bloodline.png");
+            _this.addChild(_this._line);
+            _this._line.scaleX = 0.5;
+            return _this;
+        }
+        return BooldUserSprite;
+    }(Laya.Sprite));
+    base.BooldUserSprite = BooldUserSprite;
+    var AtlasFrameSprite = /** @class */ (function (_super) {
+        __extends(AtlasFrameSprite, _super);
+        function AtlasFrameSprite() {
+            var _this = _super.call(this) || this;
+            _this._skipNum = 0;
+            _this._speedNum = 1;
+            _this.isLoop = true;
+            _this.frameLoop(1, _this, _this.updateFrame);
+            return _this;
+        }
+        Object.defineProperty(AtlasFrameSprite.prototype, "speedNum", {
+            set: function (value) {
+                this._speedNum = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        AtlasFrameSprite.prototype.updateFrame = function () {
+            if (this.frameItem && this.frameTexture) {
+                var fnum = Math.floor(this._skipNum++ / this._speedNum);
+                if (this.isLoop || fnum < this.frameItem.length) { //循环时才会播放
+                    var id = fnum % this.frameItem.length;
+                    var vo = this.frameItem[id];
+                    if (this.lastDrawVo != vo) {
+                        this.graphics.clear();
+                        var outTexture = Laya.Texture.createFromTexture(this.frameTexture, vo.frame.x, vo.frame.y, vo.frame.w, vo.frame.h);
+                        var g = this.graphics;
+                        g.drawTexture(outTexture);
+                        this.width = vo.frame.w;
+                        this.height = vo.frame.h;
+                        this.lastDrawVo = vo;
+                        this.pivotX = this.width / 2;
+                        this.pivotY = this.height / 2;
+                    }
+                }
+            }
+        };
+        AtlasFrameSprite.prototype.setInfo = function ($data) {
+            var _this = this;
+            this.frameItem = [];
+            for (var key in $data.frames) {
+                var $atlasFrameVo = new AtlasFrameVo();
+                $atlasFrameVo.meshData($data.frames[key]);
+                $atlasFrameVo.key = key;
+                this.frameItem.push($atlasFrameVo);
+            }
+            var picUrl = AtlasFrameSprite.pathUrl + $data.meta.image;
+            Laya.loader.load(picUrl, Laya.Handler.create(this, function (value) {
+                _this.frameTexture = value;
+            }));
+        };
+        AtlasFrameSprite.pathUrl = "res/frameatlas/";
+        return AtlasFrameSprite;
+    }(Laya.Sprite));
+    base.AtlasFrameSprite = AtlasFrameSprite;
     var SceneLevel = /** @class */ (function (_super) {
         __extends(SceneLevel, _super);
         function SceneLevel(value) {
@@ -47,9 +108,30 @@ var base;
             _this.addChild(_this._bottomLayer);
             _this.addChild(_this._midScene3dPic);
             _this.addChild(_this._topLayer);
+            _this._midScene3dPic.rootpos = null;
+            _this.setSceneScale(4);
             _this.setSceneCanvas(512, 512);
+            _this.addEvents();
             return _this;
         }
+        SceneLevel.prototype.addEvents = function () {
+            this.on(MouseType.MouseDown, this, this.onMouseDown);
+        };
+        SceneLevel.prototype.onMouseDown = function (e) {
+            console.log(this.mouseX, this.mouseY);
+            var label = this.getNameLabelVo();
+            label.x = this.mouseX * this._sceneScale / SceneLevel.num4;
+            label.y = this.mouseY * this._sceneScale / SceneLevel.num4;
+            var atlasFrameSprite = this.playAnim("10101_1", true);
+            atlasFrameSprite.speedNum = 4;
+            atlasFrameSprite.isLoop = false;
+            atlasFrameSprite.scale(0.5, 0.5);
+            atlasFrameSprite.x = label.x;
+            atlasFrameSprite.y = label.y;
+            var booldUserSprite = this.getBloodVo();
+            booldUserSprite.x = label.x;
+            booldUserSprite.y = label.y;
+        };
         SceneLevel.prototype.addMovieDisplay = function ($display) {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);
         };
@@ -57,26 +139,56 @@ var base;
         SceneLevel.prototype.setSceneBgColor = function (value) {
             this._midScene3dPic.bgColor = value;
         };
-        //设置3D角色比例
         SceneLevel.prototype.setSceneScale = function (value) {
-            this._midScene3dPic.sceneManager.cam3D.scene2dScale = value;
-            this._bottomLayer.scale(value / 4, value / 4);
-            this._topLayer.scale(value / 4, value / 4);
+            this._sceneScale = value;
+            this._midScene3dPic.sceneManager.cam3D.scene2dScale = this._sceneScale;
+            this._bottomLayer.scale(this._sceneScale / SceneLevel.num4, this._sceneScale / SceneLevel.num4);
+            this._topLayer.scale(this._sceneScale / SceneLevel.num4, this._sceneScale / SceneLevel.num4);
         };
         //设计渲染范围
         SceneLevel.prototype.setSceneCanvas = function (w, h) {
             this._midScene3dPic.scale(w / this._textRect.width, h / this._textRect.height);
+            this.width = w;
+            this.height = h;
         };
         //获取一个名字Label;
         SceneLevel.prototype.getNameLabelVo = function () {
             var temp = new Laya.Label("名字");
-            temp.color = "#ff0000";
-            temp.fontSize = 30;
+            temp.color = "#ffffff";
+            temp.fontSize = 16;
             temp.x = 100;
             temp.y = 100;
             this._topLayer.addChild(temp);
             return temp;
         };
+        //获取一个名字Label;
+        SceneLevel.prototype.getBloodVo = function () {
+            var sp = new BooldUserSprite;
+            sp.x = 100;
+            sp.y = 100;
+            sp.scale(0.3, 0.3);
+            this._topLayer.addChild(sp);
+            return sp;
+        };
+        //获取图片动画对象 
+        SceneLevel.prototype.getFrameAnimSprite = function (isTop) {
+            var sp = new AtlasFrameSprite;
+            if (isTop) {
+                this._topLayer.addChild(sp);
+            }
+            else {
+                this._bottomLayer.addChild(sp);
+            }
+            return sp;
+        };
+        SceneLevel.prototype.playAnim = function (value, isTop) {
+            var sp = this.getFrameAnimSprite(isTop);
+            Laya.loader.load(AtlasFrameSprite.pathUrl + value + ".atlas", Laya.Handler.create(this, function ($data) {
+                sp.setInfo($data);
+            }));
+            return sp;
+        };
+        SceneLevel.num4 = 4;
         return SceneLevel;
     }(Laya.Box));
     base.SceneLevel = SceneLevel;

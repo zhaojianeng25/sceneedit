@@ -1,8 +1,13 @@
 ﻿module baselaunch {
     import Browser = Laya.Browser;
     import Stage = Laya.Stage;
+    import AtlasFrameVo = layapan_me.AtlasFrameVo;
+
     import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
     import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
+
+    import AtlasFrameSprite = base.AtlasFrameSprite
+
     export  class LayaLaunch {
         private _canvas: HTMLCanvasElement;
         get canvas(): HTMLCanvasElement {
@@ -95,20 +100,29 @@
             })
         }
 
+        private sceneLevel: base.SceneLevel
         private addRightScene(): void {
 
-            var spriteB: base.SceneLevel = new base.SceneLevel("res/ui/icon/512b.jpg")
-            Laya.stage.addChild(spriteB);
-            spriteB.pos(400, 200);
-            spriteB.setSceneCanvas(200, 400)
-            spriteB.setSceneBgColor(new Pan3d.Vector3D(0.1, 0, 0, 0.1))
-            spriteB.getNameLabelVo();
-            spriteB.setSceneScale(4)
+            var tempScene: base.SceneLevel = new base.SceneLevel("res/ui/icon/512b.jpg")
+            Laya.stage.addChild(tempScene);
+            tempScene.pos(400, 200);
+            tempScene.setSceneCanvas(200, 400)
+            tempScene.setSceneBgColor(new Pan3d.Vector3D(0.01, 0, 0, 0.1))
+            tempScene.getNameLabelVo();
 
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
-            spriteB.addMovieDisplay($baseChar)
+            tempScene.addMovieDisplay($baseChar)
             $baseChar.setRoleUrl(getRoleUrl("5103"));
-            $baseChar.set2dPos(100, 100);
+            $baseChar.set2dPos(100, 150);
+
+            this.sceneLevel = tempScene;
+            var atlasFrameSprite: AtlasFrameSprite = this.sceneLevel.playAnim("10101_1", true);
+            atlasFrameSprite.speedNum = 4;
+            atlasFrameSprite.isLoop = true;
+            atlasFrameSprite.scale(0.5, 0.5);
+            atlasFrameSprite.x = 100;
+            atlasFrameSprite.y = 100;
+
         }
 
 
