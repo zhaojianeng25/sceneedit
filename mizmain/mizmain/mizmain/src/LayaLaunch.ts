@@ -72,23 +72,20 @@
 
 
             var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-            Laya.stage.addChild(picA)
-            picA.scale(0.5, 0.5)
+         //   Laya.stage.addChild(picA)
+            picA.scale(0.5, 0.5) 
             picA.pos(600, 170)
+ 
 
-            console.log(layapan_me.LayaSceneChar)
-
-            var spriteA: base.SceneLevel = new base.SceneLevel("res/ui/icon/512a.jpg")
-            Laya.stage.addChild(spriteA);
-            spriteA.pos(0, 0);
-            spriteA.setSceneCanvas(400, 200)
-
-            this.addRightScene()
+            //var spriteA: base.SceneLevel = new base.SceneLevel("res/ui/icon/512a.jpg")
+            //Laya.stage.addChild(spriteA);
+            //spriteA.pos(0, 0);
+            //spriteA.setSceneCanvas(400, 200);
 
  
 
             var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-            Laya.stage.addChild(picB)
+          //  Laya.stage.addChild(picB)
             picB.pos(0, 220)
 
             this.lastTm = Pan3d.TimeUtil.getTimer()
@@ -98,27 +95,48 @@
                 this.lastTm = Pan3d.TimeUtil.getTimer()
                 Pan3d.TimeUtil.update()
             })
+
+            this.addRightScene()
+            Laya.stage.on(Laya.Event.RESIZE, this, this.resizeStage)
+            this.resizeStage();
+        }
+        private resizeStage(): void {
+
+            console.log(Laya.stage.width, Laya.stage.height)
+
+            var minw: number = Laya.stage.width/ this.gameSceneLevel.width ;
+            var minh: number = Laya.stage.height/ this.gameSceneLevel.height;
+
+            var tempScale: number = Math.min(minw, minh);
+            this.gameSceneLevel.scale(tempScale, tempScale);
+
+            var tx: number = (Laya.stage.width - (tempScale * this.gameSceneLevel.width)) / 2
+            var ty: number = (Laya.stage.height - (tempScale * this.gameSceneLevel.height)) / 2
+
+            this.gameSceneLevel.pos(tx, ty)
         }
 
-        private sceneLevel: base.SceneLevel
+        private gameSceneLevel: base.SceneLevel;
+
+   
         private addRightScene(): void {
 
             var tempScene: base.SceneLevel = new base.SceneLevel("res/ui/icon/512b.jpg")
             Laya.stage.addChild(tempScene);
-            tempScene.pos(400, 200);
-            tempScene.setSceneCanvas(200, 400)
+     
+            tempScene.setSceneCanvas(720, 1280)
             tempScene.setSceneBgColor(new Pan3d.Vector3D(0.01, 0, 0, 0.1))
             tempScene.getNameLabelVo();
-
             var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
             tempScene.addMovieDisplay($baseChar)
             $baseChar.setRoleUrl(getRoleUrl("5103"));
-            $baseChar.set2dPos(100, 150);
+            $baseChar.set2dPos(100, 100);
+ 
 
-            this.sceneLevel = tempScene;
-            var atlasFrameSprite: AtlasFrameSprite = this.sceneLevel.playAnim("10101_1", true);
+            this.gameSceneLevel = tempScene;
+            var atlasFrameSprite: AtlasFrameSprite = this.gameSceneLevel.playAnim("10101_1", true);
             atlasFrameSprite.speedNum = 4;
-            atlasFrameSprite.isLoop = true;
+            atlasFrameSprite.isLoop = false;
             atlasFrameSprite.scale(0.5, 0.5);
             atlasFrameSprite.x = 100;
             atlasFrameSprite.y = 100;

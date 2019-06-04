@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 var base;
 (function (base) {
     var MouseType = Pan3d.MouseType;
+    var LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
     var LayaScene2D = LayaPan3D.LayaScene2D;
     var AtlasFrameVo = layapan_me.AtlasFrameVo;
     var CanvasScene = /** @class */ (function (_super) {
@@ -109,19 +110,24 @@ var base;
             _this.addChild(_this._midScene3dPic);
             _this.addChild(_this._topLayer);
             _this._midScene3dPic.rootpos = null;
-            _this.setSceneScale(4);
+            _this.setSceneScale(6);
             _this.setSceneCanvas(512, 512);
             _this.addEvents();
             return _this;
         }
+        //public get rootpos(): Vector2D {
+        //    return this._midScene3dPic.rootpos;
+        //}
+        //public set rootpos(value: Vector2D) {
+        //    this._midScene3dPic.rootpos = value;
+        //}
         SceneLevel.prototype.addEvents = function () {
             this.on(MouseType.MouseDown, this, this.onMouseDown);
         };
         SceneLevel.prototype.onMouseDown = function (e) {
-            console.log(this.mouseX, this.mouseY);
             var label = this.getNameLabelVo();
-            label.x = this.mouseX * this._sceneScale / SceneLevel.num4;
-            label.y = this.mouseY * this._sceneScale / SceneLevel.num4;
+            label.x = this.mouseX;
+            label.y = this.mouseY;
             var atlasFrameSprite = this.playAnim("10101_1", true);
             atlasFrameSprite.speedNum = 4;
             atlasFrameSprite.isLoop = false;
@@ -131,6 +137,10 @@ var base;
             var booldUserSprite = this.getBloodVo();
             booldUserSprite.x = label.x;
             booldUserSprite.y = label.y;
+            var $baseChar = new LayaScene2dSceneChar();
+            this.addMovieDisplay($baseChar);
+            $baseChar.setRoleUrl(getRoleUrl("5103"));
+            $baseChar.set2dPos(label.x, label.y);
         };
         SceneLevel.prototype.addMovieDisplay = function ($display) {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);
@@ -142,8 +152,6 @@ var base;
         SceneLevel.prototype.setSceneScale = function (value) {
             this._sceneScale = value;
             this._midScene3dPic.sceneManager.cam3D.scene2dScale = this._sceneScale;
-            this._bottomLayer.scale(this._sceneScale / SceneLevel.num4, this._sceneScale / SceneLevel.num4);
-            this._topLayer.scale(this._sceneScale / SceneLevel.num4, this._sceneScale / SceneLevel.num4);
         };
         //设计渲染范围
         SceneLevel.prototype.setSceneCanvas = function (w, h) {
@@ -188,7 +196,6 @@ var base;
             }));
             return sp;
         };
-        SceneLevel.num4 = 4;
         return SceneLevel;
     }(Laya.Box));
     base.SceneLevel = SceneLevel;

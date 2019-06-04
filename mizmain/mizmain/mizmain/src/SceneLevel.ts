@@ -100,24 +100,23 @@
             this.addChild(this._topLayer);
 
             this._midScene3dPic.rootpos = null
-            this.setSceneScale(4);
+            this.setSceneScale(6);
             this.setSceneCanvas(512, 512);
             this.addEvents();
-
         }
+        //public get rootpos(): Vector2D {
+        //    return this._midScene3dPic.rootpos;
+        //}
+        //public set rootpos(value: Vector2D) {
+        //    this._midScene3dPic.rootpos = value;
+        //}
         protected addEvents(): void {
             this.on(MouseType.MouseDown, this, this.onMouseDown);
-   
         }
-        private static num4: number=4
         private onMouseDown(e: Event): void {
-            console.log(this.mouseX, this.mouseY)
             var label: Laya.Label = this.getNameLabelVo();
-
-            label.x = this.mouseX * this._sceneScale / SceneLevel.num4;
-            label.y = this.mouseY * this._sceneScale / SceneLevel.num4;
-
-
+            label.x = this.mouseX;
+            label.y = this.mouseY;
             var atlasFrameSprite: AtlasFrameSprite = this.playAnim("10101_1", true);
             atlasFrameSprite.speedNum = 4;
             atlasFrameSprite.isLoop = false;
@@ -128,6 +127,12 @@
 
             booldUserSprite.x = label.x;
             booldUserSprite.y = label.y;
+
+
+            var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
+            this.addMovieDisplay($baseChar)
+            $baseChar.setRoleUrl(getRoleUrl("5103"));
+            $baseChar.set2dPos(label.x, label.y);
         }
         public addMovieDisplay($display: LayaScene2dSceneChar): void {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);
@@ -141,13 +146,10 @@
         public setSceneScale(value: number): void {
             this._sceneScale = value;
             this._midScene3dPic.sceneManager.cam3D.scene2dScale = this._sceneScale;
-            this._bottomLayer.scale(this._sceneScale / SceneLevel.num4, this._sceneScale / SceneLevel.num4);
-            this._topLayer.scale(this._sceneScale / SceneLevel.num4, this._sceneScale / SceneLevel.num4);
         }
         //设计渲染范围
         public setSceneCanvas(w: number, h: number): void {
             this._midScene3dPic.scale(w / this._textRect.width, h / this._textRect.height);
-
             this.width = w;
             this.height = h;
         }
