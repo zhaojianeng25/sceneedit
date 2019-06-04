@@ -2,6 +2,7 @@
     import Browser = Laya.Browser;
     import Stage = Laya.Stage;
     import LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
+    import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
     export  class LayaLaunch {
         private _canvas: HTMLCanvasElement;
         get canvas(): HTMLCanvasElement {
@@ -72,19 +73,14 @@
 
             console.log(layapan_me.LayaSceneChar)
 
-            var spriteC: LayaGame2dDemo = new LayaGame2dDemo("res/ui/icon/512a.jpg", () => {
-                spriteC.scale(1, 1)
-            })
-            Laya.stage.addChild(spriteC);
-            spriteC.pos(350, 0);
+            var spriteA: base.SceneLevel = new base.SceneLevel("res/ui/icon/512a.jpg")
+            Laya.stage.addChild(spriteA);
+            spriteA.pos(0, 0);
+            spriteA.setSceneCanvas(400, 200)
 
+            this.addRightScene()
 
-            var spriteD: base.Game3dDemo = new base.Game3dDemo("res/ui/icon/512b.jpg", () => {
-                spriteD.scale(2, 1)
-            })
-            Laya.stage.addChild(spriteD);
-            spriteD.pos(200, 250);
-
+ 
 
             var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
             Laya.stage.addChild(picB)
@@ -97,6 +93,22 @@
                 this.lastTm = Pan3d.TimeUtil.getTimer()
                 Pan3d.TimeUtil.update()
             })
+        }
+
+        private addRightScene(): void {
+
+            var spriteB: base.SceneLevel = new base.SceneLevel("res/ui/icon/512b.jpg")
+            Laya.stage.addChild(spriteB);
+            spriteB.pos(400, 200);
+            spriteB.setSceneCanvas(200, 400)
+            spriteB.setSceneBgColor(new Pan3d.Vector3D(0.1, 0, 0, 0.1))
+            spriteB.getNameLabelVo();
+            spriteB.setSceneScale(4)
+
+            var $baseChar: LayaScene2dSceneChar = new LayaScene2dSceneChar();
+            spriteB.addMovieDisplay($baseChar)
+            $baseChar.setRoleUrl(getRoleUrl("5103"));
+            $baseChar.set2dPos(100, 100);
         }
 
 

@@ -2,7 +2,7 @@ var baselaunch;
 (function (baselaunch) {
     var Browser = Laya.Browser;
     var Stage = Laya.Stage;
-    var LayaGame2dDemo = LayaPan3D.LayaGame2dDemo;
+    var LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
     var LayaLaunch = /** @class */ (function () {
         function LayaLaunch() {
             this.init();
@@ -60,16 +60,11 @@ var baselaunch;
             picA.scale(0.5, 0.5);
             picA.pos(600, 170);
             console.log(layapan_me.LayaSceneChar);
-            var spriteC = new LayaGame2dDemo("res/ui/icon/512a.jpg", function () {
-                spriteC.scale(1, 1);
-            });
-            Laya.stage.addChild(spriteC);
-            spriteC.pos(350, 0);
-            var spriteD = new base.Game3dDemo("res/ui/icon/512b.jpg", function () {
-                spriteD.scale(2, 1);
-            });
-            Laya.stage.addChild(spriteD);
-            spriteD.pos(200, 250);
+            var spriteA = new base.SceneLevel("res/ui/icon/512a.jpg");
+            Laya.stage.addChild(spriteA);
+            spriteA.pos(0, 0);
+            spriteA.setSceneCanvas(400, 200);
+            this.addRightScene();
             var picB = new Laya.Image("res/ui/icon/lyf_64x.png");
             Laya.stage.addChild(picB);
             picB.pos(0, 220);
@@ -80,6 +75,19 @@ var baselaunch;
                 _this.lastTm = Pan3d.TimeUtil.getTimer();
                 Pan3d.TimeUtil.update();
             });
+        };
+        LayaLaunch.prototype.addRightScene = function () {
+            var spriteB = new base.SceneLevel("res/ui/icon/512b.jpg");
+            Laya.stage.addChild(spriteB);
+            spriteB.pos(400, 200);
+            spriteB.setSceneCanvas(200, 400);
+            spriteB.setSceneBgColor(new Pan3d.Vector3D(0.1, 0, 0, 0.1));
+            spriteB.getNameLabelVo();
+            spriteB.setSceneScale(4);
+            var $baseChar = new LayaScene2dSceneChar();
+            spriteB.addMovieDisplay($baseChar);
+            $baseChar.setRoleUrl(getRoleUrl("5103"));
+            $baseChar.set2dPos(100, 100);
         };
         LayaLaunch.initCanvas = function ($caves) {
             new LayaLaunch();

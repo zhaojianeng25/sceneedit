@@ -12041,7 +12041,7 @@ declare module LayaPan3D {
         protected addLyfSprite(): void;
         upData(): void;
         protected renderToTexture(): void;
-        protected sceneManager: EdItorSceneManager;
+        public sceneManager: EdItorSceneManager;
     }
 }
 
