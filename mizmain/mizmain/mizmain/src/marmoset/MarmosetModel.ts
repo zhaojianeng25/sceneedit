@@ -12,71 +12,58 @@
     }
 
     export class Mars3Dmesh extends marmoset.Mesh {
-
-        private testBuffer(): void {
-            var arrayBuffer: ArrayBuffer = new ArrayBuffer(4)
-            arrayBuffer[0] = 52
-            arrayBuffer[1] = 84
-            arrayBuffer[2] = 11
-            arrayBuffer[3] = 12
-
-            var dataView: DataView = new DataView(arrayBuffer);
-
-            dataView.setUint8(0, 52)
-            dataView.setUint8(1, 84)
-            dataView.setUint8(2, 11)
-            dataView.setUint8(3, 12)
-
-            var temp: number = dataView.getFloat32(0)
-        
-           dataView.setFloat32(0, -0.3846)
-
-            console.log(dataView.getUint8(0))
-            console.log(dataView.getUint8(1))
-            console.log(dataView.getUint8(2))
-            console.log(dataView.getUint8(3))
-
-            console.log(dataView.getFloat32(0))
-
-
-
-            console.log("------bd----")
-
-        }
-        private meshVect(value: Uint8Array, stride: number): ArrayBuffer {
-          //  var uint8Array: Uint8Array = new Uint8Array(value.length);
-            //var float32Array: Float32Array = new Float32Array(value.length/4);
-
-
-            this.testBuffer()
-            var dataView32: DataView = new DataView(new ArrayBuffer(value.length));
-            //var copyBuff: ArrayBuffer = new ArrayBuffer(value.length)
-            //for (var i: number = 0; i < value.length ; i++) {
-            //    copyBuff[i] = value[i]
-            //}
-  
-            var dataView8: DataView = new DataView(new ArrayBuffer(value.length));
-            for (var i: number = 0; i < value.length; i++) {
-                dataView8.setUint8(i, value[i]);
-            }
-            var lenNum: number = Math.floor(value.length / stride)//行数
-
-            
-            for (var i: number = 0; i < lenNum; i++) {
-                var skipid: number = i * stride 
-                var temp: number = dataView8.getFloat32(skipid)
-                 dataView8.setFloat32(skipid+4, 1)
-     
-            }
-            dataView8.setFloat32(value.length-4, 0.001)
-            var outUint8Array: Uint8Array = new Uint8Array(value.length)
-            for (var i: number = 0; i < value.length; i++) {
-                outUint8Array[i] = dataView8.getUint8(i);
-            }
-            return outUint8Array
  
+        private meshVect(value: Uint8Array, stride: number): ArrayBuffer {
+
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var changeArr = new Uint8Array(buffer);
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i]
+            }
+            for (var i: number = 0; i < outArr.length / 8; i++) {
+                var id: number = i * 8 + 0;
+                outArr[id] = outArr[id] * 0.9;
+            }
+
+            return outArr;
 
         }
+
+        private meshVectNrm(value: Uint8Array, stride: number): ArrayBuffer {
+   
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var tbnArr = new Int16Array(buffer);
+ 
+            var changeArr = new Uint8Array(buffer);
+
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i]
+            }
+            for (var i: number = 0; i < outArr.length / 8; i++) {  //顶点和法线
+                var id: number = i * 8 
+                outArr[id + 0] = outArr[id + 0] 
+                outArr[id + 1] = outArr[id + 1] 
+                outArr[id + 2] = outArr[id + 2] 
+                outArr[id + 3] = outArr[id + 3] 
+                outArr[id + 4] = outArr[id + 4] 
+            }
+
+            for (var i: number = 0; i < tbnArr.length / 16; i++) {//tbn
+                var id: number = i * 16+10
+
+
+                tbnArr[id + 0] = tbnArr[id + 0] 
+                tbnArr[id + 1] = tbnArr[id + 1] 
+ 
+            }
+ 
+            return outArr;
+
+
+        }
+      
         public initdata(a: any, b: any, c: any) {
             this.gl = a;
             var elementArrayBuffer = this.gl.getParameter(this.gl.ELEMENT_ARRAY_BUFFER_BINDING);
@@ -101,10 +88,7 @@
  
             c = new ByteStream(c.data);
 
-         
-
-         
-
+          
 
             this.indexCount = b.indexCount;
             this.indexTypeSize = b.indexTypeSize;
@@ -123,7 +107,8 @@
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);
             c = c.readBytes(this.vertexCount * this.stride);
-            c = this.meshVect(c, this.stride);
+          //  this.meshVectNrm(c, this.stride);
+            c = this.meshVectNrm(c, this.stride);
 
             a.bufferData(a.ARRAY_BUFFER, c, a.STATIC_DRAW);
             a.bindBuffer(a.ARRAY_BUFFER, null);

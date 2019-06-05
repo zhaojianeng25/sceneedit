@@ -29,51 +29,41 @@ var mars3D;
         function Mars3Dmesh() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        Mars3Dmesh.prototype.testBuffer = function () {
-            var arrayBuffer = new ArrayBuffer(4);
-            arrayBuffer[0] = 52;
-            arrayBuffer[1] = 84;
-            arrayBuffer[2] = 11;
-            arrayBuffer[3] = 12;
-            var dataView = new DataView(arrayBuffer);
-            dataView.setUint8(0, 52);
-            dataView.setUint8(1, 84);
-            dataView.setUint8(2, 11);
-            dataView.setUint8(3, 12);
-            var temp = dataView.getFloat32(0);
-            dataView.setFloat32(0, -0.3846);
-            console.log(dataView.getUint8(0));
-            console.log(dataView.getUint8(1));
-            console.log(dataView.getUint8(2));
-            console.log(dataView.getUint8(3));
-            console.log(dataView.getFloat32(0));
-            console.log("------bd----");
-        };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
-            //  var uint8Array: Uint8Array = new Uint8Array(value.length);
-            //var float32Array: Float32Array = new Float32Array(value.length/4);
-            this.testBuffer();
-            var dataView32 = new DataView(new ArrayBuffer(value.length));
-            //var copyBuff: ArrayBuffer = new ArrayBuffer(value.length)
-            //for (var i: number = 0; i < value.length ; i++) {
-            //    copyBuff[i] = value[i]
-            //}
-            var dataView8 = new DataView(new ArrayBuffer(value.length));
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var changeArr = new Uint8Array(buffer);
             for (var i = 0; i < value.length; i++) {
-                dataView8.setUint8(i, value[i]);
+                changeArr[i] = value[i];
             }
-            var lenNum = Math.floor(value.length / stride); //行数
-            for (var i = 0; i < lenNum; i++) {
-                var skipid = i * stride;
-                var temp = dataView8.getFloat32(skipid);
-                dataView8.setFloat32(skipid + 4, 1);
+            for (var i = 0; i < outArr.length / 8; i++) {
+                var id = i * 8 + 0;
+                outArr[id] = outArr[id] * 0.9;
             }
-            dataView8.setFloat32(value.length - 4, 0.001);
-            var outUint8Array = new Uint8Array(value.length);
+            return outArr;
+        };
+        Mars3Dmesh.prototype.meshVectNrm = function (value, stride) {
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var tbnArr = new Int16Array(buffer);
+            var changeArr = new Uint8Array(buffer);
             for (var i = 0; i < value.length; i++) {
-                outUint8Array[i] = dataView8.getUint8(i);
+                changeArr[i] = value[i];
             }
-            return outUint8Array;
+            for (var i = 0; i < outArr.length / 8; i++) { //顶点和法线
+                var id = i * 8;
+                outArr[id + 0] = outArr[id + 0];
+                outArr[id + 1] = outArr[id + 1];
+                outArr[id + 2] = outArr[id + 2];
+                outArr[id + 3] = outArr[id + 3];
+                outArr[id + 4] = outArr[id + 4];
+            }
+            for (var i = 0; i < tbnArr.length / 16; i++) { //tbn
+                var id = i * 16 + 10;
+                tbnArr[id + 0] = tbnArr[id + 0];
+                tbnArr[id + 1] = tbnArr[id + 1];
+            }
+            return outArr;
         };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
             this.gl = a;
@@ -112,7 +102,8 @@ var mars3D;
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);
             c = c.readBytes(this.vertexCount * this.stride);
-            c = this.meshVect(c, this.stride);
+            //  this.meshVectNrm(c, this.stride);
+            c = this.meshVectNrm(c, this.stride);
             a.bufferData(a.ARRAY_BUFFER, c, a.STATIC_DRAW);
             a.bindBuffer(a.ARRAY_BUFFER, null);
             this.bounds = void 0 === b.minBound || void 0 === b.maxBound ? {
