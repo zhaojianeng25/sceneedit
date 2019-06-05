@@ -286,6 +286,9 @@ e=(e>f(d.x))?1.0:e;
 #endif
 vec3 dI=dJ(texture2D(tNormal,d).xyz);
  outcolor.xyzw=texture2D(tNormal,d);
+ 
+  outcolor.xyzw=vec4(dC,1.0);
+  
 #ifdef ANISO
 #ifdef ANISO_NO_DIR_TEX
 vec3 dK=dL(uAnisoTangent);

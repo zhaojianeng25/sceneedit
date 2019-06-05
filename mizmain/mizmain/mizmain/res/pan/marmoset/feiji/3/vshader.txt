@@ -45,7 +45,7 @@ void main(void){
 	d=vTexCoord+uUVOffset;
 	dA=u(uSkyMatrix,iW(vTangent));
 	dB=u(uSkyMatrix,iW(vBitangent));
-	dC=u(uSkyMatrix,iW(vNormal));
+	dC=iW(vNormal);
 	dv=h(uSkyMatrix,vPosition.xyz).xyz;
 	#ifdef VERTEX_COLOR
 		dD=vColor;

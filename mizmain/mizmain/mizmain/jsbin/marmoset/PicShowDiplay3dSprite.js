@@ -25,23 +25,40 @@ var mars3D;
         PicShowDiplay3dShader.prototype.binLocation = function ($context) {
             $context.bindAttribLocation(this.program, 0, "v3Position");
             $context.bindAttribLocation(this.program, 1, "u2Texture");
-            $context.bindAttribLocation(this.program, 2, "T");
-            $context.bindAttribLocation(this.program, 3, "B");
-            $context.bindAttribLocation(this.program, 4, "N");
+            $context.bindAttribLocation(this.program, 2, "vTangent");
+            $context.bindAttribLocation(this.program, 3, "vBitangent");
+            $context.bindAttribLocation(this.program, 4, "vNormal");
+            $context.bindAttribLocation(this.program, 5, "v3Nrm");
         };
         PicShowDiplay3dShader.prototype.getVertexShaderString = function () {
             var $str = "attribute vec3 v3Position;" +
                 "attribute vec2 u2Texture;" +
-                "attribute vec2 T;" +
-                "attribute vec2 B;" +
-                "attribute vec2 N;" +
+                "attribute vec2 vTangent;" +
+                "attribute vec2 vBitangent;" +
+                "attribute vec2 vNormal;" +
+                "attribute vec3 v3Nrm;" +
                 "uniform mat4 viewMatrix3D;" +
                 "uniform mat4 camMatrix3D;" +
                 "uniform mat4 posMatrix3D;" +
                 "varying vec2 v_texCoord;" +
+                "varying mediump vec3 dA;" +
+                "varying mediump vec3 dB;" +
+                "varying mediump vec3 dC;" +
+                "varying mediump vec3 dnrm;" +
+                " vec3 iW(vec2 v) {;" +
+                "  bool iX = (v.y > (32767.1 / 65535.0));" +
+                "  v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;" +
+                " vec3 r;" +
+                "  r.xy = (2.0 * 65535.0 / 32767.0) * v - vec2(1.0);" +
+                "  r.z = sqrt(clamp(1.0 - dot(r.xy, r.xy), 0.0, 1.0));" +
+                "  r.z = iX ? -r.z : r.z;" +
+                "  return r;" +
+                " }" +
                 "void main(void)" +
                 "{" +
                 "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                "   dC=iW(vNormal);" +
+                "   dnrm=v3Nrm;" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
                 "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = camMatrix3D * vt0;" +
@@ -54,10 +71,14 @@ var mars3D;
             var $str = "precision mediump float;\n" +
                 "uniform sampler2D s_texture;\n" +
                 "varying vec2 v_texCoord;\n" +
+                "varying mediump vec3 dA;" +
+                "varying mediump vec3 dB;" +
+                "varying mediump vec3 dC;" +
+                "varying mediump vec3 dnrm;" +
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =infoUv;\n" +
+                "gl_FragColor =vec4(dC,1.0);\n" +
                 "}";
             return $str;
         };
@@ -108,13 +129,15 @@ var mars3D;
             Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
             var f = 20;
             gl.enableVertexAttribArray(2);
-            gl.vertexAttribPointer(2, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
+            gl.vertexAttribPointer(2, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
             f += 4;
             gl.enableVertexAttribArray(3);
-            gl.vertexAttribPointer(3, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
+            gl.vertexAttribPointer(3, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
             f += 4;
-            gl.enableVertexAttribArray(3);
-            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
+            gl.enableVertexAttribArray(4);
+            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
+            Scene_data.context3D.pushVa(mesh.nrmBuffer);
+            Scene_data.context3D.setVaOffset(5, 3, 12, 0);
             Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
         };
         PicShowDiplay3dSprite.prototype.update = function () {

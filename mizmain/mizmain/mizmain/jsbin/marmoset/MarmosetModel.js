@@ -31,39 +31,45 @@ var mars3D;
         }
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
             var buffer = new ArrayBuffer(value.length);
-            var outArr = new Float32Array(buffer);
             var changeArr = new Uint8Array(buffer);
+            var outArr = new Float32Array(buffer);
             for (var i = 0; i < value.length; i++) {
                 changeArr[i] = value[i];
             }
             for (var i = 0; i < outArr.length / 8; i++) {
                 var id = i * 8 + 0;
-                outArr[id] = outArr[id] * 0.9;
+                // outArr[id] = outArr[id] * 0.9;
             }
             return outArr;
         };
         Mars3Dmesh.prototype.meshVectNrm = function (value, stride) {
+            var len = value.length / stride;
             var buffer = new ArrayBuffer(value.length);
-            var outArr = new Float32Array(buffer);
-            var tbnArr = new Int16Array(buffer);
             var changeArr = new Uint8Array(buffer);
             for (var i = 0; i < value.length; i++) {
                 changeArr[i] = value[i];
             }
-            for (var i = 0; i < outArr.length / 8; i++) { //顶点和法线
-                var id = i * 8;
-                outArr[id + 0] = outArr[id + 0];
-                outArr[id + 1] = outArr[id + 1];
-                outArr[id + 2] = outArr[id + 2];
-                outArr[id + 3] = outArr[id + 3];
-                outArr[id + 4] = outArr[id + 4];
-            }
+            var tbnArr = new Int16Array(buffer);
+            var nrmIntArr = [];
             for (var i = 0; i < tbnArr.length / 16; i++) { //tbn
                 var id = i * 16 + 10;
-                tbnArr[id + 0] = tbnArr[id + 0];
-                tbnArr[id + 1] = tbnArr[id + 1];
+                var a = tbnArr[id + 4];
+                var b = tbnArr[id + 5];
+                var vec3Nrm = this.getNrmByXY(new Vector2D(a, b));
+                nrmIntArr.push(vec3Nrm.x, vec3Nrm.y, vec3Nrm.z);
             }
-            return outArr;
+            return new Float32Array(nrmIntArr);
+        };
+        Mars3Dmesh.prototype.getNrmByXY = function (v) {
+            var iX = (v.y > (32767.1 / 65535.0));
+            v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;
+            var r = new Vector3D();
+            r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;
+            r.y = (2.0 * 65535.0 / 32767.0) * v.y - 0;
+            //r.z = sqrt(clamp(1.0 - dot(r.xy, r.xy), 0.0, 1.0));
+            r.z = Math.sqrt(Math.min(Math.max(1 - (r.x * r.x + r.y * r.y), 0), 1));
+            r.z = iX ? -r.z : r.z;
+            return r;
         };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
             this.gl = a;
@@ -99,11 +105,14 @@ var mars3D;
             a.bufferData(a.ELEMENT_ARRAY_BUFFER, e, a.STATIC_DRAW);
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, null);
             this.vertexCount = b.vertexCount;
+            c = c.readBytes(this.vertexCount * this.stride);
+            var nrmBuff = this.meshVectNrm(c, this.stride);
+            this.nrmBuffer = a.createBuffer();
+            a.bindBuffer(a.ARRAY_BUFFER, this.nrmBuffer);
+            a.bufferData(a.ARRAY_BUFFER, nrmBuff, a.STATIC_DRAW);
+            c = this.meshVect(c, this.stride);
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);
-            c = c.readBytes(this.vertexCount * this.stride);
-            //  this.meshVectNrm(c, this.stride);
-            c = this.meshVectNrm(c, this.stride);
             a.bufferData(a.ARRAY_BUFFER, c, a.STATIC_DRAW);
             a.bindBuffer(a.ARRAY_BUFFER, null);
             this.bounds = void 0 === b.minBound || void 0 === b.maxBound ? {
