@@ -30,28 +30,30 @@ var mars3D;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
-            var outItem = [];
-            var len = value.length / stride; //32
-            for (var i = 0; i < len; i++) {
-                var id = i * stride;
-                for (var j = id; j < (id + 20); j++) {
-                    outItem.push(value[j]);
-                }
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var changeArr = new Uint8Array(buffer);
+            for (var i = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
             }
-            var endItem = [];
-            var buffer = new ArrayBuffer(outItem.length);
-            var x1 = new Float32Array(buffer);
-            var x2 = new Uint8Array(buffer);
-            for (var i = 0; i < outItem.length; i++) {
-                x2[i] = outItem[i];
+            for (var i = 0; i < outArr.length / 8; i++) {
+                var id = i * 8 + 0;
+                outArr[id] = outArr[id] * 0.5;
             }
-            for (var i = 0; i < x1.length; i++) {
-                endItem.push(x1[i]);
+            return outArr;
+        };
+        Mars3Dmesh.prototype.meshVectCopy = function (value, stride) {
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var changeArr = new Uint8Array(buffer);
+            for (var i = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
             }
-            for (var i = 0; i < endItem.length / 5; i++) {
-                endItem[i * 5 + 0] *= 0.2;
+            for (var i = 0; i < outArr.length / 8; i++) {
+                var id = i * 8 + 0;
+                outArr[id] = outArr[id] * 0.5;
             }
-            return new Float32Array(endItem);
+            return outArr;
         };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
             this.gl = a;
@@ -90,7 +92,7 @@ var mars3D;
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);
             c = c.readBytes(this.vertexCount * this.stride);
-            c = this.meshVect(c, this.stride);
+            c = this.meshVectCopy(c, this.stride);
             a.bufferData(a.ARRAY_BUFFER, c, a.STATIC_DRAW);
             a.bindBuffer(a.ARRAY_BUFFER, null);
             this.bounds = void 0 === b.minBound || void 0 === b.maxBound ? {

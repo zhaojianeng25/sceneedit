@@ -122,7 +122,7 @@ module mars3D {
 
             Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
 
-            mesh.stride = 20
+           // mesh.stride = 20
 
             Scene_data.context3D.pushVa(mesh.vertexBuffer);
             Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);

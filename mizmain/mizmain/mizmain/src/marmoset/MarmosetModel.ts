@@ -14,30 +14,39 @@
     export class Mars3Dmesh extends marmoset.Mesh {
  
         private meshVect(value: Uint8Array, stride: number): ArrayBuffer {
-            var outItem: Array<number> = [];
-            var len: number = value.length / stride  //32
-            for (var i: number = 0; i < len; i++) {
-                var id: number = i * stride;
-                for (var j: number = id; j < (id + 20); j++) {
-                    outItem.push(value[j])
-                }
+
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var changeArr = new Uint8Array(buffer);
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i]
             }
-            var endItem: Array<number> = []
-            var buffer = new ArrayBuffer(outItem.length);
-            var x1 = new Float32Array(buffer);
-            var x2 = new Uint8Array(buffer);
-            for (var i: number = 0; i < outItem.length; i++) {
-                x2[i] = outItem[i]
-            }
-            for (var i: number = 0; i < x1.length; i++) {
-                endItem.push(x1[i])
-            }
-            for (var i: number = 0; i < endItem.length / 5; i++) {
-                endItem[i * 5 + 0] *= 0.2
+            for (var i: number = 0; i < outArr.length / 8; i++) {
+                var id: number = i * 8 + 0;
+                outArr[id] = outArr[id] * 0.5;
             }
 
-            return new Float32Array(endItem);
+            return outArr;
+
+        }
+
+        private meshVectCopy(value: Uint8Array, stride: number): ArrayBuffer {
+  
+         
+      
+            var buffer = new ArrayBuffer(value.length);
+            var outArr = new Float32Array(buffer);
+            var changeArr = new Uint8Array(buffer);
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i]
+            }
+            for (var i: number = 0; i < outArr.length / 8; i++) {
+                var id: number = i * 8 + 0;
+                outArr[id] = outArr[id]*0.5;
+            }
  
+            return outArr;
+
 
         }
       
@@ -85,7 +94,7 @@
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);
             c = c.readBytes(this.vertexCount * this.stride);
 
-            c = this.meshVect(c, this.stride);
+            c = this.meshVectCopy(c, this.stride);
 
             a.bufferData(a.ARRAY_BUFFER, c, a.STATIC_DRAW);
             a.bindBuffer(a.ARRAY_BUFFER, null);
