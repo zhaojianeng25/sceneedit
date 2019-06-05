@@ -38,20 +38,30 @@ var mars3D;
             }
             for (var i = 0; i < outArr.length / 8; i++) {
                 var id = i * 8 + 0;
-                outArr[id] = outArr[id] * 0.5;
+                outArr[id] = outArr[id] * 0.9;
             }
             return outArr;
         };
-        Mars3Dmesh.prototype.meshVectCopy = function (value, stride) {
+        Mars3Dmesh.prototype.meshVectNrm = function (value, stride) {
             var buffer = new ArrayBuffer(value.length);
             var outArr = new Float32Array(buffer);
+            var tbnArr = new Int16Array(buffer);
             var changeArr = new Uint8Array(buffer);
             for (var i = 0; i < value.length; i++) {
                 changeArr[i] = value[i];
             }
-            for (var i = 0; i < outArr.length / 8; i++) {
-                var id = i * 8 + 0;
-                outArr[id] = outArr[id] * 0.5;
+            for (var i = 0; i < outArr.length / 8; i++) { //顶点和法线
+                var id = i * 8;
+                outArr[id + 0] = outArr[id + 0];
+                outArr[id + 1] = outArr[id + 1];
+                outArr[id + 2] = outArr[id + 2];
+                outArr[id + 3] = outArr[id + 3];
+                outArr[id + 4] = outArr[id + 4];
+            }
+            for (var i = 0; i < tbnArr.length / 16; i++) { //tbn
+                var id = i * 16 + 10;
+                tbnArr[id + 0] = tbnArr[id + 0];
+                tbnArr[id + 1] = tbnArr[id + 1];
             }
             return outArr;
         };
@@ -92,7 +102,8 @@ var mars3D;
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);
             c = c.readBytes(this.vertexCount * this.stride);
-            c = this.meshVectCopy(c, this.stride);
+            //  this.meshVectNrm(c, this.stride);
+            c = this.meshVectNrm(c, this.stride);
             a.bufferData(a.ARRAY_BUFFER, c, a.STATIC_DRAW);
             a.bindBuffer(a.ARRAY_BUFFER, null);
             this.bounds = void 0 === b.minBound || void 0 === b.maxBound ? {
