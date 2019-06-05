@@ -29,51 +29,29 @@ var mars3D;
         function Mars3Dmesh() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        Mars3Dmesh.prototype.testBuffer = function () {
-            var arrayBuffer = new ArrayBuffer(4);
-            arrayBuffer[0] = 52;
-            arrayBuffer[1] = 84;
-            arrayBuffer[2] = 11;
-            arrayBuffer[3] = 12;
-            var dataView = new DataView(arrayBuffer);
-            dataView.setUint8(0, 52);
-            dataView.setUint8(1, 84);
-            dataView.setUint8(2, 11);
-            dataView.setUint8(3, 12);
-            var temp = dataView.getFloat32(0);
-            dataView.setFloat32(0, -0.3846);
-            console.log(dataView.getUint8(0));
-            console.log(dataView.getUint8(1));
-            console.log(dataView.getUint8(2));
-            console.log(dataView.getUint8(3));
-            console.log(dataView.getFloat32(0));
-            console.log("------bd----");
-        };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
-            //  var uint8Array: Uint8Array = new Uint8Array(value.length);
-            //var float32Array: Float32Array = new Float32Array(value.length/4);
-            this.testBuffer();
-            var dataView32 = new DataView(new ArrayBuffer(value.length));
-            //var copyBuff: ArrayBuffer = new ArrayBuffer(value.length)
-            //for (var i: number = 0; i < value.length ; i++) {
-            //    copyBuff[i] = value[i]
-            //}
-            var dataView8 = new DataView(new ArrayBuffer(value.length));
-            for (var i = 0; i < value.length; i++) {
-                dataView8.setUint8(i, value[i]);
+            var outItem = [];
+            var len = value.length / stride; //32
+            for (var i = 0; i < len; i++) {
+                var id = i * stride;
+                for (var j = id; j < (id + 20); j++) {
+                    outItem.push(value[j]);
+                }
             }
-            var lenNum = Math.floor(value.length / stride); //行数
-            for (var i = 0; i < lenNum; i++) {
-                var skipid = i * stride;
-                var temp = dataView8.getFloat32(skipid);
-                dataView8.setFloat32(skipid + 4, 1);
+            var endItem = [];
+            var buffer = new ArrayBuffer(outItem.length);
+            var x1 = new Float32Array(buffer);
+            var x2 = new Uint8Array(buffer);
+            for (var i = 0; i < outItem.length; i++) {
+                x2[i] = outItem[i];
             }
-            dataView8.setFloat32(value.length - 4, 0.001);
-            var outUint8Array = new Uint8Array(value.length);
-            for (var i = 0; i < value.length; i++) {
-                outUint8Array[i] = dataView8.getUint8(i);
+            for (var i = 0; i < x1.length; i++) {
+                endItem.push(x1[i]);
             }
-            return outUint8Array;
+            for (var i = 0; i < endItem.length / 5; i++) {
+                endItem[i * 5 + 0] *= 0.2;
+            }
+            return new Float32Array(endItem);
         };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
             this.gl = a;
