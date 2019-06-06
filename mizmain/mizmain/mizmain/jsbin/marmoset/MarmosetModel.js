@@ -296,7 +296,7 @@ var mars3D;
                 objStr.indexs = objData.indexs;
                 objStr.treNum = objData.indexs.length;
                 var strXml = JSON.stringify(objStr);
-                var $name = "ossfile_" + i + ".objs";
+                var $name = this.viewFileName.replace(".mview", "_" + i + ".objs");
                 var $file = new File([strXml], $name);
                 var sonPath = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
                 var fileUrl = sonPath + $name;
@@ -304,6 +304,9 @@ var mars3D;
                 var ossPathUrl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile($file, ossPathUrl, function (value) {
                     console.log(value);
+                    pack.FileOssModel.getDisByOss(ossPathUrl, function (arrDic) {
+                        console.log(arrDic);
+                    });
                 });
                 var prefabStaticMesh = new pack.PrefabStaticMesh();
                 prefabStaticMesh.objsurl = fileUrl;
@@ -316,8 +319,10 @@ var mars3D;
                 $byte.writeUTF(JSON.stringify($temp));
                 var prafabFile = new File([$byte.buffer], "cc.prefab");
                 var pathurl = ossPathUrl.replace(".objs", ".prefab");
-                pack.FileOssModel.upOssFile(prafabFile, pathurl, function () {
-                });
+                pack.FileOssModel.upOssFile(prafabFile, pathurl, function () { });
+                var baseTextureUrl = "baseedit/assets/base/base.material";
+                var toTextureUrl = ossPathUrl.replace(".objs", ".material");
+                pack.FileOssModel.copyFile(toTextureUrl, baseTextureUrl, function () { });
             }
         };
         MarmosetModel.prototype.dataURLtoBlob = function (value, name) {

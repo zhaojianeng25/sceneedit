@@ -334,7 +334,8 @@
                 var strXml: string = JSON.stringify(objStr)
 
 
-                var $name = "ossfile_" + i + ".objs";
+               
+                var $name = this.viewFileName.replace(".mview","_"+i+".objs")
                 var $file: File = new File([strXml], $name);
 
                 var sonPath: string = "pan/marmoset/" + this.viewFileName.replace(".mview", "/")
@@ -342,8 +343,10 @@
                 var pathUrl: string = Pan3d.Scene_data.fileRoot + fileUrl
                 var ossPathUrl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile($file, ossPathUrl, (value: any) => {
-
                     console.log(value)
+                    pack.FileOssModel.getDisByOss(ossPathUrl, (arrDic: Array<FileVo>) => {
+                        console.log(arrDic)
+                    })
 
                 })
 
@@ -361,11 +364,12 @@
 
                 var prafabFile: File = new File([$byte.buffer], "cc.prefab");
                 var pathurl: string = ossPathUrl.replace(".objs",".prefab")
-                pack.FileOssModel.upOssFile(prafabFile, pathurl, () => {
+                pack.FileOssModel.upOssFile(prafabFile, pathurl, () => {   })
 
 
-                })
-
+                var baseTextureUrl: string = "baseedit/assets/base/base.material";
+                var toTextureUrl: string = ossPathUrl.replace(".objs", ".material")
+                pack.FileOssModel.copyFile(toTextureUrl, baseTextureUrl, () => { });
             }
 
         }
