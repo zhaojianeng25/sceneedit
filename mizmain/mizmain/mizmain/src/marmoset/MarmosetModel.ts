@@ -31,7 +31,7 @@
 
         }
 
-        private meshVectNrm(value: Uint8Array, stride: number): Int16Array {
+        private meshVectNrm(value: Uint8Array, stride: number): Float32Array {
 
             var len: number = value.length / stride;
             var buffer = new ArrayBuffer(value.length);
@@ -39,11 +39,14 @@
             for (var i: number = 0; i < value.length; i++) {
                 changeArr[i] = value[i]
             }
-            var tbnArr = new Int16Array(buffer);
+            var tbnArr = new Uint16Array(buffer);
+            
 
             var nrmItem16Arr: Array<number> = [];
             var nrmItem32Arr: Array<number> = [];
 
+            var m: Pan3d.Matrix3D = new Pan3d.Matrix3D
+            m.appendRotation(90, Pan3d.Vector3D.Z_AXIS)
             for (var i: number = 0; i < tbnArr.length / 16; i++) {//tbn
                 var id: number = i * 16 + 10
                 var a: number = tbnArr[id + 4]
@@ -51,13 +54,12 @@
                 nrmItem16Arr.push(a);
                 nrmItem16Arr.push(b);
 
-                var outVec3: Vector3D = this.getNrmByXY(new Vector2D(a , b ))
+                var outVec3: Vector3D = this.getNrmByXY(new Vector2D(a, b))
                 nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z)
-            
 
             }
 
-            return new Int16Array(nrmItem16Arr);
+            return new Float32Array(nrmItem32Arr);
 
 
         }
