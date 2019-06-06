@@ -120,13 +120,10 @@ var mars3D;
             Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
             gl.disable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
-            Scene_data.context3D.pushVa(mesh.vectBuffer);
-            Scene_data.context3D.setVaOffset(0, 3, 12, 0);
-            Scene_data.context3D.pushVa(mesh.uvBuffer);
-            Scene_data.context3D.setVaOffset(1, 2, 8, 0);
-            Scene_data.context3D.pushVa(mesh.nrmBuffer);
-            Scene_data.context3D.setVaOffset(2, 3, 12, 0);
-            Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
+            Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+            Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
+            Scene_data.context3D.setVa(2, 3, mesh.objData.normalsBuffer);
+            Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
         };
         PicShowDiplay3dSprite.prototype.update = function () {
             if (mars3D.MarmosetModel.meshItem && mars3D.MarmosetModel.meshItem.length) {

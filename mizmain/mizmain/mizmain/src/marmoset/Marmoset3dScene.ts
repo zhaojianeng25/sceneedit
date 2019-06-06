@@ -124,6 +124,10 @@ module mars3D {
 
                 MarmosetModel.getInstance().upFileToSvever()
             }
+            if (evt.keyCode == Pan3d.KeyboardType.G) {
+
+                MarmosetModel.getInstance().upObjDataToSever()
+            }
 
         }
     

@@ -110,6 +110,9 @@ var mars3D;
             if (evt.keyCode == Pan3d.KeyboardType.F) {
                 mars3D.MarmosetModel.getInstance().upFileToSvever();
             }
+            if (evt.keyCode == Pan3d.KeyboardType.G) {
+                mars3D.MarmosetModel.getInstance().upObjDataToSever();
+            }
         };
         Marmoset3dScene.prototype.onMouseWheel = function (e) {
             this.sceneManager.cam3D.distance += e.delta;

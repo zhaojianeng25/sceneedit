@@ -42,6 +42,22 @@ var mars3D;
             }
             return outArr;
         };
+        //public vectBuffer: WebGLBuffer //顶点
+        //public uvBuffer: WebGLBuffer //UV
+        //public nrmBuffer: WebGLBuffer; //法线
+        Mars3Dmesh.prototype.meshIndexFloat = function (value) {
+            var buffer = new ArrayBuffer(value.length);
+            var changeArr = new Uint8Array(buffer);
+            var chang32 = new Uint16Array(buffer);
+            for (var i = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
+            }
+            this.objData.indexs = [];
+            for (var i = 0; i < chang32.length; i++) {
+                this.objData.indexs.push(chang32[i]);
+            }
+            this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
+        };
         Mars3Dmesh.prototype.meshVecFloat = function (value, stride, gl) {
             var len8 = stride / 4;
             var buffer = new ArrayBuffer(value.length);
@@ -57,9 +73,7 @@ var mars3D;
                 this.objData.vertices.push(chang32[id + 1]);
                 this.objData.vertices.push(chang32[id + 2]);
             }
-            this.vectBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.vectBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.vertices), gl.STATIC_DRAW);
+            this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
         };
         Mars3Dmesh.prototype.meshUvFloat = function (value, stride, gl) {
             var len8 = stride / 4;
@@ -75,9 +89,7 @@ var mars3D;
                 this.objData.uvs.push(change32[id + 3]);
                 this.objData.uvs.push(change32[id + 4]);
             }
-            this.uvBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.uvs), gl.STATIC_DRAW);
+            this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
         };
         Mars3Dmesh.prototype.meshNrmFloat = function (value, stride, gl) {
             var len16 = stride / 2;
@@ -100,9 +112,7 @@ var mars3D;
                 var outVec3 = this.getNrmByXY(new Vector2D(a, b));
                 this.objData.normals.push(outVec3.x, outVec3.y, outVec3.z);
             }
-            this.nrmBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.nrmBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.normals), gl.STATIC_DRAW);
+            this.objData.normalsBuffer = Scene_data.context3D.uploadBuff3D(this.objData.normals);
         };
         Mars3Dmesh.prototype.getNrmByXY = function (v) {
             v.x = v.x / 65535.0;
@@ -117,6 +127,7 @@ var mars3D;
             return r;
         };
         Mars3Dmesh.prototype.initdata = function (a, b, c) {
+            this.objData = new Pan3d.ObjData;
             this.gl = a;
             var elementArrayBuffer = this.gl.getParameter(this.gl.ELEMENT_ARRAY_BUFFER_BINDING);
             var arrayBuffer = this.gl.getParameter(this.gl.ARRAY_BUFFER_BINDING);
@@ -145,6 +156,7 @@ var mars3D;
             this.indexBuffer = a.createBuffer();
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
             var e = c.readBytes(this.indexCount * this.indexTypeSize);
+            this.meshIndexFloat(e);
             a.bufferData(a.ELEMENT_ARRAY_BUFFER, e, a.STATIC_DRAW);
             this.wireCount = b.wireCount;
             this.wireBuffer = a.createBuffer();
@@ -154,10 +166,10 @@ var mars3D;
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, null);
             this.vertexCount = b.vertexCount;
             c = c.readBytes(this.vertexCount * this.stride);
-            this.objData = new Pan3d.ObjData;
             this.meshVecFloat(c, this.stride, a);
             this.meshUvFloat(c, this.stride, a);
             this.meshNrmFloat(c, this.stride, a);
+            this.objData.treNum = this.indexCount;
             if (this.secondaryTexCoord) {
                 alert("有法线纹理要处理");
             }
@@ -271,6 +283,26 @@ var mars3D;
         MarmosetModel.prototype.upFileToSvever = function () {
             for (var key in MarmosetModel.imgBolb) {
                 this.dataURLtoBlob(MarmosetModel.imgBolb[key], key);
+            }
+        };
+        MarmosetModel.prototype.upObjDataToSever = function () {
+            for (var i = 0; i < MarmosetModel.meshItem.length; i++) {
+                var objData = MarmosetModel.meshItem[i].objData;
+                var objStr = {};
+                objStr.vertices = objData.vertices;
+                objStr.normals = objData.normals;
+                objStr.uvs = objData.uvs;
+                objStr.lightuvs = objData.lightuvs ? objData.lightuvs : objData.uvs;
+                objStr.indexs = objData.indexs;
+                objStr.treNum = objData.indexs.length;
+                var strXml = JSON.stringify(objStr);
+                var $name = "ossfile_" + i + ".objs";
+                var $file = new File([strXml], $name);
+                var pathUrl = Pan3d.Scene_data.fileRoot + "pan/marmoset/" + $name;
+                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($file, pathurl, function (value) {
+                    console.log(value);
+                });
             }
         };
         MarmosetModel.prototype.dataURLtoBlob = function (value, name) {

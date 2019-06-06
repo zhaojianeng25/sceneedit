@@ -29,9 +29,24 @@
             return outArr;
 
         }
-        public vectBuffer: WebGLBuffer //顶点
-        public uvBuffer: WebGLBuffer //UV
-        public nrmBuffer: WebGLBuffer; //法线
+        //public vectBuffer: WebGLBuffer //顶点
+        //public uvBuffer: WebGLBuffer //UV
+        //public nrmBuffer: WebGLBuffer; //法线
+
+        private meshIndexFloat(value: Uint8Array): void {
+            var buffer = new ArrayBuffer(value.length);
+            var changeArr = new Uint8Array(buffer);
+            var chang32 = new Uint16Array(buffer);
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
+            }
+            this.objData.indexs = []
+            for (var i: number = 0; i < chang32.length ; i++) {
+                this.objData.indexs.push(chang32[i]);
+            }
+
+            this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
+        }
         private meshVecFloat(value: Uint8Array, stride: number, gl: any): void {
             var len8: number = stride / 4
 
@@ -49,10 +64,10 @@
                 this.objData.vertices.push(chang32[id + 2]);
             }
 
-            this.vectBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.vectBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.vertices), gl.STATIC_DRAW);
+ 
 
+            this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
+ 
      
         }
 
@@ -75,10 +90,7 @@
     
             }
 
-
-            this.uvBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.uvs), gl.STATIC_DRAW);
+            this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
 
         }
    
@@ -108,9 +120,7 @@
                 this.objData.normals.push(outVec3.x, outVec3.y, outVec3.z)
             }
 
-            this.nrmBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.nrmBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.normals), gl.STATIC_DRAW);
+            this.objData.normalsBuffer = Scene_data.context3D.uploadBuff3D(this.objData.normals);
     
 
         }
@@ -130,6 +140,7 @@
  
  
         public initdata(a: any, b: any, c: any) {
+            this.objData = new Pan3d.ObjData
             this.gl = a;
             var elementArrayBuffer = this.gl.getParameter(this.gl.ELEMENT_ARRAY_BUFFER_BINDING);
             var arrayBuffer = this.gl.getParameter(this.gl.ARRAY_BUFFER_BINDING);
@@ -163,7 +174,9 @@
             this.indexBuffer = a.createBuffer();
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
             var e = c.readBytes(this.indexCount * this.indexTypeSize);
+            this.meshIndexFloat(e)
             a.bufferData(a.ELEMENT_ARRAY_BUFFER, e, a.STATIC_DRAW);
+
             this.wireCount = b.wireCount;
             this.wireBuffer = a.createBuffer();
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, this.wireBuffer);
@@ -176,10 +189,11 @@
        
             c = c.readBytes(this.vertexCount * this.stride);
 
-            this.objData = new Pan3d.ObjData
+       
             this.meshVecFloat(c, this.stride, a)
             this.meshUvFloat(c, this.stride, a)
             this.meshNrmFloat(c, this.stride, a);
+            this.objData.treNum = this.indexCount
             if (this.secondaryTexCoord) {
                 alert("有法线纹理要处理")
             }
@@ -304,6 +318,34 @@
             for (var key in MarmosetModel.imgBolb) {
                 this.dataURLtoBlob(MarmosetModel.imgBolb[key], key)
             }
+        }
+        public upObjDataToSever(): void {
+            for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
+                var objData: Pan3d.ObjData = MarmosetModel.meshItem[i].objData;
+                var objStr: any = {}
+                objStr.vertices = objData.vertices;
+                objStr.normals = objData.normals;
+                objStr.uvs = objData.uvs;
+                objStr.lightuvs = objData.lightuvs ? objData.lightuvs : objData.uvs;
+                objStr.indexs = objData.indexs;
+                objStr.treNum = objData.indexs.length;
+
+
+                var strXml: string = JSON.stringify(objStr)
+
+
+                var $name = "ossfile_" + i + ".objs";
+                var $file: File = new File([strXml], $name);
+                var pathUrl: string = Pan3d.Scene_data.fileRoot + "pan/marmoset/" + $name;
+                var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($file, pathurl, (value: any) => {
+
+                    console.log(value)
+
+                })
+
+            }
+
         }
         public static imgBolb: any;
      
