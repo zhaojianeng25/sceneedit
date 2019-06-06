@@ -38,7 +38,7 @@ var mars3D;
             }
             for (var i = 0; i < outArr.length / 8; i++) {
                 var id = i * 8 + 0;
-                // outArr[id] = outArr[id] * 0.9;
+                outArr[id] = outArr[id] * 0.5;
             }
             return outArr;
         };
@@ -50,7 +50,6 @@ var mars3D;
                 changeArr[i] = value[i];
             }
             var tbnArr = new Uint16Array(buffer);
-            var nrmItem16Arr = [];
             var nrmItem32Arr = [];
             var m = new Pan3d.Matrix3D;
             m.appendRotation(90, Pan3d.Vector3D.Z_AXIS);
@@ -58,8 +57,6 @@ var mars3D;
                 var id = i * 16 + 10;
                 var a = tbnArr[id + 4];
                 var b = tbnArr[id + 5];
-                nrmItem16Arr.push(a);
-                nrmItem16Arr.push(b);
                 var outVec3 = this.getNrmByXY(new Vector2D(a, b));
                 nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z);
             }

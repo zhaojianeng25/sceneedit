@@ -14,19 +14,16 @@
     export class Mars3Dmesh extends marmoset.Mesh {
  
         private meshVect(value: Uint8Array, stride: number): ArrayBuffer {
-
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
             var outArr = new Float32Array(buffer);
-
             for (var i: number = 0; i < value.length; i++) {
-                changeArr[i] = value[i]
+                changeArr[i] = value[i];
             }
             for (var i: number = 0; i < outArr.length / 8; i++) {
                 var id: number = i * 8 + 0;
-               // outArr[id] = outArr[id] * 0.9;
+                 outArr[id] = outArr[id] * 0.5;
             }
-
             return outArr;
 
         }
@@ -37,26 +34,19 @@
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
             for (var i: number = 0; i < value.length; i++) {
-                changeArr[i] = value[i]
+                changeArr[i] = value[i];
             }
             var tbnArr = new Uint16Array(buffer);
-            
-
-            var nrmItem16Arr: Array<number> = [];
             var nrmItem32Arr: Array<number> = [];
-
             var m: Pan3d.Matrix3D = new Pan3d.Matrix3D
             m.appendRotation(90, Pan3d.Vector3D.Z_AXIS)
             for (var i: number = 0; i < tbnArr.length / 16; i++) {//tbn
                 var id: number = i * 16 + 10
                 var a: number = tbnArr[id + 4]
                 var b: number = tbnArr[id + 5]
-                nrmItem16Arr.push(a);
-                nrmItem16Arr.push(b);
-
+ 
                 var outVec3: Vector3D = this.getNrmByXY(new Vector2D(a, b))
                 nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z)
-
             }
 
             return new Float32Array(nrmItem32Arr);
@@ -95,14 +85,11 @@
             if (this.vertexColor = b.vertexColor) {
                 this.stride += 4;
             }
-         
             if (this.secondaryTexCoord = b.secondaryTexCoord) {
                 this.stride += 8;
             }
- 
             c = new ByteStream(c.data);
 
-          
 
             this.indexCount = b.indexCount;
             this.indexTypeSize = b.indexTypeSize;

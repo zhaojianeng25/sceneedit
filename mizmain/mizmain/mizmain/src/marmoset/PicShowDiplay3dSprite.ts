@@ -23,10 +23,8 @@ module mars3D {
         binLocation($context: WebGLRenderingContext): void {
             $context.bindAttribLocation(this.program, 0, "v3Position");
             $context.bindAttribLocation(this.program, 1, "u2Texture");
-            $context.bindAttribLocation(this.program, 2, "vTangent");
-            $context.bindAttribLocation(this.program, 3, "vBitangent");
-            $context.bindAttribLocation(this.program, 4, "vNormal");
-            $context.bindAttribLocation(this.program, 5, "v3Nrm");
+ 
+            $context.bindAttribLocation(this.program, 2, "v3Nrm");
         }
         getVertexShaderString(): string {
             var $str: string =
@@ -42,9 +40,7 @@ module mars3D {
               //  "uniform mat4 posMatrix3D;" +
 
                 "varying vec2 v_texCoord;" +
-                "varying  vec3 dA;" +
-                "varying  vec3 dB;" +
-                "varying  vec3 dC;" +
+ 
 
                 "varying  vec3 dnrm;" +
  
@@ -64,7 +60,7 @@ module mars3D {
                 "void main(void)" +
                 "{" +
                     "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
-                    "   dC=iW(vNormal);" +
+ 
                     "   dnrm=v3Nrm;" +
                     "   vec4 vt0= vec4(v3Position, 1.0);" +
                    // "   vt0 = posMatrix3D * vt0;" +
@@ -80,9 +76,7 @@ module mars3D {
                 "precision mediump float;\n" +
                 "uniform sampler2D s_texture;\n" +
                 "varying vec2 v_texCoord;\n" +
-                "varying  vec3 dA;" +
-                "varying  vec3 dB;" +
-                "varying  vec3 dC;" +
+ 
                 "varying  vec3 dnrm;" +
           
                 "void main(void)\n" +
@@ -162,26 +156,11 @@ module mars3D {
             Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
             Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
 
-
  
-            var f: number = 20
-            gl.enableVertexAttribArray(2);
-            gl.vertexAttribPointer(2, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
-            f += 4;
-            gl.enableVertexAttribArray(3);
-            gl.vertexAttribPointer(3, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
-            f += 4;
-            gl.enableVertexAttribArray(4);
-            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
-
-         
-
             Scene_data.context3D.pushVa(mesh.nrmBuffer);
-            gl.enableVertexAttribArray(5);
-            gl.vertexAttribPointer(5, 3, gl.FLOAT, false, 12, 0);
-       
-       
+            Scene_data.context3D.setVaOffset(2, 3,12, 0);
 
+      
             Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
         }
         public update(): void {
