@@ -50,15 +50,19 @@ var mars3D;
                 changeArr[i] = value[i];
             }
             var tbnArr = new Int16Array(buffer);
-            var nrmIntArr = [];
+            var nrmItemArr = [];
             for (var i = 0; i < tbnArr.length / 16; i++) { //tbn
                 var id = i * 16 + 10;
-                var a = tbnArr[id + 4];
-                var b = tbnArr[id + 5];
-                var vec3Nrm = this.getNrmByXY(new Vector2D(a, b));
-                nrmIntArr.push(vec3Nrm.x, vec3Nrm.y, vec3Nrm.z);
+                tbnArr[id + 4] = tbnArr[id + 4];
+                tbnArr[id + 5] = tbnArr[id + 5];
+                nrmItemArr.push(tbnArr[id + 4]);
+                nrmItemArr.push(tbnArr[id + 5]);
             }
-            return new Float32Array(nrmIntArr);
+            var narmBuff = new Int16Array(new ArrayBuffer(nrmItemArr.length * 2));
+            for (var i = 0; i < nrmItemArr.length; i++) {
+                narmBuff[i] = nrmItemArr[i];
+            }
+            return narmBuff;
         };
         Mars3Dmesh.prototype.getNrmByXY = function (v) {
             var iX = (v.y > (32767.1 / 65535.0));

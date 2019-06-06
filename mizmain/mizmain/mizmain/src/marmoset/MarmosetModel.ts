@@ -17,7 +17,6 @@
 
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
-
             var outArr = new Float32Array(buffer);
 
             for (var i: number = 0; i < value.length; i++) {
@@ -32,7 +31,7 @@
 
         }
 
-        private meshVectNrm(value: Uint8Array, stride: number): Float32Array {
+        private meshVectNrm(value: Uint8Array, stride: number): Int16Array {
 
             var len: number = value.length / stride;
             var buffer = new ArrayBuffer(value.length);
@@ -42,17 +41,22 @@
             }
             var tbnArr = new Int16Array(buffer);
 
-            var nrmIntArr: Array<number>=[]
+            var nrmItemArr: Array<number>=[]
             for (var i: number = 0; i < tbnArr.length / 16; i++) {//tbn
                 var id: number = i * 16+10
-                var a: number = tbnArr[id + 4];
-                var b: number = tbnArr[id + 5];
+                tbnArr[id + 4] = tbnArr[id + 4]
+                tbnArr[id + 5] = tbnArr[id + 5]
 
-                var vec3Nrm: Vector3D = this.getNrmByXY(new Vector2D(a, b))
-                nrmIntArr.push(vec3Nrm.x, vec3Nrm.y, vec3Nrm.z)
+                nrmItemArr.push(tbnArr[id + 4])
+                nrmItemArr.push(tbnArr[id + 5])
+ 
+            }
+            var narmBuff = new Int16Array(new ArrayBuffer(nrmItemArr.length*2))
+            for (var i: number = 0; i < nrmItemArr.length; i++) {
+                narmBuff[i] = nrmItemArr[i]
             }
  
-            return new Float32Array(nrmIntArr);
+            return narmBuff;
 
 
         }

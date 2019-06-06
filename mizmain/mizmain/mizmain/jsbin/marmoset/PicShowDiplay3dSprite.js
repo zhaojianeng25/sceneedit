@@ -137,7 +137,8 @@ var mars3D;
             gl.enableVertexAttribArray(4);
             gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
             Scene_data.context3D.pushVa(mesh.nrmBuffer);
-            Scene_data.context3D.setVaOffset(5, 3, 12, 0);
+            gl.enableVertexAttribArray(4);
+            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, true, 4, 0);
             Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
         };
         PicShowDiplay3dSprite.prototype.update = function () {
