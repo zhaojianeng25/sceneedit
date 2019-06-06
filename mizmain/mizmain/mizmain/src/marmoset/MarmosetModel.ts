@@ -65,8 +65,8 @@
         }
         private getNrmByXY(v: Vector2D): Vector3D {
 
-            v.x = v.x / 65535.0
-            v.y = v.y / 65535.0
+            v.x = v.x / 65535.0;
+            v.y = v.y / 65535.0;
             var iX: boolean = (v.y > (32767.1 / 65535.0));
             v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;
             var r: Vector3D = new Vector3D()
@@ -76,16 +76,7 @@
             r.z = iX ? -r.z : r.z;
             return r;
         }
-        //vec3 iW(vec2 v) {
-//"  bool iX = (v.y > (32767.1 / 65535.0));" +
-//"  v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;" +
-//" vec3 r;" +
-//"  r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;" +
-//"  r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;" +
-//"  r.z = sqrt(max(min(1.0 - (r.x*r.x+r.y*r.y), 1.0), 0.0));" +
-//"  r.z = iX ? -r.z : r.z;" +
-//"  return r;" +
-        //}
+ 
         public nrmBuffer: WebGLBuffer;
         public initdata(a: any, b: any, c: any) {
             this.gl = a;

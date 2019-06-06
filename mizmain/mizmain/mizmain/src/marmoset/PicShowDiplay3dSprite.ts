@@ -49,32 +49,30 @@ module mars3D {
                 "varying  vec3 dC;" +
 
                 "varying  vec3 dnrm;" +
-
-
+ 
                 " vec3 iW(vec2 v) {;" +
-                "  v.x=v.x/65535.0;" +
-                "  v.y=v.y/65535.0;" +
+                    "  v.x=v.x/65535.0;" +
+                    "  v.y=v.y/65535.0;" +
                     "  bool iX = (v.y > (32767.1 / 65535.0));" +
                     "  v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;" +
-                    " vec3 r;" +
-                "  r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;" +
-                "  r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;" +
+                    "  vec3 r;" +
+                    "  r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;" +
+                    "  r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;" +
                     "  r.z = sqrt(max(min(1.0 - (r.x*r.x+r.y*r.y), 1.0), 0.0));" +
                     "  r.z = iX ? -r.z : r.z;" +
                     "  return r;" +
-            " }" +
+                " }" +
 
                 "void main(void)" +
                 "{" +
-
-                "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
-                "   dC=iW(vNormal);" +
-                "   dnrm=v3Nrm;" +
-                "   vec4 vt0= vec4(v3Position, 1.0);" +
-                "   vt0 = posMatrix3D * vt0;" +
-                "   vt0 = camMatrix3D * vt0;" +
-                "   vt0 = viewMatrix3D * vt0;" +
-                "   gl_Position = vt0;" +
+                    "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                    "   dC=iW(vNormal);" +
+                    "   dnrm=v3Nrm;" +
+                    "   vec4 vt0= vec4(v3Position, 1.0);" +
+                    "   vt0 = posMatrix3D * vt0;" +
+                    "   vt0 = camMatrix3D * vt0;" +
+                    "   vt0 = viewMatrix3D * vt0;" +
+                    "   gl_Position = vt0;" +
                 "}"
             return $str
 
@@ -93,8 +91,8 @@ module mars3D {
           
                 "void main(void)\n" +
                 "{\n" +
-                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(dnrm,1.0);\n" +
+                    "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
+                    "gl_FragColor =vec4(dnrm,1.0);\n" +
                 "}"
             return $str
 
