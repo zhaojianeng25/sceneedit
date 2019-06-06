@@ -42,6 +42,9 @@ vec3 u(mat4 i,vec3 v){
 }
 void main(void){
 	gl_Position=h(uModelViewProjectionMatrix,vPosition.xyz);
+	
+		gl_Position= uModelViewProjectionMatrix*vec4(vPosition.xyz ,1.0);
+ 
 	d=vTexCoord+uUVOffset;
 	dA=u(uSkyMatrix,iW(vTangent));
 	dB=u(uSkyMatrix,iW(vBitangent));

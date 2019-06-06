@@ -38,8 +38,7 @@ var mars3D;
                 "attribute vec2 vNormal;" +
                 "attribute vec3 v3Nrm;" +
                 "uniform mat4 viewMatrix3D;" +
-                "uniform mat4 camMatrix3D;" +
-                "uniform mat4 posMatrix3D;" +
+                //  "uniform mat4 posMatrix3D;" +
                 "varying vec2 v_texCoord;" +
                 "varying  vec3 dA;" +
                 "varying  vec3 dB;" +
@@ -63,8 +62,7 @@ var mars3D;
                 "   dC=iW(vNormal);" +
                 "   dnrm=v3Nrm;" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
-                "   vt0 = posMatrix3D * vt0;" +
-                "   vt0 = camMatrix3D * vt0;" +
+                // "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = viewMatrix3D * vt0;" +
                 "   gl_Position = vt0;" +
                 "}";
@@ -81,7 +79,7 @@ var mars3D;
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(dnrm,1.0);\n" +
+                "gl_FragColor =vec4(dC,1.0);\n" +
                 "}";
             return $str;
         };
@@ -121,10 +119,16 @@ var mars3D;
         PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
             var gl = Scene_data.context3D.renderContext;
             Scene_data.context3D.setProgram(this.program);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
             Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-            Scene_data.context3D.cullFaceBack(false);
+            var viewM = Scene_data.viewMatrx3D.clone();
+            viewM.prepend(Scene_data.cam3D.cameraMatrix);
+            viewM.prepend(this.posMatrix);
+            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", viewM.m);
+            if (window["mview"]) {
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+            }
+            gl.disable(gl.CULL_FACE);
+            gl.cullFace(gl.FRONT);
             Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
             // mesh.stride = 20
             Scene_data.context3D.pushVa(mesh.vertexBuffer);

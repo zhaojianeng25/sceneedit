@@ -2519,6 +2519,7 @@ marmoset = {};
           , q = Matrix.mul(Matrix.empty(), c.projectionMatrix, q)
           , u = Matrix.mul(Matrix.empty(), d.matrix, u);
         m.uniformMatrix4fv(p.uModelViewProjectionMatrix, !1, q);
+		window["mview"]=q
         m.uniformMatrix4fv(p.uSkyMatrix, !1, u);
         u = Matrix.mulPoint(Vect.empty(), d.matrix, c.transform[12], c.transform[13], c.transform[14]);
         m.uniform3f(p.uCameraPosition, u[0], u[1], u[2]);
