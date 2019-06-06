@@ -34,36 +34,38 @@ module mars3D {
             //benjamin
             //karen1
             //karen2
-            var strItem: Array<string> = [];
-            strItem.push("benjamin.mview")//0
-            strItem.push("henrique.mview")//1
-            strItem.push("joelamp.mview")//2
-            strItem.push("karen1.mview")//3
-            strItem.push("karen2.mview")//4
-            strItem.push("natmother.mview")//5
-            strItem.push("tom.mview")//6
-            strItem.push("ViewerNormalesLow-Unreas.mview")//7
-            strItem.push("ViewerArachne2.mview")//8
-            strItem.push("meet_mat.mview")//9
-            strItem.push("vivfox.mview")//10
-            strItem.push("peter.mview")//11
-            strItem.push("test2.mview")//12
-            strItem.push("lens.mview")//13
-            strItem.push("vespa.mview")//14
-            strItem.push("camera.mview")//15
-            strItem.push("masks3.mview")//16
-            strItem.push("17.mview")//17
-            strItem.push("LightingScenario2.mview")//18
-            strItem.push("Shinobi.mview")//19
-            strItem.push("sceneguillau.mview")//20
-            strItem.push("phillstead_ww_MV_25.mview")//21
-            strItem.push("scene_glad.mview")//22
-            strItem.push("WildWestNative.mview")//23
-            strItem.push("sceneDaria.mview")//24
-            strItem.push("wwsurvivors.mview")//25
-            
+            var strIdic: any = {};
+            strIdic["0"]=("benjamin.mview")//0
+            strIdic["1"]=("henrique.mview")//1
+            strIdic["2"]=("joelamp.mview")//2
+            strIdic["3"]=("karen1.mview")//3
+            strIdic["4"]=("karen2.mview")//4
+            strIdic["5"]=("natmother.mview")//5
+            strIdic["6"]=("tom.mview")//6
+            strIdic["7"]=("ViewerNormalesLow-Unreas.mview")//7
+            strIdic["8"]=("ViewerArachne2.mview")//8
+            strIdic["9"]=("meet_mat.mview")//9
+            strIdic["10"]=("vivfox.mview")//10
+            strIdic["11"]=("peter.mview")//11
+            strIdic["12"]=("test2.mview")//12
+            strIdic["13"]=("lens.mview")//13
+            strIdic["14"]=("vespa.mview")//14
+            strIdic["15"]=("camera.mview")//15
+            strIdic["16"]=("masks3.mview")//16
+            strIdic["17"]=("17.mview")//17
+            strIdic["18"]=("LightingScenario2.mview")//18
+            strIdic["19"]=("Shinobi.mview")//19
+            strIdic["20"]=("sceneguillau.mview")//20
+            strIdic["21"]=("phillstead_ww_MV_25.mview")//21
+            strIdic["22"]=("scene_glad.mview")//22
+            strIdic["23"]=("WildWestNative.mview")//23
+            strIdic["24"]=("sceneDaria.mview")//24
+            strIdic["25"]=("wwsurvivors.mview")//25
             
 
+
+
+            MarmosetModel.getInstance().viewFileName = strIdic[3]
 
             var rootpath: string = "pan/marmoset/feiji/3/";
             LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath+"outshder.txt", LoadManager.XML_TYPE, (outstr: any) => {
@@ -72,14 +74,12 @@ module mars3D {
                     MarmosetModel.changerVshader = vstr
                     LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath +"fshader.txt", LoadManager.XML_TYPE, (fstr: any) => {
                         MarmosetModel.changerFshader = fstr
-                        marmoset.embed("res/" + strItem[3], { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
                     });
 
                 });
             });
-
-            
-
+ 
         }
 
 

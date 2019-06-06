@@ -298,14 +298,30 @@ var mars3D;
                 var strXml = JSON.stringify(objStr);
                 var $name = "ossfile_" + i + ".objs";
                 var $file = new File([strXml], $name);
-                var pathUrl = Pan3d.Scene_data.fileRoot + "pan/marmoset/" + $name;
-                var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
-                pack.FileOssModel.upOssFile($file, pathurl, function (value) {
+                var sonPath = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
+                var fileUrl = sonPath + $name;
+                var pathUrl = Pan3d.Scene_data.fileRoot + fileUrl;
+                var ossPathUrl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($file, ossPathUrl, function (value) {
                     console.log(value);
+                });
+                var prefabStaticMesh = new pack.PrefabStaticMesh();
+                prefabStaticMesh.objsurl = fileUrl;
+                prefabStaticMesh.url = pathUrl.replace(".objs", ".prefab");
+                prefabStaticMesh.objsurl = fileUrl;
+                prefabStaticMesh.textureurl = "assets/base/base.material";
+                var $byte = new Pan3d.Pan3dByteArray();
+                var $temp = prefabStaticMesh.getObject();
+                $temp.version = pack.FileOssModel.version;
+                $byte.writeUTF(JSON.stringify($temp));
+                var prafabFile = new File([$byte.buffer], "cc.prefab");
+                var pathurl = ossPathUrl.replace(".objs", ".prefab");
+                pack.FileOssModel.upOssFile(prafabFile, pathurl, function () {
                 });
             }
         };
         MarmosetModel.prototype.dataURLtoBlob = function (value, name) {
+            var _this = this;
             //"image/jpeg"
             var img = new Image();
             img.url = name;
@@ -313,10 +329,11 @@ var mars3D;
                 var etimg = evt.target;
                 URL.revokeObjectURL(etimg.src);
                 var files = new File([value], name, { type: "image/jpeg" });
-                var pathUrl = Pan3d.Scene_data.fileRoot + "pan/marmoset/" + name;
+                var sonPath = "pan/marmoset/" + _this.viewFileName.replace(".mview", "/");
+                var pathUrl = Pan3d.Scene_data.fileRoot + sonPath + name;
                 var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile(files, pathurl, function (value) {
-                    console.log(value);
+                    console.log(pathurl);
                 });
             };
             img.src = URL.createObjectURL(value);
