@@ -144,13 +144,15 @@ module mars3D {
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
             }
  
-            gl.disable(gl.CULL_FACE);
-            gl.cullFace(gl.FRONT);
+      
           
 
             Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
 
-           // mesh.stride = 20
+
+
+            gl.disable(gl.CULL_FACE);
+            gl.cullFace(gl.FRONT);
  
 
             Scene_data.context3D.pushVa(mesh.vectBuffer);
@@ -161,8 +163,7 @@ module mars3D {
 
             Scene_data.context3D.pushVa(mesh.nrmBuffer);
             Scene_data.context3D.setVaOffset(2, 3, 12, 0);
-
-      
+ 
             Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
         }
         public update(): void {

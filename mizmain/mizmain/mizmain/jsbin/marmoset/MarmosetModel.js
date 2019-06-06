@@ -43,61 +43,66 @@ var mars3D;
             return outArr;
         };
         Mars3Dmesh.prototype.meshVecFloat = function (value, stride, gl) {
+            var len8 = stride / 4;
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
             var chang32 = new Float32Array(buffer);
             for (var i = 0; i < value.length; i++) {
                 changeArr[i] = value[i];
             }
-            var vectItem = [];
-            for (var i = 0; i < chang32.length / 8; i++) {
-                var id = i * 8;
-                vectItem.push(chang32[id + 0]);
-                vectItem.push(chang32[id + 1]);
-                vectItem.push(chang32[id + 2]);
+            this.objData.vertices = [];
+            for (var i = 0; i < chang32.length / len8; i++) {
+                var id = i * len8;
+                this.objData.vertices.push(chang32[id + 0]);
+                this.objData.vertices.push(chang32[id + 1]);
+                this.objData.vertices.push(chang32[id + 2]);
             }
             this.vectBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vectBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vectItem), gl.STATIC_DRAW);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.vertices), gl.STATIC_DRAW);
         };
         Mars3Dmesh.prototype.meshUvFloat = function (value, stride, gl) {
+            var len8 = stride / 4;
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
             var change32 = new Float32Array(buffer);
             for (var i = 0; i < value.length; i++) {
                 changeArr[i] = value[i];
             }
-            var uvItem = [];
-            for (var i = 0; i < change32.length / 8; i++) {
-                var id = i * 8;
-                uvItem.push(change32[id + 3]);
-                uvItem.push(change32[id + 4]);
+            this.objData.uvs = [];
+            for (var i = 0; i < change32.length / len8; i++) {
+                var id = i * len8;
+                this.objData.uvs.push(change32[id + 3]);
+                this.objData.uvs.push(change32[id + 4]);
             }
             this.uvBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvItem), gl.STATIC_DRAW);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.uvs), gl.STATIC_DRAW);
         };
         Mars3Dmesh.prototype.meshNrmFloat = function (value, stride, gl) {
-            var len = value.length / stride;
+            var len16 = stride / 2;
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
             for (var i = 0; i < value.length; i++) {
                 changeArr[i] = value[i];
             }
             var tbnArr = new Uint16Array(buffer);
-            var nrmItem32Arr = [];
+            this.objData.normals = [];
             var m = new Pan3d.Matrix3D;
             m.appendRotation(90, Pan3d.Vector3D.Z_AXIS);
-            for (var i = 0; i < tbnArr.length / 16; i++) { //tbn
-                var id = i * 16 + 10;
+            for (var i = 0; i < tbnArr.length / len16; i++) { //tbn
+                var id = i * len16 + 10;
+                if (this.secondaryTexCoord) {
+                    //  id += 4; //有第二张贴图需要TBN要后移动 
+                }
                 var a = tbnArr[id + 4];
                 var b = tbnArr[id + 5];
                 var outVec3 = this.getNrmByXY(new Vector2D(a, b));
-                nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z);
+                this.objData.normals.push(outVec3.x, outVec3.y, outVec3.z);
             }
             this.nrmBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.nrmBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nrmItem32Arr), gl.STATIC_DRAW);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.objData.normals), gl.STATIC_DRAW);
         };
         Mars3Dmesh.prototype.getNrmByXY = function (v) {
             v.x = v.x / 65535.0;
@@ -130,6 +135,9 @@ var mars3D;
             if (this.secondaryTexCoord = b.secondaryTexCoord) {
                 this.stride += 8;
             }
+            if (this.stride != 32) {
+                alert("顶点数据不为32，可能需要处理BUG");
+            }
             c = new ByteStream(c.data);
             this.indexCount = b.indexCount;
             this.indexTypeSize = b.indexTypeSize;
@@ -146,9 +154,13 @@ var mars3D;
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, null);
             this.vertexCount = b.vertexCount;
             c = c.readBytes(this.vertexCount * this.stride);
+            this.objData = new Pan3d.ObjData;
             this.meshVecFloat(c, this.stride, a);
             this.meshUvFloat(c, this.stride, a);
             this.meshNrmFloat(c, this.stride, a);
+            if (this.secondaryTexCoord) {
+                alert("有法线纹理要处理");
+            }
             c = this.meshVect(c, this.stride);
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);

@@ -117,10 +117,9 @@ var mars3D;
             if (window["mview"]) {
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
             }
+            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
             gl.disable(gl.CULL_FACE);
             gl.cullFace(gl.FRONT);
-            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-            // mesh.stride = 20
             Scene_data.context3D.pushVa(mesh.vectBuffer);
             Scene_data.context3D.setVaOffset(0, 3, 12, 0);
             Scene_data.context3D.pushVa(mesh.uvBuffer);
