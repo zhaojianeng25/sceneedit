@@ -50,28 +50,28 @@ var mars3D;
                 changeArr[i] = value[i];
             }
             var tbnArr = new Int16Array(buffer);
-            var nrmItemArr = [];
+            var nrmItem16Arr = [];
+            var nrmItem32Arr = [];
             for (var i = 0; i < tbnArr.length / 16; i++) { //tbn
                 var id = i * 16 + 10;
-                tbnArr[id + 4] = tbnArr[id + 4];
-                tbnArr[id + 5] = tbnArr[id + 5];
-                nrmItemArr.push(tbnArr[id + 4]);
-                nrmItemArr.push(tbnArr[id + 5]);
+                var a = tbnArr[id + 4];
+                var b = tbnArr[id + 5];
+                nrmItem16Arr.push(a);
+                nrmItem16Arr.push(b);
+                var outVec3 = this.getNrmByXY(new Vector2D(a, b));
+                nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z);
             }
-            var narmBuff = new Int16Array(new ArrayBuffer(nrmItemArr.length * 2));
-            for (var i = 0; i < nrmItemArr.length; i++) {
-                narmBuff[i] = nrmItemArr[i];
-            }
-            return narmBuff;
+            return new Int16Array(nrmItem16Arr);
         };
         Mars3Dmesh.prototype.getNrmByXY = function (v) {
+            v.x = v.x / 65535.0;
+            v.y = v.y / 65535.0;
             var iX = (v.y > (32767.1 / 65535.0));
             v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;
             var r = new Vector3D();
             r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;
-            r.y = (2.0 * 65535.0 / 32767.0) * v.y - 0;
-            //r.z = sqrt(clamp(1.0 - dot(r.xy, r.xy), 0.0, 1.0));
-            r.z = Math.sqrt(Math.min(Math.max(1 - (r.x * r.x + r.y * r.y), 0), 1));
+            r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;
+            r.z = Math.sqrt(Math.max(Math.min(1.0 - (r.x * r.x + r.y * r.y), 1.0), 0.0));
             r.z = iX ? -r.z : r.z;
             return r;
         };

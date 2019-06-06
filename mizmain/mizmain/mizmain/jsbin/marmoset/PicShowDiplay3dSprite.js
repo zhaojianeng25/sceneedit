@@ -41,16 +41,19 @@ var mars3D;
                 "uniform mat4 camMatrix3D;" +
                 "uniform mat4 posMatrix3D;" +
                 "varying vec2 v_texCoord;" +
-                "varying mediump vec3 dA;" +
-                "varying mediump vec3 dB;" +
-                "varying mediump vec3 dC;" +
-                "varying mediump vec3 dnrm;" +
+                "varying  vec3 dA;" +
+                "varying  vec3 dB;" +
+                "varying  vec3 dC;" +
+                "varying  vec3 dnrm;" +
                 " vec3 iW(vec2 v) {;" +
+                "  v.x=v.x/65535.0;" +
+                "  v.y=v.y/65535.0;" +
                 "  bool iX = (v.y > (32767.1 / 65535.0));" +
                 "  v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;" +
                 " vec3 r;" +
-                "  r.xy = (2.0 * 65535.0 / 32767.0) * v - vec2(1.0);" +
-                "  r.z = sqrt(clamp(1.0 - dot(r.xy, r.xy), 0.0, 1.0));" +
+                "  r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;" +
+                "  r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;" +
+                "  r.z = sqrt(max(min(1.0 - (r.x*r.x+r.y*r.y), 1.0), 0.0));" +
                 "  r.z = iX ? -r.z : r.z;" +
                 "  return r;" +
                 " }" +
@@ -71,10 +74,10 @@ var mars3D;
             var $str = "precision mediump float;\n" +
                 "uniform sampler2D s_texture;\n" +
                 "varying vec2 v_texCoord;\n" +
-                "varying mediump vec3 dA;" +
-                "varying mediump vec3 dB;" +
-                "varying mediump vec3 dC;" +
-                "varying mediump vec3 dnrm;" +
+                "varying  vec3 dA;" +
+                "varying  vec3 dB;" +
+                "varying  vec3 dC;" +
+                "varying  vec3 dnrm;" +
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
@@ -129,16 +132,16 @@ var mars3D;
             Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
             var f = 20;
             gl.enableVertexAttribArray(2);
-            gl.vertexAttribPointer(2, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
+            gl.vertexAttribPointer(2, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
             f += 4;
             gl.enableVertexAttribArray(3);
-            gl.vertexAttribPointer(3, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
+            gl.vertexAttribPointer(3, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
             f += 4;
             gl.enableVertexAttribArray(4);
-            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, !0, mesh.stride, f);
+            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, false, mesh.stride, f);
             Scene_data.context3D.pushVa(mesh.nrmBuffer);
             gl.enableVertexAttribArray(4);
-            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, true, 4, 0);
+            gl.vertexAttribPointer(4, 2, gl.UNSIGNED_SHORT, false, 4, 0);
             Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);
         };
         PicShowDiplay3dSprite.prototype.update = function () {
