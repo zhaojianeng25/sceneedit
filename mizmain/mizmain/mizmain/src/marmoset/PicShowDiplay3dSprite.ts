@@ -82,7 +82,7 @@ module mars3D {
                 "void main(void)\n" +
                 "{\n" +
                     "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                    "gl_FragColor =vec4(dnrm,1.0);\n" +
+                    "gl_FragColor =vec4(infoUv.xyz,1.0);\n" +
                 "}"
             return $str
 
@@ -151,14 +151,16 @@ module mars3D {
             Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
 
            // mesh.stride = 20
-
-            Scene_data.context3D.pushVa(mesh.vertexBuffer);
-            Scene_data.context3D.setVaOffset(0, 3, mesh.stride, 0);
-            Scene_data.context3D.setVaOffset(1, 2, mesh.stride, 12);
-
  
+
+            Scene_data.context3D.pushVa(mesh.vectBuffer);
+            Scene_data.context3D.setVaOffset(0, 3, 12, 0);
+
+            Scene_data.context3D.pushVa(mesh.uvBuffer);
+            Scene_data.context3D.setVaOffset(1, 2, 8, 0);
+
             Scene_data.context3D.pushVa(mesh.nrmBuffer);
-            Scene_data.context3D.setVaOffset(2, 3,12, 0);
+            Scene_data.context3D.setVaOffset(2, 3, 12, 0);
 
       
             Scene_data.context3D.drawCall(mesh.indexBuffer, mesh.indexCount);

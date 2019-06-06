@@ -42,7 +42,42 @@ var mars3D;
             }
             return outArr;
         };
-        Mars3Dmesh.prototype.meshVectNrm = function (value, stride) {
+        Mars3Dmesh.prototype.meshVecFloat = function (value, stride, gl) {
+            var buffer = new ArrayBuffer(value.length);
+            var changeArr = new Uint8Array(buffer);
+            var chang32 = new Float32Array(buffer);
+            for (var i = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
+            }
+            var vectItem = [];
+            for (var i = 0; i < chang32.length / 8; i++) {
+                var id = i * 8;
+                vectItem.push(chang32[id + 0]);
+                vectItem.push(chang32[id + 1]);
+                vectItem.push(chang32[id + 2]);
+            }
+            this.vectBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.vectBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vectItem), gl.STATIC_DRAW);
+        };
+        Mars3Dmesh.prototype.meshUvFloat = function (value, stride, gl) {
+            var buffer = new ArrayBuffer(value.length);
+            var changeArr = new Uint8Array(buffer);
+            var change32 = new Float32Array(buffer);
+            for (var i = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
+            }
+            var uvItem = [];
+            for (var i = 0; i < change32.length / 8; i++) {
+                var id = i * 8;
+                uvItem.push(change32[id + 3]);
+                uvItem.push(change32[id + 4]);
+            }
+            this.uvBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvItem), gl.STATIC_DRAW);
+        };
+        Mars3Dmesh.prototype.meshNrmFloat = function (value, stride, gl) {
             var len = value.length / stride;
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
@@ -60,7 +95,9 @@ var mars3D;
                 var outVec3 = this.getNrmByXY(new Vector2D(a, b));
                 nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z);
             }
-            return new Float32Array(nrmItem32Arr);
+            this.nrmBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.nrmBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nrmItem32Arr), gl.STATIC_DRAW);
         };
         Mars3Dmesh.prototype.getNrmByXY = function (v) {
             v.x = v.x / 65535.0;
@@ -109,10 +146,9 @@ var mars3D;
             a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, null);
             this.vertexCount = b.vertexCount;
             c = c.readBytes(this.vertexCount * this.stride);
-            var nrmBuff = this.meshVectNrm(c, this.stride);
-            this.nrmBuffer = a.createBuffer();
-            a.bindBuffer(a.ARRAY_BUFFER, this.nrmBuffer);
-            a.bufferData(a.ARRAY_BUFFER, nrmBuff, a.STATIC_DRAW);
+            this.meshVecFloat(c, this.stride, a);
+            this.meshUvFloat(c, this.stride, a);
+            this.meshNrmFloat(c, this.stride, a);
             c = this.meshVect(c, this.stride);
             this.vertexBuffer = a.createBuffer();
             a.bindBuffer(a.ARRAY_BUFFER, this.vertexBuffer);

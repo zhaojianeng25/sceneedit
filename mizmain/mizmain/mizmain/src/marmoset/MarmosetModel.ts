@@ -27,8 +27,55 @@
             return outArr;
 
         }
+        public vectBuffer: WebGLBuffer //顶点
+        public uvBuffer: WebGLBuffer //UV
+        public nrmBuffer: WebGLBuffer; //法线
+        private meshVecFloat(value: Uint8Array, stride: number, gl: any): void {
+            var buffer = new ArrayBuffer(value.length);
+            var changeArr = new Uint8Array(buffer);
+            var chang32 = new Float32Array(buffer);
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
+            }
+            var vectItem: Array<number>=[]
+            for (var i: number = 0; i < chang32.length / 8; i++) {
+                var id: number = i * 8 
+                vectItem.push(chang32[id + 0]);
+                vectItem.push(chang32[id + 1]);
+                vectItem.push(chang32[id + 2]);
+            }
 
-        private meshVectNrm(value: Uint8Array, stride: number): Float32Array {
+            this.vectBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.vectBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vectItem), gl.STATIC_DRAW);
+
+        }
+
+        private meshUvFloat(value: Uint8Array, stride: number, gl: any): void {
+            var buffer = new ArrayBuffer(value.length);
+            var changeArr = new Uint8Array(buffer);
+            var change32 = new Float32Array(buffer);
+            for (var i: number = 0; i < value.length; i++) {
+                changeArr[i] = value[i];
+            }
+            var uvItem: Array<number> = []
+            for (var i: number = 0; i < change32.length / 8; i++) {
+                var id: number = i * 8
+
+                uvItem.push(change32[id + 3])
+                uvItem.push(change32[id + 4])
+    
+            }
+
+
+            this.uvBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvItem), gl.STATIC_DRAW);
+
+        }
+   
+
+        private meshNrmFloat(value: Uint8Array, stride: number, gl: any): void {
 
             var len: number = value.length / stride;
             var buffer = new ArrayBuffer(value.length);
@@ -41,7 +88,7 @@
             var m: Pan3d.Matrix3D = new Pan3d.Matrix3D
             m.appendRotation(90, Pan3d.Vector3D.Z_AXIS)
             for (var i: number = 0; i < tbnArr.length / 16; i++) {//tbn
-                var id: number = i * 16 + 10
+                var id: number = i * 16 + 10;
                 var a: number = tbnArr[id + 4]
                 var b: number = tbnArr[id + 5]
  
@@ -49,8 +96,10 @@
                 nrmItem32Arr.push(outVec3.x, outVec3.y, outVec3.z)
             }
 
-            return new Float32Array(nrmItem32Arr);
-
+            this.nrmBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.nrmBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nrmItem32Arr), gl.STATIC_DRAW);
+    
 
         }
         private getNrmByXY(v: Vector2D): Vector3D {
@@ -67,7 +116,7 @@
             return r;
         }
  
-        public nrmBuffer: WebGLBuffer;
+ 
         public initdata(a: any, b: any, c: any) {
             this.gl = a;
             var elementArrayBuffer = this.gl.getParameter(this.gl.ELEMENT_ARRAY_BUFFER_BINDING);
@@ -110,10 +159,11 @@
        
             c = c.readBytes(this.vertexCount * this.stride);
 
-            var nrmBuff = this.meshVectNrm(c, this.stride);
-            this.nrmBuffer = a.createBuffer();
-            a.bindBuffer(a.ARRAY_BUFFER, this.nrmBuffer);
-            a.bufferData(a.ARRAY_BUFFER, nrmBuff, a.STATIC_DRAW);
+
+            this.meshVecFloat(c, this.stride, a)
+            this.meshUvFloat(c, this.stride, a)
+            this.meshNrmFloat(c, this.stride,a);
+            
 
             c = this.meshVect(c, this.stride);
             this.vertexBuffer = a.createBuffer();
