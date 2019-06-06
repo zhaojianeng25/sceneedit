@@ -37,8 +37,7 @@ module mars3D {
                 "attribute vec2 vNormal;" +
 
                 "attribute vec3 v3Nrm;" +
-
-
+ 
                 "uniform mat4 viewMatrix3D;" +
               //  "uniform mat4 posMatrix3D;" +
 
@@ -84,13 +83,12 @@ module mars3D {
                 "varying  vec3 dA;" +
                 "varying  vec3 dB;" +
                 "varying  vec3 dC;" +
-
                 "varying  vec3 dnrm;" +
           
                 "void main(void)\n" +
                 "{\n" +
                     "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                    "gl_FragColor =vec4(dC,1.0);\n" +
+                    "gl_FragColor =vec4(dnrm,1.0);\n" +
                 "}"
             return $str
 

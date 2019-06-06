@@ -79,7 +79,7 @@ var mars3D;
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(dC,1.0);\n" +
+                "gl_FragColor =vec4(dnrm,1.0);\n" +
                 "}";
             return $str;
         };
