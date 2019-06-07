@@ -6,10 +6,12 @@
         public paramInfo: Array<any>;
         public materialParam: MaterialBaseParam;
         public gildline: boolean
+        public scenescale: number
         public material: materialui.MaterialTree
         public textureurl: string ;
         public constructor(value: any) {
             super();
+            this.scenescale=1
             this.meshObj(value)
         }
         public meshObj(value: any): void {
@@ -35,6 +37,7 @@
             }
             
             obj.paramInfo = this.paramInfo;
+            obj.scenescale = this.scenescale;
             obj.textureurl = this.textureurl;
             obj.gildline = this.gildline;
             return obj

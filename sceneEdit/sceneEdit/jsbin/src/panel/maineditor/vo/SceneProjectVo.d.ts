@@ -5,6 +5,7 @@ declare module maineditor {
         paramInfo: Array<any>;
         materialParam: MaterialBaseParam;
         gildline: boolean;
+        scenescale: number;
         material: materialui.MaterialTree;
         textureurl: string;
         constructor(value: any);

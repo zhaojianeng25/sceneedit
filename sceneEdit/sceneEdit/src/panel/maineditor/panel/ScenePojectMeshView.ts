@@ -20,17 +20,29 @@
 
                     { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                     { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
+                    { Type: ReflectionData.NumberInput, Label: "比例:", FunKey: "scenescale", target: this, Step: 1, Category: "镜头" },
 
                     { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: (value: Array<any>) => { this.textureChangeInfo(value) }, target: this, Suffix: "material", Category: "后期" },
 
                 ];
             return ary;
         }
+        public get scenescale(): number {
+            return this.sceneProjectVo.scenescale  
+        }
+        public set scenescale(value: number) {
+            this.sceneProjectVo.scenescale  =value
+            ScenePojectMeshView.gridLineSprite.scale = this.sceneProjectVo.scenescale
+        }
+
+
         private static gridLineSprite: Pan3d.GridLineSprite;
         public get gridline(): number {
             if (!ScenePojectMeshView.gridLineSprite) {
                 ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite()
+                ScenePojectMeshView.gridLineSprite.scale = this.sceneProjectVo.scenescale
             }
+            ScenePojectMeshView.gridLineSprite.scale=0.5
             if (this.sceneProjectVo.gildline) {
                 MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
             } else {

@@ -18,6 +18,7 @@ var maineditor;
         __extends(SceneProjectVo, _super);
         function SceneProjectVo(value) {
             var _this = _super.call(this) || this;
+            _this.scenescale = 1;
             _this.meshObj(value);
             return _this;
         }
@@ -41,6 +42,7 @@ var maineditor;
                 this.textureurl = this.material.url;
             }
             obj.paramInfo = this.paramInfo;
+            obj.scenescale = this.scenescale;
             obj.textureurl = this.textureurl;
             obj.gildline = this.gildline;
             return obj;

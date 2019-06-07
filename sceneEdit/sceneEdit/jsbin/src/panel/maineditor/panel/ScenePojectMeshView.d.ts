@@ -4,6 +4,7 @@ declare module maineditor {
     import MetaDataView = prop.MetaDataView;
     class ScenePojectMeshView extends MetaDataView {
         getView(): Array<any>;
+        scenescale: number;
         private static gridLineSprite;
         gridline: number;
         private textureChangeInfo;

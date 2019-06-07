@@ -31,15 +31,29 @@ var maineditor;
                 { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Category: "属性", Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
                 { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
+                { Type: ReflectionData.NumberInput, Label: "比例:", FunKey: "scenescale", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
             ];
             return ary;
         };
+        Object.defineProperty(ScenePojectMeshView.prototype, "scenescale", {
+            get: function () {
+                return this.sceneProjectVo.scenescale;
+            },
+            set: function (value) {
+                this.sceneProjectVo.scenescale = value;
+                ScenePojectMeshView.gridLineSprite.scale = this.sceneProjectVo.scenescale;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ScenePojectMeshView.prototype, "gridline", {
             get: function () {
                 if (!ScenePojectMeshView.gridLineSprite) {
                     ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite();
+                    ScenePojectMeshView.gridLineSprite.scale = this.sceneProjectVo.scenescale;
                 }
+                ScenePojectMeshView.gridLineSprite.scale = 0.5;
                 if (this.sceneProjectVo.gildline) {
                     maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
                 }

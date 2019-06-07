@@ -144,6 +144,8 @@
                         //$particle.scaleY = 0.1
                         //$particle.scaleZ = 0.1
 
+               
+
                         this.particleManager.addParticle($particle);
                       //  $particle.addEventListener(Pan3d.BaseEvent.COMPLETE, this.onPlayCom, this);
  
