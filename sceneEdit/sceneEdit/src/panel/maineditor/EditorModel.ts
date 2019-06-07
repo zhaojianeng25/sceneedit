@@ -12,8 +12,8 @@
             this.fileItem=[]
         }
         public loadHideMixImg($url: string, $fun: Function): void {
-            var mixUrl: string = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide/");
-          //  var mixUrl: string = $url
+            var mixUrl: string = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide_min_icon/");
+ 
             Pan3d.LoadManager.getInstance().load(mixUrl, Pan3d.LoadManager.IMG_TYPE,
                 ($img: any) => {
                     $fun($img)
@@ -26,15 +26,23 @@
             return image;
         }
         private makeMixPicByUrl(baseUrl: string, toUrl: string, bfun: Function): void {
-            console.log(this)
+ 
             console.log("没有小图，需要重置", baseUrl)
             Pan3d.LoadManager.getInstance().load(baseUrl, Pan3d.LoadManager.IMG_TYPE,
                 (downImg: any) => {
+                    bfun(downImg)
 
-                    var ctx = Pan3d. UIManager.getInstance().getContext2D(128, 128, false);
-                    ctx.drawImage(downImg, 0, 0);
-                    var imageData =  ctx.getImageData(0, 0, 128, 128);
-           
+                    var ctx = Pan3d.UIManager.getInstance().getContext2D(128, 128, false);
+
+                    var rect: Pan3d.Rectangle = new Pan3d.Rectangle();
+                    rect.width = Math.min(128, downImg.width);
+                    rect.height = Math.min(128, downImg.height);
+                    rect.x = (128 - rect.width) / 2
+                    rect.y = (128 - rect.height) / 2
+
+
+                    ctx.drawImage(downImg, rect.x, rect.y, rect.width, rect.height);                
+                    var imageData = ctx.getImageData(0, 0, 128,128);
                     var tempCanvas: any = document.createElement("CANVAS");
                     tempCanvas.width = 128;
                     tempCanvas.height = 128;
@@ -48,6 +56,7 @@
                         console.log("更新完成",toUrl)
                     })
 
+                  
                 });
         }
         private dataURLtoFile(dataurl: string, filename: string): File {

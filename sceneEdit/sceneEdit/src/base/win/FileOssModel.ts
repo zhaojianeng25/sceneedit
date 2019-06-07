@@ -143,7 +143,10 @@
                 for (var i: number = 0; value.prefixes && i < value.prefixes.length; i++) {
                     var fileVo: FileVo = new FileVo();
                     fileVo.meshStr(value.prefixes[i])
-                    fileArr.push(fileVo)
+                    if (fileVo.name!="hide_min_icon") {//不是隐藏文件夹
+                        fileArr.push(fileVo)
+                    }
+                  
                 }
                 for (var j: number = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo: FileVo = FileVo.meshObj(value.objects[j])

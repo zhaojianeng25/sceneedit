@@ -13,8 +13,7 @@ var maineditor;
         };
         EditorModel.prototype.loadHideMixImg = function ($url, $fun) {
             var _this = this;
-            var mixUrl = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide/");
-            //  var mixUrl: string = $url
+            var mixUrl = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide_min_icon/");
             Pan3d.LoadManager.getInstance().load(mixUrl, Pan3d.LoadManager.IMG_TYPE, function ($img) {
                 $fun($img);
             }, { errorFun: function () { _this.makeMixPicByUrl($url, mixUrl, $fun); } });
@@ -26,11 +25,16 @@ var maineditor;
         };
         EditorModel.prototype.makeMixPicByUrl = function (baseUrl, toUrl, bfun) {
             var _this = this;
-            console.log(this);
             console.log("没有小图，需要重置", baseUrl);
             Pan3d.LoadManager.getInstance().load(baseUrl, Pan3d.LoadManager.IMG_TYPE, function (downImg) {
+                bfun(downImg);
                 var ctx = Pan3d.UIManager.getInstance().getContext2D(128, 128, false);
-                ctx.drawImage(downImg, 0, 0);
+                var rect = new Pan3d.Rectangle();
+                rect.width = Math.min(128, downImg.width);
+                rect.height = Math.min(128, downImg.height);
+                rect.x = (128 - rect.width) / 2;
+                rect.y = (128 - rect.height) / 2;
+                ctx.drawImage(downImg, rect.x, rect.y, rect.width, rect.height);
                 var imageData = ctx.getImageData(0, 0, 128, 128);
                 var tempCanvas = document.createElement("CANVAS");
                 tempCanvas.width = 128;

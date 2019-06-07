@@ -141,10 +141,11 @@
         }
 
         public loadError(): void {
-            this.idle = true;
+    
             if (this._loadInfo.info && this._loadInfo.info.errorFun) {
                 this._loadInfo.info.errorFun(); 
             }
+            this.idle = true;
             this._loadInfo = null;
             LoadManager.getInstance().loadWaitList();
         }
@@ -159,9 +160,7 @@
                 this._loadInfo.fun(this._xhr.response);
             }
             this.idle = true;
-
             this._loadInfo = null;
-
             LoadManager.getInstance().loadWaitList();
 
         }

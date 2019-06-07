@@ -124,7 +124,9 @@ var pack;
                 for (var i = 0; value.prefixes && i < value.prefixes.length; i++) {
                     var fileVo = new FileVo();
                     fileVo.meshStr(value.prefixes[i]);
-                    fileArr.push(fileVo);
+                    if (fileVo.name != "hide_min_icon") { //不是隐藏文件夹
+                        fileArr.push(fileVo);
+                    }
                 }
                 for (var j = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo = FileVo.meshObj(value.objects[j]);

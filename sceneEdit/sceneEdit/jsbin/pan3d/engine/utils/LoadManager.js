@@ -21,9 +21,11 @@ var Pan3d;
             if ($info === void 0) { $info = null; }
             if ($progressFun === void 0) { $progressFun = null; }
             if (!$url || $url.length < 1 || $url.search("undefined") != -1) {
+                //console.log("加载地址不能为空")
                 return;
             }
             var version = "0";
+            //GameInstance.mapName
             var loadInfo = new LoadInfo($url, $type, $fun, $info, $progressFun);
             loadInfo.version = version;
             for (var i = 0; i < this._loadThreadList.length; i++) {
@@ -107,13 +109,11 @@ var Pan3d;
             }
         };
         LoaderThread.prototype.loadError = function () {
-            this.idle = true;
             if (this._loadInfo.info && this._loadInfo.info.errorFun) {
                 this._loadInfo.info.errorFun();
             }
-            else {
-                this._loadInfo = null; //这里还需要优化
-            }
+            this.idle = true;
+            this._loadInfo = null;
             LoadManager.getInstance().loadWaitList();
         };
         LoaderThread.prototype.loadByteXML = function () {
@@ -134,10 +134,6 @@ var Pan3d;
             this._img.src = 'data:image/png;base64,' + Pan3d.Base64.encode(this._xhr.response);
         };
         LoaderThread.prototype.loadImg = function () {
-            if (!this._loadInfo) {
-                console.log("需查明原因");
-                return;
-            }
             if (this._loadInfo.info) {
                 this._loadInfo.fun(this._img, this._loadInfo.info);
             }
