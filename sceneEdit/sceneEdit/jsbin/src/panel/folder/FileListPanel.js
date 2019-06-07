@@ -89,7 +89,7 @@ var filelist;
                 switch (fileVo.suffix) {
                     case FileVo.JPG:
                     case FileVo.PNG:
-                        LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
+                        maineditor.EditorModel.getInstance().loadHideMixImg(Scene_data.ossRoot + fileVo.path, function ($img) {
                             _this.drawFileIconName($img, fileVo.name, $color);
                         });
                         break;

@@ -3,6 +3,10 @@ declare module maineditor {
         static _instance: EditorModel;
         static getInstance(): EditorModel;
         constructor();
+        loadHideMixImg($url: string, $fun: Function): void;
+        private convertCanvasToImage;
+        private makeMixPicByUrl;
+        private dataURLtoFile;
         openFileByUrl(fileUrl: string): void;
         hierarchyListPanel: HierarchyListPanel;
         selectItem: Array<FolderMeshVo>;

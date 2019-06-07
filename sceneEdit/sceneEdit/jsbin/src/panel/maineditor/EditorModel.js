@@ -11,6 +11,47 @@ var maineditor;
             }
             return this._instance;
         };
+        EditorModel.prototype.loadHideMixImg = function ($url, $fun) {
+            var _this = this;
+            var mixUrl = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide/");
+            //  var mixUrl: string = $url
+            Pan3d.LoadManager.getInstance().load(mixUrl, Pan3d.LoadManager.IMG_TYPE, function ($img) {
+                $fun($img);
+            }, { errorFun: function () { _this.makeMixPicByUrl($url, mixUrl, $fun); } });
+        };
+        EditorModel.prototype.convertCanvasToImage = function (canvas) {
+            var image = new Image();
+            image.src = canvas.toDataURL("image/png");
+            return image;
+        };
+        EditorModel.prototype.makeMixPicByUrl = function (baseUrl, toUrl, bfun) {
+            var _this = this;
+            console.log(this);
+            console.log("没有小图，需要重置", baseUrl);
+            Pan3d.LoadManager.getInstance().load(baseUrl, Pan3d.LoadManager.IMG_TYPE, function (downImg) {
+                var ctx = Pan3d.UIManager.getInstance().getContext2D(128, 128, false);
+                ctx.drawImage(downImg, 0, 0);
+                var imageData = ctx.getImageData(0, 0, 128, 128);
+                var tempCanvas = document.createElement("CANVAS");
+                tempCanvas.width = 128;
+                tempCanvas.height = 128;
+                tempCanvas.getContext('2d').putImageData(imageData, 0, 0);
+                var upImg = _this.convertCanvasToImage(tempCanvas);
+                var $upfile = _this.dataURLtoFile(upImg.src, "333.jpg");
+                toUrl = toUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($upfile, toUrl, function (value) {
+                    console.log("更新完成", toUrl);
+                });
+            });
+        };
+        EditorModel.prototype.dataURLtoFile = function (dataurl, filename) {
+            var arr = dataurl.split(',');
+            var mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        };
         EditorModel.prototype.openFileByUrl = function (fileUrl) {
             if (fileUrl.indexOf(".map") != -1) {
                 Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.LOAD_SCENE_MAP), fileUrl); //加载场景

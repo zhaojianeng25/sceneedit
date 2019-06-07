@@ -11,6 +11,54 @@
             this.selectItem=[]
             this.fileItem=[]
         }
+        public loadHideMixImg($url: string, $fun: Function): void {
+            var mixUrl: string = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide/");
+          //  var mixUrl: string = $url
+            Pan3d.LoadManager.getInstance().load(mixUrl, Pan3d.LoadManager.IMG_TYPE,
+                ($img: any) => {
+                    $fun($img)
+                }, {errorFun: () => { this.makeMixPicByUrl($url, mixUrl, $fun)}});
+ 
+        }
+        private convertCanvasToImage(canvas: any): any {
+            var image = new Image();
+            image.src = canvas.toDataURL("image/png");
+            return image;
+        }
+        private makeMixPicByUrl(baseUrl: string, toUrl: string, bfun: Function): void {
+            console.log(this)
+            console.log("没有小图，需要重置", baseUrl)
+            Pan3d.LoadManager.getInstance().load(baseUrl, Pan3d.LoadManager.IMG_TYPE,
+                (downImg: any) => {
+
+                    var ctx = Pan3d. UIManager.getInstance().getContext2D(128, 128, false);
+                    ctx.drawImage(downImg, 0, 0);
+                    var imageData =  ctx.getImageData(0, 0, 128, 128);
+           
+                    var tempCanvas: any = document.createElement("CANVAS");
+                    tempCanvas.width = 128;
+                    tempCanvas.height = 128;
+                    tempCanvas.getContext('2d').putImageData(imageData, 0, 0);
+                    var upImg: HTMLImageElement = this.convertCanvasToImage(tempCanvas);
+
+                    var $upfile: File = this.dataURLtoFile(upImg.src,  "333.jpg");
+                    toUrl =   toUrl.replace(Pan3d.Scene_data.ossRoot, "");
+        
+                    pack.FileOssModel.upOssFile($upfile, toUrl, (value: any) => {
+                        console.log("更新完成",toUrl)
+                    })
+
+                });
+        }
+        private dataURLtoFile(dataurl: string, filename: string): File {
+            var arr = dataurl.split(',');
+            var mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
         public openFileByUrl(fileUrl: string): void {
       
             if (fileUrl.indexOf(".map") != -1) {

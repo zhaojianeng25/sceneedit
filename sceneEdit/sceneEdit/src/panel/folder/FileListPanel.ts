@@ -81,6 +81,7 @@
 
         private lastSelect: boolean = true
         private lastName: string
+
         public makeData(): void {
             this.fileListMeshVo = this.rightTabInfoVo;
             if (this.fileListMeshVo) {
@@ -101,9 +102,9 @@
                 switch (fileVo.suffix) {
                     case FileVo.JPG:
                     case FileVo.PNG:
-                        LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE,
+                        maineditor.EditorModel.getInstance().loadHideMixImg(Scene_data.ossRoot + fileVo.path,
                             ($img: any) => {
-                                this.drawFileIconName($img, fileVo.name, $color)
+                                 this.drawFileIconName($img, fileVo.name, $color)
                             });
                         break
                     case FileVo.PREFAB:
