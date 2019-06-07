@@ -66,7 +66,7 @@ var mars3D;
             strIdic["23"] = ("WildWestNative.mview"); //23
             strIdic["24"] = ("sceneDaria.mview"); //24
             strIdic["25"] = ("wwsurvivors.mview"); //25
-            mars3D.MarmosetModel.getInstance().viewFileName = strIdic[1];
+            mars3D.MarmosetModel.getInstance().viewFileName = strIdic[3];
             var rootpath = "pan/marmoset/feiji/3/";
             LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath + "outshder.txt", LoadManager.XML_TYPE, function (outstr) {
                 mars3D.MarmosetModel.changerOutshader = outstr;

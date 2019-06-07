@@ -310,6 +310,11 @@
         public static changerOutshader: string
    
         public upFileToSvever(): void {
+            var num: number=0
+            for (var key in MarmosetModel.imgBolb) {
+                num++
+            }
+            this.needFoald = num>1
             for (var key in MarmosetModel.imgBolb) {
                 this.dataURLtoBlob(MarmosetModel.imgBolb[key], key)
             }
@@ -325,6 +330,10 @@
 
             var strXml: string = JSON.stringify(objStr)
             var $file: File = new File([strXml], $name);
+
+            if (this.needFoald) {
+                pathurl+="objs/"
+            }
             var pathUrl: string = Pan3d.Scene_data.fileRoot + pathurl + $name
             var ossPathUrl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.upOssFile($file, ossPathUrl, (value: any) => {
@@ -339,6 +348,7 @@
         private savePrefab(objsUrl: string, fileSonPath: string, fileName: string): string {
             var ossPath: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
             var materialUrl: string = fileSonPath + fileName + ".material";
+          
  
             pack.FileOssModel.copyFile(ossPath + materialUrl, "baseedit/assets/base/base.material", () => { });
  
@@ -360,11 +370,14 @@
 
             return prefabStaticMesh.url
         }
-
+        private needFoald: boolean
         public upObjDataToSever(): void {
             var fileSonPath: string = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
             var $hierarchyList: Array<any> = [];
-            for (var i: number = 0; i < MarmosetModel.meshItem.length ; i++) {
+
+            this.needFoald = MarmosetModel.meshItem.length>1
+            for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
+
                 var $name = this.viewFileName.replace(".mview", "_" + i + "")
                 var objUrl: string = this.saveObjData(MarmosetModel.meshItem[i].objData, fileSonPath, $name + ".objs");
                 var prefabUrl: string = this.savePrefab(objUrl, fileSonPath, $name);
@@ -424,7 +437,10 @@
 
                 let files = new File([value], name, { type: "image/jpeg" })
 
-                var sonPath: string = "pan/marmoset/" + this.viewFileName.replace(".mview","/")
+                var sonPath: string = "pan/marmoset/" + this.viewFileName.replace(".mview", "/")
+                if (this.needFoald) {
+                    sonPath+="pic/"
+                }
                 var pathUrl: string = Pan3d.Scene_data.fileRoot + sonPath + name;
                 var pathurl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile(files, pathurl, (value: any) => {

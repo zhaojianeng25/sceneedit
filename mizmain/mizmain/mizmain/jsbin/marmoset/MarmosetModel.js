@@ -276,6 +276,11 @@ var mars3D;
             };
         };
         MarmosetModel.prototype.upFileToSvever = function () {
+            var num = 0;
+            for (var key in MarmosetModel.imgBolb) {
+                num++;
+            }
+            this.needFoald = num > 1;
             for (var key in MarmosetModel.imgBolb) {
                 this.dataURLtoBlob(MarmosetModel.imgBolb[key], key);
             }
@@ -290,6 +295,9 @@ var mars3D;
             objStr.treNum = objData.indexs.length;
             var strXml = JSON.stringify(objStr);
             var $file = new File([strXml], $name);
+            if (this.needFoald) {
+                pathurl += "objs/";
+            }
             var pathUrl = Pan3d.Scene_data.fileRoot + pathurl + $name;
             var ossPathUrl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
             pack.FileOssModel.upOssFile($file, ossPathUrl, function (value) {
@@ -322,6 +330,7 @@ var mars3D;
         MarmosetModel.prototype.upObjDataToSever = function () {
             var fileSonPath = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
             var $hierarchyList = [];
+            this.needFoald = MarmosetModel.meshItem.length > 1;
             for (var i = 0; i < MarmosetModel.meshItem.length; i++) {
                 var $name = this.viewFileName.replace(".mview", "_" + i + "");
                 var objUrl = this.saveObjData(MarmosetModel.meshItem[i].objData, fileSonPath, $name + ".objs");
@@ -372,6 +381,9 @@ var mars3D;
                 URL.revokeObjectURL(etimg.src);
                 var files = new File([value], name, { type: "image/jpeg" });
                 var sonPath = "pan/marmoset/" + _this.viewFileName.replace(".mview", "/");
+                if (_this.needFoald) {
+                    sonPath += "pic/";
+                }
                 var pathUrl = Pan3d.Scene_data.fileRoot + sonPath + name;
                 var pathurl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
                 pack.FileOssModel.upOssFile(files, pathurl, function (value) {
