@@ -65,7 +65,7 @@ module mars3D {
 
 
 
-            MarmosetModel.getInstance().viewFileName = strIdic[3]
+            MarmosetModel.getInstance().viewFileName = strIdic[1]
 
             var rootpath: string = "pan/marmoset/feiji/3/";
             LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath+"outshder.txt", LoadManager.XML_TYPE, (outstr: any) => {

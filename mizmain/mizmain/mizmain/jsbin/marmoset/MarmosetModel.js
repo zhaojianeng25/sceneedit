@@ -275,55 +275,92 @@ var mars3D;
                 Shader_build.call(this, a, b);
             };
         };
-        MarmosetModel.prototype.getTextShaderStr = function () {
-            var str;
-            str = "";
-            return str;
-        };
         MarmosetModel.prototype.upFileToSvever = function () {
             for (var key in MarmosetModel.imgBolb) {
                 this.dataURLtoBlob(MarmosetModel.imgBolb[key], key);
             }
         };
-        MarmosetModel.prototype.upObjDataToSever = function () {
-            for (var i = 0; i < MarmosetModel.meshItem.length; i++) {
-                var objData = MarmosetModel.meshItem[i].objData;
-                var objStr = {};
-                objStr.vertices = objData.vertices;
-                objStr.normals = objData.normals;
-                objStr.uvs = objData.uvs;
-                objStr.lightuvs = objData.lightuvs ? objData.lightuvs : objData.uvs;
-                objStr.indexs = objData.indexs;
-                objStr.treNum = objData.indexs.length;
-                var strXml = JSON.stringify(objStr);
-                var $name = this.viewFileName.replace(".mview", "_" + i + ".objs");
-                var $file = new File([strXml], $name);
-                var sonPath = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
-                var fileUrl = sonPath + $name;
-                var pathUrl = Pan3d.Scene_data.fileRoot + fileUrl;
-                var ossPathUrl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
-                pack.FileOssModel.upOssFile($file, ossPathUrl, function (value) {
-                    console.log(value);
-                    pack.FileOssModel.getDisByOss(ossPathUrl, function (arrDic) {
-                        console.log(arrDic);
-                    });
+        MarmosetModel.prototype.saveObjData = function (objData, pathurl, $name) {
+            var objStr = {};
+            objStr.vertices = objData.vertices;
+            objStr.normals = objData.normals;
+            objStr.uvs = objData.uvs;
+            objStr.lightuvs = objData.lightuvs ? objData.lightuvs : objData.uvs;
+            objStr.indexs = objData.indexs;
+            objStr.treNum = objData.indexs.length;
+            var strXml = JSON.stringify(objStr);
+            var $file = new File([strXml], $name);
+            var pathUrl = Pan3d.Scene_data.fileRoot + pathurl + $name;
+            var ossPathUrl = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            pack.FileOssModel.upOssFile($file, ossPathUrl, function (value) {
+                console.log(value);
+                pack.FileOssModel.getDisByOss(ossPathUrl, function (arrDic) {
+                    // console.log(arrDic)
                 });
-                var prefabStaticMesh = new pack.PrefabStaticMesh();
-                prefabStaticMesh.objsurl = fileUrl;
-                prefabStaticMesh.url = pathUrl.replace(".objs", ".prefab");
-                prefabStaticMesh.objsurl = fileUrl;
-                prefabStaticMesh.textureurl = "assets/base/base.material";
-                var $byte = new Pan3d.Pan3dByteArray();
-                var $temp = prefabStaticMesh.getObject();
-                $temp.version = pack.FileOssModel.version;
-                $byte.writeUTF(JSON.stringify($temp));
-                var prafabFile = new File([$byte.buffer], "cc.prefab");
-                var pathurl = ossPathUrl.replace(".objs", ".prefab");
-                pack.FileOssModel.upOssFile(prafabFile, pathurl, function () { });
-                var baseTextureUrl = "baseedit/assets/base/base.material";
-                var toTextureUrl = ossPathUrl.replace(".objs", ".material");
-                pack.FileOssModel.copyFile(toTextureUrl, baseTextureUrl, function () { });
+            });
+            return pathurl + $name;
+        };
+        MarmosetModel.prototype.savePrefab = function (objsUrl, fileSonPath, fileName) {
+            var ossPath = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            var materialUrl = fileSonPath + fileName + ".material";
+            pack.FileOssModel.copyFile(ossPath + materialUrl, "baseedit/assets/base/base.material", function () { });
+            var prefabStaticMesh = new pack.PrefabStaticMesh();
+            prefabStaticMesh.url = fileSonPath + fileName + ".prefab";
+            prefabStaticMesh.objsurl = objsUrl;
+            prefabStaticMesh.textureurl = materialUrl;
+            var $byte = new Pan3d.Pan3dByteArray();
+            var $temp = prefabStaticMesh.getObject();
+            $temp.version = pack.FileOssModel.version;
+            $byte.writeUTF(JSON.stringify($temp));
+            var prafabFile = new File([$byte.buffer], "temp.prefab");
+            var pathurl = ossPath + prefabStaticMesh.url;
+            pack.FileOssModel.upOssFile(prafabFile, pathurl, function (value) {
+                console.log(value);
+            });
+            return prefabStaticMesh.url;
+        };
+        MarmosetModel.prototype.upObjDataToSever = function () {
+            var fileSonPath = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
+            var $hierarchyList = [];
+            for (var i = 0; i < MarmosetModel.meshItem.length; i++) {
+                var $name = this.viewFileName.replace(".mview", "_" + i + "");
+                var objUrl = this.saveObjData(MarmosetModel.meshItem[i].objData, fileSonPath, $name + ".objs");
+                var prefabUrl = this.savePrefab(objUrl, fileSonPath, $name);
+                $hierarchyList.push(this.makeTemapModeInfo(prefabUrl, $name));
             }
+            this.saveMarmosetMap(fileSonPath + this.viewFileName.replace(".mview", ".map"), $hierarchyList);
+        };
+        MarmosetModel.prototype.makeTemapModeInfo = function (prefabUrl, $name) {
+            var $obj = {};
+            $obj.type = maineditor.HierarchyNodeType.Prefab;
+            $obj.name = $name;
+            $obj.url = prefabUrl;
+            $obj.data = "name";
+            $obj.x = 0;
+            $obj.y = 0;
+            $obj.z = 0;
+            $obj.scaleX = 1;
+            $obj.scaleY = 1;
+            $obj.scaleZ = 1;
+            $obj.rotationX = 0;
+            $obj.rotationY = 0;
+            $obj.rotationZ = 0;
+            return $obj;
+        };
+        MarmosetModel.prototype.saveMarmosetMap = function (mapUrl, listArr) {
+            var ossPath = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            var tempSceneVo = new maineditor.SceneProjectVo({});
+            tempSceneVo.gildline = true;
+            tempSceneVo.textureurl = "base.material";
+            var tempObj = tempSceneVo.getSaveObj();
+            tempObj.list = listArr;
+            tempObj.version = pack.FileOssModel.version;
+            var $byte = new Pan3d.Pan3dByteArray();
+            $byte.writeUTF(JSON.stringify(tempObj));
+            var $file = new File([$byte.buffer], "scene.map");
+            pack.FileOssModel.upOssFile($file, ossPath + mapUrl, function () {
+                console.log("上传完成");
+            });
         };
         MarmosetModel.prototype.dataURLtoBlob = function (value, name) {
             var _this = this;

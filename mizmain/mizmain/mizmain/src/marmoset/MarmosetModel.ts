@@ -308,73 +308,110 @@
         public static changerVshader: string
         public static changerFshader: string
         public static changerOutshader: string
-        private getTextShaderStr(): string {
-            var str: string;
-            str=""
-
-            return str;
-        }
+   
         public upFileToSvever(): void {
             for (var key in MarmosetModel.imgBolb) {
                 this.dataURLtoBlob(MarmosetModel.imgBolb[key], key)
             }
         }
-        public upObjDataToSever(): void {
-            for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
-                var objData: Pan3d.ObjData = MarmosetModel.meshItem[i].objData;
-                var objStr: any = {}
-                objStr.vertices = objData.vertices;
-                objStr.normals = objData.normals;
-                objStr.uvs = objData.uvs;
-                objStr.lightuvs = objData.lightuvs ? objData.lightuvs : objData.uvs;
-                objStr.indexs = objData.indexs;
-                objStr.treNum = objData.indexs.length;
+        private saveObjData(objData: ObjData, pathurl: string, $name: string): string {
+            var objStr: any = {}
+            objStr.vertices = objData.vertices;
+            objStr.normals = objData.normals;
+            objStr.uvs = objData.uvs;
+            objStr.lightuvs = objData.lightuvs ? objData.lightuvs : objData.uvs;
+            objStr.indexs = objData.indexs;
+            objStr.treNum = objData.indexs.length;
 
-
-                var strXml: string = JSON.stringify(objStr)
-
-
-               
-                var $name = this.viewFileName.replace(".mview","_"+i+".objs")
-                var $file: File = new File([strXml], $name);
-
-                var sonPath: string = "pan/marmoset/" + this.viewFileName.replace(".mview", "/")
-                var fileUrl: string = sonPath + $name;
-                var pathUrl: string = Pan3d.Scene_data.fileRoot + fileUrl
-                var ossPathUrl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
-                pack.FileOssModel.upOssFile($file, ossPathUrl, (value: any) => {
-                    console.log(value)
-                    pack.FileOssModel.getDisByOss(ossPathUrl, (arrDic: Array<FileVo>) => {
-                        console.log(arrDic)
-                    })
-
+            var strXml: string = JSON.stringify(objStr)
+            var $file: File = new File([strXml], $name);
+            var pathUrl: string = Pan3d.Scene_data.fileRoot + pathurl + $name
+            var ossPathUrl: string = pathUrl.replace(Pan3d.Scene_data.ossRoot, "");
+            pack.FileOssModel.upOssFile($file, ossPathUrl, (value: any) => {
+                console.log(value)
+                pack.FileOssModel.getDisByOss(ossPathUrl, (arrDic: Array<FileVo>) => {
+                   // console.log(arrDic)
                 })
 
-                var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh();
-                prefabStaticMesh.objsurl = fileUrl;
+            })
+            return pathurl + $name
+        }
+        private savePrefab(objsUrl: string, fileSonPath: string, fileName: string): string {
+            var ossPath: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            var materialUrl: string = fileSonPath + fileName + ".material";
  
-                prefabStaticMesh.url = pathUrl.replace(".objs", ".prefab")
-                prefabStaticMesh.objsurl = fileUrl
-                prefabStaticMesh.textureurl = "assets/base/base.material"
+            pack.FileOssModel.copyFile(ossPath + materialUrl, "baseedit/assets/base/base.material", () => { });
+ 
+            var prefabStaticMesh: pack.PrefabStaticMesh = new pack.PrefabStaticMesh();
+            prefabStaticMesh.url = fileSonPath + fileName + ".prefab"
+            prefabStaticMesh.objsurl = objsUrl;
+            prefabStaticMesh.textureurl = materialUrl;
 
-                var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
-                var $temp: any = prefabStaticMesh.getObject();
-                $temp.version = pack.FileOssModel.version;
-                $byte.writeUTF(JSON.stringify($temp))
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+            var $temp: any = prefabStaticMesh.getObject();
+            $temp.version = pack.FileOssModel.version;
+            $byte.writeUTF(JSON.stringify($temp));
 
-                var prafabFile: File = new File([$byte.buffer], "cc.prefab");
-                var pathurl: string = ossPathUrl.replace(".objs",".prefab")
-                pack.FileOssModel.upOssFile(prafabFile, pathurl, () => {   })
+            var prafabFile: File = new File([$byte.buffer], "temp.prefab");
+            var pathurl: string = ossPath + prefabStaticMesh.url;
+            pack.FileOssModel.upOssFile(prafabFile, pathurl, (value) => {
+                console.log(value)
+            });
 
+            return prefabStaticMesh.url
+        }
 
-                var baseTextureUrl: string = "baseedit/assets/base/base.material";
-                var toTextureUrl: string = ossPathUrl.replace(".objs", ".material")
-                pack.FileOssModel.copyFile(toTextureUrl, baseTextureUrl, () => { });
+        public upObjDataToSever(): void {
+            var fileSonPath: string = "pan/marmoset/" + this.viewFileName.replace(".mview", "/");
+            var $hierarchyList: Array<any> = [];
+            for (var i: number = 0; i < MarmosetModel.meshItem.length ; i++) {
+                var $name = this.viewFileName.replace(".mview", "_" + i + "")
+                var objUrl: string = this.saveObjData(MarmosetModel.meshItem[i].objData, fileSonPath, $name + ".objs");
+                var prefabUrl: string = this.savePrefab(objUrl, fileSonPath, $name);
+                $hierarchyList.push(this.makeTemapModeInfo(prefabUrl, $name));
             }
 
+            this.saveMarmosetMap(fileSonPath + this.viewFileName.replace(".mview", ".map"),  $hierarchyList)
+
+        }
+        private makeTemapModeInfo(prefabUrl: string, $name: string): any {
+            var $obj: any = {};
+            $obj.type = maineditor.HierarchyNodeType.Prefab;
+            $obj.name = $name
+            $obj.url = prefabUrl;
+             $obj.data = "name"
+            $obj.x = 0
+            $obj.y =0
+            $obj.z = 0
+            $obj.scaleX = 1
+            $obj.scaleY = 1
+            $obj.scaleZ = 1
+            $obj.rotationX = 0
+            $obj.rotationY = 0
+            $obj.rotationZ = 0
+
+
+            return $obj
+        }
+        private saveMarmosetMap(mapUrl: string, listArr: Array<any>): void {
+            var ossPath: string = Pan3d.Scene_data.fileRoot.replace(Pan3d.Scene_data.ossRoot, "");
+            var tempSceneVo: maineditor.SceneProjectVo = new maineditor.SceneProjectVo({})
+
+            tempSceneVo.gildline = true
+            tempSceneVo.textureurl = "base.material";
+
+            var tempObj: any = tempSceneVo.getSaveObj();
+            tempObj.list = listArr;
+            tempObj.version = pack.FileOssModel.version;
+            var $byte: Pan3d.Pan3dByteArray = new Pan3d.Pan3dByteArray();
+            $byte.writeUTF(JSON.stringify(tempObj))
+            var $file: File = new File([$byte.buffer], "scene.map");
+
+            pack.FileOssModel.upOssFile($file, ossPath+ mapUrl, () => {
+                console.log("上传完成")
+            })
         }
         public static imgBolb: any;
-     
  
         public dataURLtoBlob(value: Blob, name: string): void {
 
