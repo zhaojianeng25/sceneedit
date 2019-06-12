@@ -286,33 +286,16 @@ e=(e>f(d.x))?1.0:e;
 #endif
 vec3 dI=dJ(texture2D(tNormal,d).xyz);
  outcolor.xyzw=texture2D(tNormal,d);
- 
-  outcolor.xyzw=vec4(dI,1.0);
+    outcolor.xyzw=vec4(1.0,0.0,0.0,0.0);
+
   
-#ifdef ANISO
-#ifdef ANISO_NO_DIR_TEX
-vec3 dK=dL(uAnisoTangent);
-#else
-m=dM(d,uTexRangeAniso);vec3 dK=2.0*m.xyz-vec3(1.0);dK=dL(dK);
-#endif
-dK=dK-dI*dot(dK,dI);dK=normalize(dK);vec3 dN=dK*uAnisoStrength;
-#endif
+ 
+ 
 vec3 dO=normalize(uCameraPosition-dv);m=texture2D(tReflectivity,d);vec3 dP=dG(m.xyz);float dQ=m.w;float dR=dQ;
-#ifdef HORIZON_SMOOTHING
-float dS=dot(dO,dI);dS=uHorizonSmoothing-dS*uHorizonSmoothing;dQ=mix(dQ,1.0,dS*dS);
-#endif
-#ifdef STRIPVIEW
-dT dU;dV(dU,dQ,dP);
-#endif
+ 
+
 float dW=1.0;
-#ifdef AMBIENT_OCCLUSION
-#ifdef AMBIENT_OCCLUSION_SECONDARY_UV
-dW=dM(dE,uTexRangeAO).x;
-#else
-dW=dM(d,uTexRangeAO).x;
-#endif
-dW*=dW;
-#endif
+      outcolor.xyzw=vec4(1.0,0.0,1.0,1.0);
 #if defined(SKIN)
 dX dY;dZ(dY);dY.ec*=dW;
 #elif defined(MICROFIBER)
