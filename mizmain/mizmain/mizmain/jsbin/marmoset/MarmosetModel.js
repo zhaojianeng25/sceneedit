@@ -264,12 +264,12 @@ var mars3D;
                 //console.log("---------------------------------")
                 //console.log(a.length, b.length)
                 if (b.length == 18238) { //读取顶点和纹理着色器
-                    a = MarmosetModel.changerVshader;
-                    b = MarmosetModel.changerFshader;
+                    //   a = MarmosetModel.changerVshader;
+                    //    b = MarmosetModel.changerFshader;
                 }
                 else {
                     if (a.length == 212) { //更新输出着色器
-                        b = MarmosetModel.changerOutshader;
+                        //   b = MarmosetModel.changerOutshader;
                     }
                 }
                 Shader_build.call(this, a, b);
