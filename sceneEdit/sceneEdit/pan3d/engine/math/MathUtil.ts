@@ -134,6 +134,16 @@
 
 
         }
+        private getCamData(tempMatrix3D: Matrix3D): Object3D {
+            var $Minvert: Matrix3D = tempMatrix3D.clone();
+            $Minvert.invert();
+            var $motherAct: Object3D = new Object3D
+            $motherAct.x = -$Minvert.position.x;
+            $motherAct.y = -$Minvert.position.y;
+            $motherAct.z = -$Minvert.position.z;
+            return $motherAct;
+
+        }
 
     }
 }
