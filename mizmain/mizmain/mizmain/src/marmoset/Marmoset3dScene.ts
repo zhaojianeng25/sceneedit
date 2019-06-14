@@ -157,7 +157,7 @@ module mars3D {
             this.lastMouseVec2d = null
             var len: number = MarmosetModel.getInstance().textureItem.length
             if (this.mianpian._uvTextureRes && len) {
-
+ 
                 this.mianpian._uvTextureRes.texture = MarmosetModel.getInstance().textureItem[this.selectId % len]
 
                 this.selectId++
