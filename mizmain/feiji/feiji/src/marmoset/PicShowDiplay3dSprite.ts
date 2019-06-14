@@ -39,8 +39,11 @@ module mars3D {
                 "uniform mat4 viewMatrix3D;" +
               //  "uniform mat4 posMatrix3D;" +
 
-                "varying vec2 v_texCoord;" +
- 
+                "varying vec2 d;\n" +
+
+                "varying  vec3 dA; " +
+                "varying  vec3 dB; " +
+                "varying  vec3 dC; " +
 
                 "varying  vec3 dnrm;" +
  
@@ -59,7 +62,7 @@ module mars3D {
 
                 "void main(void)" +
                 "{" +
-                    "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                    "   d = vec2(u2Texture.x, u2Texture.y);" +
  
                     "   dnrm=v3Nrm;" +
                     "   vec4 vt0= vec4(v3Position, 1.0);" +
@@ -75,14 +78,27 @@ module mars3D {
             var $str: string =
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
-                "varying vec2 v_texCoord;\n" +
- 
+                "uniform sampler2D tNormal;\n" +
+
+                "varying vec2 d;\n" +
+                "varying  vec3 dA; "+
+                "varying  vec3 dB; " +
+                "varying  vec3 dC; " +
                 "varying  vec3 dnrm;" +
+
+                "vec3 dG(vec3 c){return c*c;}" +
+ 
           
-                "void main(void)\n" +
-                "{\n" +
-                    "vec4 infoUv = texture2D(tAlbedo, v_texCoord.xy);\n" +
-                    "gl_FragColor =vec4(infoUv.xyz,1.0);\n" +
+                "void main(void) " +
+                "{ " +
+
+                "vec4 m=texture2D(tAlbedo,d);"+
+                "vec3 dF=dG(m.xyz);" +
+                "float e = m.w;"+
+                // "vec3 dI = dJ(texture2D(tNormal, d).xyz);"
+
+     
+                    "gl_FragColor =vec4(dF.xyz,1.0); " +
                 "}"
             return $str
 
@@ -132,7 +148,7 @@ module mars3D {
 
 
         private drawTempMesh(mesh: Mars3Dmesh): void {
-            if (mesh.tAlbedo) {
+            if (mesh.tAlbedo && mesh.tNormal) {
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
 
@@ -146,6 +162,7 @@ module mars3D {
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
+                Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
@@ -163,13 +180,21 @@ module mars3D {
         }
         private isFinish: boolean
         private makeMeshItemTexture(): void {
-            var arr: Array<string> = []
-            arr.push("mat1_c")
-            arr.push("mat2_c")
-            arr.push("mat0_c")
+            var albedArr: Array<string> = []
+            albedArr.push("mat1_c")
+            albedArr.push("mat2_c")
+            albedArr.push("mat0_c")
+
+            var nrmArr: Array<string> = []
+            nrmArr.push("mat1_n")
+            nrmArr.push("mat2_n")
+            nrmArr.push("mat0_n")
+
             for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
                 var vo = MarmosetModel.meshItem[i]
-                vo.setAlbedoUrl(arr[i])
+                vo.setAlbedoUrl(albedArr[i])
+                vo.setNormalUrl(nrmArr[i])
+                
             }
             this.isFinish = true
         }

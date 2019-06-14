@@ -34,7 +34,12 @@ var mars3D;
             var _this = this;
             TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", function (a) {
                 _this.tAlbedo = a;
-                console.log(a);
+            });
+        };
+        Mars3Dmesh.prototype.setNormalUrl = function (value) {
+            var _this = this;
+            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", function (a) {
+                _this.tNormal = a;
             });
         };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {

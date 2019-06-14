@@ -36,7 +36,10 @@ var mars3D;
                 "attribute vec3 v3Nrm;" +
                 "uniform mat4 viewMatrix3D;" +
                 //  "uniform mat4 posMatrix3D;" +
-                "varying vec2 v_texCoord;" +
+                "varying vec2 d;\n" +
+                "varying  vec3 dA; " +
+                "varying  vec3 dB; " +
+                "varying  vec3 dC; " +
                 "varying  vec3 dnrm;" +
                 " vec3 iW(vec2 v) {;" +
                 "  v.x=v.x/65535.0;" +
@@ -52,7 +55,7 @@ var mars3D;
                 " }" +
                 "void main(void)" +
                 "{" +
-                "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
+                "   d = vec2(u2Texture.x, u2Texture.y);" +
                 "   dnrm=v3Nrm;" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
                 // "   vt0 = posMatrix3D * vt0;" +
@@ -64,12 +67,20 @@ var mars3D;
         PicShowDiplay3dShader.prototype.getFragmentShaderString = function () {
             var $str = "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
-                "varying vec2 v_texCoord;\n" +
+                "uniform sampler2D tNormal;\n" +
+                "varying vec2 d;\n" +
+                "varying  vec3 dA; " +
+                "varying  vec3 dB; " +
+                "varying  vec3 dC; " +
                 "varying  vec3 dnrm;" +
-                "void main(void)\n" +
-                "{\n" +
-                "vec4 infoUv = texture2D(tAlbedo, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(infoUv.xyz,1.0);\n" +
+                "vec3 dG(vec3 c){return c*c;}" +
+                "void main(void) " +
+                "{ " +
+                "vec4 m=texture2D(tAlbedo,d);" +
+                "vec3 dF=dG(m.xyz);" +
+                "float e = m.w;" +
+                // "vec3 dI = dJ(texture2D(tNormal, d).xyz);"
+                "gl_FragColor =vec4(dF.xyz,1.0); " +
                 "}";
             return $str;
         };
@@ -106,7 +117,7 @@ var mars3D;
             this.upToGpu();
         };
         PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
-            if (mesh.tAlbedo) {
+            if (mesh.tAlbedo && mesh.tNormal) {
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
@@ -118,6 +129,7 @@ var mars3D;
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
+                Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
@@ -127,13 +139,18 @@ var mars3D;
             }
         };
         PicShowDiplay3dSprite.prototype.makeMeshItemTexture = function () {
-            var arr = [];
-            arr.push("mat1_c");
-            arr.push("mat2_c");
-            arr.push("mat0_c");
+            var albedArr = [];
+            albedArr.push("mat1_c");
+            albedArr.push("mat2_c");
+            albedArr.push("mat0_c");
+            var nrmArr = [];
+            nrmArr.push("mat1_n");
+            nrmArr.push("mat2_n");
+            nrmArr.push("mat0_n");
             for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
                 var vo = mars3D.MarmosetModel.meshItem[i];
-                vo.setAlbedoUrl(arr[i]);
+                vo.setAlbedoUrl(albedArr[i]);
+                vo.setNormalUrl(nrmArr[i]);
             }
             this.isFinish = true;
         };

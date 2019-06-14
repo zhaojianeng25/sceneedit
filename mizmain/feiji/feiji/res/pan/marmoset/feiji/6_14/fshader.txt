@@ -258,41 +258,36 @@ uniform float uStrips[5];uniform vec2 uStripRes;struct dT{float io[5];float bg;}
 float f(highp float I){highp float G=0.5*fract(gl_FragCoord.x*0.5)+0.5*fract(gl_FragCoord.y*0.5);return 0.4+0.6*fract(G+3.141592e6*I);}
 #endif
 void main(void){
-vec4 outcolor=vec4(1.0,0.0,0.0,1.0);
-
+vec4 outcolor=vec4(1.0,0.0,0.0,0.0);
+//outcolor=vec4(1.0,0.0,0.0,1.0); //默认
+ 
 vec4 m=texture2D(tAlbedo,d);
-
-outcolor=m;
-
 vec3 dF=dG(m.xyz);
+
+ //outcolor=vec4(dF,1.0);;
+
+
+
 float e=m.w;
-#ifdef VERTEX_COLOR
-{vec3 dH=dD.xyz;
-#ifdef VERTEX_COLOR_SRGB
-dH=dH*(dH*(dH*0.305306011+vec3(0.682171111))+vec3(0.012522878));
-#endif
-dF*=dH;
-#ifdef VERTEX_COLOR_ALPHA
-e*=dD.w;
-#endif
-}
-#endif
-#ifdef ALPHA_TEST
-if(e<uAlphaTest){discard;}
-#endif
-#ifdef TRANSPARENCY_DITHER
-e=(e>f(d.x))?1.0:e;
-#endif
+ 
+ 
+ 
 vec3 dI=dJ(texture2D(tNormal,d).xyz);
-#ifdef ANISO
-#ifdef ANISO_NO_DIR_TEX
-vec3 dK=dL(uAnisoTangent);
-#else
-m=dM(d,uTexRangeAniso);vec3 dK=2.0*m.xyz-vec3(1.0);dK=dL(dK);
-#endif
-dK=dK-dI*dot(dK,dI);dK=normalize(dK);vec3 dN=dK*uAnisoStrength;
-#endif
-vec3 dO=normalize(uCameraPosition-dv);m=texture2D(tReflectivity,d);vec3 dP=dG(m.xyz);float dQ=m.w;float dR=dQ;
+ 
+
+
+vec3 dO=normalize(uCameraPosition-dv);
+
+   outcolor=vec4(dI,1.0);;
+   
+m=texture2D(tReflectivity,d);
+vec3 dP=dG(m.xyz);
+float dQ=m.w;
+float dR=dQ;
+
+
+
+
 #ifdef HORIZON_SMOOTHING
 float dS=dot(dO,dI);dS=uHorizonSmoothing-dS*uHorizonSmoothing;dQ=mix(dQ,1.0,dS*dS);
 #endif
