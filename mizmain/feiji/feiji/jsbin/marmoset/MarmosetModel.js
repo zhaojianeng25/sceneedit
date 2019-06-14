@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 var mars3D;
 (function (mars3D) {
     var Scene_data = Pan3d.Scene_data;
+    var TextureManager = Pan3d.TextureManager;
     var ByteStream = marmoset.ByteStream;
     var Scene = marmoset.Scene;
     var Matrix = marmoset.Matrix;
@@ -29,6 +30,13 @@ var mars3D;
         function Mars3Dmesh() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        Mars3Dmesh.prototype.setAlbedoUrl = function (value) {
+            var _this = this;
+            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", function (a) {
+                _this.tAlbedo = a;
+                console.log(a);
+            });
+        };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);
@@ -265,12 +273,12 @@ var mars3D;
                 //console.log(a.length, b.length)
                 if (b.length == 18238) { //读取顶点和纹理着色器
                     //   console.log(b)
-                    //   a = MarmosetModel.changerVshader;
-                    //   b = MarmosetModel.changerFshader;
+                    a = MarmosetModel.changerVshader;
+                    b = MarmosetModel.changerFshader;
                 }
                 else {
                     if (a.length == 212) { //更新输出着色器
-                        //   b = MarmosetModel.changerOutshader;
+                        b = MarmosetModel.changerOutshader;
                         //    console.log(b)
                     }
                 }

@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 var mars3D;
 (function (mars3D) {
     var Shader3D = Pan3d.Shader3D;
-    var TextureManager = Pan3d.TextureManager;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
     var Scene_data = Pan3d.Scene_data;
@@ -64,13 +63,13 @@ var mars3D;
         };
         PicShowDiplay3dShader.prototype.getFragmentShaderString = function () {
             var $str = "precision mediump float;\n" +
-                "uniform sampler2D s_texture;\n" +
+                "uniform sampler2D tAlbedo;\n" +
                 "varying vec2 v_texCoord;\n" +
                 "varying  vec3 dnrm;" +
                 "void main(void)\n" +
                 "{\n" +
-                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =vec4(dnrm.xyz,1.0);\n" +
+                "vec4 infoUv = texture2D(tAlbedo, v_texCoord.xy);\n" +
+                "gl_FragColor =vec4(infoUv.xyz,1.0);\n" +
                 "}";
             return $str;
         };
@@ -85,12 +84,6 @@ var mars3D;
             _this.initData();
             return _this;
         }
-        PicShowDiplay3dSprite.prototype.loadAllTexture = function () {
-            var _this = this;
-            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/mat1_r.jpg", function (a) {
-                _this.tAlbedo = a;
-            });
-        };
         PicShowDiplay3dSprite.prototype.initData = function () {
             ProgrmaManager.getInstance().registe(PicShowDiplay3dShader.PicShowDiplay3dShader, new PicShowDiplay3dShader);
             this.shader = ProgrmaManager.getInstance().getProgram(PicShowDiplay3dShader.PicShowDiplay3dShader);
@@ -113,26 +106,42 @@ var mars3D;
             this.upToGpu();
         };
         PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
-            var gl = Scene_data.context3D.renderContext;
-            Scene_data.context3D.setProgram(this.program);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-            var viewM = Scene_data.viewMatrx3D.clone();
-            viewM.prepend(Scene_data.cam3D.cameraMatrix);
-            viewM.prepend(this.posMatrix);
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", viewM.m);
-            if (window["mview"]) {
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+            if (mesh.tAlbedo) {
+                var gl = Scene_data.context3D.renderContext;
+                Scene_data.context3D.setProgram(this.program);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+                var viewM = Scene_data.viewMatrx3D.clone();
+                viewM.prepend(Scene_data.cam3D.cameraMatrix);
+                viewM.prepend(this.posMatrix);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", viewM.m);
+                if (window["mview"]) {
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+                }
+                Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
+                gl.disable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT);
+                Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+                Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
+                Scene_data.context3D.setVa(2, 3, mesh.objData.normalsBuffer);
+                Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
-            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-            gl.disable(gl.CULL_FACE);
-            gl.cullFace(gl.FRONT);
-            Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
-            Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
-            Scene_data.context3D.setVa(2, 3, mesh.objData.normalsBuffer);
-            Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
+        };
+        PicShowDiplay3dSprite.prototype.makeMeshItemTexture = function () {
+            var arr = [];
+            arr.push("mat1_c");
+            arr.push("mat2_c");
+            arr.push("mat0_c");
+            for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
+                var vo = mars3D.MarmosetModel.meshItem[i];
+                vo.setAlbedoUrl(arr[i]);
+            }
+            this.isFinish = true;
         };
         PicShowDiplay3dSprite.prototype.update = function () {
             if (mars3D.MarmosetModel.meshItem && mars3D.MarmosetModel.meshItem.length) {
+                if (!this.isFinish) {
+                    this.makeMeshItemTexture();
+                }
                 for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
                     this.drawTempMesh(mars3D.MarmosetModel.meshItem[i]);
                 }

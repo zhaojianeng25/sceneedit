@@ -74,15 +74,15 @@ module mars3D {
         getFragmentShaderString(): string {
             var $str: string =
                 "precision mediump float;\n" +
-                "uniform sampler2D s_texture;\n" +
+                "uniform sampler2D tAlbedo;\n" +
                 "varying vec2 v_texCoord;\n" +
  
                 "varying  vec3 dnrm;" +
           
                 "void main(void)\n" +
                 "{\n" +
-                    "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                    "gl_FragColor =vec4(dnrm.xyz,1.0);\n" +
+                    "vec4 infoUv = texture2D(tAlbedo, v_texCoord.xy);\n" +
+                    "gl_FragColor =vec4(infoUv.xyz,1.0);\n" +
                 "}"
             return $str
 
@@ -99,12 +99,7 @@ module mars3D {
  
  
         }
-        private loadAllTexture(): void {
-            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/mat1_r.jpg", (a: TextureRes) => {
-                this.tAlbedo = a
-            });
-
-        }
+     
         protected initData(): void {
             ProgrmaManager.getInstance().registe(PicShowDiplay3dShader.PicShowDiplay3dShader, new PicShowDiplay3dShader);
             this.shader = ProgrmaManager.getInstance().getProgram(PicShowDiplay3dShader.PicShowDiplay3dShader);
@@ -137,32 +132,52 @@ module mars3D {
 
 
         private drawTempMesh(mesh: Mars3Dmesh): void {
-            var gl = Scene_data.context3D.renderContext;
-            Scene_data.context3D.setProgram(this.program);
- 
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
-            var viewM = Scene_data.viewMatrx3D.clone()
-            viewM.prepend(Scene_data.cam3D.cameraMatrix)
-            viewM.prepend(this.posMatrix)
+            if (mesh.tAlbedo) {
+                var gl = Scene_data.context3D.renderContext;
+                Scene_data.context3D.setProgram(this.program);
 
-            Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", viewM.m);
-            if (window["mview"]) {
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
+                var viewM = Scene_data.viewMatrx3D.clone()
+                viewM.prepend(Scene_data.cam3D.cameraMatrix)
+                viewM.prepend(this.posMatrix)
+
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", viewM.m);
+                if (window["mview"]) {
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+                }
+                Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
+
+                gl.disable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT);
+
+                Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+                Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
+                Scene_data.context3D.setVa(2, 3, mesh.objData.normalsBuffer);
+                Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
-            Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
- 
-            gl.disable(gl.CULL_FACE);
-            gl.cullFace(gl.FRONT);
+       
 
    
 
-            Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
-            Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
-            Scene_data.context3D.setVa(2, 3, mesh.objData.normalsBuffer);
-            Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
+
+        }
+        private isFinish: boolean
+        private makeMeshItemTexture(): void {
+            var arr: Array<string> = []
+            arr.push("mat1_c")
+            arr.push("mat2_c")
+            arr.push("mat0_c")
+            for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
+                var vo = MarmosetModel.meshItem[i]
+                vo.setAlbedoUrl(arr[i])
+            }
+            this.isFinish = true
         }
         public update(): void {
             if (MarmosetModel.meshItem && MarmosetModel.meshItem.length) {
+                if (!this.isFinish) {
+                    this.makeMeshItemTexture()
+                }
                 for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
                     this.drawTempMesh(MarmosetModel.meshItem[i])
                 }

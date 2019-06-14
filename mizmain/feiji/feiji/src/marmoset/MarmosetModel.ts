@@ -1,5 +1,8 @@
 ﻿module mars3D {
     import Scene_data = Pan3d.Scene_data
+    import TextureManager = Pan3d.TextureManager
+    import TextureRes = Pan3d.TextureRes
+    
     import ByteStream = marmoset.ByteStream
     import Scene = marmoset.Scene
     import Matrix = marmoset.Matrix
@@ -13,7 +16,13 @@
 
     export class Mars3Dmesh extends marmoset.Mesh {
 
-
+        public tAlbedo: TextureRes
+        public setAlbedoUrl(value: string): void {
+            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value+".jpg", (a: TextureRes) => {
+                this.tAlbedo = a
+                console.log(a)
+            });
+        }
         public objData: Pan3d.ObjData
         private meshVect(value: Uint8Array, stride: number): ArrayBuffer {
             var buffer = new ArrayBuffer(value.length);
@@ -293,11 +302,11 @@
                 //console.log(a.length, b.length)
                 if (b.length == 18238) { //读取顶点和纹理着色器
                     //   console.log(b)
-                 //   a = MarmosetModel.changerVshader;
-                 //   b = MarmosetModel.changerFshader;
+                    a = MarmosetModel.changerVshader;
+                    b = MarmosetModel.changerFshader;
                 } else {
                     if (a.length == 212) {//更新输出着色器
-                      //   b = MarmosetModel.changerOutshader;
+                         b = MarmosetModel.changerOutshader;
                         //    console.log(b)
                     }
                 }
