@@ -35,6 +35,7 @@ var mars3D;
                 "attribute vec3 vTangent;" +
                 "attribute vec3 vBitangent;" +
                 "attribute vec3 vNormal;" +
+                "uniform mat4 uSkyMatrix;" +
                 "uniform mat4 viewMatrix3D;" +
                 //  "uniform mat4 posMatrix3D;" +
                 "varying vec2 d;\n" +
@@ -56,9 +57,9 @@ var mars3D;
                 "void main(void)" +
                 "{" +
                 "   d = vec2(u2Texture.x, u2Texture.y);" +
-                "   dA=vTangent;" +
-                "   dB=vBitangent;" +
-                "   dC=vNormal;" +
+                "   dA=(uSkyMatrix*vec4(vTangent, 1.0)).xyz;" +
+                "   dB=(uSkyMatrix*vec4(vBitangent, 1.0)).xyz;" +
+                "   dC=(uSkyMatrix*vec4(vNormal, 1.0)).xyz;" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
                 // "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = viewMatrix3D * vt0;" +
@@ -144,6 +145,9 @@ var mars3D;
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", viewM.m);
                 if (window["mview"]) {
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+                }
+                if (window["uSkyMatrix"]) {
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "uSkyMatrix", window["uSkyMatrix"]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
