@@ -23,14 +23,14 @@ var mars3D;
             return _super.call(this) || this;
         }
         PicShowDiplay3dShader.prototype.binLocation = function ($context) {
-            $context.bindAttribLocation(this.program, 0, "v3Position");
+            $context.bindAttribLocation(this.program, 0, "vPosition");
             $context.bindAttribLocation(this.program, 1, "u2Texture");
             $context.bindAttribLocation(this.program, 2, "vTangent");
             $context.bindAttribLocation(this.program, 3, "vBitangent");
             $context.bindAttribLocation(this.program, 4, "vNormal");
         };
         PicShowDiplay3dShader.prototype.getVertexShaderString = function () {
-            var $str = "attribute vec3 v3Position;" +
+            var $str = "attribute vec3 vPosition;" +
                 "attribute vec2 u2Texture;" +
                 "attribute vec3 vTangent;" +
                 "attribute vec3 vBitangent;" +
@@ -42,6 +42,7 @@ var mars3D;
                 "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
+                "varying highp vec3 dv;" +
                 " vec3 iW(vec2 v) {;" +
                 "  v.x=v.x/65535.0;" +
                 "  v.y=v.y/65535.0;" +
@@ -60,7 +61,8 @@ var mars3D;
                 "   dA=(uSkyMatrix*vec4(vTangent, 1.0)).xyz;" +
                 "   dB=(uSkyMatrix*vec4(vBitangent, 1.0)).xyz;" +
                 "   dC=(uSkyMatrix*vec4(vNormal, 1.0)).xyz;" +
-                "   vec4 vt0= vec4(v3Position, 1.0);" +
+                "dv=(uSkyMatrix*vec4(vPosition, 1.0)).xyz;" +
+                "   vec4 vt0= vec4(vPosition, 1.0);" +
                 // "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = viewMatrix3D * vt0;" +
                 "   gl_Position = vt0;" +
@@ -75,6 +77,8 @@ var mars3D;
                 "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
+                "varying highp vec3 dv;" +
+                "uniform vec3 uCameraPosition;" +
                 "vec3 dG(vec3 c){return c*c;}" +
                 "vec3 dJ(vec3 n) {" +
                 "vec3 hn = dA;" +
@@ -90,7 +94,8 @@ var mars3D;
                 "vec3 dF=dG(m.xyz);" +
                 "float e = m.w;" +
                 "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
-                "gl_FragColor =vec4(dI.xyz,1.0); " +
+                "vec3 dO=normalize(uCameraPosition-dv);" +
+                "gl_FragColor =vec4(dO.xyz,1.0); " +
                 "}";
             return $str;
         };
@@ -148,6 +153,9 @@ var mars3D;
                 }
                 if (window["uSkyMatrix"]) {
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "uSkyMatrix", window["uSkyMatrix"]);
+                }
+                if (window["uCameraPosition"]) {
+                    Scene_data.context3D.setVc3fv(this.shader, "uCameraPosition", [window["uCameraPosition"][0], window["uCameraPosition"][1], window["uCameraPosition"][2]]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
