@@ -24,17 +24,19 @@ module mars3D {
             $context.bindAttribLocation(this.program, 0, "v3Position");
             $context.bindAttribLocation(this.program, 1, "u2Texture");
  
-            $context.bindAttribLocation(this.program, 2, "v3Nrm");
+            $context.bindAttribLocation(this.program, 2, "vTangent");
+            $context.bindAttribLocation(this.program, 3, "vBitangent");
+            $context.bindAttribLocation(this.program, 4, "vNormal");
         }
         getVertexShaderString(): string {
             var $str: string =
                 "attribute vec3 v3Position;" +
                 "attribute vec2 u2Texture;" +
-                "attribute vec2 vTangent;" +
-                "attribute vec2 vBitangent;" +
-                "attribute vec2 vNormal;" +
+                "attribute vec3 vTangent;" +
+                "attribute vec3 vBitangent;" +
+                "attribute vec3 vNormal;" +
 
-                "attribute vec3 v3Nrm;" +
+ 
  
                 "uniform mat4 viewMatrix3D;" +
               //  "uniform mat4 posMatrix3D;" +
@@ -45,7 +47,7 @@ module mars3D {
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
 
-                "varying  vec3 dnrm;" +
+          
  
                 " vec3 iW(vec2 v) {;" +
                     "  v.x=v.x/65535.0;" +
@@ -64,7 +66,9 @@ module mars3D {
                 "{" +
                     "   d = vec2(u2Texture.x, u2Texture.y);" +
  
-                    "   dnrm=v3Nrm;" +
+                "   dA=vTangent;" +
+                "   dB=vBitangent;" +
+                "   dC=vNormal;" +
                     "   vec4 vt0= vec4(v3Position, 1.0);" +
                    // "   vt0 = posMatrix3D * vt0;" +
                     "   vt0 = viewMatrix3D * vt0;" +
@@ -84,9 +88,18 @@ module mars3D {
                 "varying  vec3 dA; "+
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
-                "varying  vec3 dnrm;" +
+      
 
                 "vec3 dG(vec3 c){return c*c;}" +
+
+                "vec3 dJ(vec3 n) {" +
+                    "vec3 hn = dA;" +
+                    "vec3 ho = dB;" +
+                 //"vec3 hu = gl_FrontFacing ? dC : -dC;" +
+                    "vec3 hu = dC;" +
+                    "n = 2.0 * n - vec3(1.0);" +
+                    "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
+                "}" +
  
           
                 "void main(void) " +
@@ -94,11 +107,10 @@ module mars3D {
 
                 "vec4 m=texture2D(tAlbedo,d);"+
                 "vec3 dF=dG(m.xyz);" +
-                "float e = m.w;"+
-                // "vec3 dI = dJ(texture2D(tNormal, d).xyz);"
-
-     
-                    "gl_FragColor =vec4(dF.xyz,1.0); " +
+                "float e = m.w;" +
+                 "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
+ 
+                    "gl_FragColor =vec4(dI.xyz,1.0); " +
                 "}"
             return $str
 
@@ -145,10 +157,17 @@ module mars3D {
  
 
         }
-
+        private makeTbnBuff(mesh: Mars3Dmesh): void {
+            if (!mesh.objData.tangents || mesh.objData.tangents.length<=0) {
+                TBNUtils.processTBN(mesh.objData)
+                mesh.objData.tangentBuffer = Scene_data.context3D.uploadBuff3D(mesh.objData.tangents);
+                mesh.objData.bitangentBuffer = Scene_data.context3D.uploadBuff3D(mesh.objData.bitangents);
+            }
+        }
 
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal) {
+                this.makeTbnBuff(mesh)
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
 
@@ -169,7 +188,10 @@ module mars3D {
 
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
-                Scene_data.context3D.setVa(2, 3, mesh.objData.normalsBuffer);
+                Scene_data.context3D.setVa(2, 3, mesh.objData.tangentBuffer);
+                Scene_data.context3D.setVa(3, 3, mesh.objData.bitangentBuffer);
+                Scene_data.context3D.setVa(4, 3, mesh.objData.normalsBuffer);
+
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
        
