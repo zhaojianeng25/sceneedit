@@ -2591,6 +2591,7 @@ marmoset = {};
         r.normal.bind(s.tNormal);
         r.extras.bind(s.tExtras);
         e.specularTexture.bind(s.tSkySpecular);
+		 
 
         g === this.stripShader && (m.uniform1fv(p.uStrips, a.stripData.strips),
         m.uniform2f(p.uStripRes, 2 / c.size[0], 2 / c.size[1]));
@@ -5012,6 +5013,8 @@ marmoset = {};
                 f[g++] = b[h + e],
                 f[g++] = b[h],
                 f[g++] = b[h + 3 * e];
+				
+				window["specularTexturedata"]=f;
             this.specularTexture.loadArray(f)
         }
         this.diffuseCoefficients = new Float32Array(c.diffuseCoefficients);

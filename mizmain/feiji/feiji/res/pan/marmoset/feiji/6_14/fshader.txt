@@ -311,8 +311,8 @@ vec3 ek=reflect(-dO,dI);
 
 vec3 el=em(ek,dQ);
  
- //outcolor=vec4(texture2D(tSkySpecular,d).xyz,1.0); //默认
-  outcolor=vec4(el.xyz,1.0); //默认
+ outcolor=vec4(texture2D(tSkySpecular,d).xyz,1.0); //默认
+ // outcolor=vec4(el.xyz,1.0); //默认
  
  
 el*=en(ek,dC);

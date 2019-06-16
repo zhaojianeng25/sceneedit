@@ -233,6 +233,14 @@ var mars3D;
             }
             this.meshItem.push(new Mars3Dmesh(Scene_data.context3D.renderContext, modeInfo, fileDic[modeInfo.file]));
         };
+        MarmosetModel.makeSkyData = function (a) {
+            this.tSkySpecularTexture = Scene_data.context3D.creatTexture(256, 2048);
+            var gl = Scene_data.context3D.renderContext;
+            gl.bindTexture(gl.TEXTURE_2D, this.tSkySpecularTexture);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 256, 2048, 0, gl.RGBA, gl.UNSIGNED_BYTE, a);
+            gl.bindTexture(gl.TEXTURE_2D, null);
+        };
         MarmosetModel.prototype.overrideFun = function () {
             var marmosetFun = function (fun) {
                 var args = [];
@@ -260,6 +268,10 @@ var mars3D;
                 for (var g = 0; g < sceneInfo.meshes.length; ++g) {
                     MarmosetModel.preaMeshFile(sceneInfo.meshes[g], fileDic);
                 }
+                // this.sky = new Sky(this.gl, a, c.sky);
+                // sceneInfo.sky
+                // console.log(window["specularTexturedata"])
+                MarmosetModel.makeSkyData(window["specularTexturedata"]);
                 return tempBack;
             };
             var TextureCache_parseFile = marmoset.TextureCache.parseFile;

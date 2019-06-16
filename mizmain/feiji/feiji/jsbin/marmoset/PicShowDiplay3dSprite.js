@@ -124,7 +124,8 @@ var mars3D;
                 "vec3 ei=ej(dI);" +
                 "vec3 ek=reflect(-dO,dI);" +
                 //  "vec3 el=em(ek,dQ);"+
-                "gl_FragColor =vec4(ek.xyz,1.0); " +
+                // tSkySpecular
+                "gl_FragColor =vec4(texture2D(tSkySpecular,d).xyz,1.0); " +
                 "}";
             return $str;
         };
@@ -195,6 +196,8 @@ var mars3D;
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
+                Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", mars3D.MarmosetModel.tSkySpecularTexture, 3);
+                console.log(mars3D.MarmosetModel.tSkySpecularTexture);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);

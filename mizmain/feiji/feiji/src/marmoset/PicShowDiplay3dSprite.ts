@@ -162,8 +162,8 @@ module mars3D {
                 "vec3 ek=reflect(-dO,dI);" +
 
               //  "vec3 el=em(ek,dQ);"+
-
-                "gl_FragColor =vec4(ek.xyz,1.0); " +
+               // tSkySpecular
+                "gl_FragColor =vec4(texture2D(tSkySpecular,d).xyz,1.0); " +
 
 
                 "}"
@@ -248,12 +248,13 @@ module mars3D {
                 if (window["tSkySpecular"]) {
                     Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", window["tSkySpecular"], 3);
                 }
-      
-                
+       
                 
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
+                Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", MarmosetModel.tSkySpecularTexture, 3);
+             //   console.log(MarmosetModel.tSkySpecularTexture)
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
