@@ -92,6 +92,7 @@ module mars3D {
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
+                "uniform sampler2D tReflectivity;\n" +
 
                 "varying vec2 d;\n" +
                 "varying  vec3 dA; "+
@@ -121,9 +122,13 @@ module mars3D {
                 "vec4 m=texture2D(tAlbedo,d);"+
                 "vec3 dF=dG(m.xyz);" +
                 "float e = m.w;" +
-                 "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
+                "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
                 "vec3 dO=normalize(uCameraPosition-dv);" +
-                    "gl_FragColor =vec4(dO.xyz,1.0); " +
+                "m=texture2D(tReflectivity,d);" +
+
+                "gl_FragColor =vec4(m.xyz,1.0); " +
+
+
                 "}"
             return $str
 
@@ -179,7 +184,7 @@ module mars3D {
         }
 
         private drawTempMesh(mesh: Mars3Dmesh): void {
-            if (mesh.tAlbedo && mesh.tNormal) {
+            if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
                 this.makeTbnBuff(mesh)
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
@@ -204,6 +209,7 @@ module mars3D {
                 
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
+                Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
@@ -234,10 +240,18 @@ module mars3D {
             nrmArr.push("mat2_n")
             nrmArr.push("mat0_n")
 
+            var reflectArr: Array<string> = []
+            reflectArr.push("mat1_r")
+            reflectArr.push("mat2_r")
+            reflectArr.push("mat0_r")
+
+  
+
             for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
                 var vo = MarmosetModel.meshItem[i]
                 vo.setAlbedoUrl(albedArr[i])
                 vo.setNormalUrl(nrmArr[i])
+                vo.setReflectivityUrl(reflectArr[i])
                 
             }
             this.isFinish = true

@@ -73,6 +73,7 @@ var mars3D;
             var $str = "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
+                "uniform sampler2D tReflectivity;\n" +
                 "varying vec2 d;\n" +
                 "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
@@ -95,7 +96,8 @@ var mars3D;
                 "float e = m.w;" +
                 "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
                 "vec3 dO=normalize(uCameraPosition-dv);" +
-                "gl_FragColor =vec4(dO.xyz,1.0); " +
+                "m=texture2D(tReflectivity,d);" +
+                "gl_FragColor =vec4(m.xyz,1.0); " +
                 "}";
             return $str;
         };
@@ -139,7 +141,7 @@ var mars3D;
             }
         };
         PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
-            if (mesh.tAlbedo && mesh.tNormal) {
+            if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
                 this.makeTbnBuff(mesh);
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
@@ -159,6 +161,7 @@ var mars3D;
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
+                Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
@@ -178,10 +181,15 @@ var mars3D;
             nrmArr.push("mat1_n");
             nrmArr.push("mat2_n");
             nrmArr.push("mat0_n");
+            var reflectArr = [];
+            reflectArr.push("mat1_r");
+            reflectArr.push("mat2_r");
+            reflectArr.push("mat0_r");
             for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
                 var vo = mars3D.MarmosetModel.meshItem[i];
                 vo.setAlbedoUrl(albedArr[i]);
                 vo.setNormalUrl(nrmArr[i]);
+                vo.setReflectivityUrl(reflectArr[i]);
             }
             this.isFinish = true;
         };

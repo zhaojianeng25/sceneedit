@@ -42,6 +42,12 @@ var mars3D;
                 _this.tNormal = a;
             });
         };
+        Mars3Dmesh.prototype.setReflectivityUrl = function (value) {
+            var _this = this;
+            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", function (a) {
+                _this.tReflectivity = a;
+            });
+        };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
             var buffer = new ArrayBuffer(value.length);
             var changeArr = new Uint8Array(buffer);

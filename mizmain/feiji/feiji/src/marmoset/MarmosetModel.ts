@@ -28,9 +28,19 @@
         public setNormalUrl(value: string): void {
             TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", (a: TextureRes) => {
                 this.tNormal = a
- 
+
             });
         }
+
+        public tReflectivity: TextureRes
+        public setReflectivityUrl(value: string): void {
+            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", (a: TextureRes) => {
+                this.tReflectivity = a
+
+            });
+        }
+
+        
 
         public objData: Pan3d.ObjData
         private meshVect(value: Uint8Array, stride: number): ArrayBuffer {
