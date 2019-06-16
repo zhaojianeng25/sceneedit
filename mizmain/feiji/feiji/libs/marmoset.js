@@ -2591,6 +2591,7 @@ marmoset = {};
         r.normal.bind(s.tNormal);
         r.extras.bind(s.tExtras);
         e.specularTexture.bind(s.tSkySpecular);
+
         g === this.stripShader && (m.uniform1fv(p.uStrips, a.stripData.strips),
         m.uniform2f(p.uStripRes, 2 / c.size[0], 2 / c.size[1]));
         m.uniform2f(p.uUVOffset, this.uOffset, this.vOffset);
