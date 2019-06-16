@@ -105,10 +105,9 @@ var mars3D;
                 "fW = vec2(0.5 * (254.0 / 256.0), 0.125 * 0.5 * (254.0 / 256.0)) * fW + vec2(0.5, 0.125 * 0.5);" +
                 "float fX = fract(7.0 * dQ);" +
                 "fW.y += 0.125 * (7.0 * dQ - fX); vec2 fY = fW + vec2(0.0, 0.125);" +
-                //"vec4 fZ = mix(texture2D(tSkySpecular, fW), texture2D(tSkySpecular, fY), fX);" +
-                //"vec3 r = fZ.xyz * (7.0 * fZ.w);" +
-                // "return r * r; " +
-                "return fJ; " +
+                "vec4 fZ = mix(texture2D(tSkySpecular, fW), texture2D(tSkySpecular, fY), fX);" +
+                "vec3 r = fZ.xyz * (7.0 * fZ.w);" +
+                "return r * r; " +
                 " }" +
                 "void main(void) " +
                 "{ " +
@@ -119,13 +118,12 @@ var mars3D;
                 "vec3 dO=normalize(uCameraPosition-dv);" +
                 "m=texture2D(tReflectivity,d);" +
                 "vec3 dP = dG(m.xyz);" +
-                "float dQ = m.w;" +
+                "float dQ = m.x*0.299 +  m.y*0.587 +  m.z*0.114;" + //float dQ=m.w;
                 "float dR = dQ;" +
                 "vec3 ei=ej(dI);" +
                 "vec3 ek=reflect(-dO,dI);" +
-                //  "vec3 el=em(ek,dQ);"+
-                // tSkySpecular
-                "gl_FragColor =vec4(texture2D(tSkySpecular,d).xyz,1.0); " +
+                "vec3 el=em(ek,dQ);" +
+                "gl_FragColor =vec4(el,1.0); " +
                 "}";
             return $str;
         };
@@ -197,7 +195,6 @@ var mars3D;
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", mars3D.MarmosetModel.tSkySpecularTexture, 3);
-                console.log(mars3D.MarmosetModel.tSkySpecularTexture);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
@@ -220,7 +217,7 @@ var mars3D;
             var reflectArr = [];
             reflectArr.push("mat1_r");
             reflectArr.push("mat2_r");
-            reflectArr.push("mat2_r");
+            reflectArr.push("mat0_r");
             for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
                 var vo = mars3D.MarmosetModel.meshItem[i];
                 vo.setAlbedoUrl(albedArr[i]);

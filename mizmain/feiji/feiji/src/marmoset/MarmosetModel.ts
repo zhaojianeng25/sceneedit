@@ -114,7 +114,8 @@
                 var id: number = i * len8;
 
                 this.objData.uvs.push(change32[id + 3]) 
-                this.objData.uvs.push(1 - (change32[id + 4]))
+                this.objData.uvs.push(change32[id + 4])
+               // this.objData.uvs.push(1 - (change32[id + 4]))
     
             }
 

@@ -106,7 +106,8 @@ var mars3D;
             for (var i = 0; i < change32.length / len8; i++) {
                 var id = i * len8;
                 this.objData.uvs.push(change32[id + 3]);
-                this.objData.uvs.push(1 - (change32[id + 4]));
+                this.objData.uvs.push(change32[id + 4]);
+                // this.objData.uvs.push(1 - (change32[id + 4]))
             }
             this.objData.uvBuffer = Scene_data.context3D.uploadBuff3D(this.objData.uvs);
         };
