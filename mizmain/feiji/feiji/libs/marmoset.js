@@ -2532,6 +2532,9 @@ marmoset = {};
         m.uniform1f(p.uHorizonOcclude, this.horizonOcclude);
         m.uniform1f(p.uHorizonSmoothing, this.horizonSmoothing);
         m.uniform4fv(p.uDiffuseCoefficients, e.diffuseCoefficients);
+		
+		window["diffuseCoefficients"]=e.diffuseCoefficients
+			
         0 < d.count && (m.uniform4fv(p.uLightPositions, d.positionBuffer),
         m.uniform3fv(p.uLightDirections, d.directionBuffer),
         m.uniform3fv(p.uLightColors, d.colors),

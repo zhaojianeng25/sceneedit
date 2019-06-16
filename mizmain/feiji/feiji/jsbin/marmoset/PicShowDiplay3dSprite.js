@@ -80,15 +80,24 @@ var mars3D;
                 "varying  vec3 dC; " +
                 "varying highp vec3 dv;" +
                 "uniform vec3 uCameraPosition;" +
+                "uniform vec4 uDiffuseCoefficients[9];" +
                 "vec3 dG(vec3 c){return c*c;}" +
                 "vec3 dJ(vec3 n) {" +
                 "vec3 hn = dA;" +
                 "vec3 ho = dB;" +
-                //"vec3 hu = gl_FrontFacing ? dC : -dC;" +
                 "vec3 hu = dC;" +
                 "n = 2.0 * n - vec3(1.0);" +
                 "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
                 "}" +
+                "vec3 ej(vec3 fJ) {" +
+                //  "#define c  uDiffuseCoefficients " +
+                //   "vec3 G = (c(0) + fJ.y * ((c(1) + c(4) * fJ.x) + c(5) * fJ.z)) + fJ.x * (c(3) + c(7) * fJ.z) + c(2) * fJ.z;" +
+                //    "#undef c" +
+                //"vec3 sqr = fJ * fJ;" +
+                //" G += uDiffuseCoefficients[6].xyz * (3.0 * sqr.z - 1.0);" +
+                //" G += uDiffuseCoefficients[8].xyz * (sqr.x - sqr.y);" +
+                " return fJ;" +
+                " }" +
                 "void main(void) " +
                 "{ " +
                 "vec4 m=texture2D(tAlbedo,d);" +
@@ -97,7 +106,11 @@ var mars3D;
                 "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
                 "vec3 dO=normalize(uCameraPosition-dv);" +
                 "m=texture2D(tReflectivity,d);" +
-                "gl_FragColor =vec4(m.xyz,1.0); " +
+                "vec3 dP = dG(m.xyz);" +
+                "float dQ = m.w;" +
+                "float dR = dQ;" +
+                //"vec3 ei=ej(dI);"+
+                "gl_FragColor =vec4(dI.xyz,1.0); " +
                 "}";
             return $str;
         };
@@ -158,6 +171,9 @@ var mars3D;
                 }
                 if (window["uCameraPosition"]) {
                     Scene_data.context3D.setVc3fv(this.shader, "uCameraPosition", [window["uCameraPosition"][0], window["uCameraPosition"][1], window["uCameraPosition"][2]]);
+                }
+                if (window["diffuseCoefficients"]) {
+                    Scene_data.context3D.setVc4fv(this.shader, "diffuseCoefficients", window["diffuseCoefficients"]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
