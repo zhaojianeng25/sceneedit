@@ -70,7 +70,8 @@ var mars3D;
             return $str;
         };
         PicShowDiplay3dShader.prototype.getFragmentShaderString = function () {
-            var $str = "precision mediump float;\n" +
+            var $str = "#define SAMPLE_COUNT 21.0;\n" +
+                "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
                 "uniform sampler2D tReflectivity;\n" +
@@ -90,13 +91,10 @@ var mars3D;
                 "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
                 "}" +
                 "vec3 ej(vec3 fJ) {" +
-                //  "#define c  uDiffuseCoefficients " +
-                //   "vec3 G = (c(0) + fJ.y * ((c(1) + c(4) * fJ.x) + c(5) * fJ.z)) + fJ.x * (c(3) + c(7) * fJ.z) + c(2) * fJ.z;" +
-                //    "#undef c" +
-                //"vec3 sqr = fJ * fJ;" +
-                //" G += uDiffuseCoefficients[6].xyz * (3.0 * sqr.z - 1.0);" +
-                //" G += uDiffuseCoefficients[8].xyz * (sqr.x - sqr.y);" +
-                " return fJ;" +
+                "\n#define c(n) uDiffuseCoefficients[n].xyz\n" +
+                "vec3 G=(c(0)+fJ.y*((c(1)+c(4)*fJ.x)+c(5)*fJ.z))+fJ.x*(c(3)+c(7)*fJ.z)+c(2)*fJ.z;" +
+                "\n#undef c\n" +
+                " return G.xyz;" +
                 " }" +
                 "void main(void) " +
                 "{ " +
@@ -109,8 +107,8 @@ var mars3D;
                 "vec3 dP = dG(m.xyz);" +
                 "float dQ = m.w;" +
                 "float dR = dQ;" +
-                //"vec3 ei=ej(dI);"+
-                "gl_FragColor =vec4(dI.xyz,1.0); " +
+                "vec3 ei=ej(dI);" +
+                "gl_FragColor =vec4(ei.xyz,1.0); " +
                 "}";
             return $str;
         };
@@ -172,8 +170,11 @@ var mars3D;
                 if (window["uCameraPosition"]) {
                     Scene_data.context3D.setVc3fv(this.shader, "uCameraPosition", [window["uCameraPosition"][0], window["uCameraPosition"][1], window["uCameraPosition"][2]]);
                 }
-                if (window["diffuseCoefficients"]) {
-                    Scene_data.context3D.setVc4fv(this.shader, "diffuseCoefficients", window["diffuseCoefficients"]);
+                if (window["uDiffuseCoefficients"]) {
+                    //window["uDiffuseCoefficients"][0] = 1.0
+                    //window["uDiffuseCoefficients"][1] = 0.0
+                    //window["uDiffuseCoefficients"][2] = 0.0
+                    Scene_data.context3D.setVc4fv(this.shader, "uDiffuseCoefficients", window["uDiffuseCoefficients"]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);

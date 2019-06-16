@@ -89,6 +89,9 @@ module mars3D {
         }
         getFragmentShaderString(): string {
             var $str: string =
+                "#define SAMPLE_COUNT 21.0;\n" +
+          
+
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
@@ -104,6 +107,7 @@ module mars3D {
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];"+
 
+             
          
                 "vec3 dG(vec3 c){return c*c;}" +
 
@@ -115,14 +119,14 @@ module mars3D {
                     "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
                 "}" +
 
+            
+
                 "vec3 ej(vec3 fJ) {" +
-                  //  "#define c  uDiffuseCoefficients " +
-                 //   "vec3 G = (c(0) + fJ.y * ((c(1) + c(4) * fJ.x) + c(5) * fJ.z)) + fJ.x * (c(3) + c(7) * fJ.z) + c(2) * fJ.z;" +
-                 //    "#undef c" +
-                    //"vec3 sqr = fJ * fJ;" +
-                    //" G += uDiffuseCoefficients[6].xyz * (3.0 * sqr.z - 1.0);" +
-                    //" G += uDiffuseCoefficients[8].xyz * (sqr.x - sqr.y);" +
-                    " return fJ;" +
+                "\n#define c(n) uDiffuseCoefficients[n].xyz\n" +
+                "vec3 G=(c(0)+fJ.y*((c(1)+c(4)*fJ.x)+c(5)*fJ.z))+fJ.x*(c(3)+c(7)*fJ.z)+c(2)*fJ.z;" +
+                "\n#undef c\n" +
+
+                " return G.xyz;" +
                 " }" +
           
                 "void main(void) " +
@@ -139,9 +143,9 @@ module mars3D {
                 "float dQ = m.w;" +
                 "float dR = dQ;" +
 
-                //"vec3 ei=ej(dI);"+
+                 "vec3 ei=ej(dI);"+
 
-                "gl_FragColor =vec4(dI.xyz,1.0); " +
+                "gl_FragColor =vec4(ei.xyz,1.0); " +
 
 
                 "}"
@@ -220,8 +224,12 @@ module mars3D {
                     Scene_data.context3D.setVc3fv(this.shader, "uCameraPosition", [window["uCameraPosition"][0], window["uCameraPosition"][1], window["uCameraPosition"][2]]);
                 }
 
-                if (window["diffuseCoefficients"]) {
-                    Scene_data.context3D.setVc4fv(this.shader, "diffuseCoefficients", window["diffuseCoefficients"]);
+                if (window["uDiffuseCoefficients"]) {
+                    //window["uDiffuseCoefficients"][0] = 1.0
+                    //window["uDiffuseCoefficients"][1] = 0.0
+                    //window["uDiffuseCoefficients"][2] = 0.0
+ 
+                    Scene_data.context3D.setVc4fv(this.shader, "uDiffuseCoefficients", window["uDiffuseCoefficients"]);
                 }
       
                 
