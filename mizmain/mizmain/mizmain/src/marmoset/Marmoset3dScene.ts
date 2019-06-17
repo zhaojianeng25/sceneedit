@@ -67,7 +67,7 @@ module mars3D {
 
             MarmosetModel.getInstance().viewFileName = strIdic[3]
 
-            var rootpath: string = "pan/marmoset/feiji/4/";
+            var rootpath: string = "pan/marmoset/feiji/6_14/";
             LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath+"outshder.txt", LoadManager.XML_TYPE, (outstr: any) => {
                 MarmosetModel.changerOutshader = outstr
                 LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath +"vshader.txt", LoadManager.XML_TYPE, (vstr: any) => {
@@ -157,7 +157,7 @@ module mars3D {
             this.lastMouseVec2d = null
             var len: number = MarmosetModel.getInstance().textureItem.length
             if (this.mianpian._uvTextureRes && len) {
-
+ 
                 this.mianpian._uvTextureRes.texture = MarmosetModel.getInstance().textureItem[this.selectId % len]
 
                 this.selectId++

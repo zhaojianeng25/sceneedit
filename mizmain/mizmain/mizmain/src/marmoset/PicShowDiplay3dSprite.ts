@@ -6,10 +6,10 @@ module mars3D {
     import LineDisplayShader = Pan3d.LineDisplayShader
     import Shader3D = Pan3d.Shader3D
     import Camera3D = Pan3d.Camera3D
-    import Rectangle = Pan3d.Rectangle
+    import TextureManager = Pan3d.TextureManager
     import ProgrmaManager = Pan3d.ProgrmaManager
     import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
-    import BaseDiplay3dShader = Pan3d.BaseDiplay3dShader
+    import TextureRes = Pan3d.TextureRes
     import Scene_data = Pan3d.Scene_data
 
  
@@ -82,7 +82,7 @@ module mars3D {
                 "void main(void)\n" +
                 "{\n" +
                     "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                    "gl_FragColor =vec4(infoUv.xyz,1.0);\n" +
+                    "gl_FragColor =vec4(dnrm.xyz,1.0);\n" +
                 "}"
             return $str
 
@@ -92,11 +92,18 @@ module mars3D {
 
 
     export class PicShowDiplay3dSprite extends BaseDiplay3dSprite {
-
+        private tAlbedo: TextureRes;
         constructor() {
             super();
             this.initData()
-            this.updateMatrix
+ 
+ 
+        }
+        private loadAllTexture(): void {
+            TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/mat1_r.jpg", (a: TextureRes) => {
+                this.tAlbedo = a
+            });
+
         }
         protected initData(): void {
             ProgrmaManager.getInstance().registe(PicShowDiplay3dShader.PicShowDiplay3dShader, new PicShowDiplay3dShader);
@@ -124,10 +131,11 @@ module mars3D {
 
 
             this.upToGpu()
-
-
+ 
 
         }
+
+
         private drawTempMesh(mesh: Mars3Dmesh): void {
             var gl = Scene_data.context3D.renderContext;
             Scene_data.context3D.setProgram(this.program);

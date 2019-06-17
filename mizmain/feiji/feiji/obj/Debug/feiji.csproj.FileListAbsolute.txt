@@ -1,0 +1,7 @@
+D:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.dll.config
+D:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.dll
+D:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.pdb
+D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csproj.CoreCompileInputs.cache
+D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.dll
+D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.pdb
+D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csprojAssemblyReference.cache
