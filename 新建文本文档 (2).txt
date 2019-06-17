@@ -1,0 +1,12 @@
+http://192.168.9.140/work/test/qiang/robot.html?robotCount=7&channel=7  抢庄机器人
+http://192.168.9.140/work/test/hhei/robot.html?robotCount=7&channel=7   红黑机器人
+http://192.168.9.140/work/test/lhd/robot.html?robotCount=7&channel=7  龙虎机器人
+http://192.168.9.140/work/test/brnn/robot.html?robotCount=7&channel=7  百人机器人
+http://192.168.9.140/work/test/zjh/robot.html?robotCount=7&channel=7  金花机器人
+
+
+
+        var m: Matrix3D = new Matrix3D
+            m.prependTranslation(this.selectScene.cam3D.x, this.selectScene.cam3D.y, this.selectScene.cam3D.z);
+            m.prependRotation(-this.selectScene.cam3D.rotationY, Vector3D.Y_AXIS);
+            m.prependRotation(-this.selectScene.cam3D.rotationX, Vector3D.X_AXIS);
