@@ -83,6 +83,7 @@ var mars3D;
                 "varying highp vec3 dv;" +
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];" +
+                "uniform float uHorizonOcclude;" +
                 "vec3 dG(vec3 c){return c*c;}" +
                 "vec3 dJ(vec3 n) {" +
                 "vec3 hn = dA;" +
@@ -109,6 +110,12 @@ var mars3D;
                 "vec3 r = fZ.xyz * (7.0 * fZ.w);" +
                 "return r * r; " +
                 " }" +
+                "float en(vec3 fJ,vec3 hc){" +
+                "float hd = dot(fJ, hc);" +
+                "hd =  1.0 + uHorizonOcclude * hd;" +
+                "hd = clamp(hd, 0.0, 1.0 );" +
+                "return hd * hd;" +
+                "}" +
                 "void main(void) " +
                 "{ " +
                 "vec4 m=texture2D(tAlbedo,d);" +
@@ -123,6 +130,7 @@ var mars3D;
                 "vec3 ei=ej(dI);" +
                 "vec3 ek=reflect(-dO,dI);" +
                 "vec3 el=em(ek,dQ);" +
+                "el*=en(ek,dC);" +
                 "gl_FragColor =vec4(el,1.0); " +
                 "}";
             return $str;
@@ -190,6 +198,9 @@ var mars3D;
                 }
                 if (window["tSkySpecular"]) {
                     Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", window["tSkySpecular"], 3);
+                }
+                if (window["horizonOcclude"]) {
+                    Scene_data.context3D.setVc1fv(this.shader, "uHorizonOcclude", [window["horizonOcclude"]]);
                 }
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);

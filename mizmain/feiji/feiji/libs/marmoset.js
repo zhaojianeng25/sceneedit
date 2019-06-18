@@ -2530,6 +2530,8 @@ marmoset = {};
         m.uniform3fv(p.uFresnel, this.fresnel);
         m.uniform1f(p.uAlphaTest, this.alphaTest);
         m.uniform1f(p.uHorizonOcclude, this.horizonOcclude);
+		window["horizonOcclude"]=this.horizonOcclude
+		
         m.uniform1f(p.uHorizonSmoothing, this.horizonSmoothing);
         m.uniform4fv(p.uDiffuseCoefficients, e.diffuseCoefficients);
 		

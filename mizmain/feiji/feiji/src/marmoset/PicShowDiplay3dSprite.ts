@@ -107,7 +107,7 @@ module mars3D {
 
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];"+
-
+                "uniform float uHorizonOcclude;"+
              
          
                 "vec3 dG(vec3 c){return c*c;}" +
@@ -142,6 +142,14 @@ module mars3D {
                      "return r * r; " +
                 
                 " }" +
+
+                "float en(vec3 fJ,vec3 hc){" +
+                    "float hd = dot(fJ, hc);" +
+                "hd =  1.0 + uHorizonOcclude * hd;" +
+                "hd = clamp(hd, 0.0, 1.0 );" +
+                    "return hd * hd;" +
+     
+                "}" +
           
                 "void main(void) " +
                 "{ " +
@@ -161,7 +169,9 @@ module mars3D {
 
                 "vec3 ek=reflect(-dO,dI);" +
 
-                "vec3 el=em(ek,dQ);"+
+                "vec3 el=em(ek,dQ);" +
+
+                "el*=en(ek,dC);"+
     
                 "gl_FragColor =vec4(el,1.0); " +
 
@@ -248,6 +258,12 @@ module mars3D {
                 if (window["tSkySpecular"]) {
                     Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", window["tSkySpecular"], 3);
                 }
+                if (window["horizonOcclude"]) {
+         
+                    Scene_data.context3D.setVc1fv(this.shader, "uHorizonOcclude", [window["horizonOcclude"]]);
+           
+                }
+
        
                 
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
