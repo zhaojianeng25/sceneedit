@@ -173,7 +173,7 @@ module mars3D {
 
                 "el*=en(ek,dC);"+
     
-                "gl_FragColor =vec4(el,1.0); " +
+                "gl_FragColor =vec4(m.x,m.x,m.x,1.0); " +
 
 
                 "}"
