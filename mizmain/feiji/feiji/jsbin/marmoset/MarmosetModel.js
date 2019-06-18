@@ -109,7 +109,9 @@ var mars3D;
             }
             this.needFoald = num > 1;
             for (var key in MarmosetModel.imgBolb) {
-                this.dataURLtoBlob(MarmosetModel.imgBolb[key], key);
+                if (key == "mat0_r.jpg.jpg") {
+                    this.dataURLtoBlob(MarmosetModel.imgBolb[key], key);
+                }
             }
         };
         MarmosetModel.prototype.saveObjData = function (objData, pathurl, $name) {

@@ -2,6 +2,8 @@
     import Scene_data = Pan3d.Scene_data
     import TextureManager = Pan3d.TextureManager
     import TextureRes = Pan3d.TextureRes
+    import UIManager = Pan3d.UIManager
+    import LoadManager = Pan3d.LoadManager
 
     import ByteStream = marmoset.ByteStream
     import Scene = marmoset.Scene
@@ -34,8 +36,53 @@
                 this.tReflectivity = a
 
             });
-        }
 
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + value + ".jpg", LoadManager.IMG_TYPE,
+                (img: any) => {
+                    this.reflectivityImg = img
+                    this.fromFilesMergeAlpha()
+                });
+        }
+        private reflectivityImg: any
+        private glossImg: any
+        public setGlossUrl(value: string): void {
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + value + ".jpg", LoadManager.IMG_TYPE,
+                (img: any) => {
+                    this.glossImg = img
+                    this.fromFilesMergeAlpha()
+                });
+        }
+        private fromFilesMergeAlpha(): void {
+            if (this.reflectivityImg && this.glossImg) {
+                var img = this.reflectivityImg
+                var alphaImg = this.glossImg
+
+                var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(img.width, img.height);
+                ctx.drawImage(img, 0, 0);
+
+                var imgData: ImageData = ctx.getImageData(0, 0, img.width, img.height);
+
+                ctx.clearRect(0, 0, img.width, img.height);
+                ctx.drawImage(alphaImg, 0, 0);
+
+                var alphaImgdata: ImageData = ctx.getImageData(0, 0, img.width, img.height);
+
+                for (var i = 0; i < imgData.data.length; i += 4) {
+                    var per: number = alphaImgdata.data[i] / 255;
+                    imgData.data[i + 3] = alphaImgdata.data[i];
+                }
+
+
+                console.log(img)
+                console.log(alphaImg)
+                console.log(imgData)
+                console.log("-------")
+            }
+         
+ 
+
+         
+        }
 
 
         public objData: Pan3d.ObjData

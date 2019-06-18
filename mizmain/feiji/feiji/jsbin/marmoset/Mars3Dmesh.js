@@ -15,6 +15,8 @@ var mars3D;
 (function (mars3D) {
     var Scene_data = Pan3d.Scene_data;
     var TextureManager = Pan3d.TextureManager;
+    var UIManager = Pan3d.UIManager;
+    var LoadManager = Pan3d.LoadManager;
     var ByteStream = marmoset.ByteStream;
     var Matrix = marmoset.Matrix;
     var Vect = marmoset.Vect;
@@ -40,6 +42,37 @@ var mars3D;
             TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", function (a) {
                 _this.tReflectivity = a;
             });
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + value + ".jpg", LoadManager.IMG_TYPE, function (img) {
+                _this.reflectivityImg = img;
+                _this.fromFilesMergeAlpha();
+            });
+        };
+        Mars3Dmesh.prototype.setGlossUrl = function (value) {
+            var _this = this;
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + value + ".jpg", LoadManager.IMG_TYPE, function (img) {
+                _this.glossImg = img;
+                _this.fromFilesMergeAlpha();
+            });
+        };
+        Mars3Dmesh.prototype.fromFilesMergeAlpha = function () {
+            if (this.reflectivityImg && this.glossImg) {
+                var img = this.reflectivityImg;
+                var alphaImg = this.glossImg;
+                var ctx = UIManager.getInstance().getContext2D(img.width, img.height);
+                ctx.drawImage(img, 0, 0);
+                var imgData = ctx.getImageData(0, 0, img.width, img.height);
+                ctx.clearRect(0, 0, img.width, img.height);
+                ctx.drawImage(alphaImg, 0, 0);
+                var alphaImgdata = ctx.getImageData(0, 0, img.width, img.height);
+                for (var i = 0; i < imgData.data.length; i += 4) {
+                    var per = alphaImgdata.data[i] / 255;
+                    imgData.data[i + 3] = alphaImgdata.data[i];
+                }
+                console.log(img);
+                console.log(alphaImg);
+                console.log(imgData);
+                console.log("-------");
+            }
         };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {
             var buffer = new ArrayBuffer(value.length);

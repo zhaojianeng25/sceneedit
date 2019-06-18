@@ -229,11 +229,16 @@ var mars3D;
             reflectArr.push("mat1_r");
             reflectArr.push("mat2_r");
             reflectArr.push("mat0_r");
+            var glossArr = [];
+            glossArr.push("mat1_g");
+            glossArr.push("mat2_g");
+            glossArr.push("mat0_g");
             for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
                 var vo = mars3D.MarmosetModel.meshItem[i];
                 vo.setAlbedoUrl(albedArr[i]);
                 vo.setNormalUrl(nrmArr[i]);
                 vo.setReflectivityUrl(reflectArr[i]);
+                vo.setGlossUrl(glossArr[i]);
             }
             this.isFinish = true;
         };

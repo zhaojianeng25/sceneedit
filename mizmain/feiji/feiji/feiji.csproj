@@ -46,6 +46,7 @@
     <TypeScriptCompile Include="src\marmoset\Marmoset3dScene.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetLaunch.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetModel.ts" />
+    <TypeScriptCompile Include="src\marmoset\Mars3Dmesh.ts" />
     <TypeScriptCompile Include="src\marmoset\PicShowDiplay3dSprite.ts" />
     <TypeScriptCompile Include="src\SceneLevel.ts" />
   </ItemGroup>

@@ -2374,6 +2374,7 @@ marmoset = {};
             nofilter: c.textureFilterNearest || !1
         };
         e.nofilter || (e.aniso = a.hints.mobile ? 2 : 4);
+		console.log(c.reflectivityTex, c.glossTex)
         this.textures = {
             albedo: a.textureCache.fromFilesMergeAlpha(b.get(c.albedoTex), b.get(c.alphaTex), e),
             reflectivity: a.textureCache.fromFilesMergeAlpha(b.get(c.reflectivityTex), b.get(c.glossTex), d),
