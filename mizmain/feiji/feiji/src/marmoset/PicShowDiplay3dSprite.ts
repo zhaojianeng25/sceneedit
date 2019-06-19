@@ -12,7 +12,7 @@ module mars3D {
     import TextureRes = Pan3d.TextureRes
     import Scene_data = Pan3d.Scene_data
 
- 
+
 
 
     export class PicShowDiplay3dShader extends Shader3D {
@@ -23,7 +23,7 @@ module mars3D {
         binLocation($context: WebGLRenderingContext): void {
             $context.bindAttribLocation(this.program, 0, "vPosition");
             $context.bindAttribLocation(this.program, 1, "u2Texture");
- 
+
             $context.bindAttribLocation(this.program, 2, "vTangent");
             $context.bindAttribLocation(this.program, 3, "vBitangent");
             $context.bindAttribLocation(this.program, 4, "vNormal");
@@ -36,11 +36,11 @@ module mars3D {
                 "attribute vec3 vBitangent;" +
                 "attribute vec3 vNormal;" +
 
-                
- 
+
+
                 "uniform mat4 uSkyMatrix;" +
                 "uniform mat4 viewMatrix3D;" +
-              //  "uniform mat4 posMatrix3D;" +
+                //  "uniform mat4 posMatrix3D;" +
 
                 "varying vec2 d;\n" +
 
@@ -50,33 +50,33 @@ module mars3D {
 
                 "varying highp vec3 dv;" +
 
-          
- 
+
+
                 " vec3 iW(vec2 v) {;" +
-                    "  v.x=v.x/65535.0;" +
-                    "  v.y=v.y/65535.0;" +
-                    "  bool iX = (v.y > (32767.1 / 65535.0));" +
-                    "  v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;" +
-                    "  vec3 r;" +
-                    "  r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;" +
-                    "  r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;" +
-                    "  r.z = sqrt(max(min(1.0 - (r.x*r.x+r.y*r.y), 1.0), 0.0));" +
-                    "  r.z = iX ? -r.z : r.z;" +
-                    "  return r;" +
+                "  v.x=v.x/65535.0;" +
+                "  v.y=v.y/65535.0;" +
+                "  bool iX = (v.y > (32767.1 / 65535.0));" +
+                "  v.y = iX ? (v.y - (32768.0 / 65535.0)) : v.y;" +
+                "  vec3 r;" +
+                "  r.x = (2.0 * 65535.0 / 32767.0) * v.x - 1.0;" +
+                "  r.y = (2.0 * 65535.0 / 32767.0) * v.y - 1.0;" +
+                "  r.z = sqrt(max(min(1.0 - (r.x*r.x+r.y*r.y), 1.0), 0.0));" +
+                "  r.z = iX ? -r.z : r.z;" +
+                "  return r;" +
                 " }" +
 
                 "void main(void)" +
                 "{" +
-                    "   d = vec2(u2Texture.x, u2Texture.y);" +
- 
+                "   d = vec2(u2Texture.x, u2Texture.y);" +
+
                 "   dA=(uSkyMatrix*vec4(vTangent, 1.0)).xyz;" +
                 "   dB=(uSkyMatrix*vec4(vBitangent, 1.0)).xyz;" +
                 "   dC=(uSkyMatrix*vec4(vNormal, 1.0)).xyz;" +
 
-                   "dv=(uSkyMatrix*vec4(vPosition, 1.0)).xyz;"+
+                "dv=(uSkyMatrix*vec4(vPosition, 1.0)).xyz;" +
 
-                    "   vec4 vt0= vec4(vPosition, 1.0);" +
-                   // "   vt0 = posMatrix3D * vt0;" +
+                "   vec4 vt0= vec4(vPosition, 1.0);" +
+                // "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = viewMatrix3D * vt0;" +
 
 
@@ -90,71 +90,71 @@ module mars3D {
         getFragmentShaderString(): string {
             var $str: string =
                 "#define SAMPLE_COUNT 21.0;\n" +
-          
+
 
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
                 "uniform sampler2D tReflectivity;\n" +
                 "uniform sampler2D tSkySpecular;\n" +
-                
+
                 "varying vec2 d;\n" +
-                "varying  vec3 dA; "+
+                "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
 
                 "varying highp vec3 dv;" +
 
                 "uniform vec3 uCameraPosition;" +
-                "uniform vec4 uDiffuseCoefficients[9];"+
-                "uniform float uHorizonOcclude;"+
-             
-         
+                "uniform vec4 uDiffuseCoefficients[9];" +
+                "uniform float uHorizonOcclude;" +
+
+
                 "vec3 dG(vec3 c){return c*c;}" +
 
                 "vec3 dJ(vec3 n) {" +
-                    "vec3 hn = dA;" +
-                    "vec3 ho = dB;" +
-                    "vec3 hu = dC;" +
-                    "n = 2.0 * n - vec3(1.0);" +
-                    "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
+                "vec3 hn = dA;" +
+                "vec3 ho = dB;" +
+                "vec3 hu = dC;" +
+                "n = 2.0 * n - vec3(1.0);" +
+                "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
                 "}" +
- 
+
 
                 "vec3 ej(vec3 fJ) {" +
-                    "\n#define c(n) uDiffuseCoefficients[n].xyz\n" +
-                    "vec3 G=(c(0)+fJ.y*((c(1)+c(4)*fJ.x)+c(5)*fJ.z))+fJ.x*(c(3)+c(7)*fJ.z)+c(2)*fJ.z;" +
-                    "\n#undef c\n" +
+                "\n#define c(n) uDiffuseCoefficients[n].xyz\n" +
+                "vec3 G=(c(0)+fJ.y*((c(1)+c(4)*fJ.x)+c(5)*fJ.z))+fJ.x*(c(3)+c(7)*fJ.z)+c(2)*fJ.z;" +
+                "\n#undef c\n" +
 
-                    " return G.xyz;" +
+                " return G.xyz;" +
                 " }" +
 
                 " vec3 em(vec3 fJ, float dQ) {" +
-                    " fJ /= dot(vec3(1.0), abs(fJ));" +
-                    "vec2 fU = abs(fJ.zx) - vec2(1.0, 1.0);" +
-                    "vec2 fV = vec2(fJ.x < 0.0 ? fU.x : -fU.x, fJ.z < 0.0 ? fU.y : -fU.y);" +
-                    "vec2 fW = (fJ.y < 0.0) ? fV : fJ.xz;" +
-                    "fW = vec2(0.5 * (254.0 / 256.0), 0.125 * 0.5 * (254.0 / 256.0)) * fW + vec2(0.5, 0.125 * 0.5);" +
-                    "float fX = fract(7.0 * dQ);" +
-                    "fW.y += 0.125 * (7.0 * dQ - fX); vec2 fY = fW + vec2(0.0, 0.125);" +
-                     "vec4 fZ = mix(texture2D(tSkySpecular, fW), texture2D(tSkySpecular, fY), fX);" +
-                     "vec3 r = fZ.xyz * (7.0 * fZ.w);" +
-                     "return r * r; " +
-                
+                " fJ /= dot(vec3(1.0), abs(fJ));" +
+                "vec2 fU = abs(fJ.zx) - vec2(1.0, 1.0);" +
+                "vec2 fV = vec2(fJ.x < 0.0 ? fU.x : -fU.x, fJ.z < 0.0 ? fU.y : -fU.y);" +
+                "vec2 fW = (fJ.y < 0.0) ? fV : fJ.xz;" +
+                "fW = vec2(0.5 * (254.0 / 256.0), 0.125 * 0.5 * (254.0 / 256.0)) * fW + vec2(0.5, 0.125 * 0.5);" +
+                "float fX = fract(7.0 * dQ);" +
+                "fW.y += 0.125 * (7.0 * dQ - fX); vec2 fY = fW + vec2(0.0, 0.125);" +
+                "vec4 fZ = mix(texture2D(tSkySpecular, fW), texture2D(tSkySpecular, fY), fX);" +
+                "vec3 r = fZ.xyz * (7.0 * fZ.w);" +
+                "return r * r; " +
+
                 " }" +
 
                 "float en(vec3 fJ,vec3 hc){" +
-                    "float hd = dot(fJ, hc);" +
+                "float hd = dot(fJ, hc);" +
                 "hd =  1.0 + uHorizonOcclude * hd;" +
                 "hd = clamp(hd, 0.0, 1.0 );" +
-                    "return hd * hd;" +
-     
+                "return hd * hd;" +
+
                 "}" +
-          
+
                 "void main(void) " +
                 "{ " +
 
-                "vec4 m=texture2D(tAlbedo,d);"+
+                "vec4 m=texture2D(tAlbedo,d);" +
                 "vec3 dF=dG(m.xyz);" +
                 "float e = m.w;" +
                 "vec3 dI=dJ(texture2D(tNormal, d).xyz);" +
@@ -171,9 +171,9 @@ module mars3D {
 
                 "vec3 el=em(ek,dQ);" +
 
-                "el*=en(ek,dC);"+
-    
-                "gl_FragColor =vec4(m.x,m.x,m.x,1.0); " +
+                "el*=en(ek,dC);" +
+
+                "gl_FragColor =vec4(m.w,m.w,m.w,1.0); " +
 
 
                 "}"
@@ -189,10 +189,10 @@ module mars3D {
         constructor() {
             super();
             this.initData()
- 
- 
+
+
         }
-     
+
         protected initData(): void {
             ProgrmaManager.getInstance().registe(PicShowDiplay3dShader.PicShowDiplay3dShader, new PicShowDiplay3dShader);
             this.shader = ProgrmaManager.getInstance().getProgram(PicShowDiplay3dShader.PicShowDiplay3dShader);
@@ -219,11 +219,11 @@ module mars3D {
 
 
             this.upToGpu()
- 
+
 
         }
         private makeTbnBuff(mesh: Mars3Dmesh): void {
-            if (!mesh.objData.tangents || mesh.objData.tangents.length<=0) {
+            if (!mesh.objData.tangents || mesh.objData.tangents.length <= 0) {
                 TBNUtils.processTBN(mesh.objData)
                 mesh.objData.tangentBuffer = Scene_data.context3D.uploadBuff3D(mesh.objData.tangents);
                 mesh.objData.bitangentBuffer = Scene_data.context3D.uploadBuff3D(mesh.objData.bitangents);
@@ -259,18 +259,18 @@ module mars3D {
                     Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", window["tSkySpecular"], 3);
                 }
                 if (window["horizonOcclude"]) {
-         
+
                     Scene_data.context3D.setVc1fv(this.shader, "uHorizonOcclude", [window["horizonOcclude"]]);
-           
+
                 }
 
-       
-                
+
+
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", MarmosetModel.tSkySpecularTexture, 3);
- 
+
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
@@ -283,9 +283,9 @@ module mars3D {
 
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
-       
 
-   
+
+
 
 
         }
@@ -310,16 +310,12 @@ module mars3D {
             glossArr.push("mat1_g")
             glossArr.push("mat2_g")
             glossArr.push("mat0_g")
-
-  
-
+ 
             for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
                 var vo: Mars3Dmesh = MarmosetModel.meshItem[i]
                 vo.setAlbedoUrl(albedArr[i])
                 vo.setNormalUrl(nrmArr[i])
-                vo.setReflectivityUrl(reflectArr[i])
-                vo.setGlossUrl(  glossArr[i])
-                
+                vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i])
             }
             this.isFinish = true
         }
@@ -330,10 +326,10 @@ module mars3D {
                 }
                 for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
                     if (i == 2) {
-  
+
                     }
                     this.drawTempMesh(MarmosetModel.meshItem[i])
-        
+
                 }
             } else {
                 super.update()

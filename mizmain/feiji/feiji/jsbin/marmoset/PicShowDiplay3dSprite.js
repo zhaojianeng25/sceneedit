@@ -131,7 +131,7 @@ var mars3D;
                 "vec3 ek=reflect(-dO,dI);" +
                 "vec3 el=em(ek,dQ);" +
                 "el*=en(ek,dC);" +
-                "gl_FragColor =vec4(m.x,m.x,m.x,1.0); " +
+                "gl_FragColor =vec4(m.w,m.w,m.w,1.0); " +
                 "}";
             return $str;
         };
@@ -237,8 +237,7 @@ var mars3D;
                 var vo = mars3D.MarmosetModel.meshItem[i];
                 vo.setAlbedoUrl(albedArr[i]);
                 vo.setNormalUrl(nrmArr[i]);
-                vo.setReflectivityUrl(reflectArr[i]);
-                vo.setGlossUrl(glossArr[i]);
+                vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i]);
             }
             this.isFinish = true;
         };

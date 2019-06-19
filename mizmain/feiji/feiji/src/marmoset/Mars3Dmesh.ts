@@ -31,57 +31,40 @@
         }
 
         public tReflectivity: TextureRes
+        /*
         public setReflectivityUrl(value: string): void {
             TextureManager.getInstance().getTexture(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + value + ".jpg", (a: TextureRes) => {
                 this.tReflectivity = a
 
             });
+        }
+        */
 
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + value + ".jpg", LoadManager.IMG_TYPE,
-                (img: any) => {
-                    this.reflectivityImg = img
-                    this.fromFilesMergeAlpha()
+
+        public setReflectRgbAlphaUrl(rgbUrl: string,alphaUrl): void {
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + rgbUrl + ".jpg", LoadManager.IMG_TYPE,
+                (rgbImg: any) => {
+                    LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + alphaUrl + ".jpg", LoadManager.IMG_TYPE,
+                        (alphaImg: any) => {
+                            this.fromFilesMergeAlpha(rgbImg, alphaImg)
+                        });
                 });
         }
-        private reflectivityImg: any
-        private glossImg: any
-        public setGlossUrl(value: string): void {
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + value + ".jpg", LoadManager.IMG_TYPE,
-                (img: any) => {
-                    this.glossImg = img
-                    this.fromFilesMergeAlpha()
-                });
-        }
-        private fromFilesMergeAlpha(): void {
-            if (this.reflectivityImg && this.glossImg) {
-                var img = this.reflectivityImg
-                var alphaImg = this.glossImg
+        private fromFilesMergeAlpha(img, alphaImg): void {
 
-                var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(img.width, img.height);
-                ctx.drawImage(img, 0, 0);
-
-                var imgData: ImageData = ctx.getImageData(0, 0, img.width, img.height);
-
-                ctx.clearRect(0, 0, img.width, img.height);
-                ctx.drawImage(alphaImg, 0, 0);
-
-                var alphaImgdata: ImageData = ctx.getImageData(0, 0, img.width, img.height);
-
-                for (var i = 0; i < imgData.data.length; i += 4) {
-                    var per: number = alphaImgdata.data[i] / 255;
-                    imgData.data[i + 3] = alphaImgdata.data[i];
-                }
-
-
-                console.log(img)
-                console.log(alphaImg)
-                console.log(imgData)
-                console.log("-------")
+            var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(img.width, img.height);
+            ctx.drawImage(img, 0, 0);
+            var imgData: ImageData = ctx.getImageData(0, 0, img.width, img.height);
+            ctx.clearRect(0, 0, img.width, img.height);
+            ctx.drawImage(alphaImg, 0, 0);
+            var alphaImgdata: ImageData = ctx.getImageData(0, 0, img.width, img.height);
+            for (var i = 0; i < imgData.data.length; i += 4) {
+              //  var per: number = alphaImgdata.data[i] / 255;
+                imgData.data[i + 3] = alphaImgdata.data[i];
             }
-         
+            this.tReflectivity = new Pan3d.TextureRes();
+            this.tReflectivity.texture = Scene_data.context3D.getTexture(imgData)
  
-
-         
         }
 
 

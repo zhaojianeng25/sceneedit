@@ -22906,7 +22906,7 @@ var Pan3d;
         function LoadManager() {
             this._loadThreadList = new Array;
             this._waitLoadList = new Array;
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 100; i++) {
                 this._loadThreadList.push(new LoaderThread());
             }
         }
