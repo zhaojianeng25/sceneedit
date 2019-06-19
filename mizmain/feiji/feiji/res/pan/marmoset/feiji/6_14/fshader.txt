@@ -317,13 +317,20 @@ vec3 el=em(ek,dQ);
  
 el*=en(ek,dC);
 
- outcolor=vec4(el.xyz,1.0); 
+ //outcolor=vec4(el.xyz,1.0); 
 
 #ifdef LIGHT_COUNT
 //outcolor=vec4(1.0,0.0,0.0,1.0); //默认
-highp float eo=10.0/log2(dQ*0.968+0.03);eo*=eo;float eu=eo*(1.0/(8.0*3.1415926))+(4.0/(8.0*3.1415926));eu=min(eu,1.0e3);
+highp float eo=10.0/log2(dQ*0.968+0.03);
+eo*=eo;
+float eu=eo*(1.0/(8.0*3.1415926))+(4.0/(8.0*3.1415926));
+eu=min(eu,1.0e3);
+
+ outcolor=vec4(eu,eu,eu,1.0); //默认
+ 
 #ifdef SHADOW_COUNT
 ev eA;
+//outcolor=vec4(1.0,0.0,0.0,1.0); //默认
 #ifdef SKIN
 #ifdef SKIN_VERSION_1
 eB(eA,SHADOW_KERNEL+SHADOW_KERNEL*dY.eC);

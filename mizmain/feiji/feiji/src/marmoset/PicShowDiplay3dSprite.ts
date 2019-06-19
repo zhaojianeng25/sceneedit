@@ -173,7 +173,14 @@ module mars3D {
 
                 "el*=en(ek,dC);" +
 
-                "gl_FragColor =vec4(el,1.0); " +
+
+                "highp float eo = 10.0 / log2(dQ * 0.968 + 0.03);" +
+                "eo *= eo;" +
+                "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
+                "eu = min(eu, 1.0e3);" +
+
+
+                "gl_FragColor =vec4(eu,eu,eu,1.0); " +
 
 
                 "}"
