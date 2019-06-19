@@ -99,9 +99,9 @@ return G.x;
  
 #define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)
  
-#ifndef SHADOW_CLIP
-#define SHADOW_CLIP(c,v) v
-#endif
+ 
+#define SHADOW_CLIP(c,ccav) ccav
+ 
 float hK(sampler2D hL,highp vec2 hA,highp float H){
 	highp float G=hJ(texture2D(hL,hA.xy).xyz);
 	return SHADOW_COMPARE(H,G);
@@ -136,15 +136,15 @@ void eB(out ev ss,float hO){
 	float m;
 	#if SHADOW_COUNT > 0
 		m=hN(tDepth0,hP[0],hO);
-		ss.eL[0]=SHADOW_CLIP(hP[0].xy,m);
+		ss.eL[0]=m;
 	#endif
 	#if SHADOW_COUNT > 1
 		m=hN(tDepth1,hP[1],hO);
-		ss.eL[1]=SHADOW_CLIP(hP[1].xy,m);
+		ss.eL[1]=m;
 	#endif
 	#if SHADOW_COUNT > 2
 		m=hN(tDepth2,hP[2],hO);
-		ss.eL[2]=SHADOW_CLIP(hP[2].xy,m);
+		ss.eL[2]=m;
 	#endif
  
 }

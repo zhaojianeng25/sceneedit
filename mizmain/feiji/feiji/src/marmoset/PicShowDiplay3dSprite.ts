@@ -104,6 +104,10 @@ module mars3D {
                 "uniform sampler2D tReflectivity;\n" +
                 "uniform sampler2D tSkySpecular;\n" +
 
+                "uniform sampler2D tDepth0;\n" +
+                "uniform sampler2D tDepth1;\n" +
+                "uniform sampler2D tDepth2;\n" +
+
                 "varying vec2 d;\n" +
                 "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
@@ -138,16 +142,14 @@ module mars3D {
                 "}" +
 
                 "highp float hN(sampler2D hL, highp vec3 hA, float hO) {\n" +
-                     "highp vec2 l = uShadowKernelRotation * hO;\n" +
+                    "highp vec2 l = uShadowKernelRotation * hO;\n" +
                     "float s;\n" +
-                    //"s = hK(hL, hA.xy + l, hA.z);\n" +
-                    //"s += hK(hL, hA.xy - l, hA.z);\n" +
-                    //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
-                    //"s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
-                    //"s *= 0.25;\n" +
-                    //"return s * s;\n" +
-                    "return  0.25;\n" +
-
+                    "s = hK(hL, hA.xy + l, hA.z);\n" +
+                    "s += hK(hL, hA.xy - l, hA.z);\n" +
+                    "s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
+                    "s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
+                    "s *= 0.25;\n" +
+                    "return s * s;\n" +
                 "}\n" +
 
                 "void eB(out ev ss, float hO){" +
@@ -161,20 +163,19 @@ module mars3D {
                         "hP[k] = hS.xyz / hS.w;" +
                     "}" +
                     "float m;\n" +
-                     "#if SHADOW_COUNT > 0 \n" +
-                          "m =1.0;\n" +
-                      //  "m = hN(tDepth0, hP[0], hO);" +
-                      //  "ss.eL[0] = SHADOW_CLIP(hP[0].xy, m);" +
-                     "#endif\n" +
-                    //"#if SHADOW_COUNT > 1" +
-                    //    "m = hN(tDepth1, hP[1], hO);" +
-                    //    "ss.eL[1] = SHADOW_CLIP(hP[1].xy, m);" +
-                    //"#endif" +
-                    //"#if SHADOW_COUNT > 2" +
-                    //    "m = hN(tDepth2, hP[2], hO);" +
-                    //    "ss.eL[2] = SHADOW_CLIP(hP[2].xy, m);" +
-                    //"#endif" +
-                "}" +
+                     "\n#if SHADOW_COUNT > 0 \n" +
+                          "m = hN(tDepth0, hP[0], hO);" +
+                          "ss.eL[0] = m;" +
+                    "\n#endif\n" +
+                     "\n#if SHADOW_COUNT > 1\n" +
+                        "m = hN(tDepth1, hP[1], hO);" +
+                        "ss.eL[1] =m;" +
+                    "\n#endif\n" +
+                    "\n#if SHADOW_COUNT > 2\n" +
+                        "m = hN(tDepth2, hP[2], hO);\n" +
+                        "ss.eL[2] =m;\n" +
+                        "\n#endif\n" +
+                    "}" +
 
                 "vec3 dG(vec3 c){return c*c;}" +
 
