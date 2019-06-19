@@ -289,7 +289,7 @@ vec3 dO=normalize(uCameraPosition-dv);
    
 m=texture2D(tReflectivity,d);
 
-  outcolor=vec4(m.w,m.w,m.w,1.0);;
+ // outcolor=vec4(m.w,m.w,m.w,1.0);;
   
   
 vec3 dP=dG(m.xyz);
@@ -317,7 +317,7 @@ vec3 el=em(ek,dQ);
  
 el*=en(ek,dC);
 
-//outcolor=vec4(el.xyz,1.0); 
+ outcolor=vec4(el.xyz,1.0); 
 
 #ifdef LIGHT_COUNT
 //outcolor=vec4(1.0,0.0,0.0,1.0); //默认

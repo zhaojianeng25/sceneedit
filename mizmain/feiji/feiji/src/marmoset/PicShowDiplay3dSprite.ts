@@ -162,7 +162,7 @@ module mars3D {
                 "m=texture2D(tReflectivity,d);" +
 
                 "vec3 dP = dG(m.xyz);" +
-                "float dQ = m.x*0.299 +  m.y*0.587 +  m.z*0.114;" + //float dQ=m.w;
+                "float dQ=m.w;"+
                 "float dR = dQ;" +
 
                 "vec3 ei=ej(dI);" +
@@ -173,7 +173,7 @@ module mars3D {
 
                 "el*=en(ek,dC);" +
 
-                "gl_FragColor =vec4(m.w,m.w,m.w,1.0); " +
+                "gl_FragColor =vec4(el,1.0); " +
 
 
                 "}"
@@ -315,9 +315,9 @@ module mars3D {
                 var vo: Mars3Dmesh = MarmosetModel.meshItem[i]
                 vo.setAlbedoUrl(albedArr[i])
                 vo.setNormalUrl(nrmArr[i])
-               vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i])
+                 vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i])
 
-              // vo.setReflectRgbAlphaUrl("mat0_r","mat0_g")
+                //vo.setReflectRgbAlphaUrl("mat1_r","mat1_g")
             }
             this.isFinish = true
         }

@@ -5,3 +5,9 @@ D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csproj.CoreCompileInputs
 D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.dll
 D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.pdb
 D:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csprojAssemblyReference.cache
+E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.dll
+E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.pdb
+E:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.dll.config
+E:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.dll
+E:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.pdb
+E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csproj.CoreCompileInputs.cache
