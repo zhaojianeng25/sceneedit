@@ -71,6 +71,8 @@ var mars3D;
         };
         PicShowDiplay3dShader.prototype.getFragmentShaderString = function () {
             var $str = "#define SAMPLE_COUNT 21.0;\n" +
+                "#define LIGHT_COUNT 3\n" +
+                "#define SHADOW_KERNEL (4.0/1536.0)\n" +
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
@@ -84,6 +86,9 @@ var mars3D;
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];" +
                 "uniform float uHorizonOcclude;" +
+                "struct ev{" +
+                "float eL[LIGHT_COUNT];" +
+                "};" +
                 "vec3 dG(vec3 c){return c*c;}" +
                 "vec3 dJ(vec3 n) {" +
                 "vec3 hn = dA;" +
@@ -135,6 +140,7 @@ var mars3D;
                 "eo *= eo;" +
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
+                "ev eA;" +
                 "gl_FragColor =vec4(eu,eu,eu,1.0); " +
                 "}";
             return $str;

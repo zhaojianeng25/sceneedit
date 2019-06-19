@@ -2537,6 +2537,9 @@ marmoset = {};
         m.uniform4fv(p.uDiffuseCoefficients, e.diffuseCoefficients);
 		
 		window["uDiffuseCoefficients"]=e.diffuseCoefficients
+		
+			//console.log(d.shadowTexelPadProjections);
+			//console.log(d.uShadowMatrices);
 			
         0 < d.count && (m.uniform4fv(p.uLightPositions, d.positionBuffer),
         m.uniform3fv(p.uLightDirections, d.directionBuffer),
@@ -4682,6 +4685,7 @@ marmoset = {};
         e.uniformMatrix4fv(f.uShadowMatrices, !1, c.finalTransformBuffer),
         e.uniformMatrix4fv(f.uInvShadowMatrices, !1, c.inverseTransformBuffer),
         e.uniform4fv(f.uShadowTexelPadProjections, c.shadowTexelPadProjections),
+		
         d.bindDepthTexture(g.tDepth0, 0),
         d.bindDepthTexture(g.tDepth1, 1),
         d.bindDepthTexture(g.tDepth2, 2)));
@@ -4697,7 +4701,8 @@ marmoset = {};
         e.disableVertexAttribArray(c);
         e.bindBuffer(e.ARRAY_BUFFER, null);
         e.disable(e.BLEND);
-        e.depthMask(!0)
+        e.depthMask(!0);
+	
     }
     ;
     ShadowFloor.prototype.complete = function() {

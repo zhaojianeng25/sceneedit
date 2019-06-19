@@ -112,23 +112,47 @@ highp vec2 c=hA*uShadowMapSize.x;highp vec2 a=floor(c)*uShadowMapSize.y,b=ceil(c
 #else
 highp float G=hJ(texture2D(hL,hA.xy).xyz);return SHADOW_COMPARE(H,G);
 #endif
-}highp float hN(sampler2D hL,highp vec3 hA,float hO){highp vec2 l=uShadowKernelRotation*hO;float s;s=hK(hL,hA.xy+l,hA.z);s+=hK(hL,hA.xy-l,hA.z);s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);s*=0.25;return s*s;}struct ev{float eL[LIGHT_COUNT];};void eB(out ev ss,float hO){highp vec3 hP[SHADOW_COUNT];vec3 hu=gl_FrontFacing?dC:-dC;for(int k=0;k<SHADOW_COUNT;++k){vec4 hQ=uShadowTexelPadProjections[k];float hR=hQ.x*dv.x+(hQ.y*dv.y+(hQ.z*dv.z+hQ.w));
-#ifdef MOBILE
-hR*=.001+hO;
-#else
-hR*=.0005+0.5*hO;
-#endif
-highp vec4 hS=h(uShadowMatrices[k],dv+hR*hu);hP[k]=hS.xyz/hS.w;}float m;
-#if SHADOW_COUNT > 0
-m=hN(tDepth0,hP[0],hO);ss.eL[0]=SHADOW_CLIP(hP[0].xy,m);
-#endif
-#if SHADOW_COUNT > 1
-m=hN(tDepth1,hP[1],hO);ss.eL[1]=SHADOW_CLIP(hP[1].xy,m);
-#endif
-#if SHADOW_COUNT > 2
-m=hN(tDepth2,hP[2],hO);ss.eL[2]=SHADOW_CLIP(hP[2].xy,m);
-#endif
-for(int k=SHADOW_COUNT;k<LIGHT_COUNT;++k){ss.eL[k]=1.0;}}struct eD{highp float eE[LIGHT_COUNT];};
+}
+highp float hN(sampler2D hL,highp vec3 hA,float hO){
+highp vec2 l=uShadowKernelRotation*hO;float s;
+s=hK(hL,hA.xy+l,hA.z);s+=hK(hL,hA.xy-l,hA.z);
+s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
+s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
+s*=0.25;return s*s;
+}
+struct ev{
+float eL[LIGHT_COUNT];
+};
+void eB(out ev ss,float hO){
+	highp vec3 hP[SHADOW_COUNT];
+	vec3 hu=gl_FrontFacing?dC:-dC;
+	for(int k=0;k<SHADOW_COUNT;++k){
+		vec4 hQ=uShadowTexelPadProjections[k];
+		float hR=hQ.x*dv.x+(hQ.y*dv.y+(hQ.z*dv.z+hQ.w));
+		#ifdef MOBILE
+			hR*=.001+hO;
+		#else
+			hR*=.0005+0.5*hO;
+		#endif
+		highp vec4 hS=h(uShadowMatrices[k],dv+hR*hu);
+		hP[k]=hS.xyz/hS.w;
+	}
+	float m;
+	#if SHADOW_COUNT > 0
+		m=hN(tDepth0,hP[0],hO);
+		ss.eL[0]=SHADOW_CLIP(hP[0].xy,m);
+	#endif
+	#if SHADOW_COUNT > 1
+		m=hN(tDepth1,hP[1],hO);
+		ss.eL[1]=SHADOW_CLIP(hP[1].xy,m);
+	#endif
+	#if SHADOW_COUNT > 2
+		m=hN(tDepth2,hP[2],hO);
+		ss.eL[2]=SHADOW_CLIP(hP[2].xy,m);
+	#endif
+ 
+}
+struct eD{highp float eE[LIGHT_COUNT];};
 #ifdef MOBILE
 void eG(out eD ss,float hO){for(int k=0;k<LIGHT_COUNT;++k){ss.eE[k]=1.0;}}
 #else
@@ -326,57 +350,42 @@ eo*=eo;
 float eu=eo*(1.0/(8.0*3.1415926))+(4.0/(8.0*3.1415926));
 eu=min(eu,1.0e3);
 
- outcolor=vec4(eu,eu,eu,1.0); //默认
+ //outcolor=vec4(eu,eu,eu,1.0); //默认
  
-#ifdef SHADOW_COUNT
+ 
 ev eA;
-//outcolor=vec4(1.0,0.0,0.0,1.0); //默认
-#ifdef SKIN
-#ifdef SKIN_VERSION_1
-eB(eA,SHADOW_KERNEL+SHADOW_KERNEL*dY.eC);
-#else
-eD eE;float eF=SHADOW_KERNEL+SHADOW_KERNEL*dY.eC;eG(eE,eF);eB(eA,eF);
-#endif
-#else
 eB(eA,SHADOW_KERNEL);
-#endif
-#endif
+
 #ifdef ANISO
-eu*=uAnisoIntegral;
+ 
 #endif
-for(int k=0;k<LIGHT_COUNT;++k){vec3 eH=uLightPositions[k].xyz-dv*uLightPositions[k].w;float eI=inversesqrt(dot(eH,eH));eH*=eI;float a=saturate(uLightParams[k].z/eI);a=1.0+a*(uLightParams[k].x+uLightParams[k].y*a);float s=saturate(dot(eH,uLightDirections[k]));s=saturate(uLightSpot[k].y-uLightSpot[k].z*(1.0-s*s));vec3 eJ=(a*s)*uLightColors[k].xyz;
-#if defined(SKIN)
-#ifdef SHADOW_COUNT
-#ifdef SKIN_VERSION_1
-eK(dY,eA.eL[k],1.0,eH,dI,eJ);
-#else
-eK(dY,eA.eL[k],eE.eE[k],eH,dI,eJ);
-#endif
-#else
-eK(dY,1.0,0.0,eH,dI,eJ);
-#endif
-#elif defined(MICROFIBER)
-#ifdef SHADOW_COUNT
-eM(ee,eA.eL[k],eH,dI,eJ);
-#else
-eM(ee,1.0,eH,dI,eJ);
-#endif
-#else
-float eN=saturate((1.0/3.1415926)*dot(eH,dI));
-#ifdef SHADOW_COUNT
-eN*=eA.eL[k];
-#endif
-ei+=eN*eJ;
-#endif
-vec3 eO=eH+dO;
-#ifdef ANISO
-eO=eO-(dN*dot(eO,dK));
-#endif
-eO=normalize(eO);float eP=eu*pow(saturate(dot(eO,dI)),eo);
-#ifdef SHADOW_COUNT
-eP*=eA.eL[k];
-#endif
-el+=eP*eJ;}
+
+for(int k=0;k<LIGHT_COUNT;++k){
+	vec3 eH=uLightPositions[k].xyz-dv*uLightPositions[k].w;
+	float eI=inversesqrt(dot(eH,eH));
+	eH*=eI;float a=saturate(uLightParams[k].z/eI);
+	a=1.0+a*(uLightParams[k].x+uLightParams[k].y*a);
+	float s=saturate(dot(eH,uLightDirections[k]));
+	s=saturate(uLightSpot[k].y-uLightSpot[k].z*(1.0-s*s));
+	vec3 eJ=(a*s)*uLightColors[k].xyz;
+ 
+ 
+		float eN=saturate((1.0/3.1415926)*dot(eH,dI));
+		eN*=eA.eL[k];
+		ei+=eN*eJ;
+		
+	vec3 eO=eH+dO;
+ 
+	eO=normalize(eO);
+	float eP=eu*pow(saturate(dot(eO,dI)),eo);
+	
+	eP*=eA.eL[k];
+	
+	el+=eP*eJ;
+}
+	  outcolor=vec4(el.xyz,1.0); //默认
+	
+	
 #endif
 #if defined(SKIN)
 vec3 ei,diff_extra;eQ(ei,diff_extra,dY,dO,dI,dQ);

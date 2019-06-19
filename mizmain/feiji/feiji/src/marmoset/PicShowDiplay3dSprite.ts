@@ -90,7 +90,8 @@ module mars3D {
         getFragmentShaderString(): string {
             var $str: string =
                 "#define SAMPLE_COUNT 21.0;\n" +
-
+                "#define LIGHT_COUNT 3\n" +
+                "#define SHADOW_KERNEL (4.0/1536.0)\n" +
 
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
@@ -109,45 +110,47 @@ module mars3D {
                 "uniform vec4 uDiffuseCoefficients[9];" +
                 "uniform float uHorizonOcclude;" +
 
+                "struct ev{" +
+                   "float eL[LIGHT_COUNT];" +
+                "};" +
 
                 "vec3 dG(vec3 c){return c*c;}" +
 
                 "vec3 dJ(vec3 n) {" +
-                "vec3 hn = dA;" +
-                "vec3 ho = dB;" +
-                "vec3 hu = dC;" +
-                "n = 2.0 * n - vec3(1.0);" +
-                "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
+                    "vec3 hn = dA;" +
+                    "vec3 ho = dB;" +
+                    "vec3 hu = dC;" +
+                    "n = 2.0 * n - vec3(1.0);" +
+                    "return normalize(hn * n.x + ho * n.y + hu * n.z);" +
                 "}" +
 
 
                 "vec3 ej(vec3 fJ) {" +
-                "\n#define c(n) uDiffuseCoefficients[n].xyz\n" +
-                "vec3 G=(c(0)+fJ.y*((c(1)+c(4)*fJ.x)+c(5)*fJ.z))+fJ.x*(c(3)+c(7)*fJ.z)+c(2)*fJ.z;" +
-                "\n#undef c\n" +
-
-                " return G.xyz;" +
+                    "\n#define c(n) uDiffuseCoefficients[n].xyz\n" +
+                    "vec3 G=(c(0)+fJ.y*((c(1)+c(4)*fJ.x)+c(5)*fJ.z))+fJ.x*(c(3)+c(7)*fJ.z)+c(2)*fJ.z;" +
+                    "\n#undef c\n" +
+                    " return G.xyz;" +
                 " }" +
 
                 " vec3 em(vec3 fJ, float dQ) {" +
-                " fJ /= dot(vec3(1.0), abs(fJ));" +
-                "vec2 fU = abs(fJ.zx) - vec2(1.0, 1.0);" +
-                "vec2 fV = vec2(fJ.x < 0.0 ? fU.x : -fU.x, fJ.z < 0.0 ? fU.y : -fU.y);" +
-                "vec2 fW = (fJ.y < 0.0) ? fV : fJ.xz;" +
-                "fW = vec2(0.5 * (254.0 / 256.0), 0.125 * 0.5 * (254.0 / 256.0)) * fW + vec2(0.5, 0.125 * 0.5);" +
-                "float fX = fract(7.0 * dQ);" +
-                "fW.y += 0.125 * (7.0 * dQ - fX); vec2 fY = fW + vec2(0.0, 0.125);" +
-                "vec4 fZ = mix(texture2D(tSkySpecular, fW), texture2D(tSkySpecular, fY), fX);" +
-                "vec3 r = fZ.xyz * (7.0 * fZ.w);" +
-                "return r * r; " +
+                    " fJ /= dot(vec3(1.0), abs(fJ));" +
+                    "vec2 fU = abs(fJ.zx) - vec2(1.0, 1.0);" +
+                    "vec2 fV = vec2(fJ.x < 0.0 ? fU.x : -fU.x, fJ.z < 0.0 ? fU.y : -fU.y);" +
+                    "vec2 fW = (fJ.y < 0.0) ? fV : fJ.xz;" +
+                    "fW = vec2(0.5 * (254.0 / 256.0), 0.125 * 0.5 * (254.0 / 256.0)) * fW + vec2(0.5, 0.125 * 0.5);" +
+                    "float fX = fract(7.0 * dQ);" +
+                    "fW.y += 0.125 * (7.0 * dQ - fX); vec2 fY = fW + vec2(0.0, 0.125);" +
+                    "vec4 fZ = mix(texture2D(tSkySpecular, fW), texture2D(tSkySpecular, fY), fX);" +
+                    "vec3 r = fZ.xyz * (7.0 * fZ.w);" +
+                    "return r * r; " +
 
                 " }" +
 
                 "float en(vec3 fJ,vec3 hc){" +
-                "float hd = dot(fJ, hc);" +
-                "hd =  1.0 + uHorizonOcclude * hd;" +
-                "hd = clamp(hd, 0.0, 1.0 );" +
-                "return hd * hd;" +
+                    "float hd = dot(fJ, hc);" +
+                    "hd =  1.0 + uHorizonOcclude * hd;" +
+                    "hd = clamp(hd, 0.0, 1.0 );" +
+                    "return hd * hd;" +
 
                 "}" +
 
@@ -178,6 +181,8 @@ module mars3D {
                 "eo *= eo;" +
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
+
+                "ev eA;"+
 
 
                 "gl_FragColor =vec4(eu,eu,eu,1.0); " +
