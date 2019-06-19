@@ -196,6 +196,24 @@ var mars3D;
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
                 "ev eA; \n" +
+                "for (int k = 0; k < LIGHT_COUNT; ++k) {\n" +
+                //  "vec3 eH = uLightPositions[k].xyz - dv * uLightPositions[k].w;\n" +
+                //float eI = inversesqrt(dot(eH, eH));
+                //eH *= eI;
+                //float a = saturate(uLightParams[k].z / eI);
+                //a = 1.0 + a * (uLightParams[k].x + uLightParams[k].y * a);
+                //float s = saturate(dot(eH, uLightDirections[k]));
+                //s = saturate(uLightSpot[k].y - uLightSpot[k].z * (1.0 - s * s));
+                //vec3 eJ = (a * s) * uLightColors[k].xyz;
+                //float eN = saturate((1.0 / 3.1415926) * dot(eH, dI));
+                //eN *= eA.eL[k];
+                //ei += eN * eJ;
+                //vec3 eO = eH + dO;
+                //eO = normalize(eO);
+                //float eP = eu * pow(saturate(dot(eO, dI)), eo);
+                //eP *= eA.eL[k];
+                //el += eP * eJ;
+                "}\n" +
                 "gl_FragColor =vec4(el.xyz,1.0); " +
                 "}";
             return $str;
