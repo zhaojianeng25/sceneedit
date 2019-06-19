@@ -47,13 +47,15 @@ var mars3D;
         */
         Mars3Dmesh.prototype.setReflectRgbAlphaUrl = function (rgbUrl, alphaUrl) {
             var _this = this;
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + rgbUrl + ".jpg", LoadManager.IMG_TYPE, function (rgbImg) {
-                LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + alphaUrl + ".jpg", LoadManager.IMG_TYPE, function (alphaImg) {
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + rgbUrl + ".jpg", LoadManager.IMG_TYPE, function (rgbImg) {
+                LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + alphaUrl + ".jpg", LoadManager.IMG_TYPE, function (alphaImg) {
                     _this.fromFilesMergeAlpha(rgbImg, alphaImg);
                 });
             });
         };
         Mars3Dmesh.prototype.fromFilesMergeAlpha = function (img, alphaImg) {
+            console.log(img, alphaImg);
+            var gl = Scene_data.context3D.renderContext;
             var ctx = UIManager.getInstance().getContext2D(img.width, img.height);
             ctx.drawImage(img, 0, 0);
             var imgData = ctx.getImageData(0, 0, img.width, img.height);
@@ -65,6 +67,7 @@ var mars3D;
                 imgData.data[i + 3] = alphaImgdata.data[i];
             }
             this.tReflectivity = new Pan3d.TextureRes();
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
             this.tReflectivity.texture = Scene_data.context3D.getTexture(imgData);
         };
         Mars3Dmesh.prototype.meshVect = function (value, stride) {

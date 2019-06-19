@@ -41,17 +41,18 @@
         */
 
 
-        public setReflectRgbAlphaUrl(rgbUrl: string,alphaUrl): void {
-            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + rgbUrl + ".jpg", LoadManager.IMG_TYPE,
+        public setReflectRgbAlphaUrl(rgbUrl: string, alphaUrl: string): void {
+            LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + rgbUrl + ".jpg", LoadManager.IMG_TYPE,
                 (rgbImg: any) => {
-                    LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/picopy/" + alphaUrl + ".jpg", LoadManager.IMG_TYPE,
+                    LoadManager.getInstance().load(Scene_data.fileuiRoot + "pan/marmoset/feiji/pic/" + alphaUrl + ".jpg", LoadManager.IMG_TYPE,
                         (alphaImg: any) => {
                             this.fromFilesMergeAlpha(rgbImg, alphaImg)
                         });
                 });
         }
         private fromFilesMergeAlpha(img, alphaImg): void {
-
+            console.log(img, alphaImg)
+            var gl = Scene_data.context3D.renderContext
             var ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(img.width, img.height);
             ctx.drawImage(img, 0, 0);
             var imgData: ImageData = ctx.getImageData(0, 0, img.width, img.height);
@@ -63,6 +64,7 @@
                 imgData.data[i + 3] = alphaImgdata.data[i];
             }
             this.tReflectivity = new Pan3d.TextureRes();
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
             this.tReflectivity.texture = Scene_data.context3D.getTexture(imgData)
  
         }
@@ -117,9 +119,7 @@
                 this.objData.vertices.push(chang32[id + 1]);
                 this.objData.vertices.push(chang32[id + 2]);
             }
-
-
-
+ 
             this.objData.vertexBuffer = Scene_data.context3D.uploadBuff3D(this.objData.vertices);
 
 

@@ -315,7 +315,9 @@ module mars3D {
                 var vo: Mars3Dmesh = MarmosetModel.meshItem[i]
                 vo.setAlbedoUrl(albedArr[i])
                 vo.setNormalUrl(nrmArr[i])
-                vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i])
+               vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i])
+
+              // vo.setReflectRgbAlphaUrl("mat0_r","mat0_g")
             }
             this.isFinish = true
         }

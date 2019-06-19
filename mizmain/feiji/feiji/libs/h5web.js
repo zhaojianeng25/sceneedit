@@ -4174,6 +4174,15 @@ var Pan3d;
             _Cam.cameraMatrix.prependRotation(_Cam.rotationY, Pan3d.Vector3D.Y_AXIS);
             _Cam.cameraMatrix.prependTranslation(-_Cam.x + _Cam.offset.x, -_Cam.y + _Cam.offset.y, -_Cam.z + _Cam.offset.z);
         };
+        MathUtil.prototype.getCamData = function (tempMatrix3D) {
+            var $Minvert = tempMatrix3D.clone();
+            $Minvert.invert();
+            var $motherAct = new Pan3d.Object3D;
+            $motherAct.x = -$Minvert.position.x;
+            $motherAct.y = -$Minvert.position.y;
+            $motherAct.z = -$Minvert.position.z;
+            return $motherAct;
+        };
         return MathUtil;
     }());
     Pan3d.MathUtil = MathUtil;
@@ -22906,7 +22915,7 @@ var Pan3d;
         function LoadManager() {
             this._loadThreadList = new Array;
             this._waitLoadList = new Array;
-            for (var i = 0; i < 100; i++) {
+            for (var i = 0; i < 10; i++) {
                 this._loadThreadList.push(new LoaderThread());
             }
         }
@@ -23011,10 +23020,10 @@ var Pan3d;
             }
         };
         LoaderThread.prototype.loadError = function () {
-            this.idle = true;
             if (this._loadInfo.info && this._loadInfo.info.errorFun) {
                 this._loadInfo.info.errorFun();
             }
+            this.idle = true;
             this._loadInfo = null;
             LoadManager.getInstance().loadWaitList();
         };
@@ -40076,7 +40085,9 @@ var pack;
                 for (var i = 0; value.prefixes && i < value.prefixes.length; i++) {
                     var fileVo = new FileVo();
                     fileVo.meshStr(value.prefixes[i]);
-                    fileArr.push(fileVo);
+                    if (fileVo.name != "hide_min_icon") { //不是隐藏文件夹
+                        fileArr.push(fileVo);
+                    }
                 }
                 for (var j = 0; value.objects && j < value.objects.length; j++) {
                     var fileVo = FileVo.meshObj(value.objects[j]);
@@ -53012,7 +53023,7 @@ var filelist;
                 switch (fileVo.suffix) {
                     case FileVo.JPG:
                     case FileVo.PNG:
-                        LoadManager.getInstance().load(Scene_data.ossRoot + fileVo.path, LoadManager.IMG_TYPE, function ($img) {
+                        maineditor.EditorModel.getInstance().loadHideMixImg(Scene_data.ossRoot + fileVo.path, function ($img) {
                             _this.drawFileIconName($img, fileVo.name, $color);
                         });
                         break;
@@ -60296,6 +60307,7 @@ var maineditor;
         __extends(SceneProjectVo, _super);
         function SceneProjectVo(value) {
             var _this = _super.call(this) || this;
+            _this.scenescale = 1;
             _this.meshObj(value);
             return _this;
         }
@@ -60319,6 +60331,7 @@ var maineditor;
                 this.textureurl = this.material.url;
             }
             obj.paramInfo = this.paramInfo;
+            obj.scenescale = this.scenescale;
             obj.textureurl = this.textureurl;
             obj.gildline = this.gildline;
             return obj;
@@ -61050,15 +61063,29 @@ var maineditor;
                 { Type: ReflectionData.ComboBox, Label: "坐标网格:", FunKey: "gridline", target: this, Category: "属性", Data: [{ name: "false", type: 0 }, { name: "true", type: 1 }] },
                 { Type: ReflectionData.Vec3, Label: "坐标:", FunKey: "campos", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.Vec3, Label: "角度:", FunKey: "camrotation", target: this, Step: 1, Category: "镜头" },
+                { Type: ReflectionData.NumberInput, Label: "比例:", FunKey: "scenescale", target: this, Step: 1, Category: "镜头" },
                 { Type: ReflectionData.MaterialPicUi, Label: "纹理:", FunKey: "texture", changFun: function (value) { _this.textureChangeInfo(value); }, target: this, Suffix: "material", Category: "后期" },
             ];
             return ary;
         };
+        Object.defineProperty(ScenePojectMeshView.prototype, "scenescale", {
+            get: function () {
+                return this.sceneProjectVo.scenescale;
+            },
+            set: function (value) {
+                this.sceneProjectVo.scenescale = value;
+                ScenePojectMeshView.gridLineSprite.scale = this.sceneProjectVo.scenescale;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ScenePojectMeshView.prototype, "gridline", {
             get: function () {
                 if (!ScenePojectMeshView.gridLineSprite) {
                     ScenePojectMeshView.gridLineSprite = new Pan3d.GridLineSprite();
+                    ScenePojectMeshView.gridLineSprite.scale = this.sceneProjectVo.scenescale;
                 }
+                ScenePojectMeshView.gridLineSprite.scale = 0.5;
                 if (this.sceneProjectVo.gildline) {
                     maineditor.MainEditorProcessor.edItorSceneManager.addDisplay(ScenePojectMeshView.gridLineSprite, 0);
                 }
@@ -62254,6 +62281,51 @@ var maineditor;
                 this._instance = new EditorModel();
             }
             return this._instance;
+        };
+        EditorModel.prototype.loadHideMixImg = function ($url, $fun) {
+            var _this = this;
+            var mixUrl = $url.replace(Pan3d.Scene_data.fileRoot, Pan3d.Scene_data.fileRoot + "hide_min_icon/");
+            Pan3d.LoadManager.getInstance().load(mixUrl, Pan3d.LoadManager.IMG_TYPE, function ($img) {
+                $fun($img);
+            }, { errorFun: function () { _this.makeMixPicByUrl($url, mixUrl, $fun); } });
+        };
+        EditorModel.prototype.convertCanvasToImage = function (canvas) {
+            var image = new Image();
+            image.src = canvas.toDataURL("image/png");
+            return image;
+        };
+        EditorModel.prototype.makeMixPicByUrl = function (baseUrl, toUrl, bfun) {
+            var _this = this;
+            console.log("没有小图，需要重置", baseUrl);
+            Pan3d.LoadManager.getInstance().load(baseUrl, Pan3d.LoadManager.IMG_TYPE, function (downImg) {
+                bfun(downImg);
+                var ctx = Pan3d.UIManager.getInstance().getContext2D(128, 128, false);
+                var rect = new Pan3d.Rectangle();
+                rect.width = Math.min(128, downImg.width);
+                rect.height = Math.min(128, downImg.height);
+                rect.x = (128 - rect.width) / 2;
+                rect.y = (128 - rect.height) / 2;
+                ctx.drawImage(downImg, rect.x, rect.y, rect.width, rect.height);
+                var imageData = ctx.getImageData(0, 0, 128, 128);
+                var tempCanvas = document.createElement("CANVAS");
+                tempCanvas.width = 128;
+                tempCanvas.height = 128;
+                tempCanvas.getContext('2d').putImageData(imageData, 0, 0);
+                var upImg = _this.convertCanvasToImage(tempCanvas);
+                var $upfile = _this.dataURLtoFile(upImg.src, "333.jpg");
+                toUrl = toUrl.replace(Pan3d.Scene_data.ossRoot, "");
+                pack.FileOssModel.upOssFile($upfile, toUrl, function (value) {
+                    console.log("更新完成", toUrl);
+                });
+            });
+        };
+        EditorModel.prototype.dataURLtoFile = function (dataurl, filename) {
+            var arr = dataurl.split(',');
+            var mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
         };
         EditorModel.prototype.openFileByUrl = function (fileUrl) {
             if (fileUrl.indexOf(".map") != -1) {
