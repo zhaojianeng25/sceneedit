@@ -89,9 +89,11 @@ module mars3D {
         }
         getFragmentShaderString(): string {
             var $str: string =
-                "#define SAMPLE_COUNT 21.0\n" +
-                "#define LIGHT_COUNT 3 \n" +
-                "#define SHADOW_COUNT 3 \n" +
+                "#define UV_OFFSET\n" +
+                "#define SHADOW_NATIVE_DEPTH\n" +
+                "#define NOBLEND\n" +
+                "#define SHADOW_COUNT 3\n" +
+                "#define LIGHT_COUNT 3\n" +
                 "#define SHADOW_KERNEL (4.0/1536.0)\n" +
 
                 "#extension GL_OES_standard_derivatives : enable\n" +
@@ -114,7 +116,9 @@ module mars3D {
                 "uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];" +
                 "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];"+
                 "uniform float uHorizonOcclude;" +
-                "uniform highp vec2 uShadowKernelRotation;"+
+                "uniform highp vec2 uShadowKernelRotation;" +
+
+                "\n#define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)\n"+
 
                 "struct ev{" +
                    "float eL[LIGHT_COUNT];" +
@@ -124,9 +128,18 @@ module mars3D {
                       "return i[0] * p.x + (i[1] * p.y + (i[2] * p.z + i[3]));" +
                 " } " +
 
+                "highp float hJ(highp vec3 G) {\n" +
+                      "return G.x;\n" +
+                "}\n" +
+
+                "float hK(sampler2D hL, highp vec2 hA, highp float H) {" +
+                    "highp float G = hJ(texture2D(hL, hA.xy).xyz);" +
+                    "return SHADOW_COMPARE(H,G);" +
+                "}" +
+
                 "highp float hN(sampler2D hL, highp vec3 hA, float hO) {\n" +
-                    //"highp vec2 l = uShadowKernelRotation * hO;\n" +
-                    //"float s;\n" +
+                     "highp vec2 l = uShadowKernelRotation * hO;\n" +
+                    "float s;\n" +
                     //"s = hK(hL, hA.xy + l, hA.z);\n" +
                     //"s += hK(hL, hA.xy - l, hA.z);\n" +
                     //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +

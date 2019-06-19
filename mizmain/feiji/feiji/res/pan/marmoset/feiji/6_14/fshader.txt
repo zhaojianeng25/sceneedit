@@ -94,24 +94,17 @@ uniform highp vec2 uShadowKernelRotation;uniform highp vec2 uShadowMapSize;unifo
 uniform highp mat4 uInvShadowMatrices[SHADOW_COUNT];
 #endif
 highp float hJ(highp vec3 G){
-#ifdef SHADOW_NATIVE_DEPTH
 return G.x;
-#else
-return(G.x+G.y*(1.0/255.0))+G.z*(1.0/65025.0);
-#endif
 }
-#ifndef SHADOW_COMPARE
+ 
 #define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)
-#endif
+ 
 #ifndef SHADOW_CLIP
 #define SHADOW_CLIP(c,v) v
 #endif
 float hK(sampler2D hL,highp vec2 hA,highp float H){
-#ifndef MOBILE
-highp vec2 c=hA*uShadowMapSize.x;highp vec2 a=floor(c)*uShadowMapSize.y,b=ceil(c)*uShadowMapSize.y;highp vec4 eE;eE.x=hJ(texture2D(hL,a).xyz);eE.y=hJ(texture2D(hL,vec2(b.x,a.y)).xyz);eE.z=hJ(texture2D(hL,vec2(a.x,b.y)).xyz);eE.w=hJ(texture2D(hL,b).xyz);highp vec4 hM;hM.x=SHADOW_COMPARE(H,eE.x);hM.y=SHADOW_COMPARE(H,eE.y);hM.z=SHADOW_COMPARE(H,eE.z);hM.w=SHADOW_COMPARE(H,eE.w);highp vec2 w=c-a*uShadowMapSize.x;vec2 s=(w.y*hM.zw+hM.xy)-w.y*hM.xy;return(w.x*s.y+s.x)-w.x*s.x;
-#else
-highp float G=hJ(texture2D(hL,hA.xy).xyz);return SHADOW_COMPARE(H,G);
-#endif
+	highp float G=hJ(texture2D(hL,hA.xy).xyz);
+	return SHADOW_COMPARE(H,G);
 }
 highp float hN(sampler2D hL,highp vec3 hA,float hO){
 	highp vec2 l=uShadowKernelRotation*hO;
@@ -382,13 +375,13 @@ for(int k=0;k<LIGHT_COUNT;++k){
 	
 	eP*=eA.eL[k];
 	
-	//el+=eP*eJ;
+	el+=eP*eJ;
 }
 #ifdef SHADOW_COUNT 
  
 #endif
 
-	  outcolor=vec4(el.xyz,1.0); //默认
+	//  outcolor=vec4(el.xyz,1.0); //默认
 	
 	
 #endif

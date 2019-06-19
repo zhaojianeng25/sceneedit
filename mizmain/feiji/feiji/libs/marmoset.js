@@ -2551,7 +2551,8 @@ marmoset = {};
         m.uniform3fv(p.uLightSpot, d.spot),
 		
         u = 0.392699 * a.postRender.currentSample(),
-        m.uniform2f(p.uShadowKernelRotation, 0.7853,0.7853),
+      //  m.uniform2f(p.uShadowKernelRotation, 0.7853,0.7853),
+		  m.uniform2f(p.uShadowKernelRotation, u,u),
 		
         0 < d.shadowCount && (u = f.depthTextures[0].desc.width,
         m.uniform2f(p.uShadowMapSize, u, 1 / u),
@@ -4667,47 +4668,7 @@ marmoset = {};
         a.bindBuffer(a.ARRAY_BUFFER, null)
     }
     ShadowFloor.prototype.draw = function(a) {
-        var b = a.view
-          , c = a.lights
-          , d = a.shadow
-          , e = this.gl
-          , f = this.shader.params
-          , g = this.shader.samplers;
-        this.shader.bind();
-        b = Matrix.mul(Matrix.empty(), b.projectionMatrix, b.viewMatrix);
-        Matrix.mul(b, b, this.desc.transform);
-        e.uniformMatrix4fv(f.uModelViewProjectionMatrix, !1, b);
-        b = Matrix.mul(Matrix.empty(), c.matrix, this.desc.transform);
-        e.uniformMatrix4fv(f.uModelSkyMatrix, !1, b);
-        0 < c.count && (e.uniform4fv(f.uLightPositions, c.positionBuffer),
-        e.uniform3fv(f.uLightDirections, c.directionBuffer),
-        e.uniform3fv(f.uLightColors, c.colors),
-        e.uniform3fv(f.uLightParams, c.parameters),
-        e.uniform3fv(f.uLightSpot, c.spot),
-        a = 0.392699 * a.postRender.currentSample(),
-        e.uniform2f(f.uShadowKernelRotation, 0.5 * Math.cos(a), 0.5 * Math.sin(a)),
-        0 < c.shadowCount && (a = d.depthTextures[0].desc.width,
-        e.uniform2f(f.uShadowMapSize, a, 1 / a),
-        e.uniformMatrix4fv(f.uShadowMatrices, !1, c.finalTransformBuffer),
-        e.uniformMatrix4fv(f.uInvShadowMatrices, !1, c.inverseTransformBuffer),
-        e.uniform4fv(f.uShadowTexelPadProjections, c.shadowTexelPadProjections),
-		
-        d.bindDepthTexture(g.tDepth0, 0),
-        d.bindDepthTexture(g.tDepth1, 1),
-        d.bindDepthTexture(g.tDepth2, 2)));
-        e.uniform3f(f.uShadowCatcherParams, this.desc.simple ? 1 : 0, this.desc.alpha, this.desc.edgeFade);
-        e.depthMask(!1);
-        e.enable(e.BLEND);
-        e.blendFunc(e.ZERO, e.SRC_COLOR);
-        c = this.shader.attribs.vPosition;
-        e.bindBuffer(e.ARRAY_BUFFER, this.quadGeom);
-        e.enableVertexAttribArray(c);
-        e.vertexAttribPointer(c, 3, e.FLOAT, !1, 0, 0);
-        e.drawArrays(e.TRIANGLES, 0, 6);
-        e.disableVertexAttribArray(c);
-        e.bindBuffer(e.ARRAY_BUFFER, null);
-        e.disable(e.BLEND);
-        e.depthMask(!0);
+        
 	
     }
     ;
