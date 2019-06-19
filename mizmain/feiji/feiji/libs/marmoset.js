@@ -2536,18 +2536,23 @@ marmoset = {};
         m.uniform1f(p.uHorizonSmoothing, this.horizonSmoothing);
         m.uniform4fv(p.uDiffuseCoefficients, e.diffuseCoefficients);
 		
-		window["uDiffuseCoefficients"]=e.diffuseCoefficients
+		window["uDiffuseCoefficients"]=e.diffuseCoefficients;
 		
-			//console.log(d.shadowTexelPadProjections);
-			//console.log(d.uShadowMatrices);
+		window["uShadowMatrices"]=d.finalTransformBuffer;
+		
+		window["uShadowTexelPadProjections"]=d.shadowTexelPadProjections;
+		
+		window["uShadowKernelRotation"]=[0.392699 * a.postRender.currentSample(), 0.392699 * a.postRender.currentSample()];
 			
         0 < d.count && (m.uniform4fv(p.uLightPositions, d.positionBuffer),
         m.uniform3fv(p.uLightDirections, d.directionBuffer),
         m.uniform3fv(p.uLightColors, d.colors),
         m.uniform3fv(p.uLightParams, d.parameters),
         m.uniform3fv(p.uLightSpot, d.spot),
+		
         u = 0.392699 * a.postRender.currentSample(),
-        m.uniform2f(p.uShadowKernelRotation, 0.5 * Math.cos(u), 0.5 * Math.sin(u)),
+        m.uniform2f(p.uShadowKernelRotation, 0.7853,0.7853),
+		
         0 < d.shadowCount && (u = f.depthTextures[0].desc.width,
         m.uniform2f(p.uShadowMapSize, u, 1 / u),
         m.uniformMatrix4fv(p.uShadowMatrices, !1, d.finalTransformBuffer),
@@ -2597,6 +2602,7 @@ marmoset = {};
         r.normal.bind(s.tNormal);
         r.extras.bind(s.tExtras);
         e.specularTexture.bind(s.tSkySpecular);
+		 
 		 
 
         g === this.stripShader && (m.uniform1fv(p.uStrips, a.stripData.strips),

@@ -89,10 +89,13 @@ module mars3D {
         }
         getFragmentShaderString(): string {
             var $str: string =
-                "#define SAMPLE_COUNT 21.0;\n" +
-                "#define LIGHT_COUNT 3\n" +
+                "#define SAMPLE_COUNT 21.0\n" +
+                "#define LIGHT_COUNT 3 \n" +
+                "#define SHADOW_COUNT 3 \n" +
                 "#define SHADOW_KERNEL (4.0/1536.0)\n" +
 
+                "#extension GL_OES_standard_derivatives : enable\n" +
+     
                 "precision mediump float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
@@ -108,11 +111,57 @@ module mars3D {
 
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];" +
+                "uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];" +
+                "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];"+
                 "uniform float uHorizonOcclude;" +
+                "uniform highp vec2 uShadowKernelRotation;"+
 
                 "struct ev{" +
                    "float eL[LIGHT_COUNT];" +
                 "};" +
+
+                "highp vec4 h(highp mat4 i,highp vec3 p){" +
+                      "return i[0] * p.x + (i[1] * p.y + (i[2] * p.z + i[3]));" +
+                " } " +
+
+                "highp float hN(sampler2D hL, highp vec3 hA, float hO) {\n" +
+                    //"highp vec2 l = uShadowKernelRotation * hO;\n" +
+                    //"float s;\n" +
+                    //"s = hK(hL, hA.xy + l, hA.z);\n" +
+                    //"s += hK(hL, hA.xy - l, hA.z);\n" +
+                    //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
+                    //"s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
+                    //"s *= 0.25;\n" +
+                    //"return s * s;\n" +
+                    "return  0.25;\n" +
+
+                "}\n" +
+
+                "void eB(out ev ss, float hO){" +
+                    "highp vec3 hP[SHADOW_COUNT];" +
+                    "vec3 hu = gl_FrontFacing ? dC : -dC;" +
+                    "for (int k = 0; k < SHADOW_COUNT; ++k) {" +
+                        "vec4 hQ = uShadowTexelPadProjections[k];" +
+                        "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
+                        "hR*=.0005+0.5 * hO;" +
+                        "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
+                        "hP[k] = hS.xyz / hS.w;" +
+                    "}" +
+                    "float m;\n" +
+                     "#if SHADOW_COUNT > 0 \n" +
+                          "m =1.0;\n" +
+                      //  "m = hN(tDepth0, hP[0], hO);" +
+                      //  "ss.eL[0] = SHADOW_CLIP(hP[0].xy, m);" +
+                     "#endif\n" +
+                    //"#if SHADOW_COUNT > 1" +
+                    //    "m = hN(tDepth1, hP[1], hO);" +
+                    //    "ss.eL[1] = SHADOW_CLIP(hP[1].xy, m);" +
+                    //"#endif" +
+                    //"#if SHADOW_COUNT > 2" +
+                    //    "m = hN(tDepth2, hP[2], hO);" +
+                    //    "ss.eL[2] = SHADOW_CLIP(hP[2].xy, m);" +
+                    //"#endif" +
+                "}" +
 
                 "vec3 dG(vec3 c){return c*c;}" +
 
@@ -182,10 +231,11 @@ module mars3D {
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
 
-                "ev eA;"+
+                "ev eA; \n" +
 
 
-                "gl_FragColor =vec4(eu,eu,eu,1.0); " +
+ 
+                "gl_FragColor =vec4(el.xyz,1.0); " +
 
 
                 "}"
@@ -271,12 +321,20 @@ module mars3D {
                     Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", window["tSkySpecular"], 3);
                 }
                 if (window["horizonOcclude"]) {
-
                     Scene_data.context3D.setVc1fv(this.shader, "uHorizonOcclude", [window["horizonOcclude"]]);
-
                 }
 
-
+                if (window["uShadowTexelPadProjections"]) {
+                    Scene_data.context3D.setVc4fv(this.shader, "uShadowTexelPadProjections", window["uShadowTexelPadProjections"]);
+                }
+                if (window["uShadowMatrices"]) {
+                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
+                }
+                if (window["uShadowKernelRotation"]) {
+                    Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
+                }
+                
+            
 
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setRenderTexture(this.shader, "tNormal", mesh.tNormal.texture, 1);

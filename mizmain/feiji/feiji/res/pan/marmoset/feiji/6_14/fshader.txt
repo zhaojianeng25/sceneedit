@@ -114,11 +114,14 @@ highp float G=hJ(texture2D(hL,hA.xy).xyz);return SHADOW_COMPARE(H,G);
 #endif
 }
 highp float hN(sampler2D hL,highp vec3 hA,float hO){
-highp vec2 l=uShadowKernelRotation*hO;float s;
-s=hK(hL,hA.xy+l,hA.z);s+=hK(hL,hA.xy-l,hA.z);
-s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
-s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
-s*=0.25;return s*s;
+	highp vec2 l=uShadowKernelRotation*hO;
+	float s;
+	s=hK(hL,hA.xy+l,hA.z);
+	s+=hK(hL,hA.xy-l,hA.z);
+	s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
+	s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
+	s*=0.25;
+	return s*s;
 }
 struct ev{
 float eL[LIGHT_COUNT];
@@ -355,15 +358,13 @@ eu=min(eu,1.0e3);
  
 ev eA;
 eB(eA,SHADOW_KERNEL);
-
-#ifdef ANISO
  
-#endif
 
 for(int k=0;k<LIGHT_COUNT;++k){
 	vec3 eH=uLightPositions[k].xyz-dv*uLightPositions[k].w;
 	float eI=inversesqrt(dot(eH,eH));
-	eH*=eI;float a=saturate(uLightParams[k].z/eI);
+	eH*=eI;
+	float a=saturate(uLightParams[k].z/eI);
 	a=1.0+a*(uLightParams[k].x+uLightParams[k].y*a);
 	float s=saturate(dot(eH,uLightDirections[k]));
 	s=saturate(uLightSpot[k].y-uLightSpot[k].z*(1.0-s*s));
@@ -381,8 +382,12 @@ for(int k=0;k<LIGHT_COUNT;++k){
 	
 	eP*=eA.eL[k];
 	
-	el+=eP*eJ;
+	//el+=eP*eJ;
 }
+#ifdef SHADOW_COUNT 
+ 
+#endif
+
 	  outcolor=vec4(el.xyz,1.0); //默认
 	
 	
