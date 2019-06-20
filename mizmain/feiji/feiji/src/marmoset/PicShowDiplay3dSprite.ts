@@ -368,6 +368,7 @@ module mars3D {
                 }
                 if (window["uShadowMatrices"]) {
                     Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
+ 
                 }
                 if (window["uShadowKernelRotation"]) {
                     Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
