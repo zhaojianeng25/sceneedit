@@ -257,17 +257,8 @@ var mars3D;
                 mesh.objData.bitangentBuffer = Scene_data.context3D.uploadBuff3D(mesh.objData.bitangents);
             }
         };
-        PicShowDiplay3dSprite.prototype.makeMarmosetLightVo = function () {
-            if (!this._marmosetLightVo) {
-                if (window["uShadowMatrices"]) {
-                    this._marmosetLightVo = new mars3D.MarmosetLightVo();
-                    console.log("创建一次");
-                }
-            }
-        };
         PicShowDiplay3dSprite.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
-                this.makeMarmosetLightVo();
                 this.makeTbnBuff(mesh);
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
@@ -349,8 +340,6 @@ var mars3D;
                     this.makeMeshItemTexture();
                 }
                 for (var i = 0; i < mars3D.MarmosetModel.meshItem.length; i++) {
-                    if (i == 2) {
-                    }
                     this.drawTempMesh(mars3D.MarmosetModel.meshItem[i]);
                 }
             }

@@ -143,13 +143,23 @@ module mars3D {
 
             }
         }
+        private _marmosetLightVo: MarmosetLightVo
+     
+        public upDataLightShadow(): void {
+            if (!this._marmosetLightVo) {
+                if (window["uShadowMatrices"]) {
+                    this._marmosetLightVo = new MarmosetLightVo();
+                }
+            } else {
+                this._marmosetLightVo.update(MarmosetModel.meshItem);
+            }
+        }
 
         public upData(): void {
             if (this.sceneManager) {
+                this.upDataLightShadow();
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
-                super.upData()
-
-            
+                super.upData();
             }
 
         }

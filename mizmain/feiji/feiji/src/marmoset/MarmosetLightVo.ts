@@ -19,6 +19,30 @@
             this.tDepth2 = new FBO(512, 512);
 
         }
+
+        public update(value: Array<Mars3Dmesh>): void {
+            for (var i: number = 0; i < value.length; i++) {
+
+                this.drawTempMesh(value[i])
+
+            }
+        }
+        private drawTempMesh(mesh: Mars3Dmesh): void {
+            if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
+
+                var gl = Scene_data.context3D.renderContext;
+
+                gl.disable(gl.CULL_FACE);
+                gl.cullFace(gl.FRONT);
+
+           //     Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+            //    Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
+            //    Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
+            }
+ 
+
+        }
+
         
     }
 }

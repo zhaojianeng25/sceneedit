@@ -116,8 +116,19 @@ var mars3D;
                 this.sceneManager.focus3D.rotationX = this.lastfocus3D.rotationX - (this.mouseY - this.lastMouseVec2d.y) / 10;
             }
         };
+        Marmoset3dScene.prototype.upDataLightShadow = function () {
+            if (!this._marmosetLightVo) {
+                if (window["uShadowMatrices"]) {
+                    this._marmosetLightVo = new mars3D.MarmosetLightVo();
+                }
+            }
+            else {
+                this._marmosetLightVo.update(mars3D.MarmosetModel.meshItem);
+            }
+        };
         Marmoset3dScene.prototype.upData = function () {
             if (this.sceneManager) {
+                this.upDataLightShadow();
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }
