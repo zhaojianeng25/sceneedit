@@ -233,8 +233,8 @@ module mars3D {
 
                    "vec4 outVec4 =i*vec4(p,1.0) ;" +
                    "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
+                    "return  vec4(outVec4.x,0.0,0.0,1.0);" +
 
-                      "return  vec4(outVec4.x,0.0,0.0,1.0);" +
                 " } " +
 
                 "void main(void) " +

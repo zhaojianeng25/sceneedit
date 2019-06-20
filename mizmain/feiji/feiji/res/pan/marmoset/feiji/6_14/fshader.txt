@@ -368,6 +368,9 @@ for(int k=0;k<LIGHT_COUNT;++k){
 		eN*=eA.eL[k];
 		ei+=eN*eJ;
 		
+		
+		 outcolor=vec4(eA.eL[k],eA.eL[k],eA.eL[k],1.0); //直接阴影
+		
 	vec3 eO=eH+dO;
  
 	eO=normalize(eO);
