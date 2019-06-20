@@ -64,12 +64,18 @@ var mars3D;
             this.depthFBO.color = new Vector3D(1, 1, 1, 1);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
+            var gl = Scene_data.context3D.renderContext;
+            this.depthFBO.depthTexture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.depthTexture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1024, 1024, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         }
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            //   gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
             gl.clearDepth(1.0);
@@ -85,7 +91,6 @@ var mars3D;
                 var gl = Scene_data.context3D.renderContext;
                 GlReset.saveBasePrarame(gl);
                 this.updateDepthTexture(this.depthFBO);
-                // var viewMatrix3D = window["mview"];
                 for (var i = 0; i < value.length; i++) {
                     this.drawTempMesh(value[i]);
                 }
