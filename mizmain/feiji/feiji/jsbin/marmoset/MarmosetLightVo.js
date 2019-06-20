@@ -26,13 +26,29 @@ var mars3D;
     mars3D.FBO = FBO;
     var MarmosetLightVo = /** @class */ (function () {
         function MarmosetLightVo() {
-            this.tDepth0 = new FBO(512, 512);
-            this.tDepth1 = new FBO(512, 512);
-            this.tDepth2 = new FBO(512, 512);
+            this.depthFBO = new FBO(512, 512);
         }
+        MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
+            var gl = Scene_data.context3D.renderContext;
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
+            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            gl.viewport(0, 0, fbo.width, fbo.height);
+            gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
+            gl.clearDepth(1.0);
+            gl.clearStencil(0.0);
+            gl.enable(gl.DEPTH_TEST);
+            gl.depthMask(true);
+            gl.enable(gl.BLEND);
+            gl.frontFace(gl.CW);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+        };
         MarmosetLightVo.prototype.update = function (value) {
-            for (var i = 0; i < value.length; i++) {
-                this.drawTempMesh(value[i]);
+            if (value && value.length) {
+                this.updateDepthTexture(this.depthFBO);
+                for (var i = 0; i < value.length; i++) {
+                    this.drawTempMesh(value[i]);
+                }
             }
         };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
