@@ -185,7 +185,10 @@ var mars3D;
                 //  "return i*vec4(p,1.0);" +
                 "vec4 outVec4 =i*vec4(p,1.0) ;" +
                 "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
-                "return  vec4(outVec4.x,0.0,0.0,1.0);" +
+                "outVec4.xy =(outVec4.xy+1.0)*0.5 ;" +
+                "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy); " +
+                // "return  vec4(outVec4.x,0.0,0.0,1.0);" +
+                "return  vec4(outColorVec4.xyz,1.0);" +
                 " } " +
                 "void main(void) " +
                 "{ " +
