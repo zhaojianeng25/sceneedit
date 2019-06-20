@@ -330,9 +330,21 @@ module mars3D {
                 mesh.objData.bitangentBuffer = Scene_data.context3D.uploadBuff3D(mesh.objData.bitangents);
             }
         }
+        private _marmosetLightVo: MarmosetLightVo
+        private makeMarmosetLightVo(): void {
+            if (!this._marmosetLightVo) {
+                if (window["uShadowMatrices"]) {
+                    this._marmosetLightVo = new MarmosetLightVo()
+                    console.log("创建一次")
+                }
+            }
+           
+        }
 
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
+                this.makeMarmosetLightVo();
+
                 this.makeTbnBuff(mesh)
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.program);
