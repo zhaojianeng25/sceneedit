@@ -1469,14 +1469,11 @@ marmoset = {};
         this.gl = a;
         this.fbo = a.createFramebuffer();
         a.bindFramebuffer(a.FRAMEBUFFER, this.fbo);
-        b && (this.width = b.width,
-        this.height = b.height,
-        b.color0 && (this.color0 = b.color0,
+        b && (this.width = b.width, this.height = b.height, b.color0 && (this.color0 = b.color0,
         a.framebufferTexture2D(a.FRAMEBUFFER, a.COLOR_ATTACHMENT0, a.TEXTURE_2D, this.color0.id, 0),
         this.width = b.color0.desc.width,
         this.height = b.color0.desc.height),
-        b.depth ? (this.depth = b.depth,
-        a.framebufferTexture2D(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.TEXTURE_2D, this.depth.id, 0)) : (this.depthBuffer = b.depthBuffer,
+        b.depth ? (this.depth = b.depth, a.framebufferTexture2D(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.TEXTURE_2D, this.depth.id, 0)) : (this.depthBuffer = b.depthBuffer,
         b.createDepth && !this.depthBuffer && (this.depthBuffer = Framebuffer.createDepthBuffer(a, this.width, this.height)),
         this.depthBuffer && (a.bindRenderbuffer(a.RENDERBUFFER, this.depthBuffer),
         a.framebufferRenderbuffer(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.RENDERBUFFER, this.depthBuffer),

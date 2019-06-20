@@ -42,7 +42,7 @@
                 "precision mediump float;\n" +
                 "void main(void) " +
                 "{ " +
-                  "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
+                  "gl_FragColor =vec4(0.4,0.0,0.0,1.0); " +
                 "}"
             return $str
 
@@ -78,11 +78,11 @@
 
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
 
-            gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
+             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
+           gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
 
-           //gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
-           //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture ,0)
+         //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+         //  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture ,0)
 
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
