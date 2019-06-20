@@ -43,6 +43,7 @@ var mars3D;
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
                 "varying highp vec3 dv;" +
+                "varying highp vec3 vPos;" + //模型顶点
                 " vec3 iW(vec2 v) {;" +
                 "  v.x=v.x/65535.0;" +
                 "  v.y=v.y/65535.0;" +
@@ -62,6 +63,7 @@ var mars3D;
                 "   dB=(uSkyMatrix*vec4(vBitangent, 1.0)).xyz;" +
                 "   dC=(uSkyMatrix*vec4(vNormal, 1.0)).xyz;" +
                 "dv=(uSkyMatrix*vec4(vPosition, 1.0)).xyz;" +
+                "   vPos= vPosition;" + //模型顶点
                 "   vec4 vt0= vec4(vPosition, 1.0);" +
                 // "   vt0 = posMatrix3D * vt0;" +
                 "   vt0 = viewMatrix3D * vt0;" +
@@ -91,10 +93,12 @@ var mars3D;
                 "varying  vec3 dB; " +
                 "varying  vec3 dC; " +
                 "varying highp vec3 dv;" +
+                "varying highp vec3 vPos;" + //模型顶点
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];" +
                 "uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];" +
                 "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];" +
+                "uniform highp mat4 depthViewMatrix3D;" + //阴影深度矩阵
                 "uniform float uHorizonOcclude;" +
                 "uniform highp vec2 uShadowKernelRotation;" +
                 "\n#define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)\n" +
@@ -177,6 +181,12 @@ var mars3D;
                 "hd = clamp(hd, 0.0, 1.0 );" +
                 "return hd * hd;" +
                 "}" +
+                "highp vec4 mathdepthuv(highp mat4 i,highp vec3 p){" +
+                //  "return i*vec4(p,1.0);" +
+                "vec4 outVec4 =i*vec4(p,1.0) ;" +
+                "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
+                "return  vec4(outVec4.x,0.0,0.0,1.0);" +
+                " } " +
                 "void main(void) " +
                 "{ " +
                 "vec4 m=texture2D(tAlbedo,d);" +
@@ -215,7 +225,9 @@ var mars3D;
                 //eP *= eA.eL[k];
                 //el += eP * eJ;
                 "}\n" +
-                "gl_FragColor =vec4(texture2D(tDepthTexture,d).xyz,1.0); " +
+                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
+                "gl_FragColor =vec4(depthvinfo.xyz,1.0); " +
+                //"gl_FragColor =vec4(texture2D(tDepthTexture,d).xyz,1.0); " +
                 //"gl_FragColor =vec4(el.xyz,1.0); " +
                 "}";
             return $str;
@@ -301,8 +313,12 @@ var mars3D;
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", mars3D.MarmosetModel.tSkySpecularTexture, 3);
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
-                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4);
-                    //console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
+                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
+                    if (mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D); //深度矩阵
+                        //  var mt: Matrix3D = new Matrix3D()
+                        //  Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mt.m);  //深度矩阵
+                    }
                 }
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);

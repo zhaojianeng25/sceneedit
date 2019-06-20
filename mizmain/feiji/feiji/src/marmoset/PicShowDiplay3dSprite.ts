@@ -5,7 +5,7 @@ module mars3D {
     import MouseType = Pan3d.MouseType
     import LineDisplayShader = Pan3d.LineDisplayShader
     import Shader3D = Pan3d.Shader3D
-    import Camera3D = Pan3d.Camera3D
+    import Matrix3D = Pan3d.Matrix3D
     import TextureManager = Pan3d.TextureManager
     import ProgrmaManager = Pan3d.ProgrmaManager
     import BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite
@@ -50,6 +50,8 @@ module mars3D {
 
                 "varying highp vec3 dv;" +
 
+                "varying highp vec3 vPos;" +  //模型顶点
+
 
 
                 " vec3 iW(vec2 v) {;" +
@@ -74,6 +76,8 @@ module mars3D {
                 "   dC=(uSkyMatrix*vec4(vNormal, 1.0)).xyz;" +
 
                 "dv=(uSkyMatrix*vec4(vPosition, 1.0)).xyz;" +
+
+                "   vPos= vPosition;" + //模型顶点
 
                 "   vec4 vt0= vec4(vPosition, 1.0);" +
                 // "   vt0 = posMatrix3D * vt0;" +
@@ -116,11 +120,15 @@ module mars3D {
                 "varying  vec3 dC; " +
 
                 "varying highp vec3 dv;" +
+                "varying highp vec3 vPos;" +  //模型顶点
 
                 "uniform vec3 uCameraPosition;" +
                 "uniform vec4 uDiffuseCoefficients[9];" +
                 "uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];" +
-                "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];"+
+                "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];" +
+
+                "uniform highp mat4 depthViewMatrix3D;" +  //阴影深度矩阵
+
                 "uniform float uHorizonOcclude;" +
                 "uniform highp vec2 uShadowKernelRotation;" +
 
@@ -219,6 +227,16 @@ module mars3D {
 
                 "}" +
 
+            
+                "highp vec4 mathdepthuv(highp mat4 i,highp vec3 p){" +
+                   //  "return i*vec4(p,1.0);" +
+
+                   "vec4 outVec4 =i*vec4(p,1.0) ;" +
+                   "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
+
+                      "return  vec4(outVec4.x,0.0,0.0,1.0);" +
+                " } " +
+
                 "void main(void) " +
                 "{ " +
 
@@ -274,8 +292,11 @@ module mars3D {
                 //el += eP * eJ;
                 "}\n" +
  
- 
-                "gl_FragColor =vec4(texture2D(tDepthTexture,d).xyz,1.0); " +
+                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
+
+                  "gl_FragColor =vec4(depthvinfo.xyz,1.0); " +
+
+                //"gl_FragColor =vec4(texture2D(tDepthTexture,d).xyz,1.0); " +
 
                 //"gl_FragColor =vec4(el.xyz,1.0); " +
 
@@ -388,8 +409,16 @@ module mars3D {
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", MarmosetModel.tSkySpecularTexture, 3);
 
                 if (MarmosetLightVo.marmosetLightVo && MarmosetLightVo.marmosetLightVo.depthFBO && MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
-                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4);
-                    //console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
+                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
+                    if (MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
+                      
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D);  //深度矩阵
+
+                      //  var mt: Matrix3D = new Matrix3D()
+                      //  Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mt.m);  //深度矩阵
+                    }
+                  
+        
                 }
 
                

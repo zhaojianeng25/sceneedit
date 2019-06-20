@@ -8,6 +8,8 @@
         public constructor(w: number = 128, h: number = 128) {
             super(w, h)
         }
+        public depthViewMatrix3D: any
+
     }
 
 
@@ -95,17 +97,17 @@
                 GlReset.resetBasePrarame(gl);
             }
         }
-        private baseViewMatrix: any
+      //  private baseViewMatrix: any
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
 
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.shader.program);
            
-                if (!this.baseViewMatrix) {
-                    this.baseViewMatrix = window["mview"];
+                if (!this.depthFBO.depthViewMatrix3D) {
+                    this.depthFBO.depthViewMatrix3D = window["mview"];
                 }
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.baseViewMatrix);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
