@@ -60,7 +60,7 @@ var mars3D;
     mars3D.MarmosetLightVoShader = MarmosetLightVoShader;
     var MarmosetLightVo = /** @class */ (function () {
         function MarmosetLightVo() {
-            this.depthFBO = new MarFBO(512, 512);
+            this.depthFBO = new MarFBO(1024, 1024);
             this.depthFBO.color = new Vector3D(1, 1, 1, 1);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);

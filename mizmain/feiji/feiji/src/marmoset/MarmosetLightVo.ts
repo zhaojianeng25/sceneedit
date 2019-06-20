@@ -51,7 +51,7 @@
     export class MarmosetLightVo   {
         public depthFBO: MarFBO;
         public constructor() {
-            this.depthFBO = new MarFBO(512, 512);
+            this.depthFBO = new MarFBO(1024, 1024);
             this.depthFBO.color = new Vector3D(1, 1, 1, 1);
 
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
