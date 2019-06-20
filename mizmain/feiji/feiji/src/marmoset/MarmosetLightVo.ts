@@ -52,6 +52,7 @@
     export class MarmosetLightVo   {
         public depthFBO: MarFBO;
 
+ 
         public constructor() {
             this.depthFBO = new MarFBO(1024, 1024);
             this.depthFBO.color = new Vector3D(1, 1, 1, 1);
@@ -61,14 +62,16 @@
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
 
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-            this.depthFBO.depthTexture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.depthTexture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1024,1024, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            var depthTexture: WebGLTexture = gl.createTexture();  //创建深度贴图
+            gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, 1024, 1024, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
+            this.depthFBO.depthTexture = depthTexture;
 
-
- 
+           // alert(gl.getExtension("WEBGL_depth_texture"))
         }
         private shader: Shader3D;
         private updateDepthTexture(fbo: MarFBO): void {
@@ -77,8 +80,10 @@
 
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-         //   gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
-     
+
+           //gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+           //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture ,0)
+
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
 
@@ -90,7 +95,8 @@
             gl.frontFace(gl.CW);
 
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
- 
+
+           
         }
 
         public update(value: Array<Mars3Dmesh>): void {

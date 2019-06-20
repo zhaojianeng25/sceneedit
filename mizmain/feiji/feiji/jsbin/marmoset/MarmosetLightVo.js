@@ -65,17 +65,22 @@ var mars3D;
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
             var gl = Scene_data.context3D.renderContext;
-            this.depthFBO.depthTexture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.depthTexture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1024, 1024, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            var depthTexture = gl.createTexture(); //创建深度贴图
+            gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, 1024, 1024, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
+            this.depthFBO.depthTexture = depthTexture;
+            // alert(gl.getExtension("WEBGL_depth_texture"))
         }
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
-            //   gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            //gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture ,0)
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
             gl.clearDepth(1.0);

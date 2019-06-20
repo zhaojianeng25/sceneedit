@@ -317,8 +317,8 @@ var mars3D;
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", mars3D.MarmosetModel.tSkySpecularTexture, 3);
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
-                    console.log(mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthBuffer);
-                    console.log(mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture);
+                    //  console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthBuffer)
+                    //   console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
                     Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
                     if (mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
                         var tempM = new Matrix3D();

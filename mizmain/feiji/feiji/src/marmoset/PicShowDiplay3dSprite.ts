@@ -416,8 +416,8 @@ module mars3D {
 
                 if (MarmosetLightVo.marmosetLightVo && MarmosetLightVo.marmosetLightVo.depthFBO && MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
 
-                    console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthBuffer)
-                    console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
+                  //  console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthBuffer)
+                 //   console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
 
                     Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
                     if (MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
