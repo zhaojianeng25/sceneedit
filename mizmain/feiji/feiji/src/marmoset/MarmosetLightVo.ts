@@ -1,19 +1,61 @@
 ﻿module mars3D {
     import Scene_data = Pan3d.Scene_data
-    import TextureManager = Pan3d.TextureManager
+    import Shader3D = Pan3d.Shader3D
+    import ProgrmaManager = Pan3d.ProgrmaManager
+    import GlReset = Pan3d.GlReset
 
-    export class FBO extends Pan3d.FBO {
+    export class MarFBO extends Pan3d.FBO {
         public constructor(w: number = 128, h: number = 128) {
             super(w, h)
         }
     }
 
-    export class MarmosetLightVo   {
-        public depthFBO: FBO;
-        public constructor() {
-            this.depthFBO = new FBO(512, 512);
+
+    export class MarmosetLightVoShader extends Shader3D {
+        static MarmosetLightVoShader: string = "MarmosetLightVoShader";
+        constructor() {
+            super();
         }
-        private updateDepthTexture(fbo: FBO): void {
+        binLocation($context: WebGLRenderingContext): void {
+            $context.bindAttribLocation(this.program, 0, "vPosition");
+        }
+        getVertexShaderString(): string {
+            var $str: string =
+                "attribute vec3 vPosition;" +
+                "uniform mat4 viewMatrix3D;" +
+                "void main(void)" +
+                "{" +
+                    "vec4 vt0= vec4(vPosition, 1.0);" +
+                    "vt0 = viewMatrix3D * vt0;" +
+                    "gl_Position = vt0;" +
+                "}"
+            return $str
+
+
+        }
+        getFragmentShaderString(): string {
+            var $str: string =
+                "precision mediump float;\n" +
+                "void main(void) " +
+                "{ " +
+                  "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
+                "}"
+            return $str
+
+        }
+
+    }
+    export class MarmosetLightVo   {
+        public depthFBO: MarFBO;
+        public constructor() {
+            this.depthFBO = new MarFBO(512, 512);
+            this.depthFBO.color = new Vector3D(1, 1, 1, 1);
+
+            ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
+            this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
+        }
+        private shader: Shader3D;
+        private updateDepthTexture(fbo: MarFBO): void {
 
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
 
@@ -38,28 +80,43 @@
         public update(value: Array<Mars3Dmesh>): void {
 
             if (value && value.length) {
-                this.updateDepthTexture(this.depthFBO)
+                var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+                GlReset.saveBasePrarame(gl);
+                this.updateDepthTexture(this.depthFBO);
+
+              // var viewMatrix3D = window["mview"];
                 for (var i: number = 0; i < value.length; i++) {
-                    this.drawTempMesh(value[i])
+                    this.drawTempMesh(value[i]);
                 }
+
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+                gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+                GlReset.resetBasePrarame(gl);
             }
-          
         }
+        private baseViewMatrix: any
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
 
                 var gl = Scene_data.context3D.renderContext;
+                Scene_data.context3D.setProgram(this.shader.program);
+           
+                if (!this.baseViewMatrix) {
+                    this.baseViewMatrix = window["mview"];
+                }
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.baseViewMatrix);
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
 
-           //     Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
-            //    Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
-            //    Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
+                Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+                Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
- 
+
 
         }
+        public static marmosetLightVo: MarmosetLightVo
 
         
     }

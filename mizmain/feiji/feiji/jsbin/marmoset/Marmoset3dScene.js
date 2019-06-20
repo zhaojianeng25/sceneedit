@@ -117,13 +117,13 @@ var mars3D;
             }
         };
         Marmoset3dScene.prototype.upDataLightShadow = function () {
-            if (!this._marmosetLightVo) {
+            if (!mars3D.MarmosetLightVo.marmosetLightVo) {
                 if (window["uShadowMatrices"]) {
-                    this._marmosetLightVo = new mars3D.MarmosetLightVo();
+                    mars3D.MarmosetLightVo.marmosetLightVo = new mars3D.MarmosetLightVo();
                 }
             }
             else {
-                this._marmosetLightVo.update(mars3D.MarmosetModel.meshItem);
+                mars3D.MarmosetLightVo.marmosetLightVo.update(mars3D.MarmosetModel.meshItem);
             }
         };
         Marmoset3dScene.prototype.upData = function () {

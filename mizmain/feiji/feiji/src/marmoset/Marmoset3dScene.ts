@@ -143,15 +143,15 @@ module mars3D {
 
             }
         }
-        private _marmosetLightVo: MarmosetLightVo
+ 
      
         public upDataLightShadow(): void {
-            if (!this._marmosetLightVo) {
+            if (!MarmosetLightVo.marmosetLightVo) {
                 if (window["uShadowMatrices"]) {
-                    this._marmosetLightVo = new MarmosetLightVo();
+                    MarmosetLightVo.marmosetLightVo = new MarmosetLightVo();
                 }
             } else {
-                this._marmosetLightVo.update(MarmosetModel.meshItem);
+                MarmosetLightVo.marmosetLightVo.update(MarmosetModel.meshItem);
             }
         }
 

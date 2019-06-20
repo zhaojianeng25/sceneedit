@@ -108,6 +108,8 @@ module mars3D {
                 "uniform sampler2D tDepth1;\n" +
                 "uniform sampler2D tDepth2;\n" +
 
+                "uniform sampler2D tDepthTexture;\n" +
+
                 "varying vec2 d;\n" +
                 "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
@@ -271,10 +273,11 @@ module mars3D {
 
                 //el += eP * eJ;
                 "}\n" +
-
-
  
-                "gl_FragColor =vec4(el.xyz,1.0); " +
+ 
+                "gl_FragColor =vec4(texture2D(tDepthTexture,d).xyz,1.0); " +
+
+                //"gl_FragColor =vec4(el.xyz,1.0); " +
 
 
                 "}"
@@ -384,6 +387,12 @@ module mars3D {
                 Scene_data.context3D.setRenderTexture(this.shader, "tReflectivity", mesh.tReflectivity.texture, 2);
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", MarmosetModel.tSkySpecularTexture, 3);
 
+                if (MarmosetLightVo.marmosetLightVo && MarmosetLightVo.marmosetLightVo.depthFBO && MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
+                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4);
+                    //console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
+                }
+
+               
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
@@ -396,10 +405,7 @@ module mars3D {
 
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
-
-
-
-
+ 
 
         }
         private isFinish: boolean

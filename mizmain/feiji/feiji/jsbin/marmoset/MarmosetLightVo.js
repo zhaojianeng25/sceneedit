@@ -14,19 +14,56 @@ var __extends = (this && this.__extends) || (function () {
 var mars3D;
 (function (mars3D) {
     var Scene_data = Pan3d.Scene_data;
-    var FBO = /** @class */ (function (_super) {
-        __extends(FBO, _super);
-        function FBO(w, h) {
+    var Shader3D = Pan3d.Shader3D;
+    var ProgrmaManager = Pan3d.ProgrmaManager;
+    var GlReset = Pan3d.GlReset;
+    var MarFBO = /** @class */ (function (_super) {
+        __extends(MarFBO, _super);
+        function MarFBO(w, h) {
             if (w === void 0) { w = 128; }
             if (h === void 0) { h = 128; }
             return _super.call(this, w, h) || this;
         }
-        return FBO;
+        return MarFBO;
     }(Pan3d.FBO));
-    mars3D.FBO = FBO;
+    mars3D.MarFBO = MarFBO;
+    var MarmosetLightVoShader = /** @class */ (function (_super) {
+        __extends(MarmosetLightVoShader, _super);
+        function MarmosetLightVoShader() {
+            return _super.call(this) || this;
+        }
+        MarmosetLightVoShader.prototype.binLocation = function ($context) {
+            $context.bindAttribLocation(this.program, 0, "vPosition");
+        };
+        MarmosetLightVoShader.prototype.getVertexShaderString = function () {
+            var $str = "attribute vec3 vPosition;" +
+                "uniform mat4 viewMatrix3D;" +
+                "void main(void)" +
+                "{" +
+                "vec4 vt0= vec4(vPosition, 1.0);" +
+                "vt0 = viewMatrix3D * vt0;" +
+                "gl_Position = vt0;" +
+                "}";
+            return $str;
+        };
+        MarmosetLightVoShader.prototype.getFragmentShaderString = function () {
+            var $str = "precision mediump float;\n" +
+                "void main(void) " +
+                "{ " +
+                "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
+                "}";
+            return $str;
+        };
+        MarmosetLightVoShader.MarmosetLightVoShader = "MarmosetLightVoShader";
+        return MarmosetLightVoShader;
+    }(Shader3D));
+    mars3D.MarmosetLightVoShader = MarmosetLightVoShader;
     var MarmosetLightVo = /** @class */ (function () {
         function MarmosetLightVo() {
-            this.depthFBO = new FBO(512, 512);
+            this.depthFBO = new MarFBO(512, 512);
+            this.depthFBO.color = new Vector3D(1, 1, 1, 1);
+            ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
+            this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
         }
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
@@ -45,20 +82,31 @@ var mars3D;
         };
         MarmosetLightVo.prototype.update = function (value) {
             if (value && value.length) {
+                var gl = Scene_data.context3D.renderContext;
+                GlReset.saveBasePrarame(gl);
                 this.updateDepthTexture(this.depthFBO);
+                // var viewMatrix3D = window["mview"];
                 for (var i = 0; i < value.length; i++) {
                     this.drawTempMesh(value[i]);
                 }
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+                gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+                GlReset.resetBasePrarame(gl);
             }
         };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
                 var gl = Scene_data.context3D.renderContext;
+                Scene_data.context3D.setProgram(this.shader.program);
+                if (!this.baseViewMatrix) {
+                    this.baseViewMatrix = window["mview"];
+                }
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.baseViewMatrix);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
-                //     Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
-                //    Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
-                //    Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
+                Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+                Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
         };
         return MarmosetLightVo;
