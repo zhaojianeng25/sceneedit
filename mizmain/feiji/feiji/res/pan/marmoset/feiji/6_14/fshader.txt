@@ -110,10 +110,10 @@ highp float hN(sampler2D hL,highp vec3 hA,float hO){
 	highp vec2 l=uShadowKernelRotation*hO;
 	float s;
 	s=hK(hL,hA.xy+l,hA.z);
-	s+=hK(hL,hA.xy-l,hA.z);
-	s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
-	s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
-	s*=0.25;
+	//s+=hK(hL,hA.xy-l,hA.z);
+	//s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
+	//s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
+	//s*=0.25;
 	return s*s;
 }
 struct ev{

@@ -29,6 +29,7 @@
                 "{" +
                     "vec4 vt0= vec4(vPosition, 1.0);" +
                     "vt0 = viewMatrix3D * vt0;" +
+  
                     "gl_Position = vt0;" +
                 "}"
             return $str

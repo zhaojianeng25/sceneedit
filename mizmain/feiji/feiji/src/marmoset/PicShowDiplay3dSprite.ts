@@ -232,9 +232,10 @@ module mars3D {
                    //  "return i*vec4(p,1.0);" +
 
                    "vec4 outVec4 =i*vec4(p,1.0) ;" +
-                   "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
-                "outVec4.xy =(outVec4.xy+1.0)*0.5 ;" +
+                "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
 
+                //"outVec4.xy =(outVec4.xy+1.0)*0.5 ;" +
+ 
                 "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy); " +
 
                // "return  vec4(outVec4.x,0.0,0.0,1.0);" +
@@ -416,11 +417,17 @@ module mars3D {
                 if (MarmosetLightVo.marmosetLightVo && MarmosetLightVo.marmosetLightVo.depthFBO && MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
                     Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
                     if (MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
-                      
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D);  //深度矩阵
 
-                      //  var mt: Matrix3D = new Matrix3D()
-                      //  Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mt.m);  //深度矩阵
+                        var tempM: Matrix3D = new Matrix3D()
+                        for (var kt: number = 0; kt < tempM.m.length; kt++) {
+                            tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
+                        }
+                        var addM: Matrix3D = new Matrix3D(); //设置映射纹理坐标;
+                        addM.appendTranslation(-1, -1, 0)
+                        addM.appendScale(0.5, 0.5, 1);
+                        tempM.append(addM);
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m);  //深度矩阵
+ 
                     }
                   
         

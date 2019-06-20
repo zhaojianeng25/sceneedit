@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 var mars3D;
 (function (mars3D) {
     var Shader3D = Pan3d.Shader3D;
+    var Matrix3D = Pan3d.Matrix3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
     var Scene_data = Pan3d.Scene_data;
@@ -185,7 +186,7 @@ var mars3D;
                 //  "return i*vec4(p,1.0);" +
                 "vec4 outVec4 =i*vec4(p,1.0) ;" +
                 "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
-                "outVec4.xy =(outVec4.xy+1.0)*0.5 ;" +
+                //"outVec4.xy =(outVec4.xy+1.0)*0.5 ;" +
                 "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy); " +
                 // "return  vec4(outVec4.x,0.0,0.0,1.0);" +
                 "return  vec4(outColorVec4.xyz,1.0);" +
@@ -318,9 +319,15 @@ var mars3D;
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
                     Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
                     if (mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D); //深度矩阵
-                        //  var mt: Matrix3D = new Matrix3D()
-                        //  Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mt.m);  //深度矩阵
+                        var tempM = new Matrix3D();
+                        for (var kt = 0; kt < tempM.m.length; kt++) {
+                            tempM.m[kt] = mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
+                        }
+                        var addM = new Matrix3D(); //设置映射纹理坐标;
+                        addM.appendTranslation(-1, -1, 0);
+                        addM.appendScale(0.5, 0.5, 1);
+                        tempM.append(addM);
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m); //深度矩阵
                     }
                 }
                 gl.disable(gl.CULL_FACE);
