@@ -35,5 +35,6 @@ declare module Pan3d {
         private static getLineAndPlaneIntersectPoint;
         static lookAt(eyePos: Vector3D, lookAt: Vector3D): Matrix3D;
         static MathCam(_Cam: Camera3D): void;
+        private getCamData;
     }
 }

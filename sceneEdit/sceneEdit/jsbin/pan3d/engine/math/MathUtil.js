@@ -119,6 +119,15 @@ var Pan3d;
             _Cam.cameraMatrix.prependRotation(_Cam.rotationY, Pan3d.Vector3D.Y_AXIS);
             _Cam.cameraMatrix.prependTranslation(-_Cam.x + _Cam.offset.x, -_Cam.y + _Cam.offset.y, -_Cam.z + _Cam.offset.z);
         };
+        MathUtil.prototype.getCamData = function (tempMatrix3D) {
+            var $Minvert = tempMatrix3D.clone();
+            $Minvert.invert();
+            var $motherAct = new Pan3d.Object3D;
+            $motherAct.x = -$Minvert.position.x;
+            $motherAct.y = -$Minvert.position.y;
+            $motherAct.z = -$Minvert.position.z;
+            return $motherAct;
+        };
         return MathUtil;
     }());
     Pan3d.MathUtil = MathUtil;
