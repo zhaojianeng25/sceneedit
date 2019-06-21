@@ -102,7 +102,7 @@ module mars3D {
 
                 "#extension GL_OES_standard_derivatives : enable\n" +
      
-                "precision mediump float;\n" +
+                "precision highp float;\n" +
                 "uniform sampler2D tAlbedo;\n" +
                 "uniform sampler2D tNormal;\n" +
                 "uniform sampler2D tReflectivity;\n" +
@@ -273,38 +273,10 @@ module mars3D {
 
                 "ev eA; \n" +
 
-                "for (int k = 0; k < LIGHT_COUNT; ++k) {\n" +
-              //  "vec3 eH = uLightPositions[k].xyz - dv * uLightPositions[k].w;\n" +
-                //float eI = inversesqrt(dot(eH, eH));
-                //eH *= eI;
-                //float a = saturate(uLightParams[k].z / eI);
-                //a = 1.0 + a * (uLightParams[k].x + uLightParams[k].y * a);
-                //float s = saturate(dot(eH, uLightDirections[k]));
-                //s = saturate(uLightSpot[k].y - uLightSpot[k].z * (1.0 - s * s));
-                //vec3 eJ = (a * s) * uLightColors[k].xyz;
-
-
-                //float eN = saturate((1.0 / 3.1415926) * dot(eH, dI));
-                //eN *= eA.eL[k];
-                //ei += eN * eJ;
-
-                //vec3 eO = eH + dO;
-
-                //eO = normalize(eO);
-                //float eP = eu * pow(saturate(dot(eO, dI)), eo);
-
-                //eP *= eA.eL[k];
-
-                //el += eP * eJ;
-                "}\n" +
  
-                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
-
-                  "gl_FragColor =vec4(depthvinfo.xyz,1.0); " +
-
-                //"gl_FragColor =vec4(texture2D(tDepthTexture,d).xyz,1.0); " +
-
-                //"gl_FragColor =vec4(el.xyz,1.0); " +
+                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
+                 "gl_FragColor =vec4(depthvinfo.xyz,1.0); " +
+        
 
 
                 "}"

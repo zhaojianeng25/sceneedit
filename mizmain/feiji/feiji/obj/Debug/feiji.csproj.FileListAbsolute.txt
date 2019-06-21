@@ -10,3 +10,4 @@ E:\github\sceneEdit\mizmain\feiji\feiji\bin\feiji.pdb
 E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csproj.CoreCompileInputs.cache
 E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.dll
 E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.pdb
+E:\github\sceneEdit\mizmain\feiji\feiji\obj\Debug\feiji.csprojAssemblyReference.cache

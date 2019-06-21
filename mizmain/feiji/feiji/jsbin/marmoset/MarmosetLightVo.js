@@ -50,7 +50,7 @@ var mars3D;
             return $str;
         };
         MarmosetLightVoShader.prototype.getFragmentShaderString = function () {
-            var $str = "precision mediump float;\n" +
+            var $str = "precision highp  float;\n" +
                 "varying vec2 jG; \n" +
                 "vec3 jH(float v){\n" +
                 "vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
@@ -72,8 +72,10 @@ var mars3D;
                 "void main(void) " +
                 "{ " +
                 // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
-                "gl_FragColor = pack(gl_FragCoord.z); " +
-                "gl_FragColor.w=1.0; " +
+                //   "float tempz =0.2340 ;"+
+                //  "gl_FragColor = pack(gl_FragCoord.z); " +
+                "gl_FragColor =vec4(1.0,0.0,0.0,0.5); " +
+                //        "gl_FragColor.w=1.0; " +
                 "}";
             return $str;
         };
@@ -128,23 +130,11 @@ var mars3D;
                 GlReset.resetBasePrarame(gl);
             }
         };
-        //"vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
-        //    "jI = fract(jI);\n" +
-        //    "jI.xyz -= jI.yzw * (1.0 / 255.0);\n" +
-        //    "return jI.xyz;\n" +
-        MarmosetLightVo.prototype.pack = function (depth) {
-            var bitShift = new Vector3D(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
-            var bitMask = new Vector3D(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);
-            var rgbaDepth = new Vector3D();
-            bitShift.scaleBy(depth);
-            rgbaDepth.x = bitShift.x % 1;
-            rgbaDepth.y = bitShift.y % 1;
-            rgbaDepth.z = bitShift.z % 1;
-            rgbaDepth.w = bitShift.w % 1;
-            console.log(rgbaDepth);
-        };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
+                Pan3d.Scene_data.context3D.setWriteDepth(true);
+                Pan3d.Scene_data.context3D.setDepthTest(true);
+                Pan3d.Scene_data.context3D.setBlendParticleFactors(0);
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setProgram(this.shader.program);
                 if (!this.depthFBO.depthViewMatrix3D) {
