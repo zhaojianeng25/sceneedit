@@ -17,6 +17,7 @@ var mars3D;
     var Shader3D = Pan3d.Shader3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var GlReset = Pan3d.GlReset;
+    var Matrix3D = Pan3d.Matrix3D;
     var MarFBO = /** @class */ (function (_super) {
         __extends(MarFBO, _super);
         function MarFBO(w, h) {
@@ -38,19 +39,41 @@ var mars3D;
         MarmosetLightVoShader.prototype.getVertexShaderString = function () {
             var $str = "attribute vec3 vPosition;" +
                 "uniform mat4 viewMatrix3D;" +
+                "varying vec2 jG; \n" +
                 "void main(void)" +
                 "{" +
                 "vec4 vt0= vec4(vPosition, 1.0);" +
                 "vt0 = viewMatrix3D * vt0;" +
                 "gl_Position = vt0;" +
+                "jG=gl_Position.zw;" +
                 "}";
             return $str;
         };
         MarmosetLightVoShader.prototype.getFragmentShaderString = function () {
             var $str = "precision mediump float;\n" +
+                "varying vec2 jG; \n" +
+                "vec3 jH(float v){\n" +
+                "vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
+                "jI = fract(jI);\n" +
+                "jI.xyz -= jI.yzw * (1.0 / 255.0);\n" +
+                "return jI.xyz;\n" +
+                "} \n" +
+                "vec4 pack (float depth) {\n" +
+                " vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);\n" +
+                " vec4 bitMask = vec4(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);\n" +
+                "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
+                "rgbaDepth -= rgbaDepth.gbaa * bitMask;  \n" +
+                "return rgbaDepth;\n" +
+                "}\n" +
+                "float unpack( vec4 rgbaDepth) {" +
+                " vec4 bitShift = vec4(1.0, 1.0 / 256.0, 1.0 / (256.0 * 256.0), 1.0 / (256.0 * 256.0 * 256.0));" +
+                "return dot(rgbaDepth, bitShift);" +
+                "}" +
                 "void main(void) " +
                 "{ " +
-                "gl_FragColor =vec4(0.4,0.0,0.0,1.0); " +
+                // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
+                "gl_FragColor = pack(gl_FragCoord.z); " +
+                "gl_FragColor.w=1.0; " +
                 "}";
             return $str;
         };
@@ -105,7 +128,21 @@ var mars3D;
                 GlReset.resetBasePrarame(gl);
             }
         };
-        //  private baseViewMatrix: any
+        //"vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
+        //    "jI = fract(jI);\n" +
+        //    "jI.xyz -= jI.yzw * (1.0 / 255.0);\n" +
+        //    "return jI.xyz;\n" +
+        MarmosetLightVo.prototype.pack = function (depth) {
+            var bitShift = new Vector3D(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
+            var bitMask = new Vector3D(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);
+            var rgbaDepth = new Vector3D();
+            bitShift.scaleBy(depth);
+            rgbaDepth.x = bitShift.x % 1;
+            rgbaDepth.y = bitShift.y % 1;
+            rgbaDepth.z = bitShift.z % 1;
+            rgbaDepth.w = bitShift.w % 1;
+            console.log(rgbaDepth);
+        };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
                 var gl = Scene_data.context3D.renderContext;
@@ -113,6 +150,12 @@ var mars3D;
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];
                 }
+                var tempM = new Matrix3D();
+                for (var kt = 0; kt < tempM.m.length; kt++) {
+                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
+                }
+                //  console.log(tempM.transformVector(new Vector3D(2, 0, 0)))
+                //   this.pack(0.254)
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);

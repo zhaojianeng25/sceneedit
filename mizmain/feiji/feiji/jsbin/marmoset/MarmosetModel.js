@@ -88,6 +88,8 @@ var mars3D;
             marmoset.Shader.prototype.build = function (a, b) {
                 //console.log("---------------------------------")
                 //console.log(a.length, b.length)
+                console.log(a);
+                console.log(b);
                 if (b.length == 18238) { //读取顶点和纹理着色器
                     //   console.log(b)
                     a = MarmosetModel.changerVshader;

@@ -3,6 +3,7 @@
     import Shader3D = Pan3d.Shader3D
     import ProgrmaManager = Pan3d.ProgrmaManager
     import GlReset = Pan3d.GlReset
+    import Matrix3D = Pan3d.Matrix3D
  
 
     export class MarFBO extends Pan3d.FBO {
@@ -26,12 +27,15 @@
             var $str: string =
                 "attribute vec3 vPosition;" +
                 "uniform mat4 viewMatrix3D;" +
+                "varying vec2 jG; \n" +
                 "void main(void)" +
                 "{" +
                     "vec4 vt0= vec4(vPosition, 1.0);" +
                     "vt0 = viewMatrix3D * vt0;" +
   
                     "gl_Position = vt0;" +
+                  
+                    "jG=gl_Position.zw;"+
                 "}"
             return $str
 
@@ -40,9 +44,33 @@
         getFragmentShaderString(): string {
             var $str: string =
                 "precision mediump float;\n" +
+                "varying vec2 jG; \n"+
+                "vec3 jH(float v){\n" +
+                    "vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
+                    "jI = fract(jI);\n" +
+                    "jI.xyz -= jI.yzw * (1.0 / 255.0);\n" +
+                    "return jI.xyz;\n" +
+                "} \n" +
+
+                "vec4 pack (float depth) {\n" +
+                    " vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);\n" +
+                    " vec4 bitMask = vec4(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);\n" +
+                    "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
+                    "rgbaDepth -= rgbaDepth.gbaa * bitMask;  \n" +
+                    "return rgbaDepth;\n" +
+                "}\n" +
+                "float unpack( vec4 rgbaDepth) {" +
+                    " vec4 bitShift = vec4(1.0, 1.0 / 256.0, 1.0 / (256.0 * 256.0), 1.0 / (256.0 * 256.0 * 256.0));" +
+                    "return dot(rgbaDepth, bitShift);" +
+                "}" +
+
                 "void main(void) " +
                 "{ " +
-                  "gl_FragColor =vec4(0.4,0.0,0.0,1.0); " +
+    
+              // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
+
+                  "gl_FragColor = pack(gl_FragCoord.z); " +
+                "gl_FragColor.w=1.0; " +
                 "}"
             return $str
 
@@ -78,7 +106,7 @@
 
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
 
-             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
+           gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
 
          //  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
@@ -116,7 +144,25 @@
                 GlReset.resetBasePrarame(gl);
             }
         }
-      //  private baseViewMatrix: any
+        //"vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
+        //    "jI = fract(jI);\n" +
+        //    "jI.xyz -= jI.yzw * (1.0 / 255.0);\n" +
+        //    "return jI.xyz;\n" +
+
+        private pack(depth: number): void {
+            var bitShift: Vector3D = new Vector3D(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
+            var bitMask: Vector3D = new Vector3D(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);
+            var rgbaDepth: Vector3D = new Vector3D()
+            bitShift.scaleBy(depth);
+
+            rgbaDepth.x = bitShift.x % 1
+            rgbaDepth.y = bitShift.y % 1
+            rgbaDepth.z = bitShift.z % 1
+            rgbaDepth.w = bitShift.w % 1
+            console.log(rgbaDepth)
+
+        
+        }
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
 
@@ -126,6 +172,14 @@
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];
                 }
+                var tempM: Matrix3D = new Matrix3D()
+                for (var kt: number = 0; kt < tempM.m.length; kt++) {
+                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
+                }
+              //  console.log(tempM.transformVector(new Vector3D(2, 0, 0)))
+
+             //   this.pack(0.254)
+ 
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
 
                 gl.disable(gl.CULL_FACE);
