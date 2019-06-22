@@ -96,7 +96,7 @@
  
         public constructor() {
             this.depthFBO = new MarFBO(1024, 1024);
-            this.depthFBO.color = new Vector3D(0, 0, 0, 0);
+            this.depthFBO.color = new Vector3D(1, 1, 0, 0.5);
 
 
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
@@ -126,16 +126,16 @@
          //  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture ,0)
 
             gl.viewport(0, 0, fbo.width, fbo.height);
-            gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
-
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
             gl.enable(gl.DEPTH_TEST);
             gl.depthMask(true);
             gl.enable(gl.BLEND);
             gl.frontFace(gl.CW);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
 
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+         
 
            
         }
@@ -153,20 +153,27 @@
 
                 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
                 gl.bindTexture(gl.TEXTURE_2D, null);
-                gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+            //   gl.bindRenderbuffer(gl.RENDERBUFFER, null);
                 GlReset.resetBasePrarame(gl);
             }
         }
 
-
+        private skipNum: number=1
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
 
-                Pan3d.Scene_data.context3D.setWriteDepth(true);
-                Pan3d.Scene_data.context3D.setDepthTest(true);
-                Pan3d.Scene_data.context3D.setBlendParticleFactors(0)
+            //    Pan3d.Scene_data.context3D.setWriteDepth(true);
+             //   Pan3d.Scene_data.context3D.setDepthTest(true);
+              //  Pan3d.Scene_data.context3D.setBlendParticleFactors(0)
 
                 var gl = Scene_data.context3D.renderContext;
+             
+                Scene_data.context3D.setWriteDepth(true);
+                Scene_data.context3D.setDepthTest(true);
+                Scene_data.context3D.setCullFaceModel(2);
+               // Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100)%6)
+                Scene_data.context3D.setBlendParticleFactors( -1)
+
                 Scene_data.context3D.setProgram(this.shader.program);
            
                 if (!this.depthFBO.depthViewMatrix3D) {
@@ -176,20 +183,15 @@
                 for (var kt: number = 0; kt < tempM.m.length; kt++) {
                     tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
                 }
-              //  console.log(tempM.transformVector(new Vector3D(2, 0, 0)))
-
-             //   this.pack(0.254)
- 
+          
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
-
-                gl.disable(gl.CULL_FACE);
-                gl.cullFace(gl.FRONT);
-
+   
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
 
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
+                this.skipNum++
             }
 
 
