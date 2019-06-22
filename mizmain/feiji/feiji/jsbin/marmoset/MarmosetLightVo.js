@@ -35,13 +35,17 @@ var mars3D;
         }
         MarmosetLightVoShader.prototype.binLocation = function ($context) {
             $context.bindAttribLocation(this.program, 0, "vPosition");
+            $context.bindAttribLocation(this.program, 1, "u2Texture");
         };
         MarmosetLightVoShader.prototype.getVertexShaderString = function () {
             var $str = "attribute vec3 vPosition;" +
+                "attribute vec2 u2Texture;" +
                 "uniform mat4 viewMatrix3D;" +
+                "varying vec2 d;\n" +
                 "varying vec2 jG; \n" +
                 "void main(void)" +
                 "{" +
+                "   d = vec2(u2Texture.x, u2Texture.y);" +
                 "vec4 vt0= vec4(vPosition, 1.0);" +
                 "vt0 = viewMatrix3D * vt0;" +
                 "gl_Position = vt0;" +
@@ -51,6 +55,8 @@ var mars3D;
         };
         MarmosetLightVoShader.prototype.getFragmentShaderString = function () {
             var $str = "precision highp  float;\n" +
+                "uniform sampler2D tAlbedo;\n" +
+                "varying vec2 d;\n" +
                 "varying vec2 jG; \n" +
                 "vec3 jH(float v){\n" +
                 "vec4 jI = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;\n" +
@@ -71,10 +77,12 @@ var mars3D;
                 "}" +
                 "void main(void) " +
                 "{ " +
+                "vec4 tAlbedoColor =texture2D(tAlbedo,d.xy); " +
                 // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
                 //   "float tempz =0.2340 ;"+
                 //  "gl_FragColor = pack(gl_FragCoord.z); " +
-                "gl_FragColor =vec4(1.0,0.0,0.0,0.5); " +
+                // "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
+                "gl_FragColor =vec4(tAlbedoColor.xyz,1.0); " +
                 //        "gl_FragColor.w=1.0; " +
                 "}";
             return $str;
@@ -86,7 +94,7 @@ var mars3D;
     var MarmosetLightVo = /** @class */ (function () {
         function MarmosetLightVo() {
             this.depthFBO = new MarFBO(1024, 1024);
-            this.depthFBO.color = new Vector3D(1, 1, 1, 1);
+            this.depthFBO.color = new Vector3D(0, 0, 0, 0);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
             var gl = Scene_data.context3D.renderContext;
@@ -149,7 +157,9 @@ var mars3D;
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
+                Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
+                Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
         };
