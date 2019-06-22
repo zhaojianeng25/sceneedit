@@ -275,7 +275,7 @@ module mars3D {
 
  
                  "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
-                 "gl_FragColor =vec4(depthvinfo.xyz,1.0); " +
+                 "gl_FragColor =vec4(depthvinfo.x-0.5,0.0,0.0,1.0); " +
             //     "gl_FragColor =texture2D(tAlbedo, d); " +
         
                 

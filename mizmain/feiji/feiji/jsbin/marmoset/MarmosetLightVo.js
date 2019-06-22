@@ -82,7 +82,7 @@ var mars3D;
                 //   "float tempz =0.2340 ;"+
                 //  "gl_FragColor = pack(gl_FragCoord.z); " +
                 // "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
-                "gl_FragColor =vec4(tAlbedoColor.xyz,1.0); " +
+                "gl_FragColor =vec4(2.12340,0.0,0.0,1.0); " +
                 //        "gl_FragColor.w=1.0; " +
                 "}";
             return $str;
@@ -98,15 +98,18 @@ var mars3D;
             this.depthFBO.color = new Vector3D(1, 1, 0, 0.5);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
-            var gl = Scene_data.context3D.renderContext;
-            var depthTexture = gl.createTexture(); //创建深度贴图
+            /*
+            var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            var depthTexture: WebGLTexture = gl.createTexture();  //创建深度贴图
             gl.bindTexture(gl.TEXTURE_2D, depthTexture);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, 1024, 1024, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
-            this.depthFBO.depthTexture = depthTexture;
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1024, 1024, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            this.depthFBO.texture = depthTexture;
+
+            */
             // alert(gl.getExtension("WEBGL_depth_texture"))
         }
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
