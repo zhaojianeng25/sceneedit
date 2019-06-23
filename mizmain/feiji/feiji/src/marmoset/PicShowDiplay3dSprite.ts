@@ -286,11 +286,13 @@ module mars3D {
                 "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
 
                 "float tempz =unpack(depthvinfo) ;" +
+
+
               
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
-
-                "if (tempz>0.9123457) { " +
-                    //"gl_FragColor = vec4(1.0,0.0,0.0,1.0); " +
+                "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
+                "if (tempz<lightvo.z/lightvo.w-0.001) { " +
+                      "gl_FragColor =vec4(0.5,0.5,0.5,1.0); " +
                 "}  " +
         
                 
