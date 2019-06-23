@@ -384,8 +384,9 @@ for(int k=0;k<LIGHT_COUNT;++k){
  
 #endif
 
-	//  outcolor=vec4(el.xyz,1.0); //默认
-	   outcolor=texture2D(tAlbedo,d); //默认
+	 //  outcolor=vec4(el.xyz,1.0); //默认
+	//   outcolor=texture2D(tAlbedo,d); //默认
+	
 	
 	
 #endif
