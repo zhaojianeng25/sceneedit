@@ -79,11 +79,13 @@ var mars3D;
                 "{ " +
                 "vec4 tAlbedoColor =texture2D(tAlbedo,d.xy); " +
                 // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
-                //   "float tempz =0.2340 ;"+
-                //  "gl_FragColor = pack(gl_FragCoord.z); " +
+                "float tempz =0.5551 ;" +
+                "gl_FragColor = pack(tempz); " +
+                "gl_FragColor =tAlbedoColor; " +
                 // "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
-                "gl_FragColor =vec4(2.12340,0.0,0.0,1.0); " +
-                //        "gl_FragColor.w=1.0; " +
+                //  "gl_FragColor =vec4(1.0,0.0,0.0,0.1); " +
+                //   "gl_FragColor = vec4(gl_FragCoord.z,0.0,0.1236,1.0);\n" +
+                //   "gl_FragColor.w=1.0; " +
                 "}";
             return $str;
         };

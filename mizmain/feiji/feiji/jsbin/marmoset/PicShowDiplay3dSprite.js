@@ -182,15 +182,23 @@ var mars3D;
                 "hd = clamp(hd, 0.0, 1.0 );" +
                 "return hd * hd;" +
                 "}" +
-                "highp vec4 mathdepthuv(highp mat4 i,highp vec3 p){" +
-                //  "return i*vec4(p,1.0);" +
+                "vec4 mathdepthuv(highp mat4 i,highp vec3 p){" +
                 "vec4 outVec4 =i*vec4(p,1.0) ;" +
                 "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
-                //"outVec4.xy =(outVec4.xy+1.0)*0.5 ;" +
                 "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy); " +
-                // "return  vec4(outVec4.x,0.0,0.0,1.0);" +
                 "return  vec4(outColorVec4.xyz,1.0);" +
                 " } " +
+                "vec4 pack (float depth) {\n" +
+                " vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);\n" +
+                " vec4 bitMask = vec4(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);\n" +
+                "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
+                "rgbaDepth -= rgbaDepth.gbaa * bitMask;  \n" +
+                "return rgbaDepth;\n" +
+                "}\n" +
+                "float unpack( vec4 rgbaDepth) {" +
+                " vec4 bitShift = vec4(1.0, 1.0 / 256.0, 1.0 / (256.0 * 256.0), 1.0 / (256.0 * 256.0 * 256.0));" +
+                "return dot(rgbaDepth, bitShift);" +
+                "}" +
                 "void main(void) " +
                 "{ " +
                 "vec4 m=texture2D(tAlbedo,d);" +
@@ -212,8 +220,13 @@ var mars3D;
                 "eu = min(eu, 1.0e3);" +
                 "ev eA; \n" +
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
-                "gl_FragColor =vec4(depthvinfo.x-0.5,0.0,0.0,1.0); " +
+                "float tempz =unpack(depthvinfo) ;" +
+                "gl_FragColor =vec4(tempz,0.0,0.0,1.0); " +
                 //     "gl_FragColor =texture2D(tAlbedo, d); " +
+                "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
+                "if (tempz>0.5440) { " +
+                //   "gl_FragColor = vec4(0.0,1.0,0.0,1.0); " +
+                "}  " +
                 "}";
             return $str;
         };
