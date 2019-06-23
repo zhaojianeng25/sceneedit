@@ -60,14 +60,14 @@
                 "} \n" +
 
                 "vec4 pack (float depth) {\n" +
-                    " vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);\n" +
-                    " vec4 bitMask = vec4(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);\n" +
+                    " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
+                    " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
                     "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
                     "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
                     "return rgbaDepth;\n" +
                 "}\n" +
                 "float unpack( vec4 rgbaDepth) {" +
-                    " vec4 bitShift = vec4(1.0, 1.0 / 256.0, 1.0 / (256.0 * 256.0), 1.0 / (256.0 * 256.0 * 256.0));" +
+                    " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
                     "return dot(rgbaDepth, bitShift);" +
                 "}" +
 
