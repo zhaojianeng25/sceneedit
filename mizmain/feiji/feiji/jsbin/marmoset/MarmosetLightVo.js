@@ -79,7 +79,7 @@ var mars3D;
                 "{ " +
                 "vec4 tAlbedoColor =texture2D(tAlbedo,d.xy); " +
                 // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
-                "float tempz =0.91289 ;" +
+                "float tempz =0.912 ;" +
                 "vec4 tempVec4 = pack(tempz); " +
                 "float tempFoalt = unpack(tempVec4); " +
                 // "gl_FragColor = pack(tempz); " +
@@ -150,6 +150,54 @@ var mars3D;
                 GlReset.resetBasePrarame(gl);
             }
         };
+        MarmosetLightVo.prototype.fract = function (value) {
+            return value - Math.floor(value);
+        };
+        MarmosetLightVo.prototype.make255 = function (value) {
+            return Math.floor(value * 255) / 255;
+        };
+        MarmosetLightVo.prototype.packdepth = function (depth) {
+            console.log("base", depth);
+            var bitShift = new Vector3D(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);
+            var bitMask = new Vector3D(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);
+            var rgbaDepth = bitShift.clone();
+            rgbaDepth.x *= depth;
+            rgbaDepth.y *= depth;
+            rgbaDepth.z *= depth;
+            rgbaDepth.w *= depth;
+            console.log(rgbaDepth);
+            rgbaDepth.x = this.fract(rgbaDepth.x);
+            rgbaDepth.y = this.fract(rgbaDepth.y);
+            rgbaDepth.z = this.fract(rgbaDepth.z);
+            rgbaDepth.w = this.fract(rgbaDepth.w);
+            console.log(rgbaDepth);
+            rgbaDepth.x -= rgbaDepth.y * bitMask.x;
+            rgbaDepth.y -= rgbaDepth.z * bitMask.y;
+            rgbaDepth.z -= rgbaDepth.w * bitMask.z;
+            rgbaDepth.w -= rgbaDepth.w * bitMask.w;
+            console.log(rgbaDepth);
+            rgbaDepth.x = this.make255(rgbaDepth.x);
+            rgbaDepth.y = this.make255(rgbaDepth.y);
+            rgbaDepth.z = this.make255(rgbaDepth.z);
+            rgbaDepth.w = this.make255(rgbaDepth.w);
+            console.log(rgbaDepth);
+            rgbaDepth.w = 1;
+            var outNum = this.upackDepth(rgbaDepth);
+            console.log("outNum=>", outNum);
+            console.log("basereb=>", Math.floor(depth * 255) / 255);
+            console.log("----------------", depth - outNum);
+            //"vec4 rgbaDepth = fract(depth * bitShift);  \n" +
+            //"rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
+            //"return rgbaDepth;\n" +
+        };
+        MarmosetLightVo.prototype.upackDepth = function (value) {
+            var bitShift = new Vector3D(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));
+            var outNum = bitShift.x * value.x + bitShift.y * value.y + bitShift.z * value.z + bitShift.w * value.w;
+            //   console.log(outNum)
+            //" vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
+            //    "return dot(rgbaDepth, bitShift);" 
+            return outNum;
+        };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
                 //    Pan3d.Scene_data.context3D.setWriteDepth(true);
@@ -162,6 +210,7 @@ var mars3D;
                 // Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100)%6)
                 Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100) % 6);
                 //console.log(Math.floor(this.skipNum / 100) % 6)
+                this.packdepth(0.9223234);
                 Scene_data.context3D.setProgram(this.shader.program);
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];
