@@ -189,14 +189,14 @@ var mars3D;
                 "return  vec4(outColorVec4.xyz,1.0);" +
                 " } " +
                 "vec4 pack (float depth) {\n" +
-                " vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);\n" +
-                " vec4 bitMask = vec4(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);\n" +
+                " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
+                " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
                 "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
-                "rgbaDepth -= rgbaDepth.gbaa * bitMask;  \n" +
+                "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
                 "return rgbaDepth;\n" +
                 "}\n" +
                 "float unpack( vec4 rgbaDepth) {" +
-                " vec4 bitShift = vec4(1.0, 1.0 / 256.0, 1.0 / (256.0 * 256.0), 1.0 / (256.0 * 256.0 * 256.0));" +
+                " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
                 "return dot(rgbaDepth, bitShift);" +
                 "}" +
                 "void main(void) " +
@@ -225,8 +225,8 @@ var mars3D;
                 //     "gl_FragColor =texture2D(tAlbedo, d); " +
                 // "gl_FragColor = vec4(depthvinfo.w,0.0,0.0,1.0); " +
                 "gl_FragColor = vec4(depthvinfo.rgb,1.0); " +
-                "if (tempz>0.5440) { " +
-                //   "gl_FragColor = vec4(0.0,1.0,0.0,1.0); " +
+                "if (tempz>0.9123458) { " +
+                "gl_FragColor = vec4(1.0,0.0,0.0,1.0); " +
                 "}  " +
                 "}";
             return $str;

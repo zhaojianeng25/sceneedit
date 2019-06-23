@@ -79,13 +79,13 @@ var mars3D;
                 "{ " +
                 "vec4 tAlbedoColor =texture2D(tAlbedo,d.xy); " +
                 // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
-                "float tempz =0.912 ;" +
+                "float tempz =0.9123456 ;" +
                 "vec4 tempVec4 = pack(tempz); " +
                 "float tempFoalt = unpack(tempVec4); " +
-                // "gl_FragColor = pack(tempz); " +
-                "gl_FragColor =tAlbedoColor; " +
-                "if (tempFoalt==0.9128900) { " +
-                "gl_FragColor = vec4(0.0,1.0,0.0,1.0); " +
+                "gl_FragColor = pack(tempz); " +
+                // "gl_FragColor =tAlbedoColor; " +
+                "if (tempFoalt>0.9123455) { " +
+                // "gl_FragColor = vec4(0.0,1.0,0.0,1.0); " +
                 "}  " +
                 // "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //  "gl_FragColor =vec4(1.0,0.0,0.0,0.1); " +
@@ -181,7 +181,7 @@ var mars3D;
             rgbaDepth.z = this.make255(rgbaDepth.z);
             rgbaDepth.w = this.make255(rgbaDepth.w);
             console.log(rgbaDepth);
-            rgbaDepth.w = 1;
+            rgbaDepth.w = 0.1;
             var outNum = this.upackDepth(rgbaDepth);
             console.log("outNum=>", outNum);
             console.log("basereb=>", Math.floor(depth * 255) / 255);
@@ -210,7 +210,7 @@ var mars3D;
                 // Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100)%6)
                 Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100) % 6);
                 //console.log(Math.floor(this.skipNum / 100) % 6)
-                this.packdepth(0.9223234);
+                //  this.packdepth(0.91234)
                 Scene_data.context3D.setProgram(this.shader.program);
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];
