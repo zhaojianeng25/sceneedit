@@ -107,7 +107,7 @@
 
  
         public constructor() {
-            this.depthFBO = new MarFBO(1024, 1024);
+            this.depthFBO = new MarFBO(2048, 2048);
             this.depthFBO.color = new Vector3D(0, 0, 0, 0);
 
 
@@ -255,7 +255,19 @@
            
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];
+          
                 }
+
+                var tempArr: Array<number> = [-2.399169445037842, 0.007191055919975042, 0.026615558192133904, 0.026615558192133904, 0.00008928590250434354, 2.9879062175750732, -0.08928610384464264, -0.08928610384464264, 0.06313783675432205, 0.26900720596313477, 0.9956503510475159, 0.9956503510475159, 0.7742966413497925, -2.6027095317840576, 27.5628662109375, 28.162866592407227]
+                for (var kt: number = 0; kt < tempArr.length; kt++) {
+                    this.depthFBO.depthViewMatrix3D[kt] = tempArr[kt];
+                }
+
+                console.log(window["mview"])
+               // console.log(window["mview"],window["uShadowMatrices"])
+               // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
+
+
                 var tempM: Matrix3D = new Matrix3D()
                 for (var kt: number = 0; kt < tempM.m.length; kt++) {
                     tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]

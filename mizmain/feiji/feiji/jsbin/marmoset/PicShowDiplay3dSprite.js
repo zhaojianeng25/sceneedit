@@ -228,7 +228,7 @@ var mars3D;
                 "float tempz =unpack(depthvinfo) ;" +
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
                 "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
-                "if (tempz<lightvo.z/lightvo.w-0.0000001) { " +
+                "if (tempz<lightvo.z/lightvo.w-0.001) { " +
                 "gl_FragColor =vec4(0.5,0.5,0.5,1.0); " +
                 "}  " +
                 "}";
