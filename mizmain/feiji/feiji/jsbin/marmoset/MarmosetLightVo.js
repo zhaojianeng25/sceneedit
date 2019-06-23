@@ -68,7 +68,7 @@ var mars3D;
                 " vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);\n" +
                 " vec4 bitMask = vec4(1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0, 0.0);\n" +
                 "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
-                "rgbaDepth -= rgbaDepth.gbaa * bitMask;  \n" +
+                "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
                 "return rgbaDepth;\n" +
                 "}\n" +
                 "float unpack( vec4 rgbaDepth) {" +
@@ -79,13 +79,18 @@ var mars3D;
                 "{ " +
                 "vec4 tAlbedoColor =texture2D(tAlbedo,d.xy); " +
                 // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
-                "float tempz =0.5551 ;" +
-                "gl_FragColor = pack(tempz); " +
+                "float tempz =0.91289 ;" +
+                "vec4 tempVec4 = pack(tempz); " +
+                "float tempFoalt = unpack(tempVec4); " +
+                // "gl_FragColor = pack(tempz); " +
                 "gl_FragColor =tAlbedoColor; " +
+                "if (tempFoalt==0.9128900) { " +
+                "gl_FragColor = vec4(0.0,1.0,0.0,1.0); " +
+                "}  " +
                 // "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //  "gl_FragColor =vec4(1.0,0.0,0.0,0.1); " +
                 //   "gl_FragColor = vec4(gl_FragCoord.z,0.0,0.1236,1.0);\n" +
-                //   "gl_FragColor.w=1.0; " +
+                //   "gl_FragColor.w=0.0; " +
                 "}";
             return $str;
         };
@@ -97,7 +102,7 @@ var mars3D;
         function MarmosetLightVo() {
             this.skipNum = 1;
             this.depthFBO = new MarFBO(1024, 1024);
-            this.depthFBO.color = new Vector3D(1, 1, 0, 0.5);
+            this.depthFBO.color = new Vector3D(0, 0, 0, 0);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
             /*
@@ -126,6 +131,7 @@ var mars3D;
             gl.enable(gl.DEPTH_TEST);
             gl.depthMask(true);
             gl.enable(gl.BLEND);
+            gl.disable(gl.BLEND); //不用混合模式
             gl.frontFace(gl.CW);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
@@ -152,9 +158,10 @@ var mars3D;
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setWriteDepth(true);
                 Scene_data.context3D.setDepthTest(true);
-                Scene_data.context3D.setCullFaceModel(2);
+                //  Scene_data.context3D.setCullFaceModel(2);
                 // Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100)%6)
-                Scene_data.context3D.setBlendParticleFactors(-1);
+                Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100) % 6);
+                //console.log(Math.floor(this.skipNum / 100) % 6)
                 Scene_data.context3D.setProgram(this.shader.program);
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];

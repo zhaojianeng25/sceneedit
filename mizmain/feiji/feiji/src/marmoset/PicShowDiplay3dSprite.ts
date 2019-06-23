@@ -283,7 +283,8 @@ module mars3D {
                 "float tempz =unpack(depthvinfo) ;" +
                  "gl_FragColor =vec4(tempz,0.0,0.0,1.0); " +
             //     "gl_FragColor =texture2D(tAlbedo, d); " +
-                "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
+              // "gl_FragColor = vec4(depthvinfo.w,0.0,0.0,1.0); " +
+                "gl_FragColor = vec4(depthvinfo.rgb,1.0); " +
                 "if (tempz>0.5440) { " +
                  //   "gl_FragColor = vec4(0.0,1.0,0.0,1.0); " +
                 "}  " +
