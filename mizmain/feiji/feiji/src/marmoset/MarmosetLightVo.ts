@@ -35,11 +35,13 @@
                 "{" +
                 "   d = vec2(u2Texture.x, u2Texture.y);" +
                     "vec4 vt0= vec4(vPosition, 1.0);" +
-                    "vt0 = viewMatrix3D * vt0;" +
-  
+                "vt0 = viewMatrix3D * vt0;" +
+
+                "jG=vt0.zw;" +
+
                     "gl_Position = vt0;" +
                   
-                    "jG=gl_Position.zw;"+
+                    
                 "}"
             return $str
 
@@ -60,6 +62,7 @@
                 "} \n" +
 
                 "vec4 pack (float depth) {\n" +
+                     "depth=depth*0.5+0.5;\n" +
                     " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
                     " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
                     "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
@@ -68,14 +71,17 @@
                 "}\n" +
                 "float unpack( vec4 rgbaDepth) {" +
                     " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
-                    "return dot(rgbaDepth, bitShift);" +
+                    "float outnum=  dot(rgbaDepth, bitShift);" +
+                     "outnum=(outnum-0.5)*2.0;\n" +
+                        "return outnum;" +
                 "}" +
 
                 "void main(void) " +
                 "{ " +
                 "vec4 tAlbedoColor =texture2D(tAlbedo,d.xy); " +
               // "gl_FragColor.xyz=jH((jG.x/jG.y)*0.5+0.5); " +
-                "float tempz =0.9123456 ;"+
+                //"float tempz =0.9123456 ;"+
+                "float tempz =jG.x/jG.y;"+
                  "vec4 tempVec4 = pack(tempz); " +
                  "float tempFoalt = unpack(tempVec4); " +
                  "gl_FragColor = pack(tempz); " +
