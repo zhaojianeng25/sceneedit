@@ -1,0 +1,6 @@
+E:\github\sceneEdit\mizmain\feijishadow\feijishadow\bin\feijishadow.dll.config
+E:\github\sceneEdit\mizmain\feijishadow\feijishadow\bin\feijishadow.dll
+E:\github\sceneEdit\mizmain\feijishadow\feijishadow\bin\feijishadow.pdb
+E:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.csproj.CoreCompileInputs.cache
+E:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.dll
+E:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.pdb
