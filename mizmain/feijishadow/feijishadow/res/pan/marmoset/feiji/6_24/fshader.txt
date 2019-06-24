@@ -109,7 +109,7 @@ float hK(sampler2D hL,highp vec2 hA,highp float H){
 highp float hN(sampler2D hL,highp vec3 hA,float hO){
 	highp vec2 l=uShadowKernelRotation*hO;
 	float s;
-	s=hK(hL,hA.xy+l,hA.z);
+	s=hK(hL,hA.xy,hA.z);
 	//s+=hK(hL,hA.xy-l,hA.z);
 	//s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
 	//s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
@@ -126,12 +126,11 @@ void eB(out ev ss,float hO){
 	for(int k=0;k<SHADOW_COUNT;++k){
 		vec4 hQ=uShadowTexelPadProjections[k];
 		float hR=hQ.x*dv.x+(hQ.y*dv.y+(hQ.z*dv.z+hQ.w));
-		#ifdef MOBILE
-			hR*=.001+hO;
-		#else
-			hR*=.0005+0.5*hO;
-		#endif
-		highp vec4 hS=h(uShadowMatrices[k],dv+hR*hu);
+	
+		 	hR*=.00005;
+ 
+		highp vec4 hS=uShadowMatrices[k]*vec4(dv+hR,1.0);
+		
 		hP[k]=hS.xyz/hS.w;
 	}
 	float m;
@@ -385,7 +384,7 @@ for(int k=0;k<LIGHT_COUNT;++k){
  
 #endif
 
-	 //  outcolor=vec4(el.xyz,1.0); //默认
+	//   outcolor=vec4(dv.xyz,1.0); //默认
 	//   outcolor=texture2D(tAlbedo,d); //默认
 	
 	

@@ -291,9 +291,11 @@ module mars3D {
               
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
                 "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
-                "if (tempz<lightvo.z/lightvo.w-0.0002) { " +
+                "if (tempz<lightvo.z/lightvo.w-0.000005) { " +
                 "gl_FragColor =vec4(0.0,0.0,0.0,1.0); " +
                 "}  " +
+
+              //  "gl_FragColor =vec4(dv,1.0); " +
 
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
@@ -374,6 +376,7 @@ module mars3D {
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
                 }
                 if (window["uSkyMatrix"]) {
+
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "uSkyMatrix", window["uSkyMatrix"]);
                 }
                 if (window["uCameraPosition"]) {
@@ -420,10 +423,7 @@ module mars3D {
                         for (var kt: number = 0; kt < tempM.m.length; kt++) {
                             tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
                         }
-                        var addM: Matrix3D = new Matrix3D(); //设置映射纹理坐标;
-                        addM.appendTranslation(-1, -1, 0)
-                        addM.appendScale(0.5, 0.5, 1);
-                        tempM.append(addM);
+
                         Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m);  //深度矩阵
  
                     }
@@ -447,6 +447,15 @@ module mars3D {
  
 
         }
+        private getChangeM(): Matrix3D {
+            var addM: Matrix3D = new Matrix3D(); //设置映射纹理坐标;
+            addM.appendTranslation(-1, -1, 0)
+            addM.appendScale(0.5, 0.5, 1);
+
+
+            return addM
+        }
+ 
         private isFinish: boolean
         private makeMeshItemTexture(): void {
             var albedArr: Array<string> = []

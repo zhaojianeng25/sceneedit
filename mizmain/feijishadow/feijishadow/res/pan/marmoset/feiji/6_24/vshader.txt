@@ -25,7 +25,7 @@ d=vTexCoord+uUVOffset;
 dA=u(uSkyMatrix,iW(vTangent));
 dB=u(uSkyMatrix,iW(vBitangent));
 dC=u(uSkyMatrix,iW(vNormal));
-dv=h(uSkyMatrix,vPosition.xyz).xyz;
+dv=(uSkyMatrix*vec4(vPosition,1.0)).xyz;
 #ifdef VERTEX_COLOR
 dD=vColor;
 #endif

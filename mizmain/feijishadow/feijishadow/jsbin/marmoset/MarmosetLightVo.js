@@ -109,18 +109,16 @@ var mars3D;
             this.depthFBO.color = new Vector3D(0, 0, 0, 0);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
-            /*
-            var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
-            var depthTexture: WebGLTexture = gl.createTexture();  //创建深度贴图
-            gl.bindTexture(gl.TEXTURE_2D, depthTexture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            var gl = Scene_data.context3D.renderContext;
+            this.depthFBO.texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.depthFBO.width, this.depthFBO.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1024, 1024, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-            this.depthFBO.texture = depthTexture;
-
-            */
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            this.depthFBO.frameBuffer = gl.createFramebuffer();
+            this.depthFBO.depthBuffer = gl.createRenderbuffer();
+            gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
+            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
             // alert(gl.getExtension("WEBGL_depth_texture"))
         }
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
@@ -202,6 +200,16 @@ var mars3D;
             //    "return dot(rgbaDepth, bitShift);" 
             return outNum;
         };
+        MarmosetLightVo.prototype.getShaderMatrix3D = function () {
+            var skym = new Matrix3D();
+            var shdowM = new Matrix3D();
+            for (var i = 0; i < skym.m.length; i++) {
+                skym.m[i] = window["uSkyMatrix"][i];
+                shdowM.m[i] = window["uShadowMatrices"][i];
+            }
+            shdowM.prepend(skym);
+            return shdowM;
+        };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
                 //    Pan3d.Scene_data.context3D.setWriteDepth(true);
@@ -219,7 +227,11 @@ var mars3D;
                 if (!this.depthFBO.depthViewMatrix3D) {
                     this.depthFBO.depthViewMatrix3D = window["mview"];
                 }
-                var tempArr = [-2.399169445037842, 0.007191055919975042, 0.026615558192133904, 0.026615558192133904, 0.00008928590250434354, 2.9879062175750732, -0.08928610384464264, -0.08928610384464264, 0.06313783675432205, 0.26900720596313477, 0.9956503510475159, 0.9956503510475159, 0.7742966413497925, -2.6027095317840576, 27.5628662109375, 28.162866592407227];
+                // var tempArr: Array<number> = [-2.399169445037842, 0.007191055919975042, 0.026615558192133904, 0.026615558192133904, 0.00008928590250434354, 2.9879062175750732, -0.08928610384464264, -0.08928610384464264, 0.06313783675432205, 0.26900720596313477, 0.9956503510475159, 0.9956503510475159, 0.7742966413497925, -2.6027095317840576, 27.5628662109375, 28.162866592407227];
+                var tempArr = [-1.2128925323486328, -0.009712250903248787, 0.026615558192133904, 0.026615558192133904, 0.04468769580125809, 1.5385961532592773, -0.08928610384464264, -0.08928610384464264, -0.4662562608718872, -0.36332157254219055, 0.9956503510475159, 0.9956503510475159, -13.69428539276123, -15.382787704467773, 27.5628662109375, 28.162866592407227];
+                //  tempArr = window["uShadowMatrices"]
+                var toBiM = this.getShaderMatrix3D();
+                //tempArr = toBiM.m
                 for (var kt = 0; kt < tempArr.length; kt++) {
                     this.depthFBO.depthViewMatrix3D[kt] = tempArr[kt];
                 }
@@ -227,16 +239,29 @@ var mars3D;
                 // console.log(window["mview"],window["uShadowMatrices"])
                 // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
                 var tempM = new Matrix3D();
+                var skyM = new Matrix3D();
                 for (var kt = 0; kt < tempM.m.length; kt++) {
                     tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
+                    skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
+                var inverAddM = this.getChangeM();
+                inverAddM.invert();
+                tempM.append(inverAddM);
+                // console.log(window["uSkyMatrix"])
+                console.log(skyM.transformVector(new Vector3D()));
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
                 this.skipNum++;
             }
+        };
+        MarmosetLightVo.prototype.getChangeM = function () {
+            var addM = new Matrix3D(); //设置映射纹理坐标;
+            addM.appendTranslation(-1, -1, 0);
+            addM.appendScale(0.5, 0.5, 1);
+            return addM;
         };
         return MarmosetLightVo;
     }());

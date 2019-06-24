@@ -228,9 +228,10 @@ var mars3D;
                 "float tempz =unpack(depthvinfo) ;" +
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
                 "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
-                "if (tempz<lightvo.z/lightvo.w-0.0002) { " +
+                "if (tempz<lightvo.z/lightvo.w-0.000005) { " +
                 "gl_FragColor =vec4(0.0,0.0,0.0,1.0); " +
                 "}  " +
+                //  "gl_FragColor =vec4(dv,1.0); " +
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //"}  " +
@@ -326,10 +327,6 @@ var mars3D;
                         for (var kt = 0; kt < tempM.m.length; kt++) {
                             tempM.m[kt] = mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
                         }
-                        var addM = new Matrix3D(); //设置映射纹理坐标;
-                        addM.appendTranslation(-1, -1, 0);
-                        addM.appendScale(0.5, 0.5, 1);
-                        tempM.append(addM);
                         Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m); //深度矩阵
                     }
                 }
@@ -342,6 +339,12 @@ var mars3D;
                 Scene_data.context3D.setVa(4, 3, mesh.objData.normalsBuffer);
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
             }
+        };
+        PicShowDiplay3dSprite.prototype.getChangeM = function () {
+            var addM = new Matrix3D(); //设置映射纹理坐标;
+            addM.appendTranslation(-1, -1, 0);
+            addM.appendScale(0.5, 0.5, 1);
+            return addM;
         };
         PicShowDiplay3dSprite.prototype.makeMeshItemTexture = function () {
             var albedArr = [];

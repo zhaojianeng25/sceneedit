@@ -2517,7 +2517,7 @@ marmoset = {};
           , q = Matrix.mul(Matrix.empty(), c.projectionMatrix, q)
           , u = Matrix.mul(Matrix.empty(), d.matrix, u);
         m.uniformMatrix4fv(p.uModelViewProjectionMatrix, !1, q);
-		window["mview"]=q
+		window["mview"]=q;
         m.uniformMatrix4fv(p.uSkyMatrix, !1, u);
 		window["uSkyMatrix"]=u
 		
@@ -2538,10 +2538,18 @@ marmoset = {};
 		//window["uShadowMatrices"]=d.finalTransformBuffer;
 		
  
-		window["uShadowMatrices"]=[]
-		for(var kt=d.finalTransformBuffer.length-16;kt<d.finalTransformBuffer.length;kt++){
+		window["uShadowMatrices"]=[];
+		for(var kt=32;kt<48;kt++){
 	 
-			window["uShadowMatrices"].push(d.finalTransformBuffer[kt])
+			window["uShadowMatrices"].push(d.finalTransformBuffer[kt]);
+	 
+			
+		   // d.finalTransformBuffer[kt]=0;
+			
+			
+		}
+		for(var kt=0;kt<32;kt++){
+		 	d.finalTransformBuffer[kt]=0;
 		}
 	   
 		
@@ -3544,21 +3552,21 @@ marmoset = {};
             e.uniform4fv(g.uGrainCoord, h.grainCoord);
             e.uniform2fv(g.uGrainScaleBias, h.grainScaleBias);
 			
-			console.log(this.sampleIndex,"/",this.sampleCount)
+		//	console.log(this.sampleIndex,"/",this.sampleCount)
 			
             if (a = 1 < this.sampleCount && 0 <= this.sampleIndex) {
                 var k = 1 / (1 + this.sampleIndex);
-					console.log("color--",k)
+				//	console.log("color--",k)
                 this.sampleIndex += 1;
             //    1 > k && (e.enable(e.BLEND),
              //   e.blendColor(k, k, k, k),
              //   e.blendFunc(e.CONSTANT_ALPHA, e.ONE_MINUS_CONSTANT_ALPHA));
               // this.aaTarget.bind();
-				console.log("处理-----1")
+				//console.log("处理-----1")
             } else{
 				   Framebuffer.bindNone(e),
                 1 < this.sampleCount && (this.sampleIndex += 1);
-				console.log("处理-----2")
+				//console.log("处理-----2")
 				
 			}
 			a=false;
