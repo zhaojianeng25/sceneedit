@@ -129,6 +129,8 @@ module mars3D {
 
                 "uniform highp mat4 depthViewMatrix3D;" +  //阴影深度矩阵
 
+     
+
                 "uniform float uHorizonOcclude;" +
                 "uniform highp vec2 uShadowKernelRotation;" +
 
@@ -282,7 +284,8 @@ module mars3D {
 
  
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
-                "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
+              "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
+              //  "vec4 lightvo=uShadowMatrices[2] *vec4(vPos, 1.0);" +
                 "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
 
                 "float tempz =unpack(depthvinfo) ;" +
@@ -397,7 +400,8 @@ module mars3D {
                     Scene_data.context3D.setVc4fv(this.shader, "uShadowTexelPadProjections", window["uShadowTexelPadProjections"]);
                 }
                 if (window["uShadowMatrices"]) {
-                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
+                    var tempuShadowMatrices = window["uShadowMatrices"]
+                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
  
                 }
                 if (window["uShadowKernelRotation"]) {

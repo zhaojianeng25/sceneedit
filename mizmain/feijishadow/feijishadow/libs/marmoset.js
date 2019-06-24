@@ -2,454 +2,67 @@ marmoset = {};
 (function(marmoset) {
     'use strict';
     function AnimatedObject(a, b, c) {
-        this.name = b.partName;
-        this.animatedProperties = [];
-        this.sceneObjectType = b.sceneObjectType;
-        this.skinningRigIndex = b.skinningRigIndex;
-        this.id = c;
-        this.mesh = this.skinningRig = 0;
-        this.materialIndex = this.lightIndex = this.meshIndex = -1;
-        this.emissiveProperty = this.offsetVProperty = this.offsetUProperty = this.material = 0;
-        this.debugMe = b.debugMe;
-        this.debugString = "";
-        this.hasTransform = !1;
-        this.modelPartIndex = b.modelPartIndex;
-        this.modelPartFPS = b.modelPartFPS;
-        this.modelPartScale = b.modelPartScale;
-        this.parentIndex = b.parentIndex;
-        this.startTime = b.startTime;
-        this.endTime = b.endTime;
-        this.animationLength = this.endTime - this.startTime;
-        this.totalFrames = b.totalFrames;
-        this.turnTableSpinOffset = this.turnTableSpin = this.spinProperty = this.dispersionProperty = this.lightIllumProperty = this.skyIllumProperty = this.opacityProperty = this.spotSharpnessProperty = this.spotAngleProperty = this.distanceProperty = this.brightnessProperty = this.blueProperty = this.greenProperty = this.redProperty = this.visibleProperty = 0;
-        if (b.animatedProperties) {
-            c = b.animatedProperties.length;
-            for (var d = 0; d < c; ++d) {
-                var e = b.animatedProperties[d]
-                  , f = new AnimatedProperty;
-                f.name = e.name;
-                this.animatedProperties.push(f);
-                "Red" != f.name || this.redProperty || (this.redProperty = f);
-                "Green" != f.name || this.greenProperty || (this.greenProperty = f);
-                "Blue" != f.name || this.blueProperty || (this.blueProperty = f);
-                "Brightness" != f.name || this.brightnessProperty || (this.brightnessProperty = f);
-                "Distance" != f.name || this.distanceProperty || (this.distanceProperty = f);
-                "Spot Angle" != f.name || this.spotAngleProperty || (this.spotAngleProperty = f);
-                "Spot Sharpness" != f.name || this.spotSharpnessProperty || (this.spotSharpnessProperty = f);
-                "Opacity" != f.name || this.opacityProperty || (this.opacityProperty = f);
-                "Sky Illumination" != f.name || this.skyIllumProperty || (this.skyIllumProperty = f);
-                "Light Illumination" != f.name || this.lightIllumProperty || (this.lightIllumProperty = f);
-                "Dispersion" != f.name || this.dispersionProperty || (this.dispersionProperty = f);
-                "Visible" != f.name || this.visibleProperty || (this.visibleProperty = f);
-                "Spin Rate" == f.name && (this.spinProperty = f);
-                "OffsetU" == f.name && (this.offsetUProperty = f);
-                "OffsetV" == f.name && (this.offsetVProperty = f);
-                "EmissiveIntensity" == f.name && (this.emissiveProperty = f)
-            }
-        }
-        this.keyframesSharedBufferUShorts = this.keyframesSharedBufferFloats = this.keyFramesByteStream = 0;
-        if (a = a.get(b.file))
-            this.keyFramesByteStream = new ByteStream(a.data),
-            this.unPackKeyFrames();
-        this.animatedLocalTransform = new AnimatedTransform(this);
-        this.hasTransform = this.animatedLocalTransform.hasTranslation || this.animatedLocalTransform.hasRotation || this.animatedLocalTransform.hasScale;
-        this.cachedWorldTransform0 = Matrix.identity();
-        this.cachedWorldTransform1 = Matrix.identity();
-        this.cachedWorldTransform2 = Matrix.identity();
-        this.cachedWorldTransform3 = Matrix.identity();
-        this.cachedFrame3 = this.cachedFrame2 = this.cachedFrame1 = this.cachedFrame0 = -10;
-        this.cachedFrameUse3 = this.cachedFrameUse2 = this.cachedFrameUse1 = this.cachedFrameUse0 = 0;
-        this.useFixedLocalTransform = this.useFixedWorldTransform = !1
+       
     }
     AnimatedObject.prototype.setFixedWorldTransform = function(a) {
-        this.useFixedWorldTransform = !0;
-        Matrix.copy(this.cachedWorldTransform0, a)
+ 
     }
     ;
     AnimatedObject.prototype.setFixedLocalTransform = function(a) {
-        this.useFixedLocalTransform = !0;
-        this.animatedLocalTransform.lockTransform = !0;
-        Matrix.copy(this.animatedLocalTransform.cachedmatrix0, a)
+      
     }
     ;
     AnimatedObject.prototype.getCachedWorldTransform = function(a) {
-        return this.useFixedWorldTransform ? 0 : a == this.cachedFrame0 ? this.cachedmatrix0 : a == this.cachedFrame1 ? this.cachedmatrix1 : a == this.cachedFrame2 ? this.cachedmatrix2 : a == this.cachedFrame3 ? this.cachedmatrix3 : 0
-    }
+        return null
+		
+		}
     ;
     AnimatedObject.prototype.getFreeCachedWorldTransform = function(a) {
-        if (this.useFixedWorldTransform)
-            return 0;
-        this.cachedFrameUse0--;
-        this.cachedFrameUse1--;
-        this.cachedFrameUse2--;
-        this.cachedFrameUse3--;
-        if (this.cachedFrameUse0 <= this.cachedFrameUse1 && this.cachedFrameUse0 <= this.cachedFrameUse2 && this.cachedFrameUse0 <= this.cachedFrameUse3)
-            return this.cachedFrame0 = a,
-            this.cachedFrameUse0 = 0,
-            this.cachedWorldTransform0;
-        if (this.cachedFrameUse1 <= this.cachedFrameUse0 && this.cachedFrameUse1 <= this.cachedFrameUse2 && this.cachedFrameUse1 <= this.cachedFrameUse3)
-            return this.cachedFrame1 = a,
-            this.cachedFrameUse1 = 0,
-            this.cachedWorldTransform1;
-        if (this.cachedFrameUse2 <= this.cachedFrameUse0 && this.cachedFrameUse2 <= this.cachedFrameUse1 && this.cachedFrameUse2 <= this.cachedFrameUse3)
-            return this.cachedFrame2 = a,
-            this.cachedFrameUse2 = 0,
-            this.cachedWorldTransform2;
-        this.cachedFrame3 = a;
-        this.cachedFrameUse3 = 0;
-        return this.cachedWorldTransform3
+         
+        return null
     }
     ;
     AnimatedObject.prototype.unPackKeyFrames = function() {
-        if (this.keyFramesByteStream) {
-            var a = new Float32Array(this.keyFramesByteStream.bytes.buffer)
-              , b = new Uint32Array(this.keyFramesByteStream.bytes.buffer)
-              , c = new Uint16Array(this.keyFramesByteStream.bytes.buffer)
-              , d = new Uint8Array(this.keyFramesByteStream.bytes.buffer);
-            this.keyframesSharedBufferFloats = a;
-            this.keyframesSharedBufferUShorts = b;
-            for (var a = 0, b = b[0], a = 1 + b, b = this.animatedProperties.length, e = 0; e < b; e++) {
-                var f = this.animatedProperties[e]
-                  , g = 2 + 2 * e
-                  , h = 2 * g;
-                f.keyframeBufferStartIndexFloat = a;
-                f.numKeyframes = c[g];
-                f.keyframePackingType = d[h + 2];
-                f.interpolationType = d[h + 3];
-                f.indexFloatSkip = 0;
-                f.indexUShortSkip = 0;
-                0 < f.numKeyframes && (0 == f.keyframePackingType ? (f.bytesPerKeyFrame = 16,
-                f.indexFloatSkip = 4,
-                f.indexUShortSkip = 8,
-                f.valueOffsetFloat = 0,
-                f.weighInOffsetFloat = 1,
-                f.weighOutOffsetFloat = 2,
-                f.frameIndexOffsetUShort = 6,
-                f.interpolationOffsetUShort = 7) : 1 == f.keyframePackingType ? (f.bytesPerKeyFrame = 8,
-                f.indexFloatSkip = 2,
-                f.indexUShortSkip = 4,
-                f.valueOffsetFloat = 0,
-                f.weighInOffsetFloat = 0,
-                f.weighOutOffsetFloat = 0,
-                f.frameIndexOffsetUShort = 2,
-                f.interpolationOffsetUShort = 3) : 2 == f.keyframePackingType && (f.bytesPerKeyFrame = 4,
-                f.indexFloatSkip = 1,
-                f.indexUShortSkip = 2,
-                f.valueOffsetFloat = 0,
-                f.weighInOffsetFloat = 0,
-                f.weighOutOffsetFloat = 0,
-                f.frameIndexOffsetUShort = 0,
-                f.interpolationOffsetUShort = 0));
-                a += f.numKeyframes * f.indexFloatSkip
-            }
-        }
+       
     }
     ;
     AnimatedObject.prototype.setupSkinningRig = function(a, b, c, d) {
-        var e = Matrix.identity()
-          , f = Matrix.identity()
-          , g = a.animatedObjects[b]
-          , h = c * g.modelPartFPS
-          , h = h - Math.floor(h);
-        c = Math.floor(a.getObjectAnimationFramePercent(g, c));
-        var g = c + 1
-          , k = 1 - h
-          , l = d.skinningClusters.length;
-        if (0 < l)
-            for (var n = 0; n < l; n++) {
-                var m = d.skinningClusters[n];
-                m.solveClusterTransformAtFrame(a, b, c, e);
-                m.solveClusterTransformAtFrame(a, b, g, f);
-                for (var m = m.matrix, p = 0; 16 > p; p++)
-                    m[p] = e[p] * k + f[p] * h
-            }
+        
     }
     ;
     AnimatedObject.prototype.evaluateLocalTransformAtFramePercent = function(a, b, c, d) {
-        if (this.useFixedLocalTransform)
-            Matrix.copy(b, this.animatedLocalTransform.cachedmatrix0);
-        else {
-            var e = 0;
-            d && (e = this.animatedLocalTransform.getCachedTransform(a));
-            e ? Matrix.copy(b, e) : ((e = this.animatedLocalTransform.getFreeCachedTransform(a)) ? (this.animatedLocalTransform.evaluateMatrix(e, this.totalFrames, a, c),
-            Matrix.copy(b, e)) : this.animatedLocalTransform.evaluateMatrix(b, this.totalFrames, a, c),
-            0 != this.turnTableSpin && (a = Matrix.rotation(Matrix.empty(), this.turnTableSpin, 1),
-            Matrix.mul(b, b, a)))
-        }
+       
     }
     ;
     AnimatedObject.prototype.hasAnimatedTransform = function() {
-        var a = this.animatedLocalTransform;
-        return a.TX && 1 < a.TX.numKeyframes || a.TY && 1 < a.TY.numKeyframes || a.TZ && 1 < a.TZ.numKeyframes || a.RX && 1 < a.RX.numKeyframes || a.RY && 1 < a.RY.numKeyframes || a.RZ && 1 < a.RZ.numKeyframes || a.SX && 1 < a.SX.numKeyframes || a.SY && 1 < a.SY.numKeyframes || a.SZ && 1 < a.SZ.numKeyframes ? !0 : !1
-    }
+       return null }
     ;
     function AnimatedProperty() {
-        this.currentValue = 0;
-        this.keyframeBufferStartIndexFloat = -1;
-        this.lastValue = this.interpolationOffsetUShort = this.frameIndexOffsetUShort = this.weighOutOffsetFloat = this.weighInOffsetFloat = this.valueOffsetFloat = this.indexUShortSkip = this.indexFloatSkip = this.interpolationType = this.bytesPerKeyFrame = this.keyframePackingType = 0;
-        this.lastFramePercent = -10;
-        this.enable = !0;
-        this.name = "NONE";
-        this.splineKF0 = new KeyFrame(0,0);
-        this.splineKF1 = new KeyFrame(0,0);
-        this.splineKF2 = new KeyFrame(0,0);
-        this.splineKF3 = new KeyFrame(0,0);
-        this.debugMe = !0;
-        this.debugString = "";
-        this.lastSearchIndex = 1;
-        this.savedSearchIndex = 0;
-        this.splineKF0.frameIndex = 0;
-        this.splineKF1.frameIndex = 1;
-        this.splineKF2.frameIndex = 2;
-        this.splineKF3.frameIndex = 3;
-        this.numKeyframes = 0
+        
     }
     AnimatedProperty.prototype.evaluateCurve = function(a, b) {
-        var c = this.splineKF1.frameIndex
-          , d = this.splineKF2.frameIndex
-          , e = this.splineKF1.value
-          , f = this.splineKF2.value
-          , g = c - (this.splineKF2.frameIndex - this.splineKF0.frameIndex)
-          , h = d - (this.splineKF1.frameIndex - this.splineKF3.frameIndex)
-          , k = e - (this.splineKF2.value - this.splineKF0.value) * this.splineKF1.weighOut
-          , l = f - (this.splineKF1.value - this.splineKF3.value) * this.splineKF2.weighIn;
-        3 == this.splineKF1.interpolation && (g = c - (this.splineKF2.frameIndex - this.splineKF1.frameIndex),
-        k = e - this.splineKF1.weighOut);
-        3 == this.splineKF2.interpolation && (h = d - (this.splineKF1.frameIndex - this.splineKF2.frameIndex),
-        l = f + this.splineKF2.weighIn);
-        g = (a - g) / (c - g);
-        c = (a - c) / (d - c);
-        d = (a - d) / (h - d);
-        h = e * (1 - c) + f * c;
-        return ((k * (1 - g) + e * g) * (1 - c) + h * c) * (1 - c) + ((f * (1 - d) + l * d) * c + h * (1 - c)) * c
+         
+        return null
     }
     ;
     AnimatedProperty.prototype.evaluate = function(a, b, c) {
-        if (!c)
-            return b;
-        if (0 == this.numKeyframes)
-            return this.lastValue = b;
-        if (1 == this.numKeyframes)
-            return this.lastValue = 2 == this.keyframePackingType ? c.keyframesSharedBufferFloats[this.keyframeBufferStartIndexFloat] : c.keyframesSharedBufferFloats[this.keyframeBufferStartIndexFloat + this.valueOffsetFloat];
-        if (this.lastFramePercent == a)
-            return this.lastValue;
-        var d = this.keyframeBufferStartIndexFloat
-          , e = 2 * this.keyframeBufferStartIndexFloat;
-        this.lastValue = b;
-        this.lastFramePercent = a;
-        if (2 == this.keyframePackingType) {
-            b = Math.floor(a);
-            var f = a - b;
-            a >= this.numKeyframes && (b -= Math.floor(a / this.numKeyframes) * this.numKeyframes);
-            if (b >= this.numKeyframes - 1)
-                return this.lastValue = c.keyframesSharedBufferFloats[d + (this.numKeyframes - 1)];
-            if (0 > b)
-                return this.lastValue = c.keyframesSharedBufferFloats[d];
-            if (0 == f)
-                return this.lastValue = c.keyframesSharedBufferFloats[d + b];
-            a = e = c.keyframesSharedBufferFloats[d + b];
-            b++;
-            b >= this.numKeyframes && (b -= this.numKeyframes);
-            0 <= b && b < this.numKeyframes ? a = e * (1 - f) + c.keyframesSharedBufferFloats[d + b] * f : c.debugString += "<br>bad lerp frame " + b + " of " + this.numKeyframes;
-            return this.lastValue = a
-        }
-        var g = this.numKeyframes
-          , f = c.keyframesSharedBufferUShorts[e + this.frameIndexOffsetUShort];
-        if (a >= c.keyframesSharedBufferUShorts[e + (g - 1) * this.indexUShortSkip + this.frameIndexOffsetUShort])
-            return this.lastValue = c.keyframesSharedBufferFloats[d + (g - 1) * this.indexFloatSkip + this.valueOffsetFloat];
-        if (a < f)
-            return this.lastValue = c.keyframesSharedBufferFloats[d + this.valueOffsetFloat];
-        this.lastSearchIndex < this.numKeyframes && a > c.keyframesSharedBufferUShorts[e + this.lastSearchIndex * this.indexUShortSkip + this.frameIndexOffsetUShort] && (this.lastSearchIndex = 1);
-        for (var h = this.lastSearchIndex; h < g; h++) {
-            var f = d + h * this.indexFloatSkip
-              , k = d + (h - 1) * this.indexFloatSkip
-              , l = e + h * this.indexUShortSkip
-              , n = e + (h - 1) * this.indexUShortSkip;
-            if (a >= c.keyframesSharedBufferUShorts[n + this.frameIndexOffsetUShort] && a <= c.keyframesSharedBufferUShorts[l + this.frameIndexOffsetUShort]) {
-                this.lastSearchIndex = h;
-                var m = c.keyframesSharedBufferUShorts[n + this.interpolationOffsetUShort];
-                if (2 == m) {
-                    this.lastValue = a = a >= c.keyframesSharedBufferUShorts[l + this.frameIndexOffsetUShort] ? c.keyframesSharedBufferFloats[f + this.valueOffsetFloat] : c.keyframesSharedBufferFloats[k + this.valueOffsetFloat];
-                    break
-                }
-                if (0 == m) {
-                    d = c.keyframesSharedBufferUShorts[n + this.frameIndexOffsetUShort];
-                    b = c.keyframesSharedBufferFloats[k + this.valueOffsetFloat];
-                    e = c.keyframesSharedBufferFloats[f + this.valueOffsetFloat];
-                    f = (a - d) / (c.keyframesSharedBufferUShorts[l + this.frameIndexOffsetUShort] - d);
-                    this.lastValue = a = b * (1 - f) + e * f;
-                    break
-                }
-                if (1 == m || 3 == m) {
-                    var p = m = !1
-                      , r = 0
-                      , s = c.keyframesSharedBufferFloats[k + this.valueOffsetFloat]
-                      , u = c.keyframesSharedBufferFloats[f + this.valueOffsetFloat]
-                      , q = 0
-                      , x = 0
-                      , n = c.keyframesSharedBufferUShorts[n + this.frameIndexOffsetUShort]
-                      , l = c.keyframesSharedBufferUShorts[l + this.frameIndexOffsetUShort]
-                      , w = 0
-                      , v = 1
-                      , t = 1
-                      , y = 1
-                      , E = 1
-                      , F = 1
-                      , A = 1
-                      , B = 1
-                      , z = 1;
-                    0 != this.weighInOffsetFloat && (t = c.keyframesSharedBufferFloats[k + this.weighInOffsetFloat],
-                    y = c.keyframesSharedBufferFloats[f + this.weighInOffsetFloat],
-                    A = c.keyframesSharedBufferFloats[k + this.weighOutOffsetFloat],
-                    B = c.keyframesSharedBufferFloats[f + this.weighOutOffsetFloat]);
-                    1 < h && (m = !0,
-                    r = c.keyframesSharedBufferFloats[d + (h - 2) * this.indexFloatSkip + this.valueOffsetFloat],
-                    x = c.keyframesSharedBufferUShorts[e + (h - 2) * this.indexUShortSkip + this.frameIndexOffsetUShort],
-                    0 != this.weighInOffsetFloat && (v = c.keyframesSharedBufferFloats[d + (h - 2) * this.indexFloatSkip + this.weighInOffsetFloat],
-                    F = c.keyframesSharedBufferFloats[d + (h - 2) * this.indexFloatSkip + this.weighOutOffsetFloat]));
-                    h < g - 1 && (p = !0,
-                    q = c.keyframesSharedBufferFloats[d + (h + 1) * this.indexFloatSkip + this.valueOffsetFloat],
-                    w = c.keyframesSharedBufferUShorts[e + (h + 1) * this.indexUShortSkip + this.frameIndexOffsetUShort],
-                    0 != this.weighInOffsetFloat && (E = c.keyframesSharedBufferFloats[d + (h + 1) * this.indexFloatSkip + this.weighInOffsetFloat],
-                    z = c.keyframesSharedBufferFloats[d + (h + 1) * this.indexFloatSkip + this.weighOutOffsetFloat]));
-                    m && p ? (this.splineKF0.value = r,
-                    this.splineKF1.value = s,
-                    this.splineKF2.value = u,
-                    this.splineKF3.value = q,
-                    this.splineKF0.frameIndex = x,
-                    this.splineKF1.frameIndex = n,
-                    this.splineKF2.frameIndex = l,
-                    this.splineKF3.frameIndex = w,
-                    this.splineKF0.weighIn = v,
-                    this.splineKF0.weighOut = F,
-                    this.splineKF1.weighIn = t,
-                    this.splineKF1.weighOut = A,
-                    this.splineKF2.weighIn = y,
-                    this.splineKF2.weighOut = B,
-                    this.splineKF3.weighIn = E,
-                    this.splineKF3.weighOut = z) : (this.splineKF0.value = s,
-                    this.splineKF1.value = s,
-                    this.splineKF2.value = u,
-                    this.splineKF3.value = u,
-                    this.splineKF0.frameIndex = n,
-                    this.splineKF1.frameIndex = n,
-                    this.splineKF2.frameIndex = l,
-                    this.splineKF3.frameIndex = l,
-                    this.splineKF1.weighIn = t,
-                    this.splineKF2.weighIn = y,
-                    this.splineKF1.weighOut = A,
-                    this.splineKF2.weighOut = B,
-                    p ? (this.splineKF3.value = q,
-                    this.splineKF3.frameIndex = w,
-                    this.splineKF3.weighIn = E,
-                    this.splineKF3.weighOut = z) : (this.splineKF3.frameIndex++,
-                    this.splineKF3.value = this.splineKF1.value,
-                    this.splineKF3.weighIn = 1,
-                    this.splineKF3.weighOut = 1),
-                    m ? (this.splineKF0.value = r,
-                    this.splineKF0.frameIndex = x,
-                    this.splineKF0.weighIn = v,
-                    this.splineKF0.weighOut = F) : (this.splineKF0.value = this.splineKF2.value,
-                    this.splineKF0.weighIn = 1,
-                    this.splineKF0.weighOut = 1,
-                    0 < this.splineKF0.frameIndex ? this.splineKF0.frameIndex-- : (this.splineKF1.frameIndex++,
-                    this.splineKF2.frameIndex++,
-                    this.splineKF3.frameIndex++,
-                    a++)));
-                    this.lastValue = a = this.evaluateCurve(a, b);
-                    break
-                }
-            }
-        }
-        return this.lastValue
+        
+        return null
     }
     ;
     function AnimatedTransform(a) {
-        var b = a.animatedProperties;
-        this.TX = this.TY = this.TZ = this.RX = this.RY = this.RZ = this.SX = this.SY = this.SZ = 0;
-        this.hostObject = a;
-        this.matrix = Matrix.identity();
-        this.cachedmatrix0 = Matrix.identity();
-        this.cachedmatrix1 = Matrix.identity();
-        this.cachedmatrix2 = Matrix.identity();
-        this.cachedmatrix3 = Matrix.identity();
-        this.cachedFrame3 = this.cachedFrame2 = this.cachedFrame1 = this.cachedFrame0 = -1;
-        this.cachedFrameUse3 = this.cachedFrameUse2 = this.cachedFrameUse1 = this.cachedFrameUse0 = 0;
-        this.debugString = "";
-        for (a = 0; a < b.length; a++) {
-            var c = b[a];
-            "Translation X" == c.name ? this.TX = c : "Translation Y" == c.name ? this.TY = c : "Translation Z" == c.name ? this.TZ = c : "Rotation X" == c.name ? this.RX = c : "Rotation Y" == c.name ? this.RY = c : "Rotation Z" == c.name ? this.RZ = c : "Scale X" == c.name ? this.SX = c : "Scale Y" == c.name ? this.SY = c : "Scale Z" == c.name && (this.SZ = c)
-        }
-        this.hasTranslation = this.TX && this.TY && this.TZ;
-        this.hasRotation = this.RX && this.RY && this.RZ;
-        this.hasScale = this.SX && this.SY && this.SZ;
-        this.lockTransform = !1
+         return null
     }
     AnimatedTransform.prototype.getTRSValue = function(a, b, c) {
-        if (!b)
-            return c;
-        b.evaluate(a, c, this.hostObject);
-        "" != b.debugString && (this.debugString += b.debugString);
-        return b.lastValue
+    return null
     }
     ;
     AnimatedTransform.prototype.evaluateMatrix = function(a, b, c, d) {
-        if (this.lockTransform)
-            Matrix.copy(a, this.cachedmatrix0);
-        else {
-            var e = 0
-              , f = b = 0
-              , e = f = b = 0
-              , e = f = b = 1;
-            this.hasRotation ? (e = this.getTRSValue(c, this.RX, 0),
-            b = this.getTRSValue(c, this.RY, 0),
-            f = this.getTRSValue(c, this.RZ, 0),
-            d ? (this.matrix = Matrix.rotation(Matrix.empty(), f, 2),
-            d = Matrix.rotation(Matrix.empty(), e, 0),
-            Matrix.mul(d, d, this.matrix),
-            this.matrix = Matrix.rotation(Matrix.empty(), b, 1)) : (this.matrix = Matrix.rotation(Matrix.empty(), e, 0),
-            d = Matrix.rotation(Matrix.empty(), b, 1),
-            Matrix.mul(d, d, this.matrix),
-            this.matrix = Matrix.rotation(Matrix.empty(), f, 2)),
-            Matrix.mul(this.matrix, this.matrix, d)) : Matrix.copy(this.matrix, Matrix.identity());
-            this.hasTranslation && (b = this.getTRSValue(c, this.TX, 0),
-            f = this.getTRSValue(c, this.TY, 0),
-            e = this.getTRSValue(c, this.TZ, 0),
-            this.matrix[12] = b,
-            this.matrix[13] = f,
-            this.matrix[14] = e);
-            this.hasScale && (b = this.getTRSValue(c, this.SX, 1),
-            f = this.getTRSValue(c, this.SY, 1),
-            e = this.getTRSValue(c, this.SZ, 1),
-            this.matrix[0] *= b,
-            this.matrix[4] *= f,
-            this.matrix[8] *= e,
-            this.matrix[1] *= b,
-            this.matrix[5] *= f,
-            this.matrix[9] *= e,
-            this.matrix[2] *= b,
-            this.matrix[6] *= f,
-            this.matrix[10] *= e,
-            this.matrix[3] *= b,
-            this.matrix[7] *= f,
-            this.matrix[11] *= e);
-            Matrix.copy(a, this.matrix)
-        }
+        
     }
     ;
     AnimatedTransform.prototype.clearCachedTransforms = function() {
-        this.cachedFrame3 = this.cachedFrame2 = this.cachedFrame1 = this.cachedFrame0 = -1;
-        this.cachedFrameUse3 = this.cachedFrameUse2 = this.cachedFrameUse1 = this.cachedFrameUse0 = 0;
-        this.TX && (this.TX.lastFramePercent = -10);
-        this.TY && (this.TY.lastFramePercent = -10);
-        this.TZ && (this.TZ.lastFramePercent = -10);
-        this.RX && (this.RX.lastFramePercent = -10);
-        this.RY && (this.RY.lastFramePercent = -10);
-        this.RZ && (this.RZ.lastFramePercent = -10);
-        this.SX && (this.SX.lastFramePercent = -10);
-        this.SY && (this.SY.lastFramePercent = -10);
-        this.SZ && (this.SZ.lastFramePercent = -10);
-        this.lockTransform = !1
+     return null
     }
     ;
     AnimatedTransform.prototype.getCachedTransform = function(a) {
@@ -457,96 +70,18 @@ marmoset = {};
     }
     ;
     AnimatedTransform.prototype.getFreeCachedTransform = function(a) {
-        if (this.lockTransform)
-            return 0;
-        this.cachedFrameUse0--;
-        this.cachedFrameUse1--;
-        this.cachedFrameUse2--;
-        this.cachedFrameUse3--;
-        if (this.cachedFrameUse0 <= this.cachedFrameUse1 && this.cachedFrameUse0 <= this.cachedFrameUse2 && this.cachedFrameUse0 <= this.cachedFrameUse3 || this.cachedFrame0 == a)
-            return this.cachedFrame0 = a,
-            this.cachedFrameUse0 = 0,
-            this.cachedmatrix0;
-        if (this.cachedFrameUse1 <= this.cachedFrameUse0 && this.cachedFrameUse1 <= this.cachedFrameUse2 && this.cachedFrameUse1 <= this.cachedFrameUse3 || this.cachedFrame1 == a)
-            return this.cachedFrame1 = a,
-            this.cachedFrameUse1 = 0,
-            this.cachedmatrix1;
-        if (this.cachedFrameUse2 <= this.cachedFrameUse0 && this.cachedFrameUse2 <= this.cachedFrameUse1 && this.cachedFrameUse2 <= this.cachedFrameUse3 || this.cachedFrame2 == a)
-            return this.cachedFrame2 = a,
-            this.cachedFrameUse2 = 0,
-            this.cachedmatrix2;
-        this.cachedFrame3 = a;
-        this.cachedFrameUse3 = 0;
-        return this.cachedmatrix3
+         return null
     }
     ;
     function Animation(a, b) {
-        this.originalFPS = 1;
-        this.name = b.name;
-        this.totalSeconds = b.length;
-        this.originalFPS = b.originalFPS;
-        this.totalFrames = b.totalFrames;
-        this.expectedNumAnimatedObjects = b.numAnimatedObjects;
-        this.animatedObjects = [];
-        this.sceneTransform = Matrix.identity();
-        this.debugString = "";
-        if (b.animatedObjects)
-            for (var c = b.animatedObjects.length, d = 0; d < c; ++d) {
-                var e = new AnimatedObject(a,b.animatedObjects[d],d);
-                this.animatedObjects.push(e);
-                this.debugString += e.debugString
-            }
-        this.meshObjects = [];
-        this.lightObjects = [];
-        this.materialObjects = [];
-        this.turnTableObjects = [];
-        this.cameraObjects = []
+     
     }
     Animation.prototype.evaluateModelPartTransformAtFrame = function(a, b, c, d) {
-        Matrix.copy(c, Matrix.identity());
-        for (var e = 0; 100 > e; e++) {
-            var f = this.animatedObjects[a];
-            if (a == f.parentIndex)
-                break;
-            if (f.useFixedWorldTransform) {
-                Matrix.mul(c, f.cachedWorldTransform0, c);
-                break
-            } else {
-                var g = 0;
-                d && (g = f.getCachedWorldTransform(b));
-                if (g) {
-                    Matrix.mul(c, g, c);
-                    break
-                } else
-                    g = Matrix.identity(),
-                    f.evaluateLocalTransformAtFramePercent(b, g, !1, d),
-                    Matrix.mul(c, g, c),
-                    a == f.parentIndex && (e = 100),
-                    a = f.parentIndex
-            }
-        }
+         return null
     }
     ;
     Animation.prototype.lerpModelPartTransform = function(a, b, c, d) {
-        var e = this.animatedObjects[a];
-        if (e.useFixedWorldTransform)
-            Matrix.copy(c, e.cachedWorldTransform0);
-        else {
-            var f = b * e.modelPartFPS
-              , f = f - Math.floor(f)
-              , g = Math.floor(this.getObjectAnimationFramePercent(e, b))
-              , h = g + 1
-              , k = b = 0;
-            d && (b = e.getCachedWorldTransform(g),
-            k = e.getCachedWorldTransform(h));
-            b || ((b = e.getFreeCachedWorldTransform(g)) || (b = Matrix.identity()),
-            this.evaluateModelPartTransformAtFrame(a, g, b, d));
-            k || ((k = e.getFreeCachedWorldTransform(h)) || (k = Matrix.identity()),
-            this.evaluateModelPartTransformAtFrame(a, h, k, d));
-            a = 1 - f;
-            for (d = 0; 16 > d; d++)
-                c[d] = b[d] * a + k[d] * f
-        }
+        return null
     }
     ;
     Animation.prototype.getModelPartTransform = function(a, b, c, d) {
@@ -554,77 +89,15 @@ marmoset = {};
     }
     ;
     Animation.prototype.getAnimatedLocalTransform = function(a, b, c, d) {
-        a = this.animatedObjects[a];
-        var e = this.animatedObjects[a.parentIndex]
-          , f = e.modelPartIndex != e.id
-          , g = Matrix.identity();
-        this.getModelPartTransform(a.modelPartIndex, b, g, d);
-        if (f) {
-            var f = Matrix.identity()
-              , h = Matrix.identity();
-            this.getModelPartTransform(e.modelPartIndex, b, f, d);
-            Matrix.invert(h, f);
-            Matrix.mul(c, h, g);
-            c[12] *= a.modelPartScale;
-            c[13] *= a.modelPartScale;
-            c[14] *= a.modelPartScale
-        } else
-            Matrix.copy(c, g)
+       return null
     }
     ;
     Animation.prototype.isVisibleAtFramePercent = function(a, b) {
-        for (var c = a, d = 0, e = 0; 100 > e; e++) {
-            d = this.animatedObjects[c];
-            if (d.visibleProperty) {
-                d.visibleProperty.evaluate(b, 1, d);
-                if ("" != d.debugString || "" != d.visibleProperty.debugString)
-                    return this.debugString += d.debugString,
-                    this.debugString += d.visibleProperty.debugString,
-                    !1;
-                if (0 == d.visibleProperty.lastValue)
-                    return !1
-            }
-            c == d.parentIndex && (e = 100);
-            c = d.parentIndex
-        }
-        return !0
+         return null
     }
     ;
     Animation.prototype.getWorldTransform = function(a, b, c, d, e) {
-        a = this.animatedObjects[a];
-        if (a.useFixedWorldTransform)
-            Matrix.copy(c, a.cachedWorldTransform0);
-        else {
-            var f = this.getObjectAnimationFramePercent(a, b)
-              , g = Matrix.identity();
-            a.evaluateLocalTransformAtFramePercent(f, g, !0, e);
-            if (f = a.modelPartIndex != a.id) {
-                var f = Matrix.identity()
-                  , h = Matrix.identity();
-                Matrix.copy(h, g);
-                this.getAnimatedLocalTransform(a.id, b, f);
-                Matrix.mul(g, f, h)
-            }
-            Matrix.copy(c, g);
-            if (a.parentIndex != a.id)
-                for (var k = a.parentIndex, l = 0; 100 > l; l++)
-                    a = this.animatedObjects[k],
-                    f = this.getObjectAnimationFramePercent(a, b),
-                    g = Matrix.identity(),
-                    a.evaluateLocalTransformAtFramePercent(f, g, !0, e),
-                    (f = a.modelPartIndex != a.id) ? (f = Matrix.identity(),
-                    this.getAnimatedLocalTransform(a.id, b, f),
-                    h = Matrix.identity(),
-                    Matrix.mul(h, g, c),
-                    Matrix.mul(c, f, h)) : (h = Matrix.identity(),
-                    Matrix.copy(h, c),
-                    Matrix.mul(c, g, h)),
-                    k == a.parentIndex && (l = 100),
-                    k = a.parentIndex;
-            c[12] *= d;
-            c[13] *= d;
-            c[14] *= d
-        }
+        return null
     }
     ;
     Animation.prototype.hasParentInHierarchy = function(a, b) {
@@ -639,25 +112,11 @@ marmoset = {};
     }
     ;
     Animation.prototype.hasParentTypeInHierarchy = function(a, b) {
-        for (var c = a.parentIndex, d = 0; 100 > d; d++) {
-            a = this.animatedObjects[c];
-            if (a.sceneObjectType == b)
-                return !0;
-            c == a.parentIndex && (d = 100);
-            c = a.parentIndex
-        }
-        return !1
+        return null
     }
     ;
     Animation.prototype.searchAnimationUpHierarchy = function(a) {
-        for (var b = a.id, c = 0; 100 > c; c++) {
-            a = this.animatedObjects[b];
-            if (a.animatedLocalTransform && (a.hasAnimatedTransform() || a.id != a.modelPartIndex && this.searchAnimationUpHierarchy(this.animatedObjects[a.modelPartIndex])))
-                return !0;
-            b == a.parentIndex && (c = 100);
-            b = a.parentIndex
-        }
-        return !1
+     return null
     }
     ;
     Animation.prototype.hasAnimationInHierarchy = function(a) {
@@ -665,16 +124,7 @@ marmoset = {};
     }
     ;
     Animation.prototype.getObjectAnimationFramePercent = function(a, b) {
-        if (0 == this.totalFrames || 0 == a.animationLength)
-            return 0;
-        if (a.endTime == this.totalSeconds)
-            return b * a.modelPartFPS;
-        var c = b / a.animationLength
-          , c = Math.floor(c);
-        b -= a.animationLength * c;
-        c = b * a.modelPartFPS;
-        c >= a.totalFrames + 1 && (c = a.totalFrames);
-        return c
+     return null
     }
     ;
     function Archive(a) {
@@ -1392,73 +842,7 @@ marmoset = {};
         a.bindBuffer(a.ARRAY_BUFFER, null)
     }
     Fog.prototype.draw = function(a, b) {
-        var c = this.gl
-          , d = a.view
-          , e = d.projectionMatrix
-          , f = Matrix.empty();
-        Matrix.mul(f, d.viewMatrix, d.projectionMatrix);
-        Matrix.invert(f, d.viewProjectionMatrix);
-        f = [e[10] + e[11], -e[14], -2 * e[11]];
-        e = [-2 / e[0], -2 / e[5], (1 - e[8]) / e[0], (1 - e[9]) / e[5]];
-        c.enable(c.BLEND);
-        c.blendFunc(c.ONE, c.ONE_MINUS_SRC_ALPHA);
-        for (var g = 0; g < a.lights.count + 1; ++g) {
-            var h = g - 1, k = h < a.lights.shadowCount, l;
-            l = 0 == g ? this.iblShader : 0 < a.lights.spot[3 * h] ? k ? this.spotShaderShadow : this.spotShader : 0 < a.lights.getLightPos(h)[3] ? this.omniShader : k ? this.dirShaderShadow : this.dirShader;
-            l.bind();
-            var n = l.params;
-            c.uniform3fv(n.uDepthToZ, f);
-            c.uniform4fv(n.uUnproject, e);
-            c.uniformMatrix4fv(n.uInvViewMatrix, !1, d.transform);
-            c.uniform1f(n.uFogInvDistance, 1 / this.desc.distance);
-            c.uniform1f(n.uFogOpacity, this.desc.opacity * (1 - a.stripData.activeFade()));
-            c.uniform1f(n.uFogDispersion, 1 - this.desc.dispersion);
-            var m = [0, 0, 0];
-            m[this.desc.type] = 1;
-            c.uniform3fv(n.uFogType, m);
-            c.uniform3fv(n.uFogColor, this.desc.color);
-            c.uniform1f(n.uFogIllum, 0 == g ? this.desc.skyIllum : this.desc.lightIllum);
-            c.uniformMatrix4fv(n.uLightMatrix, !1, a.lights.invMatrix);
-            if (0 == g) {
-                h = new Float32Array(a.sky.diffuseCoefficients);
-                for (k = 4; 16 > k; ++k)
-                    h[k] *= 1 - this.desc.dispersion;
-                for (k = 16; 36 > k; ++k)
-                    h[k] *= 1 - this.desc.dispersion * this.desc.dispersion;
-                c.uniform4fv(n.uFogLightSphere, h)
-            } else {
-                var p = a.lights.getLightPos(h)
-                  , p = Matrix.mul4(Vect.empty(), a.lights.invMatrix, p[0], p[1], p[2], p[3])
-                  , m = a.lights.getLightDir(h)
-                  , m = Matrix.mulVec(Vect.empty(), a.lights.invMatrix, m[0], m[1], m[2]);
-                c.uniform4fv(n.uLightPosition, p);
-                c.uniform3fv(n.uLightColor, a.lights.getColor(h));
-                var p = 0.01745329251 * a.lights.spot[3 * h]
-                  , r = Math.cos(0.5 * p);
-                c.uniform4fv(n.uSpotParams, [-m[0], -m[1], -m[2], 0 < p ? r * r : 0]);
-                c.uniform4fv(n.uLightAttenuation, [a.lights.parameters[3 * h + 0], a.lights.parameters[3 * h + 1], a.lights.parameters[3 * h + 2], r]);
-                k && (k = Matrix.mul(Matrix.empty(), a.lights.finalTransformBuffer.subarray(16 * h), a.lights.matrix),
-                c.uniformMatrix4fv(n.uShadowProj, !1, k),
-                a.shadow.depthTextures[h].bind(l.samplers.uShadowMap),
-                h = 0,
-                1 < a.postRender.sampleCount && (h = a.postRender.currentSample() / a.postRender.sampleCount),
-                c.uniform1f(n.uDitherOffset, h),
-                c.uniform3fv(n.uAABBMin, a.bounds.min),
-                c.uniform3fv(n.uAABBMax, a.bounds.max),
-                h = Vect.lerp(Vect.empty(), a.bounds.min, a.bounds.max, 0.5),
-                k = Vect.distance(h, a.bounds.min),
-                c.uniform4f(n.uCylinder, h[0], h[1], h[2], k * k))
-            }
-            b.bind(l.samplers.tDepth);
-            l = l.attribs.vCoord;
-            c.bindBuffer(c.ARRAY_BUFFER, this.fullscreenTriangle);
-            c.enableVertexAttribArray(l);
-            c.vertexAttribPointer(l, 2, c.FLOAT, !1, 0, 0);
-            c.drawArrays(c.TRIANGLES, 0, 3);
-            c.disableVertexAttribArray(l);
-            c.bindBuffer(c.ARRAY_BUFFER, null)
-        }
-        c.disable(c.BLEND)
+      
     }
     ;
     Fog.prototype.complete = function() {
@@ -1479,7 +863,9 @@ marmoset = {};
         a.framebufferRenderbuffer(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.RENDERBUFFER, this.depthBuffer),
         a.bindRenderbuffer(a.RENDERBUFFER, null))));
         this.valid = b && b.ignoreStatus || a.checkFramebufferStatus(a.FRAMEBUFFER) == a.FRAMEBUFFER_COMPLETE;
-        a.bindFramebuffer(a.FRAMEBUFFER, null)
+        a.bindFramebuffer(a.FRAMEBUFFER, null);
+		
+		console.log( b.depth)
     }
     Framebuffer.createDepthBuffer = function(a, b, c) {
         var d = a.createRenderbuffer();
@@ -2122,7 +1508,7 @@ marmoset = {};
             Matrix.copyToBuffer(this.modelViewBuffer, 16 * d, g);
             Matrix.copyToBuffer(this.projectionBuffer, 16 * d, h);
             Matrix.copyToBuffer(this.finalTransformBuffer, 16 * d, k);
-            Matrix.invert(k, k);
+           // Matrix.invert(k, k);
             Matrix.copyToBuffer(this.inverseTransformBuffer, 16 * d, k)
         }
         e = !1;
@@ -2535,15 +1921,12 @@ marmoset = {};
 		
 		window["uDiffuseCoefficients"]=e.diffuseCoefficients;
 		
-		//window["uShadowMatrices"]=d.finalTransformBuffer;
+		 window["uShadowMatrices"]=d.finalTransformBuffer;
 		
  
-		window["uShadowMatrices"]=[];
+		window["depthViewMatrix3D"]=[];
 		for(var kt=32;kt<48;kt++){
-	 
-			window["uShadowMatrices"].push(d.finalTransformBuffer[kt]);
-	 
-			
+			window["depthViewMatrix3D"].push(d.finalTransformBuffer[kt]);
 		   // d.finalTransformBuffer[kt]=0;
 			
 			
@@ -2574,8 +1957,8 @@ marmoset = {};
 		
         m.uniformMatrix4fv(p.uInvShadowMatrices, !1, d.inverseTransformBuffer),
         m.uniform4fv(p.uShadowTexelPadProjections, d.shadowTexelPadProjections),
-        f.bindDepthTexture(s.tDepth0, 0),
-        f.bindDepthTexture(s.tDepth1, 1),
+        f.bindDepthTexture(s.tDepth2, 0),
+        f.bindDepthTexture(s.tDepth2, 1),
         f.bindDepthTexture(s.tDepth2, 2)));
         h && (m.uniform3fv(p.uSubdermisColor, h.subdermisColor),
         m.uniform4fv(p.uTransColor, h.transColor),

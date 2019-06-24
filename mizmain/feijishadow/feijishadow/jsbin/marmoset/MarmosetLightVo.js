@@ -208,6 +208,7 @@ var mars3D;
                 shdowM.m[i] = window["uShadowMatrices"][i];
             }
             shdowM.prepend(skym);
+            //   console.log(skym.m)
             return shdowM;
         };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
@@ -248,7 +249,7 @@ var mars3D;
                 inverAddM.invert();
                 tempM.append(inverAddM);
                 // console.log(window["uSkyMatrix"])
-                console.log(skyM.transformVector(new Vector3D()));
+                //  console.log(skyM.transformVector(new Vector3D()))
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);

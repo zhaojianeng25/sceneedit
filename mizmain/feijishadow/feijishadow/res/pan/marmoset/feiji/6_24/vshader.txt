@@ -11,6 +11,7 @@ attribute vec4 vColor;
 attribute vec2 vTexCoord2;
 #endif
 varying highp vec3 dv;varying mediump vec2 d;varying mediump vec3 dA;varying mediump vec3 dB;varying mediump vec3 dC;
+varying highp vec3 vpos;
 #ifdef VERTEX_COLOR
 varying lowp vec4 dD;
 #endif
@@ -26,6 +27,7 @@ dA=u(uSkyMatrix,iW(vTangent));
 dB=u(uSkyMatrix,iW(vBitangent));
 dC=u(uSkyMatrix,iW(vNormal));
 dv=(uSkyMatrix*vec4(vPosition,1.0)).xyz;
+vpos=vPosition.xyz;
 #ifdef VERTEX_COLOR
 dD=vColor;
 #endif

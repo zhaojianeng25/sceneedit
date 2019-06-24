@@ -247,6 +247,7 @@
  
             }
             shdowM.prepend(skym)
+         //   console.log(skym.m)
             return shdowM;
         }
         private drawTempMesh(mesh: Mars3Dmesh): void {
@@ -309,7 +310,7 @@
               
 
                // console.log(window["uSkyMatrix"])
-                console.log(skyM.transformVector(new Vector3D()))
+              //  console.log(skyM.transformVector(new Vector3D()))
                
 
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);

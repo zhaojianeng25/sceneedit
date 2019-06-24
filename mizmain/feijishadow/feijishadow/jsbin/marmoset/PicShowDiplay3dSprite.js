@@ -224,6 +224,7 @@ var mars3D;
                 "ev eA; \n" +
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
                 "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
+                //  "vec4 lightvo=uShadowMatrices[2] *vec4(vPos, 1.0);" +
                 "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
                 "float tempz =unpack(depthvinfo) ;" +
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
@@ -309,7 +310,8 @@ var mars3D;
                     Scene_data.context3D.setVc4fv(this.shader, "uShadowTexelPadProjections", window["uShadowTexelPadProjections"]);
                 }
                 if (window["uShadowMatrices"]) {
-                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
+                    var tempuShadowMatrices = window["uShadowMatrices"];
+                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
                 }
                 if (window["uShadowKernelRotation"]) {
                     Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
