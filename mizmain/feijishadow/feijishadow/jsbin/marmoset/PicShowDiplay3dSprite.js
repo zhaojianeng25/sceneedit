@@ -232,6 +232,7 @@ var mars3D;
                 "if (tempz<lightvo.z/lightvo.w-0.000005) { " +
                 "gl_FragColor =vec4(0.0,0.0,0.0,1.0); " +
                 "}  " +
+                //     "gl_FragColor =vec4(lightvo.x/lightvo.w,lightvo.x/lightvo.w,lightvo.x/lightvo.w,1.0); " +
                 //  "gl_FragColor =vec4(dv,1.0); " +
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +

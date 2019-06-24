@@ -292,26 +292,30 @@
                // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
 
 
-                var tempM: Matrix3D = new Matrix3D()
-                var skyM: Matrix3D = new Matrix3D()
-                for (var kt: number = 0; kt < tempM.m.length; kt++) {
-                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
-                    skyM.m[kt] = window["uSkyMatrix"][kt]
+             
+
+                this.makeShadowMatrix();
+                if (this.changeShadowMpan) {
+                    for (var kt: number = 0; kt < this.changeShadowMpan.m.length; kt++) {
+                      //  MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt] = this.changeShadowMpan.m[kt];
+                    }
                 }
 
 
-         
+                var tempM: Matrix3D = new Matrix3D()
+ 
+                for (var kt: number = 0; kt < tempM.m.length; kt++) {
+                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
+ 
+                }
+
+            
                 var inverAddM: Matrix3D = this.getChangeM()
                 inverAddM.invert();
                 tempM.append(inverAddM);
 
 
-                this.makeShadowMatrix();
-  
-
-               // console.log(window["uSkyMatrix"])
-              //  console.log(skyM.transformVector(new Vector3D()))
-               
+             
 
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
    
@@ -325,6 +329,9 @@
 
 
         }
+        private viweShadowMpan: Matrix3D
+        private changeShadowMpan: Matrix3D
+        private skyShadowMpan: Matrix3D
         private makeShadowMatrix(): void {
 
             if (window["uSkyMatrix"] && window["depthViewMatrix3D"]) {
@@ -334,10 +341,15 @@
                     shadowM.m[kt] = window["depthViewMatrix3D"][kt];
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
-
+                
+                this.viweShadowMpan = shadowM.clone()
+                 
                 shadowM.prepend(skyM)
 
                 window["shadowMatrix"] = shadowM.m;
+
+                this.changeShadowMpan = shadowM.clone()
+                this.skyShadowMpan = skyM.clone()
             }
 
         }

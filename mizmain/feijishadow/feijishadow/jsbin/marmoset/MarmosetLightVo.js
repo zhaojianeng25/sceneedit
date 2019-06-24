@@ -239,18 +239,19 @@ var mars3D;
                 // console.log(window["mview"])
                 // console.log(window["mview"],window["uShadowMatrices"])
                 // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
+                this.makeShadowMatrix();
+                if (this.changeShadowMpan) {
+                    for (var kt = 0; kt < this.changeShadowMpan.m.length; kt++) {
+                        //  MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt] = this.changeShadowMpan.m[kt];
+                    }
+                }
                 var tempM = new Matrix3D();
-                var skyM = new Matrix3D();
                 for (var kt = 0; kt < tempM.m.length; kt++) {
                     tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
-                    skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
                 var inverAddM = this.getChangeM();
                 inverAddM.invert();
                 tempM.append(inverAddM);
-                this.makeShadowMatrix();
-                // console.log(window["uSkyMatrix"])
-                //  console.log(skyM.transformVector(new Vector3D()))
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
@@ -267,8 +268,11 @@ var mars3D;
                     shadowM.m[kt] = window["depthViewMatrix3D"][kt];
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
+                this.viweShadowMpan = shadowM.clone();
                 shadowM.prepend(skyM);
                 window["shadowMatrix"] = shadowM.m;
+                this.changeShadowMpan = shadowM.clone();
+                this.skyShadowMpan = skyM.clone();
             }
         };
         MarmosetLightVo.prototype.getChangeM = function () {
