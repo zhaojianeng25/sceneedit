@@ -7,6 +7,8 @@
 #extension GL_OES_standard_derivatives : enable
 precision mediump float;varying highp vec3 dv;varying mediump vec2 d;varying mediump vec3 dA;varying mediump vec3 dB;varying mediump vec3 dC;
 varying highp vec3 vpos;
+uniform mat4 shadowMatrixpan;
+ 
 #ifdef VERTEX_COLOR
 varying lowp vec4 dD;
 #endif
@@ -131,7 +133,7 @@ void eB(out ev ss,float hO){
 	
 		 	hR*=.00005;
  
-		highp vec4 hS=uShadowMatrices[k]*vec4(dv,1.0);
+		highp vec4 hS=uShadowMatrices[k]*vec4(vpos,1.0);
 		
 		hP[k]=hS.xyz/hS.w;
 	}
@@ -387,7 +389,7 @@ for(int k=0;k<LIGHT_COUNT;++k){
 #endif
 
 	//   outcolor=vec4(dv.xyz,1.0); //默认
-	//   outcolor=texture2D(tAlbedo,d); //默认
+   //outcolor=texture2D(tAlbedo,d); //默认
 	
 	
 	

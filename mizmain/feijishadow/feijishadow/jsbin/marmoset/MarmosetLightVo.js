@@ -248,6 +248,7 @@ var mars3D;
                 var inverAddM = this.getChangeM();
                 inverAddM.invert();
                 tempM.append(inverAddM);
+                this.makeShadowMatrix();
                 // console.log(window["uSkyMatrix"])
                 //  console.log(skyM.transformVector(new Vector3D()))
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
@@ -256,6 +257,18 @@ var mars3D;
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
                 this.skipNum++;
+            }
+        };
+        MarmosetLightVo.prototype.makeShadowMatrix = function () {
+            if (window["uSkyMatrix"] && window["depthViewMatrix3D"]) {
+                var shadowM = new Matrix3D();
+                var skyM = new Matrix3D();
+                for (var kt = 0; kt < shadowM.m.length; kt++) {
+                    shadowM.m[kt] = window["depthViewMatrix3D"][kt];
+                    skyM.m[kt] = window["uSkyMatrix"][kt];
+                }
+                shadowM.prepend(skyM);
+                window["shadowMatrix"] = shadowM.m;
             }
         };
         MarmosetLightVo.prototype.getChangeM = function () {

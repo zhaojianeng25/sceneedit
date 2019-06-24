@@ -305,9 +305,9 @@
                 inverAddM.invert();
                 tempM.append(inverAddM);
 
- 
-            
-              
+
+                this.makeShadowMatrix();
+  
 
                // console.log(window["uSkyMatrix"])
               //  console.log(skyM.transformVector(new Vector3D()))
@@ -323,6 +323,22 @@
                 this.skipNum++
             }
 
+
+        }
+        private makeShadowMatrix(): void {
+
+            if (window["uSkyMatrix"] && window["depthViewMatrix3D"]) {
+                var shadowM: Matrix3D = new Matrix3D()
+                var skyM: Matrix3D = new Matrix3D()
+                for (var kt: number = 0; kt < shadowM.m.length; kt++) {
+                    shadowM.m[kt] = window["depthViewMatrix3D"][kt];
+                    skyM.m[kt] = window["uSkyMatrix"][kt];
+                }
+
+                shadowM.prepend(skyM)
+
+                window["shadowMatrix"] = shadowM.m;
+            }
 
         }
         private getChangeM(): Matrix3D {
