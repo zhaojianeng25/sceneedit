@@ -416,22 +416,14 @@ module mars3D {
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", MarmosetModel.tSkySpecularTexture, 3);
 
                 if (MarmosetLightVo.marmosetLightVo && MarmosetLightVo.marmosetLightVo.depthFBO && MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
-
-                  //  console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthBuffer)
-                 //   console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
-
-                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
-                    if (MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
-
-                        var tempM: Matrix3D = new Matrix3D()
-                        for (var kt: number = 0; kt < tempM.m.length; kt++) {
-                            tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
-                        }
-
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m);  //深度矩阵
  
+                    if (MarmosetLightVo.shadowMatrxview) {
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.shadowMatrxview.m);  //深度矩阵
                     }
-                  
+
+                 
+                 
         
                 }
 

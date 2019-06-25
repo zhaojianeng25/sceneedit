@@ -1942,18 +1942,7 @@ marmoset = {};
 		 	d.finalTransformBuffer[kt]=0;
 		}
 		
-		var outMatrM=[]
-	    for(var kt=0;kt<48;kt++){
-			
-		   if(window["shadowMatrix"]&&kt>=32){
-           		 // outMatrM.push(window["shadowMatrix"][kt-32])
-	   outMatrM.push(d.finalTransformBuffer[kt])
-			}else{
-				   outMatrM.push(d.finalTransformBuffer[kt])
-			}
-		}
-		
-		
+	 
 	   
 		
 		window["uShadowTexelPadProjections"]=d.shadowTexelPadProjections;
@@ -1972,7 +1961,7 @@ marmoset = {};
 		
         0 < d.shadowCount && (u = f.depthTextures[0].desc.width,
         m.uniform2f(p.uShadowMapSize, u, 1 / u),
-        m.uniformMatrix4fv(p.uShadowMatrices, !1, outMatrM),
+        m.uniformMatrix4fv(p.uShadowMatrices, !1, d.finalTransformBuffer),
 		
 		
         m.uniformMatrix4fv(p.uInvShadowMatrices, !1, d.inverseTransformBuffer),

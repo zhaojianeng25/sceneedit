@@ -108,7 +108,7 @@
  
         public constructor() {
 
-            this.depthFBO = new MarFBO(1024, 1024);
+            this.depthFBO = new MarFBO(2048, 2048);
             this.depthFBO.color = new Vector3D(0, 0, 0, 0);
 
 
@@ -261,41 +261,13 @@
              
                 Scene_data.context3D.setWriteDepth(true);
                 Scene_data.context3D.setDepthTest(true);
-              //  Scene_data.context3D.setCullFaceModel(2);
-                // Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100)%6)
-                Scene_data.context3D.setBlendParticleFactors(Math.floor(this.skipNum / 100) % 6)
-                //console.log(Math.floor(this.skipNum / 100) % 6)
-
-              //  this.packdepth(0.91234)
-
+ 
+      
                 Scene_data.context3D.setProgram(this.shader.program);
-           
-                if (!this.depthFBO.depthViewMatrix3D) {
-                    this.depthFBO.depthViewMatrix3D = window["mview"];
-          
-                }
-
-               // var tempArr: Array<number> = [-2.399169445037842, 0.007191055919975042, 0.026615558192133904, 0.026615558192133904, 0.00008928590250434354, 2.9879062175750732, -0.08928610384464264, -0.08928610384464264, 0.06313783675432205, 0.26900720596313477, 0.9956503510475159, 0.9956503510475159, 0.7742966413497925, -2.6027095317840576, 27.5628662109375, 28.162866592407227];
-                var tempArr: Array<number> = [-1.2128925323486328, -0.009712250903248787, 0.026615558192133904, 0.026615558192133904, 0.04468769580125809, 1.5385961532592773, -0.08928610384464264, -0.08928610384464264, -0.4662562608718872, -0.36332157254219055, 0.9956503510475159, 0.9956503510475159, -13.69428539276123, -15.382787704467773, 27.5628662109375, 28.162866592407227];
-
-             //  tempArr = window["uShadowMatrices"]
- 
-                for (var kt: number = 0; kt < tempArr.length; kt++) {
-                    this.depthFBO.depthViewMatrix3D[kt] = tempArr[kt];
-                }
-
                 this.makeShadowMatrix();
-            
- 
-                var tempM: Matrix3D = new Matrix3D()
-                for (var kt: number = 0; kt < tempM.m.length; kt++) {
-                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
- 
+                if (MarmosetLightVo.shadowCamview) {
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", MarmosetLightVo.shadowCamview.m);  //深度矩阵
                 }
-                tempM.append(this.getChangeMn());
- 
-
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
    
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
 
@@ -330,15 +302,11 @@
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
                 shadowM.prepend(skyM)
-
                 MarmosetLightVo.shadowMatrxview = shadowM.clone()
-
                 shadowM.appendTranslation(-0.5, -0.5, 0)
                 shadowM.appendScale(2, 2, 1);
-
                 MarmosetLightVo.shadowCamview = shadowM.clone()
 
-             //   window["shadowMatrix"] = shadowM.m;  //源阴影镜头矩阵
  
             }
 
