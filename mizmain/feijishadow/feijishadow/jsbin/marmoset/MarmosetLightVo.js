@@ -269,7 +269,11 @@ var mars3D;
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
                 shadowM.prepend(skyM);
-                window["shadowMatrix"] = shadowM.m; //源阴影镜头矩阵
+                MarmosetLightVo.shadowMatrxview = shadowM.clone();
+                shadowM.appendTranslation(-0.5, -0.5, 0);
+                shadowM.appendScale(2, 2, 1);
+                MarmosetLightVo.shadowCamview = shadowM.clone();
+                //   window["shadowMatrix"] = shadowM.m;  //源阴影镜头矩阵
             }
         };
         return MarmosetLightVo;

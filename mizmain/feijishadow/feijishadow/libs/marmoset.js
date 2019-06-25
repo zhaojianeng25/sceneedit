@@ -1902,8 +1902,17 @@ marmoset = {};
           , x = Matrix.mul(Matrix.empty(), c.projectionMatrix, c.viewMatrix)
           , q = Matrix.mul(Matrix.empty(), c.projectionMatrix, q)
           , u = Matrix.mul(Matrix.empty(), d.matrix, u);
+		  
+	 
+		  	window["mview"]=q;
+			
+			
         m.uniformMatrix4fv(p.uModelViewProjectionMatrix, !1, q);
-		window["mview"]=q;
+		
+		
+		
+
+	
         m.uniformMatrix4fv(p.uSkyMatrix, !1, u);
 		window["uSkyMatrix"]=u
 		
@@ -1937,8 +1946,8 @@ marmoset = {};
 	    for(var kt=0;kt<48;kt++){
 			
 		   if(window["shadowMatrix"]&&kt>=32){
-           		  outMatrM.push(window["shadowMatrix"][kt-32])
-	  
+           		 // outMatrM.push(window["shadowMatrix"][kt-32])
+	   outMatrM.push(d.finalTransformBuffer[kt])
 			}else{
 				   outMatrM.push(d.finalTransformBuffer[kt])
 			}
