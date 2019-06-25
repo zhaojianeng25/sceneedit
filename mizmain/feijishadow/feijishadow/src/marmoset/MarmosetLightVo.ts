@@ -279,43 +279,21 @@
                 var tempArr: Array<number> = [-1.2128925323486328, -0.009712250903248787, 0.026615558192133904, 0.026615558192133904, 0.04468769580125809, 1.5385961532592773, -0.08928610384464264, -0.08928610384464264, -0.4662562608718872, -0.36332157254219055, 0.9956503510475159, 0.9956503510475159, -13.69428539276123, -15.382787704467773, 27.5628662109375, 28.162866592407227];
 
              //  tempArr = window["uShadowMatrices"]
-                var toBiM: Matrix3D = this.getShaderMatrix3D()
-                //tempArr = toBiM.m
+ 
                 for (var kt: number = 0; kt < tempArr.length; kt++) {
                     this.depthFBO.depthViewMatrix3D[kt] = tempArr[kt];
                 }
 
-        
-
-               // console.log(window["mview"])
-               // console.log(window["mview"],window["uShadowMatrices"])
-               // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
-
-
-             
-
                 this.makeShadowMatrix();
-                if (this.changeShadowMpan) {
-                    for (var kt: number = 0; kt < this.changeShadowMpan.m.length; kt++) {
-                      //  MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt] = this.changeShadowMpan.m[kt];
-                    }
-                }
-
-
-                var tempM: Matrix3D = new Matrix3D()
+            
  
+                var tempM: Matrix3D = new Matrix3D()
                 for (var kt: number = 0; kt < tempM.m.length; kt++) {
                     tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
  
                 }
-
-            
-                var inverAddM: Matrix3D = this.getChangeM()
-                inverAddM.invert();
-                tempM.append(inverAddM);
-
-
-             
+                tempM.append(this.getChangeMn());
+ 
 
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", tempM.m);
    
@@ -326,13 +304,22 @@
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
                 this.skipNum++
             }
-
-
+ 
         }
-        private viweShadowMpan: Matrix3D
-        private changeShadowMpan: Matrix3D
-        private skyShadowMpan: Matrix3D
-        private makeShadowMatrix(): void {
+        private getChangeMn(): Matrix3D {
+            var addM: Matrix3D = new Matrix3D();  // 阴影映射矩阵;
+            addM.appendScale(2, 2, 1);
+            addM.appendTranslation(+1, +1, 0)
+            return addM
+        }
+        private getChangeM(): Matrix3D {
+            var addM: Matrix3D = new Matrix3D(); // 阴影扫描矩阵;
+            addM.appendTranslation(-1, -1, 0)
+            addM.appendScale(0.5, 0.5, 1);
+            return addM
+        }
+      
+        private makeShadowMatrix(): void {  //混合两个矩阵换回到源上去
 
             if (window["uSkyMatrix"] && window["depthViewMatrix3D"]) {
                 var shadowM: Matrix3D = new Matrix3D()
@@ -341,24 +328,13 @@
                     shadowM.m[kt] = window["depthViewMatrix3D"][kt];
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
-                
-                this.viweShadowMpan = shadowM.clone()
-                 
                 shadowM.prepend(skyM)
-
-                window["shadowMatrix"] = shadowM.m;
-
-                this.changeShadowMpan = shadowM.clone()
-                this.skyShadowMpan = skyM.clone()
+                window["shadowMatrix"] = shadowM.m;  //源阴影镜头矩阵
+ 
             }
 
         }
-        private getChangeM(): Matrix3D {
-            var addM: Matrix3D = new Matrix3D(); //设置映射纹理坐标;
-            addM.appendTranslation(-1, -1, 0)
-            addM.appendScale(0.5, 0.5, 1);
-            return addM
-        }
+     
         public static marmosetLightVo: MarmosetLightVo
 
         
