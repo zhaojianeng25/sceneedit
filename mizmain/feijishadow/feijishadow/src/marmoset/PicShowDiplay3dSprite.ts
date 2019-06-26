@@ -127,9 +127,7 @@ module mars3D {
                 "uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];" +
                 "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];" +
 
-                "uniform highp mat4 depthViewMatrix3D;" +  //阴影深度矩阵
-
-     
+         
 
                 "uniform float uHorizonOcclude;" +
                 "uniform highp vec2 uShadowKernelRotation;" +
@@ -283,8 +281,8 @@ module mars3D {
                 "ev eA; \n" +
 
  
-                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,dv);" +
-                "vec4 lightvo=depthViewMatrix3D *vec4(dv, 1.0);" +
+                "vec4 depthvinfo=mathdepthuv(uShadowMatrices[2],dv);" +
+                "vec4 lightvo=uShadowMatrices[2] *vec4(dv, 1.0);" +
                 "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
                 "float tempz =unpack(depthvinfo) ;" +
  
@@ -398,7 +396,8 @@ module mars3D {
                 }
                 if (window["uShadowMatrices"]) {
                     var tempuShadowMatrices = window["uShadowMatrices"]
-                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
+ 
  
                 }
                 if (window["uShadowKernelRotation"]) {
@@ -416,7 +415,7 @@ module mars3D {
  
                     if (MarmosetLightVo.testShadowView) {
                         Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.testShadowView.m);  //深度矩阵
+       
                     }
  
                  

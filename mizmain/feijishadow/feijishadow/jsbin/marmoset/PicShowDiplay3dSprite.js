@@ -99,7 +99,6 @@ var mars3D;
                 "uniform vec4 uDiffuseCoefficients[9];" +
                 "uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];" +
                 "uniform highp mat4 uShadowMatrices[SHADOW_COUNT];" +
-                "uniform highp mat4 depthViewMatrix3D;" + //阴影深度矩阵
                 "uniform float uHorizonOcclude;" +
                 "uniform highp vec2 uShadowKernelRotation;" +
                 "\n#define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)\n" +
@@ -222,8 +221,8 @@ var mars3D;
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
                 "ev eA; \n" +
-                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,dv);" +
-                "vec4 lightvo=depthViewMatrix3D *vec4(dv, 1.0);" +
+                "vec4 depthvinfo=mathdepthuv(uShadowMatrices[2],dv);" +
+                "vec4 lightvo=uShadowMatrices[2] *vec4(dv, 1.0);" +
                 "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
                 "float tempz =unpack(depthvinfo) ;" +
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
@@ -309,7 +308,7 @@ var mars3D;
                 }
                 if (window["uShadowMatrices"]) {
                     var tempuShadowMatrices = window["uShadowMatrices"];
-                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
                 }
                 if (window["uShadowKernelRotation"]) {
                     Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
@@ -321,7 +320,6 @@ var mars3D;
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
                     if (mars3D.MarmosetLightVo.testShadowView) {
                         Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.testShadowView.m); //深度矩阵
                     }
                 }
                 gl.disable(gl.CULL_FACE);
