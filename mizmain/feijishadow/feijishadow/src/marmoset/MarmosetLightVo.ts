@@ -294,10 +294,10 @@
             addM.appendScale(0.5, 0.5, 1);
             return addM
         }
-        public static shadowMatrxview: Matrix3D; //阴影矩阵
+ 
         public static shadowCamview: Matrix3D; //基础镜头
         public static testShadowView: Matrix3D
-        private makeShadowMatrix(): void {  //混合两个矩阵换回到源上去
+        private makeShadowMatrix(): void {  //阴影矩阵
 
             if (window["uSkyMatrix"] && window["depthViewMatrix3D"]) {
                 var shadowM: Matrix3D = new Matrix3D()
@@ -308,7 +308,6 @@
                 }
                 MarmosetLightVo.testShadowView = shadowM.clone()
                 shadowM.prepend(skyM)
-                MarmosetLightVo.shadowMatrxview = shadowM.clone()
                 shadowM.appendTranslation(-0.5, -0.5, 0)
                 shadowM.appendScale(2, 2, 1);
                 MarmosetLightVo.shadowCamview = shadowM.clone()

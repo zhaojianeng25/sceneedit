@@ -414,13 +414,11 @@ module mars3D {
 
                 if (MarmosetLightVo.marmosetLightVo && MarmosetLightVo.marmosetLightVo.depthFBO && MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
  
-                    if (MarmosetLightVo.shadowMatrxview) {
+                    if (MarmosetLightVo.testShadowView) {
                         Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.shadowMatrxview.m);  //深度矩阵
                         Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.testShadowView.m);  //深度矩阵
                     }
-
-                 
+ 
                  
         
                 }

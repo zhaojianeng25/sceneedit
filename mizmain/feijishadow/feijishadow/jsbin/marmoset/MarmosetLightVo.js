@@ -258,7 +258,6 @@ var mars3D;
                 }
                 MarmosetLightVo.testShadowView = shadowM.clone();
                 shadowM.prepend(skyM);
-                MarmosetLightVo.shadowMatrxview = shadowM.clone();
                 shadowM.appendTranslation(-0.5, -0.5, 0);
                 shadowM.appendScale(2, 2, 1);
                 MarmosetLightVo.shadowCamview = shadowM.clone();

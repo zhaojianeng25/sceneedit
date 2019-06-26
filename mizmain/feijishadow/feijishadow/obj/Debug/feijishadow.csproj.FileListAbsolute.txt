@@ -10,4 +10,3 @@ D:\github\sceneEdit\mizmain\feijishadow\feijishadow\bin\feijishadow.pdb
 D:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.csproj.CoreCompileInputs.cache
 D:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.dll
 D:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.pdb
-D:\github\sceneEdit\mizmain\feijishadow\feijishadow\obj\Debug\feijishadow.csprojAssemblyReference.cache
