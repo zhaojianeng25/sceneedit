@@ -200,27 +200,14 @@ var mars3D;
             //    "return dot(rgbaDepth, bitShift);" 
             return outNum;
         };
-        MarmosetLightVo.prototype.getShaderMatrix3D = function () {
-            var skym = new Matrix3D();
-            var shdowM = new Matrix3D();
-            for (var i = 0; i < skym.m.length; i++) {
-                skym.m[i] = window["uSkyMatrix"][i];
-                shdowM.m[i] = window["uShadowMatrices"][i];
-            }
-            shdowM.prepend(skym);
-            //   console.log(skym.m)
-            return shdowM;
-        };
         MarmosetLightVo.prototype.drawTempMesh = function (mesh) {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
-                //    Pan3d.Scene_data.context3D.setWriteDepth(true);
-                //   Pan3d.Scene_data.context3D.setDepthTest(true);
-                //  Pan3d.Scene_data.context3D.setBlendParticleFactors(0)
                 var gl = Scene_data.context3D.renderContext;
                 Scene_data.context3D.setWriteDepth(true);
                 Scene_data.context3D.setDepthTest(true);
                 Scene_data.context3D.setProgram(this.shader.program);
                 this.makeShadowMatrix();
+                this.changeShadewMatrixToViewMatrix();
                 if (MarmosetLightVo.shadowCamview) {
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", MarmosetLightVo.shadowCamview.m); //深度矩阵
                 }
@@ -229,6 +216,24 @@ var mars3D;
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.drawCall(mesh.objData.indexBuffer, mesh.objData.treNum);
                 this.skipNum++;
+            }
+        };
+        MarmosetLightVo.prototype.changeShadewMatrixToViewMatrix = function () {
+            var tempuShadowMatrices = window["uShadowMatrices"];
+            var outArr = new Float32Array(tempuShadowMatrices.length);
+            for (var i = 0; i < tempuShadowMatrices.length / 16; i++) {
+                var tempM = new Matrix3D();
+                var skyM = new Matrix3D();
+                for (var j = 0; j < 16; j++) {
+                    tempM.m[j] = tempuShadowMatrices[i * 16 + j];
+                    skyM.m[j] = window["uSkyMatrix"][j];
+                }
+                tempM.prepend(skyM);
+                tempM.appendTranslation(-0.5, -0.5, 0);
+                tempM.appendScale(2, 2, 1);
+                for (var j = 0; j < 16; j++) {
+                    outArr[i * 16 + j] = tempM.m[j];
+                }
             }
         };
         MarmosetLightVo.prototype.getChangeMn = function () {
@@ -251,6 +256,7 @@ var mars3D;
                     shadowM.m[kt] = window["depthViewMatrix3D"][kt];
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
+                MarmosetLightVo.testShadowView = shadowM.clone();
                 shadowM.prepend(skyM);
                 MarmosetLightVo.shadowMatrxview = shadowM.clone();
                 shadowM.appendTranslation(-0.5, -0.5, 0);

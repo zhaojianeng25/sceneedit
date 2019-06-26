@@ -222,9 +222,8 @@ var mars3D;
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
                 "ev eA; \n" +
-                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
-                "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
-                //  "vec4 lightvo=uShadowMatrices[2] *vec4(vPos, 1.0);" +
+                "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,dv);" +
+                "vec4 lightvo=depthViewMatrix3D *vec4(dv, 1.0);" +
                 "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
                 "float tempz =unpack(depthvinfo) ;" +
                 "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
@@ -232,8 +231,6 @@ var mars3D;
                 "if (tempz<lightvo.z/lightvo.w-0.000005) { " +
                 "gl_FragColor =vec4(0.0,0.0,0.0,1.0); " +
                 "}  " +
-                //     "gl_FragColor =vec4(lightvo.x/lightvo.w,lightvo.x/lightvo.w,lightvo.x/lightvo.w,1.0); " +
-                //  "gl_FragColor =vec4(dv,1.0); " +
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //"}  " +
@@ -325,6 +322,7 @@ var mars3D;
                     if (mars3D.MarmosetLightVo.shadowMatrxview) {
                         Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
                         Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.shadowMatrxview.m); //深度矩阵
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.testShadowView.m); //深度矩阵
                     }
                 }
                 gl.disable(gl.CULL_FACE);

@@ -238,25 +238,10 @@
             //    "return dot(rgbaDepth, bitShift);" 
             return outNum
         }
-        private getShaderMatrix3D(): Matrix3D {
-            var skym: Matrix3D = new Matrix3D()
-            var shdowM: Matrix3D = new Matrix3D()
-            for (var i: number = 0; i < skym.m.length; i++) {
-                skym.m[i] = window["uSkyMatrix"][i];
-                shdowM.m[i] = window["uShadowMatrices"][i];
- 
-            }
-            shdowM.prepend(skym)
-         //   console.log(skym.m)
-            return shdowM;
-        }
+  
         private drawTempMesh(mesh: Mars3Dmesh): void {
             if (mesh.tAlbedo && mesh.tNormal && mesh.tReflectivity) {
-
-            //    Pan3d.Scene_data.context3D.setWriteDepth(true);
-             //   Pan3d.Scene_data.context3D.setDepthTest(true);
-              //  Pan3d.Scene_data.context3D.setBlendParticleFactors(0)
-
+ 
                 var gl = Scene_data.context3D.renderContext;
              
                 Scene_data.context3D.setWriteDepth(true);
@@ -265,6 +250,7 @@
       
                 Scene_data.context3D.setProgram(this.shader.program);
                 this.makeShadowMatrix();
+                this.changeShadewMatrixToViewMatrix()
                 if (MarmosetLightVo.shadowCamview) {
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", MarmosetLightVo.shadowCamview.m);  //深度矩阵
                 }
@@ -277,6 +263,24 @@
                 this.skipNum++
             }
  
+        }
+        private changeShadewMatrixToViewMatrix(): void {
+            var tempuShadowMatrices: Array<number> = window["uShadowMatrices"];
+            var outArr: Float32Array = new Float32Array(tempuShadowMatrices.length)
+            for (var i: number = 0; i < tempuShadowMatrices.length / 16; i++) {
+                var tempM: Matrix3D = new Matrix3D();
+                var skyM: Matrix3D = new Matrix3D()
+                for (var j: number = 0; j < 16; j++) {
+                    tempM.m[j] = tempuShadowMatrices[i * 16 + j]
+                    skyM.m[j] = window["uSkyMatrix"][j];
+                }
+                tempM.prepend(skyM)
+                tempM.appendTranslation(-0.5, -0.5, 0)
+                tempM.appendScale(2, 2, 1);
+                for (var j: number = 0; j < 16; j++) {
+                    outArr[i * 16 + j] = tempM.m[j]
+                }
+            }
         }
         private getChangeMn(): Matrix3D {
             var addM: Matrix3D = new Matrix3D();  // 阴影映射矩阵;
@@ -292,6 +296,7 @@
         }
         public static shadowMatrxview: Matrix3D; //阴影矩阵
         public static shadowCamview: Matrix3D; //基础镜头
+        public static testShadowView: Matrix3D
         private makeShadowMatrix(): void {  //混合两个矩阵换回到源上去
 
             if (window["uSkyMatrix"] && window["depthViewMatrix3D"]) {
@@ -301,12 +306,12 @@
                     shadowM.m[kt] = window["depthViewMatrix3D"][kt];
                     skyM.m[kt] = window["uSkyMatrix"][kt];
                 }
+                MarmosetLightVo.testShadowView = shadowM.clone()
                 shadowM.prepend(skyM)
                 MarmosetLightVo.shadowMatrxview = shadowM.clone()
                 shadowM.appendTranslation(-0.5, -0.5, 0)
                 shadowM.appendScale(2, 2, 1);
                 MarmosetLightVo.shadowCamview = shadowM.clone()
-
  
             }
 
