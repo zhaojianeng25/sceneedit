@@ -6,9 +6,6 @@
 
 #extension GL_OES_standard_derivatives : enable
 precision mediump float;varying highp vec3 dv;varying mediump vec2 d;varying mediump vec3 dA;varying mediump vec3 dB;varying mediump vec3 dC;
-varying highp vec3 vpos;
-uniform mat4 shadowMatrixpan;
- 
 #ifdef VERTEX_COLOR
 varying lowp vec4 dD;
 #endif
@@ -92,7 +89,7 @@ uniform sampler2D tDepth1;
 uniform sampler2D tDepth2;
 #endif
 #endif
-uniform highp vec2 uShadowKernelRotation;uniform highp vec2 uShadowMapSize;uniform highp mat4 uShadowMatrices[3];uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];
+uniform highp vec2 uShadowKernelRotation;uniform highp vec2 uShadowMapSize;uniform highp mat4 uShadowMatrices[SHADOW_COUNT];uniform highp vec4 uShadowTexelPadProjections[SHADOW_COUNT];
 #ifndef MOBILE
 uniform highp mat4 uInvShadowMatrices[SHADOW_COUNT];
 #endif
@@ -106,14 +103,13 @@ return G.x;
 #define SHADOW_CLIP(c,ccav) ccav
  
 float hK(sampler2D hL,highp vec2 hA,highp float H){
-	 float G=texture2D(hL,hA.xy).x;
-	 G=floor(G*100000.0)/100000.0;
+	highp float G=hJ(texture2D(hL,hA.xy).xyz);
 	return SHADOW_COMPARE(H,G);
 }
 highp float hN(sampler2D hL,highp vec3 hA,float hO){
 	highp vec2 l=uShadowKernelRotation*hO;
 	float s;
-	s=hK(hL,hA.xy,hA.z);
+	s=hK(hL,hA.xy+l,hA.z);
 	//s+=hK(hL,hA.xy-l,hA.z);
 	//s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
 	//s+=hK(hL,hA.xy+vec2(l.y,-l.x),hA.z);
@@ -125,27 +121,24 @@ float eL[LIGHT_COUNT];
 };
 void eB(out ev ss,float hO){
 	highp vec3 hP[SHADOW_COUNT];
-	//vec3 hu=gl_FrontFacing?dC:-dC;
-	vec3 hu=dC;
+	vec3 hu=gl_FrontFacing?dC:-dC;
 	for(int k=0;k<SHADOW_COUNT;++k){
 		vec4 hQ=uShadowTexelPadProjections[k];
 		float hR=hQ.x*dv.x+(hQ.y*dv.y+(hQ.z*dv.z+hQ.w));
-	
-		 	hR*=.00005;
- 
 	 
-		highp vec4 hS=uShadowMatrices[k]*vec4(dv+hR,1.0);
-		
+			hR*=.0005+0.5*hO;
+ 
+		highp vec4 hS=h(uShadowMatrices[k],dv+hR*hu);
 		hP[k]=hS.xyz/hS.w;
 	}
 	float m;
 	#if SHADOW_COUNT > 0
 		m=hN(tDepth0,hP[0],hO);
-		//ss.eL[0]=m;
+		ss.eL[0]=m;
 	#endif
 	#if SHADOW_COUNT > 1
-		m=hN(tDepth0,hP[1],hO);
-		//ss.eL[1]=m;
+		m=hN(tDepth1,hP[1],hO);
+		ss.eL[1]=m;
 	#endif
 	#if SHADOW_COUNT > 2
 		m=hN(tDepth2,hP[2],hO);
@@ -155,11 +148,11 @@ void eB(out ev ss,float hO){
 }
 struct eD{highp float eE[LIGHT_COUNT];};
 #ifdef MOBILE
- 
+void eG(out eD ss,float hO){for(int k=0;k<LIGHT_COUNT;++k){ss.eE[k]=1.0;}}
 #else
 highp vec4 hT(sampler2D hL,highp vec2 hA,highp mat4 hU){highp vec4 E;E.xy=hA;
 #ifndef MOBILE
-
+highp vec2 c=hA*uShadowMapSize.x;highp vec2 a=floor(c)*uShadowMapSize.y,b=ceil(c)*uShadowMapSize.y;highp vec4 hM;hM.x=hJ(texture2D(hL,a).xyz);hM.y=hJ(texture2D(hL,vec2(b.x,a.y)).xyz);hM.z=hJ(texture2D(hL,vec2(a.x,b.y)).xyz);hM.w=hJ(texture2D(hL,b).xyz);highp vec2 w=c-a*uShadowMapSize.x;vec2 s=(w.y*hM.zw+hM.xy)-w.y*hM.xy;E.z=(w.x*s.y+s.x)-w.x*s.x;
 #else 
 E.z=hJ(texture2D(hL,hA.xy).xyz);
 #endif
@@ -389,8 +382,8 @@ for(int k=0;k<LIGHT_COUNT;++k){
  
 #endif
 
-	//   outcolor=vec4(dv.xyz,1.0); //默认
-   //outcolor=texture2D(tAlbedo,d); //默认
+	 //  outcolor=vec4(el.xyz,1.0); //默认
+	//   outcolor=texture2D(tAlbedo,d); //默认
 	
 	
 	
