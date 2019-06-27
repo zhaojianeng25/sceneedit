@@ -88,7 +88,6 @@ var mars3D;
                 "uniform sampler2D tDepth0;\n" +
                 "uniform sampler2D tDepth1;\n" +
                 "uniform sampler2D tDepth2;\n" +
-                "uniform sampler2D tDepthTexture;\n" +
                 "varying vec2 d;\n" +
                 "varying  vec3 dA; " +
                 "varying  vec3 dB; " +
@@ -123,7 +122,7 @@ var mars3D;
                 "return i[0] * p.x + (i[1] * p.y + (i[2] * p.z + i[3]));" +
                 " } " +
                 "highp float hJ(highp vec3 G) {\n" +
-                "return G.x;\n" +
+                "return unpack(vec4(G,1.0));\n" +
                 "}\n" +
                 "float hK(sampler2D hL, highp vec2 hA, highp float H) {" +
                 "highp float G = hJ(texture2D(hL, hA.xy).xyz);" +
@@ -132,6 +131,7 @@ var mars3D;
                 "highp float hN(sampler2D hL, highp vec3 hA, float hO) {\n" +
                 "highp vec2 l = uShadowKernelRotation * hO;\n" +
                 "float s;\n" +
+                "l  =vec2(0.0,0.0);" +
                 "s = hK(hL, hA.xy + l, hA.z);\n" +
                 //"s += hK(hL, hA.xy - l, hA.z);\n" +
                 //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
@@ -147,21 +147,22 @@ var mars3D;
                 "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
                 "hR*=.0005+0.5 * hO;" +
                 "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
+                "hS =uShadowMatrices[2] *vec4(dv, 1.0);" +
                 "hP[k] = hS.xyz / hS.w;" +
                 "}" +
                 "float m;\n" +
-                "\n#if SHADOW_COUNT > 0 \n" +
-                "m = hN(tDepthTexture, hP[0], hO);" +
-                "ss.eL[0] = m;" +
-                "\n#endif\n" +
+                // "\n#if SHADOW_COUNT > 0 \n" +
+                //       "m = hN(tDepthTexture, hP[0], hO);" +
+                //      "ss.eL[0] = m;" +
+                //"\n#endif\n" +
                 // "\n#if SHADOW_COUNT > 1\n" +
                 //    "m = hN(tDepth1, hP[1], hO);" +
                 //    "ss.eL[1] =m;" +
                 //"\n#endif\n" +
-                //"\n#if SHADOW_COUNT > 2\n" +
-                //    "m = hN(tDepth2, hP[2], hO);\n" +
-                //    "ss.eL[2] =m;\n" +
-                //    "\n#endif\n" +
+                "\n#if SHADOW_COUNT > 2\n" +
+                "m = hN(tDepth2, hP[2], hO);\n" +
+                "ss.eL[2] =m;\n" +
+                "\n#endif\n" +
                 "}" +
                 "vec3 dG(vec3 c){return c*c;}" +
                 "vec3 dJ(vec3 n) {" +
@@ -198,14 +199,14 @@ var mars3D;
                 "vec4 mathdepthuv(highp mat4 i,highp vec3 p){" +
                 "vec4 outVec4 =i*vec4(p,1.0) ;" +
                 "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
-                "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy); " +
+                "vec4 outColorVec4 =texture2D(tDepth2,outVec4.xy); " +
                 "return  vec4(outColorVec4.xyz,1.0);" +
                 " } " +
                 "vec4 mathdepthuvtest( ){" +
                 "highp vec3 hP[SHADOW_COUNT];" +
                 "highp vec4 hS =uShadowMatrices[2] *vec4(dv, 1.0);" +
                 "hP[0] = hS.xyz / hS.w;" +
-                "vec4 outColorVec4 =texture2D(tDepthTexture,hP[0].xy); " +
+                "vec4 outColorVec4 =texture2D(tDepth2,hP[0].xy); " +
                 "highp float G = unpack(outColorVec4);" +
                 "float dt=SHADOW_COMPARE( hP[0].z,G); " +
                 "return  vec4(dt,dt,dt,1.0);" +
@@ -231,8 +232,8 @@ var mars3D;
                 "eu = min(eu, 1.0e3);" +
                 "ev eA; \n" +
                 "eB(eA, SHADOW_KERNEL);\n" +
-                "gl_FragColor =mathdepthuvtest(); " +
-                //   "gl_FragColor=vec4(eA.eL[0], eA.eL[0], eA.eL[0], 1.0);" +
+                // "gl_FragColor =mathdepthuvtest(); " +
+                "gl_FragColor=vec4(eA.eL[2], eA.eL[2], eA.eL[2], 1.0);" +
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //"}  " +
@@ -322,7 +323,9 @@ var mars3D;
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", mars3D.MarmosetModel.tSkySpecularTexture, 3);
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
                     if (mars3D.MarmosetLightVo.testShadowView) {
-                        Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth0", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth1", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 5); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth2", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 6); //深度贴图
                     }
                 }
                 gl.disable(gl.CULL_FACE);
