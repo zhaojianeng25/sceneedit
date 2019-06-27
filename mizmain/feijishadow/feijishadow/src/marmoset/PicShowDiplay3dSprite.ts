@@ -161,28 +161,22 @@ module mars3D {
                 "}\n" +
 
                 "float hK(sampler2D hL, highp vec2 hA, highp float H) {" +
-
-           
-
-                    "highp float G = hJ(texture2D(hL, hA.xy).xyz);" +
-                     "return SHADOW_COMPARE(H,G);" +
-                 
-
+                "highp float G = hJ(texture2D(hL, hA.xy).xyz);" +
+                "return SHADOW_COMPARE(H, G);" +
                 "}" +
+
+                
 
                 "highp float hN(sampler2D hL, highp vec3 hA, float hO) {\n" +
                     "highp vec2 l = uShadowKernelRotation * hO;\n" +
-                "float s;\n" +
-
-                "l  =vec2(0.0,0.0);" +
-
+                    "float s;\n" +
+                    "l  =vec2(0.0,0.0);" +
                     "s = hK(hL, hA.xy + l, hA.z);\n" +
-                    //"s += hK(hL, hA.xy - l, hA.z);\n" +
-                    //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
-                    //"s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
-                    //"s *= 0.25;\n" +
-                     "return s * s;\n" +
-       
+                    "s += hK(hL, hA.xy - l, hA.z);\n" +
+                    "s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
+                    "s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
+                    "s *= 0.25;\n" +
+                    "return s * s;\n" +
                 "}\n" +
 
                 "void eB(out ev ss, float hO){" +
