@@ -98,7 +98,7 @@ module mars3D {
                 "#define NOBLEND\n" +
                 "#define SHADOW_COUNT 3\n" +
                 "#define LIGHT_COUNT 3\n" +
-                "#define SHADOW_KERNEL (4.0/1536.0)\n" +
+                "#define SHADOW_KERNEL (4.0/2048.0)\n" +
 
                 "#extension GL_OES_standard_derivatives : enable\n" +
      
@@ -132,8 +132,22 @@ module mars3D {
                 "uniform float uHorizonOcclude;" +
                 "uniform highp vec2 uShadowKernelRotation;" +
 
-                "\n#define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)\n"+
+                "vec4 pack (float depth) {\n" +
+                    "depth=depth*0.5+0.5;\n" +
+                    " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
+                    " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
+                    "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
+                    "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
+                    "return rgbaDepth;\n" +
+                "}\n" +
+                "float unpack( vec4 rgbaDepth) {" +
+                    " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
+                    "float outnum=  dot(rgbaDepth, bitShift);" +
+                    "outnum=(outnum-0.5)*2.0;\n" +
+                    "return outnum;" +
+                "}" +
 
+                "\n#define SHADOW_COMPARE(a,b) ((a) < (b) ? 1.0 : 0.0)\n"+
                 "struct ev{" +
                    "float eL[LIGHT_COUNT];" +
                 "};" +
@@ -155,36 +169,38 @@ module mars3D {
                     "highp vec2 l = uShadowKernelRotation * hO;\n" +
                     "float s;\n" +
                     "s = hK(hL, hA.xy + l, hA.z);\n" +
-                    "s += hK(hL, hA.xy - l, hA.z);\n" +
-                    "s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
-                    "s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
-                    "s *= 0.25;\n" +
-                    "return s * s;\n" +
+                    //"s += hK(hL, hA.xy - l, hA.z);\n" +
+                    //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
+                    //"s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
+                    //"s *= 0.25;\n" +
+                     "return s * s;\n" +
+       
                 "}\n" +
 
                 "void eB(out ev ss, float hO){" +
-                    "highp vec3 hP[SHADOW_COUNT];" +
-                    "vec3 hu = gl_FrontFacing ? dC : -dC;" +
+                     "highp vec3 hP[SHADOW_COUNT];" +
+                     "vec3 hu = gl_FrontFacing ? dC : -dC;" +
                     "for (int k = 0; k < SHADOW_COUNT; ++k) {" +
                         "vec4 hQ = uShadowTexelPadProjections[k];" +
-                        "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
-                        "hR*=.0005+0.5 * hO;" +
-                        "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
-                        "hP[k] = hS.xyz / hS.w;" +
+                         "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
+                         "hR*=.0005+0.5 * hO;" +
+                         "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
+                         "hP[k] = hS.xyz / hS.w;" +
+                 
                     "}" +
                     "float m;\n" +
                      "\n#if SHADOW_COUNT > 0 \n" +
-                          "m = hN(tDepth0, hP[0], hO);" +
+                           "m = hN(tDepthTexture, hP[0], hO);" +
                           "ss.eL[0] = m;" +
                     "\n#endif\n" +
-                     "\n#if SHADOW_COUNT > 1\n" +
-                        "m = hN(tDepth1, hP[1], hO);" +
-                        "ss.eL[1] =m;" +
-                    "\n#endif\n" +
-                    "\n#if SHADOW_COUNT > 2\n" +
-                        "m = hN(tDepth2, hP[2], hO);\n" +
-                        "ss.eL[2] =m;\n" +
-                        "\n#endif\n" +
+                    // "\n#if SHADOW_COUNT > 1\n" +
+                    //    "m = hN(tDepth1, hP[1], hO);" +
+                    //    "ss.eL[1] =m;" +
+                    //"\n#endif\n" +
+                    //"\n#if SHADOW_COUNT > 2\n" +
+                    //    "m = hN(tDepth2, hP[2], hO);\n" +
+                    //    "ss.eL[2] =m;\n" +
+                    //    "\n#endif\n" +
                     "}" +
 
                 "vec3 dG(vec3 c){return c*c;}" +
@@ -235,20 +251,15 @@ module mars3D {
                    "return  vec4(outColorVec4.xyz,1.0);" +
                 " } " +
 
-                "vec4 pack (float depth) {\n" +
-                    "depth=depth*0.5+0.5;\n" +
-                    " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
-                    " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
-                    "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
-                    "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
-                    "return rgbaDepth;\n" +
-                "}\n" +
-                "float unpack( vec4 rgbaDepth) {" +
-                    " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
-                    "float outnum=  dot(rgbaDepth, bitShift);" +
-                    "outnum=(outnum-0.5)*2.0;\n" +
-                    "return outnum;" +
-                "}" +
+                "vec4 mathdepthuvtest( ){" +
+                    "highp vec3 hP[SHADOW_COUNT];" +
+                    "highp vec4 hS =uShadowMatrices[2] *vec4(dv, 1.0);" +
+                    "hP[0] = hS.xyz / hS.w;" +
+                    "vec4 outColorVec4 =texture2D(tDepthTexture,hP[0].xy); " +
+                    "highp float G = unpack(outColorVec4);" +
+                   "float dt=SHADOW_COMPARE( hP[0].z,G); " +
+                    "return  vec4(dt,dt,dt,1.0);" +
+                " } " +
 
                 "void main(void) " +
                 "{ " +
@@ -280,20 +291,12 @@ module mars3D {
 
                 "ev eA; \n" +
 
+               "eB(eA, SHADOW_KERNEL);\n" +
  
-                "vec4 depthvinfo=mathdepthuv(uShadowMatrices[2],dv);" +
-                "vec4 lightvo=uShadowMatrices[2] *vec4(dv, 1.0);" +
-                "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
-                "float tempz =unpack(depthvinfo) ;" +
- 
-              
-                "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
-                "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
-                "if (tempz<lightvo.z/lightvo.w-0.000005) { " +
-                "gl_FragColor =vec4(0.0,0.0,0.0,1.0); " +
-                "}  " +
 
+                "gl_FragColor =mathdepthuvtest(); " +
 
+             //   "gl_FragColor=vec4(eA.eL[0], eA.eL[0], eA.eL[0], 1.0);" +
        
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
