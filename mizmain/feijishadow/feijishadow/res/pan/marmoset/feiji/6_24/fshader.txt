@@ -109,6 +109,7 @@ float hK(sampler2D hL,highp vec2 hA,highp float H){
 highp float hN(sampler2D hL,highp vec3 hA,float hO){
 	highp vec2 l=uShadowKernelRotation*hO;
 	float s;
+	l  =vec2(0.0,0.0);
 	s=hK(hL,hA.xy+l,hA.z);
 	//s+=hK(hL,hA.xy-l,hA.z);
 	//s+=hK(hL,hA.xy+vec2(-l.y,l.x),hA.z);
@@ -129,6 +130,7 @@ void eB(out ev ss,float hO){
 			hR*=.0005+0.5*hO;
  
 		highp vec4 hS=h(uShadowMatrices[k],dv+hR*hu);
+		 hS =uShadowMatrices[2] *vec4(dv+ hR * hu, 1.0);;
 		hP[k]=hS.xyz/hS.w;
 	}
 	float m;

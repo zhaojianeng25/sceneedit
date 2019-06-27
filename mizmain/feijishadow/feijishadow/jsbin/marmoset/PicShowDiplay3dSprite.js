@@ -133,10 +133,10 @@ var mars3D;
                 "float s;\n" +
                 "l  =vec2(0.0,0.0);" +
                 "s = hK(hL, hA.xy + l, hA.z);\n" +
-                "s += hK(hL, hA.xy - l, hA.z);\n" +
-                "s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
-                "s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
-                "s *= 0.25;\n" +
+                //"s += hK(hL, hA.xy - l, hA.z);\n" +
+                //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
+                //"s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
+                //"s *= 0.25;\n" +
                 "return s * s;\n" +
                 "}\n" +
                 "void eB(out ev ss, float hO){" +
@@ -237,6 +237,7 @@ var mars3D;
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //"}  " +
+                //  " gl_FragColor=vec4(uShadowTexelPadProjections[2].xyz, 1.0); " +
                 "}";
             return $str;
         };

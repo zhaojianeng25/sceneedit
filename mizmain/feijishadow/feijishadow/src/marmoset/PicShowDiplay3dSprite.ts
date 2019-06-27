@@ -172,10 +172,10 @@ module mars3D {
                     "float s;\n" +
                     "l  =vec2(0.0,0.0);" +
                     "s = hK(hL, hA.xy + l, hA.z);\n" +
-                    "s += hK(hL, hA.xy - l, hA.z);\n" +
-                    "s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
-                    "s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
-                    "s *= 0.25;\n" +
+                    //"s += hK(hL, hA.xy - l, hA.z);\n" +
+                    //"s += hK(hL, hA.xy + vec2(-l.y, l.x), hA.z);\n" +
+                    //"s += hK(hL, hA.xy + vec2(l.y, -l.x), hA.z);\n" +
+                    //"s *= 0.25;\n" +
                     "return s * s;\n" +
                 "}\n" +
 
@@ -185,10 +185,12 @@ module mars3D {
                     "for (int k = 0; k < SHADOW_COUNT; ++k) {" +
                         "vec4 hQ = uShadowTexelPadProjections[k];" +
                          "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
-                "hR*=.0005+0.5 * hO;" +
+                        "hR*=.0005+0.5 * hO;" +
 
                         "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
+
                         "hS =uShadowMatrices[2] *vec4(dv, 1.0);" +
+
                         "hP[k] = hS.xyz / hS.w;" +
 
          
@@ -308,7 +310,7 @@ module mars3D {
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //"}  " +
         
-                
+             //  " gl_FragColor=vec4(uShadowTexelPadProjections[2].xyz, 1.0); " +
 
                 "}"
             return $str
@@ -406,8 +408,7 @@ module mars3D {
                 if (window["uShadowMatrices"]) {
                     var tempuShadowMatrices = window["uShadowMatrices"]
                     Scene_data.context3D.setVcMatrix4fv(this.shader, "uShadowMatrices", tempuShadowMatrices);
- 
- 
+  
                 }
                 if (window["uShadowKernelRotation"]) {
                     Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
