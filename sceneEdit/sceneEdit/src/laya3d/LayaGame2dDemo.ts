@@ -89,6 +89,7 @@
                 this.addFramePartice(v2d)
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
                 this.mainChar.set2dPos(v2d.x, v2d.y);
+                this.mainChar.scale=0.5
     
             }
         }

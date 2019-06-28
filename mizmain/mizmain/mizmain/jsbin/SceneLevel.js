@@ -146,6 +146,7 @@ var base;
             $baseChar.set2dPos(label.x, label.y);
             label.alpha = $baseChar.alpha = 0.2;
             booldUserSprite.alpha = $baseChar.alpha = 0.2;
+            $baseChar.scale = 0.5;
         };
         SceneLevel.prototype.addMovieDisplay = function ($display) {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);

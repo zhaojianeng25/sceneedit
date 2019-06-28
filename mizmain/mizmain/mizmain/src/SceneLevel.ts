@@ -135,6 +135,8 @@
             $baseChar.set2dPos(label.x, label.y);
             label.alpha = $baseChar.alpha = 0.2
             booldUserSprite.alpha = $baseChar.alpha = 0.2
+
+            $baseChar.scale=0.5
         }
         public addMovieDisplay($display: LayaScene2dSceneChar): void {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);
