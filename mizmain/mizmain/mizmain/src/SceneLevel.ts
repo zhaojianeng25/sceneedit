@@ -6,8 +6,8 @@
     import AtlasFrameVo = layapan_me.AtlasFrameVo;
 
     export class CanvasScene extends LayaScene2D {
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
-            super(value, bfun)
+        public constructor(w: number = 128, h: number = 128) {
+            super(w, h)
         }
         protected initScene(): void {
             super.initScene();
@@ -88,11 +88,11 @@
         private _midScene3dPic: CanvasScene; //3D对象容器
         private _topLayer: Laya.Box; //显示上层对象
         private _textRect: Pan3d.Rectangle;  //图片大小 是传入进来的图片的大小。 
-        public constructor(value: string) {
+        public constructor(w: number = 128, h: number = 128) {
             super();
-            this._textRect = new Pan3d.Rectangle(0, 0, 512, 512)
+            this._textRect = new Pan3d.Rectangle(0, 0, w, h)
             this._bottomLayer = new Laya.Box;
-            this._midScene3dPic = new CanvasScene(value, () => { })
+            this._midScene3dPic = new CanvasScene(w,h)
             this._topLayer = new Laya.Box;
 
             this.addChild(this._bottomLayer)
@@ -101,7 +101,7 @@
 
             this._midScene3dPic.rootpos = null
             this.setSceneScale(6);
-            this.setSceneCanvas(512, 512);
+            this.setSceneCanvas(w, h);
             this.addEvents();
         }
         //public get rootpos(): Vector2D {
@@ -133,6 +133,8 @@
             this.addMovieDisplay($baseChar)
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             $baseChar.set2dPos(label.x, label.y);
+            label.alpha = $baseChar.alpha = 0.2
+            booldUserSprite.alpha = $baseChar.alpha = 0.2
         }
         public addMovieDisplay($display: LayaScene2dSceneChar): void {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);

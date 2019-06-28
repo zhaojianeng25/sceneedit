@@ -19,18 +19,18 @@ module LayaPan3D {
 
     export class Laya3dSprite extends Laya.Image {
 
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
+        public constructor(w: number = 128, h: number = 128) { 
             super();
             this.initScene();
-            Laya.loader.load(value, Laya.Handler.create(this, (aa: Laya.Texture) => {
-                this.texture = aa
-                this.texture.bitmap.enableMerageInAtlas = false;
-                this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
-                this.width = this.texture.width;
-                this.height = this.texture.height;
-                this.resizeRect()
-                bfun && bfun();
-            }))
+
+            var tempMC: Laya.Sprite = new Laya.Sprite();
+            var tempData: Laya.HTMLCanvas = tempMC.drawToCanvas(w, h, 0, 0)
+            this.texture = new Laya.Texture(tempData);
+            this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+            this.width = this.texture.width;
+            this.height = this.texture.height;
+            this.resizeRect()
+ 
             this.frameLoop(1, this, this.upData);
 
         }

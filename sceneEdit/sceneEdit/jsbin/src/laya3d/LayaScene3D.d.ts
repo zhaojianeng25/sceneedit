@@ -1,6 +1,6 @@
 declare module LayaPan3D {
     class LayaScene3D extends Laya3dSprite {
-        constructor(value: string, bfun?: Function);
+        constructor(w?: number, h?: number);
         protected addEvents(): void;
         protected addSceneModel(): void;
         private onMouseWheel;

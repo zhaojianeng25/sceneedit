@@ -19,9 +19,10 @@ var base;
     var AtlasFrameVo = layapan_me.AtlasFrameVo;
     var CanvasScene = /** @class */ (function (_super) {
         __extends(CanvasScene, _super);
-        function CanvasScene(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
-            return _super.call(this, value, bfun) || this;
+        function CanvasScene(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
+            return _super.call(this, w, h) || this;
         }
         CanvasScene.prototype.initScene = function () {
             _super.prototype.initScene.call(this);
@@ -100,18 +101,20 @@ var base;
     base.AtlasFrameSprite = AtlasFrameSprite;
     var SceneLevel = /** @class */ (function (_super) {
         __extends(SceneLevel, _super);
-        function SceneLevel(value) {
+        function SceneLevel(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
             var _this = _super.call(this) || this;
-            _this._textRect = new Pan3d.Rectangle(0, 0, 512, 512);
+            _this._textRect = new Pan3d.Rectangle(0, 0, w, h);
             _this._bottomLayer = new Laya.Box;
-            _this._midScene3dPic = new CanvasScene(value, function () { });
+            _this._midScene3dPic = new CanvasScene(w, h);
             _this._topLayer = new Laya.Box;
             _this.addChild(_this._bottomLayer);
             _this.addChild(_this._midScene3dPic);
             _this.addChild(_this._topLayer);
             _this._midScene3dPic.rootpos = null;
             _this.setSceneScale(6);
-            _this.setSceneCanvas(512, 512);
+            _this.setSceneCanvas(w, h);
             _this.addEvents();
             return _this;
         }
@@ -141,6 +144,8 @@ var base;
             this.addMovieDisplay($baseChar);
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             $baseChar.set2dPos(label.x, label.y);
+            label.alpha = $baseChar.alpha = 0.2;
+            booldUserSprite.alpha = $baseChar.alpha = 0.2;
         };
         SceneLevel.prototype.addMovieDisplay = function ($display) {
             this._midScene3dPic.sceneManager.addMovieDisplay($display);

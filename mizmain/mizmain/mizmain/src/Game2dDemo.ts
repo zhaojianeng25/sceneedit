@@ -5,7 +5,6 @@
     import CombineParticle = Pan3d.CombineParticle
     import Scene_data = Pan3d.Scene_data
     
-    
     import LayaScene2dPicSprit = LayaPan3D.LayaScene2dPicSprit;
     import LayaScene2dSceneChar = LayaPan3D.LayaScene2dSceneChar;
 
@@ -13,8 +12,8 @@
     
 
     export class Game2dDemo extends LayaScene2D {
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
-            super(value, bfun)
+        public constructor(w: number = 128, h: number = 128) {
+            super(w, h)
         }
         protected initScene(): void {
             super.initScene();
@@ -71,6 +70,9 @@
                 var v2d: Vector2D = this.getMousePos(this.mouseX, this.mouseY);
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d)
                 this.mainChar.set2dPos(v2d.x, v2d.y);
+
+                this.mainChar.scale = 0.2;
+            
 
                 this.addFramePartice(new Vector2D(this.mouseX, this.mouseY))
             }

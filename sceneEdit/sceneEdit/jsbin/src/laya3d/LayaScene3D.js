@@ -17,9 +17,10 @@ var LayaPan3D;
     var Object3D = Pan3d.Object3D;
     var LayaScene3D = /** @class */ (function (_super) {
         __extends(LayaScene3D, _super);
-        function LayaScene3D(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
-            var _this = _super.call(this, value, bfun) || this;
+        function LayaScene3D(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
+            var _this = _super.call(this, w, h) || this;
             _this.addEvents();
             _this.addSceneModel();
             _this.bgColor = new Vector3D(0.2, 0.2, 0.2, 1);

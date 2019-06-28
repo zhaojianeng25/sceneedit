@@ -9,13 +9,9 @@ module base {
     import LayaSceneChar = layapan_me.LayaSceneChar;
 
     export class Game3dDemo extends Laya3dSprite {
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
-            super(value, bfun)
-
+        public constructor(w: number = 128, h: number = 128) {
+            super(w, h)
             this.addEvents()
-
-            this.addLyfSprite();
- 
             var $baseChar: LayaSceneChar = new LayaSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             this.sceneManager.addMovieDisplay($baseChar);
@@ -27,12 +23,7 @@ module base {
             Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
         }
     
-        protected addLyfSprite(): void {
-            let lyfSprite = new LyfSpriteDisplay();
-           lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
-           lyfSprite.y = 25;
-            this.sceneManager.addDisplay(lyfSprite);
-        }
+    
         private onMouseWheel(e: any): void {
             this.sceneManager.cam3D.distance += e.delta
         }

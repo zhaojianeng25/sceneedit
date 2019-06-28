@@ -1,6 +1,6 @@
 declare module LayaPan3D {
     class LayaGame2dDemo extends LayaScene2D {
-        constructor(value: string, bfun?: Function);
+        constructor(w?: number, h?: number);
         protected initScene(): void;
         private mainChar;
         private addSceneModel;

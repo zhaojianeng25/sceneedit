@@ -1,7 +1,7 @@
 declare module LayaPan3D {
     import EdItorSceneManager = maineditor.EdItorSceneManager;
     class Laya3dSprite extends Laya.Image {
-        constructor(value: string, bfun?: Function);
+        constructor(w?: number, h?: number);
         scale(scaleX: number, scaleY: number, speedMode?: boolean): Sprite;
         private resizeRect;
         protected initScene(): void;

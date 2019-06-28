@@ -27,19 +27,18 @@ var LayaPan3D;
     var EdItorSceneManager = maineditor.EdItorSceneManager;
     var Laya3dSprite = /** @class */ (function (_super) {
         __extends(Laya3dSprite, _super);
-        function Laya3dSprite(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
+        function Laya3dSprite(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
             var _this = _super.call(this) || this;
             _this.initScene();
-            Laya.loader.load(value, Laya.Handler.create(_this, function (aa) {
-                _this.texture = aa;
-                _this.texture.bitmap.enableMerageInAtlas = false;
-                _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
-                _this.width = _this.texture.width;
-                _this.height = _this.texture.height;
-                _this.resizeRect();
-                bfun && bfun();
-            }));
+            var tempMC = new Laya.Sprite();
+            var tempData = tempMC.drawToCanvas(w, h, 0, 0);
+            _this.texture = new Laya.Texture(tempData);
+            _this.texture.uv = [0, 1, 1, 1, 1, 0, 0, 0];
+            _this.width = _this.texture.width;
+            _this.height = _this.texture.height;
+            _this.resizeRect();
             _this.frameLoop(1, _this, _this.upData);
             return _this;
         }

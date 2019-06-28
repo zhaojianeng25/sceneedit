@@ -21,9 +21,10 @@ var base;
     var LayaScene2D = LayaPan3D.LayaScene2D;
     var Game2dDemo = /** @class */ (function (_super) {
         __extends(Game2dDemo, _super);
-        function Game2dDemo(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
-            return _super.call(this, value, bfun) || this;
+        function Game2dDemo(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
+            return _super.call(this, w, h) || this;
         }
         Game2dDemo.prototype.initScene = function () {
             _super.prototype.initScene.call(this);
@@ -74,6 +75,7 @@ var base;
                 var v2d = this.getMousePos(this.mouseX, this.mouseY);
                 console.log("mouseX----", this.mouseX, "mouseY", this.mouseY, "mouseDown", v2d);
                 this.mainChar.set2dPos(v2d.x, v2d.y);
+                this.mainChar.scale = 0.2;
                 this.addFramePartice(new Vector2D(this.mouseX, this.mouseY));
             }
         };

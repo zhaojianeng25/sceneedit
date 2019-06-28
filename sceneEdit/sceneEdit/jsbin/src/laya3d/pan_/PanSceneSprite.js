@@ -25,7 +25,7 @@ var lou16;
         var PanSceneSprite = /** @class */ (function (_super) {
             __extends(PanSceneSprite, _super);
             function PanSceneSprite() {
-                return _super.call(this, "res/ui/icon/256a.png") || this;
+                return _super.call(this) || this;
             }
             PanSceneSprite.prototype.initScene = function () {
                 ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);

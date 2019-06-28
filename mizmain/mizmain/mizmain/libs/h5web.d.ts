@@ -843,6 +843,7 @@ declare module Pan3d {
         private static getLineAndPlaneIntersectPoint;
         static lookAt(eyePos: Vector3D, lookAt: Vector3D): Matrix3D;
         static MathCam(_Cam: Camera3D): void;
+        private getCamData;
     }
 }
 
@@ -1897,7 +1898,7 @@ declare module Pan3d {
     class BaseDiplay3dSprite extends Display3D {
         constructor();
         protected initData(): void;
-        protected loadTexture;
+        private loadTexture;
         _uvTextureRes: TextureRes;
         upToGpu(): void;
         update(): void;
@@ -8118,7 +8119,7 @@ declare module pack {
     }
     class FileOssModel {
         private static waitItem;
-        static ossWrapper: any
+ 
         private static oneByOne;
         private static saveDicfileGropFun;
         private static indexFileName;
@@ -11612,6 +11613,7 @@ declare module maineditor {
         paramInfo: Array<any>;
         materialParam: MaterialBaseParam;
         gildline: boolean;
+        scenescale: number;
         material: materialui.MaterialTree;
         textureurl: string;
         constructor(value: any);
@@ -11766,6 +11768,7 @@ declare module maineditor {
     import MetaDataView = prop.MetaDataView;
     class ScenePojectMeshView extends MetaDataView {
         getView(): Array<any>;
+        scenescale: number;
         private static gridLineSprite;
         gridline: number;
         private textureChangeInfo;
@@ -11913,6 +11916,10 @@ declare module maineditor {
         static _instance: EditorModel;
         static getInstance(): EditorModel;
         constructor();
+        loadHideMixImg($url: string, $fun: Function): void;
+        private convertCanvasToImage;
+        private makeMixPicByUrl;
+        private dataURLtoFile;
         openFileByUrl(fileUrl: string): void;
         hierarchyListPanel: HierarchyListPanel;
         selectItem: Array<FolderMeshVo>;
@@ -12030,15 +12037,15 @@ declare module maineditor {
 declare module LayaPan3D {
     import EdItorSceneManager = maineditor.EdItorSceneManager;
     class Laya3dSprite extends Laya.Image {
-        constructor(value: string, bfun?: Function);
-        scale(scaleX: number, scaleY: number, speedMode?: boolean): Laya.Sprite;
+        constructor(w?: number, h?: number);
+        scale(scaleX: number, scaleY: number, speedMode?: boolean): Laya. Sprite;
         private resizeRect;
         protected initScene(): void;
         bgColor: Vector3D;
         protected addDisplay(): void;
         protected addRole(): void;
         protected addSkillRole(): void;
-        protected addLyfSprite(): void;
+        protected addLyfSprite;
         upData(): void;
         protected renderToTexture(): void;
         public sceneManager: EdItorSceneManager;
@@ -12087,7 +12094,7 @@ declare module LayaPan3D {
 
 declare module LayaPan3D {
     class LayaScene3D extends Laya3dSprite {
-        constructor(value: string, bfun?: Function);
+        constructor(w?: number, h?: number);
         protected addEvents(): void;
         protected addSceneModel(): void;
         private onMouseWheel;
@@ -12103,7 +12110,7 @@ declare module LayaPan3D {
 
 declare module LayaPan3D {
     class LayaGame2dDemo extends LayaScene2D {
-        constructor(value: string, bfun?: Function);
+        constructor(w?: number, h?: number);
         protected initScene(): void;
         private mainChar;
         private addSceneModel;

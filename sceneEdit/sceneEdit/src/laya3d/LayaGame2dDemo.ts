@@ -5,8 +5,8 @@
 
     import CombineParticle = Pan3d.CombineParticle
     export class LayaGame2dDemo extends LayaScene2D {
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
-            super(value, bfun)
+        public constructor( w: number = 128, h: number = 128) { 
+            super(w,h)
         }
         protected initScene(): void {
             super.initScene();

@@ -15,8 +15,8 @@ module LayaPan3D {
 
 
     export class LayaScene3D extends Laya3dSprite  {
-        public constructor(value: string, bfun: Function = null) { //"res/ui/icon/512.jpg"
-            super(value, bfun)
+        public constructor( w: number = 128, h: number = 128) {
+            super( w, h)
             this.addEvents()
             this.addSceneModel()
             this.bgColor = new Vector3D(0.2, 0.2, 0.2, 1)

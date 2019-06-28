@@ -61,37 +61,18 @@
 
             Pan3d.Engine.init(this._canvas);
 
+  
 
-            var topBox: Laya.Box = new Laya.Box()
-            Laya.stage.addChild(topBox)
-
-            var midBox: Laya.Box = new Laya.Box()
-            Laya.stage.addChild(midBox)
-
-         
-
-
-            var picA: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-         //   Laya.stage.addChild(picA)
-            picA.scale(0.5, 0.5) 
-            picA.pos(600, 170)
- 
-
-            //var spriteA: base.SceneLevel = new base.SceneLevel("res/ui/icon/512a.jpg")
+            //var spriteA: base.SceneLevel = new base.SceneLevel()
             //Laya.stage.addChild(spriteA);
-            //spriteA.pos(0, 0);
+            //spriteA.pos(200, 200);
             //spriteA.setSceneCanvas(400, 200);
-
  
-
-            var picB: Laya.Image = new Laya.Image("res/ui/icon/lyf_64x.png");
-          //  Laya.stage.addChild(picB)
-            picB.pos(0, 220)
 
             this.lastTm = Pan3d.TimeUtil.getTimer()
             Laya.stage.frameLoop(1, this, () => {
                 var t = Pan3d.TimeUtil.getTimer() - this.lastTm;
-                //  Pan3d.TimeUtil.START_TIME += t * -1;
+               //  Pan3d.TimeUtil.START_TIME += t * -1;
                 this.lastTm = Pan3d.TimeUtil.getTimer()
                 Pan3d.TimeUtil.update()
             })
@@ -121,7 +102,7 @@
    
         private addRightScene(): void {
 
-            var tempScene: base.SceneLevel = new base.SceneLevel("res/ui/icon/512b.jpg")
+            var tempScene: base.SceneLevel = new base.SceneLevel()
             Laya.stage.addChild(tempScene);
      
             tempScene.setSceneCanvas(720, 1280)

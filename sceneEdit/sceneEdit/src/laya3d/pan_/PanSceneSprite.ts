@@ -11,7 +11,7 @@
         private _stat: Stat;
 
         constructor() {
-            super("res/ui/icon/256a.png");
+            super();
         }
         protected initScene(): void {
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);

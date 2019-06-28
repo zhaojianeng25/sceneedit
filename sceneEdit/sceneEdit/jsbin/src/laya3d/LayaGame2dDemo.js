@@ -18,9 +18,10 @@ var LayaPan3D;
     var Scene_data = Pan3d.Scene_data;
     var LayaGame2dDemo = /** @class */ (function (_super) {
         __extends(LayaGame2dDemo, _super);
-        function LayaGame2dDemo(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
-            return _super.call(this, value, bfun) || this;
+        function LayaGame2dDemo(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
+            return _super.call(this, w, h) || this;
         }
         LayaGame2dDemo.prototype.initScene = function () {
             _super.prototype.initScene.call(this);

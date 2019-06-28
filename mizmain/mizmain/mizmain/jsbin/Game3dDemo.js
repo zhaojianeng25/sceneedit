@@ -17,15 +17,14 @@ var base;
     var Object3D = Pan3d.Object3D;
     var MouseType = Pan3d.MouseType;
     var Laya3dSprite = LayaPan3D.Laya3dSprite;
-    var LyfSpriteDisplay = maineditor.LyfSpriteDisplay;
     var LayaSceneChar = layapan_me.LayaSceneChar;
     var Game3dDemo = /** @class */ (function (_super) {
         __extends(Game3dDemo, _super);
-        function Game3dDemo(value, bfun) {
-            if (bfun === void 0) { bfun = null; }
-            var _this = _super.call(this, value, bfun) || this;
+        function Game3dDemo(w, h) {
+            if (w === void 0) { w = 128; }
+            if (h === void 0) { h = 128; }
+            var _this = _super.call(this, w, h) || this;
             _this.addEvents();
-            _this.addLyfSprite();
             var $baseChar = new LayaSceneChar();
             $baseChar.setRoleUrl(getRoleUrl("5103"));
             _this.sceneManager.addMovieDisplay($baseChar);
@@ -36,12 +35,6 @@ var base;
             this.on(MouseType.MouseWheel, this, this.onMouseWheel);
             Laya.stage.on(MouseType.MouseUp, this, this.onMouseUp);
             Laya.stage.on(MouseType.MouseMove, this, this.onMouseMove);
-        };
-        Game3dDemo.prototype.addLyfSprite = function () {
-            var lyfSprite = new LyfSpriteDisplay();
-            lyfSprite.addLyfByUrl("pan/model/denglong_lyf.lyf");
-            lyfSprite.y = 25;
-            this.sceneManager.addDisplay(lyfSprite);
         };
         Game3dDemo.prototype.onMouseWheel = function (e) {
             this.sceneManager.cam3D.distance += e.delta;
