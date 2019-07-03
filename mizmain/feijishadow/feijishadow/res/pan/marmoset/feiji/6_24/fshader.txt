@@ -130,7 +130,7 @@ void eB(out ev ss,float hO){
 			hR*=.0005+0.5*hO;
  
 		highp vec4 hS=h(uShadowMatrices[k],dv+hR*hu);
-		 hS =uShadowMatrices[2] *vec4(dv+ hR * hu, 1.0);;
+		 hS =uShadowMatrices[2] *vec4(dv, 1.0);;
 		hP[k]=hS.xyz/hS.w;
 	}
 	float m;

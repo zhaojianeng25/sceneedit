@@ -56,10 +56,10 @@
  
 
             var spriteD: Marmoset3dScene = new Marmoset3dScene("res/ui/icon/512b.jpg", () => {
-                spriteD.scale(1.2, 1.2*(4/5))
+                spriteD.scale(500 / 512, 400/512)
             })
             Laya.stage.addChild(spriteD);
-            spriteD.pos(100, 350);
+            spriteD.pos(100, 410);
 
 
             Laya.stage.frameLoop(1, this, () => {

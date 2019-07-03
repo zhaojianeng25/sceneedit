@@ -33,10 +33,10 @@ var mars3D;
             picA.pos(0, 0);
             console.log(layapan_me.LayaSceneChar);
             var spriteD = new mars3D.Marmoset3dScene("res/ui/icon/512b.jpg", function () {
-                spriteD.scale(1.2, 1.2 * (4 / 5));
+                spriteD.scale(500 / 512, 400 / 512);
             });
             Laya.stage.addChild(spriteD);
-            spriteD.pos(100, 350);
+            spriteD.pos(100, 410);
             Laya.stage.frameLoop(1, this, function () {
                 Pan3d.TimeUtil.update();
             });
