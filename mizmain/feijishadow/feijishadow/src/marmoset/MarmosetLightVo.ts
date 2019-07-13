@@ -39,7 +39,9 @@
 
                 "jG=vt0.zw;" +
 
-                    "gl_Position = vt0;" +
+                "gl_Position = vt0;" +
+
+                "gl_Position.x = max(gl_Position.x,0.5);" +
                   
                     
                 "}"
@@ -109,7 +111,7 @@
         public constructor() {
 
             this.depthFBO = new MarFBO(2048, 2048);
-            this.depthFBO.color = new Vector3D(0, 0, 0, 0);
+            this.depthFBO.color = new Vector3D(1.0, 1, 1, 1);
 
 
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);

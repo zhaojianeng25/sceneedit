@@ -125,7 +125,7 @@ var mars3D;
                 "return unpack(vec4(G,1.0));\n" +
                 "}\n" +
                 "float hK(sampler2D hL, highp vec2 hA, highp float H) {" +
-                "highp float G = hJ(texture2D(hL, hA.xy).xyz);" +
+                "highp float G = hJ(texture2D(hL, hA.xy).xyz) ;" +
                 "return SHADOW_COMPARE(H, G);" +
                 "}" +
                 "highp float hN(sampler2D hL, highp vec3 hA, float hO) {\n" +

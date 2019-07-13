@@ -50,6 +50,7 @@ var mars3D;
                 "vt0 = viewMatrix3D * vt0;" +
                 "jG=vt0.zw;" +
                 "gl_Position = vt0;" +
+                "gl_Position.x = max(gl_Position.x,0.5);" +
                 "}";
             return $str;
         };
@@ -106,7 +107,7 @@ var mars3D;
         function MarmosetLightVo() {
             this.skipNum = 1;
             this.depthFBO = new MarFBO(2048, 2048);
-            this.depthFBO.color = new Vector3D(0, 0, 0, 0);
+            this.depthFBO.color = new Vector3D(1.0, 1, 1, 1);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
             var gl = Scene_data.context3D.renderContext;

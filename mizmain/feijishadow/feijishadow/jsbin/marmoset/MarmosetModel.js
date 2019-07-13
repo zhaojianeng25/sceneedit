@@ -88,8 +88,8 @@ var mars3D;
             marmoset.Shader.prototype.build = function (a, b) {
                 //console.log("---------------------------------")
                 //console.log(a.length, b.length)
-                console.log(a);
-                console.log(b);
+                //   console.log(a)
+                // console.log(b)
                 if (b.length == 18238) { //读取顶点和纹理着色器
                     //   console.log(b)
                     a = MarmosetModel.changerVshader;
@@ -101,8 +101,30 @@ var mars3D;
                         //    console.log(b)
                     }
                 }
+                if (a.length == 468) { //读取顶点和纹理着色器
+                    var backObj = MarmosetModel.changeDepthSahder(a, b);
+                    a = backObj.a;
+                    b = backObj.b;
+                }
                 Shader_build.call(this, a, b);
             };
+        };
+        MarmosetModel.changeDepthSahder = function (a, b) {
+            console.log("---------------------------------");
+            console.log(a.length, b.length);
+            console.log(a);
+            console.log(b);
+            a = "#define SHADOW_NATIVE_DEPTH  \n" +
+                "precision highp float; attribute vec3 vPosition; attribute vec2 vTexCoord; uniform mat4 uMeshTransform; uniform mat4 uViewProjection; varying vec2 jG; \n" +
+                "#ifdef ALPHA_TEST \n" +
+                "varying mediump vec2 d; uniform vec2 uUVOffset; \n" +
+                "#endif\n" +
+                "vec4 h(mat4 i, vec3 p){ return i[0] * p.x + (i[1] * p.y + (i[2] * p.z + i[3])); } void main(void){ \n" +
+                "vec3 p = h(uMeshTransform, vPosition).xyz; \n" +
+                "gl_Position = h(uViewProjection, p); \n" +
+                "gl_Position.x = max(gl_Position.x,0.5); \n" +
+                "}";
+            return { a: a, b: b };
         };
         MarmosetModel.prototype.upFileToSvever = function () {
             var num = 0;
