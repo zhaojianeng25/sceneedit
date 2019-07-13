@@ -328,7 +328,7 @@
             if ($evt.x > AppData.centenPanel.x && $evt.x < AppData.rightPanel.x) {
                 var $slectUi: UICompenent = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y))
                 if (!$slectUi) {
-                    var $p: Vector3D = this.getCamForntPos($evt.wheelDelta * 0.1)
+                    var $p: Vector3D = this.getCamForntPos($evt.deltaY * 0.1)
                     this.selectScene.cam3D.x = $p.x;
                     this.selectScene.cam3D.y = $p.y;
                     this.selectScene.cam3D.z = $p.z;

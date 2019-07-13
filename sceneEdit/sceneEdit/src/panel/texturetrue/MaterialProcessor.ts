@@ -521,7 +521,7 @@
             var ty: number = $evt.y / MtlUiData.Scale
             var $oldScale: number = MtlUiData.Scale
 
-            var $addScale: number = $evt.wheelDelta > 0 ? +0.1 : -0.1;
+            var $addScale: number = $evt.deltaY > 0 ? +0.1 : -0.1;
             MtlUiData.Scale += $addScale;
 
             MtlUiData.Scale = Math.max(0.5, MtlUiData.Scale);

@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -255,7 +255,7 @@ var maineditor;
                 q.fromMatrix(maineditor.MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
                 var m = q.toMatrix3D();
                 m.invert();
-                var $add = m.transformVector(new Vector3D(0, 0, $evt.wheelDelta / 100));
+                var $add = m.transformVector(new Vector3D(0, 0, $evt.deltaY / 100));
                 maineditor.MainEditorProcessor.edItorSceneManager.cam3D.x += $add.x;
                 maineditor.MainEditorProcessor.edItorSceneManager.cam3D.y += $add.y;
                 maineditor.MainEditorProcessor.edItorSceneManager.cam3D.z += $add.z;

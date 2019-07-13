@@ -75,7 +75,7 @@
         public onMouseWheel($evt: MouseWheelEvent): void {
       
             if (this.texturePicUi.ui.testPoint($evt.x, $evt.y)) {
-                this.sceneManager.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
+                this.sceneManager.cam3D.distance += ($evt.deltaY * Scene_data.cam3D.distance) / 1000;
             }
 
     

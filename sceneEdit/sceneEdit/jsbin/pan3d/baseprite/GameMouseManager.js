@@ -42,7 +42,7 @@ var Pan3d;
         };
         GameMouseManager.prototype.onMouseWheel = function ($evt) {
             Pan3d.AstarUtil.sceneVectList = null;
-            Pan3d.Scene_data.gameAngle += $evt.wheelDelta / 100;
+            Pan3d.Scene_data.gameAngle += $evt.detail / 100;
         };
         GameMouseManager.prototype.isCanUseMouseEvent = function () {
             return this.useMouseEvent;

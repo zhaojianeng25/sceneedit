@@ -20,7 +20,7 @@ module scenedis.me {
         }
         public onMouseWheel($evt: MouseWheelEvent): void {
 
-            Pan3d.Scene_data.cam3D.distance += $evt.wheelDelta / 10
+            Pan3d.Scene_data.cam3D.distance += $evt.detail / 10
         }
 
         private lastRotationY: number = 0;

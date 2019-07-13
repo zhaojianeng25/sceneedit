@@ -39,7 +39,7 @@ module Pan3d {
         }
         public onMouseWheel($evt: MouseWheelEvent): void {
             AstarUtil.sceneVectList = null;
-            Scene_data.gameAngle += $evt.wheelDelta / 100;
+            Scene_data.gameAngle += $evt.detail / 100;
         }
         public useMouseEvent: boolean = true;
 

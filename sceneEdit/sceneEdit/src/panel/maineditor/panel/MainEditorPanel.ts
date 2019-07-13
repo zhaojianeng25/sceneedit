@@ -322,7 +322,7 @@
                 q.fromMatrix(MainEditorProcessor.edItorSceneManager.cam3D.cameraMatrix);
                 var m: Pan3d.Matrix3D = q.toMatrix3D()
                 m.invert()
-                var $add: Vector3D = m.transformVector(new Vector3D(0, 0, $evt.wheelDelta / 100 ))
+                var $add: Vector3D = m.transformVector(new Vector3D(0, 0, $evt.deltaY / 100 ))
                 MainEditorProcessor.edItorSceneManager.cam3D.x += $add.x
                 MainEditorProcessor.edItorSceneManager.cam3D.y += $add.y
                 MainEditorProcessor.edItorSceneManager.cam3D.z += $add.z

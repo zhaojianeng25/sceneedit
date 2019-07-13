@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -71,7 +71,7 @@ var prop;
         });
         MeshSceneView2DUI.prototype.onMouseWheel = function ($evt) {
             if (this.texturePicUi.ui.testPoint($evt.x, $evt.y)) {
-                this.sceneManager.cam3D.distance += ($evt.wheelDelta * Scene_data.cam3D.distance) / 1000;
+                this.sceneManager.cam3D.distance += ($evt.deltaY * Scene_data.cam3D.distance) / 1000;
             }
         };
         MeshSceneView2DUI.prototype.butClik = function (evt) {

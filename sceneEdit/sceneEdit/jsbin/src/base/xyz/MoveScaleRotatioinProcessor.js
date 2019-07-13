@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -300,7 +300,7 @@ var xyz;
             if ($evt.x > AppData.centenPanel.x && $evt.x < AppData.rightPanel.x) {
                 var $slectUi = win.LayerManager.getInstance().getObjectsUnderPoint(new Vector2D($evt.x, $evt.y));
                 if (!$slectUi) {
-                    var $p = this.getCamForntPos($evt.wheelDelta * 0.1);
+                    var $p = this.getCamForntPos($evt.deltaY * 0.1);
                     this.selectScene.cam3D.x = $p.x;
                     this.selectScene.cam3D.y = $p.y;
                     this.selectScene.cam3D.z = $p.z;

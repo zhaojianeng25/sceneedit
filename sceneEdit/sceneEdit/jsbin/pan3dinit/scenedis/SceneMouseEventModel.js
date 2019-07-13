@@ -22,7 +22,7 @@ var scenedis;
                 document.addEventListener(Pan3d.MouseType.MouseWheel, function ($evt) { _this.onMouseWheel($evt); });
             };
             SceneMouseEventModel.prototype.onMouseWheel = function ($evt) {
-                Pan3d.Scene_data.cam3D.distance += $evt.wheelDelta / 10;
+                Pan3d.Scene_data.cam3D.distance += $evt.detail / 10;
             };
             SceneMouseEventModel.prototype.onMouseMove = function ($evt) {
                 if (this._isMouseDown) {
