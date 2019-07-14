@@ -37,7 +37,7 @@ module scenedis.me {
                 var $addy: number = $evt.y - this._lastMousePos.y;
                 Pan3d.  Scene_data.focus3D.rotationX = this.lastRotationX - $addy;
             }
-        }
+        } 
         private onMouseDown($evt: Pan3d. InteractiveEvent): void {
 
             this._lastMousePos.x = $evt.x;
