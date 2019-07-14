@@ -330,7 +330,8 @@ var mars3D;
                     }
                 }
                 gl.disable(gl.CULL_FACE);
-                gl.cullFace(gl.FRONT);
+                gl.cullFace(gl.BACK);
+                gl.frontFace(gl.CCW);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.setVa(2, 3, mesh.objData.tangentBuffer);

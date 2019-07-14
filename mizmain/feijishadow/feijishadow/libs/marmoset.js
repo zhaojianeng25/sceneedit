@@ -3994,8 +3994,8 @@ marmoset = {};
         this.desc = c;
         c = this.nativeDepth ? ["#define SHADOW_NATIVE_DEPTH"] : [];
         this.shaderSolid = a.shaderCache.fromURLs("shadowvert.glsl", "shadowfrag.glsl", c);
-        c.push("#define ALPHA_TEST 1");
-        this.shaderAlphaTest = a.shaderCache.fromURLs("shadowvert.glsl", "shadowfrag.glsl", c);
+      //  c.push("#define ALPHA_TEST 1");
+       // this.shaderAlphaTest = a.shaderCache.fromURLs("shadowvert.glsl", "shadowfrag.glsl", c);
         this.depthTextures = [];
         this.depthTargets = [];
         if (0 < this.shadowCount) {
@@ -4042,17 +4042,30 @@ marmoset = {};
                 Matrix.mul(l, f.subarray(16 * m, 16 * (m + 1)), h);
                 Matrix.mul(l, g.subarray(16 * m, 16 * (m + 1)), l);
                 this.depthTargets[m].bind();
-                c.clearColor(0, 0, 0, 0);
-                c.clear(c.COLOR_BUFFER_BIT | c.DEPTH_BUFFER_BIT);
+				console.log("11111111111111111111111------------------22222222222")
+              c.clearColor(1, 1, 1, 1);
+              c.clear(c.COLOR_BUFFER_BIT | c.DEPTH_BUFFER_BIT);
+			  
+			  var gl = this.gl
+	         gl.clearDepth(1.0);
+              gl.clearStencil(0.0);
+			  gl.enable(gl.DEPTH_TEST);
+			  gl.depthMask(true);
+			  gl.disable(gl.BLEND); //不用混合模式
+			
+			    gl.disable(gl.CULL_FACE);
+                gl.cullFace(gl.BACK);
+				gl.frontFace(gl.CCW);
+			
                 var p = this.shaderSolid;
                 p.bind();
                 c.uniformMatrix4fv(p.params.uViewProjection, !1, l);
                 c.uniformMatrix4fv(p.params.uMeshTransform, !1, Matrix.identity());
                 for (var r = 0; r < a.meshRenderables.length; ++r) {
-                    var s = a.meshRenderables[r]
-                      , u = s.material;
-                    !s.mesh.desc.castShadows || !u.castShadows || 0 < u.shadowAlphaTest || (k && c.uniformMatrix4fv(p.params.uMeshTransform, !1, s.mesh.displayMatrix),
-                    s.drawShadow(p.attribs.vPosition))
+                    var s = a.meshRenderables[r] ;
+					
+                    c.uniformMatrix4fv(p.params.uMeshTransform, !1, s.mesh.displayMatrix);
+                    s.drawShadow(p.attribs.vPosition) 
                 }
           
                
@@ -4063,7 +4076,7 @@ marmoset = {};
     }
     ;
     ShadowCollector.prototype.complete = function() {
-        return this.shaderSolid.complete() && this.shaderAlphaTest.complete()
+        return this.shaderSolid.complete()  
     }
     ;
     function ShadowFloor(a, b, c, d) {

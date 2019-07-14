@@ -10,4 +10,3 @@ D:\github\sceneEdit\sceneEdit\sceneEdit\bin\sceneEdit.pdb
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csproj.CoreCompileInputs.cache
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.dll
 D:\github\sceneEdit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.pdb
-E:\github\sceneedit\sceneEdit\sceneEdit\obj\Debug\sceneEdit.csprojAssemblyReference.cache

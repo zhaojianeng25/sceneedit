@@ -107,7 +107,7 @@ var mars3D;
         function MarmosetLightVo() {
             this.skipNum = 1;
             this.depthFBO = new MarFBO(2048, 2048);
-            this.depthFBO.color = new Vector3D(1.0, 0, 0, 1);
+            this.depthFBO.color = new Vector3D(0.0, 0.0, 0.0, 0.0);
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
             this.shader = ProgrmaManager.getInstance().getProgram(MarmosetLightVoShader.MarmosetLightVoShader);
             var gl = Scene_data.context3D.renderContext;
@@ -121,8 +121,7 @@ var mars3D;
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
             gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
             gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
-            gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-            // alert(gl.getExtension("WEBGL_depth_texture"))
+            //gl.bindRenderbuffer(gl.RENDERBUFFER, null);
         }
         MarmosetLightVo.prototype.makeDepthTexture = function () {
             //深度贴图
@@ -140,15 +139,20 @@ var mars3D;
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
+            // gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_COMPONENT16, gl.TEXTURE_2D, fbo.depthTexture, 1);
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+            if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
+                alert("错误配置");
+            }
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
-            gl.enable(gl.DEPTH_TEST);
             gl.depthMask(true);
-            gl.enable(gl.BLEND);
+            gl.enable(gl.DEPTH_TEST);
             gl.disable(gl.BLEND); //不用混合模式
-            gl.frontFace(gl.CW);
+            gl.disable(gl.CULL_FACE);
+            gl.cullFace(gl.BACK);
+            gl.frontFace(gl.CCW);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
         };

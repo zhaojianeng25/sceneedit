@@ -111,7 +111,7 @@
         public constructor() {
 
             this.depthFBO = new MarFBO(2048, 2048);
-            this.depthFBO.color = new Vector3D(1.0, 0, 0, 1);
+            this.depthFBO.color = new Vector3D(0.0, 0.0, 0.0, 0.0);
 
 
             ProgrmaManager.getInstance().registe(MarmosetLightVoShader.MarmosetLightVoShader, new MarmosetLightVoShader);
@@ -130,13 +130,12 @@
             this.makeDepthTexture();
 
             this.depthFBO.frameBuffer = gl.createFramebuffer();
+
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
-
             gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
-            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
-            gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+           gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
+            //gl.bindRenderbuffer(gl.RENDERBUFFER, null);
 
-            // alert(gl.getExtension("WEBGL_depth_texture"))
         }
         private makeDepthTexture(): void {
             //深度贴图
@@ -144,7 +143,8 @@
             var depthTexture: WebGLTexture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, depthTexture);
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
+
+             gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
 
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
@@ -161,16 +161,30 @@
 
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
+           // gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_COMPONENT16, gl.TEXTURE_2D, fbo.depthTexture, 1);
+
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
+
+             
+
+            if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
+                alert("错误配置")
+            }
  
+           
+
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
-            gl.enable(gl.DEPTH_TEST);
             gl.depthMask(true);
-            gl.enable(gl.BLEND);
+            gl.enable(gl.DEPTH_TEST);
             gl.disable(gl.BLEND); //不用混合模式
-            gl.frontFace(gl.CW);
+    
+
+            gl.disable(gl.CULL_FACE);
+            gl.cullFace(gl.BACK);
+            gl.frontFace(gl.CCW);
+
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
 
