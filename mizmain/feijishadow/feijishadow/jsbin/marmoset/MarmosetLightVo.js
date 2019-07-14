@@ -116,6 +116,7 @@ var mars3D;
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.depthFBO.width, this.depthFBO.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            this.makeDepthTexture();
             this.depthFBO.frameBuffer = gl.createFramebuffer();
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
             gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
@@ -123,6 +124,18 @@ var mars3D;
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
             // alert(gl.getExtension("WEBGL_depth_texture"))
         }
+        MarmosetLightVo.prototype.makeDepthTexture = function () {
+            //深度贴图
+            var gl = Scene_data.context3D.renderContext;
+            var depthTexture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.bindTexture(gl.TEXTURE_2D, null);
+            this.depthFBO.depthTexture = depthTexture;
+        };
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);

@@ -11,7 +11,7 @@
             super(w, h)
         }
         public depthViewMatrix3D: any
-        //  public depthTexture: WebGLTexture
+        public depthTexture: WebGLTexture
     }
 
 
@@ -127,14 +127,32 @@
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
+            this.makeDepthTexture();
+
             this.depthFBO.frameBuffer = gl.createFramebuffer();
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
 
-           gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
-           gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
-           gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+            gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
+            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
+            gl.bindRenderbuffer(gl.RENDERBUFFER, null);
 
             // alert(gl.getExtension("WEBGL_depth_texture"))
+        }
+        private makeDepthTexture(): void {
+            //深度贴图
+            var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            var depthTexture: WebGLTexture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
+
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+            gl.bindTexture(gl.TEXTURE_2D, null);
+
+            this.depthFBO.depthTexture = depthTexture;
+
         }
         private shader: Shader3D;
         private updateDepthTexture(fbo: MarFBO): void {
