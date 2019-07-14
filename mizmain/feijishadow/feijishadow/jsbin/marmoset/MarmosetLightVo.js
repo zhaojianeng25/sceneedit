@@ -120,6 +120,7 @@ var mars3D;
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
             gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
             gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
+            gl.bindRenderbuffer(gl.RENDERBUFFER, null);
             // alert(gl.getExtension("WEBGL_depth_texture"))
         }
         MarmosetLightVo.prototype.updateDepthTexture = function (fbo) {
@@ -127,7 +128,6 @@ var mars3D;
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
             gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, fbo.depthBuffer);
-            //  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture ,0)
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
@@ -149,7 +149,7 @@ var mars3D;
                 }
                 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
                 gl.bindTexture(gl.TEXTURE_2D, null);
-                //   gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+                gl.bindRenderbuffer(gl.RENDERBUFFER, null);
                 GlReset.resetBasePrarame(gl);
             }
         };

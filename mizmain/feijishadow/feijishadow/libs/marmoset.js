@@ -850,30 +850,30 @@ marmoset = {};
     }
     ;
     function Framebuffer(a, b) {
+		console.log(a,b)
         this.gl = a;
         this.fbo = a.createFramebuffer();
         a.bindFramebuffer(a.FRAMEBUFFER, this.fbo);
-        b && (this.width = b.width, this.height = b.height, b.color0 && (this.color0 = b.color0,
-        a.framebufferTexture2D(a.FRAMEBUFFER, a.COLOR_ATTACHMENT0, a.TEXTURE_2D, this.color0.id, 0),
-        this.width = b.color0.desc.width,
-        this.height = b.color0.desc.height),
-        b.depth ? (this.depth = b.depth, a.framebufferTexture2D(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.TEXTURE_2D, this.depth.id, 0)) : (this.depthBuffer = b.depthBuffer,
-        b.createDepth && !this.depthBuffer && (this.depthBuffer = Framebuffer.createDepthBuffer(a, this.width, this.height)),
-        this.depthBuffer && (a.bindRenderbuffer(a.RENDERBUFFER, this.depthBuffer),
-        a.framebufferRenderbuffer(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.RENDERBUFFER, this.depthBuffer),
-        a.bindRenderbuffer(a.RENDERBUFFER, null))));
-        this.valid = b && b.ignoreStatus || a.checkFramebufferStatus(a.FRAMEBUFFER) == a.FRAMEBUFFER_COMPLETE;
-        a.bindFramebuffer(a.FRAMEBUFFER, null);
-		
-		console.log( b.depth)
+		if(b){
+			 this.width = b.width;
+			 this.height = b.height;
+			 if( b.color0){
+				this.color0 = b.color0;
+				a.framebufferTexture2D(a.FRAMEBUFFER, a.COLOR_ATTACHMENT0, a.TEXTURE_2D, this.color0.id, 0);
+				this.width = b.color0.desc.width;
+				this.height = b.color0.desc.height ;
+			 }
+			if( b.depth ){
+				 this.depth = b.depth; 
+				 a.framebufferTexture2D(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.TEXTURE_2D, this.depth.id, 0);
+				 console.log("深度",  this.width,  this.height,this.depth.id)
+			} 
+			this.valid = b;
+			a.bindFramebuffer(a.FRAMEBUFFER, null);
+		}
+     
     }
-    Framebuffer.createDepthBuffer = function(a, b, c) {
-        var d = a.createRenderbuffer();
-        a.bindRenderbuffer(a.RENDERBUFFER, d);
-        a.renderbufferStorage(a.RENDERBUFFER, a.DEPTH_COMPONENT16, b, c);
-        a.bindRenderbuffer(a.RENDERBUFFER, null);
-        return d
-    }
+ 
     ;
     Framebuffer.prototype.bind = function() {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.fbo);
@@ -4011,17 +4011,25 @@ marmoset = {};
                 width: c.width,
                 height: c.height
             }, e, f;
-            this.nativeDepth ? (e = a.DEPTH_COMPONENT,
-            f = a.UNSIGNED_SHORT) : (d.depthBuffer = Framebuffer.createDepthBuffer(a, c.width, c.height),
-            e = a.RGB,
-            f = a.UNSIGNED_BYTE);
-            for (var g = 0; g < this.shadowCount; ++g)
-                this.depthTextures[g] = new Texture(a,c),
-                this.depthTextures[g].loadArray(null, e, f),
-                this.nativeDepth ? d.depth = this.depthTextures[g] : d.color0 = this.depthTextures[g],
-                this.depthTargets[g] = new Framebuffer(a,d)
+			
+			if(this.nativeDepth){
+				e = a.DEPTH_COMPONENT;
+                f = a.UNSIGNED_SHORT;
+			}
+       
+            for (var g = 0; g < this.shadowCount;  g++)
+			{
+				this.depthTextures[g] = new Texture(a,c);
+                this.depthTextures[g].loadDepthArray(null, e, f);
+		 
+				 d.depth = this.depthTextures[g];
+				 
+			   this.depthTargets[g] = new Framebuffer(a,d);
+				
+			}
         }
     }
+ 
     ShadowCollector.prototype.bindDepthTexture = function(a, b) {
         this.shadowCount > b && this.depthTextures[b].bind(a)
     }
@@ -4617,6 +4625,24 @@ marmoset = {};
         d.bindTexture(this.type, null)
     }
     ;
+	
+	 Texture.prototype.loadDepthArray = function(a, b, c) {
+        var gl = this.gl;
+        this.id = gl.createTexture();
+		this.format =  gl.DEPTH_COMPONENT ;
+        this.componentType =   gl.UNSIGNED_SHORT;
+        gl.bindTexture(gl.TEXTURE_2D, this.id);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+        gl.texImage2D(gl.TEXTURE_2D, 0,gl.DEPTH_COMPONENT, this.desc.width, this.desc.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT,  null);
+ 
+	    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER,  gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER,  gl.NEAREST);
+ 
+        gl.bindTexture(this.type, null)
+ 
+    }
+ 
+	
     Texture.prototype.setParams = function() {
         var a = this.gl
           , b = function(a) {
