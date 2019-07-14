@@ -4034,7 +4034,7 @@ marmoset = {};
                 Matrix.mul(l, f.subarray(16 * m, 16 * (m + 1)), h);
                 Matrix.mul(l, g.subarray(16 * m, 16 * (m + 1)), l);
                 this.depthTargets[m].bind();
-                c.clearColor(1, 1, 1, 1);
+                c.clearColor(0, 0, 0, 0);
                 c.clear(c.COLOR_BUFFER_BIT | c.DEPTH_BUFFER_BIT);
                 var p = this.shaderSolid;
                 p.bind();
@@ -4046,17 +4046,8 @@ marmoset = {};
                     !s.mesh.desc.castShadows || !u.castShadows || 0 < u.shadowAlphaTest || (k && c.uniformMatrix4fv(p.params.uMeshTransform, !1, s.mesh.displayMatrix),
                     s.drawShadow(p.attribs.vPosition))
                 }
-                p = this.shaderAlphaTest;
-                p.bind();
-                c.uniformMatrix4fv(p.params.uViewProjection, !1, l);
-                c.uniformMatrix4fv(p.params.uMeshTransform, !1, Matrix.identity());
-                for (r = 0; r < a.meshRenderables.length; ++r)
-                    s = a.meshRenderables[r],
-                    u = s.material,
-                    s.mesh.desc.castShadows && u.castShadows && 0 < u.shadowAlphaTest && (u.textures.albedo.bind(p.samplers.tAlbedo),
-                    k && (c.uniform2f(p.params.uUVOffset, u.uOffset, u.vOffset),
-                    c.uniformMatrix4fv(p.params.uMeshTransform, !1, s.mesh.displayMatrix)),
-                    s.drawAlphaShadow(p.attribs.vPosition, p.attribs.vTexCoord))
+          
+               
             }
         n && (b.bind(),
         c.enable(c.CULL_FACE),

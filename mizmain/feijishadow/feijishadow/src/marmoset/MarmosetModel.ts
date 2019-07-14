@@ -114,11 +114,14 @@
                     var backObj: any = MarmosetModel.changeDepthSahder(a, b)
                     a = backObj.a
                     b = backObj.b
+
                 }
-
-
-
                 Shader_build.call(this, a, b);
+
+
+
+
+           
             }
   
         }
@@ -141,7 +144,7 @@
                 "vec3 p = h(uMeshTransform, vPosition).xyz; \n" +
                 "gl_Position = h(uViewProjection, p); \n" +
 
-                "gl_Position.x = max(gl_Position.x,0.5); \n" +
+                "gl_Position.y = max(gl_Position.y,0.1); \n" +
             
               
                 "}" 

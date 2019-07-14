@@ -122,7 +122,7 @@ var mars3D;
                 "vec4 h(mat4 i, vec3 p){ return i[0] * p.x + (i[1] * p.y + (i[2] * p.z + i[3])); } void main(void){ \n" +
                 "vec3 p = h(uMeshTransform, vPosition).xyz; \n" +
                 "gl_Position = h(uViewProjection, p); \n" +
-                "gl_Position.x = max(gl_Position.x,0.5); \n" +
+                "gl_Position.y = max(gl_Position.y,0.1); \n" +
                 "}";
             return { a: a, b: b };
         };
