@@ -21,6 +21,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="feijishadow.html" />
+    <Content Include="libs\h5web.js" />
+    <Content Include="libs\h5web.min.js" />
+    <Content Include="libs\inflate.min.js" />
+    <Content Include="libs\laya.core.js" />
+    <Content Include="libs\laya.ui.js" />
+    <Content Include="libs\laya.webgl.js" />
+    <Content Include="libs\marmoset.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +49,7 @@
     <TypeScriptCompile Include="src\Game3dDemo.ts" />
     <TypeScriptCompile Include="src\Game2dDemo.ts" />
     <TypeScriptCompile Include="src\LayaLaunch.ts" />
+    <TypeScriptCompile Include="src\marmoset\ContentInit.ts" />
     <TypeScriptCompile Include="src\marmoset\marmoset.d.ts" />
     <TypeScriptCompile Include="src\marmoset\Marmoset3dScene.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetLaunch.ts" />
