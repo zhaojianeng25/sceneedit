@@ -304,7 +304,10 @@ module mars3D {
 
                // "gl_FragColor =mathdepthuvtest(); " +
 
-                 "gl_FragColor=vec4(eA.eL[2], eA.eL[2], eA.eL[2], 1.0);" +
+                "gl_FragColor=vec4(eA.eL[2], eA.eL[2], eA.eL[2], 1.0);" +
+
+                "gl_FragColor=texture2D(tDepth0,d);" +
+                
        
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
@@ -356,8 +359,10 @@ module mars3D {
 
             this.upToGpu()
 
-
+            this.infoTexture = core.TextureUint.getInstance().makeColorTexture("#ff00ff")
+            this.infoTexture.texture=   core.TextureUint.getInstance().drawTextureToTexture()
         }
+        private infoTexture: TextureRes
         private makeTbnBuff(mesh: Mars3Dmesh): void {
             if (!mesh.objData.tangents || mesh.objData.tangents.length <= 0) {
                 TBNUtils.processTBN(mesh.objData)
@@ -425,8 +430,8 @@ module mars3D {
  
                     if (MarmosetLightVo.testShadowView) {
                      
-                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth0", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
-                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth1", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 5); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth0", this.infoTexture.texture, 4); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth1", this.infoTexture.texture, 5); //深度贴图
                         Scene_data.context3D.setRenderTexture(this.shader, "tDepth2", MarmosetLightVo.marmosetLightVo.depthFBO.texture, 6); //深度贴图
        
                     }
@@ -434,6 +439,8 @@ module mars3D {
                  
         
                 }
+
+             
 
                
 
@@ -495,13 +502,14 @@ module mars3D {
         }
         public update(): void {
             if (MarmosetModel.meshItem && MarmosetModel.meshItem.length) {
+                core.TextureUint.getInstance().drawBaseRectCavan()
                 if (!this.isFinish) {
                     this.makeMeshItemTexture()
                 }
-       
                 for (var i: number = 0; i < MarmosetModel.meshItem.length; i++) {
                     this.drawTempMesh(MarmosetModel.meshItem[i])
                 }
+               
             } else {
                 super.update()
             }
