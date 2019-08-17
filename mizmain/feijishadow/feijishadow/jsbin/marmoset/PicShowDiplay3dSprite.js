@@ -377,7 +377,8 @@ var mars3D;
         };
         PicShowDiplay3dSprite.prototype.update = function () {
             if (mars3D.MarmosetModel.meshItem && mars3D.MarmosetModel.meshItem.length) {
-                core.TextureUint.getInstance().drawBaseRectCavan();
+                this.infoTexture.texture = core.TextureUint.getInstance().drawTextureToTexture();
+                console.log("-----------");
                 if (!this.isFinish) {
                     this.makeMeshItemTexture();
                 }

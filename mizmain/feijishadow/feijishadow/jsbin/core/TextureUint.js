@@ -33,17 +33,11 @@ var core;
         BaseCavanShader.prototype.getVertexShaderString = function () {
             var $str = "attribute vec3 v3Position;" +
                 "attribute vec2 u2Texture;" +
-                "uniform mat4 viewMatrix3D;" +
-                "uniform mat4 camMatrix3D;" +
-                "uniform mat4 posMatrix3D;" +
                 "varying vec2 v_texCoord;" +
                 "void main(void)" +
                 "{" +
                 "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
-                "   vt0 = posMatrix3D * vt0;" +
-                "   vt0 = camMatrix3D * vt0;" +
-                "   vt0 = viewMatrix3D * vt0;" +
                 "   gl_Position = vt0;" +
                 "}";
             return $str;
@@ -54,7 +48,6 @@ var core;
                 "varying vec2 v_texCoord;\n" +
                 "void main(void)\n" +
                 "{\n" +
-                "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
                 "gl_FragColor = vec4(1.0,0.0,0.0,1.0); " +
                 "}";
             return $str;
@@ -76,16 +69,22 @@ var core;
             this.shader = ProgrmaManager.getInstance().getProgram(BaseCavanShader.BaseCavanShader);
             this.program = this.shader.program;
             this.objData = new ObjData;
+            var sizeNum = 0.8;
             this.objData.vertices = new Array();
-            this.objData.vertices.push(0, 0, 0);
-            this.objData.vertices.push(100, 0, 0);
-            this.objData.vertices.push(100, 0, 100);
+            this.objData.vertices.push(-sizeNum, +sizeNum, 0.9);
+            this.objData.vertices.push(+sizeNum, +sizeNum, 0.9);
+            this.objData.vertices.push(+sizeNum, -sizeNum, 0.9);
+            this.objData.vertices.push(-sizeNum, -sizeNum, 0.9);
             this.objData.uvs = new Array();
             this.objData.uvs.push(0, 0);
             this.objData.uvs.push(1, 0);
+            this.objData.uvs.push(1, 1);
             this.objData.uvs.push(0, 1);
             this.objData.indexs = new Array();
+            this.objData.indexs.push(0, 2, 1);
+            this.objData.indexs.push(0, 3, 2);
             this.objData.indexs.push(0, 1, 2);
+            this.objData.indexs.push(0, 2, 3);
             this.loadTexture();
             this.upToGpu();
         };
@@ -106,9 +105,6 @@ var core;
         BaseCavanSprite.prototype.update = function () {
             if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
                 Scene_data.context3D.setProgram(this.program);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", Scene_data.viewMatrx3D.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "camMatrix3D", Scene_data.cam3D.cameraMatrix.m);
-                Scene_data.context3D.setVcMatrix4fv(this.shader, "posMatrix3D", this.posMatrix.m);
                 Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
@@ -162,12 +158,11 @@ var core;
         };
         TextureUint.prototype.drawTextureToTexture = function () {
             this.depthFBO = new mars3D.MarFBO(1024, 1024);
-            this.depthFBO.color = new Vector3D(0.0, 1.0, 1.0, 1.0);
+            this.depthFBO.color = new Vector3D(1.0, 1.0, 1.0, 1.0);
             var gl = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.setFboInfo(this.depthFBO);
             this.drawBaseRectCavan();
-            this.baseDiplay3dSprite.update();
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
@@ -176,10 +171,6 @@ var core;
         };
         TextureUint.prototype.drawBaseRectCavan = function () {
             this.baseDiplay3dSprite.update();
-            //Scene_data.context3D.setProgram(this.shader.program);
-            //Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
-            //Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
-            //Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
         };
         return TextureUint;
     }());

@@ -502,7 +502,8 @@ module mars3D {
         }
         public update(): void {
             if (MarmosetModel.meshItem && MarmosetModel.meshItem.length) {
-                core.TextureUint.getInstance().drawBaseRectCavan()
+                this.infoTexture.texture = core.TextureUint.getInstance().drawTextureToTexture();
+               console.log("-----------")
                 if (!this.isFinish) {
                     this.makeMeshItemTexture()
                 }

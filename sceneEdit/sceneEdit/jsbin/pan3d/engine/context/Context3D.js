@@ -40,9 +40,18 @@ var Pan3d;
         }
         Context3D.prototype.init = function ($caves) {
             //this.renderContext = $caves.getContext("experimental-webgl");
+            //var a = {
+            //    alpha: !!marmoset.transparentBackground,
+            //    depth: !1,
+            //    stencil: !1,
+            //    antialias: !1,
+            //    premultipliedAlpha: !!marmoset.transparentBackground,
+            //    preserveDrawingBuffer: !1
+            //}
             var gl = $caves.getContext('webgl', { stencil: true, alpha: true, depth: true, antialias: false })
                 || $caves.getContext('experimental-webgl', { stencil: true, alpha: true, depth: true, antialias: false });
             this.renderContext = gl;
+            gl.getExtension("OES_texture_float");
             this._contextSetTest = new ContextSetTest();
         };
         Context3D.prototype.resetSize = function ($width, $height) {
