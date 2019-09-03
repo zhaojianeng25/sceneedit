@@ -850,30 +850,30 @@ marmoset = {};
     }
     ;
     function Framebuffer(a, b) {
+		console.log(a,b)
         this.gl = a;
         this.fbo = a.createFramebuffer();
         a.bindFramebuffer(a.FRAMEBUFFER, this.fbo);
-        b && (this.width = b.width, this.height = b.height, b.color0 && (this.color0 = b.color0,
-        a.framebufferTexture2D(a.FRAMEBUFFER, a.COLOR_ATTACHMENT0, a.TEXTURE_2D, this.color0.id, 0),
-        this.width = b.color0.desc.width,
-        this.height = b.color0.desc.height),
-        b.depth ? (this.depth = b.depth, a.framebufferTexture2D(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.TEXTURE_2D, this.depth.id, 0)) : (this.depthBuffer = b.depthBuffer,
-        b.createDepth && !this.depthBuffer && (this.depthBuffer = Framebuffer.createDepthBuffer(a, this.width, this.height)),
-        this.depthBuffer && (a.bindRenderbuffer(a.RENDERBUFFER, this.depthBuffer),
-        a.framebufferRenderbuffer(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.RENDERBUFFER, this.depthBuffer),
-        a.bindRenderbuffer(a.RENDERBUFFER, null))));
-        this.valid = b && b.ignoreStatus || a.checkFramebufferStatus(a.FRAMEBUFFER) == a.FRAMEBUFFER_COMPLETE;
-        a.bindFramebuffer(a.FRAMEBUFFER, null);
-		
-		console.log( b.depth)
+		if(b){
+			 this.width = b.width;
+			 this.height = b.height;
+			 if( b.color0){
+				this.color0 = b.color0;
+				a.framebufferTexture2D(a.FRAMEBUFFER, a.COLOR_ATTACHMENT0, a.TEXTURE_2D, this.color0.id, 0);
+				this.width = b.color0.desc.width;
+				this.height = b.color0.desc.height ;
+			 }
+			if( b.depth ){
+				 this.depth = b.depth; 
+				 a.framebufferTexture2D(a.FRAMEBUFFER, a.DEPTH_ATTACHMENT, a.TEXTURE_2D, this.depth.id, 0);
+				 console.log("深度",  this.width,  this.height,this.depth.id)
+			} 
+			this.valid = b;
+			a.bindFramebuffer(a.FRAMEBUFFER, null);
+		}
+     
     }
-    Framebuffer.createDepthBuffer = function(a, b, c) {
-        var d = a.createRenderbuffer();
-        a.bindRenderbuffer(a.RENDERBUFFER, d);
-        a.renderbufferStorage(a.RENDERBUFFER, a.DEPTH_COMPONENT16, b, c);
-        a.bindRenderbuffer(a.RENDERBUFFER, null);
-        return d
-    }
+ 
     ;
     Framebuffer.prototype.bind = function() {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.fbo);
@@ -3994,8 +3994,8 @@ marmoset = {};
         this.desc = c;
         c = this.nativeDepth ? ["#define SHADOW_NATIVE_DEPTH"] : [];
         this.shaderSolid = a.shaderCache.fromURLs("shadowvert.glsl", "shadowfrag.glsl", c);
-        c.push("#define ALPHA_TEST 1");
-        this.shaderAlphaTest = a.shaderCache.fromURLs("shadowvert.glsl", "shadowfrag.glsl", c);
+      //  c.push("#define ALPHA_TEST 1");
+       // this.shaderAlphaTest = a.shaderCache.fromURLs("shadowvert.glsl", "shadowfrag.glsl", c);
         this.depthTextures = [];
         this.depthTargets = [];
         if (0 < this.shadowCount) {
@@ -4011,17 +4011,25 @@ marmoset = {};
                 width: c.width,
                 height: c.height
             }, e, f;
-            this.nativeDepth ? (e = a.DEPTH_COMPONENT,
-            f = a.UNSIGNED_SHORT) : (d.depthBuffer = Framebuffer.createDepthBuffer(a, c.width, c.height),
-            e = a.RGB,
-            f = a.UNSIGNED_BYTE);
-            for (var g = 0; g < this.shadowCount; ++g)
-                this.depthTextures[g] = new Texture(a,c),
-                this.depthTextures[g].loadArray(null, e, f),
-                this.nativeDepth ? d.depth = this.depthTextures[g] : d.color0 = this.depthTextures[g],
-                this.depthTargets[g] = new Framebuffer(a,d)
+			
+			if(this.nativeDepth){
+				e = a.DEPTH_COMPONENT;
+                f = a.UNSIGNED_SHORT;
+			}
+       
+            for (var g = 0; g < this.shadowCount;  g++)
+			{
+				this.depthTextures[g] = new Texture(a,c);
+                this.depthTextures[g].loadDepthArray(null, e, f);
+		 
+				 d.depth = this.depthTextures[g];
+				 
+			   this.depthTargets[g] = new Framebuffer(a,d);
+				
+			}
         }
     }
+ 
     ShadowCollector.prototype.bindDepthTexture = function(a, b) {
         this.shadowCount > b && this.depthTextures[b].bind(a)
     }
@@ -4034,17 +4042,30 @@ marmoset = {};
                 Matrix.mul(l, f.subarray(16 * m, 16 * (m + 1)), h);
                 Matrix.mul(l, g.subarray(16 * m, 16 * (m + 1)), l);
                 this.depthTargets[m].bind();
-                c.clearColor(0, 0, 0, 0);
-                c.clear(c.COLOR_BUFFER_BIT | c.DEPTH_BUFFER_BIT);
+				console.log("11111111111111111111111------------------22222222222")
+              c.clearColor(1, 1, 1, 1);
+              c.clear(c.COLOR_BUFFER_BIT | c.DEPTH_BUFFER_BIT);
+			  
+			  var gl = this.gl
+	         gl.clearDepth(1.0);
+              gl.clearStencil(0.0);
+			  gl.enable(gl.DEPTH_TEST);
+			  gl.depthMask(true);
+			  gl.disable(gl.BLEND); //不用混合模式
+			
+			    gl.disable(gl.CULL_FACE);
+                gl.cullFace(gl.BACK);
+				gl.frontFace(gl.CCW);
+			
                 var p = this.shaderSolid;
                 p.bind();
                 c.uniformMatrix4fv(p.params.uViewProjection, !1, l);
                 c.uniformMatrix4fv(p.params.uMeshTransform, !1, Matrix.identity());
                 for (var r = 0; r < a.meshRenderables.length; ++r) {
-                    var s = a.meshRenderables[r]
-                      , u = s.material;
-                    !s.mesh.desc.castShadows || !u.castShadows || 0 < u.shadowAlphaTest || (k && c.uniformMatrix4fv(p.params.uMeshTransform, !1, s.mesh.displayMatrix),
-                    s.drawShadow(p.attribs.vPosition))
+                    var s = a.meshRenderables[r] ;
+					
+                    c.uniformMatrix4fv(p.params.uMeshTransform, !1, s.mesh.displayMatrix);
+                    s.drawShadow(p.attribs.vPosition) 
                 }
           
                
@@ -4055,7 +4076,7 @@ marmoset = {};
     }
     ;
     ShadowCollector.prototype.complete = function() {
-        return this.shaderSolid.complete() && this.shaderAlphaTest.complete()
+        return this.shaderSolid.complete()  
     }
     ;
     function ShadowFloor(a, b, c, d) {
@@ -4617,6 +4638,24 @@ marmoset = {};
         d.bindTexture(this.type, null)
     }
     ;
+	
+	 Texture.prototype.loadDepthArray = function(a, b, c) {
+        var gl = this.gl;
+        this.id = gl.createTexture();
+		this.format =  gl.DEPTH_COMPONENT ;
+        this.componentType =   gl.UNSIGNED_SHORT;
+        gl.bindTexture(gl.TEXTURE_2D, this.id);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+        gl.texImage2D(gl.TEXTURE_2D, 0,gl.DEPTH_COMPONENT, this.desc.width, this.desc.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT,  null);
+ 
+	    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER,  gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER,  gl.NEAREST);
+ 
+        gl.bindTexture(gl.TEXTURE_2D, null)
+ 
+    }
+ 
+	
     Texture.prototype.setParams = function() {
         var a = this.gl
           , b = function(a) {

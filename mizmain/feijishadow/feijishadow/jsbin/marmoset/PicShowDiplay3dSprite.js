@@ -234,6 +234,7 @@ var mars3D;
                 "eB(eA, SHADOW_KERNEL);\n" +
                 // "gl_FragColor =mathdepthuvtest(); " +
                 "gl_FragColor=vec4(eA.eL[2], eA.eL[2], eA.eL[2], 1.0);" +
+                "gl_FragColor=texture2D(tDepth0,d);" +
                 //"if (gl_FrontFacing) { " +
                 //     "gl_FragColor =vec4(1.0,0.0,0.0,1.0); " +
                 //"}  " +
@@ -272,6 +273,8 @@ var mars3D;
             this.objData.indexs.push(0, 2, 3);
             this.loadTexture();
             this.upToGpu();
+            this.infoTexture = core.TextureUint.getInstance().makeColorTexture("#ff00ff");
+            this.infoTexture.texture = core.TextureUint.getInstance().drawTextureToTexture();
         };
         PicShowDiplay3dSprite.prototype.makeTbnBuff = function (mesh) {
             if (!mesh.objData.tangents || mesh.objData.tangents.length <= 0) {
@@ -324,13 +327,14 @@ var mars3D;
                 Scene_data.context3D.setRenderTexture(this.shader, "tSkySpecular", mars3D.MarmosetModel.tSkySpecularTexture, 3);
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
                     if (mars3D.MarmosetLightVo.testShadowView) {
-                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth0", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
-                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth1", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 5); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth0", this.infoTexture.texture, 4); //深度贴图
+                        Scene_data.context3D.setRenderTexture(this.shader, "tDepth1", this.infoTexture.texture, 5); //深度贴图
                         Scene_data.context3D.setRenderTexture(this.shader, "tDepth2", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 6); //深度贴图
                     }
                 }
                 gl.disable(gl.CULL_FACE);
-                gl.cullFace(gl.FRONT);
+                gl.cullFace(gl.BACK);
+                gl.frontFace(gl.CCW);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.setVa(2, 3, mesh.objData.tangentBuffer);
@@ -373,6 +377,8 @@ var mars3D;
         };
         PicShowDiplay3dSprite.prototype.update = function () {
             if (mars3D.MarmosetModel.meshItem && mars3D.MarmosetModel.meshItem.length) {
+                this.infoTexture.texture = core.TextureUint.getInstance().drawTextureToTexture();
+                console.log("-----------");
                 if (!this.isFinish) {
                     this.makeMeshItemTexture();
                 }
