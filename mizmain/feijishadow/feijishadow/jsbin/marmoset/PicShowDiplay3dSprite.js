@@ -383,6 +383,7 @@ var mars3D;
             else {
                 _super.prototype.update.call(this);
             }
+            console.log("---");
         };
         return PicShowDiplay3dSprite;
     }(BaseDiplay3dSprite));

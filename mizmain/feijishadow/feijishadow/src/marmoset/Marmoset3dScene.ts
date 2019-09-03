@@ -59,12 +59,16 @@ module mars3D {
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new EdItorSceneManager()
             var temp: GridLineSprite = new GridLineSprite()
+   
+
             this.sceneManager.addDisplay(temp)
+            this.sceneManager.addDisplay(new Pan3dMesh.BaseDiplay3dSprite())
+            this.sceneManager.addDisplay(new RectSp.RectSprite())
 
             this.mianpian = new PicShowDiplay3dSprite()
-            this.mianpian.scale = 10;
+            this.mianpian.scale =5;
 
-            this.sceneManager.addDisplay(this.mianpian)
+           // this.sceneManager.addDisplay(this.mianpian)
 
 
 

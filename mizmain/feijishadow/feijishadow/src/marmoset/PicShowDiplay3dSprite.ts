@@ -505,6 +505,8 @@ module mars3D {
                 super.update()
             }
 
+            console.log("---")
+
         }
 
 

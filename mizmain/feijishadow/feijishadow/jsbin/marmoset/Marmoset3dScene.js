@@ -58,9 +58,11 @@ var mars3D;
             this.sceneManager = new EdItorSceneManager();
             var temp = new GridLineSprite();
             this.sceneManager.addDisplay(temp);
+            this.sceneManager.addDisplay(new Pan3dMesh.BaseDiplay3dSprite());
+            this.sceneManager.addDisplay(new RectSp.RectSprite());
             this.mianpian = new mars3D.PicShowDiplay3dSprite();
-            this.mianpian.scale = 10;
-            this.sceneManager.addDisplay(this.mianpian);
+            this.mianpian.scale = 5;
+            // this.sceneManager.addDisplay(this.mianpian)
             this.sceneManager.ready = true;
             this.sceneManager.cam3D = new Camera3D();
             this.sceneManager.cam3D.cavanRect = new Rectangle(0, 0, 512, 512);
