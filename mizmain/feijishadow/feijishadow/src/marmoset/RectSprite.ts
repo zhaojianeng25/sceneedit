@@ -71,10 +71,11 @@
 
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            this.objData.vertices.push(-10, 5, -10);
-            this.objData.vertices.push(10, 5, -10);
-            this.objData.vertices.push(10, 5, 10);
-            this.objData.vertices.push(-10, 5, 10);
+            var sizeNum: number=30
+            this.objData.vertices.push(-sizeNum, 5, -sizeNum);
+            this.objData.vertices.push(sizeNum, 5, -sizeNum);
+            this.objData.vertices.push(sizeNum, 5, sizeNum);
+            this.objData.vertices.push(-sizeNum, 5, sizeNum);
 
             this.objData.uvs = new Array()
             this.objData.uvs.push(0, 0);

@@ -28,8 +28,8 @@ var depth;
     depth.MarFBO = MarFBO;
     var BaseDepthSprite = /** @class */ (function () {
         function BaseDepthSprite() {
-            this.depthFBO = new MarFBO(2048, 2048);
-            this.depthFBO.color = new Vector3D(1.0, 0.0, 0.0, 1.0);
+            this.depthFBO = new MarFBO(256, 256);
+            this.depthFBO.color = new Vector3D(1.0, 0.0, 1.0, 1.0);
             var gl = Scene_data.context3D.renderContext;
             this.depthFBO.texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.texture);
@@ -41,7 +41,6 @@ var depth;
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
             gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
             gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
-            //gl.bindRenderbuffer(gl.RENDERBUFFER, null);
         }
         BaseDepthSprite.prototype.makeDepthTexture = function () {
             //深度贴图
@@ -63,6 +62,7 @@ var depth;
                 alert("错误配置");
             }
             gl.viewport(0, 0, fbo.width, fbo.height);
+            gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
             gl.clearDepth(1.0);
             gl.clearStencil(0.0);
             gl.depthMask(true);
@@ -72,9 +72,9 @@ var depth;
             gl.cullFace(gl.BACK);
             gl.frontFace(gl.CCW);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-            gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
         };
         BaseDepthSprite.prototype.update = function (value) {
+            this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
             var gl = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.updateDepthTexture(this.depthFBO);
@@ -86,9 +86,7 @@ var depth;
                 var dis = value.sceneManager.displayList[i];
                 if (dis instanceof RectSprite) {
                     var rectDis = dis;
-                    // rectDis._uvTextureRes.texture = this.depthFBO.texture;
-                    rectDis._uvTextureRes.texture = core.TextureUint.getInstance().makeColorTexture("#ffff00").texture;
-                    rectDis._uvTextureRes.texture = core.TextureUint.getInstance().drawTextureToTexture();
+                    rectDis._uvTextureRes.texture = this.depthFBO.texture;
                 }
             }
         };
