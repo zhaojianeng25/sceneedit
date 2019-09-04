@@ -45,14 +45,12 @@ var depth;
         DepthToFbo.prototype.makeDepthTexture = function () {
             //深度贴图
             var gl = Scene_data.context3D.renderContext;
-            var depthTexture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, depthTexture);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+            this.depthFBO.depthTexture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.depthTexture);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
             gl.bindTexture(gl.TEXTURE_2D, null);
-            this.depthFBO.depthTexture = depthTexture;
         };
         DepthToFbo.prototype.updateDepthTexture = function (fbo) {
             var gl = Scene_data.context3D.renderContext;
