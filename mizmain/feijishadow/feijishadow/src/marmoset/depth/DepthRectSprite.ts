@@ -63,10 +63,10 @@
 
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var sizeNum: number = 0.80
+            var sizeNum: number = 0.50
             this.objData.vertices.push(-sizeNum, +sizeNum, 0.1);
             this.objData.vertices.push(+sizeNum, +sizeNum, 0.1);
-            this.objData.vertices.push(+sizeNum, -sizeNum, 0.1);
+            this.objData.vertices.push(+sizeNum, -sizeNum, 0.8);
             this.objData.vertices.push(-sizeNum, -sizeNum, 0.1);
 
             this.objData.uvs = new Array()
@@ -112,7 +112,7 @@
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
 
-                Scene_data.context3D.setVc4fv(this.shader, "fColor", [1,0,0,1]);
+                Scene_data.context3D.setVc4fv(this.shader, "fColor", [0,1,0,1]);
 
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
 
