@@ -25,7 +25,7 @@
         public static baseDepthSprite: DepthToFbo
         public constructor() {
             this.depthFBO = new MarFBO(256, 256);
-            this.depthFBO.color = new Vector3D(1.0, 0.0, 1.0, 1.0);
+            this.depthFBO.color = new Vector3D(1.0, 1.0, 1.0, 1.0);
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
 
             this.depthFBO.texture = gl.createTexture();
@@ -96,7 +96,7 @@
         }
 
         public update(value: Laya3dSprite): void {
-            this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
+         //   this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.updateDepthTexture(this.depthFBO);

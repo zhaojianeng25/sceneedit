@@ -25,7 +25,6 @@
 
                 "   v_texCoord = vec2(u2Texture.x, u2Texture.y);" +
                 "   vec4 vt0= vec4(v3Position, 1.0);" +
-
                 "   gl_Position = vt0;" +
                 "}"
             return $str
@@ -41,7 +40,7 @@
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "gl_FragColor =infoUv;\n" +
+                "gl_FragColor = vec4( 1.0, 0.0, 1.0, 1.0);\n" +
                 "}"
             return $str
 
@@ -62,11 +61,11 @@
 
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var sizeNum: number = 0.99
-            this.objData.vertices.push(-sizeNum, +sizeNum, 0.9);
-            this.objData.vertices.push(+sizeNum, +sizeNum, 0.9);
-            this.objData.vertices.push(+sizeNum, -sizeNum, 0.9);
-            this.objData.vertices.push(-sizeNum, -sizeNum, 0.9);
+            var sizeNum: number = 0.80
+            this.objData.vertices.push(-sizeNum, +sizeNum, 0.1);
+            this.objData.vertices.push(+sizeNum, +sizeNum, 0.1);
+            this.objData.vertices.push(+sizeNum, -sizeNum, 0.1);
+            this.objData.vertices.push(-sizeNum, -sizeNum, 0.1);
 
             this.objData.uvs = new Array()
             this.objData.uvs.push(0, 0);

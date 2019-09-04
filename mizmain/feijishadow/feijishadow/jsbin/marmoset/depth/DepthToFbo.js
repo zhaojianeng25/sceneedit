@@ -29,7 +29,7 @@ var depth;
     var DepthToFbo = /** @class */ (function () {
         function DepthToFbo() {
             this.depthFBO = new MarFBO(256, 256);
-            this.depthFBO.color = new Vector3D(1.0, 0.0, 1.0, 1.0);
+            this.depthFBO.color = new Vector3D(1.0, 1.0, 1.0, 1.0);
             var gl = Scene_data.context3D.renderContext;
             this.depthFBO.texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.texture);
@@ -82,7 +82,7 @@ var depth;
             }
         };
         DepthToFbo.prototype.update = function (value) {
-            this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
+            //   this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
             var gl = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.updateDepthTexture(this.depthFBO);
