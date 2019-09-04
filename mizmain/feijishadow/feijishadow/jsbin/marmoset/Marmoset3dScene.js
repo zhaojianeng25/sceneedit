@@ -128,9 +128,19 @@ var mars3D;
                 mars3D.MarmosetLightVo.marmosetLightVo.update(mars3D.MarmosetModel.meshItem);
             }
         };
+        Marmoset3dScene.prototype.upDataBaseDepthSprite = function () {
+            if (!depth.BaseDepthSprite.baseDepthSprite) {
+                if (window["uShadowMatrices"]) {
+                    depth.BaseDepthSprite.baseDepthSprite = new depth.BaseDepthSprite();
+                }
+            }
+            else {
+                depth.BaseDepthSprite.baseDepthSprite.update(this);
+            }
+        };
         Marmoset3dScene.prototype.upData = function () {
             if (this.sceneManager) {
-                this.upDataLightShadow();
+                this.upDataBaseDepthSprite();
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 _super.prototype.upData.call(this);
             }

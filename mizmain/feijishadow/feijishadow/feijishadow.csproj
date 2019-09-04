@@ -39,9 +39,11 @@
     <TypeScriptCompile Include="libs\change.d.ts" />
     <TypeScriptCompile Include="libs\h5web.d.ts" />
     <TypeScriptCompile Include="libs\LayaAir.d.ts" />
+    <TypeScriptCompile Include="src\core\TextureUint.ts" />
     <TypeScriptCompile Include="src\Game3dDemo.ts" />
     <TypeScriptCompile Include="src\Game2dDemo.ts" />
     <TypeScriptCompile Include="src\LayaLaunch.ts" />
+    <TypeScriptCompile Include="src\marmoset\depth\BaseDepthSprite.ts" />
     <TypeScriptCompile Include="src\marmoset\RectSprite.ts" />
     <TypeScriptCompile Include="src\marmoset\BaseDiplay3dSprite.ts" />
     <TypeScriptCompile Include="src\marmoset\ContentInit.ts" />

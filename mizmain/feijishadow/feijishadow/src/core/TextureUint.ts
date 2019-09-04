@@ -168,19 +168,19 @@
             gl.disable(gl.CULL_FACE);
             gl.cullFace(gl.BACK);
             gl.frontFace(gl.CCW);
-
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+ 
         }
         private depthFBO: mars3D.MarFBO;
         public drawTextureToTexture(): WebGLTexture {
-            this.depthFBO = new mars3D.MarFBO(1024, 1024);
-            this.depthFBO.color = new Vector3D(1.0, 1.0, 1.0, 1.0);
+            this.depthFBO = new mars3D.MarFBO(256, 256);
+            this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.setFboInfo(this.depthFBO);
 
-            this.drawBaseRectCavan();
+          //  this.drawBaseRectCavan();
 
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);

@@ -158,10 +158,20 @@ module mars3D {
                 MarmosetLightVo.marmosetLightVo.update(MarmosetModel.meshItem);
             }
         }
+        public upDataBaseDepthSprite(): void {
+            if (!depth.BaseDepthSprite.baseDepthSprite) {
+                if (window["uShadowMatrices"]) {
+                    depth.BaseDepthSprite.baseDepthSprite = new depth.BaseDepthSprite();
+                }
+            } else {
+                depth.BaseDepthSprite.baseDepthSprite.update(this);
+            }
+        }
 
         public upData(): void {
             if (this.sceneManager) {
-                this.upDataLightShadow();
+               this.upDataBaseDepthSprite();
+
                 Pan3d.MathClass.getCamView(this.sceneManager.cam3D, this.sceneManager.focus3D); //一定要角色帧渲染后再重置镜头矩阵
                 super.upData();
             }
