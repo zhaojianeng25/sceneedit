@@ -34,21 +34,24 @@
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-            this.makeDepthTexture();
+           this.makeDepthTexture();
 
+   
             this.depthFBO.frameBuffer = gl.createFramebuffer();
             this.depthFBO.depthBuffer = gl.createRenderbuffer();
-            gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
-            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
+          //  gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
+          //  gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.depthFBO.width, this.depthFBO.height);
  
 
         }
         private makeDepthTexture(): void {
             //深度贴图
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
+            var ext = gl.getExtension('WEBGL_depth_texture');
+
             this.depthFBO.depthTexture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.depthTexture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_BYTE, null);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
@@ -63,9 +66,15 @@
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.texture, 0);
+
+          //  gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
+          //  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, fbo.texture, 0);
+
+
+ 
          
             if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
-                alert("错误配置")
+               alert("错误配置")
             }
             gl.viewport(0, 0, fbo.width, fbo.height);
             gl.clearColor(fbo.color.x, fbo.color.y, fbo.color.z, fbo.color.w);
