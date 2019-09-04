@@ -64,11 +64,11 @@ module mars3D {
             this.sceneManager.addDisplay(temp)
             this.sceneManager.addDisplay(new Pan3dMesh.BaseDiplay3dSprite())
             this.sceneManager.addDisplay(new RectSp.RectSprite())
+            
 
             this.mianpian = new PicShowDiplay3dSprite()
-            this.mianpian.scale =5;
-
-           // this.sceneManager.addDisplay(this.mianpian)
+           // this.mianpian.scale =5;
+          // this.sceneManager.addDisplay(this.mianpian)
 
 
 
@@ -159,12 +159,12 @@ module mars3D {
             }
         }
         public upDataBaseDepthSprite(): void {
-            if (!depth.BaseDepthSprite.baseDepthSprite) {
+            if (!depth.DepthToFbo.baseDepthSprite) {
                 if (window["uShadowMatrices"]) {
-                    depth.BaseDepthSprite.baseDepthSprite = new depth.BaseDepthSprite();
+                    depth.DepthToFbo.baseDepthSprite = new depth.DepthToFbo();
                 }
             } else {
-                depth.BaseDepthSprite.baseDepthSprite.update(this);
+                depth.DepthToFbo.baseDepthSprite.update(this);
             }
         }
 

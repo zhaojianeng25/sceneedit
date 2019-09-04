@@ -61,7 +61,7 @@ var mars3D;
             this.sceneManager.addDisplay(new Pan3dMesh.BaseDiplay3dSprite());
             this.sceneManager.addDisplay(new RectSp.RectSprite());
             this.mianpian = new mars3D.PicShowDiplay3dSprite();
-            this.mianpian.scale = 5;
+            // this.mianpian.scale =5;
             // this.sceneManager.addDisplay(this.mianpian)
             this.sceneManager.ready = true;
             this.sceneManager.cam3D = new Camera3D();
@@ -129,13 +129,13 @@ var mars3D;
             }
         };
         Marmoset3dScene.prototype.upDataBaseDepthSprite = function () {
-            if (!depth.BaseDepthSprite.baseDepthSprite) {
+            if (!depth.DepthToFbo.baseDepthSprite) {
                 if (window["uShadowMatrices"]) {
-                    depth.BaseDepthSprite.baseDepthSprite = new depth.BaseDepthSprite();
+                    depth.DepthToFbo.baseDepthSprite = new depth.DepthToFbo();
                 }
             }
             else {
-                depth.BaseDepthSprite.baseDepthSprite.update(this);
+                depth.DepthToFbo.baseDepthSprite.update(this);
             }
         };
         Marmoset3dScene.prototype.upData = function () {
