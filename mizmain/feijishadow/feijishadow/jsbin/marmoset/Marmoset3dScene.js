@@ -59,7 +59,7 @@ var mars3D;
             var temp = new GridLineSprite();
             this.sceneManager.addDisplay(temp);
             this.sceneManager.addDisplay(new Pan3dMesh.BaseDiplay3dSprite());
-            this.sceneManager.addDisplay(new RectSp.RectSprite());
+            this.sceneManager.addDisplay(new depth.DetphTestRectSprite());
             this.mianpian = new mars3D.PicShowDiplay3dSprite();
             // this.mianpian.scale =5;
             // this.sceneManager.addDisplay(this.mianpian)

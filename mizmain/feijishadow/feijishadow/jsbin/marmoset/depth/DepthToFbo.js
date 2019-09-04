@@ -15,7 +15,6 @@ var depth;
 (function (depth) {
     var Scene_data = Pan3d.Scene_data;
     var GlReset = Pan3d.GlReset;
-    var RectSprite = RectSp.RectSprite;
     var MarFBO = /** @class */ (function (_super) {
         __extends(MarFBO, _super);
         function MarFBO(w, h) {
@@ -29,7 +28,7 @@ var depth;
     var DepthToFbo = /** @class */ (function () {
         function DepthToFbo() {
             this.depthFBO = new MarFBO(256, 256);
-            this.depthFBO.color = new Vector3D(1.0, 1.0, 1.0, 1.0);
+            this.depthFBO.color = new Vector3D(0.0, 0.0, 0.0, 1.0);
             var gl = Scene_data.context3D.renderContext;
             this.depthFBO.texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, this.depthFBO.texture);
@@ -40,11 +39,6 @@ var depth;
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.depthFBO.width, this.depthFBO.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
             this.makeDepthTexture();
             this.depthFBO.frameBuffer = gl.createFramebuffer();
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.depthFBO.texture, 0);
-            //this.depthFBO.depthBuffer = gl.createRenderbuffer();
-            //gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
-            //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.depthFBO.texture, 0);
-            //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture, 0);
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         }
         DepthToFbo.prototype.makeDepthTexture = function () {
@@ -100,7 +94,7 @@ var depth;
             GlReset.resetBasePrarame(gl);
             for (var i = 0; i < value.sceneManager.displayList.length; i++) {
                 var dis = value.sceneManager.displayList[i];
-                if (dis instanceof RectSprite) {
+                if (dis instanceof depth.DetphTestRectSprite) {
                     var rectDis = dis;
                     rectDis._uvTextureRes.texture = this.depthFBO.depthTexture;
                 }

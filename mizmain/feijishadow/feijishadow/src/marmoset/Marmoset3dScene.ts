@@ -63,7 +63,7 @@ module mars3D {
 
             this.sceneManager.addDisplay(temp)
             this.sceneManager.addDisplay(new Pan3dMesh.BaseDiplay3dSprite())
-            this.sceneManager.addDisplay(new RectSp.RectSprite())
+            this.sceneManager.addDisplay(new depth.DetphTestRectSprite())
             
 
             this.mianpian = new PicShowDiplay3dSprite()

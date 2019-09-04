@@ -7,27 +7,27 @@
     import Display3D = Pan3d.Display3D
     import Matrix3D = Pan3d.Matrix3D
     import Laya3dSprite = LayaPan3D.Laya3dSprite;
-    import RectSprite = RectSp.RectSprite
+    
 
     export class MarFBO extends Pan3d.FBO {
-    
+
         public depthTexture: WebGLRenderbuffer;
         public constructor(w: number = 128, h: number = 128) {
             super(w, h)
         }
         public depthViewMatrix3D: any
- 
+
     }
 
 
-    
+
     export class DepthToFbo {
         public depthFBO: MarFBO;
 
         public static baseDepthSprite: DepthToFbo
         public constructor() {
             this.depthFBO = new MarFBO(256, 256);
-            this.depthFBO.color = new Vector3D(1.0, 1.0, 1.0, 1.0);
+            this.depthFBO.color = new Vector3D(0.0, 0.0, 0.0, 1.0);
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
 
             this.depthFBO.texture = gl.createTexture();
@@ -39,18 +39,11 @@
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.depthFBO.width, this.depthFBO.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
 
 
-           this.makeDepthTexture();
-
-   
-            this.depthFBO.frameBuffer = gl.createFramebuffer();
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.depthFBO.texture, 0);
-            //this.depthFBO.depthBuffer = gl.createRenderbuffer();
-            //gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthFBO.depthBuffer);
-            //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.depthFBO.texture, 0);
-            //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture, 0);
+            this.makeDepthTexture();
  
+            this.depthFBO.frameBuffer = gl.createFramebuffer();
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-         
+
 
         }
         private makeDepthTexture(): void {
@@ -65,24 +58,24 @@
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, this.depthFBO.width, this.depthFBO.height, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_SHORT, null);
- 
+
             gl.bindTexture(gl.TEXTURE_2D, null);
 
-      
+
 
         }
- 
+
         private updateDepthTexture(fbo: MarFBO): void {
 
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext
 
-  
+
 
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.frameBuffer);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.depthFBO.texture, 0);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthFBO.depthTexture, 0);
-   
-          
+
+
             if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
                 //  alert("错误配置")
             }
@@ -99,7 +92,7 @@
             gl.cullFace(gl.BACK);
             gl.frontFace(gl.CCW);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
- 
+
 
         }
         private depthRectSprite: DepthRectSprite
@@ -113,7 +106,7 @@
         }
 
         public update(value: Laya3dSprite): void {
-         //   this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
+            //   this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.updateDepthTexture(this.depthFBO);
@@ -122,12 +115,12 @@
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);
             GlReset.resetBasePrarame(gl);
-    
+
 
             for (var i: number = 0; i < value.sceneManager.displayList.length; i++) {
                 var dis: Display3D = value.sceneManager.displayList[i]
-                if (dis instanceof RectSprite) {
-                    var rectDis: RectSprite = <RectSprite>dis;
+                if (dis instanceof DetphTestRectSprite) {
+                    var rectDis: DetphTestRectSprite = <DetphTestRectSprite>dis;
                     rectDis._uvTextureRes.texture = this.depthFBO.depthTexture
                 }
             }
