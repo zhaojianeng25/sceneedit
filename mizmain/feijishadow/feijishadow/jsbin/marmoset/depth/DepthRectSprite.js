@@ -68,7 +68,7 @@ var depth;
             this.program = this.shader.program;
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var sizeNum = 0.8;
+            var sizeNum = 0.99;
             this.objData.vertices.push(-sizeNum, +sizeNum, 0.9);
             this.objData.vertices.push(+sizeNum, +sizeNum, 0.9);
             this.objData.vertices.push(+sizeNum, -sizeNum, 0.9);

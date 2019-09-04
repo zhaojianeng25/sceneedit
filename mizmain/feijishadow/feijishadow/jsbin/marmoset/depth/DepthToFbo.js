@@ -74,6 +74,12 @@ var depth;
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         };
         DepthToFbo.prototype.drawTempMode = function () {
+            if (this.depthRectSprite) {
+                this.depthRectSprite.update();
+            }
+            else {
+                this.depthRectSprite = new depth.DepthRectSprite();
+            }
         };
         DepthToFbo.prototype.update = function (value) {
             this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);

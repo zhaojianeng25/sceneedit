@@ -84,24 +84,23 @@
  
 
         }
+        private depthRectSprite: DepthRectSprite
         private drawTempMode(): void {
-
+            if (this.depthRectSprite) {
+                this.depthRectSprite.update();
+            } else {
+                this.depthRectSprite = new DepthRectSprite();
+            }
 
 
         }
 
         public update(value: Laya3dSprite): void {
             this.depthFBO.color = new Vector3D(Math.random(), Math.random(), Math.random(), 1.0);
-
             var gl: WebGLRenderingContext = Scene_data.context3D.renderContext;
             GlReset.saveBasePrarame(gl);
             this.updateDepthTexture(this.depthFBO);
-
-
             this.drawTempMode()
-
-
-
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.bindTexture(gl.TEXTURE_2D, null);
             gl.bindRenderbuffer(gl.RENDERBUFFER, null);

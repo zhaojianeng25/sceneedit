@@ -62,7 +62,7 @@
 
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var sizeNum: number = 0.8
+            var sizeNum: number = 0.99
             this.objData.vertices.push(-sizeNum, +sizeNum, 0.9);
             this.objData.vertices.push(+sizeNum, +sizeNum, 0.9);
             this.objData.vertices.push(+sizeNum, -sizeNum, 0.9);
