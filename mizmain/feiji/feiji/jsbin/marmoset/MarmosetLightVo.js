@@ -223,7 +223,7 @@ var mars3D;
                 for (var kt = 0; kt < tempArr.length; kt++) {
                     this.depthFBO.depthViewMatrix3D[kt] = tempArr[kt];
                 }
-                console.log(window["mview"]);
+                //   console.log(window["mview"])
                 // console.log(window["mview"],window["uShadowMatrices"])
                 // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
                 var tempM = new Matrix3D();

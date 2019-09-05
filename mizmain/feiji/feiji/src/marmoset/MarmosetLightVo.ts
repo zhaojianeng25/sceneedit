@@ -269,7 +269,7 @@
                     this.depthFBO.depthViewMatrix3D[kt] = tempArr[kt];
                 }
 
-                console.log(window["mview"])
+             //   console.log(window["mview"])
                 // console.log(window["mview"],window["uShadowMatrices"])
                 // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
 
