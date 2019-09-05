@@ -56,8 +56,9 @@ var mars3D;
         Marmoset3dScene.prototype.initScene = function () {
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new EdItorSceneManager();
-            var temp = new GridLineSprite();
-            this.sceneManager.addDisplay(temp);
+            this.sceneManager.addDisplay(new GridLineSprite());
+            mars3D.MarmosetLightVo.tempRect = new depth.DepthRectSprite();
+            this.sceneManager.addDisplay(mars3D.MarmosetLightVo.tempRect);
             this.mianpian = new mars3D.PicShowDiplay3dSprite();
             this.mianpian.scale = 10;
             this.sceneManager.addDisplay(this.mianpian);

@@ -42,6 +42,8 @@
     <TypeScriptCompile Include="src\Game3dDemo.ts" />
     <TypeScriptCompile Include="src\Game2dDemo.ts" />
     <TypeScriptCompile Include="src\LayaLaunch.ts" />
+    <TypeScriptCompile Include="src\marmoset\depth\DepthRectSprite.ts" />
+    <TypeScriptCompile Include="src\marmoset\depth\DetphTestRectSprite.ts" />
     <TypeScriptCompile Include="src\marmoset\marmoset.d.ts" />
     <TypeScriptCompile Include="src\marmoset\Marmoset3dScene.ts" />
     <TypeScriptCompile Include="src\marmoset\MarmosetLaunch.ts" />

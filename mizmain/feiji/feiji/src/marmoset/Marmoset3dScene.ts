@@ -58,8 +58,11 @@ module mars3D {
         protected initScene(): void {
             ProgrmaManager.getInstance().registe(LineDisplayShader.LineShader, new LineDisplayShader);
             this.sceneManager = new EdItorSceneManager()
-            var temp: GridLineSprite = new GridLineSprite()
-            this.sceneManager.addDisplay(temp)
+   
+            this.sceneManager.addDisplay(new GridLineSprite())
+            MarmosetLightVo.tempRect= new depth.DepthRectSprite()
+            this.sceneManager.addDisplay(MarmosetLightVo.tempRect)
+   
 
             this.mianpian = new PicShowDiplay3dSprite()
             this.mianpian.scale = 10;
