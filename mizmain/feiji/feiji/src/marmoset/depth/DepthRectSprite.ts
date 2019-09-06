@@ -39,8 +39,10 @@
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
 
-          
- 
+                "if (infoUv.x>fColor.x) {\n " +
+                    "infoUv =vec4(1.0,1.0,1.0,1.0);\n " +
+                "}\n" +
+
                 "gl_FragColor = infoUv;\n" +
                 "}"
             return $str
@@ -63,7 +65,7 @@
             this.objData = new ObjData;
             this.objData.vertices = new Array();
             var sizeNum: number = 0.50;
-            var tx: number=-0.5
+            var tx: number = -0.5
 
             var setDepth: number = 0.001;
             this.objData.vertices.push(-sizeNum + tx, +sizeNum, setDepth);
@@ -103,6 +105,7 @@
                 this.objData.indexBuffer = Scene_data.context3D.uploadIndexBuff3D(this.objData.indexs);
             }
         }
+        private skipNum: number=1
         public update(): void {
             if (this.objData && this.objData.indexBuffer && this._uvTextureRes) {
                 Scene_data.context3D.setCullFaceModel(2)
@@ -114,7 +117,9 @@
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
 
-                Scene_data.context3D.setVc4fv(this.shader, "fColor", [0.5, 0, 0, 1]);
+                Scene_data.context3D.setVc4fv(this.shader, "fColor", [0.999, 0, 0, 1]);
+
+                this.skipNum-=0.00001
 
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
 

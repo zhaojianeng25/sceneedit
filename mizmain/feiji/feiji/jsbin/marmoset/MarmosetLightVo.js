@@ -49,7 +49,7 @@ var mars3D;
                 "vec4 vt0= vec4(vPosition, 1.0);" +
                 "vt0 = viewMatrix3D * vt0;" +
                 "jG=vt0.zw;" +
-                "vt0 = vec4( vt0.x, vt0.y,0.2,  vt0.w);" +
+                //      "vt0 = vec4( vt0.x, vt0.y,0.90,  vt0.w*2.0);" +
                 "gl_Position = vt0;" +
                 "}";
             return $str;

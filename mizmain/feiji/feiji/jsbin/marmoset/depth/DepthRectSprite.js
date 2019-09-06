@@ -48,6 +48,9 @@ var depth;
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
+                "if (infoUv.x>fColor.x) {\n " +
+                "infoUv =vec4(1.0,1.0,1.0,1.0);\n " +
+                "}\n" +
                 "gl_FragColor = infoUv;\n" +
                 "}";
             return $str;
@@ -60,6 +63,7 @@ var depth;
         __extends(DepthRectSprite, _super);
         function DepthRectSprite() {
             var _this = _super.call(this) || this;
+            _this.skipNum = 1;
             _this.initData();
             return _this;
         }
@@ -110,7 +114,8 @@ var depth;
                 Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
-                Scene_data.context3D.setVc4fv(this.shader, "fColor", [0.5, 0, 0, 1]);
+                Scene_data.context3D.setVc4fv(this.shader, "fColor", [0.999, 0, 0, 1]);
+                this.skipNum -= 0.00001;
                 Scene_data.context3D.drawCall(this.objData.indexBuffer, this.objData.treNum);
             }
         };
