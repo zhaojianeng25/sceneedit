@@ -48,9 +48,7 @@ var depth;
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "if (infoUv.x>fColor.x) {\n " +
-                "infoUv =vec4(1.0,1.0,1.0,1.0);\n " +
-                "}\n" +
+                "infoUv.xyz=(infoUv.xyz-0.5)*2.0 ;\n " +
                 "gl_FragColor = infoUv;\n" +
                 "}";
             return $str;
@@ -73,8 +71,8 @@ var depth;
             this.program = this.shader.program;
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var sizeNum = 0.50;
-            var tx = -0.5;
+            var sizeNum = 0.25;
+            var tx = -0.75;
             var setDepth = 0.001;
             this.objData.vertices.push(-sizeNum + tx, +sizeNum, setDepth);
             this.objData.vertices.push(+sizeNum + tx, +sizeNum, 0.999);

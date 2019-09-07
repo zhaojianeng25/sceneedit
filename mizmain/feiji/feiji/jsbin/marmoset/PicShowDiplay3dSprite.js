@@ -185,8 +185,8 @@ var mars3D;
                 "vec4 mathdepthuv(highp mat4 i,highp vec3 p){" +
                 "vec4 outVec4 =i*vec4(p,1.0) ;" +
                 "outVec4.xyz =outVec4.xyz/outVec4.w ;" +
-                "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy); " +
-                "return  vec4(outColorVec4.xyz,1.0);" +
+                "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy*0.5+0.5); " +
+                "return  outColorVec4;" +
                 " } " +
                 "vec4 pack (float depth) {\n" +
                 "depth=depth*0.5+0.5;\n" +
@@ -224,13 +224,16 @@ var mars3D;
                 "ev eA; \n" +
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
                 "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
-                "vec4 tempvec4 =pack(lightvo.z/lightvo.w) ;" +
-                "float tempz =unpack(depthvinfo) ;" +
-                "gl_FragColor = vec4(depthvinfo.xyz,1.0); " +
+                "lightvo.xyz=lightvo.xyz/lightvo.w  ;\n " +
+                //"lightvo=vec4(lightvo.z,lightvo.z,lightvo.z,1.0)  ;\n " +
+                //"gl_FragColor = vec4((lightvo.xyz-0.5)*2.0,1.0); " +
                 "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
-                "if (tempz<lightvo.z/lightvo.w-0.001) { " +
+                "if (depthvinfo.r<lightvo.z+0.001) { " +
                 "gl_FragColor =vec4(0.5,0.5,0.5,1.0); " +
                 "}  " +
+                "depthvinfo.xyz=(depthvinfo.xyz-0.5)*2.0 ;\n " +
+                "gl_FragColor =depthvinfo; " +
+                // "gl_FragColor =vec4(lightvo.z,0.0,0.0,1.0); " +
                 "}";
             return $str;
         };
@@ -317,7 +320,7 @@ var mars3D;
                 if (mars3D.MarmosetLightVo.marmosetLightVo && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO && mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture) {
                     //  console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthBuffer)
                     //   console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
-                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.texture, 4); //深度贴图
+                    Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthTexture, 4); //深度贴图
                     if (mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
                         var tempM = new Matrix3D();
                         for (var kt = 0; kt < tempM.m.length; kt++) {
@@ -326,8 +329,8 @@ var mars3D;
                         var addM = new Matrix3D(); //设置映射纹理坐标;
                         addM.appendTranslation(-1, -1, 0);
                         addM.appendScale(0.5, 0.5, 1);
-                        tempM.append(addM);
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m); //深度矩阵
+                        // tempM.append(addM);
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", window["mview"]); //深度矩阵
                     }
                 }
                 gl.disable(gl.CULL_FACE);
