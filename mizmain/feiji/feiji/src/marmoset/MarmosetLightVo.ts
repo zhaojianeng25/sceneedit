@@ -280,6 +280,7 @@
                 }
 
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
+                Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
 
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
 
