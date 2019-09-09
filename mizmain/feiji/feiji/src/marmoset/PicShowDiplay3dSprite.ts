@@ -288,7 +288,7 @@ module mars3D {
                  "depthvinfo.xyz=(depthvinfo.xxx-0.5)*2.0 ;\n " +
         
                 "gl_FragColor =vec4(0.5,0.5,0.5,1.0); " +
-                "if (depthvinfo.z>lightvo.z) { " +
+                "if (depthvinfo.z>(lightvo.z-0.00001)) { " +
                      "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
                 "}  " +
       
