@@ -17,7 +17,6 @@ var mars3D;
     var Shader3D = Pan3d.Shader3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var GlReset = Pan3d.GlReset;
-    var Matrix3D = Pan3d.Matrix3D;
     var MarFBO = /** @class */ (function (_super) {
         __extends(MarFBO, _super);
         function MarFBO(w, h) {
@@ -226,12 +225,7 @@ var mars3D;
                 //   console.log(window["mview"])
                 // console.log(window["mview"],window["uShadowMatrices"])
                 // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
-                var tempM = new Matrix3D();
-                for (var kt = 0; kt < tempM.m.length; kt++) {
-                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
-                }
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
-                //  Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);

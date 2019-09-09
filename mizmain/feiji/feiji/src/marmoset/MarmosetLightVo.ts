@@ -272,15 +272,10 @@
              //   console.log(window["mview"])
                 // console.log(window["mview"],window["uShadowMatrices"])
                 // this.depthFBO.depthViewMatrix3D = window["uShadowMatrices"]
-
-
-                var tempM: Matrix3D = new Matrix3D()
-                for (var kt: number = 0; kt < tempM.m.length; kt++) {
-                    tempM.m[kt] = MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt]
-                }
+                 
 
                 Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", this.depthFBO.depthViewMatrix3D);
-             //  Scene_data.context3D.setVcMatrix4fv(this.shader, "viewMatrix3D", window["mview"]);
+      
 
                 Scene_data.context3D.setRenderTexture(this.shader, "tAlbedo", mesh.tAlbedo.texture, 0);
 

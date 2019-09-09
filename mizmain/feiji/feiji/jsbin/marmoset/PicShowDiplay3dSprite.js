@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 var mars3D;
 (function (mars3D) {
     var Shader3D = Pan3d.Shader3D;
-    var Matrix3D = Pan3d.Matrix3D;
     var ProgrmaManager = Pan3d.ProgrmaManager;
     var BaseDiplay3dSprite = Pan3d.BaseDiplay3dSprite;
     var Scene_data = Pan3d.Scene_data;
@@ -318,15 +317,7 @@ var mars3D;
                     //   console.log(MarmosetLightVo.marmosetLightVo.depthFBO.texture)
                     Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthTexture, 4); //深度贴图
                     if (mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
-                        var tempM = new Matrix3D();
-                        for (var kt = 0; kt < tempM.m.length; kt++) {
-                            tempM.m[kt] = mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D[kt];
-                        }
-                        var addM = new Matrix3D(); //设置映射纹理坐标;
-                        addM.appendTranslation(-1, -1, 0);
-                        addM.appendScale(0.5, 0.5, 1);
-                        // tempM.append(addM);
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m); //深度矩阵
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D); //深度矩阵
                     }
                 }
                 gl.disable(gl.CULL_FACE);
