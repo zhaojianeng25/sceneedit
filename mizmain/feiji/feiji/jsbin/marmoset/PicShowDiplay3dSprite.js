@@ -224,16 +224,12 @@ var mars3D;
                 "ev eA; \n" +
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
                 "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
-                "lightvo.xyz=lightvo.xyz/lightvo.w  ;\n " +
-                //"lightvo=vec4(lightvo.z,lightvo.z,lightvo.z,1.0)  ;\n " +
-                //"gl_FragColor = vec4((lightvo.xyz-0.5)*2.0,1.0); " +
-                "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
-                "if (depthvinfo.r<lightvo.z+0.001) { " +
+                "lightvo.xyz=lightvo.zzz/lightvo.w  ;\n " +
+                "depthvinfo.xyz=(depthvinfo.xxx-0.5)*2.0 ;\n " +
                 "gl_FragColor =vec4(0.5,0.5,0.5,1.0); " +
+                "if (depthvinfo.z>lightvo.z) { " +
+                "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
                 "}  " +
-                "depthvinfo.xyz=(depthvinfo.xyz-0.5)*2.0 ;\n " +
-                "gl_FragColor =depthvinfo; " +
-                // "gl_FragColor =vec4(lightvo.z,0.0,0.0,1.0); " +
                 "}";
             return $str;
         };
@@ -330,7 +326,7 @@ var mars3D;
                         addM.appendTranslation(-1, -1, 0);
                         addM.appendScale(0.5, 0.5, 1);
                         // tempM.append(addM);
-                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", window["mview"]); //深度矩阵
+                        Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", tempM.m); //深度矩阵
                     }
                 }
                 gl.disable(gl.CULL_FACE);
