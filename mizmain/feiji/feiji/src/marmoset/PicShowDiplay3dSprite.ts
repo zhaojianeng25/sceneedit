@@ -143,7 +143,7 @@ module mars3D {
                 " } " +
 
                 "highp float hJ(highp vec3 G) {\n" +
-                      "return G.x;\n" +
+                      "return  G.x ;\n" +
                 "}\n" +
 
                 "float hK(sampler2D hL, highp vec2 hA, highp float H) {" +
@@ -169,8 +169,10 @@ module mars3D {
                         "vec4 hQ = uShadowTexelPadProjections[k];" +
                         "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
                         "hR*=.0005+0.5 * hO;" +
-                        "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
-                        "hP[k] = hS.xyz / hS.w;" +
+                  //      "highp vec4 hS = h(uShadowMatrices[2], dv);" +
+                        "highp vec4 hS =uShadowMatrices[2]* vec4(dv, 1.0);" +
+                         "hP[2] = hS.xyz / hS.w;" +
+                 
                     "}" +
                     "float m;\n" +
                      "\n#if SHADOW_COUNT > 0 \n" +
@@ -234,22 +236,7 @@ module mars3D {
                    "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy*0.5+0.5); " +
                    "return  outColorVec4;" +
                 " } " +
-
-                "vec4 pack (float depth) {\n" +
-                    "depth=depth*0.5+0.5;\n" +
-                    " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
-                    " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
-                    "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
-                    "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
-                    "return rgbaDepth;\n" +
-                "}\n" +
-                "float unpack( vec4 rgbaDepth) {" +
-                    " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
-                    "float outnum=  dot(rgbaDepth, bitShift);" +
-                    "outnum=(outnum-0.5)*2.0;\n" +
-                    "return outnum;" +
-                "}" +
-
+ 
                 "void main(void) " +
                 "{ " +
 
@@ -279,7 +266,8 @@ module mars3D {
                 "eu = min(eu, 1.0e3);" +
 
                 "ev eA; \n" +
-
+                "eB(eA, 4.0 / 2048.0);"+
+         //   #define SHADOW_KERNEL(4.0 / 2048.0)
  
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
                 "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
@@ -290,8 +278,12 @@ module mars3D {
                 "gl_FragColor =vec4(0.5,0.5,0.5,1.0); " +
                 "if (depthvinfo.z>(lightvo.z-0.00001)) { " +
                      "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
+
                 "}  " +
-      
+
+            //    "gl_FragColor =vec4(eA.eL[2], eA.eL[2], eA.eL[2], 1.0); " +
+ 
+ 
 
                 "}"
             return $str
@@ -386,8 +378,9 @@ module mars3D {
                     Scene_data.context3D.setVc4fv(this.shader, "uShadowTexelPadProjections", window["uShadowTexelPadProjections"]);
                 }
                 if (window["uShadowMatrices"]) {
-                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
- 
+        
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
+          
                 }
                 if (window["uShadowKernelRotation"]) {
                     Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
@@ -410,7 +403,12 @@ module mars3D {
 
                 
                         Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D);  //深度矩阵
- 
+
+                      //  console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D)
+                      //  console.log(window["finalTransformBuffer"])
+                      //  console.log("-------")
+                   
+
                     }
                   
         

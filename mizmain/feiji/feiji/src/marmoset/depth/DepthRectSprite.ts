@@ -38,7 +38,8 @@
                 "void main(void)\n" +
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
-                "infoUv.xyz=(infoUv.xxx-0.5)*2.0 ;\n " +
+             //   "infoUv.xyz=(infoUv.xxx-0.5)*2.0 ;\n " +
+                "infoUv.xyz=infoUv.xxx ;\n " +
 
                 "gl_FragColor = infoUv;\n" +
                 "}"
