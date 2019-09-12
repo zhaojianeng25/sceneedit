@@ -418,6 +418,7 @@ module mars3D {
 
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
+                Scene_data.context3D.setCullFaceModel(0)
 
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);

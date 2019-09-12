@@ -109,7 +109,7 @@ var mars3D;
                 "return i[0] * p.x + (i[1] * p.y + (i[2] * p.z + i[3]));" +
                 " } " +
                 "highp float hJ(highp vec3 G) {\n" +
-                "return G.x;\n" +
+                "return  G.x ;\n" +
                 "}\n" +
                 "float hK(sampler2D hL, highp vec2 hA, highp float H) {" +
                 "highp float G = hJ(texture2D(hL, hA.xy).xyz);" +
@@ -132,8 +132,9 @@ var mars3D;
                 "vec4 hQ = uShadowTexelPadProjections[k];" +
                 "float hR = hQ.x * dv.x + (hQ.y * dv.y + (hQ.z * dv.z + hQ.w));" +
                 "hR*=.0005+0.5 * hO;" +
-                "highp vec4 hS = h(uShadowMatrices[k], dv + hR * hu);" +
-                "hP[k] = hS.xyz / hS.w;" +
+                //      "highp vec4 hS = h(uShadowMatrices[2], dv);" +
+                "highp vec4 hS =uShadowMatrices[2]* vec4(dv, 1.0);" +
+                "hP[2] = hS.xyz / hS.w;" +
                 "}" +
                 "float m;\n" +
                 "\n#if SHADOW_COUNT > 0 \n" +
@@ -187,20 +188,6 @@ var mars3D;
                 "vec4 outColorVec4 =texture2D(tDepthTexture,outVec4.xy*0.5+0.5); " +
                 "return  outColorVec4;" +
                 " } " +
-                "vec4 pack (float depth) {\n" +
-                "depth=depth*0.5+0.5;\n" +
-                " vec4 bitShift = vec4(1.0, 255.0, 255.0 * 255.0, 255.0 * 255.0 * 255.0);\n" +
-                " vec4 bitMask = vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);\n" +
-                "vec4 rgbaDepth = fract(depth * bitShift);  \n" +
-                "rgbaDepth -= rgbaDepth.yzww * bitMask;  \n" +
-                "return rgbaDepth;\n" +
-                "}\n" +
-                "float unpack( vec4 rgbaDepth) {" +
-                " vec4 bitShift = vec4(1.0, 1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0));" +
-                "float outnum=  dot(rgbaDepth, bitShift);" +
-                "outnum=(outnum-0.5)*2.0;\n" +
-                "return outnum;" +
-                "}" +
                 "void main(void) " +
                 "{ " +
                 "vec4 m=texture2D(tAlbedo,d);" +
@@ -221,6 +208,8 @@ var mars3D;
                 "float eu = eo * (1.0 / (8.0 * 3.1415926)) + (4.0 / (8.0 * 3.1415926));" +
                 "eu = min(eu, 1.0e3);" +
                 "ev eA; \n" +
+                "eB(eA, 4.0 / 2048.0);" +
+                //   #define SHADOW_KERNEL(4.0 / 2048.0)
                 "vec4 depthvinfo=mathdepthuv(depthViewMatrix3D,vPos);" +
                 "vec4 lightvo=depthViewMatrix3D *vec4(vPos, 1.0);" +
                 "lightvo.xyz=lightvo.zzz/lightvo.w  ;\n " +
@@ -229,6 +218,7 @@ var mars3D;
                 "if (depthvinfo.z>(lightvo.z-0.00001)) { " +
                 "gl_FragColor =vec4(1.0,1.0,1.0,1.0); " +
                 "}  " +
+                //    "gl_FragColor =vec4(eA.eL[2], eA.eL[2], eA.eL[2], 1.0); " +
                 "}";
             return $str;
         };
@@ -303,7 +293,7 @@ var mars3D;
                     Scene_data.context3D.setVc4fv(this.shader, "uShadowTexelPadProjections", window["uShadowTexelPadProjections"]);
                 }
                 if (window["uShadowMatrices"]) {
-                    Scene_data.context3D.setVc4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
+                    Scene_data.context3D.setVcMatrix4fv(this.shader, "uShadowMatrices", window["uShadowMatrices"]);
                 }
                 if (window["uShadowKernelRotation"]) {
                     Scene_data.context3D.setVc2f(this.shader, "uShadowKernelRotation", 0.7853, 0.7853);
@@ -318,10 +308,14 @@ var mars3D;
                     Scene_data.context3D.setRenderTexture(this.shader, "tDepthTexture", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthTexture, 4); //深度贴图
                     if (mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D) {
                         Scene_data.context3D.setVcMatrix4fv(this.shader, "depthViewMatrix3D", mars3D.MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D); //深度矩阵
+                        //  console.log(MarmosetLightVo.marmosetLightVo.depthFBO.depthViewMatrix3D)
+                        //  console.log(window["finalTransformBuffer"])
+                        //  console.log("-------")
                     }
                 }
                 gl.disable(gl.CULL_FACE);
                 gl.cullFace(gl.FRONT);
+                Scene_data.context3D.setCullFaceModel(0);
                 Scene_data.context3D.setVa(0, 3, mesh.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, mesh.objData.uvBuffer);
                 Scene_data.context3D.setVa(2, 3, mesh.objData.tangentBuffer);
