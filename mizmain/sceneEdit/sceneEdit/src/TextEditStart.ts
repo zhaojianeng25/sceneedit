@@ -10,8 +10,33 @@
         }
 
         TextEditStart.resetSize();
-        let game = new AppData();
-        game.init();
+
+
+        this.initmosort()
+    }
+    private static initmosort(): void {
+
+        Pan3d.SceneManager.getInstance().addDisplay(new depth.DepthRectSprite())
+        Pan3d.SceneManager.getInstance().ready = true
+ 
+        mars3D.MarmosetModel.getInstance().initData();
+ 
+        window["webgl"] = Pan3d.Scene_data.context3D.renderContext
+        mars3D.MarmosetModel.getInstance().viewFileName = "karen1.mview"
+   
+        var rootpath: string = "6_15/";
+        Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileuiRoot + rootpath + "outshder.txt", Pan3d.LoadManager.XML_TYPE, (outstr: any) => {
+            mars3D.MarmosetModel.changerOutshader = outstr
+            Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileuiRoot + rootpath + "vshader.txt", Pan3d.LoadManager.XML_TYPE, (vstr: any) => {
+                mars3D.MarmosetModel.changerVshader = vstr
+                Pan3d.LoadManager.getInstance().load(Pan3d.Scene_data.fileuiRoot + rootpath + "fshader.txt", Pan3d.LoadManager.XML_TYPE, (fstr: any) => {
+                    mars3D.MarmosetModel.changerFshader = fstr
+
+                    marmoset.embed("res/6_15/" + mars3D.MarmosetModel.getInstance().viewFileName, { width: 100, height: 100, autoStart: true, fullFrame: false, pagePreset: false });
+                });
+
+            });
+        });
 
     }
     public static resetSize(): void {
