@@ -2569,6 +2569,7 @@ marmoset = {};
         f.bindDepthTexture(s.tDepth0, 0),
         f.bindDepthTexture(s.tDepth1, 1),
         f.bindDepthTexture(s.tDepth2, 2)));
+		
         h && (m.uniform3fv(p.uSubdermisColor, h.subdermisColor),
         m.uniform4fv(p.uTransColor, h.transColor),
         m.uniform1f(p.uTransScatter, h.transScatter),
@@ -2611,11 +2612,15 @@ marmoset = {};
         r.extras.bind(s.tExtras);
         e.specularTexture.bind(s.tSkySpecular);
 		 
-		 
+		 	window["feijitextvo"]=  r;
 
         g === this.stripShader && (m.uniform1fv(p.uStrips, a.stripData.strips),
         m.uniform2f(p.uStripRes, 2 / c.size[0], 2 / c.size[1]));
         m.uniform2f(p.uUVOffset, this.uOffset, this.vOffset);
+		
+
+		
+		//window["timenum"]=3000
         return !0
     }
     ;
@@ -6691,7 +6696,7 @@ marmoset = {};
 				}
 			 
 				console.log(window["timenum"])
-				if(window["timenum"]<50){
+				if(window["timenum"]<1000){
 					
 		 a()
 				}

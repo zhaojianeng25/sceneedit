@@ -67,9 +67,9 @@
                 || $caves.getContext('experimental-webgl', { stencil: true, alpha: true, depth: true, antialias: false });
             this.renderContext = gl;
 
+            gl.getExtension("OES_texture_float")
 
-
-            alert(gl.getExtension("OES_texture_float"))
+ 
 
             this._contextSetTest = new ContextSetTest();
         }

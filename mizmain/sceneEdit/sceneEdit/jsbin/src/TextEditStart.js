@@ -33,7 +33,6 @@ var TextEditStart = /** @class */ (function () {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
         win.LayerManager.getInstance().update();
         Pan3d.SceneManager.getInstance().update();
-        console.log("--");
     };
     return TextEditStart;
 }());

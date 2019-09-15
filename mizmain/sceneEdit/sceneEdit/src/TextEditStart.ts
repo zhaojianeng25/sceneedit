@@ -38,7 +38,7 @@
         win.LayerManager.getInstance().update();
 
         Pan3d.SceneManager.getInstance().update()
-        console.log("--")
+ 
 
 
         

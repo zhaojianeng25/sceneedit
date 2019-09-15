@@ -39,9 +39,9 @@
                 "{\n" +
                 "vec4 infoUv = texture2D(s_texture, v_texCoord.xy);\n" +
              //   "infoUv.xyz=(infoUv.xxx-0.5)*2.0 ;\n " +
-                "infoUv.xyz=infoUv.xxx ;\n " +
+ 
 
-                "gl_FragColor = fColor;\n" +
+                "gl_FragColor = infoUv;\n" +
                 "}"
             return $str
 
@@ -62,8 +62,8 @@
 
             this.objData = new ObjData;
             this.objData.vertices = new Array();
-            var sizeNum: number = 0.25;
-            var tx: number = -0.75
+            var sizeNum: number = 1;
+            var tx: number =-0.0
 
             var setDepth: number = 0.001;
             this.objData.vertices.push(-sizeNum + tx, +sizeNum, setDepth);
@@ -88,7 +88,7 @@
         }
         private loadTexture(): void {
             var $ctx: CanvasRenderingContext2D = UIManager.getInstance().getContext2D(128, 128, false);
-            $ctx.fillStyle = "rgb(0,0,255)";
+            $ctx.fillStyle = "rgb(255,0,255)";
             $ctx.fillRect(0, 0, 128, 128);
             this._uvTextureRes = TextureManager.getInstance().getCanvasTexture($ctx);
 
@@ -113,7 +113,23 @@
                 Scene_data.context3D.setProgram(this.program);
                 Scene_data.context3D.setVa(0, 3, this.objData.vertexBuffer);
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
+
+             
+
+
+
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
+
+                var feijivo: any = window["feijitextvo"];
+                if (feijivo) {
+                    console.log(feijivo)
+                    Scene_data.context3D.setRenderTexture(this.shader, "s_texture", feijivo.normal.id, 0);
+                }
+                //albedo: Texture { gl: WebGLRenderingContext, id: WebGLTexture, type: 3553, format: 6408, componentType: 5121, … }
+                //extras: Texture { gl: WebGLRenderingContext, id: WebGLTexture, type: 3553, format: 6408, componentType: 5121, … }
+                //normal: Texture { gl: WebGLRenderingContext, id: WebGLTexture, type: 3553, format: 6408, componentType: 5121, … }
+                //reflectivity
+               
 
                 Scene_data.context3D.setVc4fv(this.shader, "fColor", [0.999, 0, 0, 1]);
 

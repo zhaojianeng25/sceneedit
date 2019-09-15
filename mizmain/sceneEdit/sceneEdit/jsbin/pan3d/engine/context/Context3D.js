@@ -51,7 +51,7 @@ var Pan3d;
             var gl = $caves.getContext('webgl', { stencil: true, alpha: true, depth: true, antialias: false })
                 || $caves.getContext('experimental-webgl', { stencil: true, alpha: true, depth: true, antialias: false });
             this.renderContext = gl;
-            alert(gl.getExtension("OES_texture_float"));
+            gl.getExtension("OES_texture_float");
             this._contextSetTest = new ContextSetTest();
         };
         Context3D.prototype.resetSize = function ($width, $height) {
