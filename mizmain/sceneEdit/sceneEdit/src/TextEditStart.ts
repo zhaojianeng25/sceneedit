@@ -33,9 +33,14 @@
         Pan3d.Scene_data.context3D.update();
 
         let gl = Pan3d.Scene_data.context3D.renderContext
-        gl.clearColor(83 / 255, 83 / 255, 83 / 255, 1.0);
+        gl.clearColor(255 / 255, 0, 0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
         win.LayerManager.getInstance().update();
+
+        Pan3d.SceneManager.getInstance().update()
+        console.log("--")
+
+
         
     }
  

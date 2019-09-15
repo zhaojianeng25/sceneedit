@@ -47,16 +47,21 @@ class AppData extends Pan3d.GameStart {
 
 
     }
+    private _editScenePanel: win.Panel
     private loadConfigCom(): void {
         win.LayerManager.getInstance().initData();
         Pan3d.GameMouseManager.getInstance().addMouseEvent();
 
 
-        Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL));//布局 
-        Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INIT_MATERIA_PANEL));  //材质init
-        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INIT_MAIN_EDITOR_PANEL)); //场景编辑init
-        Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));  //显示文件夹
-        Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL)); //显示场景编辑
+        Pan3d.SceneManager.getInstance().addDisplay(new depth.DepthRectSprite())
+        Pan3d.SceneManager.getInstance().ready = true
+ 
+
+        //Pan3d.ModuleEventManager.dispatchEvent(new editscene.EditSceneEvent(editscene.EditSceneEvent.SHOW_EDITSCENE_PANEL));//布局 
+        //Pan3d.ModuleEventManager.dispatchEvent(new materialui.MaterialEvent(materialui.MaterialEvent.INIT_MATERIA_PANEL));  //材质init
+        //Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.INIT_MAIN_EDITOR_PANEL)); //场景编辑init
+        //Pan3d.ModuleEventManager.dispatchEvent(new folder.FolderEvent(folder.FolderEvent.SHOW_FOLDER_PANEL));  //显示文件夹
+        //Pan3d.ModuleEventManager.dispatchEvent(new maineditor.MainEditorEvent(maineditor.MainEditorEvent.SHOW_MAIN_EDITOR_PANEL)); //显示场景编辑
 
  
 
@@ -80,7 +85,7 @@ class AppData extends Pan3d.GameStart {
                 Pan3d. LoadManager.getInstance().load(Pan3d.Scene_data.fileuiRoot + rootpath + "fshader.txt", Pan3d.LoadManager.XML_TYPE, (fstr: any) => {
                     mars3D.   MarmosetModel.changerFshader = fstr
 
-                   marmoset.embed("res/6_15/" + mars3D. MarmosetModel.getInstance().viewFileName, { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+                  marmoset.embed("res/6_15/" + mars3D. MarmosetModel.getInstance().viewFileName, { width: 100, height: 100, autoStart: true, fullFrame: false, pagePreset: false });
                 });
 
             });

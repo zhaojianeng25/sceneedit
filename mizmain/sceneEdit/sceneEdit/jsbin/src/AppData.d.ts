@@ -10,6 +10,7 @@ declare class AppData extends Pan3d.GameStart {
     static getPerentPath(value: string): string;
     static getFileName(value: string): string;
     init(): void;
+    private _editScenePanel;
     private loadConfigCom;
     private resize;
 }
