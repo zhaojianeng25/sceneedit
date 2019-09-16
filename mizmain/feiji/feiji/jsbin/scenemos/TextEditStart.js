@@ -35,7 +35,7 @@ var scenemos;
                     MarmosetModel.changerVshader = vstr;
                     LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath + "fshader.txt", LoadManager.XML_TYPE, function (fstr) {
                         MarmosetModel.changerFshader = fstr;
-                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 32, height: 32, autoStart: true, fullFrame: false, pagePreset: false });
+                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 256, height: 256, autoStart: true, fullFrame: false, pagePreset: false });
                     });
                 });
             });
@@ -65,6 +65,7 @@ var scenemos;
         TextEditStart.upFrame = function () {
             this.upDataLightShadow();
             Pan3d.TimeUtil.update();
+            Pan3d.Engine.resetSize();
             Pan3d.Scene_data.context3D.update();
             var gl = Pan3d.Scene_data.context3D.renderContext;
             gl.clearColor(255 / 255, 0, 0, 1.0);

@@ -6695,11 +6695,11 @@ marmoset = {};
 					window["timenum"]++
 				}
 			 
-				console.log(window["timenum"])
-				if(window["timenum"]<1000){
+	 
+			 
 					
 		 a()
-				}
+		 
 				
                // a()
             }

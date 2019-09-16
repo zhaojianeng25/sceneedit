@@ -116,7 +116,7 @@
 
                 var feijivo: any = window["feijitextvo"];
                 if (feijivo) {
-                    console.log(feijivo)
+                    //console.log(feijivo)
                     Scene_data.context3D.setRenderTexture(this.shader, "s_texture", feijivo.normal.id, 0);
                 }
 

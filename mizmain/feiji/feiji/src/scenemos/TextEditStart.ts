@@ -35,6 +35,8 @@
             Pan3d.SceneManager.getInstance().ready = true
             mars3D.MarmosetModel.getInstance().initData();
 
+          
+
 
             window["webgl"] = Pan3d.Scene_data.context3D.renderContext
             MarmosetModel.getInstance().viewFileName = "karen1.mview"
@@ -46,7 +48,7 @@
                     MarmosetModel.changerVshader = vstr
                     LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath + "fshader.txt", LoadManager.XML_TYPE, (fstr: any) => {
                         MarmosetModel.changerFshader = fstr
-                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 32, height: 32, autoStart: true, fullFrame: false, pagePreset: false });
+                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 256, height: 256, autoStart: true, fullFrame: false, pagePreset: false });
                     });
 
                 });
@@ -79,6 +81,7 @@
         private static upFrame(): void {
             this.upDataLightShadow();
             Pan3d.TimeUtil.update();
+            Pan3d.Engine.resetSize()
             Pan3d.Scene_data.context3D.update();
 
             let gl = Pan3d.Scene_data.context3D.renderContext
