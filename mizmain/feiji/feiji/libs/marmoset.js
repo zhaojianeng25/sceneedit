@@ -2569,7 +2569,6 @@ marmoset = {};
         f.bindDepthTexture(s.tDepth0, 0),
         f.bindDepthTexture(s.tDepth1, 1),
         f.bindDepthTexture(s.tDepth2, 2)));
-		
         h && (m.uniform3fv(p.uSubdermisColor, h.subdermisColor),
         m.uniform4fv(p.uTransColor, h.transColor),
         m.uniform1f(p.uTransScatter, h.transScatter),
@@ -2612,15 +2611,11 @@ marmoset = {};
         r.extras.bind(s.tExtras);
         e.specularTexture.bind(s.tSkySpecular);
 		 
-		 	window["feijitextvo"]=  r;
+		 
 
         g === this.stripShader && (m.uniform1fv(p.uStrips, a.stripData.strips),
         m.uniform2f(p.uStripRes, 2 / c.size[0], 2 / c.size[1]));
         m.uniform2f(p.uUVOffset, this.uOffset, this.vOffset);
-		
-
-		
-		//window["timenum"]=3000
         return !0
     }
     ;
@@ -3526,7 +3521,46 @@ marmoset = {};
     }
     ;
     PostRender.prototype.present = function(a, b, c, d) {
-        console.log(a, b, c, d)
+        d || this.prepareBloom(a);
+        1 < this.sampleCount && this.allocAABuffer(b, c);
+        d = d ? this.plainShader : this.shader;
+        if (d.bind()) {
+            var e = this.gl
+              , f = d.samplers
+              , g = d.params
+              , h = this.computeParams(b, c);
+            a.bind(f.tInput);
+            this.bloomResult.bind(f.tBloom);
+            this.noiseTexture.bind(f.tGrain);
+            this.colorLUT && this.colorLUT.bind(f.tLUT);
+            e.uniform3fv(g.uScale, h.scale);
+            e.uniform3fv(g.uBias, h.bias);
+            e.uniform3fv(g.uSaturation, h.saturation);
+            e.uniform4fv(g.uSharpenKernel, h.sharpenKernel);
+            e.uniform3fv(g.uSharpness, h.sharpen);
+            e.uniform3fv(g.uBloomColor, h.bloomColor);
+            e.uniform4fv(g.uVignetteAspect, h.vignetteAspect);
+            e.uniform4fv(g.uVignette, h.vignette);
+            e.uniform4fv(g.uGrainCoord, h.grainCoord);
+            e.uniform2fv(g.uGrainScaleBias, h.grainScaleBias);
+            if (a = 1 < this.sampleCount && 0 <= this.sampleIndex) {
+                var k = 1 / (1 + this.sampleIndex);
+                this.sampleIndex += 1;
+                1 > k && (e.enable(e.BLEND),
+                e.blendColor(k, k, k, k),
+                e.blendFunc(e.CONSTANT_ALPHA, e.ONE_MINUS_CONSTANT_ALPHA));
+                this.aaTarget.bind()
+            } else
+                Framebuffer.bindNone(e),
+                1 < this.sampleCount && (this.sampleIndex += 1);
+            e.viewport(0, 0, b, c);
+            this.fillScreen(d.attribs.vCoord);
+            a && (1 > k && e.disable(e.BLEND),
+            Framebuffer.bindNone(e),
+            this.aaShader.bind(),
+            this.aaBuffer.bind(this.aaShader.samplers.tInput),
+            this.fillScreen(this.aaShader.attribs.vCoord))
+        }
     }
     ;
     PostRender.prototype.allocAABuffer = function(a, b) {
@@ -6432,17 +6466,25 @@ marmoset = {};
         this.mobile = !!/Android|iPhone|iPod|iPad|Windows Phone|IEMobile|BlackBerry|webOS/.test(navigator.userAgent);
         this.mobileFast = !!/iPhone|iPad/.test(navigator.userAgent);
         var e;
-        if (e = !this.mobile){
-			 a: {
-                e = document.createElement("canvas");
-                e.width = e.height = 16;
-                e = e.getContext("webgl", {});
-				               e =   window["webgl"];
-				
-		 
-            }
-		}
-           
+        if (window["webgl"]) {
+            e = window["webgl"]
+        } else {
+            if (e = !this.mobile)
+                a: {
+                    e = document.createElement("canvas");
+                    e.width = e.height = 16;
+                    if (e = e.getContext("webgl", {}) || e.getContext("experimental-webgl", {})) {
+                        var f = e.getExtension("WEBGL_debug_renderer_info");
+                        if (f) {
+                            e = e.getParameter(f.UNMASKED_RENDERER_WEBGL);
+                            e = !!/Intel|INTEL/.test(e);
+                            break a
+                        }
+                    }
+                    e = !1
+                }
+        }
+      
         this.desktopSlow = e;
         this.domRoot = document.createElement("div");
         this.domRoot.style.width = a + "px";
@@ -6483,11 +6525,17 @@ marmoset = {};
             premultipliedAlpha: !!marmoset.transparentBackground,
             preserveDrawingBuffer: !1
         }
-          ;
-		  a = this.gl = this.canvas.getContext("webgl", a)  ;
-		  
-		 a = this.gl =   window["webgl"]
-		  
+            ;
+
+      
+        if (window["webgl"]) {
+            a = this.gl = window["webgl"]
+        } else {
+            a = this.gl = this.canvas.getContext("webgl", a) || this.canvas.getContext("experimental-webgl", a);
+
+        }
+
+
         if (!this.gl)
             return this.ui.showFailure('Please <a href="http://get.webgl.org/" target=_blank>check<a/> to ensure your browser has support for WebGL.'),
             !1;
@@ -6689,19 +6737,7 @@ marmoset = {};
         if (!this.frameRequestPending) {
             var c = function() {
                 this.frameRequestPending = 0;
-				if(!window["timenum"]){
-					window["timenum"]=1
-				}else{
-					window["timenum"]++
-				}
-			 
-	 
-			 
-					
-		 a()
-		 
-				
-               // a()
+                a()
             }
             .bind(this);
             this.frameRequestPending = b(c, this.canvas)
@@ -6758,8 +6794,9 @@ marmoset = {};
     ;
     WebViewer.prototype.reDrawScene = function() {
         this.stripData.update();
-    
-      
+        this.ui.animate();
+        this.scene.update();
+        this.drawScene();
         this.requestFrame(this.update.bind(this));
         this.scene.postRender.discardAAHistory()
     }
