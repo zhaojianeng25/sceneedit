@@ -114,6 +114,12 @@
                 Scene_data.context3D.setVa(1, 2, this.objData.uvBuffer);
                 Scene_data.context3D.setRenderTexture(this.shader, "s_texture", this._uvTextureRes.texture, 0);
 
+                var feijivo: any = window["feijitextvo"];
+                if (feijivo) {
+                    console.log(feijivo)
+                    Scene_data.context3D.setRenderTexture(this.shader, "s_texture", feijivo.normal.id, 0);
+                }
+
                 Scene_data.context3D.setVc4fv(this.shader, "fColor", [0.999, 0, 0, 1]);
 
                 this.skipNum-=0.00001

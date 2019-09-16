@@ -60,7 +60,7 @@ var mars3D;
             mars3D.MarmosetLightVo.tempRect = new depth.DepthRectSprite();
             this.sceneManager.addDisplay(mars3D.MarmosetLightVo.tempRect);
             this.mianpian = new mars3D.PicShowDiplay3dSprite();
-            this.mianpian.scale = 10;
+            this.mianpian.scale = 2;
             this.sceneManager.addDisplay(this.mianpian);
             this.sceneManager.ready = true;
             this.sceneManager.cam3D = new Camera3D();

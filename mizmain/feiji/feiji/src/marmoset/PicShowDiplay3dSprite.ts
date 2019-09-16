@@ -458,8 +458,7 @@ module mars3D {
                 vo.setAlbedoUrl(albedArr[i])
                 vo.setNormalUrl(nrmArr[i])
                  vo.setReflectRgbAlphaUrl(reflectArr[i], glossArr[i])
-
-                //vo.setReflectRgbAlphaUrl("mat1_r","mat1_g")
+ 
             }
             this.isFinish = true
         }

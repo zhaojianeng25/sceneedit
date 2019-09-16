@@ -21,6 +21,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="feiji.html" />
+    <Content Include="libs\marmoset.js" />
     <Content Include="main.html" />
     <Content Include="web.config" />
   </ItemGroup>

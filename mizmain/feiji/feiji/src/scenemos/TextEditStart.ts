@@ -2,6 +2,7 @@
     import Scene_data = Pan3d.Scene_data;
     import LoadManager = Pan3d.LoadManager;
     import MarmosetModel = mars3D.MarmosetModel;
+    import MarmosetLightVo = mars3D.MarmosetLightVo;
 
     export  class TextEditStart {
         public static initCanvas($caves: HTMLCanvasElement): void {
@@ -19,14 +20,23 @@
 
             this.initmosort()
         }
+        private static mianpian: mars3D.PicShowDiplay3dSprite;
         private static initmosort(): void {
 
-            Pan3d.SceneManager.getInstance().addDisplay(new depth.DepthRectSprite())
+
+            this.mianpian = new mars3D.PicShowDiplay3dSprite()
+            this.mianpian.scale = 10;
+            Pan3d.SceneManager.getInstance().addDisplay(this.mianpian)
+
+            MarmosetLightVo.tempRect = new depth.DepthRectSprite()
+            Pan3d.SceneManager.getInstance().addDisplay(MarmosetLightVo.tempRect)
+
+
             Pan3d.SceneManager.getInstance().ready = true
             mars3D.MarmosetModel.getInstance().initData();
 
 
-
+            window["webgl"] = Pan3d.Scene_data.context3D.renderContext
             MarmosetModel.getInstance().viewFileName = "karen1.mview"
 
             var rootpath: string = "pan/marmoset/feiji/6_14/";
@@ -36,7 +46,7 @@
                     MarmosetModel.changerVshader = vstr
                     LoadManager.getInstance().load(Scene_data.fileuiRoot + rootpath + "fshader.txt", LoadManager.XML_TYPE, (fstr: any) => {
                         MarmosetModel.changerFshader = fstr
-                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 500, height: 400, autoStart: true, fullFrame: false, pagePreset: false });
+                        marmoset.embed("res/" + MarmosetModel.getInstance().viewFileName, { width: 32, height: 32, autoStart: true, fullFrame: false, pagePreset: false });
                     });
 
                 });
@@ -57,8 +67,17 @@
             requestAnimationFrame(TextEditStart.step);
             TextEditStart.upFrame()
         }
+        public static upDataLightShadow(): void {
+            if (!MarmosetLightVo.marmosetLightVo) {
+                if (window["uShadowMatrices"]) {
+                    MarmosetLightVo.marmosetLightVo = new MarmosetLightVo();
+                }
+            } else {
+                MarmosetLightVo.marmosetLightVo.update(MarmosetModel.meshItem);
+            }
+        }
         private static upFrame(): void {
-
+            this.upDataLightShadow();
             Pan3d.TimeUtil.update();
             Pan3d.Scene_data.context3D.update();
 
